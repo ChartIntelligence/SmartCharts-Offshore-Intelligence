@@ -1,0 +1,17 @@
+[
+  {
+    "id": "MISSISSIPPI_CANYON",
+    "name": "Mississippi Canyon",
+    "type": "offshore_region"
+  },
+  {
+    "id": "GREEN_CANYON",
+    "name": "Green Canyon",
+    "type": "offshore_region"
+  },
+  {
+    "id": "VIOSCA_KNOLL",
+    "name": "Viosca Knoll",
+    "type": "offshore_region"
+  }
+]
