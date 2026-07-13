@@ -5,7 +5,7 @@ import {
 
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import structures from "../data/gulfStructures.json";
+import structures from "../data/gulfLocations";
 
 import { buildMapGeoJson } from "../utils/mapLibreHelpers";
 
