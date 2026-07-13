@@ -1,0 +1,169 @@
+[
+  {
+    "id": "madison-swanson",
+    "name": "Madison Swanson",
+    "shortName": "Madison Swanson",
+    "category": "intelligence_zone",
+    "type": "Seamount",
+    "region": "West Florida",
+    "coordinates": [28.25, -85.58],
+    "depth": "4500+ ft",
+    "influenceRadius": 5000,
+    "active": true,
+    "public": true,
+
+    "structureProfile": {
+      "baitRetention": 95,
+      "currentInteraction": 95,
+      "marlinAttraction": 92
+    },
+
+    "scores": {
+      "blueMarlin": 92,
+      "yellowfin": 86,
+      "blackfin": 91
+    },
+
+    "conditions": {
+      "sst": "80.1°F",
+      "current": "Strong Northeast",
+      "chlorophyll": "High"
+    },
+
+    "seasonality": {
+      "spring": 85,
+      "summer": 95,
+      "fall": 80,
+      "winter": 60
+    },
+
+    "recommendation":
+      "Target current edges near structure during morning movement."
+  },
+
+  {
+    "id": "green-canyon",
+    "name": "Green Canyon",
+    "shortName": "Green Canyon",
+    "category": "intelligence_zone",
+    "type": "Deepwater Structure",
+    "region": "Northern Gulf",
+    "coordinates": [27.65, -91.35],
+    "depth": "4000+ ft",
+    "influenceRadius": 6000,
+    "active": true,
+    "public": true,
+
+    "structureProfile": {
+      "baitRetention": 90,
+      "currentInteraction": 85,
+      "marlinAttraction": 90
+    },
+
+    "scores": {
+      "blueMarlin": 89,
+      "yellowfin": 90,
+      "blackfin": 84
+    },
+
+    "conditions": {
+      "sst": "79.6°F",
+      "current": "Moderate",
+      "chlorophyll": "High"
+    },
+
+    "seasonality": {
+      "spring": 80,
+      "summer": 90,
+      "fall": 85,
+      "winter": 65
+    },
+
+    "recommendation":
+      "Monitor tuna activity and bait concentration."
+  },
+
+  {
+    "id": "thunder-horse",
+    "name": "Thunder Horse",
+    "shortName": "Thunder Horse",
+    "category": "oil_platform",
+    "type": "Deepwater Platform",
+    "region": "Mississippi Canyon",
+    "coordinates": [28.19, -88.49],
+    "depth": "6000+ ft",
+    "influenceRadius": 5000,
+    "active": true,
+    "public": true,
+
+    "structureProfile": {
+      "baitRetention": 92,
+      "currentInteraction": 90,
+      "marlinAttraction": 88
+    },
+
+    "scores": {
+      "blueMarlin": 88,
+      "yellowfin": 91,
+      "blackfin": 86
+    },
+
+    "conditions": {
+      "sst": "79.8°F",
+      "current": "Strong",
+      "chlorophyll": "Moderate"
+    },
+
+    "seasonality": {
+      "spring": 80,
+      "summer": 95,
+      "fall": 85,
+      "winter": 70
+    },
+
+    "recommendation":
+      "Deepwater structure with strong pelagic potential."
+  },
+
+  {
+    "id": "desoto-canyon",
+    "name": "DeSoto Canyon",
+    "shortName": "DeSoto Canyon",
+    "category": "intelligence_zone",
+    "type": "Canyon System",
+    "region": "Eastern Gulf",
+    "coordinates": [29.0, -87.5],
+    "depth": "Variable",
+    "influenceRadius": 8000,
+    "active": true,
+    "public": true,
+
+    "structureProfile": {
+      "baitRetention": 95,
+      "currentInteraction": 95,
+      "marlinAttraction": 90
+    },
+
+    "scores": {
+      "blueMarlin": 87,
+      "yellowfin": 83,
+      "blackfin": 89
+    },
+
+    "conditions": {
+      "sst": "78.9°F",
+      "current": "Strong",
+      "chlorophyll": "High"
+    },
+
+    "seasonality": {
+      "spring": 90,
+      "summer": 85,
+      "fall": 80,
+      "winter": 70
+    },
+
+    "recommendation":
+      "Focus on temperature breaks and bait concentration."
+  }
+]
