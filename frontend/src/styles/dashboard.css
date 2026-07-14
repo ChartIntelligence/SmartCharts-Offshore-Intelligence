@@ -2108,3 +2108,462 @@
 .saved-reports-section h3 {
   color: #f5fbff;
 }
+
+
+/* =========================
+   DASHBOARD NAVIGATION
+========================= */
+
+.dashboard-primary-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+
+.dashboard-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  margin-bottom: 22px;
+  padding: 6px;
+
+  background: #081f30;
+
+  border: 1px solid #1f506e;
+  border-radius: 12px;
+}
+
+
+.dashboard-tab {
+  flex: 1;
+
+  max-width: 220px;
+
+  padding: 11px 18px;
+
+  background: transparent;
+  color: #9ec9df;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+.dashboard-tab:hover {
+  background:
+    rgba(40, 115, 154, 0.18);
+
+  color: #ffffff;
+}
+
+
+.active-dashboard-tab {
+  background:
+    linear-gradient(
+      135deg,
+      #1f506e,
+      #12324a
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+
+.dashboard-tab-content {
+  min-height: 400px;
+}
+
+
+/* =========================
+   CAPTAIN PROFILE
+========================= */
+
+.captain-profile-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #102b42,
+      #081f30
+    );
+
+  border: 1px solid #1f506e;
+  border-radius: 14px;
+}
+
+
+.profile-eyebrow {
+  margin: 0 0 5px;
+
+  color: #ff8c42;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+
+.captain-profile-card h2 {
+  margin: 0;
+
+  color: #f5fbff;
+}
+
+
+.captain-profile-card p {
+  color: #9ec9df;
+}
+
+
+.founding-captain-badge {
+  min-width: 145px;
+  padding: 13px;
+
+  text-align: center;
+
+  background: #061827;
+
+  border: 1px solid #ff8c42;
+  border-radius: 10px;
+}
+
+
+.founding-captain-badge span {
+  display: block;
+
+  color: #9ec9df;
+
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+
+.founding-captain-badge strong {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #ff8c42;
+}
+
+
+.saved-reports-section h2,
+.saved-reports-section h3 {
+  color: #f5fbff;
+}
+
+
+/* =========================
+   FLOATING LOCATION SEARCH
+========================= */
+
+.floating-location-search {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+
+  z-index: 1200;
+
+  width: min(390px, calc(100% - 32px));
+}
+
+
+.floating-location-search-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  max-width: 100%;
+
+  padding: 10px 14px;
+
+  background:
+    rgba(8, 31, 48, 0.96);
+
+  color: #f5fbff;
+
+  border: 1px solid #1f506e;
+  border-radius: 10px;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.42);
+
+  backdrop-filter: blur(9px);
+
+  cursor: pointer;
+
+  font-weight: 800;
+}
+
+
+.floating-location-search-toggle span {
+  color: #62d2ff;
+
+  font-size: 20px;
+}
+
+
+.floating-location-search-panel {
+  margin-top: 8px;
+  padding: 14px;
+
+  max-height: 460px;
+
+  overflow-y: auto;
+
+  background:
+    rgba(8, 31, 48, 0.98);
+
+  border: 1px solid #1f506e;
+  border-radius: 12px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.5);
+
+  backdrop-filter: blur(12px);
+}
+
+
+.floating-location-search-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+
+.floating-location-search-header h3 {
+  margin: 0;
+
+  color: #f5fbff;
+}
+
+
+.floating-location-search-header p {
+  margin: 4px 0 0;
+
+  color: #9ec9df;
+
+  font-size: 12px;
+}
+
+
+.floating-search-close {
+  width: 30px;
+  height: 30px;
+
+  flex: 0 0 30px;
+
+  background: transparent;
+  color: #ffffff;
+
+  border: 1px solid #1f506e;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 20px;
+}
+
+
+.floating-location-search-controls {
+  display: grid;
+  grid-template-columns: 1fr 145px;
+  gap: 8px;
+
+  margin-top: 13px;
+}
+
+
+.floating-location-search-controls input,
+.floating-location-search-controls select {
+  width: 100%;
+
+  padding: 9px 10px;
+
+  box-sizing: border-box;
+
+  background: #061827;
+  color: #f5fbff;
+
+  border: 1px solid #1f506e;
+  border-radius: 8px;
+}
+
+
+.floating-clear-selection {
+  width: 100%;
+
+  margin-top: 9px;
+  padding: 8px;
+
+  background: transparent;
+  color: #ffad78;
+
+  border: 1px solid #7e4d2d;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+
+.floating-location-results {
+  display: grid;
+  gap: 7px;
+
+  margin-top: 11px;
+}
+
+
+.floating-location-result {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  width: 100%;
+
+  padding: 9px;
+
+  text-align: left;
+
+  background: #0a2235;
+  color: #ffffff;
+
+  border: 1px solid #1f506e;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+
+.floating-location-result:hover {
+  border-color: #48c6ef;
+}
+
+
+.selected-floating-location-result {
+  border-color: #ff8c42;
+
+  box-shadow:
+    0 0 10px rgba(255, 140, 66, 0.25);
+}
+
+
+.floating-location-result-icon {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 34px;
+
+  border-radius: 8px;
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+
+.floating-location-result-icon.platform {
+  color: #f2e6c9;
+
+  background: #172f40;
+
+  border: 1px solid #8ca9b9;
+}
+
+
+.floating-location-result-icon.fad {
+  color: #ffcf66;
+
+  background: #3c3217;
+
+  border: 1px solid #cda44a;
+}
+
+
+.floating-location-result-icon.fishing-ground {
+  color: #62d2ff;
+
+  background: #0c364e;
+
+  border: 1px solid #2fa8d7;
+}
+
+
+.floating-location-result-content {
+  min-width: 0;
+}
+
+
+.floating-location-result-content strong,
+.floating-location-result-content small {
+  display: block;
+}
+
+
+.floating-location-result-content strong {
+  color: #f5fbff;
+}
+
+
+.floating-location-result-content small {
+  margin-top: 3px;
+
+  overflow: hidden;
+
+  color: #9ec9df;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+@media (max-width: 700px) {
+
+  .captain-profile-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .founding-captain-badge {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .floating-location-search {
+    top: 10px;
+    left: 10px;
+
+    width: calc(100% - 20px);
+  }
+
+  .floating-location-search-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .floating-location-search-panel {
+    max-height: 340px;
+  }
+
+}

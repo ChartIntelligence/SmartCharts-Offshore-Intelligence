@@ -9,16 +9,25 @@ import OpportunityRanking from "./OpportunityRanking";
 import SelectedTarget from "./SelectedTarget";
 import LocationSearch from "./LocationSearch";
 import FishingDayReportPanel from "./FishingDayReportPanel";
+import SavedFishingDayReports from "./SavedFishingDayReports";
 
 import structures from "../data/gulfLocations";
 
 import "../styles/dashboard.css";
 
-import SavedFishingDayReports from "./SavedFishingDayReports";
 
 function Dashboard() {
 
-  const [layers, setLayers] = useState({
+  const [
+    activeTab,
+    setActiveTab
+  ] = useState("map");
+
+
+  const [
+    layers,
+    setLayers
+  ] = useState({
     marlin: true,
     yellowfin: true,
     blackfin: true,
@@ -47,9 +56,9 @@ function Dashboard() {
 
 
   const [
-  reportsRefreshToken,
-  setReportsRefreshToken
-] = useState(0);
+    reportsRefreshToken,
+    setReportsRefreshToken
+  ] = useState(0);
 
 
   return (
@@ -57,124 +66,226 @@ function Dashboard() {
 
       <header className="dashboard-header">
 
-        <h1>SMARTCHARTS</h1>
+        <h1>
+          SMARTCHARTS
+        </h1>
 
         <p>
           Blue Marlin Intelligence Platform
         </p>
 
-        <button
-          type="button"
-          className="log-fishing-day-button"
-          onClick={() =>
-            setReportPanelOpen(true)
-          }
-        >
-          Log Fishing Day
-        </button>
+
+        <div className="dashboard-primary-actions">
+
+          <button
+            type="button"
+            className="log-fishing-day-button"
+            onClick={() =>
+              setReportPanelOpen(true)
+            }
+          >
+            Log Fishing Day
+          </button>
+
+        </div>
 
       </header>
 
 
-      <section className="top-section">
+      <nav
+        className="dashboard-tabs"
+        aria-label="SmartCharts sections"
+      >
 
-        <TopOpportunity
-          structures={structures}
-        />
-
-      </section>
-
-
-      <LocationSearch
-        structures={structures}
-        selectedSpot={selectedSpot}
-        setSelectedSpot={setSelectedSpot}
-      />
-
-
-      <section className="map-area">
-
-        <LayerControls
-          layers={layers}
-          setLayers={setLayers}
-        />
+        <button
+          type="button"
+          className={
+            activeTab === "map"
+              ? "dashboard-tab active-dashboard-tab"
+              : "dashboard-tab"
+          }
+          onClick={() =>
+            setActiveTab("map")
+          }
+        >
+          Map
+        </button>
 
 
-        <div className="map-wrapper">
+        <button
+          type="button"
+          className={
+            activeTab === "profile"
+              ? "dashboard-tab active-dashboard-tab"
+              : "dashboard-tab"
+          }
+          onClick={() =>
+            setActiveTab("profile")
+          }
+        >
+          Profile
+        </button>
 
-          <MapLibreIntelligenceMap
-            layers={layers}
-            selectedSpot={selectedSpot}
-            setSelectedSpot={setSelectedSpot}
-          />
-
-          <MapLegend
-            layers={layers}
-          />
-
-        </div>
-
-      </section>
-
-
-      <SelectedTarget
-        selectedSpot={selectedSpot}
-      />
+      </nav>
 
 
-<SavedFishingDayReports
-  refreshToken={reportsRefreshToken}
-/>
+      {activeTab === "map" && (
+        <main className="dashboard-tab-content">
 
+          <section className="top-section">
 
-      <section className="ranking-section">
-
-        <OpportunityRanking
-          structures={structures}
-          setSelectedSpot={setSelectedSpot}
-        />
-
-      </section>
-
-
-      <section className="intel-section">
-
-        <h2>
-          Offshore Intelligence
-        </h2>
-
-
-        <div className="cards">
-
-          {structures.map((spot) => (
-
-            <HotspotCard
-              key={
-                spot.id ||
-                spot.name
-              }
-              spot={spot}
+            <TopOpportunity
+              structures={structures}
             />
 
-          ))}
+          </section>
 
-        </div>
 
-      </section>
+          <section className="map-area">
+
+            <LayerControls
+              layers={layers}
+              setLayers={setLayers}
+            />
+
+
+            <div className="map-wrapper">
+
+              <MapLibreIntelligenceMap
+                layers={layers}
+                selectedSpot={selectedSpot}
+                setSelectedSpot={setSelectedSpot}
+              />
+
+
+              <LocationSearch
+                structures={structures}
+                selectedSpot={selectedSpot}
+                setSelectedSpot={setSelectedSpot}
+              />
+
+
+              <MapLegend
+                layers={layers}
+              />
+
+            </div>
+
+          </section>
+
+
+          <SelectedTarget
+            selectedSpot={selectedSpot}
+          />
+
+
+          <section className="ranking-section">
+
+            <OpportunityRanking
+              structures={structures}
+              setSelectedSpot={
+                setSelectedSpot
+              }
+            />
+
+          </section>
+
+
+          <section className="intel-section">
+
+            <h2>
+              Offshore Intelligence
+            </h2>
+
+
+            <div className="cards">
+
+              {structures.map(
+                (spot) => (
+
+                  <HotspotCard
+                    key={
+                      spot.id ||
+                      spot.name
+                    }
+                    spot={spot}
+                  />
+
+                )
+              )}
+
+            </div>
+
+          </section>
+
+        </main>
+      )}
+
+
+      {activeTab === "profile" && (
+        <main className="dashboard-tab-content">
+
+          <section className="captain-profile-card">
+
+            <div>
+
+              <p className="profile-eyebrow">
+                SmartCharts Captain
+              </p>
+
+              <h2>
+                Captain Profile
+              </h2>
+
+              <p>
+                Manage fishing-day reports,
+                account details and future
+                Founding Captain benefits.
+              </p>
+
+            </div>
+
+
+            <div className="founding-captain-badge">
+
+              <span>
+                Status
+              </span>
+
+              <strong>
+                Alpha Captain
+              </strong>
+
+            </div>
+
+          </section>
+
+
+          <SavedFishingDayReports
+            refreshToken={
+              reportsRefreshToken
+            }
+          />
+
+        </main>
+      )}
 
 
       <FishingDayReportPanel
-  isOpen={reportPanelOpen}
-  onClose={() =>
-    setReportPanelOpen(false)
-  }
-  onReportSaved={() =>
-    setReportsRefreshToken(
-      (current) => current + 1
-    )
-  }
-  structures={structures}
-/>
+        isOpen={reportPanelOpen}
+        onClose={() =>
+          setReportPanelOpen(false)
+        }
+        onReportSaved={() => {
+          setReportsRefreshToken(
+            (current) =>
+              current + 1
+          );
+
+          setActiveTab("profile");
+        }}
+        structures={structures}
+      />
 
     </div>
   );
