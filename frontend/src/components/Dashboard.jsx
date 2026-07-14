@@ -8,8 +8,10 @@ import TopOpportunity from "./TopOpportunity";
 import OpportunityRanking from "./OpportunityRanking";
 import SelectedTarget from "./SelectedTarget";
 import LocationSearch from "./LocationSearch";
+import FishingDayReportPanel from "./FishingDayReportPanel";
 
-import structures from "../data/gulfStructures.json";
+import structures from "../data/gulfLocations";
+
 import "../styles/dashboard.css";
 
 
@@ -24,7 +26,6 @@ function Dashboard() {
     sst: false,
     sstOpacity: 0.32,
 
-    
     chlorophyll: false,
     currents: false,
     temperatureBreaks: false,
@@ -32,7 +33,16 @@ function Dashboard() {
   });
 
 
-  const [selectedSpot, setSelectedSpot] = useState(null);
+  const [
+    selectedSpot,
+    setSelectedSpot
+  ] = useState(null);
+
+
+  const [
+    reportPanelOpen,
+    setReportPanelOpen
+  ] = useState(false);
 
 
   return (
@@ -45,6 +55,16 @@ function Dashboard() {
         <p>
           Blue Marlin Intelligence Platform
         </p>
+
+        <button
+          type="button"
+          className="log-fishing-day-button"
+          onClick={() =>
+            setReportPanelOpen(true)
+          }
+        >
+          Log Fishing Day
+        </button>
 
       </header>
 
@@ -76,10 +96,10 @@ function Dashboard() {
         <div className="map-wrapper">
 
           <MapLibreIntelligenceMap
-  layers={layers}
-  selectedSpot={selectedSpot}
-  setSelectedSpot={setSelectedSpot}
-/>
+            layers={layers}
+            selectedSpot={selectedSpot}
+            setSelectedSpot={setSelectedSpot}
+          />
 
           <MapLegend
             layers={layers}
@@ -117,7 +137,10 @@ function Dashboard() {
           {structures.map((spot) => (
 
             <HotspotCard
-              key={spot.name}
+              key={
+                spot.id ||
+                spot.name
+              }
               spot={spot}
             />
 
@@ -126,6 +149,15 @@ function Dashboard() {
         </div>
 
       </section>
+
+
+      <FishingDayReportPanel
+        isOpen={reportPanelOpen}
+        onClose={() =>
+          setReportPanelOpen(false)
+        }
+        structures={structures}
+      />
 
     </div>
   );
