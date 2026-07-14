@@ -14,6 +14,7 @@ import structures from "../data/gulfLocations";
 
 import "../styles/dashboard.css";
 
+import SavedFishingDayReports from "./SavedFishingDayReports";
 
 function Dashboard() {
 
@@ -43,6 +44,12 @@ function Dashboard() {
     reportPanelOpen,
     setReportPanelOpen
   ] = useState(false);
+
+
+  const [
+  reportsRefreshToken,
+  setReportsRefreshToken
+] = useState(0);
 
 
   return (
@@ -115,6 +122,11 @@ function Dashboard() {
       />
 
 
+<SavedFishingDayReports
+  refreshToken={reportsRefreshToken}
+/>
+
+
       <section className="ranking-section">
 
         <OpportunityRanking
@@ -152,12 +164,17 @@ function Dashboard() {
 
 
       <FishingDayReportPanel
-        isOpen={reportPanelOpen}
-        onClose={() =>
-          setReportPanelOpen(false)
-        }
-        structures={structures}
-      />
+  isOpen={reportPanelOpen}
+  onClose={() =>
+    setReportPanelOpen(false)
+  }
+  onReportSaved={() =>
+    setReportsRefreshToken(
+      (current) => current + 1
+    )
+  }
+  structures={structures}
+/>
 
     </div>
   );

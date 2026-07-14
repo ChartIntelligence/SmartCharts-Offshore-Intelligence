@@ -111,6 +111,7 @@ function createInitialReport() {
 function FishingDayReportPanel({
   isOpen,
   onClose,
+  onReportSaved,
   structures = []
 }) {
 
@@ -276,6 +277,8 @@ function FishingDayReportPanel({
       ])
     );
 
+    onReportSaved?.(savedReport);
+    
     setReport(
       createInitialReport()
     );
@@ -907,7 +910,7 @@ function ReportInput({
 
     </label>
   );
-}
+} 
 
 
 function ReportSelect({
