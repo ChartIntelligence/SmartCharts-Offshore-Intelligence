@@ -2567,3 +2567,439 @@
   }
 
 }
+
+
+/* =========================
+   SMARTCHARTS APP HEADER
+========================= */
+
+.smartcharts-app-header {
+  margin-bottom: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(16, 43, 66, 0.98),
+      rgba(6, 24, 39, 0.98)
+    );
+
+  border: 1px solid #1f506e;
+  border-radius: 16px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.28);
+
+  overflow: hidden;
+}
+
+
+.smartcharts-brand {
+  padding: 24px 24px 18px;
+}
+
+
+.smartcharts-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+
+.smartcharts-brand h1 {
+  margin: 0;
+
+  color: #f5fbff;
+
+  font-size: clamp(
+    30px,
+    5vw,
+    46px
+  );
+
+  line-height: 1;
+
+  letter-spacing: 4px;
+
+  text-shadow:
+    0 0 14px
+    rgba(255, 255, 255, 0.2);
+}
+
+
+.smartcharts-brand p {
+  margin: 9px 0 0;
+
+  color: #9ec9df;
+
+  font-size: 14px;
+  letter-spacing: 1.6px;
+}
+
+
+.smartcharts-version-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 10px;
+
+  background:
+    rgba(255, 140, 66, 0.13);
+
+  color: #ff9f61;
+
+  border:
+    1px solid
+    rgba(255, 140, 66, 0.55);
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+/* =========================
+   PRIMARY NAVIGATION
+========================= */
+
+.smartcharts-app-header
+.dashboard-tabs {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 0;
+
+  margin: 0;
+  padding: 0;
+
+  background:
+    rgba(3, 18, 30, 0.85);
+
+  border: none;
+  border-top:
+    1px solid #1f506e;
+
+  border-radius: 0;
+}
+
+
+.smartcharts-app-header
+.dashboard-tab {
+  width: 100%;
+  max-width: none;
+
+  padding: 14px 10px;
+
+  background: transparent;
+  color: #8fb6ca;
+
+  border: none;
+  border-right:
+    1px solid
+    rgba(31, 80, 110, 0.55);
+
+  border-radius: 0;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+
+.smartcharts-app-header
+.dashboard-tab:last-child {
+  border-right: none;
+}
+
+
+.smartcharts-app-header
+.dashboard-tab:hover {
+  background:
+    rgba(31, 80, 110, 0.24);
+
+  color: #ffffff;
+}
+
+
+.smartcharts-app-header
+.active-dashboard-tab {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(31, 80, 110, 0.7),
+      rgba(18, 50, 74, 0.85)
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    inset 0 -3px 0 #ff8c42;
+}
+
+
+/* =========================
+   SECTION HEADERS
+========================= */
+
+.map-screen-header,
+.section-page-header,
+.reports-page-header {
+  margin-bottom: 18px;
+  padding: 18px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #102b42,
+      #081f30
+    );
+
+  border: 1px solid #1f506e;
+  border-radius: 13px;
+}
+
+
+.map-screen-header,
+.reports-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+
+.section-eyebrow {
+  margin: 0 0 5px;
+
+  color: #ff8c42;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+
+.map-screen-header h2,
+.section-page-header h2,
+.reports-page-header h2,
+.captain-dashboard-card h2 {
+  margin: 0;
+
+  color: #f5fbff;
+
+  font-size: 25px;
+}
+
+
+.map-screen-header p,
+.section-page-header p,
+.reports-page-header p,
+.captain-dashboard-card p {
+  margin: 7px 0 0;
+
+  color: #9ec9df;
+
+  line-height: 1.5;
+}
+
+
+.map-report-shortcut {
+  flex-shrink: 0;
+
+  padding: 11px 16px;
+
+  background: transparent;
+  color: #ff9f61;
+
+  border: 1px solid #ff8c42;
+  border-radius: 9px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+.map-report-shortcut:hover {
+  background:
+    rgba(255, 140, 66, 0.12);
+}
+
+
+/* =========================
+   CAPTAIN DASHBOARD
+========================= */
+
+.captain-dashboard-card {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.4fr)
+    minmax(280px, 1fr);
+
+  gap: 22px;
+
+  padding: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #102b42,
+      #081f30
+    );
+
+  border: 1px solid #1f506e;
+  border-radius: 14px;
+}
+
+
+.captain-dashboard-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.captain-status-grid {
+  display: grid;
+  gap: 9px;
+}
+
+
+.profile-status-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 11px 13px;
+
+  background: #061827;
+
+  border: 1px solid #1f506e;
+  border-radius: 9px;
+}
+
+
+.profile-status-item span {
+  color: #8fb6ca;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+
+.profile-status-item strong {
+  color: #f5fbff;
+
+  text-align: right;
+}
+
+
+.profile-information-card {
+  margin-top: 16px;
+  padding: 19px;
+
+  background: #081f30;
+
+  border: 1px solid #1f506e;
+  border-radius: 12px;
+}
+
+
+.profile-information-card h3 {
+  margin: 0;
+
+  color: #f5fbff;
+}
+
+
+.profile-information-card p {
+  color: #9ec9df;
+}
+
+
+/* =========================
+   REPORTS PAGE
+========================= */
+
+.reports-page-header
+.log-fishing-day-button {
+  flex-shrink: 0;
+
+  margin-top: 0;
+}
+
+
+.saved-reports-section {
+  margin-top: 0;
+}
+
+
+/* =========================
+   MOBILE NAVIGATION
+========================= */
+
+@media (max-width: 700px) {
+
+  .smartcharts-brand {
+    padding: 20px 16px 16px;
+  }
+
+  .smartcharts-brand h1 {
+    letter-spacing: 2px;
+  }
+
+  .smartcharts-brand-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .smartcharts-app-header
+  .dashboard-tabs {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .smartcharts-app-header
+  .dashboard-tab {
+    border-bottom:
+      1px solid
+      rgba(31, 80, 110, 0.55);
+  }
+
+  .map-screen-header,
+  .reports-page-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .map-report-shortcut,
+  .reports-page-header
+  .log-fishing-day-button {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .captain-dashboard-card {
+    grid-template-columns: 1fr;
+  }
+
+}
