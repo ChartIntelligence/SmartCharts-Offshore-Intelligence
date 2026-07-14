@@ -1,6 +1,7 @@
 import { calculateBlueMarlinScore } from "../utils/scoreEngine";
 import { calculateConfidence } from "../utils/confidenceEngine";
 
+
 function SelectedTarget({ selectedSpot }) {
 
   if (!selectedSpot) {
@@ -8,26 +9,34 @@ function SelectedTarget({ selectedSpot }) {
       <div className="selected-target empty-target">
 
         <p className="selected-label">
-          Selected Target
+          Selected Location
         </p>
 
         <h2 className="selected-target-name">
-          No Target Selected
+          No Location Selected
         </h2>
 
         <p>
-          Click a location in the rankings to view its intelligence.
+          Select a location on the map or in the rankings
+          to view its SmartCharts Intelligence Report.
         </p>
 
       </div>
     );
   }
 
-  const score = calculateBlueMarlinScore(selectedSpot);
-  const confidence = calculateConfidence(selectedSpot);
+
+  const score =
+    calculateBlueMarlinScore(selectedSpot);
+
+  const confidence =
+    safelyCalculateConfidence(selectedSpot);
+
+  const hasScoringData =
+    score.dataComplete !== false;
+
 
   return (
-
     <div className="selected-target">
 
       <div className="selected-target-header">
@@ -35,15 +44,21 @@ function SelectedTarget({ selectedSpot }) {
         <div>
 
           <p className="selected-label">
-            🎯 SELECTED TARGET
+            SMARTCHARTS INTELLIGENCE REPORT
           </p>
 
           <h2 className="selected-target-name">
-            {selectedSpot.name}
+            {selectedSpot.name ||
+              "Unnamed Location"}
           </h2>
 
           <p className="selected-region">
-            {selectedSpot.type} • {selectedSpot.region}
+            {selectedSpot.type ||
+              "Offshore Location"}
+
+            {selectedSpot.region
+              ? ` • ${selectedSpot.region}`
+              : ""}
           </p>
 
         </div>
@@ -52,11 +67,15 @@ function SelectedTarget({ selectedSpot }) {
         <div className="selected-score">
 
           <strong>
-            {score.total}
+            {hasScoringData
+              ? score.total
+              : "—"}
           </strong>
 
           <span>
-            Blue Marlin Score
+            {hasScoringData
+              ? "Opportunity Score"
+              : "Collecting Data"}
           </span>
 
         </div>
@@ -68,32 +87,64 @@ function SelectedTarget({ selectedSpot }) {
 
         <div>
           <span>Confidence</span>
-          <strong>{confidence.level}</strong>
+
+          <strong>
+            {hasScoringData
+              ? confidence.level
+              : "Insufficient Data"}
+          </strong>
         </div>
 
-        <div>
-          <span>Yellowfin</span>
-          <strong>{selectedSpot.scores.yellowfin}</strong>
-        </div>
 
         <div>
-          <span>Blackfin</span>
-          <strong>{selectedSpot.scores.blackfin}</strong>
+          <span>Depth</span>
+
+          <strong>
+            {selectedSpot.depth ??
+              "Not available"}
+          </strong>
         </div>
+
 
         <div>
           <span>Sea Surface Temp</span>
-          <strong>{selectedSpot.conditions.sst}</strong>
+
+          <strong>
+            {selectedSpot.conditions?.sst ??
+              "Not available"}
+          </strong>
         </div>
+
 
         <div>
           <span>Current</span>
-          <strong>{selectedSpot.conditions.current}</strong>
+
+          <strong>
+            {selectedSpot.conditions?.current ??
+              "Not available"}
+          </strong>
         </div>
+
 
         <div>
           <span>Chlorophyll</span>
-          <strong>{selectedSpot.conditions.chlorophyll}</strong>
+
+          <strong>
+            {selectedSpot.conditions
+              ?.chlorophyll ??
+              "Not available"}
+          </strong>
+        </div>
+
+
+        <div>
+          <span>Learning Status</span>
+
+          <strong>
+            {hasScoringData
+              ? "Active"
+              : "Collecting Data"}
+          </strong>
         </div>
 
       </div>
@@ -102,19 +153,46 @@ function SelectedTarget({ selectedSpot }) {
       <div className="selected-recommendation">
 
         <h3>
-          Captain's Recommendation
+          Captain&apos;s Recommendation
         </h3>
 
         <p>
-          {selectedSpot.recommendation}
+          {selectedSpot.recommendation ||
+            "Review live ocean conditions before evaluating this location."}
         </p>
 
       </div>
 
     </div>
-
   );
-
 }
+
+
+function safelyCalculateConfidence(spot) {
+  try {
+    const confidence =
+      calculateConfidence(spot);
+
+    return confidence &&
+      typeof confidence === "object"
+      ? confidence
+      : {
+          level: "Insufficient Data"
+        };
+  } catch (error) {
+    console.warn(
+      `Confidence calculation unavailable for ${
+        spot?.name ||
+        "unknown location"
+      }:`,
+      error
+    );
+
+    return {
+      level: "Insufficient Data"
+    };
+  }
+}
+
 
 export default SelectedTarget;

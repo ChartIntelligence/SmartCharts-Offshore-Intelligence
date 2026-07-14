@@ -1,1 +1,234 @@
-[]
+[
+  {
+    "id": "okaloosa-fad-1",
+    "name": "Okaloosa FAD 1",
+    "shortName": "FAD 1",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.528317, -87.043883],
+    "depth": "1191 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  },
+  {
+    "id": "okaloosa-fad-2",
+    "name": "Okaloosa FAD 2",
+    "shortName": "FAD 2",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.4557, -87.117267],
+    "depth": "1610 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  },
+  {
+    "id": "okaloosa-fad-3",
+    "name": "Okaloosa FAD 3",
+    "shortName": "FAD 3",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.389217, -87.1861],
+    "depth": "1822 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  },
+  {
+    "id": "okaloosa-fad-4",
+    "name": "Okaloosa FAD 4",
+    "shortName": "FAD 4",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.311517, -87.25915],
+    "depth": "2359 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  },
+  {
+    "id": "okaloosa-fad-5",
+    "name": "Okaloosa FAD 5",
+    "shortName": "FAD 5",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.4485, -86.881067],
+    "depth": "1650 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  },
+  {
+    "id": "okaloosa-fad-6",
+    "name": "Okaloosa FAD 6",
+    "shortName": "FAD 6",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.348117, -86.879133],
+    "depth": "1715 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  },
+  {
+    "id": "okaloosa-fad-7",
+    "name": "Okaloosa FAD 7",
+    "shortName": "FAD 7",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.248567, -86.88025],
+    "depth": "1830 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  },
+  {
+    "id": "okaloosa-fad-8",
+    "name": "Okaloosa FAD 8",
+    "shortName": "FAD 8",
+    "category": "fad",
+    "type": "Fish Aggregating Device",
+    "region": "Okaloosa Offshore",
+    "coordinates": [29.14745, -86.876867],
+    "depth": "1847 ft",
+    "influenceRadius": 2500,
+    "active": true,
+    "source": {
+      "agency": "Okaloosa County",
+      "coordinateFormat": "Converted from degrees and decimal minutes",
+      "positionNote": "Buoy may move approximately 500 ft around its anchor",
+      "verified": true
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Evaluate current direction, bait activity, water color and surface life around the buoy."
+  }
+]
