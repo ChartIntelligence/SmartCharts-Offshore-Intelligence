@@ -46,6 +46,13 @@ export function useMapLibreMarkers({
 
         const [longitude, latitude] = normalized;
 
+const isDrillShip =
+  spot.category === "drill_ship" ||
+  String(spot.type || "")
+    .toLowerCase()
+    .includes("drillship");
+
+
        const isPlatform =
   spot.category === "structure" ||
   spot.category === "oil_platform" ||
@@ -54,10 +61,8 @@ export function useMapLibreMarkers({
     .includes("platform") ||
   String(spot.type || "")
     .toLowerCase()
-    .includes("rig") ||
-  String(spot.type || "")
-    .toLowerCase()
-    .includes("drillship");
+    .includes("rig");
+  
 
 const isFad =
   spot.category === "fad" ||
@@ -79,11 +84,13 @@ const markerButton =
 
 markerButton.type = "button";
 
-const markerClass = isFad
-  ? "fad-marker"
-  : isPlatform
-    ? "platform-marker"
-    : "fishing-ground-marker";
+const markerClass = isDrillShip
+  ? "drill-ship-marker"
+  : isFad
+    ? "fad-marker"
+    : isPlatform
+      ? "platform-marker"
+      : "fishing-ground-marker";
 
 markerButton.className = [
   "maplibre-location-marker",
@@ -117,11 +124,13 @@ markerButton.className = [
           markerButton.textContent =
             String(Math.round(Number(score) || 0));
         } else {
-markerButton.innerHTML = isFad
-  ? createFadSvg()
-  : isPlatform
-    ? createPlatformSvg()
-    : createFishingGroundSvg();
+markerButton.innerHTML = isDrillShip
+  ? createDrillShipSvg()
+  : isFad
+    ? createFadSvg()
+    : isPlatform
+      ? createPlatformSvg()
+      : createFishingGroundSvg();
         }
 
         markerButton.addEventListener(
@@ -370,6 +379,44 @@ function createFadSvg() {
 
       <path
         d="M17 31c4-4 8-4 12 0M35 34c4-4 8-4 12 0"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+      />
+    </svg>
+  `;
+}
+
+function createDrillShipSvg() {
+  return `
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <path
+        d="M10 40h44l-7 12H18L10 40Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linejoin="round"
+      />
+
+      <path
+        d="M20 40V24h24v16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linejoin="round"
+      />
+
+      <path
+        d="M27 24V12h10v12M32 12V4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+
+      <path
+        d="M15 56c5 3 9 3 14 0 5 3 9 3 14 0 5 3 9 3 14 0"
         fill="none"
         stroke="currentColor"
         stroke-width="2.5"

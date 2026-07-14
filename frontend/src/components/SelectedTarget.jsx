@@ -111,7 +111,7 @@ function SelectedTarget({ selectedSpot }) {
 
           <strong>
             {selectedSpot.conditions?.sst ??
-              "Not available"}
+              "Waiting for live data"}
           </strong>
         </div>
 
@@ -121,7 +121,7 @@ function SelectedTarget({ selectedSpot }) {
 
           <strong>
             {selectedSpot.conditions?.current ??
-              "Not available"}
+              "Waiting for live data"}
           </strong>
         </div>
 
@@ -132,10 +132,19 @@ function SelectedTarget({ selectedSpot }) {
           <strong>
             {selectedSpot.conditions
               ?.chlorophyll ??
-              "Not available"}
+              "Waiting for live data"}
           </strong>
         </div>
 
+<div>
+  <span>Intelligence Status</span>
+
+  <strong>
+    {hasScoringData
+      ? "Live Intelligence"
+      : "Reference Location"}
+  </strong>
+</div>
 
         <div>
           <span>Learning Status</span>

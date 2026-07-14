@@ -5,22 +5,26 @@ import {
 
 
 function getLocationType(spot) {
-  const category =
-    String(
-      spot.category || ""
-    ).toLowerCase();
+  const category = String(
+    spot.category || ""
+  ).toLowerCase();
 
-  const type =
-    String(
-      spot.type || ""
-    ).toLowerCase();
+  const type = String(
+    spot.type || ""
+  ).toLowerCase();
+
+  if (
+    category === "drill_ship" ||
+    type.includes("drillship")
+  ) {
+    return "drill-ship";
+  }
 
   if (
     category === "oil_platform" ||
     category === "structure" ||
     type.includes("platform") ||
-    type.includes("rig") ||
-    type.includes("drillship")
+    type.includes("rig")
   ) {
     return "platform";
   }
@@ -208,6 +212,10 @@ function LocationSearch({
                 Fishing Areas
               </option>
 
+              <option value="drill-ship">
+  Drill Ships
+</option>
+
             </select>
 
           </div>
@@ -266,11 +274,13 @@ function LocationSearch({
                       className={`floating-location-result-icon ${type}`}
                       aria-hidden="true"
                     >
-                      {type === "platform"
-                        ? "P"
-                        : type === "fad"
-                          ? "FAD"
-                          : "F"}
+                      {type === "drill-ship"
+  ? "DS"
+  : type === "platform"
+    ? "P"
+    : type === "fad"
+      ? "FAD"
+      : "F"}
                     </span>
 
 

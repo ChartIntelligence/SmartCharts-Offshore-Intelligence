@@ -2986,3 +2986,36 @@
   }
 
 }
+
+.floating-location-result-icon.drill-ship {
+  color: #9fe8ff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #12384d,
+      #071d2c
+    );
+
+  border: 1px solid #62d2ff;
+
+  box-shadow:
+    0 0 9px rgba(98, 210, 255, 0.24);
+}
+
+.drill-ship-marker {
+  color: #9fe8ff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #12384d,
+      #071d2c
+    );
+
+  border-color: #62d2ff;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.75),
+    0 0 0 3px rgba(98, 210, 255, 0.28);
+}

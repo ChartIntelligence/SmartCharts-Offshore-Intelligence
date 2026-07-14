@@ -1,1 +1,115 @@
-[]
+[
+  {
+    "id": "west-vela",
+    "name": "West Vela",
+    "shortName": "West Vela",
+    "category": "drill_ship",
+    "type": "Ultra Deepwater Drillship",
+    "region": "Central Gulf",
+
+    "coordinates": [27.94148, -89.93632],
+
+    "depth": "12000+ ft",
+
+    "influenceRadius": 4000,
+
+    "active": true,
+
+    "structureProfile": {
+      "baitRetention": 88,
+      "currentInteraction": 90,
+      "marlinAttraction": 89
+    },
+
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+
+    "recommendation":
+      "Verify drillship location and evaluate surrounding current edges."
+  },
+
+  {
+    "id": "deepwater-atlas",
+    "name": "Deepwater Atlas",
+    "shortName": "Deepwater Atlas",
+    "category": "drill_ship",
+    "type": "Ultra Deepwater Drillship",
+    "region": "Western Gulf",
+
+    "coordinates": [26.915417, -91.57334],
+
+    "depth": "12000+ ft",
+
+    "influenceRadius": 4000,
+
+    "active": true,
+
+    "structureProfile": {
+      "baitRetention": 90,
+      "currentInteraction": 92,
+      "marlinAttraction": 90
+    },
+
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+
+    "recommendation":
+      "Evaluate bait concentration and current interaction around the drillship."
+  },
+
+  {
+    "id": "deepwater-titan",
+    "name": "Deepwater Titan",
+    "shortName": "Deepwater Titan",
+    "category": "drill_ship",
+    "type": "Ultra Deepwater Drillship",
+    "region": "Western Gulf",
+
+    "coordinates": [27.15208, -91.21167],
+
+    "depth": "12000+ ft",
+
+    "influenceRadius": 4000,
+
+    "active": true,
+
+    "structureProfile": {
+      "baitRetention": 91,
+      "currentInteraction": 90,
+      "marlinAttraction": 91
+    },
+
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+
+    "recommendation":
+      "Look for temperature breaks and bait schools surrounding the drillship."
+  }
+]
