@@ -1,1 +1,434 @@
-[]
+[
+  {
+    "id": "mc-437-appomattox",
+    "name": "Appomattox",
+    "shortName": "Appomattox",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 437",
+    "coordinates": [28.57350034, -87.9342126],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "02623",
+      "area": "MC",
+      "block": "437",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-474-na-kika",
+    "name": "Na Kika",
+    "shortName": "Na Kika",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 474",
+    "coordinates": [28.52090278, -88.2887889],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "01001",
+      "area": "MC",
+      "block": "474",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-547-who-dat",
+    "name": "Who Dat",
+    "shortName": "Who Dat",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 547",
+    "coordinates": [28.41538737, -89.0162066],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "02424",
+      "area": "MC",
+      "block": "547",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-582-medusa",
+    "name": "Medusa",
+    "shortName": "Medusa",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 582",
+    "coordinates": [28.39240104, -89.4534609],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "01090",
+      "area": "MC",
+      "block": "582",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-650-blind-faith",
+    "name": "Blind Faith",
+    "shortName": "Blind Faith",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 650",
+    "coordinates": [28.34153544, -88.2656869],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "01930",
+      "area": "MC",
+      "block": "650",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-736-gulfstar-1",
+    "name": "Gulfstar 1",
+    "shortName": "Gulfstar 1",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 736",
+    "coordinates": [28.26728694, -88.3989206],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "02045",
+      "area": "MC",
+      "block": "736",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-773-thunder-hawk",
+    "name": "Thunder Hawk",
+    "shortName": "Thunder Hawk",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 773",
+    "coordinates": [28.20875531, -88.7374738],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "01175",
+      "area": "MC",
+      "block": "773",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-778-devils-tower",
+    "name": "Devils Tower",
+    "shortName": "Devils Tower",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 778",
+    "coordinates": [28.19060986, -88.495585],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "01101",
+      "area": "MC",
+      "block": "778",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-807-olympus",
+    "name": "Olympus",
+    "shortName": "Olympus",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 807",
+    "coordinates": [28.169524, -89.222876],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "24199",
+      "area": "MC",
+      "block": "807",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-809-mars",
+    "name": "Mars",
+    "shortName": "Mars",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 809",
+    "coordinates": [28.15402604, -89.1035536],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "70004",
+      "area": "MC",
+      "block": "809",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-920-ursa",
+    "name": "Ursa",
+    "shortName": "Ursa",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 920",
+    "coordinates": [28.08505618, -87.9858393],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "01766",
+      "area": "MC",
+      "block": "920",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  },
+  {
+    "id": "mc-941-independence",
+    "name": "Independence",
+    "shortName": "Independence",
+    "category": "oil_platform",
+    "type": "Deepwater Production Platform",
+    "region": "Mississippi Canyon 941",
+    "coordinates": [28.03364844, -89.1007583],
+    "depth": "Pending verification",
+    "influenceRadius": 5000,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "complexId": "02089",
+      "area": "MC",
+      "block": "941",
+      "reportDate": "2026-07-01",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live current, temperature, chlorophyll and bait conditions around this structure."
+  }
+]
