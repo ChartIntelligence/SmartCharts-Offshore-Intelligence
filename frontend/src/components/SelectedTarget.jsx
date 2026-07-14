@@ -35,6 +35,14 @@ function SelectedTarget({ selectedSpot }) {
   const hasScoringData =
     score.dataComplete !== false;
 
+    const isDrillShip =
+  selectedSpot.category === "drill_ship";
+
+const reportedPosition =
+  selectedSpot.position?.reportedAt;
+
+const positionFreshness =
+  selectedSpot.position?.freshness;
 
   return (
     <div className="selected-target">
@@ -83,18 +91,43 @@ function SelectedTarget({ selectedSpot }) {
       </div>
 
 
-      <div className="selected-target-grid">
+     <div className="selected-target-grid">
 
-        <div>
-          <span>Confidence</span>
+  {isDrillShip && (
+    <div>
+      <span>Position Status</span>
 
-          <strong>
-            {hasScoringData
-              ? confidence.level
-              : "Insufficient Data"}
-          </strong>
-        </div>
+      <strong>
+        {formatPositionStatus(
+          positionFreshness
+        )}
+      </strong>
+    </div>
+  )}
 
+  {isDrillShip && (
+    <div>
+      <span>Position Updated</span>
+
+      <strong>
+        {reportedPosition
+          ? new Date(
+              reportedPosition
+            ).toLocaleString()
+          : "Timestamp unavailable"}
+      </strong>
+    </div>
+  )}
+
+  <div>
+    <span>Confidence</span>
+
+    <strong>
+      {hasScoringData
+        ? confidence.level
+        : "Insufficient Data"}
+    </strong>
+  </div>
 
         <div>
           <span>Depth</span>
@@ -203,5 +236,20 @@ function safelyCalculateConfidence(spot) {
   }
 }
 
+function formatPositionStatus(value) {
+  const labels = {
+    current: "Current",
+    recent: "Recently Reported",
+    stale: "Needs Verification",
+    "unverified-time": "Timestamp Unavailable",
+    "recent-location-unverified":
+      "Exact Position Unverified"
+  };
+
+  return (
+    labels[value] ||
+    "Verify Before Navigation"
+  );
+}
 
 export default SelectedTarget;
