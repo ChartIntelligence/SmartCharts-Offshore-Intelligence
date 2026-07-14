@@ -1,105 +1,129 @@
-export function calculateOceanScore(spot){
+export function calculateOceanScore(spot = {}) {
+  let score = 0;
+  const factors = [];
 
-    let score = 0;
+  /*
+   * Some imported structures do not have ocean-condition data yet.
+   * These defaults prevent the engine from crashing.
+   */
+  const conditions =
+    spot?.conditions &&
+    typeof spot.conditions === "object"
+      ? spot.conditions
+      : {};
 
-    let factors = [];
+  const rawSst = conditions.sst;
+
+  const sst =
+    typeof rawSst === "number"
+      ? rawSst
+      : Number.parseFloat(
+          String(rawSst ?? "")
+        );
+
+  const current = String(
+    conditions.current ?? ""
+  ).toLowerCase();
+
+  const chlorophyll = String(
+    conditions.chlorophyll ?? ""
+  ).toLowerCase();
 
 
-    // SST evaluation
+  // SST evaluation
 
-    const sst = parseFloat(
-        spot.conditions.sst
+  if (
+    Number.isFinite(sst) &&
+    sst >= 78 &&
+    sst <= 82
+  ) {
+    score += 25;
+    factors.push(
+      "Ideal blue water temperature"
     );
+  } else if (
+    Number.isFinite(sst) &&
+    sst >= 76 &&
+    sst <= 84
+  ) {
+    score += 15;
+    factors.push(
+      "Acceptable temperature range"
+    );
+  } else if (
+    Number.isFinite(sst)
+  ) {
+    score += 5;
+    factors.push(
+      "Temperature outside ideal range"
+    );
+  } else {
+    factors.push(
+      "SST data unavailable"
+    );
+  }
 
 
-    if(sst >= 78 && sst <= 82){
+  // Current evaluation
 
-        score += 25;
-        factors.push("Ideal blue water temperature");
-
-    }
-
-    else if(sst >= 76 && sst <= 84){
-
-        score += 15;
-        factors.push("Acceptable temperature range");
-
-    }
-
-    else{
-
-        score += 5;
-        factors.push("Temperature outside ideal range");
-
-    }
-
-
-
-    // Current evaluation
-
-    if(
-        spot.conditions.current
-        .toLowerCase()
-        .includes("strong")
-    ){
-
-        score += 25;
-        factors.push("Strong current edge");
-
-    }
-
-    else if(
-        spot.conditions.current
-        .toLowerCase()
-        .includes("moderate")
-    ){
-
-        score += 15;
-        factors.push("Moderate current activity");
-
-    }
-
-    else{
-
-        score += 5;
-
-    }
+  if (
+    current.includes("strong")
+  ) {
+    score += 25;
+    factors.push(
+      "Strong current edge"
+    );
+  } else if (
+    current.includes("moderate")
+  ) {
+    score += 15;
+    factors.push(
+      "Moderate current activity"
+    );
+  } else if (current) {
+    score += 5;
+    factors.push(
+      "Light current activity"
+    );
+  } else {
+    factors.push(
+      "Current data unavailable"
+    );
+  }
 
 
+  // Chlorophyll evaluation
 
-    // Chlorophyll
+  if (
+    chlorophyll.includes("high")
+  ) {
+    score += 20;
+    factors.push(
+      "High chlorophyll productivity"
+    );
+  } else if (
+    chlorophyll.includes("moderate")
+  ) {
+    score += 15;
+    factors.push(
+      "Moderate chlorophyll productivity"
+    );
+  } else if (
+    chlorophyll.includes("low")
+  ) {
+    score += 8;
+    factors.push(
+      "Low chlorophyll concentration"
+    );
+  } else {
+    factors.push(
+      "Chlorophyll data unavailable"
+    );
+  }
 
-    if(
-        spot.conditions.chlorophyll === "High"
-    ){
 
-        score +=25;
-        factors.push("High biological activity");
-
-    }
-
-    else if(
-        spot.conditions.chlorophyll === "Moderate"
-    ){
-
-        score +=15;
-
-    }
-
-    else{
-
-        score +=5;
-
-    }
-
-
-
-    return {
-
-        score: Math.min(score,100),
-
-        factors
-
-    };
-
+  return {
+    score,
+    factors
+  };
 }

@@ -62,6 +62,17 @@ const isDrillShip =
   String(spot.type || "")
     .toLowerCase()
     .includes("rig");
+
+
+    const currentZoom =
+  map.getZoom();
+
+if (
+  isPlatform &&
+  currentZoom < 8
+) {
+  return;
+}
   
 
 const isFad =
@@ -172,16 +183,37 @@ markerButton.innerHTML = isDrillShip
       });
     };
 
-    if (map.loaded()) {
-      createMarkers();
-    } else {
-      map.once("load", createMarkers);
-    }
+    const refreshMarkers = () => {
+  createMarkers();
+};
+
+if (map.loaded()) {
+  createMarkers();
+} else {
+  map.once(
+    "load",
+    createMarkers
+  );
+}
+
+map.on(
+  "zoomend",
+  refreshMarkers
+);
 
     return () => {
-      map.off("load", createMarkers);
-      removeMarkers();
-    };
+  map.off(
+    "load",
+    createMarkers
+  );
+
+  map.off(
+    "zoomend",
+    refreshMarkers
+  );
+
+  removeMarkers();
+};
   }, [
     mapRef,
     structures,

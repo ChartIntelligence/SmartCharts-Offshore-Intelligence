@@ -21,7 +21,7 @@ export function useMapLibreSelection({
         selectedSpot.coordinates[0]
       ],
 
-      zoom: 7.5,
+      zoom: 10,
 
       duration: 1400,
 

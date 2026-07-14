@@ -67,6 +67,16 @@ export function useMapLibreLayers({
         layers.blackfin
       );
 
+      setVisibility(
+  "structure-clusters",
+  layers.locations !== false
+);
+
+setVisibility(
+  "structure-cluster-count",
+  layers.locations !== false
+);
+
       /*
        * SST styling
        */
@@ -119,6 +129,22 @@ export function useMapLibreLayers({
           "blackfin-activity"
         );
       }
+
+      if (
+  map.getLayer("structure-clusters")
+) {
+  map.moveLayer(
+    "structure-clusters"
+  );
+}
+
+if (
+  map.getLayer("structure-cluster-count")
+) {
+  map.moveLayer(
+    "structure-cluster-count"
+  );
+}
     };
 
     if (map.isStyleLoaded()) {
@@ -144,5 +170,6 @@ export function useMapLibreLayers({
     layers.marlinOpacity,
     layers.yellowfin,
     layers.blackfin,
+    layers.locations,
   ]);
 }

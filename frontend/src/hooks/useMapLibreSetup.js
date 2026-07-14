@@ -5,6 +5,7 @@ export function useMapLibreSetup({
   containerRef,
   mapRef,
   geoJson,
+  structureClusterGeoJson,
   layers,
 }) {
   useEffect(() => {
@@ -28,259 +29,620 @@ export function useMapLibreSetup({
       attributionControl: true,
     });
 
+    /*
+     * Set this immediately so React development mode
+     * cannot create a second map during initialization.
+     */
+    mapRef.current = map;
+
     map.addControl(
       new maplibregl.NavigationControl({
         showCompass: true,
         showZoom: true,
       }),
-
       "top-right"
     );
 
-    map.on("load", () => {
-      map.addSource(
-        "smartcharts-locations",
-        {
-          type: "geojson",
-          data: geoJson,
-        }
-      );
+    const initializeMap = () => {
+      /*
+       * Stop if this map was removed during a hot reload.
+       */
+      if (!mapRef.current) {
+        return;
+      }
 
-      map.addLayer({
-        id: "sst-overlay",
+      if (
+        !map.getSource(
+          "smartcharts-locations"
+        )
+      ) {
+        map.addSource(
+          "smartcharts-locations",
+          {
+            type: "geojson",
+            data: geoJson,
+          }
+        );
+      }
 
-        type: "circle",
+      if (
+        !map.getSource(
+          "velion-structure-clusters"
+        )
+      ) {
+        map.addSource(
+          "velion-structure-clusters",
+          {
+            type: "geojson",
 
-        source: "smartcharts-locations",
+            data:
+              structureClusterGeoJson ?? {
+                type: "FeatureCollection",
+                features: [],
+              },
 
-        layout: {
-          visibility:
-            layers.sst
-              ? "visible"
-              : "none",
-        },
+            cluster: true,
 
-        paint: {
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
+            clusterMaxZoom: 8,
 
-            3,
-            35,
+            clusterRadius: 55,
+          }
+        );
+      }
 
-            6,
-            80,
 
-            9,
-            145,
+      if (!map.getLayer("sst-overlay")) {
+        map.addLayer({
+          id: "sst-overlay",
+
+          type: "circle",
+
+          source: "smartcharts-locations",
+
+          layout: {
+            visibility:
+              layers.sst
+                ? "visible"
+                : "none",
+          },
+
+          paint: {
+            "circle-radius": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+
+              3,
+              35,
+
+              6,
+              80,
+
+              9,
+              145,
+            ],
+
+            "circle-color": [
+              "interpolate",
+              ["linear"],
+              ["coalesce", ["get", "sst"], 78],
+
+              76,
+              "#173f73",
+
+              78,
+              "#2468a2",
+
+              79,
+              "#2f91b7",
+
+              80,
+              "#45b8bd",
+
+              81,
+              "#78d2c4",
+
+              82,
+              "#d8e7a8",
+
+              84,
+              "#f1d27a",
+            ],
+
+            "circle-opacity":
+              layers.sstOpacity ?? 0.24,
+
+            "circle-blur": 0.6,
+
+            "circle-stroke-width": 0,
+          },
+        });
+      }
+
+
+      if (
+        !map.getLayer(
+          "blue-marlin-heatmap"
+        )
+      ) {
+        map.addLayer({
+          id: "blue-marlin-heatmap",
+
+          type: "heatmap",
+
+          source: "smartcharts-locations",
+
+          maxzoom: 10,
+
+          layout: {
+            visibility:
+              layers.marlin
+                ? "visible"
+                : "none",
+          },
+
+          paint: {
+            "heatmap-weight": [
+              "interpolate",
+              ["linear"],
+              ["coalesce", ["get", "score"], 0],
+
+              0,
+              0,
+
+              100,
+              1,
+            ],
+
+            "heatmap-intensity": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+
+              3,
+              0.8,
+
+              8,
+              2.3,
+            ],
+
+            "heatmap-radius": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+
+              3,
+              35,
+
+              8,
+              80,
+            ],
+
+            "heatmap-opacity":
+              layers.marlinOpacity ?? 0.62,
+
+            "heatmap-color": [
+              "interpolate",
+              ["linear"],
+              ["heatmap-density"],
+
+              0,
+              "rgba(255, 215, 0, 0)",
+
+              0.18,
+              "rgba(255, 210, 70, 0.2)",
+
+              0.38,
+              "rgba(255, 174, 35, 0.45)",
+
+              0.58,
+              "rgba(255, 113, 20, 0.68)",
+
+              0.76,
+              "rgba(235, 55, 18, 0.82)",
+
+              0.9,
+              "rgba(170, 20, 10, 0.92)",
+
+              1,
+              "rgba(85, 0, 0, 0.98)",
+            ],
+          },
+        });
+      }
+
+
+      if (
+        !map.getLayer(
+          "yellowfin-activity"
+        )
+      ) {
+        map.addLayer({
+          id: "yellowfin-activity",
+
+          type: "circle",
+
+          source: "smartcharts-locations",
+
+          filter: [
+  "all",
+
+  [
+    "==",
+    ["get", "category"],
+    "intelligence_zone",
+  ],
+
+  [
+    ">",
+    [
+      "coalesce",
+      ["get", "yellowfin"],
+      0,
+    ],
+    0,
+  ],
+],
+
+          layout: {
+            visibility:
+              layers.yellowfin
+                ? "visible"
+                : "none",
+          },
+
+          paint: {
+            "circle-radius": [
+              "interpolate",
+              ["linear"],
+              [
+                "coalesce",
+                ["get", "yellowfin"],
+                0,
+              ],
+
+              0,
+              0,
+
+              100,
+              28,
+            ],
+
+            "circle-color": "#ffd700",
+
+            "circle-opacity": 0.2,
+
+            "circle-stroke-color":
+              "#ffd700",
+
+            "circle-stroke-width": 1,
+          },
+        });
+      }
+
+
+
+      if (
+        !map.getLayer(
+          "blackfin-activity"
+        )
+      ) {
+        map.addLayer({
+          id: "blackfin-activity",
+
+          type: "circle",
+
+          source: "smartcharts-locations",
+
+          filter: [
+  "all",
+
+  [
+    "==",
+    ["get", "category"],
+    "intelligence_zone",
+  ],
+
+  [
+    ">",
+    [
+      "coalesce",
+      ["get", "blackfin"],
+      0,
+    ],
+    0,
+  ],
+],
+
+          layout: {
+            visibility:
+              layers.blackfin
+                ? "visible"
+                : "none",
+          },
+
+          paint: {
+            "circle-radius": [
+              "interpolate",
+              ["linear"],
+              [
+                "coalesce",
+                ["get", "blackfin"],
+                0,
+              ],
+
+              0,
+              0,
+
+              100,
+              23,
+            ],
+
+            "circle-color": "#111111",
+
+            "circle-opacity": 0.25,
+
+            "circle-stroke-color":
+              "#9aa7af",
+
+            "circle-stroke-width": 1,
+          },
+        });
+      }
+
+
+      if (
+        !map.getLayer(
+          "structure-clusters"
+        )
+      ) {
+        map.addLayer({
+          id: "structure-clusters",
+
+          type: "circle",
+
+          source:
+            "velion-structure-clusters",
+
+          filter: [
+            "has",
+            "point_count",
           ],
 
-          "circle-color": [
-            "interpolate",
-            ["linear"],
-            ["get", "sst"],
+          layout: {
+            visibility:
+              layers.locations !== false
+                ? "visible"
+                : "none",
+          },
 
-            76,
-            "#173f73",
+          paint: {
+            "circle-color": [
+              "step",
+              ["get", "point_count"],
 
-            78,
-            "#2468a2",
+              "#183f59",
 
-            79,
-            "#2f91b7",
+              10,
+              "#175c78",
 
-            80,
-            "#45b8bd",
+              30,
+              "#137b91",
 
-            81,
-            "#78d2c4",
+              75,
+              "#0d9aaa",
+            ],
 
-            82,
-            "#d8e7a8",
+            "circle-radius": [
+              "step",
+              ["get", "point_count"],
 
-            84,
-            "#f1d27a",
+              17,
+
+              10,
+              21,
+
+              30,
+              26,
+
+              75,
+              32,
+            ],
+
+            "circle-stroke-color":
+              "rgba(255, 255, 255, 0.85)",
+
+            "circle-stroke-width": 2,
+
+            "circle-opacity": 0.92,
+          },
+        });
+      }
+
+
+      if (
+        !map.getLayer(
+          "structure-cluster-count"
+        )
+      ) {
+        map.addLayer({
+          id: "structure-cluster-count",
+
+          type: "symbol",
+
+          source:
+            "velion-structure-clusters",
+
+          filter: [
+            "has",
+            "point_count",
           ],
 
-          "circle-opacity":
-            layers.sstOpacity ?? 0.24,
+          layout: {
+            visibility:
+              layers.locations !== false
+                ? "visible"
+                : "none",
 
-          "circle-blur": 0.6,
+            "text-field": [
+              "get",
+              "point_count_abbreviated",
+            ],
 
-          "circle-stroke-width": 0,
-        },
-      });
+            "text-size": 13,
 
-      map.addLayer({
-        id: "blue-marlin-heatmap",
+            /*
+             * Do not specify a custom font.
+             * The demo style will use its
+             * available default font.
+             */
+            "text-allow-overlap": true,
+          },
 
-        type: "heatmap",
+          paint: {
+            "text-color": "#ffffff",
+          },
+        });
+      }
+    };
 
-        source: "smartcharts-locations",
 
-        maxzoom: 10,
+    const handleClusterClick = async (
+      event
+    ) => {
+      const features =
+        map.queryRenderedFeatures(
+          event.point,
+          {
+            layers: [
+              "structure-clusters",
+            ],
+          }
+        );
 
-        layout: {
-          visibility:
-            layers.marlin
-              ? "visible"
-              : "none",
-        },
+      const clusterFeature =
+        features[0];
 
-        paint: {
-          "heatmap-weight": [
-            "interpolate",
-            ["linear"],
-            ["get", "score"],
+      if (!clusterFeature) {
+        return;
+      }
 
-            0,
-            0,
+      const clusterId =
+        clusterFeature.properties
+          ?.cluster_id;
 
-            100,
-            1,
-          ],
+      const source =
+        map.getSource(
+          "velion-structure-clusters"
+        );
 
-          "heatmap-intensity": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
+      if (
+        clusterId === undefined ||
+        !source
+      ) {
+        return;
+      }
 
-            3,
-            0.8,
+      try {
+        const zoom =
+          await source
+            .getClusterExpansionZoom(
+              clusterId
+            );
 
-            8,
-            2.3,
-          ],
+        map.easeTo({
+          center:
+            clusterFeature.geometry
+              .coordinates,
 
-          "heatmap-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
+          zoom:
+            Math.min(zoom, 10),
 
-            3,
-            35,
+          duration: 550,
+        });
+      } catch (error) {
+        console.error(
+          "Unable to expand structure cluster:",
+          error
+        );
+      }
+    };
 
-            8,
-            80,
-          ],
 
-          "heatmap-opacity":
-            layers.marlinOpacity ?? 0.62,
+    const showClusterPointer = () => {
+      map.getCanvas().style.cursor =
+        "pointer";
+    };
 
-          "heatmap-color": [
-            "interpolate",
-            ["linear"],
-            ["heatmap-density"],
 
-            0,
-            "rgba(255, 215, 0, 0)",
+    const hideClusterPointer = () => {
+      map.getCanvas().style.cursor =
+        "";
+    };
 
-            0.18,
-            "rgba(255, 210, 70, 0.2)",
 
-            0.38,
-            "rgba(255, 174, 35, 0.45)",
+    /*
+     * `once` prevents repeated initialization
+     * during hot reload.
+     */
+    map.once(
+      "load",
+      initializeMap
+    );
 
-            0.58,
-            "rgba(255, 113, 20, 0.68)",
+    map.on(
+      "click",
+      "structure-clusters",
+      handleClusterClick
+    );
 
-            0.76,
-            "rgba(235, 55, 18, 0.82)",
+    map.on(
+      "mouseenter",
+      "structure-clusters",
+      showClusterPointer
+    );
 
-            0.9,
-            "rgba(170, 20, 10, 0.92)",
+    map.on(
+      "mouseleave",
+      "structure-clusters",
+      hideClusterPointer
+    );
 
-            1,
-            "rgba(85, 0, 0, 0.98)",
-          ],
-        },
-      });
-
-      map.addLayer({
-        id: "yellowfin-activity",
-
-        type: "circle",
-
-        source: "smartcharts-locations",
-
-        layout: {
-          visibility:
-            layers.yellowfin
-              ? "visible"
-              : "none",
-        },
-
-        paint: {
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["get", "yellowfin"],
-
-            0,
-            5,
-
-            100,
-            28,
-          ],
-
-          "circle-color": "#ffd700",
-
-          "circle-opacity": 0.2,
-
-          "circle-stroke-color": "#ffd700",
-
-          "circle-stroke-width": 1,
-        },
-      });
-
-      map.addLayer({
-        id: "blackfin-activity",
-
-        type: "circle",
-
-        source: "smartcharts-locations",
-
-        layout: {
-          visibility:
-            layers.blackfin
-              ? "visible"
-              : "none",
-        },
-
-        paint: {
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["get", "blackfin"],
-
-            0,
-            5,
-
-            100,
-            23,
-          ],
-
-          "circle-color": "#111111",
-
-          "circle-opacity": 0.25,
-
-          "circle-stroke-color": "#9aa7af",
-
-          "circle-stroke-width": 1,
-        },
-      });
-    });
-
-    mapRef.current = map;
 
     return () => {
+      map.off(
+        "load",
+        initializeMap
+      );
+
+      map.off(
+        "click",
+        "structure-clusters",
+        handleClusterClick
+      );
+
+      map.off(
+        "mouseenter",
+        "structure-clusters",
+        showClusterPointer
+      );
+
+      map.off(
+        "mouseleave",
+        "structure-clusters",
+        hideClusterPointer
+      );
+
       map.remove();
-      mapRef.current = null;
+
+      if (mapRef.current === map) {
+        mapRef.current = null;
+      }
     };
   }, [
     containerRef,
-    geoJson,
     mapRef,
+    geoJson,
+    structureClusterGeoJson,
   ]);
 }

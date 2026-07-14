@@ -20,28 +20,55 @@ function MapLibreIntelligenceMap({
   selectedSpot,
   setSelectedSpot
 }) {
-
   const containerRef = useRef(null);
   const mapRef = useRef(null);
 
+  /*
+   * All locations remain available to the intelligence overlays.
+   */
   const geoJson = useMemo(() => {
     return buildMapGeoJson(structures);
   }, []);
 
+  /*
+   * Only ordinary oil platforms and structures are clustered.
+   * Important fishing zones, FADs and drillships retain their icons.
+   */
+  const structureClusterGeoJson = useMemo(() => {
+    const clusterableStructures = structures.filter((spot) => {
+      const category = String(
+        spot.category || ""
+      ).toLowerCase();
+
+      const type = String(
+        spot.type || ""
+      ).toLowerCase();
+
+      return (
+        category === "structure" ||
+        category === "oil_platform" ||
+        type.includes("platform") ||
+        type.includes("rig")
+      );
+    });
+
+    return buildMapGeoJson(
+      clusterableStructures
+    );
+  }, []);
 
   useMapLibreSetup({
     containerRef,
     mapRef,
     geoJson,
+    structureClusterGeoJson,
     layers
   });
-
 
   useMapLibreLayers({
     mapRef,
     layers
   });
-
 
   useMapLibreMarkers({
     mapRef,
@@ -57,21 +84,18 @@ function MapLibreIntelligenceMap({
       layers.locationScores === true
   });
 
-
   useMapLibreSelection({
     mapRef,
     selectedSpot
   });
 
-
   return (
     <div
       ref={containerRef}
       className="map maplibre-map"
-      aria-label="SmartCharts offshore intelligence map"
+      aria-label="Velion offshore intelligence map"
     />
   );
 }
-
 
 export default MapLibreIntelligenceMap;
