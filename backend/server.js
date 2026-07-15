@@ -65,6 +65,12 @@ function writeJson(
       "Access-Control-Allow-Origin":
         "*",
 
+      "Access-Control-Allow-Methods":
+        "GET, OPTIONS",
+
+      "Access-Control-Allow-Headers":
+        "Content-Type",
+
       "Cache-Control":
         "no-store"
     }
@@ -98,6 +104,47 @@ async function fetchJson(url) {
 }
 
 
+function getCoordinates(requestUrl) {
+  const requestedLatitude =
+    Number(
+      requestUrl.searchParams.get("lat")
+    );
+
+  const requestedLongitude =
+    Number(
+      requestUrl.searchParams.get("lon")
+    );
+
+  const latitude =
+    Number.isFinite(requestedLatitude)
+      ? requestedLatitude
+      : DEFAULT_LATITUDE;
+
+  const longitude =
+    Number.isFinite(requestedLongitude)
+      ? requestedLongitude
+      : DEFAULT_LONGITUDE;
+
+  return {
+    latitude,
+    longitude
+  };
+}
+
+
+function coordinatesAreValid(
+  latitude,
+  longitude
+) {
+  return (
+    latitude >= 15 &&
+    latitude <= 32 &&
+    longitude >= -100 &&
+    longitude <= -75
+  );
+}
+
+
 async function getMarineConditions(
   latitude,
   longitude
@@ -118,9 +165,9 @@ async function getMarineConditions(
   );
 
   weatherUrl.searchParams.set(
-  "cell_selection",
-  "sea"
-);
+    "cell_selection",
+    "sea"
+  );
 
   weatherUrl.searchParams.set(
     "current",
@@ -158,9 +205,9 @@ async function getMarineConditions(
   );
 
   marineUrl.searchParams.set(
-  "cell_selection",
-  "sea"
-);
+    "cell_selection",
+    "sea"
+  );
 
   marineUrl.searchParams.set(
     "current",
@@ -268,6 +315,7 @@ async function getMarineConditions(
 
     source: {
       provider: "Open-Meteo",
+
       weatherModel:
         weather?.current_units
           ? "Weather Forecast API"
@@ -282,6 +330,75 @@ async function getMarineConditions(
 }
 
 
+async function getOceanConditions(
+  latitude,
+  longitude
+) {
+  const marine =
+    await getMarineConditions(
+      latitude,
+      longitude
+    );
+
+  return {
+    location:
+      marine.location,
+
+    observedAt:
+      marine.observedAt,
+
+    lastUpdated:
+      marine.retrievedAt,
+
+    status: {
+      wind: "live",
+      waves: "live",
+      swell: "live",
+      sst: "not-connected",
+      chlorophyll: "not-connected",
+      currents: "not-connected",
+      moon: "not-connected"
+    },
+
+    wind:
+      marine.wind,
+
+    waves:
+      marine.waves,
+
+    swell:
+      marine.swell,
+
+    sst: {
+      temperatureFahrenheit: null,
+      source: null
+    },
+
+    chlorophyll: {
+      concentrationMgM3: null,
+      waterClassification: null,
+      source: null
+    },
+
+    currents: {
+      speedKnots: null,
+      directionDegrees: null,
+      source: null
+    },
+
+    moon: {
+      phase: null,
+      illuminationPercent: null
+    },
+
+    source: {
+      marine:
+        marine.source
+    }
+  };
+}
+
+
 const server =
   http.createServer(
     async (
@@ -289,6 +406,19 @@ const server =
       response
     ) => {
       try {
+        if (
+          request.method === "OPTIONS"
+        ) {
+          writeJson(
+            response,
+            204,
+            {}
+          );
+
+          return;
+        }
+
+
         const requestUrl =
           new URL(
             request.url,
@@ -306,8 +436,9 @@ const server =
             200,
             {
               status: "ok",
+
               service:
-                "Velion Live Data API",
+                "Velion Ocean Engine",
 
               time:
                 new Date()
@@ -324,38 +455,17 @@ const server =
           requestUrl.pathname ===
             "/api/live/marine"
         ) {
-          const requestedLatitude =
-            Number(
-              requestUrl.searchParams
-                .get("lat")
-            );
-
-          const requestedLongitude =
-            Number(
-              requestUrl.searchParams
-                .get("lon")
-            );
-
-          const latitude =
-            Number.isFinite(
-              requestedLatitude
-            )
-              ? requestedLatitude
-              : DEFAULT_LATITUDE;
-
-          const longitude =
-            Number.isFinite(
-              requestedLongitude
-            )
-              ? requestedLongitude
-              : DEFAULT_LONGITUDE;
+          const {
+            latitude,
+            longitude
+          } = getCoordinates(requestUrl);
 
 
           if (
-            latitude < 15 ||
-            latitude > 32 ||
-            longitude < -100 ||
-            longitude > -75
+            !coordinatesAreValid(
+              latitude,
+              longitude
+            )
           ) {
             writeJson(
               response,
@@ -376,10 +486,58 @@ const server =
               longitude
             );
 
+
           writeJson(
             response,
             200,
             conditions
+          );
+
+          return;
+        }
+
+
+        if (
+          request.method === "GET" &&
+          requestUrl.pathname ===
+            "/api/ocean"
+        ) {
+          const {
+            latitude,
+            longitude
+          } = getCoordinates(requestUrl);
+
+
+          if (
+            !coordinatesAreValid(
+              latitude,
+              longitude
+            )
+          ) {
+            writeJson(
+              response,
+              400,
+              {
+                error:
+                  "Coordinates must be within the Gulf region."
+              }
+            );
+
+            return;
+          }
+
+
+          const oceanConditions =
+            await getOceanConditions(
+              latitude,
+              longitude
+            );
+
+
+          writeJson(
+            response,
+            200,
+            oceanConditions
           );
 
           return;
@@ -404,7 +562,7 @@ const server =
           502,
           {
             error:
-              "Unable to retrieve live marine conditions.",
+              "Unable to retrieve ocean conditions.",
 
             details:
               error instanceof Error
@@ -422,7 +580,7 @@ server.listen(
   "0.0.0.0",
   () => {
     console.log(
-      `Velion API running on port ${PORT}`
+      `Velion Ocean Engine running on port ${PORT}`
     );
 
     console.log(
@@ -431,6 +589,10 @@ server.listen(
 
     console.log(
       `Marine: http://localhost:${PORT}/api/live/marine`
+    );
+
+    console.log(
+      `Ocean: http://localhost:${PORT}/api/ocean`
     );
   }
 );
