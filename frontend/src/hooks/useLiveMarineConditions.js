@@ -52,7 +52,7 @@ export function useLiveMarineConditions(
      try {
   const response =
     await fetch(
-      `/api/ocean?lat=${latitude}&lon=${longitude}&t=${Date.now()}`,
+  `https://velion-ocean-engine.onrender.com/api/ocean?lat=${latitude}&lon=${longitude}&t=${Date.now()}`,
       {
         signal:
           controller.signal,
