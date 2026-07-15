@@ -87,6 +87,7 @@ setVisibility(
         layers.sstOpacity ?? 0.28
       );
 
+
       /*
        * Blue marlin heatmap styling
        */
@@ -104,6 +105,16 @@ setVisibility(
        * Marlin probability remains above SST.
        * Tuna activity remains above both.
        */
+
+      if (
+  map.getLayer(
+    "chlorophyll-raster"
+  )
+) {
+  map.moveLayer(
+    "chlorophyll-raster"
+  );
+}
 
       if (
         map.getLayer("sst-overlay") &&

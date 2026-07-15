@@ -90,6 +90,11 @@ export function useMapLibreSetup({
         );
       }
 
+      /*
+ * Use yesterday's UTC date because today's
+ * satellite composite may still be incomplete.
+ */
+
 
       if (!map.getLayer("sst-overlay")) {
         map.addLayer({

@@ -36,6 +36,7 @@ function Dashboard() {
     sstOpacity: 0.32,
 
     chlorophyll: false,
+    chlorophyllOpacity: 0.7,
     currents: false,
     temperatureBreaks: false,
     baitProbability: false

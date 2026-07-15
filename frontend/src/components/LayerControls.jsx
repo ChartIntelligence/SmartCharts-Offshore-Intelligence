@@ -93,6 +93,55 @@ const activeLayerCount =
 
             </label>
 
+            {layers.chlorophyll && (
+
+  <div className="layer-opacity-control">
+
+    <div className="layer-opacity-label">
+
+      <span>
+        Chlorophyll Opacity
+      </span>
+
+      <strong>
+        {Math.round(
+          (layers.chlorophyllOpacity ?? 0.7) *
+          100
+        )}%
+      </strong>
+
+    </div>
+
+
+    <input
+      type="range"
+      min="0"
+      max="1"
+      step="0.05"
+      value={
+        layers.chlorophyllOpacity ??
+        0.7
+      }
+      onChange={(event) => {
+        const opacity =
+          Number(
+            event.target.value
+          );
+
+        setLayers(
+          (currentLayers) => ({
+            ...currentLayers,
+            chlorophyllOpacity:
+              opacity
+          })
+        );
+      }}
+    />
+
+  </div>
+
+)}
+
           </div>
 
 
