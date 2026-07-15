@@ -42,6 +42,22 @@ function metersToFeet(value) {
 }
 
 
+/*
+ * Convert Celsius to Fahrenheit.
+ */
+function celsiusToFahrenheit(value) {
+  const number = Number(value);
+
+  if (!Number.isFinite(number)) {
+    return null;
+  }
+
+  return Number(
+    ((number * 9) / 5 + 32).toFixed(1)
+  );
+}
+
+
 function safeNumber(value) {
   const number = Number(value);
 
@@ -209,17 +225,18 @@ async function getMarineConditions(
     "sea"
   );
 
-  marineUrl.searchParams.set(
-    "current",
-    [
-      "wave_height",
-      "wave_direction",
-      "wave_period",
-      "swell_wave_height",
-      "swell_wave_direction",
-      "swell_wave_period"
-    ].join(",")
-  );
+ marineUrl.searchParams.set(
+  "current",
+  [
+    "wave_height",
+    "wave_direction",
+    "wave_period",
+    "swell_wave_height",
+    "swell_wave_direction",
+    "swell_wave_period",
+    "sea_surface_temperature"
+  ].join(",")
+);
 
   marineUrl.searchParams.set(
     "timezone",
@@ -313,6 +330,20 @@ async function getMarineConditions(
         )
     },
 
+
+    sst: {
+  temperatureFahrenheit:
+    celsiusToFahrenheit(
+      waves.sea_surface_temperature
+    ),
+
+  temperatureCelsius:
+    safeNumber(
+      waves.sea_surface_temperature
+    )
+},
+
+
     source: {
       provider: "Open-Meteo",
 
@@ -354,7 +385,12 @@ async function getOceanConditions(
       wind: "live",
       waves: "live",
       swell: "live",
-      sst: "not-connected",
+     sst:
+  Number.isFinite(
+    marine.sst?.temperatureFahrenheit
+  )
+    ? "live"
+    : "unavailable",
       chlorophyll: "not-connected",
       currents: "not-connected",
       moon: "not-connected"
@@ -370,9 +406,19 @@ async function getOceanConditions(
       marine.swell,
 
     sst: {
-      temperatureFahrenheit: null,
-      source: null
-    },
+  temperatureFahrenheit:
+    marine.sst?.temperatureFahrenheit ??
+    null,
+
+  temperatureCelsius:
+    marine.sst?.temperatureCelsius ??
+    null,
+
+  source: {
+    provider: "Open-Meteo",
+    classification: "forecast-model"
+  }
+},
 
     chlorophyll: {
       concentrationMgM3: null,
