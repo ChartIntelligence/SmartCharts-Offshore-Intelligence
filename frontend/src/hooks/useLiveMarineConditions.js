@@ -84,12 +84,15 @@ export function useLiveMarineConditions(
           requestError
         );
 
-        setData(null);
+        /*
+ * Keep the last successful conditions visible
+ * during a temporary upstream failure.
+ */
+setError(
+  requestError.message ||
+  "Live data temporarily unavailable."
+);
 
-        setError(
-          requestError.message ||
-          "Unable to load marine conditions."
-        );
       } finally {
         if (
           !controller.signal.aborted
@@ -109,7 +112,7 @@ export function useLiveMarineConditions(
     const refreshTimer =
   window.setInterval(
     loadConditions,
-    5 * 60 * 1000
+    15 * 60 * 1000
   );
 
   const retryTimer =
@@ -138,10 +141,13 @@ export function useLiveMarineConditions(
 
 
   return {
-    data,
-    loading,
-    error
-  };
+  data,
+  loading,
+  error:
+    data
+      ? null
+      : error
+};
 }
 
 

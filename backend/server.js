@@ -245,12 +245,51 @@ async function getMarineConditions(
 
 
   const [
-    weather,
-    marine
-  ] = await Promise.all([
-    fetchJson(weatherUrl),
-    fetchJson(marineUrl)
-  ]);
+  weatherResult,
+  marineResult
+] = await Promise.allSettled([
+  fetchJson(weatherUrl),
+  fetchJson(marineUrl)
+]);
+
+
+const weather =
+  weatherResult.status === "fulfilled"
+    ? weatherResult.value
+    : null;
+
+
+const marine =
+  marineResult.status === "fulfilled"
+    ? marineResult.value
+    : null;
+
+
+if (!weather && !marine) {
+  throw new Error(
+    "Both weather and marine data providers are temporarily unavailable."
+  );
+}
+
+
+if (
+  weatherResult.status === "rejected"
+) {
+  console.warn(
+    "Weather data request failed:",
+    weatherResult.reason
+  );
+}
+
+
+if (
+  marineResult.status === "rejected"
+) {
+  console.warn(
+    "Marine data request failed:",
+    marineResult.reason
+  );
+}
 
 
   const wind =
@@ -274,10 +313,17 @@ async function getMarineConditions(
     retrievedAt:
       new Date().toISOString(),
 
-    classification: {
-      wind: "forecast-model",
-      waves: "forecast-model"
-    },
+   classification: {
+  wind:
+    weather
+      ? "forecast-model"
+      : "unavailable",
+
+  waves:
+    marine
+      ? "forecast-model"
+      : "unavailable"
+},
 
     wind: {
       speedKnots:
@@ -381,10 +427,27 @@ async function getOceanConditions(
     lastUpdated:
       marine.retrievedAt,
 
-    status: {
-      wind: "live",
-      waves: "live",
-      swell: "live",
+      status: {
+  wind:
+    Number.isFinite(
+      marine.wind?.speedKnots
+    )
+      ? "live"
+      : "unavailable",
+
+  waves:
+    Number.isFinite(
+      marine.waves?.heightFeet
+    )
+      ? "live"
+      : "unavailable",
+
+  swell:
+    Number.isFinite(
+      marine.swell?.heightFeet
+    )
+      ? "live"
+      : "unavailable",
      sst:
   Number.isFinite(
     marine.sst?.temperatureFahrenheit
