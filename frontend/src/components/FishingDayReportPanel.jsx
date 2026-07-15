@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { supabase } from "../lib/supabase";
 
 const INITIAL_SPECIES_RESULTS = {
   blueMarlin: {
@@ -84,6 +85,9 @@ function createInitialReport() {
     tournament: "",
     date: new Date().toISOString().slice(0, 10),
 
+    visibility: "private",
+    shareIntelligence: false,
+
     linesIn: "",
     linesOut: "",
     hoursFished: "",
@@ -112,7 +116,8 @@ function FishingDayReportPanel({
   isOpen,
   onClose,
   onReportSaved,
-  structures = []
+  structures = [],
+  user
 }) {
 
   const [report, setReport] = useState(
@@ -247,50 +252,122 @@ function FishingDayReportPanel({
   };
 
 
-  const saveReport = (event) => {
-    event.preventDefault();
+  const saveReport = async (event) => {
+  event.preventDefault();
 
-    const storedReports =
-      JSON.parse(
-        localStorage.getItem(
-          "smartchartsFishingDayReports"
-        ) || "[]"
-      );
-
-    const savedReport = {
-      ...report,
-
-      id:
-        crypto.randomUUID?.() ||
-        `report-${Date.now()}`,
-
-      createdAt:
-        new Date().toISOString()
-    };
-
-    localStorage.setItem(
-      "smartchartsFishingDayReports",
-
-      JSON.stringify([
-        savedReport,
-        ...storedReports
-      ])
+  if (!user?.id) {
+    window.alert(
+      "Private storage is still initializing. Please try again in a moment."
     );
 
-    onReportSaved?.(savedReport);
-    
-    setReport(
-      createInitialReport()
-    );
+    return;
+  }
 
-    setAreaSearch("");
+  const reportRow = {
+    user_id: user.id,
+
+    trip_date: report.date,
+
+    captain_private:
+      report.captain,
+
+    boat_private:
+      report.boat,
+
+    tournament_private:
+      report.tournament || null,
+
+    lines_in:
+      report.linesIn || null,
+
+    lines_out:
+      report.linesOut || null,
+
+    hours_fished:
+      report.hoursFished === ""
+        ? null
+        : Number(report.hoursFished),
+
+    miles_run:
+      report.milesRun === ""
+        ? null
+        : Number(report.milesRun),
+
+    areas_fished:
+      report.areasFished,
+
+    bait_observed:
+      report.baitObserved,
+
+    bird_activity:
+      report.birdActivity,
+
+    water_color:
+      report.waterColor || null,
+
+    weed_condition:
+      report.weedCondition || null,
+
+    floating_structure:
+      report.floatingStructure,
+
+    species_results:
+      report.speciesResults,
+
+    trip_outcome:
+      report.tripOutcome || null,
+
+    information_source:
+      report.informationSource,
+
+    notes_private:
+      report.notes || null,
+
+    share_intelligence:
+      report.shareIntelligence === true
+  };
+
+  const {
+    data: savedRows,
+    error: saveError
+  } =
+    await supabase
+      .from("fishing_day_reports")
+      .insert(reportRow)
+      .select();
+
+  if (saveError) {
+    console.error(
+      "Unable to save fishing day:",
+      saveError
+    );
 
     window.alert(
-      "Fishing day report saved."
+      `Fishing day could not be saved: ${saveError.message}`
     );
 
-    onClose?.();
-  };
+    return;
+  }
+
+  const savedReport =
+    savedRows?.[0] ?? null;
+
+  onReportSaved?.(
+    savedReport
+  );
+
+  setReport(
+    createInitialReport()
+  );
+
+  setAreaSearch("");
+
+  window.alert(
+    "Fishing day saved privately to Velion."
+  );
+
+  onClose?.();
+};
 
 
   if (!isOpen) {
@@ -843,6 +920,46 @@ function FishingDayReportPanel({
               />
 
             </label>
+
+<div className="report-privacy-box">
+
+  <strong>
+    Private Captain Data
+  </strong>
+
+  <p>
+    This full fishing log is private.
+    Captain identity, boat identity and private
+    notes are never shared.
+  </p>
+
+  <label>
+
+    <input
+      type="checkbox"
+      checked={
+        report.shareIntelligence
+      }
+      onChange={(event) =>
+        updateField(
+          "shareIntelligence",
+          event.target.checked
+        )
+      }
+    />
+
+    <span>
+      Contribute anonymous fishing intelligence
+      to improve Velion.
+    </span>
+
+  </label>
+
+  <small>
+    Captain identity is never shared.
+  </small>
+
+</div>
 
           </ReportSection>
 
