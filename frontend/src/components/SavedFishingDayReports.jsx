@@ -4,35 +4,13 @@ import {
   useState
 } from "react";
 
-
-const STORAGE_KEY =
-  "smartchartsFishingDayReports";
-
-
-function readSavedReports() {
-  try {
-    const stored =
-      localStorage.getItem(STORAGE_KEY);
-
-    const parsed =
-      JSON.parse(stored || "[]");
-
-    return Array.isArray(parsed)
-      ? parsed
-      : [];
-  } catch (error) {
-    console.error(
-      "Unable to read saved fishing reports:",
-      error
-    );
-
-    return [];
-  }
-}
+import { supabase } from "../lib/supabase";
 
 
 function SavedFishingDayReports({
-  refreshToken = 0
+  refreshToken = 0,
+  user,
+  authLoading = false
 }) {
 
   const [reports, setReports] =
@@ -42,9 +20,55 @@ function SavedFishingDayReports({
     useState(null);
 
 
-  const loadReports = useCallback(() => {
-    setReports(readSavedReports());
-  }, []);
+  const loadReports = useCallback(
+  async () => {
+    if (!user?.id) {
+      setReports([]);
+      return;
+    }
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from(
+          "fishing_day_reports"
+        )
+        .select("*")
+        .order(
+          "trip_date",
+          {
+            ascending: false
+          }
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+    if (error) {
+      console.error(
+        "Unable to load fishing reports:",
+        error
+      );
+
+      return;
+    }
+
+    const normalizedReports =
+      (data || []).map(
+        normalizeSupabaseReport
+      );
+
+    setReports(
+      normalizedReports
+    );
+  },
+  [user?.id]
+);
 
 
   useEffect(() => {
@@ -55,35 +79,58 @@ function SavedFishingDayReports({
   ]);
 
 
-  const deleteReport = (reportId) => {
-    const confirmed =
-      window.confirm(
-        "Delete this fishing day report? This cannot be undone."
-      );
-
-    if (!confirmed) {
-      return;
-    }
-
-    const updatedReports =
-      reports.filter(
-        (report) =>
-          report.id !== reportId
-      );
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(updatedReports)
+ const deleteReport = async (
+  reportId
+) => {
+  const confirmed =
+    window.confirm(
+      "Delete this fishing day report? This cannot be undone."
     );
 
-    setReports(updatedReports);
+  if (!confirmed) {
+    return;
+  }
 
-    if (
-      expandedReportId === reportId
-    ) {
-      setExpandedReportId(null);
-    }
-  };
+  const {
+    error
+  } =
+    await supabase
+      .from(
+        "fishing_day_reports"
+      )
+      .delete()
+      .eq(
+        "id",
+        reportId
+      );
+
+  if (error) {
+    console.error(
+      "Unable to delete fishing report:",
+      error
+    );
+
+    window.alert(
+      `Report could not be deleted: ${error.message}`
+    );
+
+    return;
+  }
+
+  setReports(
+    (currentReports) =>
+      currentReports.filter(
+        (report) =>
+          report.id !== reportId
+      )
+  );
+
+  if (
+    expandedReportId === reportId
+  ) {
+    setExpandedReportId(null);
+  }
+};
 
 
   if (reports.length === 0) {
@@ -656,5 +703,77 @@ function formatSpeciesName(value) {
     );
 }
 
+
+function normalizeSupabaseReport(
+  row
+) {
+  return {
+    id:
+      row.id,
+
+    date:
+      row.trip_date,
+
+    captain:
+      row.captain_private,
+
+    boat:
+      row.boat_private,
+
+    tournament:
+      row.tournament_private,
+
+    linesIn:
+      row.lines_in,
+
+    linesOut:
+      row.lines_out,
+
+    hoursFished:
+      row.hours_fished,
+
+    milesRun:
+      row.miles_run,
+
+    areasFished:
+      row.areas_fished || [],
+
+    baitObserved:
+      row.bait_observed || [],
+
+    birdActivity:
+      row.bird_activity || [],
+
+    waterColor:
+      row.water_color,
+
+    weedCondition:
+      row.weed_condition,
+
+    floatingStructure:
+      row.floating_structure || [],
+
+    speciesResults:
+      row.species_results || {},
+
+    tripOutcome:
+      row.trip_outcome,
+
+    informationSource:
+      row.information_source,
+
+    notes:
+      row.notes_private,
+
+    shareIntelligence:
+      row.share_intelligence === true,
+
+    createdAt:
+      row.created_at,
+
+    updatedAt:
+      row.updated_at
+  };
+}
 
 export default SavedFishingDayReports;
