@@ -2,7 +2,12 @@ import { calculateBlueMarlinScore } from "../utils/scoreEngine";
 import { calculateConfidence } from "../utils/confidenceEngine";
 
 
-function SelectedTarget({ selectedSpot }) {
+function SelectedTarget({
+  selectedSpot,
+  oceanData,
+  oceanLoading,
+  oceanError
+}) {
 
   if (!selectedSpot) {
     return (
@@ -192,6 +197,93 @@ const positionFreshness =
       </div>
 
 
+<div className="selected-live-conditions">
+
+  <h3>
+    Live Ocean Conditions
+  </h3>
+
+  {oceanLoading && (
+    <p>
+      Loading live conditions...
+    </p>
+  )}
+
+  {oceanError && (
+    <p>
+      Live conditions unavailable: {oceanError}
+    </p>
+  )}
+
+  {!oceanLoading &&
+    !oceanError &&
+    oceanData && (
+      <div className="selected-target-grid">
+
+        <div>
+          <span>Wind</span>
+
+          <strong>
+            {formatWind(oceanData.wind)}
+          </strong>
+        </div>
+
+        <div>
+          <span>Wind Gusts</span>
+
+          <strong>
+            {formatKnots(
+              oceanData.wind?.gustKnots
+            )}
+          </strong>
+        </div>
+
+        <div>
+          <span>Wave Height</span>
+
+          <strong>
+            {formatFeet(
+              oceanData.waves?.heightFeet
+            )}
+          </strong>
+        </div>
+
+        <div>
+          <span>Wave Period</span>
+
+          <strong>
+            {formatSeconds(
+              oceanData.waves?.periodSeconds
+            )}
+          </strong>
+        </div>
+
+        <div>
+          <span>Swell</span>
+
+          <strong>
+            {formatSwell(
+              oceanData.swell
+            )}
+          </strong>
+        </div>
+
+        <div>
+          <span>Updated</span>
+
+          <strong>
+            {formatUpdatedTime(
+              oceanData.lastUpdated
+            )}
+          </strong>
+        </div>
+
+      </div>
+    )}
+
+</div>
+
+
       <div className="selected-recommendation">
 
         <h3>
@@ -250,6 +342,90 @@ function formatPositionStatus(value) {
     labels[value] ||
     "Verify Before Navigation"
   );
+}
+
+function formatKnots(value) {
+  return Number.isFinite(value)
+    ? `${value} kt`
+    : "Unavailable";
+}
+
+
+function formatFeet(value) {
+  return Number.isFinite(value)
+    ? `${value} ft`
+    : "Unavailable";
+}
+
+
+function formatSeconds(value) {
+  return Number.isFinite(value)
+    ? `${value} sec`
+    : "Unavailable";
+}
+
+
+function formatWind(wind) {
+  if (
+    !wind ||
+    !Number.isFinite(
+      wind.speedKnots
+    )
+  ) {
+    return "Unavailable";
+  }
+
+  const direction =
+    Number.isFinite(
+      wind.directionDegrees
+    )
+      ? ` from ${Math.round(
+          wind.directionDegrees
+        )}°`
+      : "";
+
+  return `${wind.speedKnots} kt${direction}`;
+}
+
+
+function formatSwell(swell) {
+  if (
+    !swell ||
+    !Number.isFinite(
+      swell.heightFeet
+    )
+  ) {
+    return "Unavailable";
+  }
+
+  const period =
+    Number.isFinite(
+      swell.periodSeconds
+    )
+      ? ` at ${swell.periodSeconds} sec`
+      : "";
+
+  return `${swell.heightFeet} ft${period}`;
+}
+
+
+function formatUpdatedTime(value) {
+  if (!value) {
+    return "Unavailable";
+  }
+
+  const date =
+    new Date(value);
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return "Unavailable";
+  }
+
+  return date.toLocaleString();
 }
 
 export default SelectedTarget;

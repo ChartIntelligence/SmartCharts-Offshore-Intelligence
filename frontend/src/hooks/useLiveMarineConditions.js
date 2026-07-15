@@ -49,17 +49,17 @@ export function useLiveMarineConditions(
       setLoading(true);
       setError(null);
 
-      try {
-        const response =
-       await fetch(
-      `/api/live/marine?lat=${latitude}&lon=${longitude}&t=${Date.now()}`,
-    {
-      signal:
-        controller.signal,
+     try {
+  const response =
+    await fetch(
+      `/api/ocean?lat=${latitude}&lon=${longitude}&t=${Date.now()}`,
+      {
+        signal:
+          controller.signal,
 
-      cache: "no-store"
-    }
-  );
+        cache: "no-store"
+      }
+    );
 
         if (!response.ok) {
           throw new Error(

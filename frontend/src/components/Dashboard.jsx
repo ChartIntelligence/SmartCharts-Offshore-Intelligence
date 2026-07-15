@@ -108,10 +108,20 @@ const topConfidence =
       )
     : 0;
 
-    const {
-  data: liveMarineData,
-  loading: liveMarineLoading,
-  error: liveMarineError
+// Selected location
+const {
+  data: selectedMarineData,
+  loading: selectedMarineLoading,
+  error: selectedMarineError
+} = useLiveMarineConditions(
+  selectedSpot
+);
+
+// Top opportunity
+const {
+  data: topSpotMarineData,
+  loading: topSpotMarineLoading,
+  error: topSpotMarineError
 } = useLiveMarineConditions(
   topSpot
 );
@@ -216,9 +226,9 @@ const topConfidence =
     setReportPanelOpen={
       setReportPanelOpen
     }
-      liveMarineData={liveMarineData}
-  liveMarineLoading={liveMarineLoading}
-  liveMarineError={liveMarineError}
+      liveMarineData={topSpotMarineData}
+  liveMarineLoading={topSpotMarineLoading}
+  liveMarineError={topSpotMarineError}
   />
 )}
 
@@ -302,8 +312,11 @@ const topConfidence =
 
 
           <SelectedTarget
-            selectedSpot={selectedSpot}
-          />
+  selectedSpot={selectedSpot}
+  oceanData={selectedMarineData}
+  oceanLoading={selectedMarineLoading}
+  oceanError={selectedMarineError}
+/>
 
         </main>
       )}
