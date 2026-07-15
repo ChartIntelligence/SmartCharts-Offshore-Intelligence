@@ -13,6 +13,7 @@ import FishingDayReportPanel from "./FishingDayReportPanel";
 import SavedFishingDayReports from "./SavedFishingDayReports";
 
 import structures from "../data/gulfLocations";
+import { useSupabaseAuth } from "../hooks/useSupabaseAuth";
 import {
   useLiveMarineConditions
 } from "../hooks/useLiveMarineConditions";
@@ -126,6 +127,21 @@ const {
 } = useLiveMarineConditions(
   topSpot
 );
+
+
+// Captain authentication
+const {
+  user,
+  loading: authLoading
+} = useSupabaseAuth();
+
+
+const handleReportSaved = () => {
+  setReportsRefreshToken(
+    (currentToken) =>
+      currentToken + 1
+  );
+};
 
 
   return (
@@ -445,11 +461,30 @@ const {
           </section>
 
 
-          <SavedFishingDayReports
-            refreshToken={
-              reportsRefreshToken
-            }
-          />
+          <section className="captain-sign-in signed-in">
+
+  <div>
+
+    <strong>
+      Private Captain Storage
+    </strong>
+
+    <p>
+      Fishing logs are securely stored for this
+      device. Captain identity is never shared.
+    </p>
+
+  </div>
+
+</section>
+
+
+<SavedFishingDayReports
+  refreshToken={reportsRefreshToken}
+  user={user}
+  authLoading={authLoading}
+/>
+
 
         </main>
       )}
@@ -520,21 +555,16 @@ const {
 
 
       <FishingDayReportPanel
-        isOpen={reportPanelOpen}
-        onClose={() =>
-          setReportPanelOpen(false)
-        }
-        onReportSaved={() => {
-          setReportsRefreshToken(
-            (current) =>
-              current + 1
-          );
-
-          setActiveTab("reports");
-        }}
-        structures={structures}
-      />
-
+  isOpen={reportPanelOpen}
+  onClose={() =>
+    setReportPanelOpen(false)
+  }
+  onReportSaved={
+    handleReportSaved
+  }
+  structures={structures}
+  user={user}
+/>
     </div>
   );
 }
