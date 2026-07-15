@@ -3019,3 +3019,888 @@
     0 4px 12px rgba(0, 0, 0, 0.75),
     0 0 0 3px rgba(98, 210, 255, 0.28);
 }
+
+
+/* =========================
+   VELION TODAY DASHBOARD
+========================= */
+
+.velion-today-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+
+  margin-bottom: 20px;
+  padding: 24px;
+
+  background: linear-gradient(
+    135deg,
+    #102b42,
+    #061827
+  );
+
+  border: 1px solid #1f506e;
+  border-radius: 14px;
+}
+
+.velion-today-copy h2 {
+  margin: 0;
+  color: white;
+  font-size: 2rem;
+}
+
+.velion-today-copy p {
+  color: #9ec9df;
+}
+
+.velion-data-status {
+  padding: 16px;
+
+  background: #081f30;
+
+  border: 1px solid #1f506e;
+  border-radius: 10px;
+}
+
+.velion-status-dot {
+  width: 10px;
+  height: 10px;
+
+  display: inline-block;
+
+  margin-right: 8px;
+
+  border-radius: 50%;
+
+  background: #f5b041;
+}
+
+
+/* =========================
+   VELION HOME COMMAND CENTER
+========================= */
+
+.velion-home {
+  display: grid;
+  gap: 18px;
+}
+
+.velion-home-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  padding: 26px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(98, 210, 255, 0.15),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #12324a,
+      #061827
+    );
+
+  border: 1px solid #275d78;
+  border-radius: 18px;
+
+  box-shadow:
+    0 15px 36px rgba(0, 0, 0, 0.3);
+}
+
+.velion-home-intro {
+  max-width: 720px;
+}
+
+.velion-home-intro h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(30px, 4vw, 46px);
+
+  line-height: 1.08;
+
+  letter-spacing: -1px;
+}
+
+.velion-home-intro > p:last-child {
+  max-width: 650px;
+
+  margin: 12px 0 0;
+
+  color: #a9cadb;
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.velion-live-status {
+  min-width: 235px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  background:
+    rgba(4, 20, 32, 0.78);
+
+  border: 1px solid #28739a;
+  border-radius: 12px;
+
+  box-shadow:
+    inset 0 0 18px
+    rgba(72, 198, 239, 0.05);
+}
+
+.velion-live-indicator {
+  width: 12px;
+  height: 12px;
+
+  flex: 0 0 12px;
+
+  background: #58d68d;
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 5px
+    rgba(88, 214, 141, 0.12),
+    0 0 15px
+    rgba(88, 214, 141, 0.8);
+}
+
+.velion-live-status strong,
+.velion-live-status small {
+  display: block;
+}
+
+.velion-live-status strong {
+  color: #ffffff;
+}
+
+.velion-live-status small {
+  margin-top: 3px;
+
+  color: #8fb6ca;
+}
+
+
+/* Main layout */
+
+.velion-command-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.5fr)
+    minmax(320px, 0.8fr);
+
+  gap: 18px;
+}
+
+
+/* Featured opportunity */
+
+.velion-featured-opportunity {
+  padding: 25px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255, 140, 66, 0.16),
+      transparent 36%
+    ),
+    linear-gradient(
+      145deg,
+      #12324a,
+      #071d2c
+    );
+
+  border:
+    1px solid rgba(
+      255,
+      140,
+      66,
+      0.5
+    );
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 15px 38px
+    rgba(0, 0, 0, 0.33),
+    0 0 26px
+    rgba(255, 140, 66, 0.08);
+}
+
+.velion-featured-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.velion-card-label {
+  margin: 0 0 7px;
+
+  color: #ff9f61;
+
+  font-size: 11px;
+  font-weight: 900;
+
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.velion-featured-topline h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(29px, 4vw, 43px);
+
+  line-height: 1.08;
+}
+
+.velion-location-meta {
+  margin: 9px 0 0;
+
+  color: #9ec9df;
+
+  font-size: 15px;
+}
+
+.velion-score-display {
+  width: 142px;
+  min-width: 142px;
+
+  padding: 16px 12px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #7b2e0b,
+      #3c1809
+    );
+
+  border: 1px solid #ff9f61;
+  border-radius: 14px;
+
+  box-shadow:
+    0 8px 22px
+    rgba(0, 0, 0, 0.36),
+    0 0 20px
+    rgba(255, 140, 66, 0.18);
+}
+
+.velion-score-display span,
+.velion-score-display small {
+  display: block;
+
+  color: #ffd4b8;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+}
+
+.velion-score-display strong {
+  display: block;
+
+  margin: 4px 0;
+
+  color: #ffffff;
+
+  font-size: 56px;
+  line-height: 1;
+}
+
+
+/* Confidence */
+
+.velion-confidence-panel {
+  margin-top: 20px;
+  padding: 14px;
+
+  background:
+    rgba(4, 20, 32, 0.76);
+
+  border: 1px solid #275d78;
+  border-radius: 11px;
+}
+
+.velion-confidence-panel > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.velion-confidence-panel span {
+  color: #9ec9df;
+}
+
+.velion-confidence-panel strong {
+  color: #58d68d;
+
+  font-size: 22px;
+}
+
+.velion-confidence-track {
+  height: 7px;
+
+  margin-top: 10px;
+
+  overflow: hidden;
+
+  background: #041520;
+
+  border-radius: 999px;
+}
+
+.velion-confidence-track span {
+  display: block;
+
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #1a9c78,
+      #58d68d
+    );
+
+  border-radius: inherit;
+
+  box-shadow:
+    0 0 12px
+    rgba(88, 214, 141, 0.45);
+}
+
+
+/* Why panel */
+
+.velion-why-panel {
+  margin-top: 18px;
+  padding: 17px;
+
+  background:
+    rgba(6, 24, 39, 0.72);
+
+  border: 1px solid #1f506e;
+  border-radius: 12px;
+}
+
+.velion-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.velion-title-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 38px;
+
+  color: #071722;
+  background: #ff8c42;
+
+  border-radius: 10px;
+
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.velion-title-icon.blue {
+  color: #041520;
+  background: #62d2ff;
+}
+
+.velion-section-title h3,
+.velion-section-title h4 {
+  margin: 0;
+
+  color: #ffffff;
+}
+
+.velion-section-title p {
+  margin: 4px 0 0;
+
+  color: #8fb6ca;
+
+  font-size: 12px;
+}
+
+.velion-reason-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+.velion-reason-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 11px;
+
+  background: #061827;
+
+  border: 1px solid #1f506e;
+  border-radius: 9px;
+}
+
+.velion-reason-check {
+  width: 27px;
+  height: 27px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 27px;
+
+  border-radius: 50%;
+
+  font-weight: 900;
+}
+
+.velion-reason-check.available {
+  color: #041520;
+  background: #58d68d;
+}
+
+.velion-reason-check.pending {
+  color: #f6c453;
+
+  border: 1px solid #f6c453;
+}
+
+.velion-reason-card small,
+.velion-reason-card strong {
+  display: block;
+}
+
+.velion-reason-card small {
+  color: #8fb6ca;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.velion-reason-card strong {
+  margin-top: 3px;
+
+  color: #ffffff;
+
+  font-size: 13px;
+}
+
+
+/* Opportunity actions */
+
+.velion-featured-actions {
+  display: flex;
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.velion-view-zone-button,
+.velion-analysis-button {
+  flex: 1;
+
+  min-height: 45px;
+
+  padding: 11px 15px;
+
+  border-radius: 9px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.velion-view-zone-button {
+  color: #071722;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff9f61,
+      #ff7b28
+    );
+
+  border: none;
+
+  box-shadow:
+    0 8px 18px
+    rgba(255, 140, 66, 0.24);
+}
+
+.velion-analysis-button {
+  color: #d9edf7;
+  background: transparent;
+
+  border: 1px solid #28739a;
+}
+
+
+/* Conditions panel */
+
+.velion-condition-panel {
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #102b42,
+      #071d2c
+    );
+
+  border: 1px solid #275d78;
+  border-radius: 17px;
+
+  box-shadow:
+    0 15px 35px
+    rgba(0, 0, 0, 0.3);
+}
+
+.velion-condition-list {
+  display: grid;
+  gap: 11px;
+
+  margin-top: 17px;
+}
+
+.velion-condition-card {
+  position: relative;
+
+  display: flex;
+
+  overflow: hidden;
+
+  background: #061827;
+
+  border: 1px solid #1f506e;
+  border-radius: 11px;
+}
+
+.velion-condition-accent {
+  width: 5px;
+
+  flex: 0 0 5px;
+}
+
+.velion-condition-temperature
+.velion-condition-accent {
+  background: #ff8c42;
+}
+
+.velion-condition-chlorophyll
+.velion-condition-accent {
+  background: #25c97b;
+}
+
+.velion-condition-current
+.velion-condition-accent {
+  background: #62d2ff;
+}
+
+.velion-condition-weather
+.velion-condition-accent {
+  background: #b86cff;
+}
+
+.velion-condition-content {
+  flex: 1;
+
+  padding: 13px;
+}
+
+.velion-condition-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.velion-condition-header span {
+  color: #9ec9df;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.velion-condition-header small {
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  font-size: 8px;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.condition-live {
+  color: #58d68d;
+
+  background:
+    rgba(88, 214, 141, 0.1);
+}
+
+.condition-pending {
+  color: #f6c453;
+
+  background:
+    rgba(246, 196, 83, 0.1);
+}
+
+.velion-condition-content > strong {
+  display: block;
+
+  margin-top: 10px;
+
+  color: #ffffff;
+
+  font-size: 19px;
+}
+
+.velion-condition-content p {
+  margin: 5px 0 0;
+
+  color: #739aae;
+
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+/* Large actions */
+
+.velion-home-actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.velion-launch-map,
+.velion-log-trip {
+  min-height: 74px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 15px 18px;
+
+  text-align: left;
+
+  border-radius: 13px;
+
+  cursor: pointer;
+}
+
+.velion-launch-map {
+  color: #071722;
+
+  background:
+    linear-gradient(
+      135deg,
+      #62d2ff,
+      #2fa8d7
+    );
+
+  border: none;
+
+  box-shadow:
+    0 10px 24px
+    rgba(72, 198, 239, 0.18);
+}
+
+.velion-log-trip {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #173a51,
+      #0a2538
+    );
+
+  border: 1px solid #28739a;
+}
+
+.velion-home-actions span {
+  font-size: 9px;
+  font-weight: 900;
+
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+
+  opacity: 0.75;
+}
+
+.velion-home-actions strong {
+  margin-top: 4px;
+
+  font-size: 16px;
+}
+
+
+/* Founding Captain */
+
+.velion-founding-card {
+  display: grid;
+
+  grid-template-columns:
+    auto minmax(0, 1fr) auto;
+
+  align-items: center;
+  gap: 16px;
+
+  padding: 19px 21px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 140, 66, 0.11),
+      #081f30
+    );
+
+  border: 1px solid #7e4d2d;
+  border-radius: 14px;
+}
+
+.velion-founding-mark {
+  width: 49px;
+  height: 49px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #071722;
+  background: #ff8c42;
+
+  border-radius: 12px;
+
+  font-weight: 900;
+}
+
+.velion-founding-card h3 {
+  margin: 0;
+
+  color: #ffffff;
+}
+
+.velion-founding-card p {
+  margin: 6px 0 0;
+
+  color: #9ec9df;
+
+  line-height: 1.45;
+}
+
+.velion-founding-badge {
+  padding: 10px 12px;
+
+  color: #ffad78;
+  background: #061827;
+
+  border: 1px solid #ff8c42;
+  border-radius: 9px;
+
+  font-size: 11px;
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+
+/* Responsive */
+
+@media (max-width: 950px) {
+
+  .velion-command-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .velion-home-hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .velion-live-status {
+    min-width: 0;
+  }
+
+  .velion-featured-topline {
+    flex-direction: column;
+  }
+
+  .velion-score-display {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .velion-reason-grid,
+  .velion-home-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .velion-featured-actions {
+    flex-direction: column;
+  }
+
+  .velion-founding-card {
+    grid-template-columns:
+      auto minmax(0, 1fr);
+  }
+
+  .velion-founding-badge {
+    grid-column: 1 / -1;
+
+    text-align: center;
+  }
+
+}

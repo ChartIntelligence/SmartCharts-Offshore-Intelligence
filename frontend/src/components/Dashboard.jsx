@@ -1,3 +1,4 @@
+import TodayDashboard from "./TodayDashboard";
 import { useState } from "react";
 
 import LayerControls from "./LayerControls";
@@ -12,13 +13,18 @@ import FishingDayReportPanel from "./FishingDayReportPanel";
 import SavedFishingDayReports from "./SavedFishingDayReports";
 
 import structures from "../data/gulfLocations";
+import {
+  useLiveMarineConditions
+} from "../hooks/useLiveMarineConditions";
 
 import "../styles/dashboard.css";
 
 
+
+
 function Dashboard() {
   const [activeTab, setActiveTab] =
-    useState("map");
+    useState("today");
 
   const [layers, setLayers] = useState({
     marlin: true,
@@ -48,6 +54,68 @@ function Dashboard() {
     setReportsRefreshToken
   ] = useState(0);
 
+  const rankedLocations = [...structures]
+  .filter((spot) => {
+    const score =
+      spot?.scores?.blueMarlin ??
+      spot?.blueMarlinScore;
+
+    return Number.isFinite(
+      Number(score)
+    );
+  })
+  .sort((first, second) => {
+    const firstScore =
+      Number(
+        first?.scores?.blueMarlin ??
+        first?.blueMarlinScore ??
+        0
+      );
+
+    const secondScore =
+      Number(
+        second?.scores?.blueMarlin ??
+        second?.blueMarlinScore ??
+        0
+      );
+
+    return secondScore - firstScore;
+  });
+
+
+const topSpot =
+  rankedLocations[0] ?? null;
+
+
+const topScore =
+  Number(
+    topSpot?.scores?.blueMarlin ??
+    topSpot?.blueMarlinScore ??
+    0
+  );
+
+
+const topConfidence =
+  topSpot
+    ? Math.min(
+        96,
+        Math.max(
+          55,
+          Math.round(
+            topScore * 0.96
+          )
+        )
+      )
+    : 0;
+
+    const {
+  data: liveMarineData,
+  loading: liveMarineLoading,
+  error: liveMarineError
+} = useLiveMarineConditions(
+  topSpot
+);
+
 
   return (
     <div className="dashboard">
@@ -59,17 +127,17 @@ function Dashboard() {
           <div className="smartcharts-brand-row">
 
             <h1>
-              SMARTCHARTS
+              VELION
             </h1>
 
             <span className="smartcharts-version-badge">
-              Tournament Alpha
+              Founding Captain Alpha
             </span>
 
           </div>
 
           <p>
-            Blue Marlin Intelligence Platform
+            Offshore Intelligence Platform
           </p>
 
         </div>
@@ -77,8 +145,18 @@ function Dashboard() {
 
         <nav
           className="dashboard-tabs"
-          aria-label="SmartCharts navigation"
+          aria-label="Velion navigation"
         >
+
+          <DashboardTab
+            label="Home"
+            active={
+              activeTab === "today"
+            }
+            onClick={() =>
+              setActiveTab("today")
+            }
+          />
 
           <DashboardTab
             label="Map"
@@ -126,6 +204,23 @@ function Dashboard() {
         </nav>
 
       </header>
+
+
+      {activeTab === "today" && (
+  <TodayDashboard
+    topSpot={topSpot}
+    topScore={topScore}
+    topConfidence={topConfidence}
+    setActiveTab={setActiveTab}
+    setSelectedSpot={setSelectedSpot}
+    setReportPanelOpen={
+      setReportPanelOpen
+    }
+      liveMarineData={liveMarineData}
+  liveMarineLoading={liveMarineLoading}
+  liveMarineError={liveMarineError}
+  />
+)}
 
 
       {activeTab === "map" && (
@@ -268,8 +363,18 @@ function Dashboard() {
 
             <div className="cards">
 
-              {structures.map(
-                (spot) => (
+              {rankedLocations
+                .filter((spot) => {
+                  return (
+                    spot.category ===
+                      "intelligence_zone" ||
+                    Boolean(
+                      spot?.scores?.blueMarlin
+                    )
+                  );
+                })
+                .slice(0, 12)
+                .map((spot) => (
 
                   <HotspotCard
                     key={
@@ -279,8 +384,7 @@ function Dashboard() {
                     spot={spot}
                   />
 
-                )
-              )}
+                ))}
 
             </div>
 
