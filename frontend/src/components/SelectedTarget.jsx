@@ -145,13 +145,14 @@ const positionFreshness =
 
 
         <div>
-          <span>Sea Surface Temp</span>
+  <span>Sea Surface Temp</span>
 
-          <strong>
-            {selectedSpot.conditions?.sst ??
-              "Waiting for live data"}
-          </strong>
-        </div>
+  <strong>
+    {formatTemperature(
+      oceanData?.sst?.temperatureFahrenheit
+    )}
+  </strong>
+</div>
 
 
         <div>
@@ -426,6 +427,12 @@ function formatUpdatedTime(value) {
   }
 
   return date.toLocaleString();
+}
+
+function formatTemperature(value) {
+  return Number.isFinite(value)
+    ? `${value}°F`
+    : "Waiting for live data";
 }
 
 export default SelectedTarget;
