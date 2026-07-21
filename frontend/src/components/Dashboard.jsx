@@ -156,55 +156,61 @@ const handleReportSaved = () => {
 
       <div className="pelora-header-brand">
 
-        <button
-          type="button"
-          className={[
-            "pelora-compass-button",
-            intelligencePanelOpen
-              ? "pelora-compass-active"
-              : "pelora-compass-ready"
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          onClick={() =>
-            setIntelligencePanelOpen(true)
-          }
-          aria-label="Open Pelora Intelligence"
-          title="Pelora Intelligence"
+  <div className="pelora-logo-lockup">
+
+    <div className="pelora-wordmark">
+
+      <span className="pelora-wordmark-text">
+        PEL
+      </span>
+
+      <button
+        type="button"
+        className={[
+          "pelora-logo-compass",
+          intelligencePanelOpen
+            ? "pelora-compass-active"
+            : "pelora-compass-ready"
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        onClick={() =>
+          setIntelligencePanelOpen(true)
+        }
+        aria-label="Open Pelora Intelligence"
+        title="Open Pelora Intelligence"
+      >
+        <span
+          className="pelora-logo-compass-ring"
+          aria-hidden="true"
         >
-          <span
-            className="pelora-compass-ring"
-            aria-hidden="true"
-          >
-            <span className="pelora-compass-north">
-              N
-            </span>
-
-            <span className="pelora-compass-needle">
-              ◆
-            </span>
+          <span className="pelora-logo-compass-north">
+            N
           </span>
 
-          <span className="pelora-compass-tooltip">
-            Tap for Pelora Intelligence
+          <span className="pelora-logo-compass-needle">
+            ◆
           </span>
-        </button>
+        </span>
 
-        <div className="smartcharts-brand">
+        <span className="pelora-compass-tooltip">
+          Tap for Pelora Intelligence
+        </span>
+      </button>
 
-          <div className="smartcharts-brand-row">
-            <h1>
-              PELORA
-            </h1>
-          </div>
+      <span className="pelora-wordmark-text">
+        RA
+      </span>
 
-          <p>
-            Offshore Intelligence Platform
-          </p>
+    </div>
 
-        </div>
+    <p className="pelora-logo-subtitle">
+      Offshore Intelligence Platform
+    </p>
 
-      </div>
+  </div>
+
+</div>
 
 
   <nav
