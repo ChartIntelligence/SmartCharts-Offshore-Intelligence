@@ -1,118 +1,393 @@
-body {
+:root {
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: #f7fbff;
+  background: #041725;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+body {
+  overflow: hidden;
+  background: #041725;
+}
+
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
 }
 
 
 .app {
+  width: 100%;
   height: 100vh;
+
   display: flex;
   flex-direction: column;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(0, 105, 148, 0.18),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #061c2b 0%,
+      #04131f 100%
+    );
 }
 
 
+/* Pelora Header */
+
 .header {
+  position: relative;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 112px;
+  padding: 16px 24px;
 
   background:
     linear-gradient(
       135deg,
-      #002b45,
-      #006994
+      rgba(4, 23, 37, 0.98),
+      rgba(6, 43, 65, 0.98)
     );
 
-  color: white;
+  border-bottom: 1px solid rgba(82, 180, 214, 0.22);
 
-  padding: 20px;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03);
 
+  color: #ffffff;
   text-align: center;
+}
 
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+
+/* Tap-the-compass intelligence button */
+
+.compass-button {
+  width: 72px;
+  height: 72px;
+
+  flex: 0 0 72px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 145, 50, 0.55);
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 141, 43, 0.18),
+      rgba(2, 22, 35, 0.9) 68%
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 0 0 5px rgba(0, 105, 148, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.3);
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+
+.compass-button:hover {
+  transform: translateY(-2px) rotate(4deg);
+
+  border-color: #ff9c3d;
+
+  box-shadow:
+    0 0 0 6px rgba(0, 105, 148, 0.12),
+    0 0 24px rgba(255, 140, 45, 0.22),
+    0 10px 24px rgba(0, 0, 0, 0.34);
+}
+
+
+.compass-button:active {
+  transform: scale(0.96) rotate(-3deg);
+}
+
+
+.compass-button:focus-visible {
+  outline: 3px solid rgba(78, 190, 228, 0.65);
+  outline-offset: 4px;
+}
+
+
+.compass-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 
 .logo {
+  margin: 0;
 
-  font-size: 34px;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1;
 
   font-weight: 800;
+  letter-spacing: 0.18em;
 
-  letter-spacing: 3px;
+  color: #ffffff;
 
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(46, 161, 205, 0.14);
 }
 
 
 .subtitle {
+  margin-top: 9px;
 
-  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.2;
 
-  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
 
+  color: #a9c9d8;
+  text-transform: uppercase;
 }
 
 
+/* Main map */
+
 .map-area {
+  position: relative;
 
   flex: 1;
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
 
   background:
+    radial-gradient(
+      circle at 50% 10%,
+      rgba(0, 105, 148, 0.28),
+      transparent 42%
+    ),
     linear-gradient(
-      #b9e6f5,
-      #dff6ff
+      180deg,
+      #0a2f43,
+      #061923
     );
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
 }
 
 
 .map-placeholder {
+  color: #d9f1fa;
 
-  color:#003b5c;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 
-  font-size:24px;
-
-  font-weight:bold;
-
+  text-align: center;
 }
 
+
+/* Bottom navigation */
 
 .controls {
+  position: relative;
+  z-index: 20;
 
-  display:flex;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
 
-  justify-content:space-around;
+  gap: 8px;
 
-  background:white;
+  padding:
+    10px
+    max(12px, env(safe-area-inset-right))
+    calc(10px + env(safe-area-inset-bottom))
+    max(12px, env(safe-area-inset-left));
 
-  padding:15px;
+  background: rgba(4, 20, 31, 0.97);
 
-  border-top:1px solid #ddd;
+  border-top: 1px solid rgba(101, 179, 208, 0.2);
 
+  box-shadow:
+    0 -10px 24px rgba(0, 0, 0, 0.22);
 }
 
 
-button {
+.controls button {
+  min-width: 76px;
+  min-height: 54px;
 
-  display:flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  flex-direction:column;
+  gap: 5px;
 
-  align-items:center;
+  padding: 8px 12px;
 
-  background:white;
+  border: 1px solid transparent;
+  border-radius: 12px;
 
-  border:none;
+  background: transparent;
 
-  font-size:14px;
+  color: #aac7d4;
 
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
 }
 
 
-button:first-line {
+.controls button:hover {
+  color: #ffffff;
 
-  font-size:24px;
+  background: rgba(0, 105, 148, 0.15);
 
+  border-color: rgba(76, 182, 220, 0.18);
+}
+
+
+.controls button:active {
+  transform: scale(0.97);
+}
+
+
+.controls button.active {
+  color: #ff9b3d;
+
+  background: rgba(255, 142, 43, 0.1);
+
+  border-color: rgba(255, 151, 58, 0.28);
+}
+
+
+.control-icon {
+  font-size: 21px;
+  line-height: 1;
+}
+
+
+/* Mobile layout */
+
+@media (max-width: 640px) {
+  .header {
+    min-height: 92px;
+    padding: 12px 14px;
+  }
+
+
+  .brand {
+    gap: 11px;
+  }
+
+
+  .compass-button {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+
+
+  .compass-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .logo {
+    font-size: 28px;
+    letter-spacing: 0.14em;
+  }
+
+
+  .subtitle {
+    margin-top: 6px;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+  }
+
+
+  .controls {
+    gap: 4px;
+    padding-top: 8px;
+  }
+
+
+  .controls button {
+    min-width: 0;
+    flex: 1;
+
+    padding: 7px 5px;
+
+    font-size: 10px;
+  }
 }

@@ -27,6 +27,11 @@ function Dashboard() {
   const [activeTab, setActiveTab] =
     useState("today");
 
+    const [
+  intelligencePanelOpen,
+  setIntelligencePanelOpen
+] = useState(false);
+
   const [layers, setLayers] = useState({
     marlin: true,
     yellowfin: true,
@@ -144,23 +149,53 @@ const handleReportSaved = () => {
 };
 
 
-  return (
-    <div className="dashboard">
+ return (
+  <div className="dashboard">
 
-      <header className="smartcharts-app-header">
+    <header className="smartcharts-app-header">
+
+      <div className="pelora-header-brand">
+
+        <button
+          type="button"
+          className={[
+            "pelora-compass-button",
+            intelligencePanelOpen
+              ? "pelora-compass-active"
+              : "pelora-compass-ready"
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          onClick={() =>
+            setIntelligencePanelOpen(true)
+          }
+          aria-label="Open Pelora Intelligence"
+          title="Pelora Intelligence"
+        >
+          <span
+            className="pelora-compass-ring"
+            aria-hidden="true"
+          >
+            <span className="pelora-compass-north">
+              N
+            </span>
+
+            <span className="pelora-compass-needle">
+              ◆
+            </span>
+          </span>
+
+          <span className="pelora-compass-tooltip">
+            Tap for Pelora Intelligence
+          </span>
+        </button>
 
         <div className="smartcharts-brand">
 
           <div className="smartcharts-brand-row">
-
             <h1>
-              VELION
+              PELORA
             </h1>
-
-            <span className="smartcharts-version-badge">
-              Founding Captain Alpha
-            </span>
-
           </div>
 
           <p>
@@ -169,68 +204,67 @@ const handleReportSaved = () => {
 
         </div>
 
+      </div>
 
-        <nav
-          className="dashboard-tabs"
-          aria-label="Velion navigation"
-        >
 
-          <DashboardTab
-            label="Home"
-            active={
-              activeTab === "today"
-            }
-            onClick={() =>
-              setActiveTab("today")
-            }
-          />
+  <nav
+    className="dashboard-tabs"
+    aria-label="Pelora navigation"
+  >
 
-          <DashboardTab
-            label="Map"
-            active={
-              activeTab === "map"
-            }
-            onClick={() =>
-              setActiveTab("map")
-            }
-          />
+    <DashboardTab
+      label="Home"
+      active={
+        activeTab === "today"
+      }
+      onClick={() =>
+        setActiveTab("today")
+      }
+    />
 
-          <DashboardTab
-            label="Intelligence"
-            active={
-              activeTab ===
-              "intelligence"
-            }
-            onClick={() =>
-              setActiveTab(
-                "intelligence"
-              )
-            }
-          />
+    <DashboardTab
+      label="Map"
+      active={
+        activeTab === "map"
+      }
+      onClick={() =>
+        setActiveTab("map")
+      }
+    />
 
-          <DashboardTab
-            label="Reports"
-            active={
-              activeTab === "reports"
-            }
-            onClick={() =>
-              setActiveTab("reports")
-            }
-          />
+    <DashboardTab
+      label="Intelligence"
+      active={
+        activeTab === "intelligence"
+      }
+      onClick={() =>
+        setActiveTab("intelligence")
+      }
+    />
 
-          <DashboardTab
-            label="Profile"
-            active={
-              activeTab === "profile"
-            }
-            onClick={() =>
-              setActiveTab("profile")
-            }
-          />
+    <DashboardTab
+      label="Reports"
+      active={
+        activeTab === "reports"
+      }
+      onClick={() =>
+        setActiveTab("reports")
+      }
+    />
 
-        </nav>
+    <DashboardTab
+      label="Profile"
+      active={
+        activeTab === "profile"
+      }
+      onClick={() =>
+        setActiveTab("profile")
+      }
+    />
 
-      </header>
+  </nav>
+
+</header>
 
 
       {activeTab === "today" && (
