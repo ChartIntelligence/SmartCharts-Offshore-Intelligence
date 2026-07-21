@@ -81,7 +81,7 @@ const windAndWaveValue =
 
           <div>
             <strong>
-              Velion Alpha Online
+              Pelora Intelligence Online
             </strong>
 
             <small>

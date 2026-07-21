@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Pelora Compass</title>
+  <desc id="desc">A clean silver compass rose with a navy outline and subtle orange and cyan accents.</desc>
+
+  <defs>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#d9e0e8"/>
+      <stop offset="100%" stop-color="#8f9aaa"/>
+    </linearGradient>
+
+    <linearGradient id="silverDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c7d0dc"/>
+      <stop offset="100%" stop-color="#6f7b8c"/>
+    </linearGradient>
+
+    <linearGradient id="accentVertical" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff6a00"/>
+      <stop offset="52%" stop-color="#0a1a2d"/>
+      <stop offset="100%" stop-color="#24bfff"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#00111f" flood-opacity=".28"/>
+    </filter>
+  </defs>
+
+  <!-- Outer compass ring -->
+  <circle cx="256" cy="256" r="182"
+          fill="none"
+          stroke="#071423"
+          stroke-width="18"/>
+
+  <circle cx="256" cy="256" r="164"
+          fill="none"
+          stroke="url(#silver)"
+          stroke-width="10"/>
+
+  <!-- Cardinal points -->
+  <g filter="url(#softShadow)" stroke="#071423" stroke-width="8" stroke-linejoin="round">
+    <!-- North -->
+    <path d="M256 28 L304 232 L256 256 L208 232 Z" fill="url(#silver)"/>
+    <path d="M256 28 L256 256 L208 232 Z" fill="#f7f9fb"/>
+    <path d="M256 28 L270 224 L256 236 L242 224 Z" fill="url(#accentVertical)" stroke-width="4"/>
+
+    <!-- South -->
+    <path d="M256 484 L304 280 L256 256 L208 280 Z" fill="url(#silverDark)"/>
+    <path d="M256 484 L256 256 L304 280 Z" fill="#9ca8b7"/>
+    <path d="M256 484 L270 288 L256 276 L242 288 Z" fill="#24bfff" stroke-width="4"/>
+
+    <!-- East -->
+    <path d="M484 256 L280 208 L256 256 L280 304 Z" fill="url(#silver)"/>
+    <path d="M484 256 L256 256 L280 304 Z" fill="#d6dde6"/>
+    <path d="M484 256 L288 242 L276 256 L288 270 Z" fill="#24bfff" stroke-width="4"/>
+
+    <!-- West -->
+    <path d="M28 256 L232 208 L256 256 L232 304 Z" fill="url(#silverDark)"/>
+    <path d="M28 256 L256 256 L232 208 Z" fill="#f7f9fb"/>
+    <path d="M28 256 L224 242 L236 256 L224 270 Z" fill="#ff6a00" stroke-width="4"/>
+  </g>
+
+  <!-- Intercardinal points -->
+  <g stroke="#071423" stroke-width="7" stroke-linejoin="round">
+    <path d="M145 145 L235 222 L222 235 Z" fill="url(#silver)"/>
+    <path d="M367 145 L290 235 L277 222 Z" fill="url(#silverDark)"/>
+    <path d="M367 367 L277 290 L290 277 Z" fill="url(#silver)"/>
+    <path d="M145 367 L222 277 L235 290 Z" fill="url(#silverDark)"/>
+  </g>
+
+  <!-- Center hub -->
+  <circle cx="256" cy="256" r="46" fill="#071423"/>
+  <circle cx="256" cy="256" r="31" fill="url(#silver)" stroke="#f5f7fa" stroke-width="5"/>
+  <circle cx="256" cy="256" r="18" fill="#071423"/>
+
+  <!-- Subtle orientation tick -->
+  <path d="M256 67 L256 84" stroke="#ff6a00" stroke-width="8" stroke-linecap="round"/>
+</svg>

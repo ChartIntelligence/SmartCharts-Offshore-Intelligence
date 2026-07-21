@@ -154,67 +154,37 @@ const handleReportSaved = () => {
 
     <header className="smartcharts-app-header">
 
-      <div className="pelora-header-brand">
+<div className="pelora-header-brand">
 
-  <div className="pelora-logo-lockup">
+  <button
+    type="button"
+    className="pelora-logo-lockup"
+    onClick={() =>
+      setIntelligencePanelOpen(true)
+    }
+    aria-label="Open Pelora Intelligence"
+    title="Open Pelora Intelligence"
+  >
+    <img
+      src="/logos/pelora-compass-final.svg"
+      alt=""
+      className="pelora-header-compass"
+      aria-hidden="true"
+    />
 
-    <div className="pelora-wordmark">
-
-      <span className="pelora-wordmark-text">
-        PEL
-      </span>
-
-      <button
-        type="button"
-        className={[
-          "pelora-logo-compass",
-          intelligencePanelOpen
-            ? "pelora-compass-active"
-            : "pelora-compass-ready"
-        ]
-          .filter(Boolean)
-          .join(" ")}
-        onClick={() =>
-          setIntelligencePanelOpen(true)
-        }
-        aria-label="Open Pelora Intelligence"
-        title="Open Pelora Intelligence"
-      >
-        <span
-          className="pelora-logo-compass-ring"
-          aria-hidden="true"
-        >
-          <span className="pelora-logo-compass-north">
-            N
-          </span>
-
-          <span className="pelora-logo-compass-needle">
-            ◆
-          </span>
-        </span>
-
-        <span className="pelora-compass-tooltip">
-          Tap for Pelora Intelligence
-        </span>
-      </button>
-
-      <span className="pelora-wordmark-text">
-        RA
-      </span>
-
-    </div>
+    <h1 className="pelora-wordmark">
+      PELORA
+    </h1>
 
     <p className="pelora-logo-subtitle">
       Offshore Intelligence Platform
     </p>
-
-  </div>
+  </button>
 
 </div>
 
-
-  <nav
-    className="dashboard-tabs"
+   <nav
+     className="dashboard-tabs"
     aria-label="Pelora navigation"
   >
 
