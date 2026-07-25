@@ -127,6 +127,9 @@ function FishingDayReportPanel({
   const [areaSearch, setAreaSearch] =
     useState("");
 
+const [isSaving, setIsSaving] =
+  useState(false);
+
   const filteredStructures = useMemo(() => {
     const search =
       areaSearch.trim().toLowerCase();
@@ -252,8 +255,12 @@ function FishingDayReportPanel({
   };
 
 
-  const saveReport = async (event) => {
+const saveReport = async (event) => {
   event.preventDefault();
+
+  if (isSaving) {
+    return;
+  }
 
   if (!user?.id) {
     window.alert(
@@ -263,110 +270,117 @@ function FishingDayReportPanel({
     return;
   }
 
-  const reportRow = {
-    user_id: user.id,
+  setIsSaving(true);
 
-    trip_date: report.date,
+  try {
+    const reportRow = {
+      user_id: user.id,
 
-    captain_private:
-      report.captain,
+      trip_date: report.date,
 
-    boat_private:
-      report.boat,
+      captain_private:
+        report.captain.trim(),
 
-    tournament_private:
-      report.tournament || null,
+      boat_private:
+        report.boat.trim(),
 
-    lines_in:
-      report.linesIn || null,
+      tournament_private:
+        report.tournament.trim() || null,
 
-    lines_out:
-      report.linesOut || null,
+      lines_in:
+        report.linesIn || null,
 
-    hours_fished:
-      report.hoursFished === ""
-        ? null
-        : Number(report.hoursFished),
+      lines_out:
+        report.linesOut || null,
 
-    miles_run:
-      report.milesRun === ""
-        ? null
-        : Number(report.milesRun),
+      hours_fished:
+        report.hoursFished === ""
+          ? null
+          : Number(report.hoursFished),
 
-    areas_fished:
-      report.areasFished,
+      miles_run:
+        report.milesRun === ""
+          ? null
+          : Number(report.milesRun),
 
-    bait_observed:
-      report.baitObserved,
+      areas_fished:
+        report.areasFished,
 
-    bird_activity:
-      report.birdActivity,
+      bait_observed:
+        report.baitObserved,
 
-    water_color:
-      report.waterColor || null,
+      bird_activity:
+        report.birdActivity,
 
-    weed_condition:
-      report.weedCondition || null,
+      water_color:
+        report.waterColor || null,
 
-    floating_structure:
-      report.floatingStructure,
+      weed_condition:
+        report.weedCondition || null,
 
-    species_results:
-      report.speciesResults,
+      floating_structure:
+        report.floatingStructure,
 
-    trip_outcome:
-      report.tripOutcome || null,
+      species_results:
+        report.speciesResults,
 
-    information_source:
-      report.informationSource,
+      trip_outcome:
+        report.tripOutcome || null,
 
-    notes_private:
-      report.notes || null,
+      information_source:
+        report.informationSource || null,
 
-    share_intelligence:
-      report.shareIntelligence === true
-  };
+      notes_private:
+        report.notes.trim() || null,
 
-  const {
-    data: savedRows,
-    error: saveError
-  } =
-    await supabase
-      .from("fishing_day_reports")
-      .insert(reportRow)
-      .select();
+      share_intelligence:
+        report.shareIntelligence === true
+    };
 
-  if (saveError) {
+    const {
+      data: savedReport,
+      error: saveError
+    } =
+      await supabase
+        .from("fishing_day_reports")
+        .insert(reportRow)
+        .select()
+        .single();
+
+    if (saveError) {
+      throw saveError;
+    }
+
+    onReportSaved?.(
+      savedReport
+    );
+
+    setReport(
+      createInitialReport()
+    );
+
+    setAreaSearch("");
+
+    window.alert(
+      "Fishing day saved privately to Pelora."
+    );
+
+    onClose?.();
+  } catch (error) {
     console.error(
       "Unable to save fishing day:",
-      saveError
+      error
     );
 
     window.alert(
-      `Fishing day could not be saved: ${saveError.message}`
+      `Fishing day could not be saved: ${
+        error?.message ||
+        "Unknown error"
+      }`
     );
-
-    return;
+  } finally {
+    setIsSaving(false);
   }
-
-  const savedReport =
-    savedRows?.[0] ?? null;
-
-  onReportSaved?.(
-    savedReport
-  );
-
-  setReport(
-    createInitialReport()
-  );
-
-  setAreaSearch("");
-
-  window.alert(
-    "Fishing day saved privately to Velion."
-  );
-
-  onClose?.();
 };
 
 
@@ -393,7 +407,7 @@ function FishingDayReportPanel({
 
           <div>
             <p className="report-panel-eyebrow">
-              SmartCharts Intelligence
+              Pelora Ocean Intelligence
             </p>
 
             <h2>
@@ -950,7 +964,7 @@ function FishingDayReportPanel({
 
     <span>
       Contribute anonymous fishing intelligence
-      to improve Velion.
+      to improve Pelora.
     </span>
 
   </label>
@@ -975,11 +989,14 @@ function FishingDayReportPanel({
             </button>
 
             <button
-              type="submit"
-              className="report-submit-button"
-            >
-              Save Fishing Day
-            </button>
+            type="submit"
+            className="report-submit-button"
+            disabled={isSaving}
+          >
+            {isSaving
+              ? "Saving..."
+              : "Save Fishing Day"}
+          </button>
 
           </footer>
 
