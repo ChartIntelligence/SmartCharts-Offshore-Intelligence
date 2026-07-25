@@ -16,72 +16,107 @@ function SavedFishingDayReports({
   const [reports, setReports] =
     useState([]);
 
+    const [isLoading, setIsLoading] =
+  useState(false);
+
+const [loadError, setLoadError] =
+  useState("");
+
   const [expandedReportId, setExpandedReportId] =
     useState(null);
 
 
   const loadReports = useCallback(
   async () => {
-    if (!user?.id) {
-      setReports([]);
+    if (authLoading) {
       return;
     }
 
-    const {
-      data,
-      error
-    } =
-      await supabase
-        .from(
-          "fishing_day_reports"
-        )
-        .select("*")
-        .order(
-          "trip_date",
-          {
-            ascending: false
-          }
-        )
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
+    if (!user?.id) {
+      setReports([]);
+      setLoadError("");
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setLoadError("");
+
+    try {
+      const {
+        data,
+        error
+      } =
+        await supabase
+          .from(
+            "fishing_day_reports"
+          )
+          .select("*")
+          .eq(
+            "user_id",
+            user.id
+          )
+          .order(
+            "trip_date",
+            {
+              ascending: false
+            }
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+      if (error) {
+        throw error;
+      }
+
+      const normalizedReports =
+        (data || []).map(
+          normalizeSupabaseReport
         );
 
-    if (error) {
+      setReports(
+        normalizedReports
+      );
+    } catch (error) {
       console.error(
         "Unable to load fishing reports:",
         error
       );
 
-      return;
-    }
-
-    const normalizedReports =
-      (data || []).map(
-        normalizeSupabaseReport
+      setLoadError(
+        error?.message ||
+        "Unable to load saved fishing reports."
       );
-
-    setReports(
-      normalizedReports
-    );
+    } finally {
+      setIsLoading(false);
+    }
   },
-  [user?.id]
+  [
+    authLoading,
+    user?.id
+  ]
 );
 
+useEffect(() => {
+  loadReports();
+}, [
+  loadReports,
+  refreshToken
+]);
 
-  useEffect(() => {
-    loadReports();
-  }, [
-    loadReports,
-    refreshToken
-  ]);
 
-
- const deleteReport = async (
+const deleteReport = async (
   reportId
 ) => {
+
+  if (!user?.id) {
+    return;
+  }
+
   const confirmed =
     window.confirm(
       "Delete this fishing day report? This cannot be undone."
@@ -102,6 +137,10 @@ function SavedFishingDayReports({
       .eq(
         "id",
         reportId
+      )
+      .eq(
+        "user_id",
+        user.id
       );
 
   if (error) {
@@ -131,6 +170,77 @@ function SavedFishingDayReports({
     setExpandedReportId(null);
   }
 };
+
+
+if (authLoading || isLoading) {
+  return (
+    <section className="saved-reports-section">
+
+      <div className="saved-reports-header">
+        <div>
+          <p className="saved-reports-eyebrow">
+            Captain Data
+          </p>
+
+          <h2>
+            Saved Fishing Days
+          </h2>
+        </div>
+      </div>
+
+      <div className="empty-saved-reports">
+        <h3>
+          Loading fishing reports...
+        </h3>
+
+        <p>
+          Pelora is retrieving your private
+          captain data.
+        </p>
+      </div>
+
+    </section>
+  );
+}
+
+
+if (loadError) {
+  return (
+    <section className="saved-reports-section">
+
+      <div className="saved-reports-header">
+        <div>
+          <p className="saved-reports-eyebrow">
+            Captain Data
+          </p>
+
+          <h2>
+            Saved Fishing Days
+          </h2>
+        </div>
+
+        <button
+          type="button"
+          className="refresh-reports-button"
+          onClick={loadReports}
+        >
+          Try Again
+        </button>
+      </div>
+
+      <div className="empty-saved-reports">
+        <h3>
+          Reports could not be loaded
+        </h3>
+
+        <p>
+          {loadError}
+        </p>
+      </div>
+
+    </section>
+  );
+}
 
 
   if (reports.length === 0) {
@@ -185,10 +295,10 @@ function SavedFishingDayReports({
           </h2>
 
           <p>
-            {reports.length} report
+            {reports.length} private report
             {reports.length === 1
               ? ""
-              : "s"} saved on this device.
+              : "s"} saved to your Pelora account.
           </p>
         </div>
 
