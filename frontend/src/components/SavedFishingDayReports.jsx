@@ -605,12 +605,15 @@ function ReportDetails({
                 className="saved-species-card"
               >
 
-                <strong>
-                  {formatSpeciesName(
-                    species
-                  )}
-                </strong>
+                <span
+                  className={`species-badge species-${species}`}
+              >
+                 <span className="species-icon">
+                  {getSpeciesIcon(species)}
+                 </span>
 
+                 {formatSpeciesName(species)}
+               </span>
                 <span>
                   Seen:{" "}
                   {results.sightings || 0}
@@ -811,6 +814,30 @@ function formatSpeciesName(value) {
       (character) =>
         character.toUpperCase()
     );
+}
+
+
+function getSpeciesIcon(species) {
+
+  const icons = {
+
+    blueMarlin: "🐟",
+
+    whiteMarlin: "🐟",
+
+    sailfish: "🎣",
+
+    yellowfin: "🐠",
+
+    blackfin: "🐠",
+
+    mahi: "🐬",
+
+    wahoo: "⚡"
+
+  };
+
+  return icons[species] || "🐟";
 }
 
 

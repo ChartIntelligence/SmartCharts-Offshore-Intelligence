@@ -4055,3 +4055,254 @@
     letter-spacing: 0.18em;
   }
 }
+
+/* ==========================
+   SPECIES BADGES
+========================== */
+
+.species-badge {
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:6px 12px;
+
+  border-radius:999px;
+
+  font-size:13px;
+
+  font-weight:700;
+
+  letter-spacing:.4px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  margin-bottom:10px;
+
+  color:white;
+}
+
+.species-icon{
+
+  font-size:14px;
+}
+
+/* Blue Marlin */
+
+.species-blueMarlin{
+
+background:
+linear-gradient(
+135deg,
+#184d92,
+#0a2448
+);
+
+border-color:#3f88ff;
+}
+
+/* Yellowfin */
+
+.species-yellowfin{
+
+background:
+linear-gradient(
+135deg,
+#c79a16,
+#705700
+);
+
+border-color:#ffd75a;
+}
+
+/* Blackfin */
+
+.species-blackfin{
+
+background:
+linear-gradient(
+135deg,
+#34393f,
+#111417
+);
+
+border-color:#8e959d;
+}
+
+/* Wahoo */
+
+.species-wahoo{
+
+background:
+linear-gradient(
+135deg,
+#138c93,
+#08434b
+);
+
+border-color:#4ed6d8;
+}
+
+/* Mahi */
+
+.species-mahi{
+
+background:
+linear-gradient(
+135deg,
+#2cbf93,
+#14624b
+);
+
+border-color:#6fffd5;
+}
+
+/* Sailfish */
+
+.species-sailfish{
+
+background:
+linear-gradient(
+135deg,
+#4a4cc8,
+#232560
+);
+
+border-color:#91a0ff;
+}
+
+/* White Marlin */
+
+.species-whiteMarlin{
+
+background:
+linear-gradient(
+135deg,
+#dce6ef,
+#a8b7c4
+);
+
+color:#0b2030;
+
+border-color:#ffffff;
+}
+
+
+/*=====================================
+  SPECIES COLUMN
+=====================================*/
+
+.species-cell{
+
+display:flex;
+
+align-items:center;
+
+justify-content:flex-start;
+
+}
+
+.species-pill{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:7px;
+
+padding:6px 12px;
+
+border-radius:999px;
+
+font-size:13px;
+
+font-weight:700;
+
+letter-spacing:.4px;
+
+color:white;
+
+min-width:82px;
+
+justify-content:center;
+
+}
+
+.species-pill-icon{
+
+font-size:14px;
+
+}
+
+/* Blue */
+
+.species-pill.blueMarlin{
+
+background:linear-gradient(135deg,#1b5fa8,#0b2b52);
+
+}
+
+/* White */
+
+.species-pill.whiteMarlin{
+
+background:linear-gradient(135deg,#d8e3ee,#9daebb);
+
+color:#092032;
+
+}
+
+/* Sail */
+
+.species-pill.sailfish{
+
+background:linear-gradient(135deg,#4b58d3,#2d3275);
+
+}
+
+/* Yellow */
+
+.species-pill.yellowfin{
+
+background:linear-gradient(135deg,#d5aa1f,#7a5d00);
+
+}
+
+/* Black */
+
+.species-pill.blackfin{
+
+background:linear-gradient(135deg,#3d444a,#181b1e);
+
+}
+
+/* Wahoo */
+
+.species-pill.wahoo{
+
+background:linear-gradient(135deg,#0b8d90,#084246);
+
+}
+
+/* Mahi */
+
+.species-pill.mahi{
+
+background:
+linear-gradient(
+135deg,
+#57ff5a,
+#0e9d3f
+);
+
+border:1px solid #7dff8d;
+
+box-shadow:
+0 0 10px rgba(87,255,90,.30);
+
+color:#ffffff;
+
+}

@@ -78,6 +78,32 @@ const SPECIES_LABELS = {
 };
 
 
+const SPECIES_SHORT = {
+  blueMarlin: "Blue",
+  whiteMarlin: "White",
+  sailfish: "Sail",
+  yellowfin: "Yellow",
+  blackfin: "Black",
+  wahoo: "Wahoo",
+  mahi: "Mahi"
+};
+
+function getSpeciesIcon(species) {
+
+  const icons = {
+    blueMarlin: "🐟",
+    whiteMarlin: "🐟",
+    sailfish: "🎣",
+    yellowfin: "🐠",
+    blackfin: "🐠",
+    wahoo: "⚡",
+    mahi: "🐬"
+  };
+
+  return icons[species] || "🐟";
+}
+
+
 function createInitialReport() {
   return {
     captain: "",
@@ -817,9 +843,19 @@ const saveReport = async (event) => {
                     className="species-report-row"
                   >
 
-                    <strong>
-                      {label}
-                    </strong>
+                    <div className="species-cell">
+
+                  <span className={`species-pill ${species}`}>
+
+                    <span className="species-pill-icon">
+                      {getSpeciesIcon(species)}
+                    </span>
+
+                    {SPECIES_SHORT[species]}
+
+                  </span>
+
+                </div>
 
 
                     {[
