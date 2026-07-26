@@ -4568,3 +4568,657 @@ color:#ffffff;
     letter-spacing: 0.27em;
   }
 }
+
+/* =========================================================
+   OCEAN BRIEF COMMAND CENTER
+   ========================================================= */
+
+.ocean-brief-command-center {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  padding: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(8, 35, 52, 0.96),
+      rgba(3, 20, 32, 0.98)
+    );
+
+  border: 1px solid rgba(52, 190, 227, 0.32);
+  border-radius: 18px;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+
+.ocean-brief-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+
+.ocean-brief-header > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+
+.ocean-brief-header h2 {
+  margin: 6px 0 10px;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+
+  color: #f1f5f7;
+}
+
+
+.ocean-brief-summary {
+  max-width: 900px;
+  margin: 0;
+
+  font-size: 1rem;
+  line-height: 1.7;
+
+  color: rgba(219, 234, 240, 0.78);
+}
+
+
+.ocean-brief-summary strong {
+  color: #ffffff;
+}
+
+
+.ocean-brief-meta {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+
+.ocean-brief-meta > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  min-height: 82px;
+  padding: 16px 17px;
+
+  background: rgba(2, 18, 29, 0.78);
+
+  border: 1px solid rgba(45, 170, 211, 0.24);
+  border-radius: 12px;
+}
+
+
+.ocean-brief-meta span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+
+  color: rgba(130, 190, 210, 0.7);
+}
+
+
+.ocean-brief-meta strong {
+  font-size: 1rem;
+  line-height: 1.3;
+
+  color: #f5f8fa;
+}
+
+
+.ocean-brief-ranking {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding-top: 2px;
+}
+
+
+.ocean-brief-ranking-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+
+.ocean-brief-ranking-header h3 {
+  margin: 5px 0 0;
+
+  font-size: 1.3rem;
+  line-height: 1.25;
+
+  color: #f4f7f9;
+}
+
+
+.ocean-brief-view-all {
+  flex: 0 0 auto;
+
+  padding: 10px 16px;
+
+  background: rgba(9, 43, 63, 0.9);
+  color: #dff7ff;
+
+  border: 1px solid rgba(58, 193, 232, 0.4);
+  border-radius: 10px;
+
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+
+.ocean-brief-view-all:hover {
+  transform: translateY(-1px);
+
+  background: rgba(14, 58, 82, 0.96);
+  border-color: rgba(76, 210, 244, 0.72);
+}
+
+
+.ocean-brief-opportunity-list {
+  display: grid;
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+
+.ocean-brief-opportunity {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 0;
+  min-height: 76px;
+
+  padding: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(4, 27, 42, 0.94),
+      rgba(3, 18, 29, 0.98)
+    );
+
+  color: inherit;
+  text-align: left;
+
+  border: 1px solid rgba(46, 154, 190, 0.22);
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+
+.ocean-brief-opportunity:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(58, 196, 235, 0.52);
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+
+.active-ocean-opportunity {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(12, 56, 76, 0.98),
+      rgba(4, 29, 43, 0.98)
+    );
+
+  border-color: rgba(255, 139, 67, 0.78);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 139, 67, 0.12),
+    0 12px 28px rgba(0, 0, 0, 0.26);
+}
+
+
+.ocean-brief-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  flex: 0 0 30px;
+
+  background: rgba(40, 172, 215, 0.14);
+  color: #62d6f5;
+
+  border: 1px solid rgba(62, 192, 229, 0.32);
+  border-radius: 9px;
+
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+
+.active-ocean-opportunity
+.ocean-brief-rank {
+  background: rgba(255, 130, 55, 0.14);
+  color: #ff9a59;
+
+  border-color: rgba(255, 139, 67, 0.44);
+}
+
+
+.ocean-brief-location {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  min-width: 0;
+}
+
+
+.ocean-brief-location strong {
+  overflow: hidden;
+
+  font-size: 0.84rem;
+  line-height: 1.25;
+
+  color: #f2f7f9;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.ocean-brief-location small {
+  overflow: hidden;
+
+  font-size: 0.67rem;
+  line-height: 1.25;
+
+  color: rgba(138, 183, 199, 0.72);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.ocean-brief-trend {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+
+.ocean-brief-trend small {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  color: rgba(125, 190, 208, 0.72);
+}
+
+
+.ocean-brief-trend strong {
+  font-size: 1.05rem;
+  line-height: 1;
+
+  color: #ffffff;
+}
+
+
+.ocean-brief-command-center
+.velion-live-status {
+  flex: 0 0 auto;
+  min-width: 260px;
+}
+
+
+@media (max-width: 1180px) {
+
+  .ocean-brief-opportunity-list {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 900px) {
+
+  .ocean-brief-command-center {
+    padding: 22px;
+  }
+
+  .ocean-brief-header {
+    flex-direction: column;
+  }
+
+  .ocean-brief-command-center
+  .velion-live-status {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .ocean-brief-meta {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .ocean-brief-opportunity-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .ocean-brief-command-center {
+    gap: 18px;
+
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .ocean-brief-header h2 {
+    font-size: 2rem;
+  }
+
+  .ocean-brief-summary {
+    font-size: 0.92rem;
+  }
+
+  .ocean-brief-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .ocean-brief-ranking-header {
+    align-items: flex-start;
+  }
+
+  .ocean-brief-opportunity-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ocean-brief-opportunity {
+    min-height: 70px;
+  }
+
+}
+
+/* =========================================================
+   OCEAN BRIEF FINAL REFINEMENTS
+   ========================================================= */
+
+.ocean-brief-command-center {
+  gap: 17px;
+  padding: 24px;
+  margin-bottom: 14px;
+}
+
+
+.ocean-brief-header {
+  display: block;
+}
+
+
+.ocean-brief-summary {
+  max-width: 780px;
+}
+
+
+.ocean-brief-meta {
+  grid-template-columns:
+    1.35fr repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+
+.ocean-brief-meta > div {
+  justify-content: center;
+
+  min-height: 62px;
+  padding: 11px 13px;
+}
+
+
+.ocean-brief-meta span {
+  font-size: 0.62rem;
+}
+
+
+.ocean-brief-meta strong {
+  font-size: 0.9rem;
+}
+
+
+.ocean-brief-online-metric {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  justify-content: initial !important;
+  gap: 10px !important;
+}
+
+
+.ocean-brief-online-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+
+.ocean-brief-online-copy strong {
+  font-size: 0.83rem;
+  color: #f5f8fa;
+}
+
+
+.ocean-brief-online-copy small {
+  overflow: hidden;
+
+  font-size: 0.61rem;
+  line-height: 1.25;
+
+  color: rgba(126, 181, 200, 0.75);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.ocean-brief-ranking {
+  gap: 12px;
+}
+
+
+.ocean-brief-ranking-header h3 {
+  font-size: 1.15rem;
+}
+
+
+.ocean-brief-opportunity-list {
+  gap: 9px;
+}
+
+
+.ocean-brief-opportunity {
+  grid-template-columns:
+    auto minmax(0, 1fr) 42px;
+
+  min-height: 82px;
+  padding: 13px 12px;
+
+  overflow: hidden;
+}
+
+
+.ocean-brief-opportunity::before {
+  content: "";
+
+  position: absolute;
+  inset: 9px auto 9px 0;
+
+  width: 3px;
+
+  background: transparent;
+  border-radius: 0 4px 4px 0;
+
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+
+.active-ocean-opportunity {
+  transform: translateY(-1px);
+
+  border-color: rgba(255, 139, 67, 0.92);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 139, 67, 0.18),
+    0 0 22px rgba(255, 126, 45, 0.09),
+    0 13px 27px rgba(0, 0, 0, 0.28);
+}
+
+
+.active-ocean-opportunity::before {
+  background: #ff914d;
+
+  box-shadow:
+    0 0 11px rgba(255, 145, 77, 0.7);
+}
+
+
+.active-ocean-opportunity::after {
+  content: "SELECTED";
+
+  position: absolute;
+  top: 6px;
+  right: 8px;
+
+  font-size: 0.46rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+
+  color: rgba(255, 158, 94, 0.8);
+}
+
+
+.ocean-brief-rank {
+  width: 32px;
+  height: 32px;
+  flex-basis: 32px;
+}
+
+
+.ocean-brief-location strong {
+  font-size: 0.86rem;
+}
+
+
+.ocean-brief-trend {
+  justify-content: center;
+}
+
+
+.ocean-brief-trend strong {
+  font-size: 1.35rem;
+  line-height: 0.95;
+}
+
+
+.active-ocean-opportunity
+.ocean-brief-trend strong {
+  color: #ff9a59;
+}
+
+
+.ocean-brief-command-center
++ .velion-featured-opportunity {
+  margin-top: 0;
+}
+
+
+@media (max-width: 1180px) {
+
+  .ocean-brief-meta {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .ocean-brief-online-metric {
+    grid-column: span 2;
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .ocean-brief-meta {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .ocean-brief-online-metric {
+    grid-column: 1 / -1;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .ocean-brief-command-center {
+    padding: 18px;
+  }
+
+  .ocean-brief-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .ocean-brief-online-metric {
+    grid-column: auto;
+  }
+
+  .ocean-brief-meta > div {
+    min-height: 58px;
+  }
+
+}

@@ -45,6 +45,11 @@ function Dashboard() {
   const [selectedSpot, setSelectedSpot] =
     useState(null);
 
+    const [
+  selectedOpportunity,
+  setSelectedOpportunity
+] = useState(null);
+
   const [
     reportPanelOpen,
     setReportPanelOpen
@@ -88,6 +93,13 @@ const topSpot =
   rankedLocations[0] ?? null;
 
 
+  const topOpportunities =
+  rankedLocations.slice(0, 5);
+
+const activeOpportunity =
+  selectedOpportunity ?? topSpot;
+
+
 const topScore =
   Number(
     topSpot?.scores?.blueMarlin ??
@@ -118,13 +130,13 @@ const {
   selectedSpot
 );
 
-// Top opportunity
+// Active Ocean Brief opportunity
 const {
-  data: topSpotMarineData,
-  loading: topSpotMarineLoading,
-  error: topSpotMarineError
+  data: activeOpportunityMarineData,
+  loading: activeOpportunityMarineLoading,
+  error: activeOpportunityMarineError
 } = useLiveMarineConditions(
-  topSpot
+  activeOpportunity
 );
 
 
@@ -234,17 +246,29 @@ const handleReportSaved = () => {
 
       {activeTab === "today" && (
   <TodayDashboard
-    topSpot={topSpot}
-    topScore={topScore}
-    topConfidence={topConfidence}
+    topOpportunities={
+      topOpportunities
+    }
+    activeOpportunity={
+      activeOpportunity
+    }
+    setSelectedOpportunity={
+      setSelectedOpportunity
+    }
     setActiveTab={setActiveTab}
     setSelectedSpot={setSelectedSpot}
     setReportPanelOpen={
       setReportPanelOpen
     }
-      liveMarineData={topSpotMarineData}
-  liveMarineLoading={topSpotMarineLoading}
-  liveMarineError={topSpotMarineError}
+    liveMarineData={
+      activeOpportunityMarineData
+    }
+    liveMarineLoading={
+      activeOpportunityMarineLoading
+    }
+    liveMarineError={
+      activeOpportunityMarineError
+    }
   />
 )}
 

@@ -1,7 +1,15 @@
+import {
+  calculateBlueMarlinScore
+} from "../utils/scoreEngine";
+
+import {
+  calculateConfidence
+} from "../utils/confidenceEngine";
+
 function TodayDashboard({
-  topSpot,
-  topScore,
-  topConfidence,
+  topOpportunities,
+  activeOpportunity,
+  setSelectedOpportunity,
   liveMarineData,
   liveMarineLoading,
   liveMarineError,
@@ -10,7 +18,27 @@ function TodayDashboard({
   setReportPanelOpen
 }) {
   const conditions =
-    topSpot?.conditions ?? {};
+    activeOpportunity?.conditions ?? {};
+
+  const activeScore =
+    activeOpportunity
+      ? calculateBlueMarlinScore(
+          activeOpportunity
+        )
+      : null;
+
+  const activeConfidence =
+    activeOpportunity
+      ? calculateConfidence(
+          activeOpportunity
+        )
+      : null;
+
+  const opportunityScore =
+    activeScore?.total ?? 0;
+
+  const opportunityConfidence =
+    activeConfidence?.score ?? 0;
 
 const wind =
   liveMarineData?.wind ?? {};
@@ -53,46 +81,237 @@ const windAndWaveValue =
   return (
     <main className="dashboard-tab-content velion-home">
 
-      <section className="velion-home-hero">
+      <section className="ocean-brief-command-center">
 
-        <div className="velion-home-intro">
+  <div className="ocean-brief-header">
 
-          <p className="section-eyebrow">
-            Offshore Command Center
-          </p>
+    <div>
 
-          <h2>
-            Today&apos;s Offshore Intelligence
-          </h2>
+      <p className="section-eyebrow">
+        Offshore Command Center
+      </p>
 
-          <p>
-            Live ocean conditions,
-            structure intelligence and
-            captain knowledge combined
-            into one clear recommendation.
-          </p>
+      <h2>
+        Ocean Brief
+      </h2>
 
-        </div>
+      <p className="ocean-brief-summary">
+        The Gulf is organizing around
+        several offshore opportunities
+        today.{" "}
+
+        <strong>
+          {activeOpportunity?.name ??
+            "The leading zone"}
+        </strong>{" "}
+
+        is currently selected for closer
+        review based on its combination of
+        ocean movement, productivity and
+        structure interaction.
+      </p>
+
+    </div>
+
+  </div>
 
 
-        <div className="velion-live-status">
+  <div className="ocean-brief-meta">
+   
+    <div className="ocean-brief-online-metric">
 
-          <span className="velion-live-indicator" />
+  <span
+    className="velion-live-indicator"
+  />
 
-          <div>
-            <strong>
-              Pelora Intelligence Online
-            </strong>
+  <span className="ocean-brief-online-copy">
 
-            <small>
-              Map and intelligence engine
-              operational
-            </small>
-          </div>
+    <strong>
+      Pelora Intelligence Online
+    </strong>
 
-        </div>
+    <small>
+      Brief and opportunity engine
+      operational
+    </small>
 
-      </section>
+  </span>
+
+</div>
+
+    <div>
+
+      <span>
+        Selected Opportunity
+      </span>
+
+      <strong>
+        {activeOpportunity?.name ??
+          "Unavailable"}
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>
+        Opportunity Score
+      </span>
+
+      <strong>
+        {opportunityScore}
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>
+        Forecast Confidence
+      </span>
+
+      <strong>
+        {opportunityConfidence}%
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>
+        Brief Updated
+      </span>
+
+      <strong>
+        {marineUpdatedLabel ??
+          "Awaiting live update"}
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div className="ocean-brief-ranking">
+
+    <div className="ocean-brief-ranking-header">
+
+      <div>
+
+        <p className="velion-card-label">
+          Today&apos;s Top Opportunities
+        </p>
+
+        <h3>
+          Select a location to update the
+          dashboard
+        </h3>
+
+      </div>
+
+
+      <button
+        type="button"
+        className="ocean-brief-view-all"
+        onClick={() =>
+          setActiveTab("intelligence")
+        }
+      >
+        View All
+      </button>
+
+    </div>
+
+
+    <div className="ocean-brief-opportunity-list">
+
+      {topOpportunities.map(
+        (opportunity, index) => {
+
+          const score =
+            calculateBlueMarlinScore(
+              opportunity
+            );
+
+          const confidence =
+            calculateConfidence(
+              opportunity
+            );
+
+          const isActive =
+            activeOpportunity?.id ===
+              opportunity.id ||
+            activeOpportunity?.name ===
+              opportunity.name;
+
+          return (
+
+            <button
+              type="button"
+              key={
+                opportunity.id ??
+                opportunity.name
+              }
+              className={[
+                "ocean-brief-opportunity",
+                isActive
+                  ? "active-ocean-opportunity"
+                  : ""
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              onClick={() =>
+                setSelectedOpportunity(
+                  opportunity
+                )
+              }
+            >
+
+              <span className="ocean-brief-rank">
+                {index + 1}
+              </span>
+
+
+              <span className="ocean-brief-location">
+
+                <strong>
+                  {opportunity.name}
+                </strong>
+
+                <small>
+                  {opportunity.region ??
+                    "Gulf of Mexico"}
+                </small>
+
+              </span>
+
+
+              <span className="ocean-brief-trend">
+
+                <small>
+                  {confidence.level}
+                </small>
+
+                <strong>
+                  {score.total}
+                </strong>
+
+              </span>
+
+            </button>
+
+          );
+        }
+      )}
+
+    </div>
+
+  </div>
+
+</section>
 
 
       <section className="velion-command-grid">
@@ -108,16 +327,16 @@ const windAndWaveValue =
               </p>
 
               <h3>
-                {topSpot?.name ??
+                {activeOpportunity?.name ??
                   "Opportunity unavailable"}
               </h3>
 
               <p className="velion-location-meta">
-                {topSpot?.region ??
+                {activeOpportunity?.region ??
                   "Gulf of Mexico"}
 
-                {topSpot?.type
-                  ? ` · ${topSpot.type}`
+                {activeOpportunity?.type
+                  ? ` · ${activeOpportunity.type}`
                   : ""}
               </p>
 
@@ -131,7 +350,7 @@ const windAndWaveValue =
               </span>
 
               <strong>
-                {topScore}
+                {opportunityScore}
               </strong>
 
               <small>
@@ -152,7 +371,7 @@ const windAndWaveValue =
               </span>
 
               <strong>
-                {topConfidence}%
+                {opportunityConfidence}%
               </strong>
 
             </div>
@@ -162,7 +381,7 @@ const windAndWaveValue =
               <span
                 style={{
                   width:
-                    `${topConfidence}%`
+                    `${opportunityConfidence}%`
                 }}
               />
 
@@ -236,11 +455,11 @@ const windAndWaveValue =
               <ReasonCard
                 label="Structure"
                 value={
-                  topSpot?.type ??
+                  activeOpportunity?.type ??
                   "Structure analyzed"
                 }
                 available={
-                  Boolean(topSpot)
+                  Boolean(activeOpportunity)
                 }
               />
 
@@ -254,9 +473,9 @@ const windAndWaveValue =
             <button
               type="button"
               className="velion-view-zone-button"
-              disabled={!topSpot}
+              disabled={!activeOpportunity}
               onClick={() => {
-                setSelectedSpot(topSpot);
+                setSelectedSpot(activeOpportunity);
                 setActiveTab("map");
               }}
             >
