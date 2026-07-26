@@ -3922,7 +3922,6 @@
   padding: 18px 16px 16px;
 }
 
-
 .pelora-logo-lockup {
   display: flex;
   flex-direction: column;
@@ -3930,7 +3929,6 @@
   justify-content: center;
 
   min-width: min(100%, 360px);
-
   gap: 0;
 
   padding: 8px 18px 10px;
@@ -3953,17 +3951,13 @@
     opacity 180ms ease;
 }
 
-
 .pelora-logo-lockup:hover {
   transform: translateY(-1px);
 }
 
-
-.pelora-logo-lockup:hover
-.pelora-header-mark {
+.pelora-logo-lockup:hover .pelora-header-mark {
   transform: translateY(-2px) scale(1.025);
 }
-
 
 .pelora-logo-lockup:focus-visible {
   outline: 2px solid rgba(32, 199, 255, 0.82);
@@ -3971,28 +3965,18 @@
   border-radius: 12px;
 }
 
-
 .pelora-header-mark {
   display: block;
 
-  width: clamp(66px, 7.5vw, 88px);
-  height: clamp(66px, 7.5vw, 88px);
+  width: clamp(110px, 10vw, 145px);
+  height: auto;
 
-  margin: 0 0 7px;
+  margin: 0 0 4px;
 
   object-fit: contain;
 
-  transition:
-    transform 180ms ease,
-    filter 180ms ease;
-
-  filter:
-    drop-shadow(
-      0 6px 10px
-      rgba(0, 10, 22, 0.34)
-    );
+  transition: transform 180ms ease;
 }
-
 
 .pelora-wordmark {
   margin: 0;

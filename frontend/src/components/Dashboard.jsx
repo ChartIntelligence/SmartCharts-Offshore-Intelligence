@@ -161,7 +161,7 @@ const handleReportSaved = () => {
     title="Open Pelora Intelligence"
   >
     <img
-      src="/logos/pelora-compass-final.svg"
+      src="/logos/pelora-mark.svg"
       alt=""
       className="pelora-header-mark"
       aria-hidden="true"
