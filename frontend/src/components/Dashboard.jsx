@@ -27,11 +27,6 @@ function Dashboard() {
   const [activeTab, setActiveTab] =
     useState("today");
 
-    const [
-  intelligencePanelOpen,
-  setIntelligencePanelOpen
-] = useState(false);
-
   const [layers, setLayers] = useState({
     marlin: true,
     yellowfin: true,
@@ -160,7 +155,7 @@ const handleReportSaved = () => {
     type="button"
     className="pelora-logo-lockup"
     onClick={() =>
-      setIntelligencePanelOpen(true)
+      setActiveTab("intelligence")
     }
     aria-label="Open Pelora Intelligence"
     title="Open Pelora Intelligence"
@@ -168,7 +163,7 @@ const handleReportSaved = () => {
     <img
       src="/logos/pelora-compass-final.svg"
       alt=""
-      className="pelora-header-compass"
+      className="pelora-header-mark"
       aria-hidden="true"
     />
 
@@ -176,8 +171,13 @@ const handleReportSaved = () => {
       PELORA
     </h1>
 
+    <span
+      className="pelora-horizon"
+      aria-hidden="true"
+    />
+
     <p className="pelora-logo-subtitle">
-      Offshore Intelligence Platform
+      Ocean Intelligence
     </p>
   </button>
 
