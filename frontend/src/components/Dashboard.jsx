@@ -20,8 +20,7 @@ import {
 
 import "../styles/dashboard.css";
 
-
-
+import peloraHeaderLockup from "../assets/branding/pelora-header-lockup.png";
 
 function Dashboard() {
   const [activeTab, setActiveTab] =
@@ -151,35 +150,25 @@ const handleReportSaved = () => {
 
 <div className="pelora-header-brand">
 
-  <button
-    type="button"
-    className="pelora-logo-lockup"
-    onClick={() =>
-      setActiveTab("intelligence")
-    }
-    aria-label="Open Pelora Intelligence"
-    title="Open Pelora Intelligence"
-  >
-    <img
-      src="/logos/pelora-mark.svg"
-      alt=""
-      className="pelora-header-mark"
-      aria-hidden="true"
-    />
+<button
+  type="button"
+  className="pelora-logo-lockup"
+  onClick={() =>
+    setActiveTab("intelligence")
+  }
+  aria-label="Open Pelora Intelligence"
+  title="Open Pelora Intelligence"
+>
+<img
+  src={peloraHeaderLockup}
+  alt="Pelora"
+  className="pelora-header-lockup-image"
+/>
 
-    <h1 className="pelora-wordmark">
-      PELORA
-    </h1>
-
-    <span
-      className="pelora-horizon"
-      aria-hidden="true"
-    />
-
-    <p className="pelora-logo-subtitle">
-      Ocean Intelligence
-    </p>
-  </button>
+<span className="pelora-logo-subtitle">
+  OCEAN INTELLIGENCE
+</span>
+</button>
 
 </div>
 
