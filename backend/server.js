@@ -835,6 +835,387 @@ async function getCurrentConditions(
 }
 
 
+const SST_SPATIAL_SAMPLE_RADIUS_NM =
+  15;
+
+
+/**
+ * Build four nearby sampling points around a center location.
+ *
+ * Longitude spacing is adjusted for latitude so the east/west
+ * samples remain approximately the requested nautical distance.
+ */
+function createSstSpatialSamplePoints(
+  latitude,
+  longitude
+) {
+  const latitudeOffset =
+    SST_SPATIAL_SAMPLE_RADIUS_NM /
+    60;
+
+  const cosineLatitude =
+    Math.cos(
+      latitude *
+      Math.PI /
+      180
+    );
+
+  const longitudeOffset =
+    Math.abs(cosineLatitude) >
+    0.01
+      ? SST_SPATIAL_SAMPLE_RADIUS_NM /
+        (
+          60 *
+          cosineLatitude
+        )
+      : null;
+
+  if (
+    !Number.isFinite(
+      longitudeOffset
+    )
+  ) {
+    return [];
+  }
+
+  return [
+    {
+      direction: "north",
+      latitude:
+        latitude +
+        latitudeOffset,
+      longitude
+    },
+    {
+      direction: "east",
+      latitude,
+      longitude:
+        longitude +
+        longitudeOffset
+    },
+    {
+      direction: "south",
+      latitude:
+        latitude -
+        latitudeOffset,
+      longitude
+    },
+    {
+      direction: "west",
+      latitude,
+      longitude:
+        longitude -
+        longitudeOffset
+    }
+  ];
+}
+
+
+/**
+ * Request only the current sea-surface temperature for one point.
+ */
+async function getSeaSurfaceTemperaturePoint(
+  latitude,
+  longitude
+) {
+  const url =
+    new URL(
+      "https://marine-api.open-meteo.com/v1/marine"
+    );
+
+  url.searchParams.set(
+    "latitude",
+    String(latitude)
+  );
+
+  url.searchParams.set(
+    "longitude",
+    String(longitude)
+  );
+
+  url.searchParams.set(
+    "cell_selection",
+    "sea"
+  );
+
+  url.searchParams.set(
+    "current",
+    "sea_surface_temperature"
+  );
+
+  url.searchParams.set(
+    "timezone",
+    "UTC"
+  );
+
+  const payload =
+    await fetchJson(url);
+
+  const temperatureCelsius =
+    safeNumber(
+      payload?.current
+        ?.sea_surface_temperature
+    );
+
+  return {
+    requestedLatitude:
+      latitude,
+
+    requestedLongitude:
+      longitude,
+
+    resolvedLatitude:
+      safeNumber(
+        payload?.latitude
+      ) ??
+      latitude,
+
+    resolvedLongitude:
+      safeNumber(
+        payload?.longitude
+      ) ??
+      longitude,
+
+    temperatureCelsius,
+
+    temperatureFahrenheit:
+      celsiusToFahrenheit(
+        temperatureCelsius
+      ),
+
+    observedAt:
+      payload?.current?.time ??
+      null,
+
+    source: {
+      provider:
+        "Open-Meteo",
+
+      classification:
+        "forecast-model",
+
+      availability:
+        temperatureCelsius === null
+          ? "unavailable"
+          : "available"
+    }
+  };
+}
+
+
+/**
+ * Classify a local SST range measured across nearby samples.
+ *
+ * This identifies spatial temperature structure only. It does
+ * not prove persistence, biological importance, or a true front.
+ */
+function classifySstSpatialRange(
+  rangeFahrenheit
+) {
+  if (
+    !Number.isFinite(
+      rangeFahrenheit
+    )
+  ) {
+    return null;
+  }
+
+  if (rangeFahrenheit < 0.5) {
+    return "uniform-water";
+  }
+
+  if (rangeFahrenheit < 1.0) {
+    return "weak-temperature-transition";
+  }
+
+  if (rangeFahrenheit < 2.0) {
+    return "moderate-temperature-transition";
+  }
+
+  return "strong-temperature-break-candidate";
+}
+
+
+async function getSstSpatialStructure(
+  latitude,
+  longitude,
+  centerTemperatureFahrenheit
+) {
+  const samplePoints =
+    createSstSpatialSamplePoints(
+      latitude,
+      longitude
+    );
+
+  const results =
+    await Promise.allSettled(
+      samplePoints.map(
+        async (point) => ({
+          direction:
+            point.direction,
+
+          ...await getSeaSurfaceTemperaturePoint(
+            point.latitude,
+            point.longitude
+          )
+        })
+      )
+    );
+
+  const samples =
+    results.map(
+      (result, index) => {
+        if (
+          result.status ===
+          "fulfilled"
+        ) {
+          return result.value;
+        }
+
+        console.warn(
+          `SST spatial sample failed (${samplePoints[index]?.direction ?? "unknown"}):`,
+          result.reason
+        );
+
+        return {
+          direction:
+            samplePoints[index]
+              ?.direction ??
+            null,
+
+          requestedLatitude:
+            samplePoints[index]
+              ?.latitude ??
+            null,
+
+          requestedLongitude:
+            samplePoints[index]
+              ?.longitude ??
+            null,
+
+          resolvedLatitude:
+            null,
+
+          resolvedLongitude:
+            null,
+
+          temperatureCelsius:
+            null,
+
+          temperatureFahrenheit:
+            null,
+
+          observedAt:
+            null,
+
+          source: {
+            provider:
+              "Open-Meteo",
+
+            classification:
+              "forecast-model",
+
+            availability:
+              "request-failed"
+          }
+        };
+      }
+    );
+
+  const validTemperatures = [
+    centerTemperatureFahrenheit,
+    ...samples.map(
+      sample =>
+        sample
+          .temperatureFahrenheit
+    )
+  ].filter(
+    Number.isFinite
+  );
+
+  const validNeighborCount =
+    samples.filter(
+      sample =>
+        Number.isFinite(
+          sample
+            .temperatureFahrenheit
+        )
+    ).length;
+
+  const sufficientCoverage =
+    Number.isFinite(
+      centerTemperatureFahrenheit
+    ) &&
+    validNeighborCount >= 3;
+
+  const minimumFahrenheit =
+    sufficientCoverage
+      ? Math.min(
+          ...validTemperatures
+        )
+      : null;
+
+  const maximumFahrenheit =
+    sufficientCoverage
+      ? Math.max(
+          ...validTemperatures
+        )
+      : null;
+
+  const rangeFahrenheit =
+    sufficientCoverage
+      ? Number(
+          (
+            maximumFahrenheit -
+            minimumFahrenheit
+          ).toFixed(1)
+        )
+      : null;
+
+  return {
+    sampleRadiusNauticalMiles:
+      SST_SPATIAL_SAMPLE_RADIUS_NM,
+
+    validNeighborCount,
+
+    expectedNeighborCount:
+      samplePoints.length,
+
+    minimumFahrenheit,
+
+    maximumFahrenheit,
+
+    rangeFahrenheit,
+
+    classification:
+      classifySstSpatialRange(
+        rangeFahrenheit
+      ),
+
+    interpretation:
+      "local-spatial-temperature-structure",
+
+    thresholdVersion:
+      "pelora-sst-spatial-range-v1",
+
+    coverage:
+      sufficientCoverage
+        ? "sufficient"
+        : "insufficient",
+
+    samples,
+
+    limitations: [
+      "forecast-model-samples",
+      "single-time-snapshot",
+      "does-not-confirm-persistence",
+      "does-not-confirm-ocean-front",
+      "does-not-indicate-species-suitability"
+    ]
+  };
+}
+
+
 async function getMarineConditions(
   latitude,
   longitude
@@ -1122,6 +1503,56 @@ async function getOceanConditions(
     getMoonConditions();
 
 
+  const sstSpatialResult =
+    await Promise.allSettled([
+      getSstSpatialStructure(
+        latitude,
+        longitude,
+        marine.sst
+          ?.temperatureFahrenheit ??
+        null
+      )
+    ]);
+
+  const sstSpatial =
+    sstSpatialResult[0].status ===
+    "fulfilled"
+      ? sstSpatialResult[0].value
+      : {
+          sampleRadiusNauticalMiles:
+            SST_SPATIAL_SAMPLE_RADIUS_NM,
+
+          validNeighborCount: 0,
+          expectedNeighborCount: 4,
+          minimumFahrenheit: null,
+          maximumFahrenheit: null,
+          rangeFahrenheit: null,
+          classification: null,
+          interpretation:
+            "local-spatial-temperature-structure",
+          thresholdVersion:
+            "pelora-sst-spatial-range-v1",
+          coverage:
+            "unavailable",
+          samples: [],
+          limitations: [
+            "spatial-sampling-unavailable",
+            "does-not-confirm-ocean-front",
+            "does-not-indicate-species-suitability"
+          ]
+        };
+
+  if (
+    sstSpatialResult[0].status ===
+    "rejected"
+  ) {
+    console.warn(
+      "SST spatial analysis failed:",
+      sstSpatialResult[0].reason
+    );
+  }
+
+
 
 
   const chlorophyll =
@@ -1331,7 +1762,10 @@ async function getOceanConditions(
           "does-not-identify-fronts",
           "does-not-identify-temperature-breaks",
           "does-not-indicate-species-suitability"
-        ]
+        ],
+
+        spatialStructure:
+          sstSpatial
       },
 
       source: {
