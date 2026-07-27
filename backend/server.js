@@ -4332,36 +4332,606 @@ export function assessOceanEvidence({
   const structure =
     buildStructureEvidence();
 
+  const groups = {
+    temperature,
+    current,
+    productivity,
+    clarity,
+    structure
+  };
+
+  const confidence =
+    buildOceanEvidenceConfidence({
+      groups,
+      dataQuality
+    });
+
+  const summary =
+    buildOceanEvidenceSummary({
+      groups,
+      confidence
+    });
+
+  const limitations = [
+    ...new Set([
+      ...confidence.limitations,
+
+      ...Object.values(groups)
+        .flatMap(
+          group =>
+            Array.isArray(
+              group?.limitations
+            )
+              ? group.limitations
+              : []
+        )
+    ])
+  ];
+
   return {
-    summary: {
-      classification: null,
-      headline: null,
-      supportingGroupCount: 0,
-      availableGroupCount: 0
-    },
+    summary,
 
-    groups: {
-      temperature,
-      current,
-      productivity,
-      clarity,
-      structure
-    },
+    groups,
 
-    confidence: {
-      score: 0,
-      level: "Very Low",
-      reasons: [],
-      limitations: [],
-      components: {},
-      methodVersion:
-        "pelora-ocean-evidence-confidence-v1"
-    },
+    confidence,
 
-    limitations: [],
+    limitations,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.0"
+      "pelora-ocean-evidence-v1.1"
+  };
+}
+
+
+function buildOceanEvidenceConfidence({
+  groups,
+  dataQuality
+}) {
+  const groupEntries =
+    Object.entries(
+      groups ?? {}
+    );
+
+  const totalGroupCount =
+    groupEntries.length;
+
+  const availableGroups =
+    groupEntries.filter(
+      ([, group]) =>
+        group?.available === true
+    );
+
+  const availableGroupCount =
+    availableGroups.length;
+
+  const unavailableGroups =
+    groupEntries.filter(
+      ([, group]) =>
+        group?.available !== true
+    );
+
+  const unavailableGroupCount =
+    unavailableGroups.length;
+
+  const reasons = [];
+
+  const limitations = [];
+
+  /*
+   * Coverage contributes up to 70 points.
+   *
+   * This intentionally treats unavailable evidence groups as
+   * missing evidence rather than silently ignoring them.
+   */
+  const coverageRatio =
+    totalGroupCount > 0
+      ? availableGroupCount /
+        totalGroupCount
+      : 0;
+
+  const coverageScore =
+    Math.round(
+      coverageRatio * 70
+    );
+
+  if (
+    availableGroupCount ===
+    totalGroupCount &&
+    totalGroupCount > 0
+  ) {
+    reasons.push(
+      "all-evidence-groups-available"
+    );
+  } else if (
+    availableGroupCount >= 3
+  ) {
+    reasons.push(
+      "multiple-evidence-groups-available"
+    );
+  } else if (
+    availableGroupCount > 0
+  ) {
+    reasons.push(
+      "limited-evidence-groups-available"
+    );
+  } else {
+    limitations.push(
+      "no-evidence-groups-available"
+    );
+  }
+
+  for (
+    const [
+      groupName
+    ] of unavailableGroups
+  ) {
+    limitations.push(
+      `${groupName}-evidence-unavailable`
+    );
+  }
+
+  /*
+   * Observation freshness contributes up to 20 points.
+   *
+   * Only groups that expose a freshness value participate in
+   * this component. Temperature evidence currently has no
+   * observation-age field in the evidence contract.
+   */
+  const freshnessValues =
+    availableGroups
+      .map(
+        ([, group]) =>
+          group?.values
+            ?.freshness
+      )
+      .filter(Boolean);
+
+  let freshnessScore = 0;
+
+  let recentCount = 0;
+  let agingCount = 0;
+  let staleCount = 0;
+  let unknownFreshnessCount = 0;
+
+  for (
+    const freshness of
+      freshnessValues
+  ) {
+    switch (freshness) {
+      case "recent":
+        recentCount += 1;
+        break;
+
+      case "aging":
+        agingCount += 1;
+        break;
+
+      case "stale":
+        staleCount += 1;
+        break;
+
+      default:
+        unknownFreshnessCount += 1;
+        break;
+    }
+  }
+
+  if (
+    freshnessValues.length > 0
+  ) {
+    const freshnessPoints =
+      (
+        recentCount * 1 +
+        agingCount * 0.5 +
+        staleCount * 0.1
+      ) /
+      freshnessValues.length;
+
+    freshnessScore =
+      Math.round(
+        freshnessPoints * 20
+      );
+
+    if (
+      recentCount ===
+      freshnessValues.length
+    ) {
+      reasons.push(
+        "available-timed-observations-recent"
+      );
+    } else if (
+      recentCount > 0
+    ) {
+      reasons.push(
+        "some-observations-recent"
+      );
+    }
+
+    if (
+      agingCount > 0
+    ) {
+      limitations.push(
+        "one-or-more-observations-aging"
+      );
+    }
+
+    if (
+      staleCount > 0
+    ) {
+      limitations.push(
+        "one-or-more-observations-stale"
+      );
+    }
+
+    if (
+      unknownFreshnessCount > 0
+    ) {
+      limitations.push(
+        "one-or-more-observation-ages-unknown"
+      );
+    }
+  } else {
+    limitations.push(
+      "observation-freshness-not-assessable"
+    );
+  }
+
+  /*
+   * Upstream data quality contributes up to 10 points.
+   *
+   * The helper accepts either a 0–1 or 0–100 quality score so
+   * the evidence layer remains compatible with the existing
+   * data-quality contract.
+   */
+  const rawDataQualityScore =
+    Number.isFinite(
+      dataQuality?.score
+    )
+      ? dataQuality.score
+      : Number.isFinite(
+          dataQuality?.summary
+            ?.score
+        )
+        ? dataQuality.summary
+            .score
+        : Number.isFinite(
+            dataQuality
+              ?.confidence
+              ?.score
+          )
+          ? dataQuality
+              .confidence
+              .score
+          : null;
+
+  let normalizedDataQualityScore =
+    null;
+
+  if (
+    rawDataQualityScore !== null
+  ) {
+    normalizedDataQualityScore =
+      rawDataQualityScore <= 1
+        ? rawDataQualityScore *
+          100
+        : rawDataQualityScore;
+
+    normalizedDataQualityScore =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          normalizedDataQualityScore
+        )
+      );
+  }
+
+  let dataQualityScore = 0;
+
+  if (
+    normalizedDataQualityScore !==
+    null
+  ) {
+    dataQualityScore =
+      Math.round(
+        normalizedDataQualityScore *
+          0.1
+      );
+
+    if (
+      normalizedDataQualityScore >=
+      80
+    ) {
+      reasons.push(
+        "upstream-data-quality-strong"
+      );
+    } else if (
+      normalizedDataQualityScore >=
+      60
+    ) {
+      reasons.push(
+        "upstream-data-quality-adequate"
+      );
+    } else {
+      limitations.push(
+        "upstream-data-quality-degraded"
+      );
+    }
+  } else {
+    /*
+     * Unknown quality receives a neutral partial contribution,
+     * but is explicitly disclosed as a limitation.
+     */
+    dataQualityScore = 5;
+
+    limitations.push(
+      "upstream-data-quality-score-unavailable"
+    );
+  }
+
+  /*
+   * Preserve the SST spatial-pattern confidence as a reason or
+   * limitation without allowing it to dominate the entire
+   * multi-group evidence confidence.
+   */
+  const temperatureConfidence =
+    groups?.temperature
+      ?.confidence;
+
+  if (
+    temperatureConfidence?.level
+  ) {
+    const normalizedLevel =
+      String(
+        temperatureConfidence.level
+      )
+        .trim()
+        .toLowerCase()
+        .replace(
+          /\s+/g,
+          "-"
+        );
+
+    reasons.push(
+      `temperature-spatial-confidence-${normalizedLevel}`
+    );
+  }
+
+  if (
+    Array.isArray(
+      temperatureConfidence
+        ?.limitations
+    )
+  ) {
+    limitations.push(
+      ...temperatureConfidence
+        .limitations.map(
+          limitation =>
+            `temperature-${limitation}`
+        )
+    );
+  }
+
+  const score =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        coverageScore +
+          freshnessScore +
+          dataQualityScore
+      )
+    );
+
+  let level =
+    "Very Low";
+
+  if (score >= 80) {
+    level = "High";
+  } else if (score >= 60) {
+    level = "Moderate";
+  } else if (score >= 40) {
+    level = "Low";
+  }
+
+  if (
+    availableGroupCount === 0
+  ) {
+    level = "Very Low";
+  }
+
+  return {
+    score,
+
+    level,
+
+    reasons: [
+      ...new Set(reasons)
+    ],
+
+    limitations: [
+      ...new Set(limitations)
+    ],
+
+    components: {
+      coverage: {
+        score:
+          coverageScore,
+        maximumScore: 70,
+        ratio:
+          Number(
+            coverageRatio.toFixed(
+              2
+            )
+          ),
+        availableGroupCount,
+        unavailableGroupCount,
+        totalGroupCount
+      },
+
+      freshness: {
+        score:
+          freshnessScore,
+        maximumScore: 20,
+        recentCount,
+        agingCount,
+        staleCount,
+        unknownCount:
+          unknownFreshnessCount,
+        assessedGroupCount:
+          freshnessValues.length
+      },
+
+      dataQuality: {
+        score:
+          dataQualityScore,
+        maximumScore: 10,
+        upstreamScore:
+          normalizedDataQualityScore
+      }
+    },
+
+    methodVersion:
+      "pelora-ocean-evidence-confidence-v1.0"
+  };
+}
+
+
+function buildOceanEvidenceSummary({
+  groups,
+  confidence
+}) {
+  const groupEntries =
+    Object.entries(
+      groups ?? {}
+    );
+
+  const availableGroups =
+    groupEntries.filter(
+      ([, group]) =>
+        group?.available === true
+    );
+
+  const availableGroupCount =
+    availableGroups.length;
+
+  const supportingGroups =
+    availableGroups.filter(
+      ([, group]) =>
+        group?.classification &&
+        group.classification !==
+          "unavailable" &&
+        group.classification !==
+          "clarity-undetermined"
+    );
+
+  const supportingGroupCount =
+    supportingGroups.length;
+
+  const supportingGroupNames =
+    supportingGroups.map(
+      ([groupName]) =>
+        groupName
+    );
+
+  let classification =
+    "insufficient-evidence";
+
+  let headline =
+    "Ocean evidence is currently insufficient for a broad environmental assessment.";
+
+  let detail =
+    "Pelora does not currently have enough available environmental evidence groups to describe the surrounding ocean with confidence.";
+
+  if (
+    availableGroupCount >= 4
+  ) {
+    classification =
+      "broad-environmental-evidence";
+
+    headline =
+      "Multiple environmental signals are available.";
+
+    detail =
+      "Pelora has broad species-neutral evidence describing temperature, water movement, surface productivity, and surface-water characteristics. These signals do not by themselves establish persistence, biological significance, fishing opportunity, habitat quality, or species suitability.";
+  } else if (
+    availableGroupCount === 3
+  ) {
+    classification =
+      "moderate-environmental-evidence";
+
+    headline =
+      "Several environmental signals are available.";
+
+    detail =
+      "Pelora has several species-neutral environmental evidence groups available, but important parts of the surrounding ocean remain unobserved or unavailable.";
+  } else if (
+    availableGroupCount >= 1
+  ) {
+    classification =
+      "limited-environmental-evidence";
+
+    headline =
+      "Limited environmental evidence is available.";
+
+    detail =
+      "Pelora can describe part of the current environment, but the evidence is too incomplete for a broad ocean assessment.";
+  }
+
+  if (
+    confidence?.level ===
+      "Very Low" &&
+    availableGroupCount > 0
+  ) {
+    detail +=
+      " Overall assessment confidence remains very low because coverage, freshness, or upstream data quality is limited.";
+  } else if (
+    confidence?.level ===
+    "Low"
+  ) {
+    detail +=
+      " Overall assessment confidence is low because one or more evidence dimensions are incomplete or degraded.";
+  } else if (
+    confidence?.level ===
+    "Moderate"
+  ) {
+    detail +=
+      " Overall assessment confidence is moderate.";
+  } else if (
+    confidence?.level ===
+    "High"
+  ) {
+    detail +=
+      " Overall assessment confidence is high for describing the observed environmental evidence.";
+  }
+
+  return {
+    classification,
+
+    headline,
+
+    detail,
+
+    supportingGroupCount,
+
+    availableGroupCount,
+
+    totalGroupCount:
+      groupEntries.length,
+
+    supportingGroups:
+      supportingGroupNames,
+
+    confidenceLevel:
+      confidence?.level ??
+      "Very Low",
+
+    confidenceScore:
+      confidence?.score ??
+      0,
+
+    interpretation:
+      "species-neutral-ocean-evidence-summary"
   };
 }
 
