@@ -7672,15 +7672,221 @@ export function assessBlueMarlinHabitat({
   /*
    * Relationship Group 5:
    * Water Character
+   *
+   * Chlorophyll-derived clarity evidence describes broad
+   * surface-water character only. It does not directly measure
+   * underwater visibility, full-water-column clarity, prey,
+   * blue marlin presence, or fishing quality.
+   *
+   * This relationship group is intentionally weighted below
+   * Thermal Structure and Ocean Movement so that the same
+   * chlorophyll observation does not dominate both productivity
+   * and water-character scoring.
    */
   let waterCharacterScore = 0;
 
   let waterCharacterClassification =
     "unsupported";
 
+  const clarityEvidenceClassification =
+    clarity?.classification ??
+    null;
+
+  const clarityWaterClassification =
+    clarity?.values
+      ?.waterClassification ??
+    null;
+
+  const clarityFreshness =
+    clarity?.values
+      ?.freshness ??
+    "unknown";
+
+  const clarityConcentrationMgM3 =
+    Number.isFinite(
+      clarity?.values
+        ?.concentrationMgM3
+    )
+      ? clarity.values
+          .concentrationMgM3
+      : null;
+
+  const hasDetailedClarityEvidence =
+    clarity?.available === true &&
+    (
+      clarityEvidenceClassification !==
+        null ||
+      clarityWaterClassification !==
+        null ||
+      clarityConcentrationMgM3 !==
+        null
+    );
+
   if (
-    hasSurfaceWaterBoundary
+    clarity?.available
   ) {
+    if (
+      clarityEvidenceClassification ===
+        "very-clear-surface-water" ||
+      clarityWaterClassification ===
+        "very-clear-low-productivity"
+    ) {
+      waterCharacterScore = 5;
+
+      waterCharacterClassification =
+        "very-clear-surface-water-observed";
+
+      positiveDrivers.push(
+        "very-clear-surface-water-character"
+      );
+    } else if (
+      clarityEvidenceClassification ===
+        "clear-surface-water" ||
+      clarityWaterClassification ===
+        "clear-blue-water"
+    ) {
+      waterCharacterScore = 7;
+
+      waterCharacterClassification =
+        "clear-blue-surface-water-observed";
+
+      positiveDrivers.push(
+        "clear-blue-surface-water-character"
+      );
+    } else if (
+      clarityEvidenceClassification ===
+        "transitional-surface-water" ||
+      clarityWaterClassification ===
+        "productive-blue-green-transition"
+    ) {
+      waterCharacterScore = 6;
+
+      waterCharacterClassification =
+        "transitional-surface-water-observed";
+
+      positiveDrivers.push(
+        "blue-green-surface-water-character"
+      );
+    } else if (
+      clarityEvidenceClassification ===
+        "chlorophyll-influenced-surface-water" ||
+      clarityWaterClassification ===
+        "productive-green-water"
+    ) {
+      waterCharacterScore = 3;
+
+      waterCharacterClassification =
+        "chlorophyll-influenced-surface-water-observed";
+
+      negativeDrivers.push(
+        "reduced-surface-water-clarity-inferred"
+      );
+    } else if (
+      clarityEvidenceClassification ===
+        "strongly-chlorophyll-influenced-surface-water" ||
+      clarityWaterClassification ===
+        "high-chlorophyll-coastal-or-bloom-influenced"
+    ) {
+      waterCharacterScore = 1;
+
+      waterCharacterClassification =
+        "strongly-chlorophyll-influenced-water-with-context-uncertainty";
+
+      negativeDrivers.push(
+        "strongly-chlorophyll-influenced-surface-water"
+      );
+
+      limitations.push(
+        "high-chlorophyll-water-may-reflect-coastal-bloom-or-sediment-influence"
+      );
+    } else {
+      waterCharacterScore = 2;
+
+      waterCharacterClassification =
+        "surface-water-character-observed-without-classification";
+
+      limitations.push(
+        "water-character-classification-unavailable"
+      );
+    }
+
+    if (
+      clarityConcentrationMgM3 !==
+        null
+    ) {
+      positiveDrivers.push(
+        `water-character-derived-from-${clarityConcentrationMgM3.toFixed(3)}-mg-m3-surface-chlorophyll`
+      );
+    }
+
+    if (
+      hasSurfaceWaterBoundary
+    ) {
+      waterCharacterScore += 3;
+
+      waterCharacterClassification =
+        "surface-water-character-transition-supported";
+
+      positiveDrivers.push(
+        "surface-water-character-transition"
+      );
+    }
+
+    waterCharacterScore =
+      Math.min(
+        10,
+        waterCharacterScore
+      );
+
+    if (
+      clarityFreshness ===
+        "aging" &&
+      waterCharacterScore > 7
+    ) {
+      waterCharacterScore = 7;
+
+      limitations.push(
+        "water-character-score-limited-by-aging-satellite-observation"
+      );
+    } else if (
+      clarityFreshness ===
+        "stale" &&
+      waterCharacterScore > 4
+    ) {
+      waterCharacterScore = 4;
+
+      limitations.push(
+        "water-character-score-limited-by-stale-satellite-observation"
+      );
+    } else if (
+      clarityFreshness ===
+        "unknown" &&
+      hasDetailedClarityEvidence &&
+      waterCharacterScore > 9
+    ) {
+      waterCharacterScore = 9;
+
+      limitations.push(
+        "water-character-score-limited-by-unknown-observation-age"
+      );
+    }
+
+    limitations.push(
+      "surface-water-character-does-not-directly-measure-visibility"
+    );
+
+    limitations.push(
+      "surface-water-character-does-not-establish-blue-marlin-habitat"
+    );
+  } else if (
+    hasSurfaceWaterBoundary &&
+    !clarity
+  ) {
+    /*
+     * Compatibility fallback for an upstream opportunity that
+     * identifies a chlorophyll-derived water boundary but does
+     * not include the detailed clarity evidence contract.
+     */
     waterCharacterScore = 8;
 
     waterCharacterClassification =
@@ -7689,14 +7895,19 @@ export function assessBlueMarlinHabitat({
     positiveDrivers.push(
       "surface-water-character-transition"
     );
-  } else if (
-    clarity?.available
-  ) {
-    waterCharacterScore = 3;
 
-    waterCharacterClassification =
-      "surface-water-character-observed";
+    limitations.push(
+      "detailed-water-character-evidence-unavailable"
+    );
+
+    limitations.push(
+      "surface-water-character-does-not-directly-measure-visibility"
+    );
   } else {
+    negativeDrivers.push(
+      "water-character-evidence-unavailable"
+    );
+
     limitations.push(
       "water-character-evidence-unavailable"
     );

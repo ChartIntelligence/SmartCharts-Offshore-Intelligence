@@ -3692,3 +3692,521 @@ assert.ok(
 console.log(
   "PASS unavailable productivity evidence produces no blue marlin prey-support score"
 );
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Water Character v1.1
+ * regression tests
+ * ------------------------------------------------------------
+ */
+
+
+const veryClearWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      clarity: {
+        available: true,
+
+        classification:
+          "very-clear-surface-water",
+
+        values: {
+          concentrationMgM3: 0.05,
+
+          waterClassification:
+            "very-clear-low-productivity",
+
+          freshness:
+            "recent",
+
+          ageHours: 8
+        }
+      }
+    })
+  );
+
+assert.equal(
+  veryClearWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  5
+);
+
+assert.equal(
+  veryClearWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .classification,
+  "very-clear-surface-water-observed"
+);
+
+assert.ok(
+  veryClearWaterCharacterBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "very-clear-surface-water-character"
+    )
+);
+
+console.log(
+  "PASS very clear water receives moderate blue marlin water-character support"
+);
+
+
+const clearBlueWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      clarity: {
+        available: true,
+
+        classification:
+          "clear-surface-water",
+
+        values: {
+          concentrationMgM3: 0.14,
+
+          waterClassification:
+            "clear-blue-water",
+
+          freshness:
+            "recent",
+
+          ageHours: 7
+        }
+      }
+    })
+  );
+
+assert.equal(
+  clearBlueWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  7
+);
+
+assert.equal(
+  clearBlueWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .classification,
+  "clear-blue-surface-water-observed"
+);
+
+assert.ok(
+  clearBlueWaterCharacterBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "clear-blue-surface-water-character"
+    )
+);
+
+console.log(
+  "PASS clear blue water receives strongest observation-only blue marlin water-character support"
+);
+
+
+const transitionalWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      clarity: {
+        available: true,
+
+        classification:
+          "transitional-surface-water",
+
+        values: {
+          concentrationMgM3: 0.32,
+
+          waterClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 9
+        }
+      }
+    })
+  );
+
+assert.equal(
+  transitionalWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  6
+);
+
+assert.equal(
+  transitionalWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .classification,
+  "transitional-surface-water-observed"
+);
+
+assert.ok(
+  transitionalWaterCharacterBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "blue-green-surface-water-character"
+    )
+);
+
+console.log(
+  "PASS transitional water receives elevated blue marlin water-character support"
+);
+
+
+const greenWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      clarity: {
+        available: true,
+
+        classification:
+          "chlorophyll-influenced-surface-water",
+
+        values: {
+          concentrationMgM3: 0.72,
+
+          waterClassification:
+            "productive-green-water",
+
+          freshness:
+            "recent",
+
+          ageHours: 6
+        }
+      }
+    })
+  );
+
+assert.equal(
+  greenWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  3
+);
+
+assert.equal(
+  greenWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .classification,
+  "chlorophyll-influenced-surface-water-observed"
+);
+
+assert.ok(
+  greenWaterCharacterBlueMarlinHabitat
+    .negativeDrivers
+    .includes(
+      "reduced-surface-water-clarity-inferred"
+    )
+);
+
+console.log(
+  "PASS chlorophyll-influenced green water receives limited blue marlin water-character support"
+);
+
+
+const stronglyInfluencedWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      clarity: {
+        available: true,
+
+        classification:
+          "strongly-chlorophyll-influenced-surface-water",
+
+        values: {
+          concentrationMgM3: 1.35,
+
+          waterClassification:
+            "high-chlorophyll-coastal-or-bloom-influenced",
+
+          freshness:
+            "recent",
+
+          ageHours: 5
+        }
+      }
+    })
+  );
+
+assert.equal(
+  stronglyInfluencedWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  1
+);
+
+assert.equal(
+  stronglyInfluencedWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .classification,
+  "strongly-chlorophyll-influenced-water-with-context-uncertainty"
+);
+
+assert.ok(
+  stronglyInfluencedWaterCharacterBlueMarlinHabitat
+    .limitations
+    .includes(
+      "high-chlorophyll-water-may-reflect-coastal-bloom-or-sediment-influence"
+    )
+);
+
+console.log(
+  "PASS strongly chlorophyll-influenced water remains cautiously interpreted for blue marlin"
+);
+
+
+const boundaryWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate"
+      ],
+
+      clarity: {
+        available: true,
+
+        classification:
+          "clear-surface-water",
+
+        values: {
+          concentrationMgM3: 0.16,
+
+          waterClassification:
+            "clear-blue-water",
+
+          freshness:
+            "recent",
+
+          ageHours: 8
+        }
+      }
+    })
+  );
+
+assert.equal(
+  boundaryWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  10
+);
+
+assert.equal(
+  boundaryWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .classification,
+  "surface-water-character-transition-supported"
+);
+
+assert.ok(
+  boundaryWaterCharacterBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "surface-water-character-transition"
+    )
+);
+
+console.log(
+  "PASS surface-water boundary raises blue marlin water-character support to maximum"
+);
+
+
+const agingWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate"
+      ],
+
+      clarity: {
+        available: true,
+
+        classification:
+          "clear-surface-water",
+
+        values: {
+          concentrationMgM3: 0.15,
+
+          waterClassification:
+            "clear-blue-water",
+
+          freshness:
+            "aging",
+
+          ageHours: 60
+        }
+      }
+    })
+  );
+
+assert.equal(
+  agingWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  7
+);
+
+assert.ok(
+  agingWaterCharacterBlueMarlinHabitat
+    .limitations
+    .includes(
+      "water-character-score-limited-by-aging-satellite-observation"
+    )
+);
+
+console.log(
+  "PASS aging clarity observation caps blue marlin water-character support"
+);
+
+
+const staleWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate"
+      ],
+
+      clarity: {
+        available: true,
+
+        classification:
+          "clear-surface-water",
+
+        values: {
+          concentrationMgM3: 0.13,
+
+          waterClassification:
+            "clear-blue-water",
+
+          freshness:
+            "stale",
+
+          ageHours: 120
+        }
+      }
+    })
+  );
+
+assert.equal(
+  staleWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  4
+);
+
+assert.ok(
+  staleWaterCharacterBlueMarlinHabitat
+    .limitations
+    .includes(
+      "water-character-score-limited-by-stale-satellite-observation"
+    )
+);
+
+console.log(
+  "PASS stale clarity observation strongly caps blue marlin water-character support"
+);
+
+
+const unknownAgeWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate"
+      ],
+
+      clarity: {
+        available: true,
+
+        classification:
+          "clear-surface-water",
+
+        values: {
+          concentrationMgM3: 0.17,
+
+          waterClassification:
+            "clear-blue-water",
+
+          freshness:
+            "unknown",
+
+          ageHours: null
+        }
+      }
+    })
+  );
+
+assert.equal(
+  unknownAgeWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  9
+);
+
+assert.ok(
+  unknownAgeWaterCharacterBlueMarlinHabitat
+    .limitations
+    .includes(
+      "water-character-score-limited-by-unknown-observation-age"
+    )
+);
+
+console.log(
+  "PASS unknown clarity age conservatively caps blue marlin water-character support"
+);
+
+
+const unavailableWaterCharacterBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      clarity: {
+        available: false,
+
+        classification:
+          "unavailable"
+      }
+    })
+  );
+
+assert.equal(
+  unavailableWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  0
+);
+
+assert.equal(
+  unavailableWaterCharacterBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .classification,
+  "unsupported"
+);
+
+assert.ok(
+  unavailableWaterCharacterBlueMarlinHabitat
+    .negativeDrivers
+    .includes(
+      "water-character-evidence-unavailable"
+    )
+);
+
+console.log(
+  "PASS unavailable clarity evidence produces no blue marlin water-character support"
+);
