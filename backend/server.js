@@ -2202,32 +2202,41 @@ async function getMarineConditions(
   );
 
 
+  const marineConditionsStartedAt =
+    performance.now();
+
   const [
-  weatherResult,
-  marineResult
-] = await Promise.allSettled([
-  fetchJson(
-    weatherUrl,
-    {
-      timeoutMilliseconds:
-        3000,
+    weatherResult,
+    marineResult
+  ] = await Promise.all([
+    settleWithTiming(
+      () =>
+        fetchJson(
+          weatherUrl,
+          {
+            timeoutMilliseconds:
+              3000,
 
-      provider:
-        "Open-Meteo Weather API"
-    }
-  ),
+            provider:
+              "Open-Meteo Weather API"
+          }
+        )
+    ),
 
-  fetchJson(
-    marineUrl,
-    {
-      timeoutMilliseconds:
-        3000,
+    settleWithTiming(
+      () =>
+        fetchJson(
+          marineUrl,
+          {
+            timeoutMilliseconds:
+              3000,
 
-      provider:
-        "Open-Meteo Marine API"
-    }
-  )
-]);
+            provider:
+              "Open-Meteo Marine API"
+          }
+        )
+    )
+  ]);
 
 
 const weather =
@@ -2372,7 +2381,8 @@ if (
 
 
     source: {
-      provider: "Open-Meteo",
+      provider:
+        "Open-Meteo",
 
       weatherModel:
         weather?.current_units
@@ -2383,6 +2393,56 @@ if (
         marine?.current_units
           ? "Marine Forecast API"
           : null
+    },
+
+    diagnostics: {
+      timingsMilliseconds: {
+        weatherApi:
+          weatherResult
+            .durationMilliseconds,
+
+        marineApi:
+          marineResult
+            .durationMilliseconds,
+
+        total:
+          Number(
+            (
+              performance.now() -
+              marineConditionsStartedAt
+            ).toFixed(1)
+          )
+      },
+
+      providerStatus: {
+        weatherApi:
+          weatherResult.status,
+
+        marineApi:
+          marineResult.status
+      },
+
+      providerErrors: {
+        weatherApi:
+          weatherResult.status ===
+          "rejected"
+            ? weatherResult.reason
+                ?.message ??
+              String(
+                weatherResult.reason
+              )
+            : null,
+
+        marineApi:
+          marineResult.status ===
+          "rejected"
+            ? marineResult.reason
+                ?.message ??
+              String(
+                marineResult.reason
+              )
+            : null
+      }
     }
   };
 }
@@ -2742,6 +2802,18 @@ async function getOceanConditions(
           marineResult
             .durationMilliseconds,
 
+        weatherApi:
+          marine.diagnostics
+            ?.timingsMilliseconds
+            ?.weatherApi ??
+          null,
+
+        marineApi:
+          marine.diagnostics
+            ?.timingsMilliseconds
+            ?.marineApi ??
+          null,
+
         chlorophyll:
           chlorophyllResult
             .durationMilliseconds,
@@ -2766,8 +2838,33 @@ async function getOceanConditions(
           )
       },
 
+      openMeteo: {
+        providerStatus:
+          marine.diagnostics
+            ?.providerStatus ??
+          {
+            weatherApi:
+              "unknown",
+
+            marineApi:
+              "unknown"
+          },
+
+        providerErrors:
+          marine.diagnostics
+            ?.providerErrors ??
+          {
+            weatherApi:
+              null,
+
+            marineApi:
+              null
+          }
+      },
+
       executionOrder: [
         "marine-chlorophyll-currents-in-parallel",
+        "weather-and-marine-apis-in-parallel",
         "sst-spatial-after-marine"
       ],
 
