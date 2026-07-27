@@ -244,6 +244,81 @@ function currentDirectionDegrees(
 }
 
 
+/**
+ * Convert current speed into broad operational bands.
+ *
+ * These bands describe current strength only. They do not
+ * indicate habitat quality, fish presence, or fishing success.
+ */
+function classifyCurrentStrength(
+  speedKnots
+) {
+  if (
+    !Number.isFinite(
+      speedKnots
+    )
+  ) {
+    return null;
+  }
+
+  if (speedKnots < 0.25) {
+    return "weak";
+  }
+
+  if (speedKnots < 0.75) {
+    return "moderate";
+  }
+
+  if (speedKnots < 1.5) {
+    return "strong";
+  }
+
+  return "very-strong";
+}
+
+
+/**
+ * Convert degrees-toward into an eight-point compass heading.
+ */
+function currentCompassDirection(
+  directionDegrees
+) {
+  if (
+    !Number.isFinite(
+      directionDegrees
+    )
+  ) {
+    return null;
+  }
+
+  const normalized =
+    (
+      directionDegrees %
+      360 +
+      360
+    ) %
+    360;
+
+  const directions = [
+    "N",
+    "NE",
+    "E",
+    "SE",
+    "S",
+    "SW",
+    "W",
+    "NW"
+  ];
+
+  const index =
+    Math.round(
+      normalized / 45
+    ) % 8;
+
+  return directions[index];
+}
+
+
 const SYNODIC_MONTH_DAYS =
   29.530588853;
 
@@ -640,17 +715,39 @@ async function getCurrentConditions(
         )
       : null;
 
-  return {
-    speedKnots:
-      metersPerSecondToKnots(
-        speedMetersPerSecond
-      ),
+  const speedKnots =
+    metersPerSecondToKnots(
+      speedMetersPerSecond
+    );
 
-    directionDegrees:
-      currentDirectionDegrees(
-        eastward,
-        northward
-      ),
+  const directionDegrees =
+    currentDirectionDegrees(
+      eastward,
+      northward
+    );
+
+  return {
+    speedKnots,
+
+    directionDegrees,
+
+    derived: {
+      strength:
+        classifyCurrentStrength(
+          speedKnots
+        ),
+
+      compassDirection:
+        currentCompassDirection(
+          directionDegrees
+        ),
+
+      interpretation:
+        "operational-current-description",
+
+      thresholdVersion:
+        "pelora-current-strength-v1"
+    },
 
     eastwardMetersPerSecond:
       eastward === null
