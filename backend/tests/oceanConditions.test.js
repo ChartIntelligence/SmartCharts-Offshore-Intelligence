@@ -4,6 +4,46 @@ import {
   assessOceanConditions
 } from "../server.js";
 
+
+const createConditionsInput = ({
+  wind = {},
+  waves = {},
+  swell = {},
+  dataQuality = {}
+} = {}) => ({
+  wind: {
+    speedKnots: 10,
+    gustKnots: 14,
+    directionDegrees: 300,
+    ...wind
+  },
+
+  waves: {
+    heightFeet: 2,
+    periodSeconds: 10,
+    directionDegrees: 300,
+    ...waves
+  },
+
+  swell: {
+    heightFeet: 2,
+    periodSeconds: 12,
+    directionDegrees: 300,
+    ...swell
+  },
+
+  dataQuality
+});
+
+
+const assessTestConditions =
+  overrides =>
+    assessOceanConditions(
+      createConditionsInput(
+        overrides
+      )
+    );
+
 const result =
   assessOceanConditions({
     wind: {
@@ -706,7 +746,7 @@ for (
   of windBoundaryCases
 ) {
   const windBoundaryResult =
-    assessOceanConditions({
+    assessTestConditions({
       wind: {
         speedKnots:
           windBoundaryCase
@@ -714,24 +754,8 @@ for (
 
         gustKnots:
           windBoundaryCase
-            .gustKnots,
-
-        directionDegrees: 300
-      },
-
-      waves: {
-        heightFeet: 2,
-        periodSeconds: 10,
-        directionDegrees: 300
-      },
-
-      swell: {
-        heightFeet: 2,
-        periodSeconds: 12,
-        directionDegrees: 300
-      },
-
-      dataQuality: {}
+            .gustKnots
+      }
     });
 
 
