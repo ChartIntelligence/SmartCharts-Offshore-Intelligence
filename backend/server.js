@@ -6917,16 +6917,215 @@ export function assessBlueMarlinHabitat({
   /*
    * Relationship Group 1:
    * Ocean Movement
+   *
+   * Current evidence is currently based on a single-point
+   * speed-and-direction vector. The habitat model may interpret
+   * current strength and its association with other measured
+   * environmental evidence, but it must not claim convergence,
+   * shear, an edge, an eddy boundary, spatial organization,
+   * persistence, or biological concentration.
    */
   let oceanMovementScore = 0;
 
   let oceanMovementClassification =
     "unsupported";
 
+  const currentStrengthClassification =
+    current?.values
+      ?.strengthClassification ??
+    current?.classification ??
+    null;
+
+  const currentSpeedKnots =
+    Number.isFinite(
+      current?.values
+        ?.speedKnots
+    )
+      ? current.values.speedKnots
+      : null;
+
+  const currentFreshness =
+    current?.values
+      ?.freshness ??
+    "unknown";
+
+  const currentSourceAvailability =
+    current?.values
+      ?.sourceAvailability ??
+    null;
+
+  const hasDetailedCurrentEvidence =
+    current?.available === true &&
+    current?.values &&
+    (
+      currentSpeedKnots !== null ||
+      current?.values
+        ?.directionDegrees !== null
+    );
+
   if (
-    hasCurrentSupportedTransition ||
-    hasMultiSignalFeature
+    current?.available
   ) {
+    if (
+      currentStrengthClassification ===
+      "weak"
+    ) {
+      oceanMovementScore = 4;
+
+      oceanMovementClassification =
+        "weak-current-observation";
+    } else if (
+      currentStrengthClassification ===
+      "moderate"
+    ) {
+      oceanMovementScore = 7;
+
+      oceanMovementClassification =
+        "moderate-current-observation";
+    } else if (
+      currentStrengthClassification ===
+      "strong"
+    ) {
+      oceanMovementScore = 9;
+
+      oceanMovementClassification =
+        "strong-current-observation";
+    } else if (
+      currentStrengthClassification ===
+      "very-strong"
+    ) {
+      oceanMovementScore = 10;
+
+      oceanMovementClassification =
+        "very-strong-current-observation";
+    } else {
+      oceanMovementScore = 6;
+
+      oceanMovementClassification =
+        "current-observation-with-strength-uncertainty";
+
+      limitations.push(
+        "current-strength-classification-unavailable"
+      );
+    }
+
+    positiveDrivers.push(
+      "local-current-observation"
+    );
+
+    if (
+      currentStrengthClassification
+    ) {
+      positiveDrivers.push(
+        `local-current-strength-${currentStrengthClassification}`
+      );
+    }
+
+    if (
+      currentSpeedKnots !== null
+    ) {
+      positiveDrivers.push(
+        `observed-current-speed-${currentSpeedKnots.toFixed(2)}-knots`
+      );
+    }
+
+    if (
+      hasCurrentSupportedTransition
+    ) {
+      oceanMovementScore += 8;
+
+      oceanMovementClassification =
+        "current-associated-with-environmental-transition";
+
+      positiveDrivers.push(
+        "water-movement-near-environmental-transition"
+      );
+    }
+
+    if (
+      hasMultiSignalFeature
+    ) {
+      oceanMovementScore += 2;
+
+      positiveDrivers.push(
+        "current-associated-with-multi-signal-feature"
+      );
+    }
+
+    oceanMovementScore =
+      Math.min(
+        20,
+        oceanMovementScore
+      );
+
+    if (
+      currentFreshness ===
+        "aging" &&
+      oceanMovementScore > 14
+    ) {
+      oceanMovementScore = 14;
+
+      limitations.push(
+        "ocean-movement-score-limited-by-aging-current-observation"
+      );
+    } else if (
+      currentFreshness ===
+        "stale" &&
+      oceanMovementScore > 8
+    ) {
+      oceanMovementScore = 8;
+
+      limitations.push(
+        "ocean-movement-score-limited-by-stale-current-observation"
+      );
+    } else if (
+      currentFreshness ===
+        "unknown" &&
+      hasDetailedCurrentEvidence &&
+      oceanMovementScore > 18
+    ) {
+      oceanMovementScore = 18;
+
+      limitations.push(
+        "ocean-movement-score-limited-by-unknown-observation-age"
+      );
+    }
+
+    if (
+      currentSourceAvailability &&
+      currentSourceAvailability !==
+        "available"
+    ) {
+      oceanMovementScore =
+        Math.min(
+          oceanMovementScore,
+          10
+        );
+
+      limitations.push(
+        "ocean-movement-score-limited-by-current-source-availability"
+      );
+    }
+
+    limitations.push(
+      "current-organization-not-established"
+    );
+
+    limitations.push(
+      "current-persistence-not-established"
+    );
+  } else if (
+    (
+      hasCurrentSupportedTransition ||
+      hasMultiSignalFeature
+    ) &&
+    !current
+  ) {
+    /*
+     * Conservative compatibility fallback for an upstream
+     * opportunity result that does not include the detailed
+     * Ocean Evidence current contract.
+     */
     oceanMovementScore = 20;
 
     oceanMovementClassification =
@@ -6935,20 +7134,9 @@ export function assessBlueMarlinHabitat({
     positiveDrivers.push(
       "water-movement-near-environmental-transition"
     );
-  } else if (
-    current?.available
-  ) {
-    oceanMovementScore = 8;
-
-    oceanMovementClassification =
-      "current-observation-only";
-
-    positiveDrivers.push(
-      "local-current-observation"
-    );
 
     limitations.push(
-      "current-organization-not-established"
+      "detailed-current-evidence-unavailable"
     );
   } else {
     negativeDrivers.push(

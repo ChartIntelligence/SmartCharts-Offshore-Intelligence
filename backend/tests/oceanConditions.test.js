@@ -2079,14 +2079,14 @@ assert.equal(
   movementAndThermalBlueMarlinHabitat
     .summary
     .rawSuitabilityScore,
-  42
+  34
 );
 
 assert.equal(
   movementAndThermalBlueMarlinHabitat
     .summary
     .suitabilityScore,
-  42
+  34
 );
 
 assert.equal(
@@ -2101,7 +2101,7 @@ assert.equal(
     .relationshipGroups
     .oceanMovement
     .score,
-  20
+  12
 );
 
 console.log(
@@ -2593,4 +2593,564 @@ assert.ok(
 
 console.log(
   "PASS incomplete spatial coverage limits blue marlin thermal support"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Ocean Movement v1.1 regression tests
+ * ------------------------------------------------------------
+ */
+
+
+const weakCurrentOnlyBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      current: {
+        available: true,
+
+        classification:
+          "weak",
+
+        values: {
+          speedKnots: 0.2,
+
+          strengthClassification:
+            "weak",
+
+          directionDegrees: 90,
+
+          compassDirection:
+            "E",
+
+          freshness:
+            "recent",
+
+          ageHours: 6,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  weakCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  4
+);
+
+assert.equal(
+  weakCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .classification,
+  "weak-current-observation"
+);
+
+console.log(
+  "PASS weak current receives minimal blue marlin ocean-movement support"
+);
+
+
+const moderateCurrentOnlyBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      current: {
+        available: true,
+
+        classification:
+          "moderate",
+
+        values: {
+          speedKnots: 0.5,
+
+          strengthClassification:
+            "moderate",
+
+          directionDegrees: 135,
+
+          compassDirection:
+            "SE",
+
+          freshness:
+            "recent",
+
+          ageHours: 8,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  moderateCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  7
+);
+
+assert.equal(
+  moderateCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .classification,
+  "moderate-current-observation"
+);
+
+console.log(
+  "PASS moderate current receives moderate blue marlin ocean-movement support"
+);
+
+
+const strongCurrentOnlyBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      current: {
+        available: true,
+
+        classification:
+          "strong",
+
+        values: {
+          speedKnots: 1.1,
+
+          strengthClassification:
+            "strong",
+
+          directionDegrees: 180,
+
+          compassDirection:
+            "S",
+
+          freshness:
+            "recent",
+
+          ageHours: 10,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  strongCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  9
+);
+
+assert.equal(
+  strongCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .classification,
+  "strong-current-observation"
+);
+
+console.log(
+  "PASS strong current receives increased blue marlin ocean-movement support"
+);
+
+
+const veryStrongCurrentOnlyBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      current: {
+        available: true,
+
+        classification:
+          "very-strong",
+
+        values: {
+          speedKnots: 1.8,
+
+          strengthClassification:
+            "very-strong",
+
+          directionDegrees: 225,
+
+          compassDirection:
+            "SW",
+
+          freshness:
+            "recent",
+
+          ageHours: 5,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  veryStrongCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  10
+);
+
+assert.equal(
+  veryStrongCurrentOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .classification,
+  "very-strong-current-observation"
+);
+
+console.log(
+  "PASS very strong current reaches maximum observation-only movement support"
+);
+
+
+const currentSupportedTransitionBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate"
+      ],
+
+      current: {
+        available: true,
+
+        classification:
+          "strong",
+
+        values: {
+          speedKnots: 1.1,
+
+          strengthClassification:
+            "strong",
+
+          directionDegrees: 270,
+
+          compassDirection:
+            "W",
+
+          freshness:
+            "recent",
+
+          ageHours: 4,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  currentSupportedTransitionBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  17
+);
+
+assert.equal(
+  currentSupportedTransitionBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .classification,
+  "current-associated-with-environmental-transition"
+);
+
+assert.ok(
+  currentSupportedTransitionBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "water-movement-near-environmental-transition"
+    )
+);
+
+console.log(
+  "PASS current-supported transition increases blue marlin ocean-movement support"
+);
+
+
+const multiSignalCurrentBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "multi-signal-feature-candidate"
+      ],
+
+      current: {
+        available: true,
+
+        classification:
+          "moderate",
+
+        values: {
+          speedKnots: 0.5,
+
+          strengthClassification:
+            "moderate",
+
+          directionDegrees: 315,
+
+          compassDirection:
+            "NW",
+
+          freshness:
+            "recent",
+
+          ageHours: 7,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  multiSignalCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  9
+);
+
+assert.ok(
+  multiSignalCurrentBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "current-associated-with-multi-signal-feature"
+    )
+);
+
+console.log(
+  "PASS multi-signal association adds limited blue marlin movement support"
+);
+
+
+const agingCurrentBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      current: {
+        available: true,
+
+        classification:
+          "very-strong",
+
+        values: {
+          speedKnots: 1.8,
+
+          strengthClassification:
+            "very-strong",
+
+          directionDegrees: 45,
+
+          compassDirection:
+            "NE",
+
+          freshness:
+            "aging",
+
+          ageHours: 48,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  agingCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  14
+);
+
+assert.ok(
+  agingCurrentBlueMarlinHabitat
+    .limitations
+    .includes(
+      "ocean-movement-score-limited-by-aging-current-observation"
+    )
+);
+
+console.log(
+  "PASS aging current observation caps blue marlin ocean-movement support"
+);
+
+
+const staleCurrentBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      current: {
+        available: true,
+
+        classification:
+          "very-strong",
+
+        values: {
+          speedKnots: 1.8,
+
+          strengthClassification:
+            "very-strong",
+
+          directionDegrees: 90,
+
+          compassDirection:
+            "E",
+
+          freshness:
+            "stale",
+
+          ageHours: 96,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  staleCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  8
+);
+
+assert.ok(
+  staleCurrentBlueMarlinHabitat
+    .limitations
+    .includes(
+      "ocean-movement-score-limited-by-stale-current-observation"
+    )
+);
+
+console.log(
+  "PASS stale current observation strongly caps blue marlin ocean-movement support"
+);
+
+
+const unknownAgeCurrentBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      current: {
+        available: true,
+
+        classification:
+          "very-strong",
+
+        values: {
+          speedKnots: 1.8,
+
+          strengthClassification:
+            "very-strong",
+
+          directionDegrees: 135,
+
+          compassDirection:
+            "SE",
+
+          freshness:
+            "unknown",
+
+          ageHours: null,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  unknownAgeCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  18
+);
+
+assert.ok(
+  unknownAgeCurrentBlueMarlinHabitat
+    .limitations
+    .includes(
+      "ocean-movement-score-limited-by-unknown-observation-age"
+    )
+);
+
+console.log(
+  "PASS unknown current age conservatively caps blue marlin ocean-movement support"
+);
+
+
+const unavailableCurrentBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      current: {
+        available: false,
+
+        classification:
+          "unavailable"
+      }
+    })
+  );
+
+assert.equal(
+  unavailableCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  0
+);
+
+assert.equal(
+  unavailableCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .classification,
+  "unsupported"
+);
+
+assert.ok(
+  unavailableCurrentBlueMarlinHabitat
+    .negativeDrivers
+    .includes(
+      "ocean-movement-evidence-unavailable"
+    )
+);
+
+console.log(
+  "PASS unavailable current evidence produces no blue marlin ocean-movement support"
 );
