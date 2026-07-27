@@ -179,6 +179,13 @@ const CHLOROPHYLL_MAX_LIVE_AGE_HOURS =
   72;
 
 
+const CURRENTS_DATASET =
+  "noaacwBLENDEDNRTcurrentsDaily";
+
+const CURRENTS_MAX_LIVE_AGE_HOURS =
+  96;
+
+
 /*
  * Classify chlorophyll conservatively.
  *
@@ -207,6 +214,33 @@ function classifyChlorophyll(value) {
   }
 
   return "high-chlorophyll-coastal-or-bloom-influenced";
+}
+
+
+function currentDirectionDegrees(
+  eastward,
+  northward
+) {
+  if (
+    !Number.isFinite(eastward) ||
+    !Number.isFinite(northward)
+  ) {
+    return null;
+  }
+
+  const degrees =
+    Math.atan2(
+      eastward,
+      northward
+    ) *
+    (180 / Math.PI);
+
+  return Number(
+    (
+      (degrees + 360) %
+      360
+    ).toFixed(0)
+  );
 }
 
 
@@ -336,6 +370,162 @@ async function getChlorophyllConditions(
         concentration === null
           ? "no-valid-pixel"
           : "available"
+    }
+  };
+}
+
+
+async function getCurrentConditions(
+  latitude,
+  longitude
+) {
+  const query =
+    [
+      `u_current[(last)][(${latitude})][(${longitude})]`,
+      `v_current[(last)][(${latitude})][(${longitude})]`
+    ].join(",");
+
+  const url =
+    new URL(
+      `https://coastwatch.noaa.gov/erddap/griddap/${CURRENTS_DATASET}.json`
+    );
+
+  url.search =
+    `?${encodeURIComponent(query)}`;
+
+  const payload =
+    await fetchJson(url);
+
+  const columns =
+    payload?.table?.columnNames;
+
+  const rows =
+    payload?.table?.rows;
+
+  if (
+    !Array.isArray(columns) ||
+    !Array.isArray(rows) ||
+    rows.length === 0
+  ) {
+    return {
+      speedKnots: null,
+      directionDegrees: null,
+      eastwardMetersPerSecond: null,
+      northwardMetersPerSecond: null,
+      observedAt: null,
+      ageHours: null,
+      source: {
+        provider:
+          "NOAA CoastWatch",
+
+        dataset:
+          CURRENTS_DATASET,
+
+        classification:
+          "altimetry-derived-geostrophic-current",
+
+        availability:
+          "no-valid-pixel"
+      }
+    };
+  }
+
+  const row =
+    rows[0];
+
+  const valueAt =
+    (name) => {
+      const index =
+        columns.indexOf(name);
+
+      return index >= 0
+        ? row[index]
+        : null;
+    };
+
+  const eastward =
+    safeNumber(
+      valueAt("u_current")
+    );
+
+  const northward =
+    safeNumber(
+      valueAt("v_current")
+    );
+
+  const observedAt =
+    valueAt("time") ?? null;
+
+  const ageHours =
+    getAgeHours(observedAt);
+
+  const hasVector =
+    Number.isFinite(eastward) &&
+    Number.isFinite(northward);
+
+  const speedMetersPerSecond =
+    hasVector
+      ? Math.sqrt(
+          eastward ** 2 +
+          northward ** 2
+        )
+      : null;
+
+  return {
+    speedKnots:
+      metersPerSecondToKnots(
+        speedMetersPerSecond
+      ),
+
+    directionDegrees:
+      currentDirectionDegrees(
+        eastward,
+        northward
+      ),
+
+    eastwardMetersPerSecond:
+      eastward === null
+        ? null
+        : Number(
+            eastward.toFixed(4)
+          ),
+
+    northwardMetersPerSecond:
+      northward === null
+        ? null
+        : Number(
+            northward.toFixed(4)
+          ),
+
+    observedAt,
+
+    ageHours,
+
+    source: {
+      provider:
+        "NOAA CoastWatch",
+
+      dataset:
+        CURRENTS_DATASET,
+
+      variables: [
+        "u_current",
+        "v_current"
+      ],
+
+      units:
+        "m/s",
+
+      classification:
+        "altimetry-derived-geostrophic-current",
+
+      directionConvention:
+        "degrees-toward",
+
+      availability:
+        hasVector
+          ? "available"
+          : "no-valid-pixel"
     }
   };
 }
@@ -593,7 +783,8 @@ async function getOceanConditions(
 ) {
   const [
     marineResult,
-    chlorophyllResult
+    chlorophyllResult,
+    currentsResult
   ] = await Promise.allSettled([
     getMarineConditions(
       latitude,
@@ -601,6 +792,11 @@ async function getOceanConditions(
     ),
 
     getChlorophyllConditions(
+      latitude,
+      longitude
+    ),
+
+    getCurrentConditions(
       latitude,
       longitude
     )
@@ -643,6 +839,33 @@ async function getOceanConditions(
         };
 
 
+  const currents =
+    currentsResult.status ===
+    "fulfilled"
+      ? currentsResult.value
+      : {
+          speedKnots: null,
+          directionDegrees: null,
+          eastwardMetersPerSecond: null,
+          northwardMetersPerSecond: null,
+          observedAt: null,
+          ageHours: null,
+          source: {
+            provider:
+              "NOAA CoastWatch",
+
+            dataset:
+              CURRENTS_DATASET,
+
+            classification:
+              "altimetry-derived-geostrophic-current",
+
+            availability:
+              "provider-unavailable"
+          }
+        };
+
+
   if (
     chlorophyllResult.status ===
     "rejected"
@@ -650,6 +873,17 @@ async function getOceanConditions(
     console.warn(
       "Chlorophyll data request failed:",
       chlorophyllResult.reason
+    );
+  }
+
+
+  if (
+    currentsResult.status ===
+    "rejected"
+  ) {
+    console.warn(
+      "Current data request failed:",
+      currentsResult.reason
     );
   }
 
@@ -668,6 +902,24 @@ async function getOceanConditions(
     ) &&
     chlorophyll.ageHours <=
       CHLOROPHYLL_MAX_LIVE_AGE_HOURS;
+
+
+  const currentsHaveValue =
+    Number.isFinite(
+      currents.speedKnots
+    ) &&
+    Number.isFinite(
+      currents.directionDegrees
+    );
+
+
+  const currentsAreCurrent =
+    currentsHaveValue &&
+    Number.isFinite(
+      currents.ageHours
+    ) &&
+    currents.ageHours <=
+      CURRENTS_MAX_LIVE_AGE_HOURS;
 
 
   return {
@@ -718,7 +970,11 @@ async function getOceanConditions(
             : "unavailable",
 
       currents:
-        "not-connected",
+        currentsAreCurrent
+          ? "live"
+          : currentsHaveValue
+            ? "stale"
+            : "unavailable",
 
       moon:
         "not-connected"
@@ -755,11 +1011,7 @@ async function getOceanConditions(
 
     chlorophyll,
 
-    currents: {
-      speedKnots: null,
-      directionDegrees: null,
-      source: null
-    },
+    currents,
 
     moon: {
       phase: null,
@@ -771,7 +1023,10 @@ async function getOceanConditions(
         marine.source,
 
       chlorophyll:
-        chlorophyll.source
+        chlorophyll.source,
+
+      currents:
+        currents.source
     }
   };
 }
