@@ -6356,7 +6356,10 @@ export function assessOceanOpportunity({
         temperature
           ?.classification,
         current
-          ?.classification,
+           ?.values
+           ?.strengthClassification
+             ? `current-strength-${current.values.strengthClassification}`
+            : null,
         "current-observation-co-located-with-temperature-transition"
       ].filter(Boolean),
 

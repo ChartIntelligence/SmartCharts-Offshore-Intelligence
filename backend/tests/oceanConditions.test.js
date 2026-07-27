@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 
 import {
-  assessOceanConditions
+  assessOceanConditions,
+  assessOceanOpportunity
 } from "../server.js";
 
 
@@ -1399,3 +1400,456 @@ for (
     `PASS ${directionalBoundaryCase.name}`
   );
 }
+
+
+/*
+ * ------------------------------------------------------------
+ * Ocean Opportunity Engine regression tests
+ * ------------------------------------------------------------
+ */
+
+const createOceanEvidenceInput = ({
+  temperature = {},
+  current = {},
+  productivity = {},
+  clarity = {},
+  structure = {},
+  confidence = {},
+  summary = {},
+  limitations = []
+} = {}) => ({
+  groups: {
+    temperature: {
+      available: false,
+      classification:
+        "unavailable",
+      ...temperature
+    },
+
+    current: {
+      available: false,
+      classification:
+        "unavailable",
+      ...current
+    },
+
+    productivity: {
+      available: false,
+      classification:
+        "unavailable",
+      ...productivity
+    },
+
+    clarity: {
+      available: false,
+      classification:
+        "unavailable",
+      ...clarity
+    },
+
+    structure: {
+      available: false,
+      classification:
+        "unavailable",
+      ...structure
+    }
+  },
+
+  confidence: {
+    score: 80,
+    level: "High",
+    limitations: [],
+    ...confidence
+  },
+
+  summary: {
+    availableGroupCount: 0,
+    ...summary
+  },
+
+  limitations
+});
+
+
+const noOpportunityResult =
+  assessOceanOpportunity({
+    oceanEvidence:
+      createOceanEvidenceInput({
+        confidence: {
+          score: 20,
+          level: "Very Low"
+        }
+      })
+  });
+
+assert.equal(
+  noOpportunityResult
+    .summary
+    .opportunityCount,
+  0
+);
+
+assert.equal(
+  noOpportunityResult
+    .summary
+    .classification,
+  "no-supported-feature-candidate"
+);
+
+console.log(
+  "PASS no evidence produces no opportunity candidate"
+);
+
+
+const moderateTemperatureOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      createOceanEvidenceInput({
+        temperature: {
+          available: true,
+
+          classification:
+            "moderate-temperature-structure",
+
+          orientation: {
+            classification:
+              "directional-temperature-transition"
+          }
+        },
+
+        confidence: {
+          score: 72,
+          level: "Moderate"
+        },
+
+        summary: {
+          availableGroupCount: 1
+        }
+      })
+  });
+
+assert.equal(
+  moderateTemperatureOpportunity
+    .summary
+    .opportunityCount,
+  1
+);
+
+assert.equal(
+  moderateTemperatureOpportunity
+    .opportunities[0]
+    .type,
+  "environmental-transition-zone"
+);
+
+console.log(
+  "PASS moderate temperature transition produces feature candidate"
+);
+
+
+const temperatureCurrentOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      createOceanEvidenceInput({
+        temperature: {
+          available: true,
+
+          classification:
+            "moderate-temperature-structure",
+
+          orientation: {
+            classification:
+              "directional-temperature-transition"
+          }
+        },
+
+        current: {
+          available: true,
+
+          classification:
+            "weak",
+
+          values: {
+            strengthClassification:
+              "weak"
+          }
+        },
+
+        confidence: {
+          score: 70,
+          level: "Moderate"
+        },
+
+        summary: {
+          availableGroupCount: 2
+        }
+      })
+  });
+
+assert.equal(
+  temperatureCurrentOpportunity
+    .summary
+    .opportunityCount,
+  2
+);
+
+assert.ok(
+  temperatureCurrentOpportunity
+    .opportunities
+    .some(
+      opportunity =>
+        opportunity.type ===
+        "current-supported-transition-candidate"
+    )
+);
+
+console.log(
+  "PASS temperature and current produce current-supported candidate"
+);
+
+
+const surfaceWaterOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      createOceanEvidenceInput({
+        productivity: {
+          available: true,
+
+          classification:
+            "productive-blue-green-transition"
+        },
+
+        clarity: {
+          available: true,
+
+          classification:
+            "transitional-surface-water"
+        },
+
+        confidence: {
+          score: 66,
+          level: "Moderate"
+        },
+
+        summary: {
+          availableGroupCount: 2
+        }
+      })
+  });
+
+assert.equal(
+  surfaceWaterOpportunity
+    .summary
+    .opportunityCount,
+  1
+);
+
+assert.equal(
+  surfaceWaterOpportunity
+    .opportunities[0]
+    .type,
+  "surface-water-boundary-candidate"
+);
+
+assert.deepEqual(
+  surfaceWaterOpportunity
+    .opportunities[0]
+    .sourceFamilies,
+  [
+    "surface-chlorophyll"
+  ]
+);
+
+console.log(
+  "PASS chlorophyll transition produces surface-water candidate"
+);
+
+
+const multiSignalOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      createOceanEvidenceInput({
+        temperature: {
+          available: true,
+
+          classification:
+            "strong-temperature-break-candidate",
+
+          orientation: {
+            classification:
+              "directional-temperature-transition"
+          }
+        },
+
+        current: {
+          available: true,
+
+          classification:
+            "moderate",
+
+          values: {
+            strengthClassification:
+              "moderate"
+          }
+        },
+
+        productivity: {
+          available: true,
+
+          classification:
+            "productive-blue-green-transition"
+        },
+
+        clarity: {
+          available: true,
+
+          classification:
+            "transitional-surface-water"
+        },
+
+        confidence: {
+          score: 88,
+          level: "High"
+        },
+
+        summary: {
+          availableGroupCount: 4
+        }
+      })
+  });
+
+assert.ok(
+  multiSignalOpportunity
+    .opportunities
+    .some(
+      opportunity =>
+        opportunity.type ===
+        "multi-signal-feature-candidate"
+    )
+);
+
+const multiSignalCandidate =
+  multiSignalOpportunity
+    .opportunities
+    .find(
+      opportunity =>
+        opportunity.type ===
+        "multi-signal-feature-candidate"
+    );
+
+assert.deepEqual(
+  multiSignalCandidate
+    .sourceFamilies,
+  [
+    "spatial-temperature",
+    "single-point-current",
+    "surface-chlorophyll"
+  ]
+);
+
+console.log(
+  "PASS three source families produce multi-signal candidate"
+);
+
+
+const lowConfidenceOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      createOceanEvidenceInput({
+        temperature: {
+          available: true,
+
+          classification:
+            "strong-temperature-break-candidate",
+
+          orientation: {
+            classification:
+              "directional-temperature-transition"
+          }
+        },
+
+        current: {
+          available: true,
+
+          classification:
+            "strong",
+
+          values: {
+            strengthClassification:
+              "strong"
+          }
+        },
+
+        confidence: {
+          score: 32,
+          level: "Very Low"
+        },
+
+        summary: {
+          availableGroupCount: 2
+        }
+      })
+  });
+
+assert.equal(
+  lowConfidenceOpportunity
+    .summary
+    .confidenceScore,
+  32
+);
+
+assert.equal(
+  lowConfidenceOpportunity
+    .confidence
+    .score,
+  32
+);
+
+console.log(
+  "PASS opportunity confidence remains capped by upstream evidence"
+);
+
+
+const uniformTemperatureOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      createOceanEvidenceInput({
+        temperature: {
+          available: true,
+
+          classification:
+            "uniform-water"
+        },
+
+        confidence: {
+          score: 84,
+          level: "High"
+        },
+
+        summary: {
+          availableGroupCount: 1
+        }
+      })
+  });
+
+assert.equal(
+  uniformTemperatureOpportunity
+    .summary
+    .opportunityCount,
+  0
+);
+
+assert.equal(
+  uniformTemperatureOpportunity
+    .opportunities
+    .some(
+      opportunity =>
+        opportunity.type ===
+        "environmental-transition-zone"
+    ),
+  false
+);
+
+console.log(
+  "PASS uniform temperature produces no transition candidate"
+);
