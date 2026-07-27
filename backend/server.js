@@ -8059,8 +8059,15 @@ export function assessBlueMarlinHabitat({
         score:
           oceanMovementScore,
 
+          /*
+           * Current implemented maximum.
+           * Five additional design points are reserved for future
+           * current-organization evidence such as convergence,
+           * eddy boundaries, bathymetric interaction, and persistence.
+           */ 
+
         maximumScore:
-          25
+          20
       },
 
       thermalStructure: {

@@ -4210,3 +4210,697 @@ assert.ok(
 console.log(
   "PASS unavailable clarity evidence produces no blue marlin water-character support"
 );
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Habitat Validation Suite
+ * Integrated scenario tests — Phase 1
+ * ------------------------------------------------------------
+ */
+
+
+/*
+ * Scenario 1:
+ * Organized offshore environmental feature
+ *
+ * Strong directional thermal break
+ * Strong current associated with the feature
+ * Productive blue-green boundary
+ * Transitional water character
+ *
+ * Expected:
+ * Multiple relationship groups should combine into
+ * moderate preliminary habitat support.
+ */
+const organizedOffshoreFeatureBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      opportunityConfidenceScore: 80,
+      opportunityConfidenceLevel:
+        "High",
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.2,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 92,
+          level: "high"
+        }
+      },
+
+      current: {
+        available: true,
+
+        classification:
+          "strong",
+
+        values: {
+          speedKnots: 1.2,
+
+          strengthClassification:
+            "strong",
+
+          directionDegrees: 225,
+
+          compassDirection:
+            "SW",
+
+          freshness:
+            "recent",
+
+          ageHours: 5,
+
+          sourceAvailability:
+            "available"
+        }
+      },
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 7
+        }
+      },
+
+      clarity: {
+        available: true,
+
+        classification:
+          "transitional-surface-water",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          waterClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 7
+        }
+      }
+    })
+  );
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  25
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  19
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  18
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  9
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  71
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore,
+  71
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .classification,
+  "moderate-preliminary-habitat-support"
+);
+
+console.log(
+  "PASS organized offshore feature produces moderate preliminary blue marlin habitat support"
+);
+
+
+/*
+ * Scenario 2:
+ * Blue-water desert
+ *
+ * Clear blue surface water is present, but no thermal
+ * transition, current organization, productivity boundary,
+ * structure interaction, or persistence is established.
+ *
+ * Expected:
+ * Clear water alone must remain weak habitat evidence.
+ */
+const blueWaterDesertBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      clarity: {
+        available: true,
+
+        classification:
+          "clear-surface-water",
+
+        values: {
+          concentrationMgM3: 0.14,
+
+          waterClassification:
+            "clear-blue-water",
+
+          freshness:
+            "recent",
+
+          ageHours: 6
+        }
+      }
+    })
+  );
+
+assert.equal(
+  blueWaterDesertBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  7
+);
+
+assert.equal(
+  blueWaterDesertBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  7
+);
+
+assert.equal(
+  blueWaterDesertBlueMarlinHabitat
+    .summary
+    .classification,
+  "weak-preliminary-habitat-support"
+);
+
+assert.ok(
+  blueWaterDesertBlueMarlinHabitat
+    .summary
+    .suitabilityScore <
+  30
+);
+
+console.log(
+  "PASS clear blue water without ocean organization remains weak blue marlin habitat evidence"
+);
+
+
+/*
+ * Scenario 3:
+ * Chlorophyll-supported boundary without thermal
+ * or current organization
+ *
+ * Expected:
+ * Productivity and water-character evidence may identify
+ * an interesting water boundary, but chlorophyll-derived
+ * evidence alone must remain below limited habitat support.
+ */
+const chlorophyllOnlyBoundaryBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate"
+      ],
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.31,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 8
+        }
+      },
+
+      clarity: {
+        available: true,
+
+        classification:
+          "transitional-surface-water",
+
+        values: {
+          concentrationMgM3: 0.31,
+
+          waterClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 8
+        }
+      }
+    })
+  );
+
+assert.equal(
+  chlorophyllOnlyBoundaryBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  16
+);
+
+assert.equal(
+  chlorophyllOnlyBoundaryBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  9
+);
+
+assert.equal(
+  chlorophyllOnlyBoundaryBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  25
+);
+
+assert.equal(
+  chlorophyllOnlyBoundaryBlueMarlinHabitat
+    .summary
+    .classification,
+  "weak-preliminary-habitat-support"
+);
+
+assert.ok(
+  chlorophyllOnlyBoundaryBlueMarlinHabitat
+    .summary
+    .suitabilityScore <
+  30
+);
+
+console.log(
+  "PASS chlorophyll-derived evidence alone cannot create limited blue marlin habitat support"
+);
+
+
+/*
+ * Scenario 4:
+ * Strong integrated evidence with low upstream confidence
+ *
+ * Expected:
+ * Raw habitat evidence may be strong, but the species model
+ * cannot exceed the confidence of the species-neutral
+ * Opportunity assessment.
+ */
+const lowConfidenceOrganizedFeatureBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      opportunityConfidenceScore: 35,
+      opportunityConfidenceLevel:
+        "Low",
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.2,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 92,
+          level: "high"
+        }
+      },
+
+      current: {
+        available: true,
+
+        classification:
+          "strong",
+
+        values: {
+          speedKnots: 1.2,
+
+          strengthClassification:
+            "strong",
+
+          directionDegrees: 225,
+
+          compassDirection:
+            "SW",
+
+          freshness:
+            "recent",
+
+          ageHours: 5,
+
+          sourceAvailability:
+            "available"
+        }
+      },
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 7
+        }
+      },
+
+      clarity: {
+        available: true,
+
+        classification:
+          "transitional-surface-water",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          waterClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 7
+        }
+      }
+    })
+  );
+
+assert.equal(
+  lowConfidenceOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  71
+);
+
+assert.equal(
+  lowConfidenceOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore,
+  35
+);
+
+assert.equal(
+  lowConfidenceOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .classification,
+  "limited-preliminary-habitat-support"
+);
+
+assert.ok(
+  lowConfidenceOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore >
+  lowConfidenceOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore
+);
+
+console.log(
+  "PASS upstream confidence caps an otherwise strong integrated blue marlin habitat scenario"
+);
+
+
+/*
+ * Scenario 5:
+ * Aging multi-signal offshore feature
+ *
+ * The organized feature remains meaningful, but aging
+ * current and chlorophyll observations reduce confidence
+ * in the present condition of the feature.
+ *
+ * Expected:
+ * Score remains moderate but is lower than the equivalent
+ * recent-observation scenario.
+ */
+const agingOrganizedFeatureBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      opportunityConfidenceScore: 80,
+      opportunityConfidenceLevel:
+        "High",
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.2,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 92,
+          level: "high"
+        }
+      },
+
+      current: {
+        available: true,
+
+        classification:
+          "strong",
+
+        values: {
+          speedKnots: 1.2,
+
+          strengthClassification:
+            "strong",
+
+          directionDegrees: 225,
+
+          compassDirection:
+            "SW",
+
+          freshness:
+            "aging",
+
+          ageHours: 60,
+
+          sourceAvailability:
+            "available"
+        }
+      },
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "aging",
+
+          ageHours: 60
+        }
+      },
+
+      clarity: {
+        available: true,
+
+        classification:
+          "transitional-surface-water",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          waterClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "aging",
+
+          ageHours: 60
+        }
+      }
+    })
+  );
+
+assert.equal(
+  agingOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  25
+);
+
+assert.equal(
+  agingOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  14
+);
+
+assert.equal(
+  agingOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  14
+);
+
+assert.equal(
+  agingOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  7
+);
+
+assert.equal(
+  agingOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  60
+);
+
+assert.equal(
+  agingOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .classification,
+  "moderate-preliminary-habitat-support"
+);
+
+assert.ok(
+  agingOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore <
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore
+);
+
+console.log(
+  "PASS aging observations reduce but do not erase an organized offshore habitat signal"
+);
