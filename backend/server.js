@@ -2911,7 +2911,136 @@ async function getOceanConditions(
     );
 
 
+  const coreOperationalLayerNames = [
+    "wind",
+    "waves",
+    "swell",
+    "sst"
+  ];
+
+
+  const supportingEvidenceLayerNames = [
+    "chlorophyll",
+    "currents",
+    "moon"
+  ];
+
+
+  const coreOperationalLayers =
+    coreOperationalLayerNames.map(
+      name =>
+        dataQualityLayers[name]
+    );
+
+
+  const supportingEvidenceLayers =
+    supportingEvidenceLayerNames.map(
+      name =>
+        dataQualityLayers[name]
+    );
+
+
+  const coreAvailableCount =
+    coreOperationalLayers.filter(
+      layer =>
+        [
+          "live",
+          "calculated"
+        ].includes(
+          layer.state
+        )
+    ).length;
+
+
+  const supportingAvailableCount =
+    supportingEvidenceLayers.filter(
+      layer =>
+        [
+          "live",
+          "calculated",
+          "stale"
+        ].includes(
+          layer.state
+        )
+    ).length;
+
+
+  const degradedLayerCount =
+    dataQualityStates.filter(
+      state =>
+        state === "degraded"
+    ).length;
+
+
+  let overallClassification =
+    "insufficient";
+
+
+  let overallReason =
+    "insufficient-core-operational-data";
+
+
+  if (
+    coreAvailableCount ===
+      coreOperationalLayerNames.length &&
+    supportingAvailableCount ===
+      supportingEvidenceLayerNames.length &&
+    degradedLayerCount === 0
+  ) {
+    overallClassification =
+      "complete";
+
+    overallReason =
+      "all-core-and-supporting-layers-available";
+  } else if (
+    coreAvailableCount ===
+      coreOperationalLayerNames.length &&
+    degradedLayerCount === 0
+  ) {
+    overallClassification =
+      "usable-with-gaps";
+
+    overallReason =
+      "all-core-layers-available-with-supporting-data-gaps";
+  } else if (
+    coreAvailableCount >= 2
+  ) {
+    overallClassification =
+      "degraded";
+
+    overallReason =
+      "partial-core-operational-coverage";
+  }
+
+
   const dataQuality = {
+    overall: {
+      classification:
+        overallClassification,
+
+      reason:
+        overallReason,
+
+      coreOperationalCoverage: {
+        available:
+          coreAvailableCount,
+
+        total:
+          coreOperationalLayerNames.length
+      },
+
+      supportingEvidenceCoverage: {
+        available:
+          supportingAvailableCount,
+
+        total:
+          supportingEvidenceLayerNames.length
+      },
+
+      interpretation:
+        "overall-usability-of-current-ocean-inputs"
+    },
+
     layers:
       dataQualityLayers,
 
@@ -2935,10 +3064,7 @@ async function getOceanConditions(
         ).length,
 
       degraded:
-        dataQualityStates.filter(
-          state =>
-            state === "degraded"
-        ).length,
+        degradedLayerCount,
 
       unavailable:
         dataQualityStates.filter(
@@ -2954,7 +3080,7 @@ async function getOceanConditions(
       "availability-and-freshness-of-input-data",
 
     methodVersion:
-      "pelora-data-quality-v1"
+      "pelora-data-quality-v2"
   };
 
 
