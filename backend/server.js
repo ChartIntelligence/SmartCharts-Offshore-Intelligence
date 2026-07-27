@@ -2506,6 +2506,98 @@ function assessOceanConditions({
   };
 
 
+  const normalizeDirection =
+    directionDegrees => {
+      if (
+        !Number.isFinite(
+          directionDegrees
+        )
+      ) {
+        return null;
+      }
+
+      return (
+        (
+          directionDegrees %
+          360
+        ) +
+        360
+      ) %
+      360;
+    };
+
+
+  const directionDifference =
+    (
+      firstDirection,
+      secondDirection
+    ) => {
+      const first =
+        normalizeDirection(
+          firstDirection
+        );
+
+      const second =
+        normalizeDirection(
+          secondDirection
+        );
+
+
+      if (
+        first === null ||
+        second === null
+      ) {
+        return null;
+      }
+
+
+      const difference =
+        Math.abs(
+          first -
+          second
+        );
+
+
+      return Math.min(
+        difference,
+        360 - difference
+      );
+    };
+
+
+  const classifyDirectionalDifference =
+    differenceDegrees => {
+      if (
+        !Number.isFinite(
+          differenceDegrees
+        )
+      ) {
+        return "unavailable";
+      }
+
+      if (
+        differenceDegrees <= 30
+      ) {
+        return "aligned";
+      }
+
+      if (
+        differenceDegrees >= 150
+      ) {
+        return "opposing";
+      }
+
+      if (
+        differenceDegrees >= 60 &&
+        differenceDegrees <= 120
+      ) {
+        return "crossing";
+      }
+
+      return "angled";
+    };
+
+
   const classifyWavePeriod =
     periodSeconds => {
       if (
@@ -2981,6 +3073,231 @@ function assessOceanConditions({
   };
 
 
+  const assessDirectionalInteraction =
+    () => {
+      const windDirectionDegrees =
+        Number.isFinite(
+          wind?.directionDegrees
+        )
+          ? wind.directionDegrees
+          : null;
+
+      const waveDirectionDegrees =
+        Number.isFinite(
+          waves?.directionDegrees
+        )
+          ? waves.directionDegrees
+          : null;
+
+      const swellDirectionDegrees =
+        Number.isFinite(
+          swell?.directionDegrees
+        )
+          ? swell.directionDegrees
+          : null;
+
+
+      const windVsWavesDegrees =
+        directionDifference(
+          windDirectionDegrees,
+          waveDirectionDegrees
+        );
+
+      const windVsSwellDegrees =
+        directionDifference(
+          windDirectionDegrees,
+          swellDirectionDegrees
+        );
+
+      const wavesVsSwellDegrees =
+        directionDifference(
+          waveDirectionDegrees,
+          swellDirectionDegrees
+        );
+
+
+      const comparisons = {
+        windVsWaves: {
+          differenceDegrees:
+            windVsWavesDegrees,
+
+          relationship:
+            classifyDirectionalDifference(
+              windVsWavesDegrees
+            )
+        },
+
+        windVsSwell: {
+          differenceDegrees:
+            windVsSwellDegrees,
+
+          relationship:
+            classifyDirectionalDifference(
+              windVsSwellDegrees
+            )
+        },
+
+        wavesVsSwell: {
+          differenceDegrees:
+            wavesVsSwellDegrees,
+
+          relationship:
+            classifyDirectionalDifference(
+              wavesVsSwellDegrees
+            )
+        }
+      };
+
+
+      const availableRelationships =
+        Object.values(
+          comparisons
+        )
+          .map(
+            comparison =>
+              comparison.relationship
+          )
+          .filter(
+            relationship =>
+              relationship !==
+              "unavailable"
+          );
+
+
+      if (
+        availableRelationships.length ===
+        0
+      ) {
+        return {
+          classification:
+            "unavailable",
+
+          headline:
+            "Directional interaction is unavailable.",
+
+          detail:
+            "Pelora does not currently have enough valid direction data to compare wind, waves, and swell.",
+
+          values: {
+            windDirectionDegrees,
+            waveDirectionDegrees,
+            swellDirectionDegrees
+          },
+
+          comparisons
+        };
+      }
+
+
+      const windRelationships = [
+        comparisons
+          .windVsWaves
+          .relationship,
+
+        comparisons
+          .windVsSwell
+          .relationship
+      ].filter(
+        relationship =>
+          relationship !==
+          "unavailable"
+      );
+
+
+      let classification =
+        "mixed";
+
+      let headline =
+        "Marine directions are interacting at an angle.";
+
+      let detail =
+        "Wind, combined waves, and swell are not fully aligned or directly opposed.";
+
+
+      if (
+        windRelationships.includes(
+          "opposing"
+        )
+      ) {
+        classification =
+          "opposing";
+
+        headline =
+          "Wind is opposing part of the sea state.";
+
+        detail =
+          "Opposing wind and sea directions may produce steeper or less organized conditions.";
+      } else if (
+        windRelationships.includes(
+          "crossing"
+        )
+      ) {
+        classification =
+          "crossing";
+
+        headline =
+          "Crossing wind and sea directions are present.";
+
+        detail =
+          "Crossing directions may contribute to a less organized or more variable ride.";
+      } else if (
+        windRelationships.length > 0 &&
+        windRelationships.every(
+          relationship =>
+            relationship ===
+            "aligned"
+        )
+      ) {
+        classification =
+          "aligned";
+
+        headline =
+          "Wind and sea directions are broadly aligned.";
+
+        detail =
+          "Wind, combined waves, and swell are moving in a broadly consistent directional pattern.";
+      } else if (
+        comparisons
+          .wavesVsSwell
+          .relationship ===
+        "opposing"
+      ) {
+        classification =
+          "mixed";
+
+        headline =
+          "Combined waves and swell are directionally mixed.";
+
+        detail =
+          "Wave and swell directions differ substantially, which may contribute to a less organized sea state.";
+      }
+
+
+      return {
+        classification,
+
+        headline,
+
+        detail,
+
+        values: {
+          windDirectionDegrees,
+          waveDirectionDegrees,
+          swellDirectionDegrees
+        },
+
+        comparisons,
+
+        interpretation:
+          "directional-context-not-yet-applied-to-overall-classification"
+      };
+    };
+
+
+  const directionalInteraction =
+    assessDirectionalInteraction();
+
+
   const assessments = {
     wind:
       assessWind(),
@@ -3324,6 +3641,8 @@ function assessOceanConditions({
 
     assessments,
 
+    directionalInteraction,
+
     evidence,
 
     dataQualityClassification:
@@ -3337,7 +3656,7 @@ function assessOceanConditions({
       "plain-language-marine-condition-assessment",
 
     methodVersion:
-      "pelora-ocean-conditions-v1.3"
+      "pelora-ocean-conditions-v1.4"
   };
 }
 
