@@ -4674,14 +4674,511 @@ function buildTemperatureEvidence(
 function buildCurrentEvidence(
   currents
 ) {
-  return {};
+  const speedKnots =
+    Number.isFinite(
+      currents?.speedKnots
+    )
+      ? currents.speedKnots
+      : null;
+
+  const directionDegrees =
+    Number.isFinite(
+      currents?.directionDegrees
+    )
+      ? currents.directionDegrees
+      : null;
+
+  const strengthClassification =
+    currents?.derived
+      ?.strength ??
+    classifyCurrentStrength(
+      speedKnots
+    );
+
+  const compassDirection =
+    currents?.derived
+      ?.compassDirection ??
+    currentCompassDirection(
+      directionDegrees
+    );
+
+  const observedAt =
+    currents?.observedAt ??
+    null;
+
+  const ageHours =
+    Number.isFinite(
+      currents?.ageHours
+    )
+      ? currents.ageHours
+      : null;
+
+  const sourceAvailability =
+    currents?.source
+      ?.availability ??
+    null;
+
+  const available =
+    speedKnots !== null &&
+    directionDegrees !== null;
+
+  const drivers = [];
+
+  const limitations = [
+    "single-point-current-observation",
+    "altimetry-derived-geostrophic-current",
+    "does-not-measure-full-water-column-current",
+    "does-not-confirm-current-convergence",
+    "does-not-confirm-current-shear",
+    "does-not-confirm-current-edge",
+    "does-not-confirm-eddy-boundary",
+    "does-not-confirm-current-organization",
+    "does-not-confirm-persistence",
+    "does-not-establish-biological-significance",
+    "does-not-indicate-species-suitability"
+  ];
+
+  if (
+    speedKnots !== null
+  ) {
+    drivers.push(
+      "current-speed-available"
+    );
+  }
+
+  if (
+    directionDegrees !== null
+  ) {
+    drivers.push(
+      "current-direction-available"
+    );
+  }
+
+  if (
+    strengthClassification
+  ) {
+    drivers.push(
+      `current-strength-${strengthClassification}`
+    );
+  }
+
+  if (
+    compassDirection
+  ) {
+    drivers.push(
+      `current-flow-toward-${compassDirection}`
+    );
+  }
+
+  let freshness =
+    "unknown";
+
+  if (
+    ageHours !== null
+  ) {
+    if (
+      ageHours <= 24
+    ) {
+      freshness =
+        "recent";
+    } else if (
+      ageHours <= 72
+    ) {
+      freshness =
+        "aging";
+    } else {
+      freshness =
+        "stale";
+    }
+
+    drivers.push(
+      `observation-${freshness}`
+    );
+  } else {
+    limitations.push(
+      "observation-age-unavailable"
+    );
+  }
+
+  if (
+    !available
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "unavailable",
+
+      headline:
+        "Current evidence is unavailable.",
+
+      detail:
+        "Pelora does not currently have a complete current-speed and current-direction vector for this location.",
+
+      values: {
+        speedKnots,
+        strengthClassification,
+        directionDegrees,
+        compassDirection,
+        observedAt,
+        ageHours,
+        freshness,
+        sourceAvailability
+      },
+
+      drivers,
+
+      limitations: [
+        "complete-current-vector-unavailable",
+        ...limitations
+      ],
+
+      interpretation:
+        "species-neutral-single-point-current-evidence"
+    };
+  }
+
+  let classification =
+    strengthClassification ??
+    "current-observation";
+
+  let headline =
+    "A local current observation is available.";
+
+  let detail =
+    "Pelora has a single-point current-speed and direction observation. Spatial current structure cannot be determined from this observation alone.";
+
+  if (
+    strengthClassification ===
+    "weak"
+  ) {
+    headline =
+      "A weak local current is present.";
+
+    detail =
+      "The available observation indicates weak current flow at this point. It does not establish nearby convergence, shear, edges, or broader current organization.";
+  } else if (
+    strengthClassification ===
+    "moderate"
+  ) {
+    headline =
+      "A moderate local current is present.";
+
+    detail =
+      "The available observation indicates moderate current flow at this point. Spatial organization and persistence are not established.";
+  } else if (
+    strengthClassification ===
+    "strong"
+  ) {
+    headline =
+      "A strong local current is present.";
+
+    detail =
+      "The available observation indicates strong current flow at this point. A single observation cannot determine whether the flow forms an edge, convergence zone, shear zone, or persistent feature.";
+  } else if (
+    strengthClassification ===
+    "very-strong"
+  ) {
+    headline =
+      "A very strong local current is present.";
+
+    detail =
+      "The available observation indicates very strong current flow at this point. This describes current strength only and does not confirm spatial organization or biological importance.";
+  }
+
+  if (
+    freshness ===
+    "stale"
+  ) {
+    limitations.push(
+      "current-observation-is-stale"
+    );
+  } else if (
+    freshness ===
+    "aging"
+  ) {
+    limitations.push(
+      "current-observation-is-aging"
+    );
+  }
+
+  return {
+    available: true,
+
+    classification,
+
+    headline,
+
+    detail,
+
+    values: {
+      speedKnots,
+      strengthClassification,
+      directionDegrees,
+      compassDirection,
+      directionConvention:
+        currents?.source
+          ?.directionConvention ??
+        "degrees-toward",
+      eastwardMetersPerSecond:
+        Number.isFinite(
+          currents?.eastwardMetersPerSecond
+        )
+          ? currents
+              .eastwardMetersPerSecond
+          : null,
+      northwardMetersPerSecond:
+        Number.isFinite(
+          currents?.northwardMetersPerSecond
+        )
+          ? currents
+              .northwardMetersPerSecond
+          : null,
+      observedAt,
+      ageHours,
+      freshness,
+      sourceAvailability
+    },
+
+    drivers,
+
+    limitations: [
+      ...new Set(
+        limitations
+      )
+    ],
+
+    interpretation:
+      "species-neutral-single-point-current-evidence"
+  };
 }
 
 
 function buildProductivityEvidence(
   chlorophyll
 ) {
-  return {};
+  const concentrationMgM3 =
+    Number.isFinite(
+      chlorophyll?.concentrationMgM3
+    )
+      ? chlorophyll.concentrationMgM3
+      : null;
+
+  const productivityClassification =
+    chlorophyll?.waterClassification ??
+    classifyChlorophyll(
+      concentrationMgM3
+    );
+
+  const observedAt =
+    chlorophyll?.observedAt ??
+    null;
+
+  const ageHours =
+    Number.isFinite(
+      chlorophyll?.ageHours
+    )
+      ? chlorophyll.ageHours
+      : null;
+
+  const available =
+    concentrationMgM3 !== null;
+
+  const drivers = [];
+
+  const limitations = [
+    "surface-productivity-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-confirm-water-column-productivity",
+    "does-not-confirm-bait",
+    "does-not-confirm-feeding",
+    "does-not-establish-biological-productivity",
+    "does-not-indicate-species-suitability"
+  ];
+
+  if (available) {
+    drivers.push(
+      "chlorophyll-available"
+    );
+  }
+
+  if (
+    productivityClassification
+  ) {
+    drivers.push(
+      productivityClassification
+    );
+  }
+
+  let freshness =
+    "unknown";
+
+  if (
+    ageHours !== null
+  ) {
+    if (
+      ageHours <=
+      CHLOROPHYLL_MAX_LIVE_AGE_HOURS
+    ) {
+      freshness =
+        "recent";
+    } else if (
+      ageHours <=
+      CHLOROPHYLL_MAX_LIVE_AGE_HOURS * 2
+    ) {
+      freshness =
+        "aging";
+    } else {
+      freshness =
+        "stale";
+    }
+
+    drivers.push(
+      `observation-${freshness}`
+    );
+  } else {
+    limitations.push(
+      "observation-age-unavailable"
+    );
+  }
+
+  if (!available) {
+    return {
+      available: false,
+
+      classification:
+        "unavailable",
+
+      headline:
+        "Surface productivity evidence is unavailable.",
+
+      detail:
+        "Pelora does not currently have a valid satellite chlorophyll observation for this location.",
+
+      values: {
+        concentrationMgM3,
+        productivityClassification,
+        observedAt,
+        ageHours,
+        freshness,
+        sourceAvailability:
+          chlorophyll?.source
+            ?.availability ??
+          null
+      },
+
+      drivers,
+
+      limitations: [
+        "satellite-observation-unavailable",
+        ...limitations
+      ],
+
+      interpretation:
+        "species-neutral-surface-productivity-evidence"
+    };
+  }
+
+  let headline =
+    "Surface productivity has been observed.";
+
+  let detail =
+    "The available chlorophyll concentration describes observed surface productivity only.";
+
+  switch (
+    productivityClassification
+  ) {
+    case "very-clear-low-productivity":
+      headline =
+        "Very clear, low-productivity water is present.";
+
+      detail =
+        "Satellite observations indicate very low surface chlorophyll concentration.";
+      break;
+
+    case "clear-blue-water":
+      headline =
+        "Clear blue water is present.";
+
+      detail =
+        "Satellite observations indicate relatively clear offshore surface water.";
+      break;
+
+    case "productive-blue-green-transition":
+      headline =
+        "A productive blue-green transition is present.";
+
+      detail =
+        "Satellite observations indicate moderate surface chlorophyll consistent with transitional water.";
+      break;
+
+    case "productive-green-water":
+      headline =
+        "Productive green water is present.";
+
+      detail =
+        "Satellite observations indicate elevated surface chlorophyll concentration.";
+      break;
+
+    case "high-chlorophyll-coastal-or-bloom-influenced":
+      headline =
+        "Very high surface chlorophyll is present.";
+
+      detail =
+        "Satellite observations indicate unusually high chlorophyll concentrations that may reflect coastal influence or bloom conditions.";
+      break;
+  }
+
+  if (
+    freshness === "aging"
+  ) {
+    limitations.push(
+      "satellite-observation-aging"
+    );
+  }
+
+  if (
+    freshness === "stale"
+  ) {
+    limitations.push(
+      "satellite-observation-stale"
+    );
+  }
+
+  return {
+    available: true,
+
+    classification:
+      productivityClassification,
+
+    headline,
+
+    detail,
+
+    values: {
+      concentrationMgM3,
+      productivityClassification,
+      observedAt,
+      ageHours,
+      freshness,
+      units:
+        chlorophyll?.source
+          ?.units ??
+        "mg m^-3"
+    },
+
+    drivers,
+
+    limitations: [
+      ...new Set(
+        limitations
+      )
+    ],
+
+    interpretation:
+      "species-neutral-surface-productivity-evidence"
+  };
 }
 
 
