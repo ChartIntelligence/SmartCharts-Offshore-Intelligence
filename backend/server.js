@@ -2676,6 +2676,288 @@ async function getOceanConditions(
       CURRENTS_MAX_LIVE_AGE_HOURS;
 
 
+  const weatherProviderStatus =
+    marine.diagnostics
+      ?.providerStatus
+      ?.weatherApi ??
+    "unknown";
+
+
+  const marineProviderStatus =
+    marine.diagnostics
+      ?.providerStatus
+      ?.marineApi ??
+    "unknown";
+
+
+  const dataQualityLayers = {
+    wind: {
+      state:
+        Number.isFinite(
+          marine.wind?.speedKnots
+        )
+          ? "live"
+          : weatherProviderStatus ===
+            "rejected"
+            ? "degraded"
+            : "unavailable",
+
+      reason:
+        Number.isFinite(
+          marine.wind?.speedKnots
+        )
+          ? "current-model-value-available"
+          : weatherProviderStatus ===
+            "rejected"
+            ? "weather-provider-request-failed"
+            : "no-valid-wind-value",
+
+      observedAt:
+        marine.observedAt ??
+        null,
+
+      source:
+        "Open-Meteo Weather API"
+    },
+
+    waves: {
+      state:
+        Number.isFinite(
+          marine.waves?.heightFeet
+        )
+          ? "live"
+          : marineProviderStatus ===
+            "rejected"
+            ? "degraded"
+            : "unavailable",
+
+      reason:
+        Number.isFinite(
+          marine.waves?.heightFeet
+        )
+          ? "current-model-value-available"
+          : marineProviderStatus ===
+            "rejected"
+            ? "marine-provider-request-failed"
+            : "no-valid-wave-value",
+
+      observedAt:
+        marine.observedAt ??
+        null,
+
+      source:
+        "Open-Meteo Marine API"
+    },
+
+    swell: {
+      state:
+        Number.isFinite(
+          marine.swell?.heightFeet
+        )
+          ? "live"
+          : marineProviderStatus ===
+            "rejected"
+            ? "degraded"
+            : "unavailable",
+
+      reason:
+        Number.isFinite(
+          marine.swell?.heightFeet
+        )
+          ? "current-model-value-available"
+          : marineProviderStatus ===
+            "rejected"
+            ? "marine-provider-request-failed"
+            : "no-valid-swell-value",
+
+      observedAt:
+        marine.observedAt ??
+        null,
+
+      source:
+        "Open-Meteo Marine API"
+    },
+
+    sst: {
+      state:
+        Number.isFinite(
+          marine.sst
+            ?.temperatureFahrenheit
+        )
+          ? "live"
+          : marineProviderStatus ===
+            "rejected"
+            ? "degraded"
+            : "unavailable",
+
+      reason:
+        Number.isFinite(
+          marine.sst
+            ?.temperatureFahrenheit
+        )
+          ? "current-model-value-available"
+          : marineProviderStatus ===
+            "rejected"
+            ? "marine-provider-request-failed"
+            : "no-valid-center-temperature",
+
+      observedAt:
+        marine.observedAt ??
+        null,
+
+      source:
+        "Open-Meteo Marine API"
+    },
+
+    chlorophyll: {
+      state:
+        chlorophyllIsCurrent
+          ? "live"
+          : chlorophyllHasValue
+            ? "stale"
+            : chlorophyllResult.status ===
+              "rejected"
+              ? "degraded"
+              : "unavailable",
+
+      reason:
+        chlorophyllIsCurrent
+          ? "current-satellite-observation"
+          : chlorophyllHasValue
+            ? "observation-exceeds-live-age-limit"
+            : chlorophyllResult.status ===
+              "rejected"
+              ? "chlorophyll-provider-request-failed"
+              : chlorophyll.source
+                  ?.availability ??
+                "no-valid-chlorophyll-pixel",
+
+      observedAt:
+        chlorophyll.observedAt ??
+        null,
+
+      ageHours:
+        chlorophyll.ageHours ??
+        null,
+
+      source:
+        "NOAA CoastWatch"
+    },
+
+    currents: {
+      state:
+        currentsAreCurrent
+          ? "live"
+          : currentsHaveValue
+            ? "stale"
+            : currentsResult.status ===
+              "rejected"
+              ? "degraded"
+              : "unavailable",
+
+      reason:
+        currentsAreCurrent
+          ? "current-derived-observation"
+          : currentsHaveValue
+            ? "observation-exceeds-live-age-limit"
+            : currentsResult.status ===
+              "rejected"
+              ? "currents-provider-request-failed"
+              : currents.source
+                  ?.availability ??
+                "no-valid-current-value",
+
+      observedAt:
+        currents.observedAt ??
+        null,
+
+      ageHours:
+        currents.ageHours ??
+        null,
+
+      source:
+        "NOAA CoastWatch"
+    },
+
+    moon: {
+      state:
+        moon.source?.availability ===
+        "available"
+          ? "calculated"
+          : "unavailable",
+
+      reason:
+        moon.source?.availability ===
+        "available"
+          ? "local-astronomical-calculation"
+          : "moon-calculation-unavailable",
+
+      observedAt:
+        moon.observedAt ??
+        null,
+
+      source:
+        "Pelora"
+    }
+  };
+
+
+  const dataQualityStates =
+    Object.values(
+      dataQualityLayers
+    ).map(
+      layer =>
+        layer.state
+    );
+
+
+  const dataQuality = {
+    layers:
+      dataQualityLayers,
+
+    summary: {
+      live:
+        dataQualityStates.filter(
+          state =>
+            state === "live"
+        ).length,
+
+      calculated:
+        dataQualityStates.filter(
+          state =>
+            state === "calculated"
+        ).length,
+
+      stale:
+        dataQualityStates.filter(
+          state =>
+            state === "stale"
+        ).length,
+
+      degraded:
+        dataQualityStates.filter(
+          state =>
+            state === "degraded"
+        ).length,
+
+      unavailable:
+        dataQualityStates.filter(
+          state =>
+            state === "unavailable"
+        ).length,
+
+      total:
+        dataQualityStates.length
+    },
+
+    interpretation:
+      "availability-and-freshness-of-input-data",
+
+    methodVersion:
+      "pelora-data-quality-v1"
+  };
+
+
   return {
     location:
       marine.location,
@@ -2736,6 +3018,8 @@ async function getOceanConditions(
           ? "calculated"
           : "unavailable"
     },
+
+    dataQuality,
 
     wind:
       marine.wind,
