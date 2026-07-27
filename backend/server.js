@@ -2743,6 +2743,38 @@ function assessOceanConditions({
   };
 
 
+  const classifySwellPeriod =
+    periodSeconds => {
+      if (
+        !Number.isFinite(
+          periodSeconds
+        )
+      ) {
+        return "unknown";
+      }
+
+      if (
+        periodSeconds < 6
+      ) {
+        return "very-short-period";
+      }
+
+      if (
+        periodSeconds < 9
+      ) {
+        return "short-period";
+      }
+
+      if (
+        periodSeconds < 13
+      ) {
+        return "moderate-period";
+      }
+
+      return "long-period";
+    };
+
+
   const assessSwell = () => {
     const heightFeet =
       Number.isFinite(
@@ -2757,6 +2789,11 @@ function assessOceanConditions({
       )
         ? swell.periodSeconds
         : null;
+
+    const periodClassification =
+      classifySwellPeriod(
+        periodSeconds
+      );
 
 
     if (
@@ -2774,51 +2811,112 @@ function assessOceanConditions({
 
         values: {
           heightFeet,
-          periodSeconds
+          periodSeconds,
+          periodClassification
         }
       };
     }
 
 
+    const hazardousByHeight =
+      heightFeet > 7;
+
+    const hazardousBySteepness =
+      heightFeet > 6 &&
+      periodSeconds !== null &&
+      periodSeconds < 8;
+
+
     if (
-      heightFeet > 6
+      hazardousByHeight ||
+      hazardousBySteepness
     ) {
       return {
         classification:
           "hazardous",
 
         headline:
-          "High swell conditions detected.",
+          hazardousBySteepness
+            ? "High, tightly spaced swell detected."
+            : "High swell conditions detected.",
 
         detail:
-          "Swell height exceeds Pelora's initial high-impact threshold.",
+          hazardousBySteepness
+            ? "Swell height and short period indicate a potentially steep, high-impact sea state."
+            : "Swell height exceeds Pelora's initial high-impact threshold.",
 
         values: {
           heightFeet,
-          periodSeconds
+          periodSeconds,
+          periodClassification
         }
       };
     }
 
 
+    const cautionByHeight =
+      heightFeet > 4;
+
+    const cautionBySteepness =
+      heightFeet >= 3.5 &&
+      periodSeconds !== null &&
+      periodSeconds < 7;
+
+
     if (
-      heightFeet > 3
+      cautionByHeight ||
+      cautionBySteepness
     ) {
       return {
         classification:
           "use-caution",
 
         headline:
-          "Swell may affect offshore comfort.",
+          cautionBySteepness
+            ? "Tightly spaced swell may increase vessel motion."
+            : "Swell height may affect offshore comfort.",
 
         detail:
-          "Swell height exceeds Pelora's initial favorable-condition threshold.",
+          cautionBySteepness
+            ? "The swell is relatively steep for its period, which may create a more abrupt ride."
+            : "Swell height exceeds Pelora's initial favorable-condition threshold.",
 
         values: {
           heightFeet,
-          periodSeconds
+          periodSeconds,
+          periodClassification
         }
       };
+    }
+
+
+    let headline =
+      "Swell conditions are currently favorable.";
+
+
+    let detail =
+      "Swell height remains within Pelora's initial favorable-condition threshold.";
+
+
+    if (
+      periodClassification ===
+      "long-period"
+    ) {
+      headline =
+        "Swell is low and broadly spaced.";
+
+      detail =
+        "Swell height is low and the longer period indicates broadly spaced swell energy.";
+    } else if (
+      periodClassification ===
+        "very-short-period" &&
+      heightFeet < 3.5
+    ) {
+      headline =
+        "Short-period swell remains low.";
+
+      detail =
+        "The swell period is short, but the swell height remains below Pelora's initial caution threshold.";
     }
 
 
@@ -2826,15 +2924,14 @@ function assessOceanConditions({
       classification:
         "favorable",
 
-      headline:
-        "Swell height is currently low.",
+      headline,
 
-      detail:
-        "Swell height remains within Pelora's initial favorable-condition threshold.",
+      detail,
 
       values: {
         heightFeet,
-        periodSeconds
+        periodSeconds,
+        periodClassification
       }
     };
   };
@@ -3002,7 +3099,7 @@ function assessOceanConditions({
       "plain-language-marine-condition-assessment",
 
     methodVersion:
-      "pelora-ocean-conditions-v1.1"
+      "pelora-ocean-conditions-v1.2"
   };
 }
 
