@@ -2289,6 +2289,45 @@ if (
     marine?.current ?? {};
 
 
+  const windSpeedKnots =
+    metersPerSecondToKnots(
+      wind.wind_speed_10m
+    );
+
+  const windDirectionDegrees =
+    safeNumber(
+      wind.wind_direction_10m
+    );
+
+  const windGustKnots =
+    metersPerSecondToKnots(
+      wind.wind_gusts_10m
+    );
+
+
+  const windHasAnyValue =
+    Number.isFinite(
+      windSpeedKnots
+    ) ||
+    Number.isFinite(
+      windDirectionDegrees
+    ) ||
+    Number.isFinite(
+      windGustKnots
+    );
+
+
+  const windAvailability =
+    windHasAnyValue
+      ? "available"
+      : weatherResult.status ===
+        "rejected"
+        ? "provider-request-failed"
+        : weather?.current
+          ? "provider-returned-null"
+          : "provider-returned-no-current-data";
+
+
   return {
     location: {
       latitude,
@@ -2317,19 +2356,24 @@ if (
 
     wind: {
       speedKnots:
-        metersPerSecondToKnots(
-          wind.wind_speed_10m
-        ),
+        windSpeedKnots,
 
       directionDegrees:
-        safeNumber(
-          wind.wind_direction_10m
-        ),
+        windDirectionDegrees,
 
       gustKnots:
-        metersPerSecondToKnots(
-          wind.wind_gusts_10m
-        )
+        windGustKnots,
+
+      source: {
+        provider:
+          "Open-Meteo Weather API",
+
+        classification:
+          "forecast-model",
+
+        availability:
+          windAvailability
+      }
     },
 
     waves: {
