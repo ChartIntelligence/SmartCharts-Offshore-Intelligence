@@ -2493,7 +2493,7 @@ if (
 
 
 
-function assessOceanConditions({
+export function assessOceanConditions({
   wind,
   waves,
   swell,
@@ -3256,6 +3256,22 @@ function assessOceanConditions({
 
         detail =
           "Wind, combined waves, and swell are moving in a broadly consistent directional pattern.";
+      } else if (
+        windRelationships.length ===
+          0 &&
+        comparisons
+          .wavesVsSwell
+          .relationship ===
+        "aligned"
+      ) {
+        classification =
+          "aligned";
+
+        headline =
+          "Combined waves and swell are broadly aligned.";
+
+        detail =
+          "Wave and swell directions follow a consistent pattern. Wind direction is currently unavailable.";
       } else if (
         comparisons
           .wavesVsSwell
@@ -5229,24 +5245,30 @@ const server =
   );
 
 
-server.listen(
-  PORT,
-  "0.0.0.0",
-  () => {
-    console.log(
-      `Velion Ocean Engine running on port ${PORT}`
-    );
+if (
+  process.env
+    .PELORA_TEST_OCEAN_CONDITIONS !==
+  "1"
+) {
+  server.listen(
+    PORT,
+    "0.0.0.0",
+    () => {
+      console.log(
+        `Velion Ocean Engine running on port ${PORT}`
+      );
 
-    console.log(
-      `Health: http://localhost:${PORT}/api/health`
-    );
+      console.log(
+        `Health: http://localhost:${PORT}/api/health`
+      );
 
-    console.log(
-      `Marine: http://localhost:${PORT}/api/live/marine`
-    );
+      console.log(
+        `Marine: http://localhost:${PORT}/api/live/marine`
+      );
 
-    console.log(
-      `Ocean: http://localhost:${PORT}/api/ocean`
-    );
-  }
-);
+      console.log(
+        `Ocean: http://localhost:${PORT}/api/ocean`
+      );
+    }
+  );
+}
