@@ -1229,6 +1229,385 @@ function deriveSstTransitionOrientation(
 }
 
 
+/**
+ * Assess confidence in the sampled directional SST structure.
+ *
+ * Confidence applies only to the local four-point temperature
+ * pattern. It does not establish persistence, front identity,
+ * or biological significance.
+ */
+function assessSstTransitionConfidence(
+  {
+    samples,
+    sufficientCoverage,
+    rangeFahrenheit,
+    orientation
+  }
+) {
+  const validSamples =
+    samples.filter(
+      sample =>
+        Number.isFinite(
+          sample
+            .temperatureFahrenheit
+        )
+    );
+
+  const expectedSampleCount = 4;
+
+  const coverageRatio =
+    expectedSampleCount > 0
+      ? validSamples.length /
+        expectedSampleCount
+      : 0;
+
+  const observationTimes =
+    validSamples
+      .map(
+        sample =>
+          Date.parse(
+            sample.observedAt
+          )
+      )
+      .filter(
+        Number.isFinite
+      );
+
+  const newestObservationTime =
+    observationTimes.length > 0
+      ? Math.max(
+          ...observationTimes
+        )
+      : null;
+
+  const ageHours =
+    Number.isFinite(
+      newestObservationTime
+    )
+      ? Number(
+          (
+            (
+              Date.now() -
+              newestObservationTime
+            ) /
+            3600000
+          ).toFixed(1)
+        )
+      : null;
+
+  const eastWestMagnitude =
+    Number.isFinite(
+      orientation
+        ?.eastWestDifferenceFahrenheit
+    )
+      ? Math.abs(
+          orientation
+            .eastWestDifferenceFahrenheit
+        )
+      : null;
+
+  const northSouthMagnitude =
+    Number.isFinite(
+      orientation
+        ?.northSouthDifferenceFahrenheit
+    )
+      ? Math.abs(
+          orientation
+            .northSouthDifferenceFahrenheit
+        )
+      : null;
+
+  const directionalMagnitudes = [
+    eastWestMagnitude,
+    northSouthMagnitude
+  ]
+    .filter(
+      Number.isFinite
+    )
+    .sort(
+      (a, b) =>
+        b - a
+    );
+
+  const dominantMagnitude =
+    directionalMagnitudes[0] ??
+    null;
+
+  const secondaryMagnitude =
+    directionalMagnitudes.length >= 2
+      ? directionalMagnitudes[1]
+      : null;
+
+  const hasTwoAxisMeasurements =
+    directionalMagnitudes.length >= 2;
+
+  const axisSeparationFahrenheit =
+    hasTwoAxisMeasurements &&
+    Number.isFinite(
+      dominantMagnitude
+    ) &&
+    Number.isFinite(
+      secondaryMagnitude
+    )
+      ? Number(
+          (
+            dominantMagnitude -
+            secondaryMagnitude
+          ).toFixed(1)
+        )
+      : null;
+
+  let score = 0;
+
+  const reasons = [];
+
+  if (
+    sufficientCoverage &&
+    coverageRatio === 1
+  ) {
+    score += 25;
+    reasons.push(
+      "complete-four-point-coverage"
+    );
+  } else if (
+    coverageRatio >= 0.75
+  ) {
+    score += 15;
+    reasons.push(
+      "partial-but-sufficient-coverage"
+    );
+  } else {
+    reasons.push(
+      "insufficient-spatial-coverage"
+    );
+  }
+
+  if (
+    Number.isFinite(
+      rangeFahrenheit
+    )
+  ) {
+    if (
+      rangeFahrenheit >= 2
+    ) {
+      score += 25;
+      reasons.push(
+        "strong-total-temperature-range"
+      );
+    } else if (
+      rangeFahrenheit >= 1
+    ) {
+      score += 18;
+      reasons.push(
+        "moderate-total-temperature-range"
+      );
+    } else if (
+      rangeFahrenheit >= 0.5
+    ) {
+      score += 8;
+      reasons.push(
+        "weak-total-temperature-range"
+      );
+    } else {
+      reasons.push(
+        "minimal-total-temperature-range"
+      );
+    }
+  }
+
+  if (
+    orientation?.classification ===
+    "directional-temperature-transition" &&
+    Number.isFinite(
+      dominantMagnitude
+    )
+  ) {
+    if (
+      dominantMagnitude >= 2
+    ) {
+      score += 25;
+      reasons.push(
+        "strong-directional-difference"
+      );
+    } else if (
+      dominantMagnitude >= 1
+    ) {
+      score += 18;
+      reasons.push(
+        "moderate-directional-difference"
+      );
+    } else if (
+      dominantMagnitude >= 0.3
+    ) {
+      score += 8;
+      reasons.push(
+        "weak-directional-difference"
+      );
+    }
+  } else {
+    reasons.push(
+      "no-clear-directional-orientation"
+    );
+  }
+
+  if (
+    Number.isFinite(
+      axisSeparationFahrenheit
+    )
+  ) {
+    if (
+      axisSeparationFahrenheit >= 1
+    ) {
+      score += 15;
+      reasons.push(
+        "clear-dominant-axis"
+      );
+    } else if (
+      axisSeparationFahrenheit >= 0.5
+    ) {
+      score += 10;
+      reasons.push(
+        "moderately-distinct-axis"
+      );
+    } else if (
+      axisSeparationFahrenheit >= 0.2
+    ) {
+      score += 5;
+      reasons.push(
+        "weak-axis-separation"
+      );
+    } else {
+      reasons.push(
+        "competing-directional-signals"
+      );
+    }
+  } else {
+    reasons.push(
+      "single-axis-only"
+    );
+  }
+
+  if (
+    Number.isFinite(
+      ageHours
+    )
+  ) {
+    if (
+      ageHours <= 3
+    ) {
+      score += 10;
+      reasons.push(
+        "recent-samples"
+      );
+    } else if (
+      ageHours <= 12
+    ) {
+      score += 6;
+      reasons.push(
+        "same-day-samples"
+      );
+    } else if (
+      ageHours <= 24
+    ) {
+      score += 3;
+      reasons.push(
+        "samples-within-24-hours"
+      );
+    } else {
+      reasons.push(
+        "stale-samples"
+      );
+    }
+  } else {
+    reasons.push(
+      "sample-time-unavailable"
+    );
+  }
+
+  const boundedScore =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        score
+      )
+    );
+
+  let level =
+    "low";
+
+  if (
+    boundedScore >= 75
+  ) {
+    level =
+      "high";
+  } else if (
+    boundedScore >= 45
+  ) {
+    level =
+      "moderate";
+  }
+
+  if (
+    !sufficientCoverage ||
+    orientation?.classification !==
+      "directional-temperature-transition"
+  ) {
+    level =
+      "low";
+  } else if (
+    coverageRatio < 1 ||
+    !hasTwoAxisMeasurements
+  ) {
+    level =
+      level === "high"
+        ? "moderate"
+        : level;
+  }
+
+  return {
+    level,
+
+    score:
+      boundedScore,
+
+    coverageRatio:
+      Number(
+        coverageRatio.toFixed(2)
+      ),
+
+    sampleAgeHours:
+      ageHours,
+
+    dominantDirectionalDifferenceFahrenheit:
+      dominantMagnitude,
+
+    secondaryDirectionalDifferenceFahrenheit:
+      secondaryMagnitude,
+
+    axisSeparationFahrenheit,
+
+    reasons,
+
+    interpretation:
+      "confidence-in-local-directional-temperature-pattern",
+
+    methodVersion:
+      "pelora-sst-transition-confidence-v1",
+
+    limitations: [
+      "confidence-applies-only-to-sampled-temperature-pattern",
+      "four-point-spatial-sampling",
+      "forecast-model-samples",
+      "single-time-snapshot",
+      "does-not-confirm-persistence",
+      "does-not-confirm-ocean-front",
+      "does-not-indicate-species-suitability"
+    ]
+  };
+}
+
+
 async function getSstSpatialStructure(
   latitude,
   longitude,
@@ -1335,10 +1714,12 @@ async function getSstSpatialStructure(
         )
     ).length;
 
-  const sufficientCoverage =
+  const centerTemperatureAvailable =
     Number.isFinite(
       centerTemperatureFahrenheit
-    ) &&
+    );
+
+  const sufficientCoverage =
     validNeighborCount >= 3;
 
   const minimumFahrenheit =
@@ -1370,6 +1751,14 @@ async function getSstSpatialStructure(
       samples
     );
 
+  const confidence =
+    assessSstTransitionConfidence({
+      samples,
+      sufficientCoverage,
+      rangeFahrenheit,
+      orientation
+    });
+
   return {
     sampleRadiusNauticalMiles:
       SST_SPATIAL_SAMPLE_RADIUS_NM,
@@ -1378,6 +1767,8 @@ async function getSstSpatialStructure(
 
     expectedNeighborCount:
       samplePoints.length,
+
+    centerTemperatureAvailable,
 
     minimumFahrenheit,
 
@@ -1402,6 +1793,8 @@ async function getSstSpatialStructure(
         : "insufficient",
 
     orientation,
+
+    confidence,
 
     samples,
 
