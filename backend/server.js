@@ -5185,7 +5185,244 @@ function buildProductivityEvidence(
 function buildClarityEvidence(
   chlorophyll
 ) {
-  return {};
+  const concentrationMgM3 =
+    Number.isFinite(
+      chlorophyll?.concentrationMgM3
+    )
+      ? chlorophyll.concentrationMgM3
+      : null;
+
+  const waterClassification =
+    chlorophyll?.waterClassification ??
+    classifyChlorophyll(
+      concentrationMgM3
+    );
+
+  const observedAt =
+    chlorophyll?.observedAt ??
+    null;
+
+  const ageHours =
+    Number.isFinite(
+      chlorophyll?.ageHours
+    )
+      ? chlorophyll.ageHours
+      : null;
+
+  const available =
+    concentrationMgM3 !== null;
+
+  const drivers = [];
+
+  const limitations = [
+    "clarity-inferred-from-surface-chlorophyll",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-directly-measure-visibility",
+    "does-not-measure-suspended-sediment",
+    "does-not-measure-colored-dissolved-organic-matter",
+    "does-not-describe-full-water-column-clarity",
+    "does-not-establish-biological-significance",
+    "does-not-indicate-species-suitability"
+  ];
+
+  if (available) {
+    drivers.push(
+      "chlorophyll-available"
+    );
+  }
+
+  if (waterClassification) {
+    drivers.push(
+      waterClassification
+    );
+  }
+
+  let freshness =
+    "unknown";
+
+  if (
+    ageHours !== null
+  ) {
+    if (
+      ageHours <=
+      CHLOROPHYLL_MAX_LIVE_AGE_HOURS
+    ) {
+      freshness =
+        "recent";
+    } else if (
+      ageHours <=
+      CHLOROPHYLL_MAX_LIVE_AGE_HOURS * 2
+    ) {
+      freshness =
+        "aging";
+    } else {
+      freshness =
+        "stale";
+    }
+
+    drivers.push(
+      `observation-${freshness}`
+    );
+  } else {
+    limitations.push(
+      "observation-age-unavailable"
+    );
+  }
+
+  if (!available) {
+    return {
+      available: false,
+
+      classification:
+        "unavailable",
+
+      headline:
+        "Surface-water clarity evidence is unavailable.",
+
+      detail:
+        "Pelora does not currently have a valid chlorophyll observation from which to infer broad surface-water clarity characteristics.",
+
+      values: {
+        concentrationMgM3,
+        waterClassification,
+        observedAt,
+        ageHours,
+        freshness,
+        sourceAvailability:
+          chlorophyll?.source
+            ?.availability ??
+          null
+      },
+
+      drivers,
+
+      limitations: [
+        "chlorophyll-observation-unavailable",
+        ...limitations
+      ],
+
+      interpretation:
+        "species-neutral-surface-water-clarity-evidence"
+    };
+  }
+
+  let classification =
+    "clarity-undetermined";
+
+  let headline =
+    "Broad surface-water clarity characteristics are available.";
+
+  let detail =
+    "Pelora is inferring broad surface-water clarity from chlorophyll concentration. This is not a direct visibility measurement.";
+
+  switch (
+    waterClassification
+  ) {
+    case "very-clear-low-productivity":
+      classification =
+        "very-clear-surface-water";
+
+      headline =
+        "Very clear surface water is indicated.";
+
+      detail =
+        "Very low chlorophyll concentration suggests very clear surface water. Actual visibility may still be affected by sediment, dissolved material, weather, or subsurface conditions.";
+      break;
+
+    case "clear-blue-water":
+      classification =
+        "clear-surface-water";
+
+      headline =
+        "Clear blue surface water is indicated.";
+
+      detail =
+        "Low chlorophyll concentration suggests broadly clear blue surface water. This remains an indirect clarity estimate rather than a direct visibility measurement.";
+      break;
+
+    case "productive-blue-green-transition":
+      classification =
+        "transitional-surface-water";
+
+      headline =
+        "Transitional blue-green surface water is indicated.";
+
+      detail =
+        "Moderate chlorophyll concentration suggests a transition between clearer blue water and more chlorophyll-influenced water.";
+      break;
+
+    case "productive-green-water":
+      classification =
+        "chlorophyll-influenced-surface-water";
+
+      headline =
+        "Chlorophyll-influenced green surface water is indicated.";
+
+      detail =
+        "Elevated chlorophyll concentration suggests greener, less optically clear surface water. This does not directly measure underwater visibility.";
+      break;
+
+    case "high-chlorophyll-coastal-or-bloom-influenced":
+      classification =
+        "strongly-chlorophyll-influenced-surface-water";
+
+      headline =
+        "Strongly chlorophyll-influenced surface water is indicated.";
+
+      detail =
+        "Very high chlorophyll concentration suggests strongly green or bloom-influenced surface water, though sediment or coastal runoff may also affect apparent clarity.";
+      break;
+  }
+
+  if (
+    freshness === "aging"
+  ) {
+    limitations.push(
+      "clarity-inference-based-on-aging-observation"
+    );
+  }
+
+  if (
+    freshness === "stale"
+  ) {
+    limitations.push(
+      "clarity-inference-based-on-stale-observation"
+    );
+  }
+
+  return {
+    available: true,
+
+    classification,
+
+    headline,
+
+    detail,
+
+    values: {
+      concentrationMgM3,
+      waterClassification,
+      observedAt,
+      ageHours,
+      freshness,
+      units:
+        chlorophyll?.source
+          ?.units ??
+        "mg m^-3"
+    },
+
+    drivers,
+
+    limitations: [
+      ...new Set(
+        limitations
+      )
+    ],
+
+    interpretation:
+      "species-neutral-surface-water-clarity-evidence"
+  };
 }
 
 
