@@ -7403,18 +7403,214 @@ export function assessBlueMarlinHabitat({
    * Relationship Group 3:
    * Productivity and Prey Support
    *
-   * Chlorophyll may describe surface-water productivity
-   * character, but it does not directly establish prey.
+   * Satellite chlorophyll describes surface-water character
+   * only. It may support a cautious interpretation of the
+   * productivity context around an environmental feature, but
+   * it does not establish bait, prey aggregation, feeding,
+   * water-column productivity, or blue marlin presence.
    */
   let productivityAndPreyScore = 0;
 
   let productivityAndPreyClassification =
     "unsupported";
 
+  const productivityEvidenceClassification =
+    productivity?.classification ??
+    productivity?.values
+      ?.productivityClassification ??
+    null;
+
+  const chlorophyllConcentrationMgM3 =
+    Number.isFinite(
+      productivity?.values
+        ?.concentrationMgM3
+    )
+      ? productivity.values
+          .concentrationMgM3
+      : null;
+
+  const productivityFreshness =
+    productivity?.values
+      ?.freshness ??
+    "unknown";
+
+  const hasDetailedProductivityEvidence =
+    productivity?.available === true &&
+    (
+      productivityEvidenceClassification !==
+        null ||
+      chlorophyllConcentrationMgM3 !==
+        null
+    );
+
   if (
-    hasSurfaceWaterBoundary ||
-    hasMultiSignalFeature
+    productivity?.available
   ) {
+    if (
+      productivityEvidenceClassification ===
+        "very-clear-low-productivity"
+    ) {
+      productivityAndPreyScore = 2;
+
+      productivityAndPreyClassification =
+        "very-clear-low-surface-productivity";
+
+      negativeDrivers.push(
+        "limited-surface-productivity-observed"
+      );
+    } else if (
+      productivityEvidenceClassification ===
+        "clear-blue-water"
+    ) {
+      productivityAndPreyScore = 5;
+
+      productivityAndPreyClassification =
+        "clear-blue-water-productivity-context";
+
+      positiveDrivers.push(
+        "clear-blue-surface-water"
+      );
+    } else if (
+      productivityEvidenceClassification ===
+        "productive-blue-green-transition"
+    ) {
+      productivityAndPreyScore = 10;
+
+      productivityAndPreyClassification =
+        "productive-blue-green-transition-observed";
+
+      positiveDrivers.push(
+        "productive-blue-green-surface-water"
+      );
+    } else if (
+      productivityEvidenceClassification ===
+        "productive-green-water"
+    ) {
+      productivityAndPreyScore = 8;
+
+      productivityAndPreyClassification =
+        "productive-green-water-observed";
+
+      positiveDrivers.push(
+        "elevated-surface-productivity"
+      );
+    } else if (
+      productivityEvidenceClassification ===
+        "high-chlorophyll-coastal-or-bloom-influenced"
+    ) {
+      productivityAndPreyScore = 3;
+
+      productivityAndPreyClassification =
+        "high-chlorophyll-water-with-context-uncertainty";
+
+      negativeDrivers.push(
+        "high-chlorophyll-context-may-reflect-coastal-or-bloom-influence"
+      );
+
+      limitations.push(
+        "high-chlorophyll-does-not-automatically-indicate-blue-marlin-prey-support"
+      );
+    } else {
+      productivityAndPreyScore = 4;
+
+      productivityAndPreyClassification =
+        "surface-productivity-observation-without-classification";
+
+      limitations.push(
+        "productivity-classification-unavailable"
+      );
+    }
+
+    if (
+      chlorophyllConcentrationMgM3 !==
+        null
+    ) {
+      positiveDrivers.push(
+        `observed-surface-chlorophyll-${chlorophyllConcentrationMgM3.toFixed(3)}-mg-m3`
+      );
+    }
+
+    if (
+      hasSurfaceWaterBoundary
+    ) {
+      productivityAndPreyScore += 6;
+
+      productivityAndPreyClassification =
+        "surface-productivity-associated-with-water-boundary";
+
+      positiveDrivers.push(
+        "chlorophyll-derived-surface-water-transition"
+      );
+    }
+
+    if (
+      hasMultiSignalFeature
+    ) {
+      productivityAndPreyScore += 2;
+
+      positiveDrivers.push(
+        "surface-productivity-associated-with-multi-signal-feature"
+      );
+    }
+
+    productivityAndPreyScore =
+      Math.min(
+        20,
+        productivityAndPreyScore
+      );
+
+    if (
+      productivityFreshness ===
+        "aging" &&
+      productivityAndPreyScore > 14
+    ) {
+      productivityAndPreyScore = 14;
+
+      limitations.push(
+        "productivity-score-limited-by-aging-satellite-observation"
+      );
+    } else if (
+      productivityFreshness ===
+        "stale" &&
+      productivityAndPreyScore > 8
+    ) {
+      productivityAndPreyScore = 8;
+
+      limitations.push(
+        "productivity-score-limited-by-stale-satellite-observation"
+      );
+    } else if (
+      productivityFreshness ===
+        "unknown" &&
+      hasDetailedProductivityEvidence &&
+      productivityAndPreyScore > 16
+    ) {
+      productivityAndPreyScore = 16;
+
+      limitations.push(
+        "productivity-score-limited-by-unknown-observation-age"
+      );
+    }
+
+    limitations.push(
+      "surface-productivity-does-not-confirm-prey"
+    );
+
+    limitations.push(
+      "prey-support-not-established"
+    );
+  } else if (
+    (
+      hasSurfaceWaterBoundary ||
+      hasMultiSignalFeature
+    ) &&
+    !productivity
+  ) {
+    /*
+     * Conservative compatibility fallback for an upstream
+     * opportunity whose detailed Ocean Evidence productivity
+     * contract is not available.
+     */
     productivityAndPreyScore = 10;
 
     productivityAndPreyClassification =
@@ -7425,18 +7621,11 @@ export function assessBlueMarlinHabitat({
     );
 
     limitations.push(
-      "surface-productivity-does-not-confirm-prey"
+      "detailed-productivity-evidence-unavailable"
     );
-  } else if (
-    productivity?.available
-  ) {
-    productivityAndPreyScore = 4;
-
-    productivityAndPreyClassification =
-      "surface-productivity-observation-only";
 
     limitations.push(
-      "prey-support-not-established"
+      "surface-productivity-does-not-confirm-prey"
     );
   } else {
     negativeDrivers.push(

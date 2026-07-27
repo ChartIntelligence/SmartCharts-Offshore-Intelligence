@@ -3154,3 +3154,541 @@ assert.ok(
 console.log(
   "PASS unavailable current evidence produces no blue marlin ocean-movement support"
 );
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Productivity and Prey Support v1.1
+ * regression tests
+ * ------------------------------------------------------------
+ */
+
+
+const veryClearProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      productivity: {
+        available: true,
+
+        classification:
+          "very-clear-low-productivity",
+
+        values: {
+          concentrationMgM3: 0.05,
+
+          productivityClassification:
+            "very-clear-low-productivity",
+
+          freshness:
+            "recent",
+
+          ageHours: 12
+        }
+      }
+    })
+  );
+
+assert.equal(
+  veryClearProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  2
+);
+
+assert.equal(
+  veryClearProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .classification,
+  "very-clear-low-surface-productivity"
+);
+
+console.log(
+  "PASS very clear low-productivity water receives minimal blue marlin productivity support"
+);
+
+
+const clearBlueProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      productivity: {
+        available: true,
+
+        classification:
+          "clear-blue-water",
+
+        values: {
+          concentrationMgM3: 0.14,
+
+          productivityClassification:
+            "clear-blue-water",
+
+          freshness:
+            "recent",
+
+          ageHours: 10
+        }
+      }
+    })
+  );
+
+assert.equal(
+  clearBlueProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  5
+);
+
+assert.equal(
+  clearBlueProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .classification,
+  "clear-blue-water-productivity-context"
+);
+
+console.log(
+  "PASS clear blue water receives limited blue marlin productivity support"
+);
+
+
+const transitionProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.32,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 8
+        }
+      }
+    })
+  );
+
+assert.equal(
+  transitionProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  10
+);
+
+assert.equal(
+  transitionProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .classification,
+  "productive-blue-green-transition-observed"
+);
+
+console.log(
+  "PASS productive blue-green transition receives strongest observation-only productivity support"
+);
+
+
+const greenWaterProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-green-water",
+
+        values: {
+          concentrationMgM3: 0.72,
+
+          productivityClassification:
+            "productive-green-water",
+
+          freshness:
+            "recent",
+
+          ageHours: 7
+        }
+      }
+    })
+  );
+
+assert.equal(
+  greenWaterProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  8
+);
+
+assert.equal(
+  greenWaterProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .classification,
+  "productive-green-water-observed"
+);
+
+console.log(
+  "PASS productive green water receives elevated blue marlin productivity support"
+);
+
+
+const highChlorophyllProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      productivity: {
+        available: true,
+
+        classification:
+          "high-chlorophyll-coastal-or-bloom-influenced",
+
+        values: {
+          concentrationMgM3: 1.4,
+
+          productivityClassification:
+            "high-chlorophyll-coastal-or-bloom-influenced",
+
+          freshness:
+            "recent",
+
+          ageHours: 6
+        }
+      }
+    })
+  );
+
+assert.equal(
+  highChlorophyllProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  3
+);
+
+assert.equal(
+  highChlorophyllProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .classification,
+  "high-chlorophyll-water-with-context-uncertainty"
+);
+
+assert.ok(
+  highChlorophyllProductivityBlueMarlinHabitat
+    .limitations
+    .includes(
+      "high-chlorophyll-does-not-automatically-indicate-blue-marlin-prey-support"
+    )
+);
+
+console.log(
+  "PASS high chlorophyll water remains cautiously interpreted for blue marlin"
+);
+
+
+const boundaryProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate"
+      ],
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "recent",
+
+          ageHours: 9
+        }
+      }
+    })
+  );
+
+assert.equal(
+  boundaryProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  16
+);
+
+assert.equal(
+  boundaryProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .classification,
+  "surface-productivity-associated-with-water-boundary"
+);
+
+assert.ok(
+  boundaryProductivityBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "chlorophyll-derived-surface-water-transition"
+    )
+);
+
+console.log(
+  "PASS surface-water boundary increases blue marlin productivity support"
+);
+
+
+const multiSignalProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "multi-signal-feature-candidate"
+      ],
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-green-water",
+
+        values: {
+          concentrationMgM3: 0.7,
+
+          productivityClassification:
+            "productive-green-water",
+
+          freshness:
+            "recent",
+
+          ageHours: 11
+        }
+      }
+    })
+  );
+
+assert.equal(
+  multiSignalProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  10
+);
+
+assert.ok(
+  multiSignalProductivityBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "surface-productivity-associated-with-multi-signal-feature"
+    )
+);
+
+console.log(
+  "PASS multi-signal association adds limited blue marlin productivity support"
+);
+
+
+const agingProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.38,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "aging",
+
+          ageHours: 60
+        }
+      }
+    })
+  );
+
+assert.equal(
+  agingProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  14
+);
+
+assert.ok(
+  agingProductivityBlueMarlinHabitat
+    .limitations
+    .includes(
+      "productivity-score-limited-by-aging-satellite-observation"
+    )
+);
+
+console.log(
+  "PASS aging chlorophyll observation caps blue marlin productivity support"
+);
+
+
+const staleProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.4,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "stale",
+
+          ageHours: 120
+        }
+      }
+    })
+  );
+
+assert.equal(
+  staleProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  8
+);
+
+assert.ok(
+  staleProductivityBlueMarlinHabitat
+    .limitations
+    .includes(
+      "productivity-score-limited-by-stale-satellite-observation"
+    )
+);
+
+console.log(
+  "PASS stale chlorophyll observation strongly caps blue marlin productivity support"
+);
+
+
+const unknownAgeProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.36,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "unknown",
+
+          ageHours: null
+        }
+      }
+    })
+  );
+
+assert.equal(
+  unknownAgeProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  16
+);
+
+assert.ok(
+  unknownAgeProductivityBlueMarlinHabitat
+    .limitations
+    .includes(
+      "productivity-score-limited-by-unknown-observation-age"
+    )
+);
+
+console.log(
+  "PASS unknown chlorophyll age conservatively caps blue marlin productivity support"
+);
+
+
+const unavailableProductivityBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      productivity: {
+        available: false,
+
+        classification:
+          "unavailable"
+      }
+    })
+  );
+
+assert.equal(
+  unavailableProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  0
+);
+
+assert.equal(
+  unavailableProductivityBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .classification,
+  "unsupported"
+);
+
+assert.ok(
+  unavailableProductivityBlueMarlinHabitat
+    .negativeDrivers
+    .includes(
+      "productivity-evidence-unavailable"
+    )
+);
+
+console.log(
+  "PASS unavailable productivity evidence produces no blue marlin prey-support score"
+);
