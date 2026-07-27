@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 
 import {
   assessOceanConditions,
-  assessOceanOpportunity
+  assessOceanOpportunity,
+  assessBlueMarlinHabitat
 } from "../server.js";
 
 
@@ -1852,4 +1853,383 @@ assert.equal(
 
 console.log(
   "PASS uniform temperature produces no transition candidate"
+);
+
+
+/*
+ * ------------------------------------------------------------
+ * Blue Marlin Habitat Suitability Model regression tests
+ * ------------------------------------------------------------
+ */
+
+const createBlueMarlinHabitatInput = ({
+  opportunityTypes = [],
+  opportunityConfidenceScore = 80,
+  opportunityConfidenceLevel = "High",
+  temperature = {},
+  current = {},
+  productivity = {},
+  clarity = {},
+  structure = {},
+  dataQuality = {}
+} = {}) => ({
+  oceanOpportunity: {
+    opportunities:
+      opportunityTypes.map(
+        type => ({
+          type
+        })
+      ),
+
+    confidence: {
+      score:
+        opportunityConfidenceScore,
+
+      level:
+        opportunityConfidenceLevel
+    },
+
+    limitations: []
+  },
+
+  oceanEvidence: {
+    groups: {
+      temperature: {
+        available: false,
+        classification:
+          "unavailable",
+        ...temperature
+      },
+
+      current: {
+        available: false,
+        classification:
+          "unavailable",
+        ...current
+      },
+
+      productivity: {
+        available: false,
+        classification:
+          "unavailable",
+        ...productivity
+      },
+
+      clarity: {
+        available: false,
+        classification:
+          "unavailable",
+        ...clarity
+      },
+
+      structure: {
+        available: false,
+        classification:
+          "unavailable",
+        ...structure
+      }
+    }
+  },
+
+  dataQuality
+});
+
+
+const noBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityConfidenceScore: 20,
+      opportunityConfidenceLevel:
+        "Very Low"
+    })
+  );
+
+assert.equal(
+  noBlueMarlinHabitat
+    .summary
+    .classification,
+  "insufficient-habitat-evidence"
+);
+
+assert.equal(
+  noBlueMarlinHabitat
+    .summary
+    .suitabilityScore,
+  0
+);
+
+assert.equal(
+  noBlueMarlinHabitat
+    .opportunityTypes
+    .length,
+  0
+);
+
+console.log(
+  "PASS no ocean opportunity produces insufficient blue marlin habitat evidence"
+);
+
+
+const temperatureOnlyBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      temperature: {
+        available: true,
+
+        classification:
+          "moderate-temperature-structure"
+      }
+    })
+  );
+
+assert.equal(
+  temperatureOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .classification,
+  "temperature-transition-supported"
+);
+
+assert.equal(
+  temperatureOnlyBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  22
+);
+
+assert.ok(
+  temperatureOnlyBlueMarlinHabitat
+    .positiveDrivers
+    .includes(
+      "spatial-temperature-transition"
+    )
+);
+
+console.log(
+  "PASS temperature transition supports blue marlin thermal structure"
+);
+
+
+const movementAndThermalBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate"
+      ],
+
+      opportunityConfidenceScore: 43,
+      opportunityConfidenceLevel:
+        "Low",
+
+      temperature: {
+        available: true,
+
+        classification:
+          "moderate-temperature-structure"
+      },
+
+      current: {
+        available: true,
+
+        classification:
+          "weak"
+      }
+    })
+  );
+
+assert.equal(
+  movementAndThermalBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  42
+);
+
+assert.equal(
+  movementAndThermalBlueMarlinHabitat
+    .summary
+    .suitabilityScore,
+  42
+);
+
+assert.equal(
+  movementAndThermalBlueMarlinHabitat
+    .summary
+    .classification,
+  "limited-preliminary-habitat-support"
+);
+
+assert.equal(
+  movementAndThermalBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  20
+);
+
+console.log(
+  "PASS current-supported temperature transition produces limited blue marlin habitat support"
+);
+
+
+const confidenceCappedBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      opportunityConfidenceScore: 35,
+      opportunityConfidenceLevel:
+        "Low",
+
+      temperature: {
+        available: true
+      },
+
+      current: {
+        available: true
+      },
+
+      productivity: {
+        available: true
+      },
+
+      clarity: {
+        available: true
+      },
+
+      structure: {
+        available: true
+      }
+    })
+  );
+
+assert.ok(
+  confidenceCappedBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore >
+  confidenceCappedBlueMarlinHabitat
+    .summary
+    .suitabilityScore
+);
+
+assert.equal(
+  confidenceCappedBlueMarlinHabitat
+    .summary
+    .suitabilityScore,
+  35
+);
+
+assert.equal(
+  confidenceCappedBlueMarlinHabitat
+    .confidence
+    .score,
+  35
+);
+
+console.log(
+  "PASS blue marlin suitability remains capped by upstream confidence"
+);
+
+
+const missingEvidenceBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate"
+      ],
+
+      temperature: {
+        available: true
+      },
+
+      current: {
+        available: true
+      }
+    })
+  );
+
+assert.ok(
+  missingEvidenceBlueMarlinHabitat
+    .negativeDrivers
+    .includes(
+      "productivity-evidence-unavailable"
+    )
+);
+
+assert.ok(
+  missingEvidenceBlueMarlinHabitat
+    .negativeDrivers
+    .includes(
+      "structure-interaction-unavailable"
+    )
+);
+
+assert.ok(
+  missingEvidenceBlueMarlinHabitat
+    .negativeDrivers
+    .includes(
+      "feature-persistence-not-established"
+    )
+);
+
+console.log(
+  "PASS missing blue marlin evidence is disclosed through negative drivers"
+);
+
+
+const conservativeBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate"
+      ]
+    })
+  );
+
+assert.ok(
+  conservativeBlueMarlinHabitat
+    .limitations
+    .includes(
+      "does-not-confirm-blue-marlin-presence"
+    )
+);
+
+assert.ok(
+  conservativeBlueMarlinHabitat
+    .limitations
+    .includes(
+      "does-not-confirm-feeding"
+    )
+);
+
+assert.ok(
+  conservativeBlueMarlinHabitat
+    .limitations
+    .includes(
+      "does-not-estimate-catch-probability"
+    )
+);
+
+assert.ok(
+  conservativeBlueMarlinHabitat
+    .limitations
+    .includes(
+      "does-not-indicate-fishing-success"
+    )
+);
+
+console.log(
+  "PASS blue marlin model preserves conservative biological limitations"
 );
