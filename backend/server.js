@@ -2448,6 +2448,493 @@ if (
 }
 
 
+
+function assessOceanConditions({
+  wind,
+  waves,
+  swell,
+  dataQuality
+}) {
+  const severityRank = {
+    favorable: 0,
+    "use-caution": 1,
+    hazardous: 2
+  };
+
+
+  const assessWind = () => {
+    const speedKnots =
+      Number.isFinite(
+        wind?.speedKnots
+      )
+        ? wind.speedKnots
+        : null;
+
+    const gustKnots =
+      Number.isFinite(
+        wind?.gustKnots
+      )
+        ? wind.gustKnots
+        : null;
+
+
+    if (
+      speedKnots === null &&
+      gustKnots === null
+    ) {
+      return {
+        classification:
+          "unavailable",
+
+        headline:
+          "Wind assessment unavailable.",
+
+        detail:
+          "Pelora does not currently have a valid wind-speed or gust value.",
+
+        values: {
+          speedKnots,
+          gustKnots
+        }
+      };
+    }
+
+
+    if (
+      (
+        speedKnots !== null &&
+        speedKnots > 25
+      ) ||
+      (
+        gustKnots !== null &&
+        gustKnots > 30
+      )
+    ) {
+      return {
+        classification:
+          "hazardous",
+
+        headline:
+          "Strong wind conditions detected.",
+
+        detail:
+          "Sustained wind or gusts exceed Pelora's initial high-impact threshold.",
+
+        values: {
+          speedKnots,
+          gustKnots
+        }
+      };
+    }
+
+
+    if (
+      (
+        speedKnots !== null &&
+        speedKnots > 15
+      ) ||
+      (
+        gustKnots !== null &&
+        gustKnots > 20
+      )
+    ) {
+      return {
+        classification:
+          "use-caution",
+
+        headline:
+          "Wind may affect offshore comfort and handling.",
+
+        detail:
+          "Wind or gusts exceed Pelora's initial favorable-condition threshold.",
+
+        values: {
+          speedKnots,
+          gustKnots
+        }
+      };
+    }
+
+
+    return {
+      classification:
+        "favorable",
+
+      headline:
+        "Wind impact is currently low.",
+
+      detail:
+        "Wind and gusts remain within Pelora's initial favorable-condition thresholds.",
+
+      values: {
+        speedKnots,
+        gustKnots
+      }
+    };
+  };
+
+
+  const assessWaves = () => {
+    const heightFeet =
+      Number.isFinite(
+        waves?.heightFeet
+      )
+        ? waves.heightFeet
+        : null;
+
+    const periodSeconds =
+      Number.isFinite(
+        waves?.periodSeconds
+      )
+        ? waves.periodSeconds
+        : null;
+
+
+    if (
+      heightFeet === null
+    ) {
+      return {
+        classification:
+          "unavailable",
+
+        headline:
+          "Wave assessment unavailable.",
+
+        detail:
+          "Pelora does not currently have a valid combined wave-height value.",
+
+        values: {
+          heightFeet,
+          periodSeconds
+        }
+      };
+    }
+
+
+    if (
+      heightFeet > 6
+    ) {
+      return {
+        classification:
+          "hazardous",
+
+        headline:
+          "High combined wave conditions detected.",
+
+        detail:
+          "Combined wave height exceeds Pelora's initial high-impact threshold.",
+
+        values: {
+          heightFeet,
+          periodSeconds
+        }
+      };
+    }
+
+
+    if (
+      heightFeet > 3
+    ) {
+      return {
+        classification:
+          "use-caution",
+
+        headline:
+          "Combined wave conditions may affect offshore comfort.",
+
+        detail:
+          "Combined wave height exceeds Pelora's initial favorable-condition threshold.",
+
+        values: {
+          heightFeet,
+          periodSeconds
+        }
+      };
+    }
+
+
+    return {
+      classification:
+        "favorable",
+
+      headline:
+        "Combined wave height is currently low.",
+
+      detail:
+        "Combined wave height remains within Pelora's initial favorable-condition threshold.",
+
+      values: {
+        heightFeet,
+        periodSeconds
+      }
+    };
+  };
+
+
+  const assessSwell = () => {
+    const heightFeet =
+      Number.isFinite(
+        swell?.heightFeet
+      )
+        ? swell.heightFeet
+        : null;
+
+    const periodSeconds =
+      Number.isFinite(
+        swell?.periodSeconds
+      )
+        ? swell.periodSeconds
+        : null;
+
+
+    if (
+      heightFeet === null
+    ) {
+      return {
+        classification:
+          "unavailable",
+
+        headline:
+          "Swell assessment unavailable.",
+
+        detail:
+          "Pelora does not currently have a valid swell-height value.",
+
+        values: {
+          heightFeet,
+          periodSeconds
+        }
+      };
+    }
+
+
+    if (
+      heightFeet > 6
+    ) {
+      return {
+        classification:
+          "hazardous",
+
+        headline:
+          "High swell conditions detected.",
+
+        detail:
+          "Swell height exceeds Pelora's initial high-impact threshold.",
+
+        values: {
+          heightFeet,
+          periodSeconds
+        }
+      };
+    }
+
+
+    if (
+      heightFeet > 3
+    ) {
+      return {
+        classification:
+          "use-caution",
+
+        headline:
+          "Swell may affect offshore comfort.",
+
+        detail:
+          "Swell height exceeds Pelora's initial favorable-condition threshold.",
+
+        values: {
+          heightFeet,
+          periodSeconds
+        }
+      };
+    }
+
+
+    return {
+      classification:
+        "favorable",
+
+      headline:
+        "Swell height is currently low.",
+
+      detail:
+        "Swell height remains within Pelora's initial favorable-condition threshold.",
+
+      values: {
+        heightFeet,
+        periodSeconds
+      }
+    };
+  };
+
+
+  const assessments = {
+    wind:
+      assessWind(),
+
+    waves:
+      assessWaves(),
+
+    swell:
+      assessSwell()
+  };
+
+
+  const availableAssessments =
+    Object.entries(
+      assessments
+    ).filter(
+      ([, assessment]) =>
+        assessment.classification !==
+        "unavailable"
+    );
+
+
+  const unavailableAssessmentNames =
+    Object.entries(
+      assessments
+    )
+      .filter(
+        ([, assessment]) =>
+          assessment.classification ===
+          "unavailable"
+      )
+      .map(
+        ([name]) =>
+          name
+      );
+
+
+  let overallClassification =
+    "unavailable";
+
+
+  if (
+    availableAssessments.length > 0
+  ) {
+    overallClassification =
+      availableAssessments.reduce(
+        (
+          mostRestrictive,
+          [, assessment]
+        ) =>
+          severityRank[
+            assessment.classification
+          ] >
+          severityRank[
+            mostRestrictive
+          ]
+            ? assessment.classification
+            : mostRestrictive,
+        "favorable"
+      );
+  }
+
+
+  const headlineByClassification = {
+    favorable:
+      "Marine conditions are currently favorable.",
+
+    "use-caution":
+      "Some marine conditions warrant additional caution.",
+
+    hazardous:
+      "High-impact marine conditions are present.",
+
+    unavailable:
+      "Marine-condition assessment is unavailable."
+  };
+
+
+  const detailByClassification = {
+    favorable:
+      "Wind, combined waves, and swell are within Pelora's initial favorable-condition thresholds.",
+
+    "use-caution":
+      "At least one measured condition exceeds Pelora's initial favorable-condition threshold.",
+
+    hazardous:
+      "At least one measured condition exceeds Pelora's initial high-impact threshold.",
+
+    unavailable:
+      "Pelora does not currently have enough valid wind, wave, or swell information to assess marine conditions."
+  };
+
+
+  const evidence =
+    availableAssessments.map(
+      ([factor, assessment]) => ({
+        factor,
+
+        classification:
+          assessment.classification,
+
+        headline:
+          assessment.headline
+      })
+    );
+
+
+  const limitations = [
+    "describes-conditions-not-a-go-or-no-go-command",
+    "does-not-replace-official-marine-forecasts",
+    "does-not-account-for-vessel-size-or-capability",
+    "does-not-account-for-captain-experience",
+    "does-not-yet-assess-thunderstorms-visibility-or-tides",
+    "uses-initial-conservative-thresholds"
+  ];
+
+
+  if (
+    unavailableAssessmentNames.length >
+    0
+  ) {
+    limitations.push(
+      "missing-" +
+      unavailableAssessmentNames.join(
+        "-and-"
+      ) +
+      "-assessment"
+    );
+  }
+
+
+  return {
+    overall: {
+      classification:
+        overallClassification,
+
+      headline:
+        headlineByClassification[
+          overallClassification
+        ],
+
+      detail:
+        detailByClassification[
+          overallClassification
+        ]
+    },
+
+    assessments,
+
+    evidence,
+
+    dataQualityClassification:
+      dataQuality?.overall
+        ?.classification ??
+      "unknown",
+
+    limitations,
+
+    interpretation:
+      "plain-language-marine-condition-assessment",
+
+    methodVersion:
+      "pelora-ocean-conditions-v1"
+  };
+}
+
+
 async function getOceanConditions(
   latitude,
   longitude
@@ -3256,6 +3743,22 @@ async function getOceanConditions(
   };
 
 
+
+  const oceanConditions =
+    assessOceanConditions({
+      wind:
+        marine.wind,
+
+      waves:
+        marine.waves,
+
+      swell:
+        marine.swell,
+
+      dataQuality
+    });
+
+
   return {
     location:
       marine.location,
@@ -3318,6 +3821,8 @@ async function getOceanConditions(
     },
 
     dataQuality,
+
+    oceanConditions,
 
     wind:
       marine.wind,
