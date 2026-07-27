@@ -3918,6 +3918,24 @@ function assessOceanConditions({
   }
 
 
+  const seaStateCanDescribeOverall =
+    seaStateInteraction &&
+    seaStateInteraction.classification !==
+      "unavailable" &&
+    seaStateInteraction.headline &&
+    seaStateInteraction.detail;
+
+
+  if (
+    seaStateCanDescribeOverall &&
+    seaStateInteraction.classification ===
+      overallClassification
+  ) {
+    overallDetail =
+      seaStateInteraction.detail;
+  }
+
+
   const evidence =
     availableAssessments.map(
       ([factor, assessment]) => ({
@@ -3989,7 +4007,7 @@ function assessOceanConditions({
       "plain-language-marine-condition-assessment",
 
     methodVersion:
-      "pelora-ocean-conditions-v1.5"
+      "pelora-ocean-conditions-v1.6"
   };
 }
 
