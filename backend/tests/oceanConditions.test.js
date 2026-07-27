@@ -4904,3 +4904,538 @@ assert.ok(
 console.log(
   "PASS aging observations reduce but do not erase an organized offshore habitat signal"
 );
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Habitat Validation Suite
+ * Integrated scenario tests — Phase 2
+ * ------------------------------------------------------------
+ */
+
+
+/*
+ * Scenario 6:
+ * Strong thermal break without current support
+ *
+ * Expected:
+ * Thermal organization alone may create limited support,
+ * but should not reach moderate support.
+ */
+const strongThermalWithoutCurrentBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      opportunityConfidenceScore: 85,
+      opportunityConfidenceLevel:
+        "High",
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.4,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 93,
+          level: "high"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  strongThermalWithoutCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  25
+);
+
+assert.equal(
+  strongThermalWithoutCurrentBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  0
+);
+
+assert.equal(
+  strongThermalWithoutCurrentBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  25
+);
+
+assert.equal(
+  strongThermalWithoutCurrentBlueMarlinHabitat
+    .summary
+    .classification,
+  "weak-preliminary-habitat-support"
+);
+
+console.log(
+  "PASS strong thermal organization without current support remains weak preliminary habitat evidence"
+);
+
+
+/*
+ * Scenario 7:
+ * Strong current without thermal organization
+ *
+ * Expected:
+ * Movement evidence alone should remain weak.
+ */
+const strongCurrentWithoutThermalBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityConfidenceScore: 85,
+      opportunityConfidenceLevel:
+        "High",
+
+      current: {
+        available: true,
+
+        classification:
+          "very-strong",
+
+        values: {
+          speedKnots: 1.8,
+
+          strengthClassification:
+            "very-strong",
+
+          directionDegrees: 225,
+
+          compassDirection:
+            "SW",
+
+          freshness:
+            "recent",
+
+          ageHours: 4,
+
+          sourceAvailability:
+            "available"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  strongCurrentWithoutThermalBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  10
+);
+
+assert.equal(
+  strongCurrentWithoutThermalBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  0
+);
+
+assert.equal(
+  strongCurrentWithoutThermalBlueMarlinHabitat
+    .summary
+    .classification,
+  "insufficient-habitat-evidence"
+);
+
+assert.ok(
+  strongCurrentWithoutThermalBlueMarlinHabitat
+    .summary
+    .suitabilityScore <
+  30
+);
+
+console.log(
+  "PASS strong current without an ocean opportunity remains insufficient blue marlin habitat evidence"
+);
+
+
+/*
+ * Scenario 8:
+ * Organized thermal-current feature with chlorophyll missing
+ *
+ * Expected:
+ * The feature may still produce limited support, but missing
+ * productivity and water-character evidence should prevent a
+ * stronger interpretation.
+ */
+const organizedFeatureWithoutChlorophyllBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate"
+      ],
+
+      opportunityConfidenceScore: 80,
+      opportunityConfidenceLevel:
+        "High",
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.2,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 92,
+          level: "high"
+        }
+      },
+
+      current: {
+        available: true,
+
+        classification:
+          "strong",
+
+        values: {
+          speedKnots: 1.2,
+
+          strengthClassification:
+            "strong",
+
+          directionDegrees: 225,
+
+          compassDirection:
+            "SW",
+
+          freshness:
+            "recent",
+
+          ageHours: 5,
+
+          sourceAvailability:
+            "available"
+        }
+      },
+
+      productivity: {
+        available: false
+      },
+
+      clarity: {
+        available: false
+      }
+    })
+  );
+
+assert.equal(
+  organizedFeatureWithoutChlorophyllBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  25
+);
+
+assert.equal(
+  organizedFeatureWithoutChlorophyllBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  17
+);
+
+assert.equal(
+  organizedFeatureWithoutChlorophyllBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  0
+);
+
+assert.equal(
+  organizedFeatureWithoutChlorophyllBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  0
+);
+
+assert.equal(
+  organizedFeatureWithoutChlorophyllBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  42
+);
+
+assert.equal(
+  organizedFeatureWithoutChlorophyllBlueMarlinHabitat
+    .summary
+    .classification,
+  "limited-preliminary-habitat-support"
+);
+
+console.log(
+  "PASS organized thermal-current feature remains limited when chlorophyll evidence is unavailable"
+);
+
+
+/*
+ * Scenario 9:
+ * Stale integrated feature
+ *
+ * Expected:
+ * Stale current and chlorophyll evidence should materially
+ * reduce the final score below the equivalent recent or
+ * merely aging scenario.
+ */
+const staleOrganizedFeatureBlueMarlinHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone",
+        "current-supported-transition-candidate",
+        "surface-water-boundary-candidate",
+        "multi-signal-feature-candidate"
+      ],
+
+      opportunityConfidenceScore: 80,
+      opportunityConfidenceLevel:
+        "High",
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.2,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 92,
+          level: "high"
+        }
+      },
+
+      current: {
+        available: true,
+
+        classification:
+          "strong",
+
+        values: {
+          speedKnots: 1.2,
+
+          strengthClassification:
+            "strong",
+
+          directionDegrees: 225,
+
+          compassDirection:
+            "SW",
+
+          freshness:
+            "stale",
+
+          ageHours: 120,
+
+          sourceAvailability:
+            "available"
+        }
+      },
+
+      productivity: {
+        available: true,
+
+        classification:
+          "productive-blue-green-transition",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          productivityClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "stale",
+
+          ageHours: 120
+        }
+      },
+
+      clarity: {
+        available: true,
+
+        classification:
+          "transitional-surface-water",
+
+        values: {
+          concentrationMgM3: 0.34,
+
+          waterClassification:
+            "productive-blue-green-transition",
+
+          freshness:
+            "stale",
+
+          ageHours: 120
+        }
+      }
+    })
+  );
+
+assert.equal(
+  staleOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  25
+);
+
+assert.equal(
+  staleOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .oceanMovement
+    .score,
+  8
+);
+
+assert.equal(
+  staleOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .productivityAndPreySupport
+    .score,
+  8
+);
+
+assert.equal(
+  staleOrganizedFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .waterCharacter
+    .score,
+  4
+);
+
+assert.equal(
+  staleOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  45
+);
+
+assert.equal(
+  staleOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .classification,
+  "limited-preliminary-habitat-support"
+);
+
+assert.ok(
+  staleOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore <
+  agingOrganizedFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore
+);
+
+console.log(
+  "PASS stale observations materially reduce an integrated blue marlin habitat signal"
+);
+
+
+/*
+ * Scenario 10:
+ * Current practical model ceiling
+ *
+ * Structure Interaction and Persistence are not yet backed
+ * by connected upstream evidence. This scenario documents
+ * the strongest currently observable combination.
+ *
+ * Expected current ceiling:
+ * Thermal 25
+ * Movement 19
+ * Productivity 18
+ * Water Character 9
+ * Total 71
+ */
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  71
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .structureInteraction
+    .score,
+  0
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .persistence
+    .score,
+  0
+);
+
+assert.ok(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore <
+  100
+);
+
+console.log(
+  "PASS current blue marlin model ceiling is documented before structure and persistence evidence are connected"
+);
