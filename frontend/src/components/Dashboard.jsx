@@ -62,28 +62,47 @@ function Dashboard() {
 
   const rankedLocations = [...structures]
   .filter((spot) => {
-    const score =
+    const score = Number(
       spot?.scores?.blueMarlin ??
-      spot?.blueMarlinScore;
+      spot?.blueMarlinScore
+    );
 
-    return Number.isFinite(
-      Number(score)
+    const conditions =
+      spot?.conditions ?? {};
+
+    const evidenceValues = [
+      conditions.sst,
+      conditions.current,
+      conditions.chlorophyll
+    ];
+
+    const evidenceCount =
+      evidenceValues.filter((value) => {
+        if (value === null || value === undefined) {
+          return false;
+        }
+
+        return String(value).trim() !== "";
+      }).length;
+
+    return (
+      Number.isFinite(score) &&
+      score > 0 &&
+      evidenceCount >= 2
     );
   })
   .sort((first, second) => {
-    const firstScore =
-      Number(
-        first?.scores?.blueMarlin ??
-        first?.blueMarlinScore ??
-        0
-      );
+    const firstScore = Number(
+      first?.scores?.blueMarlin ??
+      first?.blueMarlinScore ??
+      0
+    );
 
-    const secondScore =
-      Number(
-        second?.scores?.blueMarlin ??
-        second?.blueMarlinScore ??
-        0
-      );
+    const secondScore = Number(
+      second?.scores?.blueMarlin ??
+      second?.blueMarlinScore ??
+      0
+    );
 
     return secondScore - firstScore;
   });

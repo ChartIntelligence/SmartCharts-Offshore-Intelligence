@@ -40,6 +40,14 @@ function TodayDashboard({
   const opportunityConfidence =
     activeConfidence?.score ?? 0;
 
+    const oceanBriefSummary =
+  buildOceanBriefSummary({
+    opportunity: activeOpportunity,
+    conditions,
+    score: opportunityScore,
+    confidence: opportunityConfidence
+  });
+
 const wind =
   liveMarineData?.wind ?? {};
 
@@ -96,19 +104,7 @@ const windAndWaveValue =
       </h2>
 
       <p className="ocean-brief-summary">
-        The Gulf is organizing around
-        several offshore opportunities
-        today.{" "}
-
-        <strong>
-          {activeOpportunity?.name ??
-            "The leading zone"}
-        </strong>{" "}
-
-        is currently selected for closer
-        review based on its combination of
-        ocean movement, productivity and
-        structure interaction.
+        {oceanBriefSummary}
       </p>
 
     </div>
@@ -182,7 +178,7 @@ const windAndWaveValue =
     <div>
 
       <span>
-        Brief Updated
+        Marine Data Observed
       </span>
 
       <strong>
@@ -416,7 +412,7 @@ const windAndWaveValue =
             <div className="velion-reason-grid">
 
               <ReasonCard
-                label="Temperature"
+                label="Temperature Stability"
                 value={
                   conditions.sst ??
                   "Awaiting live data"
@@ -427,7 +423,7 @@ const windAndWaveValue =
               />
 
               <ReasonCard
-                label="Current"
+                label="Current Organization"
                 value={
                   conditions.current ??
                   "Awaiting live data"
@@ -440,7 +436,7 @@ const windAndWaveValue =
               />
 
               <ReasonCard
-                label="Water Productivity"
+                label="Biological Productivity"
                 value={
                   conditions.chlorophyll ??
                   "Awaiting live data"
@@ -453,7 +449,7 @@ const windAndWaveValue =
               />
 
               <ReasonCard
-                label="Structure"
+                label="Structure Interaction"
                 value={
                   activeOpportunity?.type ??
                   "Structure analyzed"
@@ -508,14 +504,14 @@ const windAndWaveValue =
             </span>
 
             <div>
-              <h3>
-                Ocean Conditions
-              </h3>
+             <h3>
+               Ocean Evidence
+            </h3>
 
-              <p>
-                Conditions influencing
-                today&apos;s opportunity.
-              </p>
+            <p>
+              Scientific evidence supporting
+              today&apos;s opportunity.
+            </p>
             </div>
 
           </div>
@@ -779,30 +775,86 @@ function ConditionCard({
   );
 }
 
+function buildOceanBriefSummary({
+  opportunity,
+  conditions,
+  score,
+  confidence
+}) {
+  if (!opportunity) {
+    return (
+      "Pelora is reviewing current ocean conditions " +
+      "and waiting for a leading offshore opportunity."
+    );
+  }
+
+  const evidence = [];
+
+  if (conditions.sst) {
+    evidence.push("temperature support");
+  }
+
+  if (conditions.current) {
+    evidence.push("organized current flow");
+  }
+
+  if (conditions.chlorophyll) {
+    evidence.push("biological productivity");
+  }
+
+  if (opportunity.type) {
+    evidence.push("structure interaction");
+  }
+
+  const evidenceText =
+    evidence.length > 0
+      ? evidence.join(", ")
+      : "the available ocean evidence";
+
+  const confidenceText =
+    confidence >= 80
+      ? "high"
+      : confidence >= 60
+        ? "moderate"
+        : "developing";
+
+  return (
+    `${opportunity.name} is currently Pelora's leading ` +
+    `offshore opportunity with a score of ${score}. ` +
+    `The zone is supported by ${evidenceText}. ` +
+    `Forecast confidence is ${confidenceText} at ` +
+    `${confidence}%.`
+  );
+}
+
 function formatMarineTime(value) {
   if (!value) {
     return null;
   }
 
-  const date =
-    new Date(value);
+  const rawValue = String(value).trim();
 
-  if (
-    Number.isNaN(
-      date.getTime()
-    )
-  ) {
+  // If the timestamp doesn't already include a timezone,
+  // treat it as UTC.
+  const hasTimeZone =
+    /(?:Z|[+-]\d{2}:\d{2})$/i.test(rawValue);
+
+  const normalizedValue =
+    hasTimeZone
+      ? rawValue
+      : `${rawValue}Z`;
+
+  const date = new Date(normalizedValue);
+
+  if (Number.isNaN(date.getTime())) {
     return null;
   }
 
-  return new Intl.DateTimeFormat(
-    "en-US",
-    {
-      hour: "numeric",
-      minute: "2-digit",
-      timeZoneName: "short"
-    }
-  ).format(date);
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short"
+  }).format(date);
 }
 
 
