@@ -6766,6 +6766,629 @@ export function assessOceanOpportunity({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Habitat Suitability Model
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Evaluate whether species-neutral environmental features form
+ * a biologically plausible blue marlin habitat relationship.
+ *
+ * The model answers:
+ * "Does the available environmental evidence support a
+ * plausible blue marlin habitat opportunity?"
+ *
+ * This first model version does not confirm:
+ * - blue marlin presence
+ * - feeding activity
+ * - prey or bait concentration
+ * - feature persistence
+ * - catch probability
+ * - fishing success
+ */
+export function assessBlueMarlinHabitat({
+  oceanOpportunity,
+  oceanEvidence,
+  dataQuality
+}) {
+  const opportunities =
+    Array.isArray(
+      oceanOpportunity
+        ?.opportunities
+    )
+      ? oceanOpportunity.opportunities
+      : [];
+
+  const evidenceGroups =
+    oceanEvidence?.groups ??
+    {};
+
+  const temperature =
+    evidenceGroups.temperature ??
+    {};
+
+  const current =
+    evidenceGroups.current ??
+    {};
+
+  const productivity =
+    evidenceGroups.productivity ??
+    {};
+
+  const clarity =
+    evidenceGroups.clarity ??
+    {};
+
+  const structure =
+    evidenceGroups.structure ??
+    {};
+
+  const opportunityTypes =
+    opportunities
+      .map(
+        opportunity =>
+          opportunity?.type
+      )
+      .filter(Boolean);
+
+  const hasOpportunityType =
+    type =>
+      opportunityTypes.includes(
+        type
+      );
+
+  const hasTemperatureTransition =
+    hasOpportunityType(
+      "environmental-transition-zone"
+    );
+
+  const hasCurrentSupportedTransition =
+    hasOpportunityType(
+      "current-supported-transition-candidate"
+    );
+
+  const hasSurfaceWaterBoundary =
+    hasOpportunityType(
+      "surface-water-boundary-candidate"
+    );
+
+  const hasMultiSignalFeature =
+    hasOpportunityType(
+      "multi-signal-feature-candidate"
+    );
+
+  const upstreamConfidenceScore =
+    Number.isFinite(
+      oceanOpportunity
+        ?.confidence
+        ?.score
+    )
+      ? oceanOpportunity
+          .confidence
+          .score
+      : 0;
+
+  const upstreamConfidenceLevel =
+    oceanOpportunity
+      ?.confidence
+      ?.level ??
+    "Very Low";
+
+  const positiveDrivers = [];
+
+  const negativeDrivers = [];
+
+  const limitations = [
+    "preliminary-blue-marlin-habitat-assessment",
+    "does-not-confirm-blue-marlin-presence",
+    "does-not-confirm-feeding",
+    "does-not-confirm-prey-or-bait-concentration",
+    "does-not-estimate-catch-probability",
+    "does-not-indicate-fishing-success"
+  ];
+
+
+  /*
+   * Relationship Group 1:
+   * Ocean Movement
+   */
+  let oceanMovementScore = 0;
+
+  let oceanMovementClassification =
+    "unsupported";
+
+  if (
+    hasCurrentSupportedTransition ||
+    hasMultiSignalFeature
+  ) {
+    oceanMovementScore = 20;
+
+    oceanMovementClassification =
+      "current-influenced-feature-candidate";
+
+    positiveDrivers.push(
+      "water-movement-near-environmental-transition"
+    );
+  } else if (
+    current?.available
+  ) {
+    oceanMovementScore = 8;
+
+    oceanMovementClassification =
+      "current-observation-only";
+
+    positiveDrivers.push(
+      "local-current-observation"
+    );
+
+    limitations.push(
+      "current-organization-not-established"
+    );
+  } else {
+    negativeDrivers.push(
+      "ocean-movement-evidence-unavailable"
+    );
+
+    limitations.push(
+      "current-evidence-unavailable"
+    );
+  }
+
+
+  /*
+   * Relationship Group 2:
+   * Thermal Structure
+   */
+  let thermalStructureScore = 0;
+
+  let thermalStructureClassification =
+    "unsupported";
+
+  if (
+    hasTemperatureTransition ||
+    hasMultiSignalFeature
+  ) {
+    thermalStructureScore = 22;
+
+    thermalStructureClassification =
+      "temperature-transition-supported";
+
+    positiveDrivers.push(
+      "spatial-temperature-transition"
+    );
+  } else if (
+    temperature?.available
+  ) {
+    thermalStructureScore = 7;
+
+    thermalStructureClassification =
+      "temperature-observation-without-transition";
+
+    negativeDrivers.push(
+      "organized-temperature-transition-not-established"
+    );
+  } else {
+    negativeDrivers.push(
+      "temperature-evidence-unavailable"
+    );
+
+    limitations.push(
+      "temperature-structure-unavailable"
+    );
+  }
+
+
+  /*
+   * Relationship Group 3:
+   * Productivity and Prey Support
+   *
+   * Chlorophyll may describe surface-water productivity
+   * character, but it does not directly establish prey.
+   */
+  let productivityAndPreyScore = 0;
+
+  let productivityAndPreyClassification =
+    "unsupported";
+
+  if (
+    hasSurfaceWaterBoundary ||
+    hasMultiSignalFeature
+  ) {
+    productivityAndPreyScore = 10;
+
+    productivityAndPreyClassification =
+      "surface-productivity-context-present";
+
+    positiveDrivers.push(
+      "chlorophyll-derived-surface-water-transition"
+    );
+
+    limitations.push(
+      "surface-productivity-does-not-confirm-prey"
+    );
+  } else if (
+    productivity?.available
+  ) {
+    productivityAndPreyScore = 4;
+
+    productivityAndPreyClassification =
+      "surface-productivity-observation-only";
+
+    limitations.push(
+      "prey-support-not-established"
+    );
+  } else {
+    negativeDrivers.push(
+      "productivity-evidence-unavailable"
+    );
+
+    limitations.push(
+      "prey-support-unavailable"
+    );
+  }
+
+
+  /*
+   * Relationship Group 4:
+   * Structure Interaction
+   */
+  let structureInteractionScore = 0;
+
+  let structureInteractionClassification =
+    "unavailable";
+
+  if (
+    structure?.available
+  ) {
+    structureInteractionScore = 8;
+
+    structureInteractionClassification =
+      "structure-context-present";
+
+    positiveDrivers.push(
+      "structure-context-available"
+    );
+  } else {
+    negativeDrivers.push(
+      "structure-interaction-unavailable"
+    );
+
+    limitations.push(
+      "bathymetric-interaction-not-assessed"
+    );
+  }
+
+
+  /*
+   * Relationship Group 5:
+   * Water Character
+   */
+  let waterCharacterScore = 0;
+
+  let waterCharacterClassification =
+    "unsupported";
+
+  if (
+    hasSurfaceWaterBoundary
+  ) {
+    waterCharacterScore = 8;
+
+    waterCharacterClassification =
+      "surface-water-transition-supported";
+
+    positiveDrivers.push(
+      "surface-water-character-transition"
+    );
+  } else if (
+    clarity?.available
+  ) {
+    waterCharacterScore = 3;
+
+    waterCharacterClassification =
+      "surface-water-character-observed";
+  } else {
+    limitations.push(
+      "water-character-evidence-unavailable"
+    );
+  }
+
+
+  /*
+   * Relationship Group 6:
+   * Persistence
+   *
+   * Persistence cannot be established from a single-time
+   * environmental assessment.
+   */
+  const persistenceScore = 0;
+
+  const persistenceClassification =
+    "not-established";
+
+  negativeDrivers.push(
+    "feature-persistence-not-established"
+  );
+
+  limitations.push(
+    "single-time-assessment",
+    "historical-feature-tracking-not-yet-implemented"
+  );
+
+
+  const rawSuitabilityScore =
+    oceanMovementScore +
+    thermalStructureScore +
+    productivityAndPreyScore +
+    structureInteractionScore +
+    waterCharacterScore +
+    persistenceScore;
+
+  /*
+   * Habitat suitability cannot be more confident than the
+   * species-neutral Opportunity assessment supporting it.
+   */
+  const confidenceAdjustedMaximum =
+    Math.round(
+      upstreamConfidenceScore
+    );
+
+  const suitabilityScore =
+    Math.min(
+      rawSuitabilityScore,
+      confidenceAdjustedMaximum
+    );
+
+  let classification;
+
+  let headline;
+
+  let detail;
+
+  if (
+    opportunityTypes.length === 0
+  ) {
+    classification =
+      "insufficient-habitat-evidence";
+
+    headline =
+      "No blue marlin habitat relationship is currently supported.";
+
+    detail =
+      "The available species-neutral assessment does not contain an organized environmental feature candidate that can support a preliminary blue marlin habitat interpretation.";
+  } else if (
+    suitabilityScore >= 55
+  ) {
+    classification =
+      "moderate-preliminary-habitat-support";
+
+    headline =
+      "Multiple environmental relationships support a preliminary blue marlin habitat candidate.";
+
+    detail =
+      "The available environmental relationships provide moderate preliminary habitat support, but blue marlin presence, prey concentration, persistence, and fishing success remain unconfirmed.";
+  } else if (
+    suitabilityScore >= 30
+  ) {
+    classification =
+      "limited-preliminary-habitat-support";
+
+    headline =
+      "A limited blue marlin habitat relationship is supported.";
+
+    detail =
+      "Some environmental relationships are consistent with a preliminary blue marlin habitat candidate, but important biological and persistence evidence remains unavailable.";
+  } else {
+    classification =
+      "weak-preliminary-habitat-support";
+
+    headline =
+      "Only weak preliminary blue marlin habitat support is available.";
+
+    detail =
+      "One or more environmental signals are present, but the evidence is incomplete and does not yet support a strong habitat interpretation.";
+  }
+
+  const uniqueLimitations =
+    [
+      ...new Set(
+        [
+          ...limitations,
+
+          ...(
+            Array.isArray(
+              oceanOpportunity
+                ?.limitations
+            )
+              ? oceanOpportunity
+                  .limitations
+              : []
+          )
+        ]
+          .filter(Boolean)
+      )
+    ];
+
+  return {
+    summary: {
+      classification,
+
+      headline,
+
+      detail,
+
+      suitabilityScore,
+
+      rawSuitabilityScore,
+
+      confidenceScore:
+        upstreamConfidenceScore,
+
+      confidenceLevel:
+        upstreamConfidenceLevel,
+
+      interpretation:
+        "blue-marlin-habitat-suitability-summary"
+    },
+
+    relationshipGroups: {
+      oceanMovement: {
+        classification:
+          oceanMovementClassification,
+
+        score:
+          oceanMovementScore,
+
+        maximumScore:
+          25
+      },
+
+      thermalStructure: {
+        classification:
+          thermalStructureClassification,
+
+        score:
+          thermalStructureScore,
+
+        maximumScore:
+          25
+      },
+
+      productivityAndPreySupport: {
+        classification:
+          productivityAndPreyClassification,
+
+        score:
+          productivityAndPreyScore,
+
+        maximumScore:
+          20
+      },
+
+      structureInteraction: {
+        classification:
+          structureInteractionClassification,
+
+        score:
+          structureInteractionScore,
+
+        maximumScore:
+          15
+      },
+
+      waterCharacter: {
+        classification:
+          waterCharacterClassification,
+
+        score:
+          waterCharacterScore,
+
+        maximumScore:
+          10
+      },
+
+      persistence: {
+        classification:
+          persistenceClassification,
+
+        score:
+          persistenceScore,
+
+        maximumScore:
+          5
+      }
+    },
+
+    opportunityTypes,
+
+    positiveDrivers:
+      [
+        ...new Set(
+          positiveDrivers
+            .filter(Boolean)
+        )
+      ],
+
+    negativeDrivers:
+      [
+        ...new Set(
+          negativeDrivers
+            .filter(Boolean)
+        )
+      ],
+
+    confidence: {
+      score:
+        upstreamConfidenceScore,
+
+      level:
+        upstreamConfidenceLevel,
+
+      reasons: [
+        "confidence-capped-by-ocean-opportunity",
+        opportunityTypes.length > 0
+          ? "species-neutral-feature-candidate-available"
+          : "no-species-neutral-feature-candidate"
+      ],
+
+      limitations:
+        uniqueLimitations,
+
+      components: {
+        upstreamOpportunity: {
+          score:
+            upstreamConfidenceScore,
+
+          level:
+            upstreamConfidenceLevel
+        },
+
+        rawHabitatAssessment: {
+          score:
+            rawSuitabilityScore
+        },
+
+        confidenceAdjustedSuitability: {
+          score:
+            suitabilityScore
+        }
+      },
+
+      methodVersion:
+        "pelora-blue-marlin-hsm-confidence-v1.0"
+    },
+
+    dataQualityContext: {
+      available:
+        Boolean(
+          dataQuality
+        ),
+
+      score:
+        Number.isFinite(
+          dataQuality?.score
+        )
+          ? dataQuality.score
+          : null,
+
+      classification:
+        dataQuality
+          ?.classification ??
+        null
+    },
+
+    limitations:
+      uniqueLimitations,
+
+    interpretation:
+      "blue-marlin-habitat-suitability",
+
+    methodVersion:
+      "pelora-blue-marlin-hsm-v1.0"
+  };
+}
+
+
 async function getOceanConditions(
   latitude,
   longitude
@@ -7650,6 +8273,14 @@ const oceanEvidence =
   });
 
 
+  const blueMarlinHabitat =
+    assessBlueMarlinHabitat({
+      oceanOpportunity,
+      oceanEvidence,
+      dataQuality
+    });
+
+
   return {
     location:
       marine.location,
@@ -7718,6 +8349,8 @@ const oceanEvidence =
     oceanEvidence,
 
     oceanOpportunity,
+
+    blueMarlinHabitat,
 
     wind:
       marine.wind,
