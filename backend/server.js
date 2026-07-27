@@ -3015,19 +3015,215 @@ function assessOceanConditions({
   };
 
 
-  const detailByClassification = {
-    favorable:
-      "Wind, combined waves, and swell are within Pelora's initial favorable-condition thresholds.",
+  const factorLabels = {
+    wind:
+      "wind",
 
-    "use-caution":
-      "At least one measured condition exceeds Pelora's initial favorable-condition threshold.",
+    waves:
+      "combined waves",
 
-    hazardous:
-      "At least one measured condition exceeds Pelora's initial high-impact threshold.",
-
-    unavailable:
-      "Pelora does not currently have enough valid wind, wave, or swell information to assess marine conditions."
+    swell:
+      "swell"
   };
+
+
+  const formatFactorList =
+    factors => {
+      const labels =
+        factors.map(
+          factor =>
+            factorLabels[factor] ??
+            factor
+        );
+
+
+      if (
+        labels.length === 0
+      ) {
+        return "";
+      }
+
+
+      if (
+        labels.length === 1
+      ) {
+        return labels[0];
+      }
+
+
+      if (
+        labels.length === 2
+      ) {
+        return (
+          labels[0] +
+          " and " +
+          labels[1]
+        );
+      }
+
+
+      return (
+        labels
+          .slice(
+            0,
+            -1
+          )
+          .join(", ") +
+        ", and " +
+        labels[
+          labels.length - 1
+        ]
+      );
+    };
+
+
+  const restrictiveFactors =
+    availableAssessments
+      .filter(
+        ([, assessment]) =>
+          assessment.classification ===
+          overallClassification
+      )
+      .map(
+        ([factor]) =>
+          factor
+      );
+
+
+  const favorableFactors =
+    availableAssessments
+      .filter(
+        ([, assessment]) =>
+          assessment.classification ===
+          "favorable"
+      )
+      .map(
+        ([factor]) =>
+          factor
+      );
+
+
+  let overallDetail =
+    "Pelora does not currently have enough valid wind, wave, or swell information to assess marine conditions.";
+
+
+  if (
+    overallClassification ===
+    "favorable"
+  ) {
+    overallDetail =
+      "Wind, combined waves, and swell are within Pelora's initial favorable-condition thresholds.";
+  }
+
+
+  if (
+    overallClassification ===
+    "use-caution"
+  ) {
+    const waveAssessment =
+      assessments.waves;
+
+    const onlyWaveConcern =
+      restrictiveFactors.length === 1 &&
+      restrictiveFactors[0] ===
+        "waves";
+
+    const shortPeriodWaveConcern =
+      onlyWaveConcern &&
+      (
+        waveAssessment.values
+          ?.periodClassification ===
+          "very-short-period" ||
+        waveAssessment.values
+          ?.periodClassification ===
+          "short-period"
+      );
+
+
+    if (
+      shortPeriodWaveConcern
+    ) {
+      overallDetail =
+        "Short-period combined waves are the primary concern.";
+    } else {
+      overallDetail =
+        formatFactorList(
+          restrictiveFactors
+        ) +
+        (
+          restrictiveFactors.length ===
+          1
+            ? " warrants additional caution."
+            : " warrant additional caution."
+        );
+    }
+
+
+    if (
+      favorableFactors.length > 0
+    ) {
+      overallDetail +=
+        " " +
+        formatFactorList(
+          favorableFactors
+        )
+          .replace(
+            /^./,
+            character =>
+              character.toUpperCase()
+          ) +
+        (
+          favorableFactors.length ===
+          1
+            ? " remains favorable."
+            : " remain favorable."
+        );
+    }
+  }
+
+
+  if (
+    overallClassification ===
+    "hazardous"
+  ) {
+    overallDetail =
+      formatFactorList(
+        restrictiveFactors
+      )
+        .replace(
+          /^./,
+          character =>
+            character.toUpperCase()
+        ) +
+      (
+        restrictiveFactors.length ===
+        1
+          ? " is the primary high-impact concern."
+          : " are the primary high-impact concerns."
+      );
+
+
+    if (
+      favorableFactors.length > 0
+    ) {
+      overallDetail +=
+        " " +
+        formatFactorList(
+          favorableFactors
+        )
+          .replace(
+            /^./,
+            character =>
+              character.toUpperCase()
+          ) +
+        (
+          favorableFactors.length ===
+          1
+            ? " remains favorable."
+            : " remain favorable."
+        );
+    }
+  }
 
 
   const evidence =
@@ -3079,9 +3275,7 @@ function assessOceanConditions({
         ],
 
       detail:
-        detailByClassification[
-          overallClassification
-        ]
+        overallDetail
     },
 
     assessments,
@@ -3099,7 +3293,7 @@ function assessOceanConditions({
       "plain-language-marine-condition-assessment",
 
     methodVersion:
-      "pelora-ocean-conditions-v1.2"
+      "pelora-ocean-conditions-v1.3"
   };
 }
 
