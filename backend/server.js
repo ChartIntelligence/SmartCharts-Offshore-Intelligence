@@ -4369,7 +4369,305 @@ export function assessOceanEvidence({
 function buildTemperatureEvidence(
   sst
 ) {
-  return {};
+  const temperatureFahrenheit =
+    Number.isFinite(
+      sst?.temperatureFahrenheit
+    )
+      ? sst.temperatureFahrenheit
+      : null;
+
+  const temperatureBand =
+    sst?.derived
+      ?.temperatureBand ??
+    sst?.temperatureBand ??
+    classifySeaSurfaceTemperature(
+      temperatureFahrenheit
+    );
+
+  const spatialStructure =
+    sst?.derived
+      ?.spatialStructure ??
+    sst?.spatialStructure ??
+    null;
+
+  const spatialClassification =
+    spatialStructure
+      ?.classification ??
+    null;
+
+  const spatialRangeFahrenheit =
+    Number.isFinite(
+      spatialStructure
+        ?.rangeFahrenheit
+    )
+      ? spatialStructure
+          .rangeFahrenheit
+      : null;
+
+  const coverage =
+    spatialStructure
+      ?.coverage ??
+    "unavailable";
+
+  const orientation =
+    spatialStructure
+      ?.orientation ??
+    null;
+
+  const confidence =
+    spatialStructure
+      ?.confidence ??
+    null;
+
+  const centerAvailable =
+    temperatureFahrenheit !==
+    null;
+
+  const spatialAvailable =
+    spatialClassification !==
+      null &&
+    coverage ===
+      "sufficient";
+
+  const available =
+    centerAvailable ||
+    spatialAvailable;
+
+  const drivers = [];
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          spatialStructure
+            ?.limitations
+        )
+          ? spatialStructure
+              .limitations
+          : []
+      ),
+
+      "single-time-snapshot",
+      "does-not-confirm-persistence",
+      "does-not-confirm-ocean-front",
+      "does-not-establish-biological-significance",
+      "does-not-indicate-species-suitability"
+    ])
+  ];
+
+  if (
+    centerAvailable
+  ) {
+    drivers.push(
+      "center-temperature-available"
+    );
+  }
+
+  if (
+    spatialAvailable
+  ) {
+    drivers.push(
+      spatialClassification
+    );
+  }
+
+  if (
+    orientation
+      ?.classification ===
+      "directional-temperature-transition"
+  ) {
+    drivers.push(
+      "directional-temperature-transition"
+    );
+  }
+
+  if (
+    confidence?.level
+  ) {
+    drivers.push(
+      `spatial-pattern-confidence-${confidence.level}`
+    );
+  }
+
+  if (
+    !available
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "unavailable",
+
+      headline:
+        "Temperature evidence is unavailable.",
+
+      detail:
+        "Pelora does not currently have a valid center temperature or sufficient local spatial temperature coverage.",
+
+      values: {
+        temperatureFahrenheit,
+        temperatureBand,
+        spatialRangeFahrenheit,
+        spatialClassification,
+        coverage
+      },
+
+      orientation,
+
+      confidence,
+
+      drivers,
+
+      limitations: [
+        "center-temperature-unavailable",
+        "spatial-temperature-structure-unavailable",
+        ...limitations
+      ],
+
+      interpretation:
+        "species-neutral-temperature-structure-evidence"
+    };
+  }
+
+  let classification =
+    "temperature-only";
+
+  let headline =
+    "A center temperature observation is available.";
+
+  let detail =
+    "Pelora has a valid local temperature value, but sufficient spatial evidence is not currently available to describe nearby temperature structure.";
+
+  if (
+    spatialClassification ===
+    "uniform-water"
+  ) {
+    classification =
+      "uniform-water";
+
+    headline =
+      "Local temperatures are broadly uniform.";
+
+    detail =
+      "Nearby samples show little temperature variation within the current sampling radius.";
+  } else if (
+    spatialClassification ===
+    "weak-temperature-transition"
+  ) {
+    classification =
+      "weak-temperature-structure";
+
+    headline =
+      "A weak local temperature transition is present.";
+
+    detail =
+      "Nearby samples show limited temperature variation. This describes local structure only and does not confirm a persistent front.";
+  } else if (
+    spatialClassification ===
+    "moderate-temperature-transition"
+  ) {
+    classification =
+      "moderate-temperature-structure";
+
+    headline =
+      "A moderate local temperature transition is present.";
+
+    detail =
+      "Nearby samples show meaningful temperature variation within the current sampling radius. Persistence and biological importance are not yet established.";
+  } else if (
+    spatialClassification ===
+    "strong-temperature-break-candidate"
+  ) {
+    classification =
+      "strong-temperature-break-candidate";
+
+    headline =
+      "A strong local temperature-break candidate is present.";
+
+    detail =
+      "Nearby samples show a pronounced temperature range. This is a candidate spatial pattern, not confirmation of a persistent ocean front or habitat feature.";
+  } else if (
+    coverage !==
+      "sufficient"
+  ) {
+    drivers.push(
+      "insufficient-spatial-coverage"
+    );
+  }
+
+  return {
+    available: true,
+
+    classification,
+
+    headline,
+
+    detail,
+
+    values: {
+      temperatureFahrenheit,
+      temperatureBand,
+      spatialRangeFahrenheit,
+      spatialClassification,
+      coverage,
+
+      minimumFahrenheit:
+        Number.isFinite(
+          spatialStructure
+            ?.minimumFahrenheit
+        )
+          ? spatialStructure
+              .minimumFahrenheit
+          : null,
+
+      maximumFahrenheit:
+        Number.isFinite(
+          spatialStructure
+            ?.maximumFahrenheit
+        )
+          ? spatialStructure
+              .maximumFahrenheit
+          : null,
+
+      validNeighborCount:
+        Number.isFinite(
+          spatialStructure
+            ?.validNeighborCount
+        )
+          ? spatialStructure
+              .validNeighborCount
+          : null,
+
+      expectedNeighborCount:
+        Number.isFinite(
+          spatialStructure
+            ?.expectedNeighborCount
+        )
+          ? spatialStructure
+              .expectedNeighborCount
+          : null,
+
+      sampleRadiusNauticalMiles:
+        Number.isFinite(
+          spatialStructure
+            ?.sampleRadiusNauticalMiles
+        )
+          ? spatialStructure
+              .sampleRadiusNauticalMiles
+          : null
+    },
+
+    orientation,
+
+    confidence,
+
+    drivers,
+
+    limitations,
+
+    interpretation:
+      "species-neutral-temperature-structure-evidence"
+  };
 }
 
 
