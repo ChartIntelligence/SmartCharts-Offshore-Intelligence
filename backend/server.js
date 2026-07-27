@@ -3310,6 +3310,337 @@ function assessOceanConditions({
   };
 
 
+  const assessSeaStateInteraction =
+    () => {
+      const windAssessment =
+        assessments.wind;
+
+      const waveAssessment =
+        assessments.waves;
+
+      const swellAssessment =
+        assessments.swell;
+
+      const directionClassification =
+        directionalInteraction
+          .classification;
+
+
+      const availableComponentAssessments = [
+        windAssessment,
+        waveAssessment,
+        swellAssessment
+      ].filter(
+        assessment =>
+          assessment.classification !==
+          "unavailable"
+      );
+
+
+      if (
+        availableComponentAssessments.length ===
+        0
+      ) {
+        return {
+          classification:
+            "unavailable",
+
+          seaStateType:
+            "unavailable",
+
+          headline:
+            "Sea-state interaction is unavailable.",
+
+          detail:
+            "Pelora does not currently have enough valid wind, wave, or swell information to interpret the combined sea state.",
+
+          drivers: [],
+
+          interpretation:
+            "informational-not-yet-applied-to-overall-classification"
+        };
+      }
+
+
+      const drivers = [];
+
+      const wavePeriodClassification =
+        waveAssessment.values
+          ?.periodClassification ??
+        "unknown";
+
+      const swellPeriodClassification =
+        swellAssessment.values
+          ?.periodClassification ??
+        "unknown";
+
+      const hasShortPeriodWaves =
+        wavePeriodClassification ===
+          "very-short-period" ||
+        wavePeriodClassification ===
+          "short-period";
+
+      const hasShortPeriodSwell =
+        swellPeriodClassification ===
+          "very-short-period" ||
+        swellPeriodClassification ===
+          "short-period";
+
+      const hasHazardousComponent =
+        availableComponentAssessments.some(
+          assessment =>
+            assessment.classification ===
+            "hazardous"
+        );
+
+      const hasCautionComponent =
+        availableComponentAssessments.some(
+          assessment =>
+            assessment.classification ===
+            "use-caution"
+        );
+
+
+      if (
+        hasShortPeriodWaves
+      ) {
+        drivers.push(
+          "short-period-combined-waves"
+        );
+      }
+
+      if (
+        hasShortPeriodSwell
+      ) {
+        drivers.push(
+          "short-period-swell"
+        );
+      }
+
+      if (
+        directionClassification ===
+        "aligned"
+      ) {
+        drivers.push(
+          "aligned-wind-wave-and-swell-directions"
+        );
+      }
+
+      if (
+        directionClassification ===
+        "crossing"
+      ) {
+        drivers.push(
+          "crossing-wind-and-sea-directions"
+        );
+      }
+
+      if (
+        directionClassification ===
+        "opposing"
+      ) {
+        drivers.push(
+          "opposing-wind-and-sea-directions"
+        );
+      }
+
+      if (
+        directionClassification ===
+        "mixed"
+      ) {
+        drivers.push(
+          "mixed-wave-and-swell-directions"
+        );
+      }
+
+
+      if (
+        hasHazardousComponent
+      ) {
+        return {
+          classification:
+            "hazardous",
+
+          seaStateType:
+            directionClassification ===
+              "opposing"
+              ? "high-impact-opposing-seas"
+              : directionClassification ===
+                  "crossing"
+                ? "high-impact-crossing-seas"
+                : "high-impact-seas",
+
+          headline:
+            "A high-impact combined sea state is present.",
+
+          detail:
+            directionClassification ===
+              "opposing"
+              ? "At least one marine condition is high-impact, and opposing wind and sea directions may further steepen or disorganize the sea state."
+              : directionClassification ===
+                  "crossing"
+                ? "At least one marine condition is high-impact, and crossing directions may create a more confused ride."
+                : "At least one wind, wave, or swell condition exceeds Pelora's initial high-impact threshold.",
+
+          drivers,
+
+          interpretation:
+            "informational-not-yet-applied-to-overall-classification"
+        };
+      }
+
+
+      if (
+        directionClassification ===
+          "opposing" &&
+        hasCautionComponent
+      ) {
+        return {
+          classification:
+            "use-caution",
+
+          seaStateType:
+            "steep-opposing-seas",
+
+          headline:
+            "Opposing wind and sea conditions may steepen the ride.",
+
+          detail:
+            "A caution-level marine condition is interacting with opposing directions, which may create a steeper and less comfortable sea state.",
+
+          drivers,
+
+          interpretation:
+            "informational-not-yet-applied-to-overall-classification"
+        };
+      }
+
+
+      if (
+        directionClassification ===
+          "crossing" ||
+        directionClassification ===
+          "mixed"
+      ) {
+        return {
+          classification:
+            "use-caution",
+
+          seaStateType:
+            "confused-or-crossing-seas",
+
+          headline:
+            "The sea state may be directionally confused.",
+
+          detail:
+            "Crossing or mixed wind, wave, and swell directions may create irregular vessel motion even when individual measurements are moderate.",
+
+          drivers,
+
+          interpretation:
+            "informational-not-yet-applied-to-overall-classification"
+        };
+      }
+
+
+      if (
+        hasShortPeriodWaves &&
+        hasCautionComponent
+      ) {
+        return {
+          classification:
+            "use-caution",
+
+          seaStateType:
+            directionClassification ===
+              "aligned"
+              ? "organized-short-period-chop"
+              : "short-period-chop",
+
+          headline:
+            directionClassification ===
+              "aligned"
+              ? "The sea is organized, but short-period chop is present."
+              : "Short-period chop may create an abrupt ride.",
+
+          detail:
+            directionClassification ===
+              "aligned"
+              ? "Wind, waves, and swell are directionally aligned, but tightly spaced combined waves may still increase vessel motion and reduce comfort."
+              : "Tightly spaced combined waves may create a rougher ride despite otherwise moderate marine conditions.",
+
+          drivers,
+
+          interpretation:
+            "informational-not-yet-applied-to-overall-classification"
+        };
+      }
+
+
+      if (
+        hasCautionComponent
+      ) {
+        return {
+          classification:
+            "use-caution",
+
+          seaStateType:
+            directionClassification ===
+              "aligned"
+              ? "organized-moderate-seas"
+              : "moderate-seas",
+
+          headline:
+            "The combined sea state warrants additional caution.",
+
+          detail:
+            directionClassification ===
+              "aligned"
+              ? "The directional pattern is organized, but at least one wind, wave, or swell condition exceeds Pelora's favorable threshold."
+              : "At least one wind, wave, or swell condition exceeds Pelora's favorable threshold.",
+
+          drivers,
+
+          interpretation:
+            "informational-not-yet-applied-to-overall-classification"
+        };
+      }
+
+
+      return {
+        classification:
+          "favorable",
+
+        seaStateType:
+          directionClassification ===
+            "aligned"
+            ? "organized-low-seas"
+            : "low-moderate-seas",
+
+        headline:
+          directionClassification ===
+            "aligned"
+            ? "The combined sea state is low and organized."
+            : "The combined sea state is currently favorable.",
+
+        detail:
+          directionClassification ===
+            "aligned"
+            ? "Wind, waves, and swell remain within favorable thresholds and follow a broadly consistent directional pattern."
+            : "Wind, waves, and swell remain within Pelora's initial favorable-condition thresholds.",
+
+        drivers,
+
+        interpretation:
+          "informational-not-yet-applied-to-overall-classification"
+      };
+    };
+
+
+  const seaStateInteraction =
+    assessSeaStateInteraction();
+
+
   const availableAssessments =
     Object.entries(
       assessments
@@ -3643,6 +3974,8 @@ function assessOceanConditions({
 
     directionalInteraction,
 
+    seaStateInteraction,
+
     evidence,
 
     dataQualityClassification:
@@ -3656,7 +3989,7 @@ function assessOceanConditions({
       "plain-language-marine-condition-assessment",
 
     methodVersion:
-      "pelora-ocean-conditions-v1.4"
+      "pelora-ocean-conditions-v1.5"
   };
 }
 
