@@ -3013,6 +3013,172 @@ async function getOceanConditions(
   }
 
 
+  const unavailableLayerNames =
+    Object.entries(
+      dataQualityLayers
+    )
+      .filter(
+        ([, layer]) =>
+          [
+            "unavailable",
+            "degraded"
+          ].includes(
+            layer.state
+          )
+      )
+      .map(
+        ([name]) =>
+          name
+      );
+
+
+  const formatLayerName =
+    name => {
+      const labels = {
+        wind:
+          "wind",
+
+        waves:
+          "wave conditions",
+
+        swell:
+          "swell conditions",
+
+        sst:
+          "sea-surface temperature",
+
+        chlorophyll:
+          "chlorophyll imagery",
+
+        currents:
+          "current data",
+
+        moon:
+          "moon information"
+      };
+
+      return (
+        labels[name] ??
+        name
+      );
+    };
+
+
+  const formatLayerList =
+    names => {
+      const labels =
+        names.map(
+          formatLayerName
+        );
+
+      if (
+        labels.length === 0
+      ) {
+        return "";
+      }
+
+      if (
+        labels.length === 1
+      ) {
+        return labels[0];
+      }
+
+      if (
+        labels.length === 2
+      ) {
+        return (
+          labels[0] +
+          " and " +
+          labels[1]
+        );
+      }
+
+      return (
+        labels
+          .slice(
+            0,
+            -1
+          )
+          .join(
+            ", "
+          ) +
+        ", and " +
+        labels[
+          labels.length -
+          1
+        ]
+      );
+    };
+
+
+  const unavailableLayerList =
+    formatLayerList(
+      unavailableLayerNames
+    );
+
+
+  const capitalizedUnavailableLayerList =
+    unavailableLayerList
+      ? (
+          unavailableLayerList
+            .charAt(0)
+            .toUpperCase() +
+          unavailableLayerList.slice(1)
+        )
+      : "";
+
+
+  let overallHeadline =
+    "Ocean data is currently insufficient.";
+
+
+  let overallDetail =
+    "Pelora does not have enough current operational data to provide a dependable ocean assessment for this location.";
+
+
+  if (
+    overallClassification ===
+    "complete"
+  ) {
+    overallHeadline =
+      "Current ocean data is fully available.";
+
+    overallDetail =
+      "Core ocean conditions and supporting evidence are available for this location.";
+  } else if (
+    overallClassification ===
+    "usable-with-gaps"
+  ) {
+    overallHeadline =
+      "Core ocean conditions are available.";
+
+    overallDetail =
+      unavailableLayerNames.length > 0
+        ? (
+            capitalizedUnavailableLayerList +
+            " is currently unavailable, but the remaining core ocean conditions are available."
+          )
+        : "Core ocean conditions are available, with minor supporting-data limitations.";
+  } else if (
+    overallClassification ===
+    "degraded"
+  ) {
+    overallHeadline =
+      "Some ocean conditions are unavailable.";
+
+    overallDetail =
+      unavailableLayerNames.length > 0
+        ? (
+            "Pelora is missing " +
+            formatLayerList(
+              unavailableLayerNames
+            ) +
+            ". Use the available information with additional caution."
+          )
+        : "Only partial core ocean-condition coverage is currently available.";
+  }
+
+
   const dataQuality = {
     overall: {
       classification:
@@ -3020,6 +3186,12 @@ async function getOceanConditions(
 
       reason:
         overallReason,
+
+      headline:
+        overallHeadline,
+
+      detail:
+        overallDetail,
 
       coreOperationalCoverage: {
         available:
