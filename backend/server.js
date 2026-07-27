@@ -217,6 +217,44 @@ function classifyChlorophyll(value) {
 }
 
 
+/**
+ * Convert a single-point sea-surface temperature into
+ * a broad operational temperature band.
+ *
+ * This does not identify a front, edge, break, habitat,
+ * or species opportunity.
+ */
+function classifySeaSurfaceTemperature(
+  temperatureFahrenheit
+) {
+  if (
+    !Number.isFinite(
+      temperatureFahrenheit
+    )
+  ) {
+    return null;
+  }
+
+  if (temperatureFahrenheit < 68) {
+    return "cool";
+  }
+
+  if (temperatureFahrenheit < 75) {
+    return "mild";
+  }
+
+  if (temperatureFahrenheit < 80) {
+    return "warm";
+  }
+
+  if (temperatureFahrenheit < 85) {
+    return "very-warm";
+  }
+
+  return "hot";
+}
+
+
 function currentDirectionDegrees(
   eastward,
   northward
@@ -1274,6 +1312,27 @@ async function getOceanConditions(
         marine.sst
           ?.temperatureCelsius ??
         null,
+
+      derived: {
+        temperatureBand:
+          classifySeaSurfaceTemperature(
+            marine.sst
+              ?.temperatureFahrenheit ??
+            null
+          ),
+
+        interpretation:
+          "single-point-temperature-description",
+
+        thresholdVersion:
+          "pelora-sst-band-v1",
+
+        limitations: [
+          "does-not-identify-fronts",
+          "does-not-identify-temperature-breaks",
+          "does-not-indicate-species-suitability"
+        ]
+      },
 
       source: {
         provider:
