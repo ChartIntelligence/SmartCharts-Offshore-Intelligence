@@ -844,6 +844,9 @@ const SST_POINT_CACHE_TTL_MS =
 const sstPointCache =
   new Map();
 
+const sstPointRequestsInFlight =
+  new Map();
+
 
 function createSstPointCacheKey(
   latitude,
@@ -1722,17 +1725,69 @@ async function getCachedSeaSurfaceTemperaturePoint(
     return cached;
   }
 
-  const value =
-    await getSeaSurfaceTemperaturePoint(
+  const key =
+    createSstPointCacheKey(
       latitude,
       longitude
     );
 
-  setCachedSstPoint(
-    latitude,
-    longitude,
-    value
+  const existingRequest =
+    sstPointRequestsInFlight.get(
+      key
+    );
+
+  if (existingRequest) {
+    const sharedValue =
+      await existingRequest;
+
+    return {
+      ...sharedValue,
+
+      cache: {
+        status:
+          "shared-in-flight",
+
+        ageSeconds:
+          0,
+
+        ttlSeconds:
+          SST_POINT_CACHE_TTL_MS /
+          1000
+      }
+    };
+  }
+
+  const request =
+    getSeaSurfaceTemperaturePoint(
+      latitude,
+      longitude
+    )
+      .then(
+        value => {
+          setCachedSstPoint(
+            latitude,
+            longitude,
+            value
+          );
+
+          return value;
+        }
+      )
+      .finally(
+        () => {
+          sstPointRequestsInFlight.delete(
+            key
+          );
+        }
+      );
+
+  sstPointRequestsInFlight.set(
+    key,
+    request
   );
+
+  const value =
+    await request;
 
   return {
     ...value,
