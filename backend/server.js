@@ -244,6 +244,175 @@ function currentDirectionDegrees(
 }
 
 
+const SYNODIC_MONTH_DAYS =
+  29.530588853;
+
+const MOON_REFERENCE_NEW_MOON =
+  new Date(
+    "2000-01-06T18:14:00Z"
+  );
+
+
+function classifyMoonPhase(
+  phaseFraction
+) {
+  if (
+    !Number.isFinite(
+      phaseFraction
+    )
+  ) {
+    return null;
+  }
+
+  if (
+    phaseFraction < 0.03125 ||
+    phaseFraction >= 0.96875
+  ) {
+    return "new-moon";
+  }
+
+  if (phaseFraction < 0.21875) {
+    return "waxing-crescent";
+  }
+
+  if (phaseFraction < 0.28125) {
+    return "first-quarter";
+  }
+
+  if (phaseFraction < 0.46875) {
+    return "waxing-gibbous";
+  }
+
+  if (phaseFraction < 0.53125) {
+    return "full-moon";
+  }
+
+  if (phaseFraction < 0.71875) {
+    return "waning-gibbous";
+  }
+
+  if (phaseFraction < 0.78125) {
+    return "last-quarter";
+  }
+
+  return "waning-crescent";
+}
+
+
+function getMoonConditions(
+  timestamp = new Date()
+) {
+  const date =
+    timestamp instanceof Date
+      ? timestamp
+      : new Date(timestamp);
+
+  const time =
+    date.getTime();
+
+  if (!Number.isFinite(time)) {
+    return {
+      phase: null,
+      phaseFraction: null,
+      illuminationPercent: null,
+      observedAt: null,
+      source: {
+        provider:
+          "Pelora",
+
+        classification:
+          "astronomical-calculation",
+
+        accuracy:
+          "approximate",
+
+        availability:
+          "invalid-time"
+      }
+    };
+  }
+
+  const daysSinceReference =
+    (
+      time -
+      MOON_REFERENCE_NEW_MOON
+        .getTime()
+    ) /
+    86400000;
+
+  const lunarAgeDays =
+    (
+      (
+        daysSinceReference %
+        SYNODIC_MONTH_DAYS
+      ) +
+      SYNODIC_MONTH_DAYS
+    ) %
+    SYNODIC_MONTH_DAYS;
+
+  const phaseFraction =
+    lunarAgeDays /
+    SYNODIC_MONTH_DAYS;
+
+  const illumination =
+    (
+      1 -
+      Math.cos(
+        2 *
+        Math.PI *
+        phaseFraction
+      )
+    ) /
+    2;
+
+  return {
+    phase:
+      classifyMoonPhase(
+        phaseFraction
+      ),
+
+    phaseFraction:
+      Number(
+        phaseFraction.toFixed(4)
+      ),
+
+    lunarAgeDays:
+      Number(
+        lunarAgeDays.toFixed(2)
+      ),
+
+    illuminationPercent:
+      Number(
+        (
+          illumination *
+          100
+        ).toFixed(1)
+      ),
+
+    observedAt:
+      date.toISOString(),
+
+    source: {
+      provider:
+        "Pelora",
+
+      classification:
+        "astronomical-calculation",
+
+      accuracy:
+        "approximate",
+
+      referenceEpoch:
+        MOON_REFERENCE_NEW_MOON
+          .toISOString(),
+
+      availability:
+        "available"
+    }
+  };
+}
+
+
 function getAgeHours(timestamp) {
   const time =
     new Date(timestamp).getTime();
@@ -814,6 +983,12 @@ async function getOceanConditions(
     marineResult.value;
 
 
+  const moon =
+    getMoonConditions();
+
+
+
+
   const chlorophyll =
     chlorophyllResult.status ===
     "fulfilled"
@@ -977,7 +1152,10 @@ async function getOceanConditions(
             : "unavailable",
 
       moon:
-        "not-connected"
+        moon.source?.availability ===
+        "available"
+          ? "calculated"
+          : "unavailable"
     },
 
     wind:
@@ -1013,10 +1191,7 @@ async function getOceanConditions(
 
     currents,
 
-    moon: {
-      phase: null,
-      illuminationPercent: null
-    },
+    moon,
 
     source: {
       marine:
@@ -1026,7 +1201,10 @@ async function getOceanConditions(
         chlorophyll.source,
 
       currents:
-        currents.source
+        currents.source,
+
+      moon:
+        moon.source
     }
   };
 }
