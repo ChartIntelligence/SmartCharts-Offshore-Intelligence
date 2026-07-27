@@ -110,23 +110,122 @@ function writeJson(
 }
 
 
-async function fetchJson(url) {
-  const response =
-    await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "User-Agent":
-         "Pelora-Ocean-Intelligence/0.1 contact@peloraoffshore.com"
-      }
-    });
+async function settleWithTiming(
+  operation
+) {
+  const startedAt =
+    performance.now();
 
-  if (!response.ok) {
-    throw new Error(
-      `Upstream request failed: ${response.status}`
-    );
+  try {
+    const value =
+      await operation();
+
+    return {
+      status:
+        "fulfilled",
+
+      value,
+
+      durationMilliseconds:
+        Number(
+          (
+            performance.now() -
+            startedAt
+          ).toFixed(1)
+        )
+    };
+  } catch (reason) {
+    return {
+      status:
+        "rejected",
+
+      reason,
+
+      durationMilliseconds:
+        Number(
+          (
+            performance.now() -
+            startedAt
+          ).toFixed(1)
+        )
+    };
   }
+}
 
-  return response.json();
+
+const DEFAULT_UPSTREAM_TIMEOUT_MS =
+  4000;
+
+
+async function fetchJson(
+  url,
+  {
+    timeoutMilliseconds =
+      DEFAULT_UPSTREAM_TIMEOUT_MS,
+
+    provider =
+      "upstream-provider"
+  } = {}
+) {
+  const controller =
+    new AbortController();
+
+  const timeout =
+    setTimeout(
+      () => {
+        controller.abort();
+      },
+      timeoutMilliseconds
+    );
+
+  try {
+    const response =
+      await fetch(url, {
+        headers: {
+          Accept:
+            "application/json",
+
+          "User-Agent":
+            "Pelora-Ocean-Intelligence/0.1 contact@peloraoffshore.com"
+        },
+
+        signal:
+          controller.signal
+      });
+
+    if (!response.ok) {
+      throw new Error(
+        `${provider} request failed: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (
+      error?.name ===
+      "AbortError"
+    ) {
+      const timeoutError =
+        new Error(
+          `${provider} request timed out after ${timeoutMilliseconds} ms`
+        );
+
+      timeoutError.code =
+        "UPSTREAM_TIMEOUT";
+
+      timeoutError.provider =
+        provider;
+
+      timeoutError.timeoutMilliseconds =
+        timeoutMilliseconds;
+
+      throw timeoutError;
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 
@@ -2107,8 +2206,27 @@ async function getMarineConditions(
   weatherResult,
   marineResult
 ] = await Promise.allSettled([
-  fetchJson(weatherUrl),
-  fetchJson(marineUrl)
+  fetchJson(
+    weatherUrl,
+    {
+      timeoutMilliseconds:
+        3000,
+
+      provider:
+        "Open-Meteo Weather API"
+    }
+  ),
+
+  fetchJson(
+    marineUrl,
+    {
+      timeoutMilliseconds:
+        3000,
+
+      provider:
+        "Open-Meteo Marine API"
+    }
+  )
 ]);
 
 
@@ -2137,6 +2255,8 @@ if (
   console.warn(
     "Weather data request failed:",
     weatherResult.reason
+      ?.message ??
+    weatherResult.reason
   );
 }
 
@@ -2146,6 +2266,8 @@ if (
 ) {
   console.warn(
     "Marine data request failed:",
+    marineResult.reason
+      ?.message ??
     marineResult.reason
   );
 }
@@ -2270,26 +2392,52 @@ async function getOceanConditions(
   latitude,
   longitude
 ) {
+  const oceanRequestStartedAt =
+    performance.now();
+
   const [
     marineResult,
     chlorophyllResult,
     currentsResult
-  ] = await Promise.allSettled([
-    getMarineConditions(
-      latitude,
-      longitude
+  ] = await Promise.all([
+    settleWithTiming(
+      () =>
+        getMarineConditions(
+          latitude,
+          longitude
+        )
     ),
 
-    getChlorophyllConditions(
-      latitude,
-      longitude
+    settleWithTiming(
+      () =>
+        getChlorophyllConditions(
+          latitude,
+          longitude
+        )
     ),
 
-    getCurrentConditions(
-      latitude,
-      longitude
+    settleWithTiming(
+      () =>
+        getCurrentConditions(
+          latitude,
+          longitude
+        )
     )
   ]);
+
+  const initialProviderPhaseMilliseconds =
+    Number(
+      (
+        Math.max(
+          marineResult
+            .durationMilliseconds,
+          chlorophyllResult
+            .durationMilliseconds,
+          currentsResult
+            .durationMilliseconds
+        )
+      ).toFixed(1)
+    );
 
 
   if (
@@ -2308,20 +2456,21 @@ async function getOceanConditions(
 
 
   const sstSpatialResult =
-    await Promise.allSettled([
-      getSstSpatialStructure(
-        latitude,
-        longitude,
-        marine.sst
-          ?.temperatureFahrenheit ??
-        null
-      )
-    ]);
+    await settleWithTiming(
+      () =>
+        getSstSpatialStructure(
+          latitude,
+          longitude,
+          marine.sst
+            ?.temperatureFahrenheit ??
+          null
+        )
+    );
 
   const sstSpatial =
-    sstSpatialResult[0].status ===
+    sstSpatialResult.status ===
     "fulfilled"
-      ? sstSpatialResult[0].value
+      ? sstSpatialResult.value
       : {
           sampleRadiusNauticalMiles:
             SST_SPATIAL_SAMPLE_RADIUS_NM,
@@ -2347,12 +2496,12 @@ async function getOceanConditions(
         };
 
   if (
-    sstSpatialResult[0].status ===
+    sstSpatialResult.status ===
     "rejected"
   ) {
     console.warn(
       "SST spatial analysis failed:",
-      sstSpatialResult[0].reason
+      sstSpatialResult.reason
     );
   }
 
@@ -2586,6 +2735,45 @@ async function getOceanConditions(
     currents,
 
     moon,
+
+    diagnostics: {
+      timingsMilliseconds: {
+        marine:
+          marineResult
+            .durationMilliseconds,
+
+        chlorophyll:
+          chlorophyllResult
+            .durationMilliseconds,
+
+        currents:
+          currentsResult
+            .durationMilliseconds,
+
+        initialProviderPhase:
+          initialProviderPhaseMilliseconds,
+
+        sstSpatial:
+          sstSpatialResult
+            .durationMilliseconds,
+
+        total:
+          Number(
+            (
+              performance.now() -
+              oceanRequestStartedAt
+            ).toFixed(1)
+          )
+      },
+
+      executionOrder: [
+        "marine-chlorophyll-currents-in-parallel",
+        "sst-spatial-after-marine"
+      ],
+
+      purpose:
+        "development-performance-diagnostics"
+    },
 
     source: {
       marine:
