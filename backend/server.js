@@ -6830,6 +6830,60 @@ async function getOceanConditions(
     });
 
 
+    const sst = {
+  temperatureFahrenheit:
+    marine.sst
+      ?.temperatureFahrenheit ??
+    null,
+
+  temperatureCelsius:
+    marine.sst
+      ?.temperatureCelsius ??
+    null,
+
+  derived: {
+    temperatureBand:
+      classifySeaSurfaceTemperature(
+        marine.sst
+          ?.temperatureFahrenheit ??
+        null
+      ),
+
+    interpretation:
+      "single-point-temperature-description",
+
+    thresholdVersion:
+      "pelora-sst-band-v1",
+
+    limitations: [
+      "does-not-identify-fronts",
+      "does-not-identify-temperature-breaks",
+      "does-not-indicate-species-suitability"
+    ],
+
+    spatialStructure:
+      sstSpatial
+  },
+
+  source: {
+    provider:
+      "Open-Meteo",
+
+    classification:
+      "forecast-model"
+  }
+};
+
+
+const oceanEvidence =
+  assessOceanEvidence({
+    sst,
+    chlorophyll,
+    currents,
+    dataQuality
+  });
+
+
   return {
     location:
       marine.location,
@@ -6895,6 +6949,8 @@ async function getOceanConditions(
 
     oceanConditions,
 
+    oceanEvidence,
+
     wind:
       marine.wind,
 
@@ -6904,49 +6960,7 @@ async function getOceanConditions(
     swell:
       marine.swell,
 
-    sst: {
-      temperatureFahrenheit:
-        marine.sst
-          ?.temperatureFahrenheit ??
-        null,
-
-      temperatureCelsius:
-        marine.sst
-          ?.temperatureCelsius ??
-        null,
-
-      derived: {
-        temperatureBand:
-          classifySeaSurfaceTemperature(
-            marine.sst
-              ?.temperatureFahrenheit ??
-            null
-          ),
-
-        interpretation:
-          "single-point-temperature-description",
-
-        thresholdVersion:
-          "pelora-sst-band-v1",
-
-        limitations: [
-          "does-not-identify-fronts",
-          "does-not-identify-temperature-breaks",
-          "does-not-indicate-species-suitability"
-        ],
-
-        spatialStructure:
-          sstSpatial
-      },
-
-      source: {
-        provider:
-          "Open-Meteo",
-
-        classification:
-          "forecast-model"
-      }
-    },
+    sst,
 
     chlorophyll,
 
