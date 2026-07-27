@@ -4292,6 +4292,118 @@ export function assessOceanConditions({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Ocean Evidence Engine
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Interpret the environmental evidence currently available
+ * without estimating habitat suitability or fishing opportunity.
+ *
+ * Ocean Evidence answers:
+ * "What evidence does the ocean currently provide?"
+ *
+ * Opportunity and species suitability are evaluated by later
+ * Pelora engines.
+ */
+export function assessOceanEvidence({
+  sst,
+  chlorophyll,
+  currents,
+  dataQuality
+}) {
+  const temperature =
+    buildTemperatureEvidence(sst);
+
+  const current =
+    buildCurrentEvidence(currents);
+
+  const productivity =
+    buildProductivityEvidence(
+      chlorophyll
+    );
+
+  const clarity =
+    buildClarityEvidence(
+      chlorophyll
+    );
+
+  const structure =
+    buildStructureEvidence();
+
+  return {
+    summary: {
+      classification: null,
+      headline: null,
+      supportingGroupCount: 0,
+      availableGroupCount: 0
+    },
+
+    groups: {
+      temperature,
+      current,
+      productivity,
+      clarity,
+      structure
+    },
+
+    confidence: {
+      score: 0,
+      level: "Very Low",
+      reasons: [],
+      limitations: [],
+      components: {},
+      methodVersion:
+        "pelora-ocean-evidence-confidence-v1"
+    },
+
+    limitations: [],
+
+    methodVersion:
+      "pelora-ocean-evidence-v1.0"
+  };
+}
+
+
+function buildTemperatureEvidence(
+  sst
+) {
+  return {};
+}
+
+
+function buildCurrentEvidence(
+  currents
+) {
+  return {};
+}
+
+
+function buildProductivityEvidence(
+  chlorophyll
+) {
+  return {};
+}
+
+
+function buildClarityEvidence(
+  chlorophyll
+) {
+  return {};
+}
+
+
+function buildStructureEvidence() {
+  return {
+    available: false,
+
+    reason:
+      "structure-analysis-not-yet-implemented"
+  };
+}
+
+
 async function getOceanConditions(
   latitude,
   longitude
