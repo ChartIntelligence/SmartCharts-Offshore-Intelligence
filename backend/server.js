@@ -6021,12 +6021,174 @@ function buildClarityEvidence(
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Structure Evidence Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Describe species-neutral relationships between mapped
+ * seafloor or fixed offshore structure and observed ocean
+ * conditions.
+ *
+ * This evidence group may eventually describe:
+ *
+ * - continental shelf edges
+ * - canyon walls and canyon heads
+ * - escarpments
+ * - banks and ridges
+ * - seamounts or isolated highs
+ * - sharp bathymetric gradients
+ * - offshore platforms
+ * - fixed FADs
+ * - other verified fixed offshore structures
+ *
+ * Structure presence alone does not establish:
+ *
+ * - current interaction
+ * - thermal interaction
+ * - convergence
+ * - upwelling
+ * - bait or prey concentration
+ * - feeding activity
+ * - fish presence
+ * - habitat quality
+ * - fishing quality
+ *
+ * Higher-value interaction classifications must eventually
+ * require spatial evidence that an observed ocean feature is
+ * genuinely associated with the mapped structure.
+ *
+ * Canonical future classifications:
+ *
+ * unavailable
+ *   Structure analysis has not been performed.
+ *
+ * structure-location-known
+ *   A verified structure exists near the assessment location,
+ *   but environmental interaction has not been established.
+ *
+ * recognized-offshore-structure
+ *   A known offshore structure type has been identified with
+ *   sufficient location and source confidence.
+ *
+ * structure-near-environmental-transition
+ *   A verified structure lies near a detected environmental
+ *   transition, but causal interaction is not established.
+ *
+ * current-bathymetry-interaction
+ *   Current evidence is spatially associated with bathymetric
+ *   or fixed structure.
+ *
+ * thermal-bathymetry-interaction
+ *   Thermal organization is spatially associated with
+ *   bathymetric or fixed structure.
+ *
+ * multi-signal-structure-interaction
+ *   Multiple independent environmental signals are spatially
+ *   associated with the same verified structure.
+ *
+ * Canonical future feature types:
+ *
+ * continental-shelf-edge
+ * canyon
+ * escarpment
+ * bank
+ * ridge
+ * seamount
+ * isolated-bathymetric-high
+ * sharp-bathymetric-gradient
+ * offshore-platform
+ * fixed-fad
+ * other-verified-fixed-structure
+ *
+ * Canonical future values:
+ *
+ * featureType
+ * featureName
+ * featureSource
+ * nearestStructureDistanceNm
+ * depthFeet
+ * depthChangeFeet
+ * analysisRadiusNm
+ * bathymetricGradient
+ * currentInteraction
+ * thermalInteraction
+ * productivityInteraction
+ * multiSignalInteraction
+ * observedAt
+ * ageHours
+ * freshness
+ *
+ * Canonical future confidence object:
+ *
+ * score
+ * level
+ * limitations
+ *
+ * The contract is intentionally returned in an unavailable
+ * state until Pelora connects verified structure data and
+ * spatial interaction analysis.
+ */
 function buildStructureEvidence() {
   return {
     available: false,
 
+    classification:
+      "unavailable",
+
+    headline:
+      "Structure interaction unavailable",
+
+    detail:
+      "Verified bathymetric or fixed-structure interaction has not yet been analyzed.",
+
     reason:
-      "structure-analysis-not-yet-implemented"
+      "structure-analysis-not-yet-implemented",
+
+    values: {
+      featureType: null,
+      featureName: null,
+      featureSource: null,
+      nearestStructureDistanceNm:
+        null,
+      depthFeet: null,
+      depthChangeFeet: null,
+      analysisRadiusNm: null,
+      bathymetricGradient: null,
+      currentInteraction: false,
+      thermalInteraction: false,
+      productivityInteraction: false,
+      multiSignalInteraction: false,
+      observedAt: null,
+      ageHours: null,
+      freshness:
+        "unknown"
+    },
+
+    confidence: {
+      score: 0,
+      level:
+        "Unavailable",
+
+      limitations: [
+        "verified-structure-source-not-connected",
+        "spatial-structure-interaction-not-assessed"
+      ]
+    },
+
+    drivers: [],
+
+    limitations: [
+      "verified-structure-source-not-connected",
+      "bathymetric-gradient-not-assessed",
+      "current-structure-interaction-not-assessed",
+      "thermal-structure-interaction-not-assessed",
+      "structure-presence-does-not-establish-prey-or-fish-presence"
+    ],
+
+    interpretation:
+      "species-neutral-structure-evidence"
   };
 }
 

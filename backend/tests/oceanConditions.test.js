@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 
 import {
   assessOceanConditions,
+  assessOceanEvidence,
   assessOceanOpportunity,
   assessBlueMarlinHabitat
 } from "../server.js";
@@ -5438,4 +5439,132 @@ assert.ok(
 
 console.log(
   "PASS current blue marlin model ceiling is documented before structure and persistence evidence are connected"
+);
+
+
+/*
+ * Structure Evidence Contract v1.0
+ *
+ * Structure data and spatial interaction analysis are not yet
+ * connected. The Ocean Evidence engine must therefore expose a
+ * complete but explicitly unavailable species-neutral contract.
+ */
+const structureEvidenceContractResult =
+  assessOceanEvidence({
+    sst: null,
+    chlorophyll: null,
+    currents: null,
+    dataQuality: {}
+  });
+
+const structureEvidence =
+  structureEvidenceContractResult
+    .groups
+    .structure;
+
+assert.equal(
+  structureEvidence.available,
+  false
+);
+
+assert.equal(
+  structureEvidence.classification,
+  "unavailable"
+);
+
+assert.equal(
+  structureEvidence.reason,
+  "structure-analysis-not-yet-implemented"
+);
+
+assert.equal(
+  structureEvidence.interpretation,
+  "species-neutral-structure-evidence"
+);
+
+assert.equal(
+  structureEvidence.values
+    .featureType,
+  null
+);
+
+assert.equal(
+  structureEvidence.values
+    .nearestStructureDistanceNm,
+  null
+);
+
+assert.equal(
+  structureEvidence.values
+    .currentInteraction,
+  false
+);
+
+assert.equal(
+  structureEvidence.values
+    .thermalInteraction,
+  false
+);
+
+assert.equal(
+  structureEvidence.values
+    .productivityInteraction,
+  false
+);
+
+assert.equal(
+  structureEvidence.values
+    .multiSignalInteraction,
+  false
+);
+
+assert.equal(
+  structureEvidence.confidence
+    .score,
+  0
+);
+
+assert.equal(
+  structureEvidence.confidence
+    .level,
+  "Unavailable"
+);
+
+assert.ok(
+  structureEvidence.limitations
+    .includes(
+      "verified-structure-source-not-connected"
+    )
+);
+
+assert.ok(
+  structureEvidence.limitations
+    .includes(
+      "bathymetric-gradient-not-assessed"
+    )
+);
+
+assert.ok(
+  structureEvidence.limitations
+    .includes(
+      "current-structure-interaction-not-assessed"
+    )
+);
+
+assert.ok(
+  structureEvidence.limitations
+    .includes(
+      "thermal-structure-interaction-not-assessed"
+    )
+);
+
+assert.ok(
+  structureEvidence.limitations
+    .includes(
+      "structure-presence-does-not-establish-prey-or-fish-presence"
+    )
+);
+
+console.log(
+  "PASS Structure Evidence Contract v1.0 remains species-neutral and unavailable until verified structure analysis is connected"
 );
