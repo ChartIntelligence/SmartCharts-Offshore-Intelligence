@@ -6006,6 +6006,763 @@ function buildStructureEvidence() {
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Ocean Opportunity Engine
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Identify species-neutral ocean-feature candidates supported
+ * by the current Ocean Evidence assessment.
+ *
+ * Ocean Opportunity answers:
+ * "Are the observed environmental signals organizing into a
+ * potentially meaningful ocean feature?"
+ *
+ * This engine does not estimate fishing quality, habitat
+ * suitability, bait, feeding activity, fish presence, or
+ * species probability.
+ */
+export function assessOceanOpportunity({
+  oceanEvidence
+}) {
+  const groups =
+    oceanEvidence?.groups ??
+    {};
+
+  const temperature =
+    groups.temperature ??
+    {};
+
+  const current =
+    groups.current ??
+    {};
+
+  const productivity =
+    groups.productivity ??
+    {};
+
+  const clarity =
+    groups.clarity ??
+    {};
+
+  const evidenceConfidenceScore =
+    Number.isFinite(
+      oceanEvidence?.confidence
+        ?.score
+    )
+      ? oceanEvidence.confidence
+          .score
+      : 0;
+
+  const evidenceConfidenceLevel =
+    oceanEvidence?.confidence
+      ?.level ??
+    "Very Low";
+
+  const opportunities = [];
+
+  const limitations = [
+    "single-time-environmental-assessment",
+    "does-not-confirm-feature-persistence",
+    "does-not-establish-biological-significance",
+    "does-not-identify-bait-or-feeding",
+    "does-not-indicate-fishing-quality",
+    "does-not-indicate-species-presence",
+    "does-not-indicate-species-suitability"
+  ];
+
+  const temperatureTransitionClassifications =
+    new Set([
+      "weak-temperature-structure",
+      "moderate-temperature-structure",
+      "strong-temperature-break-candidate"
+    ]);
+
+  const temperatureTransitionPresent =
+    temperature?.available ===
+      true &&
+    temperatureTransitionClassifications
+      .has(
+        temperature
+          ?.classification
+      );
+
+  const meaningfulTemperatureTransition =
+    temperature?.available ===
+      true &&
+    (
+      temperature
+        ?.classification ===
+        "moderate-temperature-structure" ||
+      temperature
+        ?.classification ===
+        "strong-temperature-break-candidate"
+    );
+
+  const currentAvailable =
+    current?.available ===
+    true;
+
+  const productivityClassification =
+    String(
+      productivity
+        ?.classification ??
+      ""
+    ).toLowerCase();
+
+  const clarityClassification =
+    String(
+      clarity
+        ?.classification ??
+      ""
+    ).toLowerCase();
+
+  const productivityTransitionPresent =
+    productivity?.available ===
+      true &&
+    (
+      productivityClassification
+        .includes(
+          "transition"
+        ) ||
+      productivityClassification
+        .includes(
+          "boundary"
+        )
+    );
+
+  const clarityTransitionPresent =
+    clarity?.available ===
+      true &&
+    (
+      clarityClassification
+        .includes(
+          "transition"
+        ) ||
+      clarityClassification
+        .includes(
+          "transitional"
+        ) ||
+      clarityClassification
+        .includes(
+          "boundary"
+        )
+    );
+
+  /*
+   * Productivity and clarity are currently derived from the
+   * same surface-chlorophyll observation. They therefore count
+   * as one supporting source family rather than two independent
+   * signals.
+   */
+  const surfaceWaterTransitionPresent =
+    productivityTransitionPresent ||
+    clarityTransitionPresent;
+
+  function confidenceLevel(
+    score
+  ) {
+    if (score >= 80) {
+      return "High";
+    }
+
+    if (score >= 60) {
+      return "Moderate";
+    }
+
+    if (score >= 40) {
+      return "Low";
+    }
+
+    return "Very Low";
+  }
+
+  function addOpportunity({
+    type,
+    classification,
+    headline,
+    detail,
+    supportingEvidence,
+    sourceFamilies,
+    score,
+    drivers,
+    candidateLimitations
+  }) {
+    const boundedScore =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          Math.round(score)
+        )
+      );
+
+    opportunities.push({
+      type,
+
+      classification,
+
+      headline,
+
+      detail,
+
+      supportingEvidence,
+
+      sourceFamilies,
+
+      confidence: {
+        score:
+          boundedScore,
+
+        level:
+          confidenceLevel(
+            boundedScore
+          ),
+
+        reasons: [
+          ...new Set(
+            drivers
+          )
+        ],
+
+        limitations: [
+          ...new Set(
+            candidateLimitations
+          )
+        ],
+
+        methodVersion:
+          "pelora-ocean-opportunity-candidate-confidence-v1.0"
+      },
+
+      drivers: [
+        ...new Set(
+          drivers
+        )
+      ],
+
+      limitations: [
+        ...new Set(
+          candidateLimitations
+        )
+      ],
+
+      interpretation:
+        "species-neutral-ocean-feature-candidate"
+    });
+  }
+
+  if (
+    temperatureTransitionPresent
+  ) {
+    const strongCandidate =
+      temperature
+        ?.classification ===
+        "strong-temperature-break-candidate";
+
+    addOpportunity({
+      type:
+        "environmental-transition-zone",
+
+      classification:
+        strongCandidate
+          ? "strong-temperature-transition-candidate"
+          : "temperature-transition-candidate",
+
+      headline:
+        strongCandidate
+          ? "A pronounced environmental transition candidate is present."
+          : "An environmental transition candidate is present.",
+
+      detail:
+        "Local temperature samples indicate a spatial transition within the current sampling radius. This identifies a candidate environmental feature, not a confirmed persistent front.",
+
+      supportingEvidence: [
+        "temperature"
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature"
+      ],
+
+      score:
+        Math.min(
+          strongCandidate
+            ? 78
+            : 68,
+          Math.max(
+            35,
+            evidenceConfidenceScore
+          )
+        ),
+
+      drivers: [
+        temperature
+          ?.classification,
+        temperature
+          ?.orientation
+          ?.classification,
+        "local-spatial-temperature-variation"
+      ].filter(Boolean),
+
+      candidateLimitations: [
+        "four-point-temperature-sampling",
+        "single-time-snapshot",
+        "does-not-confirm-ocean-front",
+        "does-not-confirm-persistence",
+        "does-not-establish-biological-significance"
+      ]
+    });
+  }
+
+  if (
+    meaningfulTemperatureTransition &&
+    currentAvailable
+  ) {
+    addOpportunity({
+      type:
+        "current-supported-transition-candidate",
+
+      classification:
+        "current-present-near-temperature-transition",
+
+      headline:
+        "Water movement is present near a temperature-transition candidate.",
+
+      detail:
+        "A local temperature transition and a valid current observation occur at the same location. This supports a current-influenced feature candidate, but single-point current data cannot confirm convergence, shear, an edge, or organized boundary flow.",
+
+      supportingEvidence: [
+        "temperature",
+        "current"
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature",
+        "single-point-current"
+      ],
+
+      score:
+        Math.min(
+          72,
+          Math.max(
+            40,
+            evidenceConfidenceScore
+          )
+        ),
+
+      drivers: [
+        temperature
+          ?.classification,
+        current
+          ?.classification,
+        "current-observation-co-located-with-temperature-transition"
+      ].filter(Boolean),
+
+      candidateLimitations: [
+        "single-point-current-observation",
+        "does-not-confirm-current-convergence",
+        "does-not-confirm-current-shear",
+        "does-not-confirm-current-edge",
+        "does-not-confirm-eddy-boundary",
+        "does-not-confirm-current-organization",
+        "does-not-confirm-persistence"
+      ]
+    });
+  }
+
+  if (
+    surfaceWaterTransitionPresent
+  ) {
+    const supportingEvidence = [];
+
+    if (
+      productivityTransitionPresent
+    ) {
+      supportingEvidence.push(
+        "productivity"
+      );
+    }
+
+    if (
+      clarityTransitionPresent
+    ) {
+      supportingEvidence.push(
+        "clarity"
+      );
+    }
+
+    addOpportunity({
+      type:
+        "surface-water-boundary-candidate",
+
+      classification:
+        "chlorophyll-derived-surface-transition",
+
+      headline:
+        "A surface-water transition candidate is present.",
+
+      detail:
+        "Surface chlorophyll indicates a transition in broad surface-water character. Productivity and clarity interpretations share the same chlorophyll observation and are not treated as independent signals.",
+
+      supportingEvidence,
+
+      sourceFamilies: [
+        "surface-chlorophyll"
+      ],
+
+      score:
+        Math.min(
+          65,
+          Math.max(
+            35,
+            evidenceConfidenceScore -
+              5
+          )
+        ),
+
+      drivers: [
+        productivityTransitionPresent
+          ? productivity
+              ?.classification
+          : null,
+
+        clarityTransitionPresent
+          ? clarity
+              ?.classification
+          : null,
+
+        "chlorophyll-derived-surface-water-transition"
+      ].filter(Boolean),
+
+      candidateLimitations: [
+        "surface-chlorophyll-derived",
+        "productivity-and-clarity-share-one-source-family",
+        "not-direct-water-clarity",
+        "not-full-water-column-observation",
+        "does-not-confirm-biological-productivity",
+        "does-not-confirm-persistence"
+      ]
+    });
+  }
+
+  if (
+    meaningfulTemperatureTransition &&
+    currentAvailable &&
+    surfaceWaterTransitionPresent
+  ) {
+    addOpportunity({
+      type:
+        "multi-signal-feature-candidate",
+
+      classification:
+        "reinforcing-environmental-signals",
+
+      headline:
+        "Multiple environmental signals support a feature candidate.",
+
+      detail:
+        "Temperature structure, water movement, and chlorophyll-derived surface-water character reinforce the presence of a potentially organized environmental feature. The available observations do not yet establish persistence, biological importance, habitat value, or species suitability.",
+
+      supportingEvidence: [
+        "temperature",
+        "current",
+        ...(
+          productivityTransitionPresent
+            ? [
+                "productivity"
+              ]
+            : []
+        ),
+        ...(
+          clarityTransitionPresent
+            ? [
+                "clarity"
+              ]
+            : []
+        )
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature",
+        "single-point-current",
+        "surface-chlorophyll"
+      ],
+
+      score:
+        Math.min(
+          78,
+          Math.max(
+            50,
+            evidenceConfidenceScore
+          )
+        ),
+
+      drivers: [
+        "temperature-transition-present",
+        "current-observation-present",
+        "surface-water-transition-present",
+        "multiple-source-families-reinforce-feature-candidate"
+      ],
+
+      candidateLimitations: [
+        "single-time-assessment",
+        "single-point-current-observation",
+        "surface-chlorophyll-derived",
+        "productivity-and-clarity-are-not-independent",
+        "does-not-confirm-boundary-persistence",
+        "does-not-confirm-current-organization",
+        "does-not-establish-biological-significance"
+      ]
+    });
+  }
+
+  if (
+    !temperatureTransitionPresent
+  ) {
+    limitations.push(
+      "temperature-transition-not-established"
+    );
+  }
+
+  if (
+    !currentAvailable
+  ) {
+    limitations.push(
+      "current-evidence-unavailable"
+    );
+  }
+
+  if (
+    !surfaceWaterTransitionPresent
+  ) {
+    limitations.push(
+      "surface-water-transition-not-established"
+    );
+  }
+
+  const opportunityCount =
+    opportunities.length;
+
+  let summaryClassification =
+    "no-supported-feature-candidate";
+
+  let summaryHeadline =
+    "No ocean-feature candidate is currently supported.";
+
+  let summaryDetail =
+    "The available evidence does not currently combine into a defensible species-neutral ocean-feature candidate.";
+
+  if (
+    opportunityCount === 1
+  ) {
+    summaryClassification =
+      "single-feature-candidate";
+
+    summaryHeadline =
+      "One ocean-feature candidate is supported.";
+
+    summaryDetail =
+      "One species-neutral environmental feature candidate is supported by the currently available evidence.";
+  } else if (
+    opportunityCount === 2
+  ) {
+    summaryClassification =
+      "multiple-feature-candidates";
+
+    summaryHeadline =
+      "Multiple ocean-feature candidates are supported.";
+
+    summaryDetail =
+      "Several related species-neutral environmental feature candidates are supported by the currently available evidence.";
+  } else if (
+    opportunityCount >= 3
+  ) {
+    summaryClassification =
+      "broad-feature-candidate-set";
+
+    summaryHeadline =
+      "A broad set of ocean-feature candidates is supported.";
+
+    summaryDetail =
+      "Multiple environmental source families support several related species-neutral ocean-feature candidates.";
+  }
+
+  let confidenceScore =
+    opportunityCount > 0
+      ? Math.min(
+          evidenceConfidenceScore,
+          Math.max(
+            ...opportunities.map(
+              opportunity =>
+                opportunity
+                  ?.confidence
+                  ?.score ??
+                0
+            )
+          )
+        )
+      : Math.min(
+          evidenceConfidenceScore,
+          35
+        );
+
+  confidenceScore =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Math.round(
+          confidenceScore
+        )
+      )
+    );
+
+  const supportingEvidenceGroups = [
+    ...new Set(
+      opportunities.flatMap(
+        opportunity =>
+          opportunity
+            .supportingEvidence ??
+          []
+      )
+    )
+  ];
+
+  const sourceFamilies = [
+    ...new Set(
+      opportunities.flatMap(
+        opportunity =>
+          opportunity
+            .sourceFamilies ??
+          []
+      )
+    )
+  ];
+
+  const aggregatedLimitations = [
+    ...new Set([
+      ...limitations,
+
+      ...(
+        Array.isArray(
+          oceanEvidence
+            ?.limitations
+        )
+          ? oceanEvidence
+              .limitations
+          : []
+      ),
+
+      ...opportunities.flatMap(
+        opportunity =>
+          opportunity
+            .limitations ??
+          []
+      )
+    ])
+  ];
+
+  return {
+    summary: {
+      classification:
+        summaryClassification,
+
+      headline:
+        summaryHeadline,
+
+      detail:
+        summaryDetail,
+
+      opportunityCount,
+
+      supportingEvidenceGroups,
+
+      sourceFamilies,
+
+      availableEvidenceGroupCount:
+        oceanEvidence
+          ?.summary
+          ?.availableGroupCount ??
+        0,
+
+      confidenceLevel:
+        confidenceLevel(
+          confidenceScore
+        ),
+
+      confidenceScore,
+
+      interpretation:
+        "species-neutral-ocean-opportunity-summary"
+    },
+
+    opportunities,
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel(
+          confidenceScore
+        ),
+
+      reasons: [
+        opportunityCount > 0
+          ? "one-or-more-feature-candidates-supported"
+          : "no-feature-candidate-supported",
+
+        `upstream-evidence-confidence-${String(
+          evidenceConfidenceLevel
+        )
+          .trim()
+          .toLowerCase()
+          .replace(
+            /\s+/g,
+            "-"
+          )}`
+      ],
+
+      limitations:
+        aggregatedLimitations,
+
+      components: {
+        upstreamEvidence: {
+          score:
+            evidenceConfidenceScore,
+
+          level:
+            evidenceConfidenceLevel
+        },
+
+        featureCandidates: {
+          count:
+            opportunityCount,
+
+          supportingEvidenceGroups,
+
+          sourceFamilies
+        }
+      },
+
+      methodVersion:
+        "pelora-ocean-opportunity-confidence-v1.0"
+    },
+
+    limitations:
+      aggregatedLimitations,
+
+    interpretation:
+      "species-neutral-ocean-opportunity-assessment",
+
+    methodVersion:
+      "pelora-ocean-opportunity-v1.0"
+  };
+}
+
+
 async function getOceanConditions(
   latitude,
   longitude
@@ -6884,6 +7641,12 @@ const oceanEvidence =
   });
 
 
+  const oceanOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence
+  });
+
+
   return {
     location:
       marine.location,
@@ -6950,6 +7713,8 @@ const oceanEvidence =
     oceanConditions,
 
     oceanEvidence,
+
+    oceanOpportunity,
 
     wind:
       marine.wind,
