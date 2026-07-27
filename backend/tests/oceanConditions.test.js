@@ -1981,7 +1981,23 @@ const temperatureOnlyBlueMarlinHabitat =
         available: true,
 
         classification:
-          "moderate-temperature-structure"
+          "moderate-temperature-structure",
+
+        values: {
+          spatialClassification:
+            "moderate-temperature-transition",
+
+          spatialRangeFahrenheit:
+            1.8,
+
+          coverage:
+            "sufficient"
+        },
+
+        confidence: {
+          score: 86,
+          level: "high"
+        }
       }
     })
   );
@@ -1991,7 +2007,7 @@ assert.equal(
     .relationshipGroups
     .thermalStructure
     .classification,
-  "temperature-transition-supported"
+  "moderate-temperature-transition-supported"
 );
 
 assert.equal(
@@ -2006,7 +2022,7 @@ assert.ok(
   temperatureOnlyBlueMarlinHabitat
     .positiveDrivers
     .includes(
-      "spatial-temperature-transition"
+      "moderate-spatial-temperature-transition"
     )
 );
 
@@ -2031,7 +2047,23 @@ const movementAndThermalBlueMarlinHabitat =
         available: true,
 
         classification:
-          "moderate-temperature-structure"
+          "moderate-temperature-structure",
+
+        values: {
+          spatialClassification:
+            "moderate-temperature-transition",
+
+          spatialRangeFahrenheit:
+            1.8,
+
+          coverage:
+            "sufficient"
+        },
+
+        confidence: {
+          score: 86,
+          level: "high"
+        }
       },
 
       current: {
@@ -2232,4 +2264,333 @@ assert.ok(
 
 console.log(
   "PASS blue marlin model preserves conservative biological limitations"
+);
+
+
+/*
+ * ------------------------------------------------------------
+ * Blue Marlin Thermal Structure v1.1 regression tests
+ * ------------------------------------------------------------
+ */
+
+const uniformThermalHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [],
+
+      temperature: {
+        available: true,
+
+        classification:
+          "uniform-water",
+
+        values: {
+          spatialClassification:
+            "uniform-water",
+
+          spatialRangeFahrenheit:
+            0.2,
+
+          coverage:
+            "sufficient"
+        },
+
+        confidence: {
+          score: 90,
+          level: "high"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  uniformThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .classification,
+  "uniform-local-temperature-field"
+);
+
+assert.equal(
+  uniformThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  3
+);
+
+console.log(
+  "PASS uniform thermal field receives minimal blue marlin thermal support"
+);
+
+
+const weakThermalHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      temperature: {
+        available: true,
+
+        classification:
+          "weak-temperature-structure",
+
+        values: {
+          spatialClassification:
+            "weak-temperature-transition",
+
+          spatialRangeFahrenheit:
+            0.8,
+
+          coverage:
+            "sufficient"
+        },
+
+        confidence: {
+          score: 82,
+          level: "high"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  weakThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .classification,
+  "weak-temperature-transition-supported"
+);
+
+assert.equal(
+  weakThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  12
+);
+
+console.log(
+  "PASS weak thermal transition receives limited blue marlin thermal support"
+);
+
+
+const directionalModerateThermalHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      temperature: {
+        available: true,
+
+        classification:
+          "moderate-temperature-structure",
+
+        values: {
+          spatialClassification:
+            "moderate-temperature-transition",
+
+          spatialRangeFahrenheit:
+            1.8,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 86,
+          level: "high"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  directionalModerateThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  24
+);
+
+assert.ok(
+  directionalModerateThermalHabitat
+    .positiveDrivers
+    .includes(
+      "directional-temperature-transition"
+    )
+);
+
+console.log(
+  "PASS directional moderate transition earns additional thermal support"
+);
+
+
+const strongDirectionalThermalHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.1,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 91,
+          level: "high"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  strongDirectionalThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  25
+);
+
+console.log(
+  "PASS strong directional thermal break candidate reaches thermal maximum"
+);
+
+
+const confidenceLimitedThermalHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3.2,
+
+          coverage:
+            "sufficient"
+        },
+
+        orientation: {
+          classification:
+            "directional-temperature-transition"
+        },
+
+        confidence: {
+          score: 35,
+          level: "low"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  confidenceLimitedThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  14
+);
+
+assert.ok(
+  confidenceLimitedThermalHabitat
+    .limitations
+    .includes(
+      "thermal-score-capped-by-pattern-confidence"
+    )
+);
+
+console.log(
+  "PASS low pattern confidence caps blue marlin thermal support"
+);
+
+
+const incompleteCoverageThermalHabitat =
+  assessBlueMarlinHabitat(
+    createBlueMarlinHabitatInput({
+      opportunityTypes: [
+        "environmental-transition-zone"
+      ],
+
+      temperature: {
+        available: true,
+
+        classification:
+          "strong-temperature-break-candidate",
+
+        values: {
+          spatialClassification:
+            "strong-temperature-break-candidate",
+
+          spatialRangeFahrenheit:
+            3,
+
+          coverage:
+            "limited"
+        },
+
+        confidence: {
+          score: 88,
+          level: "high"
+        }
+      }
+    })
+  );
+
+assert.equal(
+  incompleteCoverageThermalHabitat
+    .relationshipGroups
+    .thermalStructure
+    .score,
+  10
+);
+
+assert.ok(
+  incompleteCoverageThermalHabitat
+    .limitations
+    .includes(
+      "thermal-score-limited-by-incomplete-spatial-coverage"
+    )
+);
+
+console.log(
+  "PASS incomplete spatial coverage limits blue marlin thermal support"
 );

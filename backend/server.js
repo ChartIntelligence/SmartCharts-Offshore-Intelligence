@@ -2215,7 +2215,7 @@ async function getMarineConditions(
           weatherUrl,
           {
             timeoutMilliseconds:
-              3000,
+              8000,
 
             provider:
               "Open-Meteo Weather API"
@@ -2229,7 +2229,7 @@ async function getMarineConditions(
           marineUrl,
           {
             timeoutMilliseconds:
-              3000,
+              8000,
 
             provider:
               "Open-Meteo Marine API"
@@ -2252,6 +2252,31 @@ const marine =
 
 
 if (!weather && !marine) {
+  console.error(
+    "Both Open-Meteo provider requests failed:",
+    {
+      weatherError:
+        weatherResult.status === "rejected"
+          ? weatherResult.reason?.message ??
+            weatherResult.reason
+          : null,
+
+      marineError:
+        marineResult.status === "rejected"
+          ? marineResult.reason?.message ??
+            marineResult.reason
+          : null,
+
+      weatherDurationMilliseconds:
+        weatherResult.durationMilliseconds ??
+        null,
+
+      marineDurationMilliseconds:
+        marineResult.durationMilliseconds ??
+        null
+    }
+  );
+
   throw new Error(
     "Both weather and marine data providers are temporarily unavailable."
   );
@@ -6939,28 +6964,152 @@ export function assessBlueMarlinHabitat({
   /*
    * Relationship Group 2:
    * Thermal Structure
+   *
+   * The Ocean Evidence layer measures the local temperature
+   * pattern. The habitat model interprets the possible
+   * biological relevance of that measured pattern.
    */
   let thermalStructureScore = 0;
 
   let thermalStructureClassification =
     "unsupported";
 
+  const thermalEvidenceClassification =
+    temperature?.classification ??
+    "unavailable";
+
+  const thermalSpatialClassification =
+    temperature?.values
+      ?.spatialClassification ??
+    null;
+
+  const thermalCoverage =
+    temperature?.values
+      ?.coverage ??
+    "unavailable";
+
+  const thermalRangeFahrenheit =
+    Number.isFinite(
+      temperature?.values
+        ?.spatialRangeFahrenheit
+    )
+      ? temperature.values
+          .spatialRangeFahrenheit
+      : null;
+
+  const thermalOrientationClassification =
+    temperature?.orientation
+      ?.classification ??
+    null;
+
+  const thermalPatternConfidenceScore =
+    Number.isFinite(
+      temperature?.confidence
+        ?.score
+    )
+      ? temperature.confidence.score
+      : null;
+
+  const hasDirectionalThermalTransition =
+    thermalOrientationClassification ===
+      "directional-temperature-transition";
+
   if (
-    hasTemperatureTransition ||
-    hasMultiSignalFeature
+    thermalEvidenceClassification ===
+      "strong-temperature-break-candidate"
+  ) {
+    thermalStructureScore = 23;
+
+    thermalStructureClassification =
+      "strong-directional-or-spatial-temperature-break-candidate";
+
+    positiveDrivers.push(
+      "strong-spatial-temperature-break-candidate"
+    );
+  } else if (
+    thermalEvidenceClassification ===
+      "moderate-temperature-structure"
   ) {
     thermalStructureScore = 22;
 
     thermalStructureClassification =
-      "temperature-transition-supported";
+      "moderate-temperature-transition-supported";
 
     positiveDrivers.push(
-      "spatial-temperature-transition"
+      "moderate-spatial-temperature-transition"
+    );
+  } else if (
+    thermalEvidenceClassification ===
+      "weak-temperature-structure"
+  ) {
+    thermalStructureScore = 12;
+
+    thermalStructureClassification =
+      "weak-temperature-transition-supported";
+
+    positiveDrivers.push(
+      "weak-spatial-temperature-transition"
+    );
+
+    limitations.push(
+      "thermal-transition-strength-is-limited"
+    );
+  } else if (
+    thermalEvidenceClassification ===
+      "uniform-water"
+  ) {
+    thermalStructureScore = 3;
+
+    thermalStructureClassification =
+      "uniform-local-temperature-field";
+
+    negativeDrivers.push(
+      "organized-temperature-transition-not-established"
+    );
+  } else if (
+    thermalEvidenceClassification ===
+      "temperature-only"
+  ) {
+    thermalStructureScore = 6;
+
+    thermalStructureClassification =
+      "temperature-observation-without-spatial-structure";
+
+    negativeDrivers.push(
+      "organized-temperature-transition-not-established"
+    );
+
+    limitations.push(
+      "spatial-temperature-structure-unavailable"
+    );
+  } else if (
+    temperature?.available &&
+    (
+      hasTemperatureTransition ||
+      hasMultiSignalFeature
+    )
+  ) {
+    /*
+     * Conservative compatibility fallback for an upstream
+     * opportunity whose detailed evidence classification is
+     * not available.
+     */
+    thermalStructureScore = 16;
+
+    thermalStructureClassification =
+      "temperature-transition-indicated-by-upstream-opportunity";
+
+    positiveDrivers.push(
+      "upstream-temperature-transition-candidate"
+    );
+
+    limitations.push(
+      "detailed-temperature-evidence-classification-unavailable"
     );
   } else if (
     temperature?.available
   ) {
-    thermalStructureScore = 7;
+    thermalStructureScore = 6;
 
     thermalStructureClassification =
       "temperature-observation-without-transition";
@@ -6975,6 +7124,89 @@ export function assessBlueMarlinHabitat({
 
     limitations.push(
       "temperature-structure-unavailable"
+    );
+  }
+
+  if (
+    hasDirectionalThermalTransition &&
+    thermalStructureScore > 0
+  ) {
+    thermalStructureScore =
+      Math.min(
+        25,
+        thermalStructureScore + 2
+      );
+
+    positiveDrivers.push(
+      "directional-temperature-transition"
+    );
+  }
+
+  if (
+    thermalCoverage !==
+      "sufficient" &&
+    thermalStructureScore > 10
+  ) {
+    thermalStructureScore = 10;
+
+    limitations.push(
+      "thermal-score-limited-by-incomplete-spatial-coverage"
+    );
+  }
+
+  if (
+    thermalPatternConfidenceScore !==
+      null
+  ) {
+    let thermalConfidenceCap = 25;
+
+    if (
+      thermalPatternConfidenceScore < 40
+    ) {
+      thermalConfidenceCap = 14;
+    } else if (
+      thermalPatternConfidenceScore < 60
+    ) {
+      thermalConfidenceCap = 18;
+    } else if (
+      thermalPatternConfidenceScore < 80
+    ) {
+      thermalConfidenceCap = 22;
+    }
+
+    if (
+      thermalStructureScore >
+      thermalConfidenceCap
+    ) {
+      thermalStructureScore =
+        thermalConfidenceCap;
+
+      limitations.push(
+        "thermal-score-capped-by-pattern-confidence"
+      );
+    }
+  } else if (
+    temperature?.available
+  ) {
+    limitations.push(
+      "thermal-pattern-confidence-unavailable"
+    );
+  }
+
+  if (
+    thermalRangeFahrenheit !==
+      null
+  ) {
+    positiveDrivers.push(
+      `observed-temperature-range-${thermalRangeFahrenheit.toFixed(1)}f`
+    );
+  }
+
+  if (
+    thermalSpatialClassification
+  ) {
+    positiveDrivers.push(
+      `thermal-pattern-${thermalSpatialClassification}`
     );
   }
 
@@ -7396,19 +7628,19 @@ async function getOceanConditions(
   const oceanRequestStartedAt =
     performance.now();
 
-  const [
-    marineResult,
-    chlorophyllResult,
-    currentsResult
-  ] = await Promise.all([
-    settleWithTiming(
+  const marineResult =
+    await settleWithTiming(
       () =>
         getMarineConditions(
           latitude,
           longitude
         )
-    ),
+    );
 
+  const [
+    chlorophyllResult,
+    currentsResult
+  ] = await Promise.all([
     settleWithTiming(
       () =>
         getChlorophyllConditions(
@@ -7429,9 +7661,9 @@ async function getOceanConditions(
   const initialProviderPhaseMilliseconds =
     Number(
       (
+        marineResult
+          .durationMilliseconds +
         Math.max(
-          marineResult
-            .durationMilliseconds,
           chlorophyllResult
             .durationMilliseconds,
           currentsResult
