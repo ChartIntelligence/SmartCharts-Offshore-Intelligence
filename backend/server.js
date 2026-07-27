@@ -1036,6 +1036,199 @@ function classifySstSpatialRange(
 }
 
 
+/**
+ * Describe the strongest directional SST difference between
+ * opposite samples.
+ *
+ * This reports local temperature orientation only. It does not
+ * confirm a persistent ocean front or biological significance.
+ */
+function deriveSstTransitionOrientation(
+  samples
+) {
+  const temperatures =
+    Object.fromEntries(
+      samples
+        .filter(
+          sample =>
+            Number.isFinite(
+              sample
+                .temperatureFahrenheit
+            )
+        )
+        .map(
+          sample => [
+            sample.direction,
+            sample
+              .temperatureFahrenheit
+          ]
+        )
+    );
+
+  const eastWestAvailable =
+    Number.isFinite(
+      temperatures.east
+    ) &&
+    Number.isFinite(
+      temperatures.west
+    );
+
+  const northSouthAvailable =
+    Number.isFinite(
+      temperatures.north
+    ) &&
+    Number.isFinite(
+      temperatures.south
+    );
+
+  const eastWestDifferenceFahrenheit =
+    eastWestAvailable
+      ? Number(
+          (
+            temperatures.west -
+            temperatures.east
+          ).toFixed(1)
+        )
+      : null;
+
+  const northSouthDifferenceFahrenheit =
+    northSouthAvailable
+      ? Number(
+          (
+            temperatures.north -
+            temperatures.south
+          ).toFixed(1)
+        )
+      : null;
+
+  const candidates = [];
+
+  if (
+    Number.isFinite(
+      eastWestDifferenceFahrenheit
+    )
+  ) {
+    candidates.push({
+      axis:
+        "east-west",
+
+      magnitudeFahrenheit:
+        Math.abs(
+          eastWestDifferenceFahrenheit
+        ),
+
+      warmSide:
+        eastWestDifferenceFahrenheit >
+        0
+          ? "west"
+          : "east",
+
+      coolSide:
+        eastWestDifferenceFahrenheit >
+        0
+          ? "east"
+          : "west"
+    });
+  }
+
+  if (
+    Number.isFinite(
+      northSouthDifferenceFahrenheit
+    )
+  ) {
+    candidates.push({
+      axis:
+        "north-south",
+
+      magnitudeFahrenheit:
+        Math.abs(
+          northSouthDifferenceFahrenheit
+        ),
+
+      warmSide:
+        northSouthDifferenceFahrenheit >
+        0
+          ? "north"
+          : "south",
+
+      coolSide:
+        northSouthDifferenceFahrenheit >
+        0
+          ? "south"
+          : "north"
+    });
+  }
+
+  const dominant =
+    candidates.sort(
+      (a, b) =>
+        b.magnitudeFahrenheit -
+        a.magnitudeFahrenheit
+    )[0] ??
+    null;
+
+  const minimumDirectionalSignalFahrenheit =
+    0.3;
+
+  const hasClearOrientation =
+    dominant !== null &&
+    dominant.magnitudeFahrenheit >=
+      minimumDirectionalSignalFahrenheit;
+
+  return {
+    classification:
+      hasClearOrientation
+        ? "directional-temperature-transition"
+        : "no-clear-directional-transition",
+
+    dominantAxis:
+      hasClearOrientation
+        ? dominant.axis
+        : null,
+
+    warmSide:
+      hasClearOrientation
+        ? dominant.warmSide
+        : null,
+
+    coolSide:
+      hasClearOrientation
+        ? dominant.coolSide
+        : null,
+
+    dominantDifferenceFahrenheit:
+      hasClearOrientation
+        ? Number(
+            dominant
+              .magnitudeFahrenheit
+              .toFixed(1)
+          )
+        : null,
+
+    eastWestDifferenceFahrenheit,
+
+    northSouthDifferenceFahrenheit,
+
+    minimumDirectionalSignalFahrenheit,
+
+    interpretation:
+      "local-directional-temperature-description",
+
+    methodVersion:
+      "pelora-sst-orientation-v1",
+
+    limitations: [
+      "four-point-directional-sampling",
+      "forecast-model-samples",
+      "single-time-snapshot",
+      "does-not-confirm-persistence",
+      "does-not-confirm-ocean-front",
+      "does-not-indicate-species-suitability"
+    ]
+  };
+}
+
+
 async function getSstSpatialStructure(
   latitude,
   longitude,
@@ -1172,6 +1365,11 @@ async function getSstSpatialStructure(
         )
       : null;
 
+  const orientation =
+    deriveSstTransitionOrientation(
+      samples
+    );
+
   return {
     sampleRadiusNauticalMiles:
       SST_SPATIAL_SAMPLE_RADIUS_NM,
@@ -1202,6 +1400,8 @@ async function getSstSpatialStructure(
       sufficientCoverage
         ? "sufficient"
         : "insufficient",
+
+    orientation,
 
     samples,
 
