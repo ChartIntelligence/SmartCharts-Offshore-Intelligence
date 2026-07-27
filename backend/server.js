@@ -59,6 +59,14 @@ function celsiusToFahrenheit(value) {
 
 
 function safeNumber(value) {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return null;
+  }
+
   const number = Number(value);
 
   return Number.isFinite(number)
@@ -106,7 +114,9 @@ async function fetchJson(url) {
   const response =
     await fetch(url, {
       headers: {
-        Accept: "application/json"
+        Accept: "application/json",
+        "User-Agent":
+         "Pelora-Ocean-Intelligence/0.1 contact@peloraoffshore.com"
       }
     });
 
@@ -158,6 +168,176 @@ function coordinatesAreValid(
     longitude >= -100 &&
     longitude <= -75
   );
+}
+
+
+
+const CHLOROPHYLL_DATASET =
+  "noaacwNPPVIIRSchlaDaily";
+
+const CHLOROPHYLL_MAX_LIVE_AGE_HOURS =
+  72;
+
+
+/*
+ * Classify chlorophyll conservatively.
+ *
+ * These descriptions indicate broad water characteristics,
+ * not fishing success or species presence.
+ */
+function classifyChlorophyll(value) {
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+
+  if (value < 0.08) {
+    return "very-clear-low-productivity";
+  }
+
+  if (value < 0.2) {
+    return "clear-blue-water";
+  }
+
+  if (value < 0.5) {
+    return "productive-blue-green-transition";
+  }
+
+  if (value < 1.0) {
+    return "productive-green-water";
+  }
+
+  return "high-chlorophyll-coastal-or-bloom-influenced";
+}
+
+
+function getAgeHours(timestamp) {
+  const time =
+    new Date(timestamp).getTime();
+
+  if (!Number.isFinite(time)) {
+    return null;
+  }
+
+  return Number(
+    (
+      (Date.now() - time) /
+      3600000
+    ).toFixed(1)
+  );
+}
+
+
+async function getChlorophyllConditions(
+  latitude,
+  longitude
+) {
+  const query =
+    `chlor_a[(last)][(0.0)][(${latitude})][(${longitude})]`;
+
+  const url =
+    new URL(
+      `https://coastwatch.noaa.gov/erddap/griddap/${CHLOROPHYLL_DATASET}.json`
+    );
+
+  url.search =
+    `?${encodeURIComponent(query)}`;
+
+  const payload =
+    await fetchJson(url);
+
+  const columns =
+    payload?.table?.columnNames;
+
+  const rows =
+    payload?.table?.rows;
+
+  if (
+    !Array.isArray(columns) ||
+    !Array.isArray(rows) ||
+    rows.length === 0
+  ) {
+    return {
+      concentrationMgM3: null,
+      waterClassification: null,
+      observedAt: null,
+      ageHours: null,
+      source: {
+        provider: "NOAA CoastWatch",
+        dataset: CHLOROPHYLL_DATASET,
+        classification:
+          "satellite-observation",
+        availability:
+          "no-valid-pixel"
+      }
+    };
+  }
+
+  const row =
+    rows[0];
+
+  const valueAt =
+    (name) => {
+      const index =
+        columns.indexOf(name);
+
+      return index >= 0
+        ? row[index]
+        : null;
+    };
+
+  const concentration =
+    safeNumber(
+      valueAt("chlor_a")
+    );
+
+  const observedAt =
+    valueAt("time") ?? null;
+
+  const ageHours =
+    getAgeHours(observedAt);
+
+  return {
+    concentrationMgM3:
+      concentration === null
+        ? null
+        : Number(
+            concentration.toFixed(4)
+          ),
+
+    waterClassification:
+      classifyChlorophyll(
+        concentration
+      ),
+
+    observedAt,
+
+    ageHours,
+
+    source: {
+      provider:
+        "NOAA CoastWatch",
+
+      platform:
+        "Suomi-NPP VIIRS",
+
+      dataset:
+        CHLOROPHYLL_DATASET,
+
+      variable:
+        "chlor_a",
+
+      units:
+        "mg m^-3",
+
+      classification:
+        "satellite-observation",
+
+      availability:
+        concentration === null
+          ? "no-valid-pixel"
+          : "available"
+    }
+  };
 }
 
 
@@ -411,11 +591,84 @@ async function getOceanConditions(
   latitude,
   longitude
 ) {
-  const marine =
-    await getMarineConditions(
+  const [
+    marineResult,
+    chlorophyllResult
+  ] = await Promise.allSettled([
+    getMarineConditions(
       latitude,
       longitude
+    ),
+
+    getChlorophyllConditions(
+      latitude,
+      longitude
+    )
+  ]);
+
+
+  if (
+    marineResult.status === "rejected"
+  ) {
+    throw marineResult.reason;
+  }
+
+
+  const marine =
+    marineResult.value;
+
+
+  const chlorophyll =
+    chlorophyllResult.status ===
+    "fulfilled"
+      ? chlorophyllResult.value
+      : {
+          concentrationMgM3: null,
+          waterClassification: null,
+          observedAt: null,
+          ageHours: null,
+          source: {
+            provider:
+              "NOAA CoastWatch",
+
+            dataset:
+              CHLOROPHYLL_DATASET,
+
+            classification:
+              "satellite-observation",
+
+            availability:
+              "provider-unavailable"
+          }
+        };
+
+
+  if (
+    chlorophyllResult.status ===
+    "rejected"
+  ) {
+    console.warn(
+      "Chlorophyll data request failed:",
+      chlorophyllResult.reason
     );
+  }
+
+
+  const chlorophyllHasValue =
+    Number.isFinite(
+      chlorophyll
+        .concentrationMgM3
+    );
+
+
+  const chlorophyllIsCurrent =
+    chlorophyllHasValue &&
+    Number.isFinite(
+      chlorophyll.ageHours
+    ) &&
+    chlorophyll.ageHours <=
+      CHLOROPHYLL_MAX_LIVE_AGE_HOURS;
+
 
   return {
     location:
@@ -427,36 +680,48 @@ async function getOceanConditions(
     lastUpdated:
       marine.retrievedAt,
 
-      status: {
-  wind:
-    Number.isFinite(
-      marine.wind?.speedKnots
-    )
-      ? "live"
-      : "unavailable",
+    status: {
+      wind:
+        Number.isFinite(
+          marine.wind?.speedKnots
+        )
+          ? "live"
+          : "unavailable",
 
-  waves:
-    Number.isFinite(
-      marine.waves?.heightFeet
-    )
-      ? "live"
-      : "unavailable",
+      waves:
+        Number.isFinite(
+          marine.waves?.heightFeet
+        )
+          ? "live"
+          : "unavailable",
 
-  swell:
-    Number.isFinite(
-      marine.swell?.heightFeet
-    )
-      ? "live"
-      : "unavailable",
-     sst:
-  Number.isFinite(
-    marine.sst?.temperatureFahrenheit
-  )
-    ? "live"
-    : "unavailable",
-      chlorophyll: "not-connected",
-      currents: "not-connected",
-      moon: "not-connected"
+      swell:
+        Number.isFinite(
+          marine.swell?.heightFeet
+        )
+          ? "live"
+          : "unavailable",
+
+      sst:
+        Number.isFinite(
+          marine.sst
+            ?.temperatureFahrenheit
+        )
+          ? "live"
+          : "unavailable",
+
+      chlorophyll:
+        chlorophyllIsCurrent
+          ? "live"
+          : chlorophyllHasValue
+            ? "stale"
+            : "unavailable",
+
+      currents:
+        "not-connected",
+
+      moon:
+        "not-connected"
     },
 
     wind:
@@ -469,25 +734,26 @@ async function getOceanConditions(
       marine.swell,
 
     sst: {
-  temperatureFahrenheit:
-    marine.sst?.temperatureFahrenheit ??
-    null,
+      temperatureFahrenheit:
+        marine.sst
+          ?.temperatureFahrenheit ??
+        null,
 
-  temperatureCelsius:
-    marine.sst?.temperatureCelsius ??
-    null,
+      temperatureCelsius:
+        marine.sst
+          ?.temperatureCelsius ??
+        null,
 
-  source: {
-    provider: "Open-Meteo",
-    classification: "forecast-model"
-  }
-},
+      source: {
+        provider:
+          "Open-Meteo",
 
-    chlorophyll: {
-      concentrationMgM3: null,
-      waterClassification: null,
-      source: null
+        classification:
+          "forecast-model"
+      }
     },
+
+    chlorophyll,
 
     currents: {
       speedKnots: null,
@@ -502,7 +768,10 @@ async function getOceanConditions(
 
     source: {
       marine:
-        marine.source
+        marine.source,
+
+      chlorophyll:
+        chlorophyll.source
     }
   };
 }
