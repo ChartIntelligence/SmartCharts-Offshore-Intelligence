@@ -2462,6 +2462,38 @@ function assessOceanConditions({
   };
 
 
+  const classifyWavePeriod =
+    periodSeconds => {
+      if (
+        !Number.isFinite(
+          periodSeconds
+        )
+      ) {
+        return "unknown";
+      }
+
+      if (
+        periodSeconds < 5
+      ) {
+        return "very-short-period";
+      }
+
+      if (
+        periodSeconds < 7
+      ) {
+        return "short-period";
+      }
+
+      if (
+        periodSeconds < 10
+      ) {
+        return "moderate-period";
+      }
+
+      return "long-period";
+    };
+
+
   const assessWind = () => {
     const speedKnots =
       Number.isFinite(
@@ -2589,6 +2621,11 @@ function assessOceanConditions({
         ? waves.periodSeconds
         : null;
 
+    const periodClassification =
+      classifyWavePeriod(
+        periodSeconds
+      );
+
 
     if (
       heightFeet === null
@@ -2605,49 +2642,80 @@ function assessOceanConditions({
 
         values: {
           heightFeet,
-          periodSeconds
+          periodSeconds,
+          periodClassification
         }
       };
     }
 
 
+    const hazardousByHeight =
+      heightFeet > 6;
+
+    const hazardousBySteepness =
+      heightFeet > 5 &&
+      periodSeconds !== null &&
+      periodSeconds < 6;
+
+
     if (
-      heightFeet > 6
+      hazardousByHeight ||
+      hazardousBySteepness
     ) {
       return {
         classification:
           "hazardous",
 
         headline:
-          "High combined wave conditions detected.",
+          hazardousBySteepness
+            ? "High, tightly spaced waves detected."
+            : "High combined wave conditions detected.",
 
         detail:
-          "Combined wave height exceeds Pelora's initial high-impact threshold.",
+          hazardousBySteepness
+            ? "Wave height and short period indicate a potentially steep, high-impact sea state."
+            : "Combined wave height exceeds Pelora's initial high-impact threshold.",
 
         values: {
           heightFeet,
-          periodSeconds
+          periodSeconds,
+          periodClassification
         }
       };
     }
 
 
+    const cautionByHeight =
+      heightFeet > 3;
+
+    const cautionByShortPeriod =
+      heightFeet >= 2.5 &&
+      periodSeconds !== null &&
+      periodSeconds < 6;
+
+
     if (
-      heightFeet > 3
+      cautionByHeight ||
+      cautionByShortPeriod
     ) {
       return {
         classification:
           "use-caution",
 
         headline:
-          "Combined wave conditions may affect offshore comfort.",
+          cautionByShortPeriod
+            ? "Short-period chop may create a rougher ride."
+            : "Combined wave conditions may affect offshore comfort.",
 
         detail:
-          "Combined wave height exceeds Pelora's initial favorable-condition threshold.",
+          cautionByShortPeriod
+            ? "The waves are tightly spaced relative to their height, which may increase vessel motion and reduce comfort."
+            : "Combined wave height exceeds Pelora's initial favorable-condition threshold.",
 
         values: {
           heightFeet,
-          periodSeconds
+          periodSeconds,
+          periodClassification
         }
       };
     }
@@ -2658,14 +2726,18 @@ function assessOceanConditions({
         "favorable",
 
       headline:
-        "Combined wave height is currently low.",
+        periodClassification ===
+        "long-period"
+          ? "Combined waves are low and broadly spaced."
+          : "Combined wave conditions are currently favorable.",
 
       detail:
-        "Combined wave height remains within Pelora's initial favorable-condition threshold.",
+        "Wave height and period remain within Pelora's initial favorable-condition thresholds.",
 
       values: {
         heightFeet,
-        periodSeconds
+        periodSeconds,
+        periodClassification
       }
     };
   };
@@ -2930,7 +3002,7 @@ function assessOceanConditions({
       "plain-language-marine-condition-assessment",
 
     methodVersion:
-      "pelora-ocean-conditions-v1"
+      "pelora-ocean-conditions-v1.1"
   };
 }
 
