@@ -838,6 +838,106 @@ async function getCurrentConditions(
 const SST_SPATIAL_SAMPLE_RADIUS_NM =
   15;
 
+const SST_POINT_CACHE_TTL_MS =
+  5 * 60 * 1000;
+
+const sstPointCache =
+  new Map();
+
+
+function createSstPointCacheKey(
+  latitude,
+  longitude
+) {
+  return [
+    Number(latitude).toFixed(4),
+    Number(longitude).toFixed(4)
+  ].join(",");
+}
+
+
+function getCachedSstPoint(
+  latitude,
+  longitude
+) {
+  const key =
+    createSstPointCacheKey(
+      latitude,
+      longitude
+    );
+
+  const cached =
+    sstPointCache.get(key);
+
+  if (!cached) {
+    return null;
+  }
+
+  const ageMilliseconds =
+    Date.now() -
+    cached.cachedAt;
+
+  if (
+    ageMilliseconds >
+    SST_POINT_CACHE_TTL_MS
+  ) {
+    sstPointCache.delete(key);
+    return null;
+  }
+
+  return {
+    ...cached.value,
+
+    cache: {
+      status:
+        "hit",
+
+      ageSeconds:
+        Number(
+          (
+            ageMilliseconds /
+            1000
+          ).toFixed(1)
+        ),
+
+      ttlSeconds:
+        SST_POINT_CACHE_TTL_MS /
+        1000
+    }
+  };
+}
+
+
+function setCachedSstPoint(
+  latitude,
+  longitude,
+  value
+) {
+  if (
+    !Number.isFinite(
+      value?.temperatureCelsius
+    )
+  ) {
+    return;
+  }
+
+  const key =
+    createSstPointCacheKey(
+      latitude,
+      longitude
+    );
+
+  sstPointCache.set(
+    key,
+    {
+      cachedAt:
+        Date.now(),
+
+      value
+    }
+  );
+}
+
 
 /**
  * Build four nearby sampling points around a center location.
@@ -1608,6 +1708,50 @@ function assessSstTransitionConfidence(
 }
 
 
+async function getCachedSeaSurfaceTemperaturePoint(
+  latitude,
+  longitude
+) {
+  const cached =
+    getCachedSstPoint(
+      latitude,
+      longitude
+    );
+
+  if (cached) {
+    return cached;
+  }
+
+  const value =
+    await getSeaSurfaceTemperaturePoint(
+      latitude,
+      longitude
+    );
+
+  setCachedSstPoint(
+    latitude,
+    longitude,
+    value
+  );
+
+  return {
+    ...value,
+
+    cache: {
+      status:
+        "miss",
+
+      ageSeconds:
+        0,
+
+      ttlSeconds:
+        SST_POINT_CACHE_TTL_MS /
+        1000
+    }
+  };
+}
+
+
 async function getSstSpatialStructure(
   latitude,
   longitude,
@@ -1626,7 +1770,7 @@ async function getSstSpatialStructure(
           direction:
             point.direction,
 
-          ...await getSeaSurfaceTemperaturePoint(
+          ...await getCachedSeaSurfaceTemperaturePoint(
             point.latitude,
             point.longitude
           )
@@ -1689,6 +1833,18 @@ async function getSstSpatialStructure(
 
             availability:
               "request-failed"
+          },
+
+          cache: {
+            status:
+              "not-cached",
+
+            ageSeconds:
+              null,
+
+            ttlSeconds:
+              SST_POINT_CACHE_TTL_MS /
+              1000
           }
         };
       }
