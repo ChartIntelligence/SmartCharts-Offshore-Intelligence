@@ -2493,6 +2493,258 @@ if (
 
 
 
+export function buildAssessmentConfidence({
+  wind,
+  waves,
+  swell,
+  directionalInteraction,
+  dataQuality
+}) {
+  let score = 1;
+
+  const reasons = [];
+  const limitations = [];
+
+  const components = {
+    wind: {
+      available:
+        Number.isFinite(
+          wind?.speedKnots
+        ),
+      gustsAvailable:
+        Number.isFinite(
+          wind?.gustKnots
+        ),
+      directionAvailable:
+        Number.isFinite(
+          wind?.directionDegrees
+        )
+    },
+
+    waves: {
+      available:
+        Number.isFinite(
+          waves?.heightFeet
+        ),
+      periodAvailable:
+        Number.isFinite(
+          waves?.periodSeconds
+        ),
+      directionAvailable:
+        Number.isFinite(
+          waves?.directionDegrees
+        )
+    },
+
+    swell: {
+      available:
+        Number.isFinite(
+          swell?.heightFeet
+        ),
+      periodAvailable:
+        Number.isFinite(
+          swell?.periodSeconds
+        ),
+      directionAvailable:
+        Number.isFinite(
+          swell?.directionDegrees
+        )
+    }
+  };
+
+
+  if (
+    components.wind.available
+  ) {
+    reasons.push(
+      "Wind data is available."
+    );
+  } else {
+    score -= 0.2;
+
+    limitations.push(
+      "Wind data is unavailable."
+    );
+  }
+
+
+  if (
+    components.waves.available
+  ) {
+    reasons.push(
+      "Combined-wave data is available."
+    );
+  } else {
+    score -= 0.2;
+
+    limitations.push(
+      "Combined-wave data is unavailable."
+    );
+  }
+
+
+  if (
+    components.swell.available
+  ) {
+    reasons.push(
+      "Swell data is available."
+    );
+  } else {
+    score -= 0.2;
+
+    limitations.push(
+      "Swell data is unavailable."
+    );
+  }
+
+
+  if (
+    components.wind.available &&
+    !components.wind.gustsAvailable
+  ) {
+    score -= 0.05;
+
+    limitations.push(
+      "Wind-gust data is unavailable."
+    );
+  }
+
+
+  const availableDirections = [
+    components.wind
+      .directionAvailable,
+
+    components.waves
+      .directionAvailable,
+
+    components.swell
+      .directionAvailable
+  ].filter(Boolean).length;
+
+
+  if (
+    availableDirections >= 2 &&
+    directionalInteraction
+      ?.classification !==
+        "unavailable"
+  ) {
+    reasons.push(
+      "Directional interaction can be assessed from available marine components."
+    );
+  } else {
+    score -= 0.1;
+
+    limitations.push(
+      "Directional interaction is incomplete because fewer than two directions are available."
+    );
+  }
+
+
+  const dataQualityClassification =
+    dataQuality?.overall
+      ?.classification ??
+    "unknown";
+
+  const degradedDataQuality =
+    [
+      "degraded",
+      "poor",
+      "low",
+      "unavailable"
+    ].some(
+      value =>
+        String(
+          dataQualityClassification
+        )
+          .toLowerCase()
+          .includes(value)
+    );
+
+
+  if (
+    degradedDataQuality
+  ) {
+    score -= 0.05;
+
+    limitations.push(
+      "The supporting data-quality assessment indicates degraded evidence."
+    );
+  } else if (
+    dataQualityClassification !==
+      "unknown"
+  ) {
+    reasons.push(
+      "Supporting data quality has been assessed."
+    );
+  }
+
+
+  score = Math.max(
+    0,
+    Math.min(
+      1,
+      Number(
+        score.toFixed(2)
+      )
+    )
+  );
+
+
+  let level =
+    "very-low";
+
+  let label =
+    "Very Low";
+
+
+  if (
+    score >= 0.95
+  ) {
+    level =
+      "very-high";
+
+    label =
+      "Very High";
+  } else if (
+    score >= 0.8
+  ) {
+    level =
+      "high";
+
+    label =
+      "High";
+  } else if (
+    score >= 0.6
+  ) {
+    level =
+      "moderate";
+
+    label =
+      "Moderate";
+  } else if (
+    score >= 0.4
+  ) {
+    level =
+      "low";
+
+    label =
+      "Low";
+  }
+
+
+  return {
+    score,
+    level,
+    label,
+    reasons,
+    limitations,
+    components,
+    methodVersion:
+      "pelora-assessment-confidence-v1.0"
+  };
+}
+
+
 export function assessOceanConditions({
   wind,
   waves,
@@ -3990,6 +4242,16 @@ export function assessOceanConditions({
   }
 
 
+  const confidence =
+    buildAssessmentConfidence({
+      wind,
+      waves,
+      swell,
+      directionalInteraction,
+      dataQuality
+    });
+
+
   return {
     overall: {
       classification:
@@ -4010,6 +4272,8 @@ export function assessOceanConditions({
 
     seaStateInteraction,
 
+    confidence,
+
     evidence,
 
     dataQualityClassification:
@@ -4023,7 +4287,7 @@ export function assessOceanConditions({
       "plain-language-marine-condition-assessment",
 
     methodVersion:
-      "pelora-ocean-conditions-v1.6"
+      "pelora-ocean-conditions-v1.7"
   };
 }
 

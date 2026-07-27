@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "PELORA_TEST_OCEAN_CONDITIONS=1 node tests/oceanConditions.test.js",
+    "test:check": "node --check server.js && node --check tests/oceanConditions.test.js"
   }
 }
