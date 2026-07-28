@@ -6391,6 +6391,8 @@ current
     analysisRadiusNm: null,
     bathymetricGradient: null,
     currentInteraction: false,
+    currentInteractionClassification:
+  "unavailable",
     thermalInteraction: false,
     productivityInteraction: false,
     multiSignalInteraction: false,
@@ -6550,6 +6552,10 @@ current
       currentInteraction:
         currentInteraction
           .currentInteraction,
+
+        currentInteractionClassification:
+         currentInteraction
+          .classification,
 
       thermalInteraction:
         thermalInteraction

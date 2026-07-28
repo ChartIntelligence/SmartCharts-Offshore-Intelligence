@@ -5502,6 +5502,12 @@ assert.equal(
 
 assert.equal(
   structureEvidence.values
+    .currentInteractionClassification,
+  "unavailable"
+);
+
+assert.equal(
+  structureEvidence.values
     .thermalInteraction,
   false
 );
@@ -5645,6 +5651,12 @@ assert.equal(
   appomattoxStructureEvidence.values
     .currentInteraction,
   false
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .currentInteractionClassification,
+  "unavailable"
 );
 
 assert.equal(
