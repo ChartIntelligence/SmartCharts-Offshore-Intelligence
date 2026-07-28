@@ -7,7 +7,8 @@ import {
   assessBlueMarlinHabitat,
   buildOpenWaterEvidence,
   buildEnvironmentalOpportunityEvidence,
-  classifyOceanOpportunity
+  classifyOceanOpportunity,
+  buildRelationshipContext
 } from "../server.js";
 
 
@@ -7340,4 +7341,780 @@ assert.equal(
 
 console.log(
   "PASS Ocean Opportunity pathway integration preserves the insufficient-evidence fallback"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Relationship Context Engine v1.0
+ * ------------------------------------------------------------
+ */
+
+const emptyRelationshipContext =
+  buildRelationshipContext();
+
+assert.equal(
+  emptyRelationshipContext
+    .available,
+  false
+);
+
+assert.equal(
+  emptyRelationshipContext
+    .pathway,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  emptyRelationshipContext
+    .environmentType,
+  "unresolved"
+);
+
+assert.deepEqual(
+  emptyRelationshipContext
+    .supportedRelationships,
+  []
+);
+
+assert.equal(
+  emptyRelationshipContext
+    .rules
+    .structureRequired,
+  false
+);
+
+assert.equal(
+  emptyRelationshipContext
+    .rules
+    .missingStructureIsNegative,
+  false
+);
+
+assert.equal(
+  emptyRelationshipContext
+    .rules
+    .contextChangesScores,
+  false
+);
+
+console.log(
+  "PASS Relationship Context remains conservative when environmental evidence is unavailable"
+);
+
+
+const openWaterRelationshipContext =
+  buildRelationshipContext({
+    oceanOpportunity: {
+      pathwayClassification: {
+        classification:
+          "open-water",
+
+        pathway:
+          "environmental-organization",
+
+        evidence: {
+          structureAvailable:
+            false,
+
+          openWaterOrganized:
+            true,
+
+          persistenceAvailable:
+            false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        temperature: {
+          available: true
+        },
+
+        current: {
+          available: true
+        },
+
+        productivity: {
+          available: true
+        },
+
+        clarity: {
+          available: true
+        },
+
+        structure: {
+          available: false
+        }
+      }
+    }
+  });
+
+assert.equal(
+  openWaterRelationshipContext
+    .pathway,
+  "open-water"
+);
+
+assert.equal(
+  openWaterRelationshipContext
+    .environmentType,
+  "environmental-organization"
+);
+
+assert.equal(
+  openWaterRelationshipContext
+    .relationshipSupport
+    .openWaterOrganization
+    .supported,
+  true
+);
+
+assert.equal(
+  openWaterRelationshipContext
+    .relationshipSupport
+    .structureInteraction
+    .supported,
+  false
+);
+
+assert.equal(
+  openWaterRelationshipContext
+    .relationshipSupport
+    .persistence
+    .supported,
+  false
+);
+
+assert.ok(
+  openWaterRelationshipContext
+    .supportedRelationships
+    .includes(
+      "thermalStructure"
+    )
+);
+
+assert.ok(
+  openWaterRelationshipContext
+    .supportedRelationships
+    .includes(
+      "oceanMovement"
+    )
+);
+
+assert.ok(
+  openWaterRelationshipContext
+    .supportedRelationships
+    .includes(
+      "openWaterOrganization"
+    )
+);
+
+assert.equal(
+  openWaterRelationshipContext
+    .rules
+    .missingStructureIsNegative,
+  false
+);
+
+console.log(
+  "PASS Relationship Context recognizes open-water organization without requiring structure"
+);
+
+
+const structureRelationshipContext =
+  buildRelationshipContext({
+    oceanOpportunity: {
+      pathwayClassification: {
+        classification:
+          "structure-associated",
+
+        pathway:
+          "physical-structure",
+
+        evidence: {
+          structureAvailable:
+            true,
+
+          openWaterOrganized:
+            false,
+
+          persistenceAvailable:
+            false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        temperature: {
+          available: false
+        },
+
+        current: {
+          available: false
+        },
+
+        productivity: {
+          available: false
+        },
+
+        clarity: {
+          available: false
+        },
+
+        structure: {
+          available: true
+        }
+      }
+    }
+  });
+
+assert.equal(
+  structureRelationshipContext
+    .pathway,
+  "structure-associated"
+);
+
+assert.equal(
+  structureRelationshipContext
+    .relationshipSupport
+    .structureInteraction
+    .supported,
+  true
+);
+
+assert.equal(
+  structureRelationshipContext
+    .relationshipSupport
+    .openWaterOrganization
+    .supported,
+  false
+);
+
+assert.deepEqual(
+  structureRelationshipContext
+    .supportedRelationships,
+  [
+    "structureInteraction"
+  ]
+);
+
+console.log(
+  "PASS Relationship Context preserves an independent structure-associated pathway"
+);
+
+
+const combinedRelationshipContext =
+  buildRelationshipContext({
+    oceanOpportunity: {
+      pathwayClassification: {
+        classification:
+          "combined",
+
+        pathway:
+          "structure-and-open-water",
+
+        evidence: {
+          structureAvailable:
+            true,
+
+          openWaterOrganized:
+            true,
+
+          persistenceAvailable:
+            true
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        temperature: {
+          available: true
+        },
+
+        current: {
+          available: true
+        },
+
+        productivity: {
+          available: true
+        },
+
+        clarity: {
+          available: true
+        },
+
+        structure: {
+          available: true
+        }
+      }
+    }
+  });
+
+assert.equal(
+  combinedRelationshipContext
+    .pathway,
+  "combined"
+);
+
+assert.equal(
+  combinedRelationshipContext
+    .environmentType,
+  "structure-and-open-water"
+);
+
+assert.equal(
+  combinedRelationshipContext
+    .relationshipSupport
+    .structureInteraction
+    .supported,
+  true
+);
+
+assert.equal(
+  combinedRelationshipContext
+    .relationshipSupport
+    .openWaterOrganization
+    .supported,
+  true
+);
+
+assert.equal(
+  combinedRelationshipContext
+    .relationshipSupport
+    .persistence
+    .supported,
+  true
+);
+
+assert.deepEqual(
+  combinedRelationshipContext
+    .supportedRelationships,
+  [
+    "thermalStructure",
+    "oceanMovement",
+    "productivity",
+    "structureInteraction",
+    "waterCharacter",
+    "openWaterOrganization",
+    "persistence"
+  ]
+);
+
+assert.equal(
+  combinedRelationshipContext
+    .summary
+    .supportedCount,
+  7
+);
+
+assert.equal(
+  combinedRelationshipContext
+    .rules
+    .biologicalInferenceAllowed,
+  false
+);
+
+console.log(
+  "PASS Relationship Context recognizes combined environmental relationship support"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Relationship Context Integration
+ * ------------------------------------------------------------
+ */
+
+const blueMarlinRelationshipContextEvidence = {
+  groups: {
+    temperature: {
+      available: true,
+
+      classification:
+        "moderate-temperature-transition",
+
+      values: {
+        transitionStrength:
+          "moderate",
+
+        transitionDirection:
+          "warming",
+
+        patternConfidence:
+          "moderate",
+
+        spatialCoverage:
+          "complete"
+      }
+    },
+
+    current: {
+      available: true,
+
+      classification:
+        "moderate",
+
+      values: {
+        strengthClassification:
+          "moderate",
+
+        speedKnots:
+          1.2,
+
+        directionDegrees:
+          135,
+
+        freshness:
+          "fresh",
+
+        sourceAvailability:
+          "available"
+      }
+    },
+
+    productivity: {
+      available: true,
+
+      classification:
+        "productive-surface-water",
+
+      values: {
+        waterClassification:
+          "productive-green-water",
+
+        concentrationMgM3:
+          0.25,
+
+        freshness:
+          "fresh"
+      }
+    },
+
+    clarity: {
+      available: true,
+
+      classification:
+        "transitional-surface-water",
+
+      values: {
+        waterClassification:
+          "productive-blue-green-transition",
+
+        concentrationMgM3:
+          0.25,
+
+        freshness:
+          "fresh"
+      }
+    },
+
+    structure: {
+      available: false
+    }
+  }
+};
+
+
+const blueMarlinOpportunityWithoutContext = {
+  opportunities: [
+    {
+      type:
+        "current-supported-transition-candidate"
+    },
+
+    {
+      type:
+        "multi-signal-feature-candidate"
+    }
+  ],
+
+  confidence: {
+    score: 60,
+    level: "Moderate"
+  },
+
+  limitations: []
+};
+
+
+const blueMarlinOpportunityWithContext = {
+  ...blueMarlinOpportunityWithoutContext,
+
+  pathwayClassification: {
+    classification:
+      "open-water",
+
+    pathway:
+      "environmental-organization",
+
+    evidence: {
+      structureAvailable:
+        false,
+
+      openWaterOrganized:
+        true,
+
+      persistenceAvailable:
+        false
+    }
+  }
+};
+
+
+const blueMarlinBeforeRelationshipContext =
+  assessBlueMarlinHabitat({
+    oceanOpportunity:
+      blueMarlinOpportunityWithoutContext,
+
+    oceanEvidence:
+      blueMarlinRelationshipContextEvidence,
+
+    dataQuality: {
+      score: 80,
+      level: "High"
+    }
+  });
+
+
+const blueMarlinAfterRelationshipContext =
+  assessBlueMarlinHabitat({
+    oceanOpportunity:
+      blueMarlinOpportunityWithContext,
+
+    oceanEvidence:
+      blueMarlinRelationshipContextEvidence,
+
+    dataQuality: {
+      score: 80,
+      level: "High"
+    }
+  });
+
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .relationshipContext
+    .pathway,
+  "open-water"
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .relationshipContext
+    .environmentType,
+  "environmental-organization"
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .relationshipContext
+    .relationshipSupport
+    .openWaterOrganization
+    .supported,
+  true
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .relationshipContext
+    .relationshipSupport
+    .structureInteraction
+    .supported,
+  false
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .relationshipContext
+    .rules
+    .contextChangesScores,
+  false
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .relationshipContext
+    .rules
+    .biologicalInferenceAllowed,
+  false
+);
+
+
+/*
+ * Final and raw scores must remain identical.
+ */
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .summary
+    .suitabilityScore,
+
+  blueMarlinBeforeRelationshipContext
+    .summary
+    .suitabilityScore
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .summary
+    .rawSuitabilityScore,
+
+  blueMarlinBeforeRelationshipContext
+    .summary
+    .rawSuitabilityScore
+);
+
+
+/*
+ * Classification and confidence must remain identical.
+ */
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .summary
+    .classification,
+
+  blueMarlinBeforeRelationshipContext
+    .summary
+    .classification
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .summary
+    .confidenceScore,
+
+  blueMarlinBeforeRelationshipContext
+    .summary
+    .confidenceScore
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .summary
+    .confidenceLevel,
+
+  blueMarlinBeforeRelationshipContext
+    .summary
+    .confidenceLevel
+);
+
+
+/*
+ * Every scored relationship group must remain identical.
+ */
+assert.deepEqual(
+  blueMarlinAfterRelationshipContext
+    .relationshipGroups,
+
+  blueMarlinBeforeRelationshipContext
+    .relationshipGroups
+);
+
+
+/*
+ * Existing positive and negative scoring drivers must not change.
+ */
+assert.deepEqual(
+  blueMarlinAfterRelationshipContext
+    .positiveDrivers,
+
+  blueMarlinBeforeRelationshipContext
+    .positiveDrivers
+);
+
+assert.deepEqual(
+  blueMarlinAfterRelationshipContext
+    .negativeDrivers,
+
+  blueMarlinBeforeRelationshipContext
+    .negativeDrivers
+);
+
+
+/*
+ * Confidence calculations and score components must not change.
+ */
+assert.deepEqual(
+  blueMarlinAfterRelationshipContext
+    .confidence
+    .components,
+
+  blueMarlinBeforeRelationshipContext
+    .confidence
+    .components
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .confidence
+    .score,
+
+  blueMarlinBeforeRelationshipContext
+    .confidence
+    .score
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .confidence
+    .level,
+
+  blueMarlinBeforeRelationshipContext
+    .confidence
+    .level
+);
+
+
+/*
+ * The currently implemented relationship-group ceiling remains
+ * unchanged at 95 points:
+ *
+ * Ocean Movement              20
+ * Thermal Structure           25
+ * Productivity and Prey       20
+ * Structure Interaction       15
+ * Water Character             10
+ * Persistence                  5
+ */
+const blueMarlinMaximumScore =
+  Object.values(
+    blueMarlinAfterRelationshipContext
+      .relationshipGroups
+  )
+    .reduce(
+      (
+        total,
+        relationship
+      ) =>
+        total +
+        (
+          Number.isFinite(
+            relationship
+              ?.maximumScore
+          )
+            ? relationship
+                .maximumScore
+            : 0
+        ),
+      0
+    );
+
+assert.equal(
+  blueMarlinMaximumScore,
+  95
+);
+
+assert.equal(
+  blueMarlinAfterRelationshipContext
+    .methodVersion,
+  "pelora-blue-marlin-hsm-v1.1"
+);
+
+console.log(
+  "PASS Blue Marlin HSM exposes relationship context without changing habitat scoring"
 );

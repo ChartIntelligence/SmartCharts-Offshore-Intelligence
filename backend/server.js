@@ -8409,6 +8409,345 @@ export function assessOceanOpportunity({
  * - catch probability
  * - fishing success
  */
+/**
+ * ------------------------------------------------------------
+ * Relationship Context Engine v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Translate species-neutral Ocean Evidence and Opportunity
+ * Classification into a normalized relationship context that
+ * can be consumed by multiple Habitat Suitability Models.
+ *
+ * This engine answers:
+ * "Which environmental relationships are currently supported,
+ * unavailable, or unresolved?"
+ *
+ * It does not score habitat, infer biological significance,
+ * establish prey concentration, establish fish presence, or
+ * modify any species model.
+ */
+export function buildRelationshipContext({
+  oceanOpportunity = null,
+  oceanEvidence = null
+} = {}) {
+  const groups =
+    oceanEvidence?.groups ??
+    {};
+
+  const pathwayClassification =
+    oceanOpportunity
+      ?.pathwayClassification ??
+    {};
+
+  const pathwayEvidence =
+    pathwayClassification
+      ?.evidence ??
+    {};
+
+  const temperature =
+    groups.temperature ??
+    {};
+
+  const current =
+    groups.current ??
+    {};
+
+  const productivity =
+    groups.productivity ??
+    {};
+
+  const clarity =
+    groups.clarity ??
+    {};
+
+  const structure =
+    groups.structure ??
+    {};
+
+  const pathway =
+    pathwayClassification
+      ?.classification ??
+    "insufficient-evidence";
+
+  const environmentType =
+    pathwayClassification
+      ?.pathway ??
+    "unresolved";
+
+  const structureSupported =
+    pathwayEvidence
+      ?.structureAvailable === true ||
+    structure?.available === true;
+
+  const openWaterSupported =
+    pathwayEvidence
+      ?.openWaterOrganized === true;
+
+  const persistenceSupported =
+    pathwayEvidence
+      ?.persistenceAvailable === true;
+
+  const thermalStructureSupported =
+    temperature?.available === true;
+
+  const oceanMovementSupported =
+    current?.available === true;
+
+  const productivitySupported =
+    productivity?.available === true;
+
+  const waterCharacterSupported =
+    clarity?.available === true;
+
+  const structureInteractionSupported =
+    structureSupported;
+
+  const relationshipSupport = {
+    thermalStructure: {
+      supported:
+        thermalStructureSupported,
+
+      status:
+        thermalStructureSupported
+          ? "supported"
+          : "unavailable",
+
+      source:
+        thermalStructureSupported
+          ? "ocean-evidence-temperature"
+          : null
+    },
+
+    oceanMovement: {
+      supported:
+        oceanMovementSupported,
+
+      status:
+        oceanMovementSupported
+          ? "supported"
+          : "unavailable",
+
+      source:
+        oceanMovementSupported
+          ? "ocean-evidence-current"
+          : null
+    },
+
+    productivity: {
+      supported:
+        productivitySupported,
+
+      status:
+        productivitySupported
+          ? "supported"
+          : "unavailable",
+
+      source:
+        productivitySupported
+          ? "ocean-evidence-productivity"
+          : null
+    },
+
+    structureInteraction: {
+      supported:
+        structureInteractionSupported,
+
+      status:
+        structureInteractionSupported
+          ? "supported"
+          : "unavailable",
+
+      source:
+        structureInteractionSupported
+          ? "structure-evidence"
+          : null
+    },
+
+    waterCharacter: {
+      supported:
+        waterCharacterSupported,
+
+      status:
+        waterCharacterSupported
+          ? "supported"
+          : "unavailable",
+
+      source:
+        waterCharacterSupported
+          ? "ocean-evidence-clarity"
+          : null
+    },
+
+    openWaterOrganization: {
+      supported:
+        openWaterSupported,
+
+      status:
+        openWaterSupported
+          ? "supported"
+          : "unresolved",
+
+      source:
+        openWaterSupported
+          ? "opportunity-pathway-classification"
+          : null
+    },
+
+    persistence: {
+      supported:
+        persistenceSupported,
+
+      status:
+        persistenceSupported
+          ? "supported"
+          : "unresolved",
+
+      source:
+        persistenceSupported
+          ? "persistence-evidence"
+          : null
+    }
+  };
+
+  const supportedRelationships =
+    Object.entries(
+      relationshipSupport
+    )
+      .filter(
+        ([
+          ,
+          relationship
+        ]) =>
+          relationship
+            ?.supported === true
+      )
+      .map(
+        ([
+          name
+        ]) =>
+          name
+      );
+
+  const unavailableRelationships =
+    Object.entries(
+      relationshipSupport
+    )
+      .filter(
+        ([
+          ,
+          relationship
+        ]) =>
+          relationship
+            ?.status ===
+          "unavailable"
+      )
+      .map(
+        ([
+          name
+        ]) =>
+          name
+      );
+
+  const unresolvedRelationships =
+    Object.entries(
+      relationshipSupport
+    )
+      .filter(
+        ([
+          ,
+          relationship
+        ]) =>
+          relationship
+            ?.status ===
+          "unresolved"
+      )
+      .map(
+        ([
+          name
+        ]) =>
+          name
+      );
+
+  const available =
+    supportedRelationships
+      .length > 0;
+
+  const limitations = [
+    "species-neutral-relationship-context",
+    "relationship-support-is-not-habitat-suitability",
+    "does-not-establish-biological-significance",
+    "does-not-establish-prey-concentration",
+    "does-not-establish-fish-presence",
+    "does-not-indicate-fishing-quality",
+    "does-not-indicate-species-probability",
+    "does-not-change-species-model-scores"
+  ];
+
+  if (!openWaterSupported) {
+    limitations.push(
+      "open-water-organization-not-established"
+    );
+  }
+
+  if (!persistenceSupported) {
+    limitations.push(
+      "persistence-not-established"
+    );
+  }
+
+  return {
+    available,
+
+    pathway,
+
+    environmentType,
+
+    interpretation:
+      "species-neutral-relationship-context",
+
+    relationshipSupport,
+
+    supportedRelationships,
+
+    unavailableRelationships,
+
+    unresolvedRelationships,
+
+    summary: {
+      supportedCount:
+        supportedRelationships.length,
+
+      unavailableCount:
+        unavailableRelationships.length,
+
+      unresolvedCount:
+        unresolvedRelationships.length
+    },
+
+    rules: {
+      structureRequired: false,
+      missingStructureIsNegative: false,
+      structureAbsenceTreatment:
+        "neutral",
+      contextIsSpeciesNeutral: true,
+      contextChangesScores: false,
+      biologicalInferenceAllowed: false
+    },
+
+    limitations,
+
+    methodVersion:
+      "pelora-relationship-context-v1.0"
+  };
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Habitat Suitability Model
+ * ------------------------------------------------------------
+ */
 export function assessBlueMarlinHabitat({
   oceanOpportunity,
   oceanEvidence,
@@ -8425,6 +8764,12 @@ export function assessBlueMarlinHabitat({
   const evidenceGroups =
     oceanEvidence?.groups ??
     {};
+
+  const relationshipContext =
+    buildRelationshipContext({
+      oceanOpportunity,
+      oceanEvidence
+    });
 
   const temperature =
     evidenceGroups.temperature ??
@@ -9740,6 +10085,15 @@ export function assessBlueMarlinHabitat({
       }
     },
 
+    /*
+     * Species-neutral environmental relationship context.
+     *
+     * This field is explanatory only. It does not contribute
+     * points, modify relationship-group scores, alter confidence,
+     * or establish biological significance.
+     */
+    relationshipContext,
+
     opportunityTypes,
 
     positiveDrivers:
@@ -9825,7 +10179,7 @@ export function assessBlueMarlinHabitat({
       "blue-marlin-habitat-suitability",
 
     methodVersion:
-      "pelora-blue-marlin-hsm-v1.0"
+      "pelora-blue-marlin-hsm-v1.1"
   };
 }
 
