@@ -9,7 +9,10 @@ import {
   buildEnvironmentalOpportunityEvidence,
   classifyOceanOpportunity,
   buildRelationshipContext,
-  interpretBlueMarlinPathway
+  interpretBlueMarlinPathway,
+  resolveBlueMarlinOpportunityType,
+  resolveSpeciesOpportunityType,
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
 } from "../server.js";
 
 
@@ -8113,7 +8116,7 @@ assert.equal(
 assert.equal(
   blueMarlinAfterRelationshipContext
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.2"
+  "pelora-blue-marlin-hsm-v1.4"
 );
 
 console.log(
@@ -8661,9 +8664,1098 @@ assert.deepEqual(
 assert.equal(
   habitatWithResolvedPathway
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.2"
+  "pelora-blue-marlin-hsm-v1.4"
 );
 
 console.log(
   "PASS Blue Marlin HSM exposes species pathway interpretation without changing scoring"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Opportunity Type Resolution v1.0
+ * ------------------------------------------------------------
+ */
+
+const insufficientBlueMarlinTypeResolution =
+  resolveBlueMarlinOpportunityType();
+
+assert.equal(
+  insufficientBlueMarlinTypeResolution
+    .available,
+  false
+);
+
+assert.equal(
+  insufficientBlueMarlinTypeResolution
+    .leadingCandidate,
+  null
+);
+
+assert.equal(
+  insufficientBlueMarlinTypeResolution
+    .resolvedType,
+  null
+);
+
+assert.equal(
+  insufficientBlueMarlinTypeResolution
+    .confirmedType,
+  null
+);
+
+assert.equal(
+  insufficientBlueMarlinTypeResolution
+    .confidence,
+  "insufficient"
+);
+
+assert.equal(
+  insufficientBlueMarlinTypeResolution
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+assert.equal(
+  insufficientBlueMarlinTypeResolution
+    .rules
+    .confirmedTypeAllowed,
+  false
+);
+
+console.log(
+  "PASS Blue Marlin Opportunity Type Resolution remains conservative when evidence is unavailable"
+);
+
+
+const unresolvedBlueMarlinCandidates =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "open-water",
+
+      plausibleOpportunityTypes: [
+        "feeding-corridor",
+        "open-water-prey-aggregation"
+      ]
+    },
+
+    relationshipContext: {
+      pathway:
+        "open-water",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: true
+        },
+
+        structureInteraction: {
+          supported: false
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {}
+    },
+
+    oceanOpportunity: {
+      opportunities: []
+    }
+  });
+
+assert.equal(
+  unresolvedBlueMarlinCandidates
+    .available,
+  true
+);
+
+assert.equal(
+  unresolvedBlueMarlinCandidates
+    .leadingCandidate,
+  null
+);
+
+assert.equal(
+  unresolvedBlueMarlinCandidates
+    .classification,
+  "multiple-unresolved-opportunity-type-candidates"
+);
+
+assert.equal(
+  unresolvedBlueMarlinCandidates
+    .resolvedType,
+  null
+);
+
+console.log(
+  "PASS Blue Marlin Opportunity Type Resolution preserves unresolved candidate ambiguity"
+);
+
+
+const feedingCorridorResolution =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "open-water",
+
+      plausibleOpportunityTypes: [
+        "feeding-corridor",
+        "current-convergence-feeding-pocket",
+        "eddy-edge-opportunity"
+      ]
+    },
+
+    relationshipContext: {
+      pathway:
+        "open-water",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: true
+        },
+
+        structureInteraction: {
+          supported: false
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        current: {
+          available: true,
+
+          classification:
+            "strong",
+
+          values: {
+            strengthClassification:
+              "strong"
+          }
+        },
+
+        temperature: {
+          available: true,
+
+          classification:
+            "moderate-temperature-transition",
+
+          values: {
+            transitionStrength:
+              "moderate"
+          }
+        }
+      }
+    },
+
+    oceanOpportunity: {
+      opportunities: [
+        {
+          type:
+            "current-supported-transition-candidate"
+        },
+
+        {
+          type:
+            "multi-signal-feature-candidate"
+        }
+      ]
+    }
+  });
+
+assert.equal(
+  feedingCorridorResolution
+    .leadingCandidate,
+  "feeding-corridor"
+);
+
+assert.equal(
+  feedingCorridorResolution
+    .confidence,
+  "moderate"
+);
+
+assert.equal(
+  feedingCorridorResolution
+    .resolvedType,
+  null
+);
+
+assert.equal(
+  feedingCorridorResolution
+    .confirmedType,
+  null
+);
+
+assert.ok(
+  feedingCorridorResolution
+    .evidenceFor
+    .includes(
+      "organized-current-support"
+    )
+);
+
+assert.ok(
+  feedingCorridorResolution
+    .evidenceFor
+    .includes(
+      "thermal-boundary-support"
+    )
+);
+
+console.log(
+  "PASS Blue Marlin Opportunity Type Resolution identifies a feeding-corridor leading candidate"
+);
+
+
+const productiveBoundaryResolution =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "open-water",
+
+      plausibleOpportunityTypes: [
+        "feeding-corridor",
+        "productive-water-boundary",
+        "open-water-prey-aggregation"
+      ]
+    },
+
+    relationshipContext: {
+      pathway:
+        "open-water",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: true
+        },
+
+        structureInteraction: {
+          supported: false
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        current: {
+          available: false
+        },
+
+        temperature: {
+          available: true,
+
+          classification:
+            "moderate-temperature-transition",
+
+          values: {
+            transitionStrength:
+              "moderate"
+          }
+        },
+
+        productivity: {
+          available: true,
+
+          classification:
+            "productive-surface-water",
+
+          values: {
+            waterClassification:
+              "productive-blue-green-transition"
+          }
+        },
+
+        clarity: {
+          available: true,
+
+          classification:
+            "transitional-surface-water",
+
+          values: {
+            waterClassification:
+              "productive-blue-green-transition"
+          }
+        }
+      }
+    },
+
+    oceanOpportunity: {
+      opportunities: [
+        {
+          type:
+            "surface-water-boundary-candidate"
+        },
+
+        {
+          type:
+            "multi-signal-feature-candidate"
+        }
+      ]
+    }
+  });
+
+assert.equal(
+  productiveBoundaryResolution
+    .leadingCandidate,
+  "productive-water-boundary"
+);
+
+assert.equal(
+  productiveBoundaryResolution
+    .confidence,
+  "moderate"
+);
+
+assert.ok(
+  productiveBoundaryResolution
+    .evidenceFor
+    .includes(
+      "productivity-or-water-character-boundary-supported"
+    )
+);
+
+assert.equal(
+  productiveBoundaryResolution
+    .confirmedType,
+  null
+);
+
+console.log(
+  "PASS Blue Marlin Opportunity Type Resolution identifies a productive-water-boundary leading candidate"
+);
+
+
+const bathymetricResolution =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "structure-associated",
+
+      plausibleOpportunityTypes: [
+        "bathymetric-interaction-zone"
+      ]
+    },
+
+    relationshipContext: {
+      pathway:
+        "structure-associated",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: false
+        },
+
+        structureInteraction: {
+          supported: true,
+
+          interactionVerified:
+            false
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        current: {
+          available: true,
+
+          classification:
+            "moderate",
+
+          values: {
+            strengthClassification:
+              "moderate"
+          }
+        },
+
+        structure: {
+          available: true
+        }
+      }
+    },
+
+    oceanOpportunity: {
+      opportunities: []
+    }
+  });
+
+assert.equal(
+  bathymetricResolution
+    .leadingCandidate,
+  "bathymetric-interaction-zone"
+);
+
+assert.equal(
+  bathymetricResolution
+    .confidence,
+  "limited"
+);
+
+assert.ok(
+  bathymetricResolution
+    .evidenceMissing
+    .includes(
+      "current-structure-interaction-not-verified"
+    )
+);
+
+assert.equal(
+  bathymetricResolution
+    .resolvedType,
+  null
+);
+
+console.log(
+  "PASS Blue Marlin Opportunity Type Resolution identifies a preliminary bathymetric candidate without claiming interaction"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Opportunity Type Resolution HSM Integration
+ * ------------------------------------------------------------
+ */
+
+const typeResolutionOceanEvidence = {
+  groups: {
+    temperature: {
+      available: true,
+
+      classification:
+        "moderate-temperature-transition",
+
+      values: {
+        transitionStrength:
+          "moderate",
+
+        transitionDirection:
+          "warming",
+
+        patternConfidence:
+          "moderate",
+
+        spatialCoverage:
+          "complete"
+      }
+    },
+
+    current: {
+      available: true,
+
+      classification:
+        "strong",
+
+      values: {
+        strengthClassification:
+          "strong",
+
+        speedKnots:
+          1.8,
+
+        directionDegrees:
+          135,
+
+        freshness:
+          "fresh",
+
+        sourceAvailability:
+          "available"
+      }
+    },
+
+    productivity: {
+      available: true,
+
+      classification:
+        "productive-surface-water",
+
+      values: {
+        waterClassification:
+          "productive-blue-green-transition",
+
+        concentrationMgM3:
+          0.25,
+
+        freshness:
+          "fresh"
+      }
+    },
+
+    clarity: {
+      available: true,
+
+      classification:
+        "transitional-surface-water",
+
+      values: {
+        waterClassification:
+          "productive-blue-green-transition",
+
+        concentrationMgM3:
+          0.25,
+
+        freshness:
+          "fresh"
+      }
+    },
+
+    structure: {
+      available: false
+    }
+  }
+};
+
+
+const typeResolutionBaseOpportunity = {
+  opportunities: [
+    {
+      type:
+        "current-supported-transition-candidate"
+    },
+
+    {
+      type:
+        "multi-signal-feature-candidate"
+    }
+  ],
+
+  confidence: {
+    score: 60,
+    level: "Moderate"
+  },
+
+  limitations: []
+};
+
+
+const habitatWithoutTypeResolutionPathway =
+  assessBlueMarlinHabitat({
+    oceanOpportunity:
+      typeResolutionBaseOpportunity,
+
+    oceanEvidence:
+      typeResolutionOceanEvidence,
+
+    dataQuality: {
+      score: 80,
+      level: "High"
+    }
+  });
+
+
+const habitatWithTypeResolutionPathway =
+  assessBlueMarlinHabitat({
+    oceanOpportunity: {
+      ...typeResolutionBaseOpportunity,
+
+      pathwayClassification: {
+        classification:
+          "open-water",
+
+        pathway:
+          "environmental-organization",
+
+        evidence: {
+          structureAvailable:
+            false,
+
+          openWaterOrganized:
+            true,
+
+          persistenceAvailable:
+            false
+        }
+      }
+    },
+
+    oceanEvidence:
+      typeResolutionOceanEvidence,
+
+    dataQuality: {
+      score: 80,
+      level: "High"
+    }
+  });
+
+
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .opportunityTypeResolution
+    .species,
+  "blue-marlin"
+);
+
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .opportunityTypeResolution
+    .resolvedType,
+  null
+);
+
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .opportunityTypeResolution
+    .confirmedType,
+  null
+);
+
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .opportunityTypeResolution
+    .leadingCandidate,
+  "productive-water-boundary"
+);
+
+assert.ok(
+  habitatWithTypeResolutionPathway
+    .opportunityTypeResolution
+    .candidateTypes
+    .includes(
+      "productive-water-boundary"
+    )
+);
+
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .opportunityTypeResolution
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+
+/*
+ * Final and raw habitat scores must remain identical.
+ */
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .summary
+    .suitabilityScore,
+
+  habitatWithoutTypeResolutionPathway
+    .summary
+    .suitabilityScore
+);
+
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .summary
+    .rawSuitabilityScore,
+
+  habitatWithoutTypeResolutionPathway
+    .summary
+    .rawSuitabilityScore
+);
+
+
+/*
+ * All relationship groups and model ceilings must remain
+ * identical.
+ */
+assert.deepEqual(
+  habitatWithTypeResolutionPathway
+    .relationshipGroups,
+
+  habitatWithoutTypeResolutionPathway
+    .relationshipGroups
+);
+
+
+/*
+ * Habitat classification and confidence must remain identical.
+ */
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .summary
+    .classification,
+
+  habitatWithoutTypeResolutionPathway
+    .summary
+    .classification
+);
+
+assert.deepEqual(
+  habitatWithTypeResolutionPathway
+    .confidence,
+
+  habitatWithoutTypeResolutionPathway
+    .confidence
+);
+
+
+/*
+ * Existing score drivers must remain untouched.
+ */
+assert.deepEqual(
+  habitatWithTypeResolutionPathway
+    .positiveDrivers,
+
+  habitatWithoutTypeResolutionPathway
+    .positiveDrivers
+);
+
+assert.deepEqual(
+  habitatWithTypeResolutionPathway
+    .negativeDrivers,
+
+  habitatWithoutTypeResolutionPathway
+    .negativeDrivers
+);
+
+
+assert.equal(
+  habitatWithTypeResolutionPathway
+    .methodVersion,
+  "pelora-blue-marlin-hsm-v1.4"
+);
+
+console.log(
+  "PASS Blue Marlin HSM exposes opportunity type resolution without changing scoring"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Generic Species Opportunity Resolver Architecture
+ * ------------------------------------------------------------
+ */
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .species,
+  "blue-marlin"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .rules
+    .biologicalInferenceAllowed,
+  false
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .opportunityTypes
+    ["feeding-corridor"]
+    .signals
+    .organizedCurrent,
+  3
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .opportunityTypes
+    ["productive-water-boundary"]
+    .signals
+    .productivityBoundary,
+  5
+);
+
+
+const genericBlueMarlinResolution =
+  resolveSpeciesOpportunityType({
+    speciesProfile:
+      BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE,
+
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "open-water",
+
+      plausibleOpportunityTypes: [
+        "feeding-corridor",
+        "productive-water-boundary",
+        "open-water-prey-aggregation"
+      ]
+    },
+
+    relationshipContext: {
+      pathway:
+        "open-water",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: true
+        },
+
+        structureInteraction: {
+          supported: false
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        temperature: {
+          available: true,
+
+          classification:
+            "moderate-temperature-transition",
+
+          values: {
+            transitionStrength:
+              "moderate"
+          }
+        },
+
+        current: {
+          available: true,
+
+          classification:
+            "strong",
+
+          values: {
+            strengthClassification:
+              "strong"
+          }
+        },
+
+        productivity: {
+          available: true,
+
+          classification:
+            "productive-surface-water",
+
+          values: {
+            waterClassification:
+              "productive-blue-green-transition"
+          }
+        },
+
+        clarity: {
+          available: true,
+
+          classification:
+            "transitional-surface-water",
+
+          values: {
+            waterClassification:
+              "productive-blue-green-transition"
+          }
+        }
+      }
+    },
+
+    oceanOpportunity: {
+      opportunities: [
+        {
+          type:
+            "current-supported-transition-candidate"
+        },
+
+        {
+          type:
+            "multi-signal-feature-candidate"
+        }
+      ]
+    }
+  });
+
+
+assert.equal(
+  genericBlueMarlinResolution
+    .species,
+  "blue-marlin"
+);
+
+assert.equal(
+  genericBlueMarlinResolution
+    .leadingCandidate,
+  "productive-water-boundary"
+);
+
+assert.equal(
+  genericBlueMarlinResolution
+    .resolvedType,
+  null
+);
+
+assert.equal(
+  genericBlueMarlinResolution
+    .confirmedType,
+  null
+);
+
+assert.equal(
+  genericBlueMarlinResolution
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+assert.equal(
+  genericBlueMarlinResolution
+    .knowledgeProfile
+    .methodVersion,
+  "pelora-blue-marlin-opportunity-type-profile-v1.0"
+);
+
+assert.equal(
+  genericBlueMarlinResolution
+    .methodVersion,
+  "pelora-species-opportunity-type-resolution-v1.0"
+);
+
+console.log(
+  "PASS generic species opportunity resolver uses governed Blue Marlin profile"
+);
+
+
+const wrappedBlueMarlinResolution =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "open-water",
+
+      plausibleOpportunityTypes: [
+        "feeding-corridor",
+        "productive-water-boundary",
+        "open-water-prey-aggregation"
+      ]
+    },
+
+    relationshipContext: {
+      pathway:
+        "open-water",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: true
+        },
+
+        structureInteraction: {
+          supported: false
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        temperature: {
+          available: true,
+
+          classification:
+            "moderate-temperature-transition",
+
+          values: {
+            transitionStrength:
+              "moderate"
+          }
+        },
+
+        current: {
+          available: true,
+
+          classification:
+            "strong",
+
+          values: {
+            strengthClassification:
+              "strong"
+          }
+        },
+
+        productivity: {
+          available: true,
+
+          classification:
+            "productive-surface-water",
+
+          values: {
+            waterClassification:
+              "productive-blue-green-transition"
+          }
+        },
+
+        clarity: {
+          available: true,
+
+          classification:
+            "transitional-surface-water",
+
+          values: {
+            waterClassification:
+              "productive-blue-green-transition"
+          }
+        }
+      }
+    },
+
+    oceanOpportunity: {
+      opportunities: [
+        {
+          type:
+            "current-supported-transition-candidate"
+        },
+
+        {
+          type:
+            "multi-signal-feature-candidate"
+        }
+      ]
+    }
+  });
+
+
+assert.deepEqual(
+  wrappedBlueMarlinResolution
+    .rankedCandidates,
+
+  genericBlueMarlinResolution
+    .rankedCandidates
+);
+
+assert.equal(
+  wrappedBlueMarlinResolution
+    .leadingCandidate,
+
+  genericBlueMarlinResolution
+    .leadingCandidate
+);
+
+assert.equal(
+  wrappedBlueMarlinResolution
+    .methodVersion,
+  "pelora-blue-marlin-opportunity-type-resolution-v1.1"
+);
+
+console.log(
+  "PASS Blue Marlin resolver wrapper preserves generic resolution behavior"
 );

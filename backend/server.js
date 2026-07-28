@@ -8980,6 +8980,917 @@ export function interpretBlueMarlinPathway({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Opportunity Type Resolution v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Rank biologically plausible Blue Marlin opportunity types
+ * using species-neutral environmental evidence and the
+ * Blue Marlin pathway interpretation.
+ *
+ * This engine may identify a leading candidate when the
+ * available evidence differentiates one opportunity type
+ * from the others.
+ *
+ * It does not:
+ * - confirm an opportunity type
+ * - confirm Blue Marlin presence
+ * - confirm feeding
+ * - confirm prey concentration
+ * - estimate catch probability
+ * - modify habitat scores
+ * - modify confidence
+ */
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Opportunity Type Knowledge Profile v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Store Blue Marlin-specific opportunity-type relationships
+ * separately from the generic resolution engine.
+ *
+ * The profile contains interpretation weights only.
+ *
+ * It does not:
+ * - confirm biological activity
+ * - confirm fish presence
+ * - change habitat scoring
+ * - change model confidence
+ */
+export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
+  species:
+    "blue-marlin",
+
+  leadingCandidateThreshold:
+    4,
+
+  moderateConfidenceThreshold:
+    8,
+
+  opportunityTypes: {
+    "feeding-corridor": {
+      signals: {
+        openWaterOrganization:
+          2,
+
+        organizedCurrent:
+          3,
+
+        thermalBoundary:
+          2,
+
+        multiSignalSupport:
+          1
+      },
+
+      missingEvidence: {
+        openWaterOrganization:
+          "open-water-organization-not-established",
+
+        organizedCurrent:
+          "organized-current-support-unavailable",
+
+        thermalBoundary:
+          "thermal-boundary-not-established"
+      },
+
+      limitations: []
+    },
+
+
+    "current-convergence-feeding-pocket": {
+      signals: {
+        openWaterOrganization:
+          2,
+
+        currentSupport:
+          2,
+
+        currentConvergence:
+          5
+      },
+
+      missingEvidence: {
+        openWaterOrganization:
+          "open-water-organization-not-established",
+
+        currentSupport:
+          "current-support-unavailable",
+
+        currentConvergence:
+          "current-convergence-not-established"
+      },
+
+      limitations: []
+    },
+
+
+    "eddy-edge-opportunity": {
+      signals: {
+        openWaterOrganization:
+          1,
+
+        eddyBoundary:
+          7,
+
+        thermalBoundary:
+          1
+      },
+
+      missingEvidence: {
+        eddyBoundary:
+          "eddy-boundary-not-established"
+      },
+
+      limitations: []
+    },
+
+
+    "productive-water-boundary": {
+      signals: {
+        productivityBoundary:
+          5,
+
+        thermalBoundary:
+          2,
+
+        currentSupport:
+          1,
+
+        multiSignalSupport:
+          1
+      },
+
+      missingEvidence: {
+        productivityBoundary:
+          "productivity-boundary-not-established"
+      },
+
+      limitations: []
+    },
+
+
+    "open-water-prey-aggregation": {
+      signals: {
+        openWaterOrganization:
+          2,
+
+        productivityBoundary:
+          3,
+
+        currentSupport:
+          2,
+
+        persistence:
+          2
+      },
+
+      missingEvidence: {
+        openWaterOrganization:
+          "open-water-organization-not-established",
+
+        productivityBoundary:
+          "productive-water-support-unavailable",
+
+        persistence:
+          "feature-persistence-not-established"
+      },
+
+      limitations: [
+        "environmental-evidence-does-not-confirm-prey-aggregation"
+      ]
+    },
+
+
+    "bathymetric-interaction-zone": {
+      signals: {
+        structureAssociation:
+          4,
+
+        currentSupport:
+          2,
+
+        verifiedStructureInteraction:
+          4
+      },
+
+      missingEvidence: {
+        structureAssociation:
+          "structure-association-not-established",
+
+        currentSupport:
+          "current-support-unavailable",
+
+        verifiedStructureInteraction:
+          "current-structure-interaction-not-verified"
+      },
+
+      limitations: []
+    }
+  },
+
+  rules: {
+    biologicalInferenceAllowed:
+      false,
+
+    confirmedTypeAllowed:
+      false,
+
+    changesHabitatScores:
+      false,
+
+    changesConfidence:
+      false,
+
+    structureRequired:
+      false
+  },
+
+  methodVersion:
+    "pelora-blue-marlin-opportunity-type-profile-v1.0"
+};
+
+
+/**
+ * ------------------------------------------------------------
+ * Generic Species Opportunity Type Resolver v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Rank species opportunity types using:
+ *
+ * - a species knowledge profile
+ * - species-neutral environmental evidence
+ * - relationship context
+ * - pathway interpretation
+ *
+ * The resolver itself contains no species-specific weights.
+ */
+export function resolveSpeciesOpportunityType({
+  speciesProfile = null,
+  speciesPathwayInterpretation = null,
+  relationshipContext = null,
+  oceanEvidence = null,
+  oceanOpportunity = null
+} = {}) {
+  const species =
+    speciesProfile
+      ?.species ??
+    "unknown-species";
+
+  const profileTypes =
+    speciesProfile
+      ?.opportunityTypes ??
+    {};
+
+  const plausibleTypes =
+    Array.isArray(
+      speciesPathwayInterpretation
+        ?.plausibleOpportunityTypes
+    )
+      ? [
+          ...speciesPathwayInterpretation
+            .plausibleOpportunityTypes
+        ]
+      : [];
+
+  const pathway =
+    speciesPathwayInterpretation
+      ?.environmentalPathway ??
+    relationshipContext
+      ?.pathway ??
+    "insufficient-evidence";
+
+  const relationshipSupport =
+    relationshipContext
+      ?.relationshipSupport ??
+    {};
+
+  const groups =
+    oceanEvidence
+      ?.groups ??
+    {};
+
+  const opportunityTypes =
+    Array.isArray(
+      oceanOpportunity
+        ?.opportunities
+    )
+      ? oceanOpportunity
+          .opportunities
+          .map(
+            opportunity =>
+              opportunity
+                ?.type
+          )
+          .filter(Boolean)
+      : [];
+
+  const current =
+    groups
+      ?.current ??
+    null;
+
+  const temperature =
+    groups
+      ?.temperature ??
+    null;
+
+  const productivity =
+    groups
+      ?.productivity ??
+    null;
+
+  const clarity =
+    groups
+      ?.clarity ??
+    null;
+
+  const structure =
+    groups
+      ?.structure ??
+    null;
+
+  const currentClassification =
+    current
+      ?.classification ??
+    null;
+
+  const currentStrength =
+    current
+      ?.values
+      ?.strengthClassification ??
+    null;
+
+  const temperatureClassification =
+    temperature
+      ?.classification ??
+    null;
+
+  const transitionStrength =
+    temperature
+      ?.values
+      ?.transitionStrength ??
+    null;
+
+  const productivityClassification =
+    productivity
+      ?.classification ??
+    null;
+
+  const productivityWaterClassification =
+    productivity
+      ?.values
+      ?.waterClassification ??
+    null;
+
+  const clarityClassification =
+    clarity
+      ?.classification ??
+    null;
+
+  const clarityWaterClassification =
+    clarity
+      ?.values
+      ?.waterClassification ??
+    null;
+
+
+  /*
+   * Species-neutral environmental signal extraction.
+   *
+   * These signals describe what the environmental evidence
+   * supports. Species profiles decide how much each signal
+   * matters for each opportunity type.
+   */
+  const signals = {
+    openWaterOrganization:
+      relationshipSupport
+        ?.openWaterOrganization
+        ?.supported === true,
+
+    structureAssociation:
+      structure
+        ?.available === true ||
+      relationshipSupport
+        ?.structureInteraction
+        ?.supported === true,
+
+    persistence:
+      relationshipSupport
+        ?.persistence
+        ?.supported === true,
+
+    verifiedStructureInteraction:
+      relationshipSupport
+        ?.structureInteraction
+        ?.interactionVerified === true,
+
+    currentConvergence:
+      relationshipSupport
+        ?.currentConvergence
+        ?.supported === true,
+
+    eddyBoundary:
+      relationshipSupport
+        ?.eddyBoundary
+        ?.supported === true,
+
+    currentSupport:
+      current
+        ?.available === true &&
+      (
+        currentClassification ===
+          "moderate" ||
+        currentClassification ===
+          "strong" ||
+        currentClassification ===
+          "very-strong" ||
+        currentStrength ===
+          "moderate" ||
+        currentStrength ===
+          "strong" ||
+        currentStrength ===
+          "very-strong" ||
+        opportunityTypes.includes(
+          "current-supported-transition-candidate"
+        )
+      ),
+
+    organizedCurrent:
+      current
+        ?.available === true &&
+      (
+        currentClassification ===
+          "moderate" ||
+        currentClassification ===
+          "strong" ||
+        currentClassification ===
+          "very-strong" ||
+        currentStrength ===
+          "moderate" ||
+        currentStrength ===
+          "strong" ||
+        currentStrength ===
+          "very-strong"
+      ) &&
+      (
+        relationshipSupport
+          ?.openWaterOrganization
+          ?.supported === true ||
+        opportunityTypes.includes(
+          "current-supported-transition-candidate"
+        )
+      ),
+
+    thermalBoundary:
+      temperature
+        ?.available === true &&
+      (
+        temperatureClassification
+          ?.includes(
+            "temperature-transition"
+          ) ||
+        transitionStrength ===
+          "weak" ||
+        transitionStrength ===
+          "moderate" ||
+        transitionStrength ===
+          "strong"
+      ),
+
+    strongThermalBoundary:
+      temperature
+        ?.available === true &&
+      transitionStrength ===
+        "strong",
+
+    productivityBoundary:
+      productivity
+        ?.available === true &&
+      (
+        productivityClassification ===
+          "productive-surface-water" ||
+        productivityClassification ===
+          "productive-water-transition" ||
+        productivityWaterClassification ===
+          "productive-blue-green-transition" ||
+        clarityClassification ===
+          "transitional-surface-water" ||
+        clarityWaterClassification ===
+          "productive-blue-green-transition" ||
+        opportunityTypes.includes(
+          "surface-water-boundary-candidate"
+        )
+      ),
+
+    multiSignalSupport:
+      opportunityTypes.includes(
+        "multi-signal-feature-candidate"
+      )
+  };
+
+
+  const evidenceLabels = {
+    openWaterOrganization:
+      "open-water-organization-supported",
+
+    structureAssociation:
+      "structure-association-supported",
+
+    persistence:
+      "feature-persistence-supported",
+
+    verifiedStructureInteraction:
+      "current-structure-interaction-verified",
+
+    currentConvergence:
+      "current-convergence-supported",
+
+    eddyBoundary:
+      "eddy-boundary-supported",
+
+    currentSupport:
+      "current-support-available",
+
+    organizedCurrent:
+      "organized-current-support",
+
+    thermalBoundary:
+      "thermal-boundary-support",
+
+    strongThermalBoundary:
+      "strong-thermal-boundary-support",
+
+    productivityBoundary:
+      "productivity-or-water-character-boundary-supported",
+
+    multiSignalSupport:
+      "multi-signal-environmental-support"
+  };
+
+
+  const rankedCandidates =
+    plausibleTypes
+      .filter(
+        type =>
+          profileTypes[type]
+      )
+      .map(type => {
+        const typeProfile =
+          profileTypes[type];
+
+        const signalWeights =
+          typeProfile
+            ?.signals ??
+          {};
+
+        const missingEvidenceRules =
+          typeProfile
+            ?.missingEvidence ??
+          {};
+
+        let supportScore = 0;
+
+        const evidenceFor = [];
+
+        const evidenceMissing = [];
+
+        for (
+          const [
+            signalName,
+            weight
+          ]
+          of Object.entries(
+            signalWeights
+          )
+        ) {
+          if (
+            signals[signalName] === true
+          ) {
+            supportScore +=
+              Number(weight) || 0;
+
+            evidenceFor.push(
+              evidenceLabels[
+                signalName
+              ] ??
+              `${signalName}-supported`
+            );
+          } else if (
+            missingEvidenceRules[
+              signalName
+            ]
+          ) {
+            evidenceMissing.push(
+              missingEvidenceRules[
+                signalName
+              ]
+            );
+          }
+        }
+
+        return {
+          type,
+
+          supportScore,
+
+          evidenceFor: [
+            ...new Set(
+              evidenceFor
+                .filter(Boolean)
+            )
+          ],
+
+          evidenceMissing: [
+            ...new Set(
+              evidenceMissing
+                .filter(Boolean)
+            )
+          ],
+
+          limitations: [
+            ...new Set(
+              (
+                typeProfile
+                  ?.limitations ??
+                []
+              )
+                .filter(Boolean)
+            )
+          ]
+        };
+      })
+      .sort(
+        (
+          first,
+          second
+        ) =>
+          second.supportScore -
+          first.supportScore ||
+          first.type.localeCompare(
+            second.type
+          )
+      );
+
+
+  const firstCandidate =
+    rankedCandidates[0] ??
+    null;
+
+  const secondCandidate =
+    rankedCandidates[1] ??
+    null;
+
+  const leadingCandidateThreshold =
+    Number(
+      speciesProfile
+        ?.leadingCandidateThreshold
+    ) || 4;
+
+  const moderateConfidenceThreshold =
+    Number(
+      speciesProfile
+        ?.moderateConfidenceThreshold
+    ) || 8;
+
+  const leadingCandidateIsDifferentiated =
+    Boolean(
+      firstCandidate &&
+      firstCandidate.supportScore >=
+        leadingCandidateThreshold &&
+      (
+        !secondCandidate ||
+        firstCandidate.supportScore >
+          secondCandidate.supportScore
+      )
+    );
+
+  const leadingCandidate =
+    leadingCandidateIsDifferentiated
+      ? firstCandidate.type
+      : null;
+
+  let confidence =
+    "insufficient";
+
+  if (
+    leadingCandidate &&
+    firstCandidate.supportScore >=
+      moderateConfidenceThreshold
+  ) {
+    confidence =
+      "moderate";
+  } else if (
+    leadingCandidate
+  ) {
+    confidence =
+      "limited";
+  } else if (
+    rankedCandidates.length > 0 &&
+    firstCandidate
+      ?.supportScore > 0
+  ) {
+    confidence =
+      "weak";
+  }
+
+
+  let classification =
+    "insufficient-opportunity-type-evidence";
+
+  let summary =
+    `The available evidence does not differentiate a ${species} opportunity type.`;
+
+  if (
+    leadingCandidate &&
+    confidence === "moderate"
+  ) {
+    classification =
+      "moderate-leading-opportunity-type-candidate";
+
+    summary =
+      `The available evidence most strongly supports ${leadingCandidate} as a preliminary ${species} opportunity-type candidate, but the interpretation remains unconfirmed.`;
+  } else if (
+    leadingCandidate &&
+    confidence === "limited"
+  ) {
+    classification =
+      "limited-leading-opportunity-type-candidate";
+
+    summary =
+      `The available evidence provides limited support for ${leadingCandidate} as the leading ${species} opportunity-type candidate, but important evidence remains unavailable.`;
+  } else if (
+    rankedCandidates.length > 0
+  ) {
+    classification =
+      "multiple-unresolved-opportunity-type-candidates";
+
+    summary =
+      `Multiple ${species} opportunity types remain plausible, and the available evidence does not yet distinguish one clearly.`;
+  }
+
+
+  const limitations = [
+    "opportunity-type-resolution-is-preliminary",
+    "resolved-type-is-not-confirmed",
+    `does-not-confirm-${species}-presence`,
+    "does-not-confirm-feeding",
+    "does-not-confirm-prey-concentration",
+    "does-not-estimate-catch-probability",
+    "does-not-indicate-fishing-success",
+    "does-not-change-habitat-scores",
+    "does-not-change-model-confidence"
+  ];
+
+  if (!signals.persistence) {
+    limitations.push(
+      "feature-persistence-not-established"
+    );
+  }
+
+  if (
+    pathway ===
+      "insufficient-evidence"
+  ) {
+    limitations.push(
+      "environmental-pathway-not-established"
+    );
+  }
+
+
+  return {
+    available:
+      rankedCandidates
+        .length > 0,
+
+    species,
+
+    environmentalPathway:
+      pathway,
+
+    resolvedType:
+      null,
+
+    confirmedType:
+      null,
+
+    leadingCandidate,
+
+    candidateTypes:
+      rankedCandidates.map(
+        candidate =>
+          candidate.type
+      ),
+
+    rankedCandidates,
+
+    evidenceFor:
+      firstCandidate
+        ?.evidenceFor ??
+      [],
+
+    evidenceMissing:
+      firstCandidate
+        ?.evidenceMissing ??
+      [],
+
+    confidence,
+
+    classification,
+
+    summary,
+
+    limitations: [
+      ...new Set(
+        limitations
+          .filter(Boolean)
+      )
+    ],
+
+    evidenceSignals:
+      signals,
+
+    rules: {
+      rankingAllowed:
+        true,
+
+      leadingCandidateAllowed:
+        true,
+
+      confirmedTypeAllowed:
+        false,
+
+      biologicalInferenceAllowed:
+        false,
+
+      changesHabitatScores:
+        false,
+
+      changesConfidence:
+        false,
+
+      structureRequired:
+        false
+    },
+
+    knowledgeProfile: {
+      species:
+        speciesProfile
+          ?.species ??
+        null,
+
+      methodVersion:
+        speciesProfile
+          ?.methodVersion ??
+        null
+    },
+
+    methodVersion:
+      "pelora-species-opportunity-type-resolution-v1.0"
+  };
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Opportunity Type Resolution v1.1
+ * ------------------------------------------------------------
+ *
+ * Species wrapper around the generic opportunity resolver.
+ */
+export function resolveBlueMarlinOpportunityType({
+  speciesPathwayInterpretation = null,
+  relationshipContext = null,
+  oceanEvidence = null,
+  oceanOpportunity = null
+} = {}) {
+  const resolution =
+    resolveSpeciesOpportunityType({
+      speciesProfile:
+        BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE,
+
+      speciesPathwayInterpretation,
+
+      relationshipContext,
+
+      oceanEvidence,
+
+      oceanOpportunity
+    });
+
+  return {
+    ...resolution,
+
+    methodVersion:
+      "pelora-blue-marlin-opportunity-type-resolution-v1.1"
+  };
+}
+
+
 export function assessBlueMarlinHabitat({
   oceanOpportunity,
   oceanEvidence,
@@ -9006,6 +9917,14 @@ export function assessBlueMarlinHabitat({
   const speciesPathwayInterpretation =
     interpretBlueMarlinPathway({
       relationshipContext
+    });
+
+  const opportunityTypeResolution =
+    resolveBlueMarlinOpportunityType({
+      speciesPathwayInterpretation,
+      relationshipContext,
+      oceanEvidence,
+      oceanOpportunity
     });
 
   const temperature =
@@ -10339,6 +11258,14 @@ export function assessBlueMarlinHabitat({
      */
     speciesPathwayInterpretation,
 
+    /*
+     * Ranked Blue Marlin opportunity-type candidates.
+     *
+     * This field is explanatory only. It does not confirm an
+     * opportunity type and contributes no habitat points.
+     */
+    opportunityTypeResolution,
+
     opportunityTypes,
 
     positiveDrivers:
@@ -10424,7 +11351,7 @@ export function assessBlueMarlinHabitat({
       "blue-marlin-habitat-suitability",
 
     methodVersion:
-      "pelora-blue-marlin-hsm-v1.2"
+      "pelora-blue-marlin-hsm-v1.4"
   };
 }
 
