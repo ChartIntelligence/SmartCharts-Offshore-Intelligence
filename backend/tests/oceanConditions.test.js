@@ -5729,6 +5729,90 @@ console.log(
   "PASS Structure Evidence v2.0 identifies verified Appomattox proximity without biological inference"
 );
 
+/*
+ * Structure Evidence current-data classification
+ *
+ * A valid single-point current observation may be acknowledged,
+ * but it cannot establish current interaction with a structure.
+ */
+const appomattoxCurrentStructureResult =
+  assessOceanEvidence({
+    latitude: 28.57350034,
+    longitude: -87.93421264,
+
+    sst: null,
+    chlorophyll: null,
+
+    currents: {
+      speedKnots: 1.1,
+      directionDegrees: 180,
+
+      observedAt:
+        "2026-07-27T12:00:00.000Z",
+
+      ageHours: 10,
+
+      source: {
+        availability:
+          "available"
+      }
+    },
+
+    dataQuality: {}
+  });
+
+const appomattoxCurrentStructureEvidence =
+  appomattoxCurrentStructureResult
+    .groups
+    .structure;
+
+assert.equal(
+  appomattoxCurrentStructureEvidence
+    .available,
+  true
+);
+
+assert.equal(
+  appomattoxCurrentStructureEvidence
+    .values
+    .currentInteraction,
+  false
+);
+
+assert.equal(
+  appomattoxCurrentStructureEvidence
+    .values
+    .currentInteractionClassification,
+  "single-point-current-only"
+);
+
+assert.ok(
+  appomattoxCurrentStructureEvidence
+    .limitations
+    .includes(
+      "does-not-evaluate-current-interaction"
+    )
+);
+
+assert.ok(
+  appomattoxCurrentStructureEvidence
+    .limitations
+    .includes(
+      "does-not-establish-fish-presence"
+    )
+);
+
+assert.ok(
+  appomattoxCurrentStructureEvidence
+    .limitations
+    .includes(
+      "does-not-indicate-species-suitability"
+    )
+);
+
+console.log(
+  "PASS Structure Evidence acknowledges single-point current data without inferring interaction"
+);
 
 /*
  * Structure Evidence v2.0 verified FAD proximity
