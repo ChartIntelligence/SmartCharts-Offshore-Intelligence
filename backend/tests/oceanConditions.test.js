@@ -6,7 +6,8 @@ import {
   assessOceanOpportunity,
   assessBlueMarlinHabitat,
   buildOpenWaterEvidence,
-  buildEnvironmentalOpportunityEvidence
+  buildEnvironmentalOpportunityEvidence,
+  classifyOceanOpportunity
 } from "../server.js";
 
 
@@ -6741,4 +6742,602 @@ assert.equal(
 
 console.log(
   "PASS Ocean Evidence does not infer open-water spatial organization from single-point observations"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Opportunity Classification Engine v1.0
+ * ------------------------------------------------------------
+ */
+
+const insufficientOpportunityClassification =
+  classifyOceanOpportunity();
+
+assert.equal(
+  insufficientOpportunityClassification
+    .available,
+  false
+);
+
+assert.equal(
+  insufficientOpportunityClassification
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  insufficientOpportunityClassification
+    .pathway,
+  "unresolved"
+);
+
+assert.equal(
+  insufficientOpportunityClassification
+    .rules
+    .structureRequired,
+  false
+);
+
+assert.equal(
+  insufficientOpportunityClassification
+    .rules
+    .missingStructureIsNegative,
+  false
+);
+
+assert.equal(
+  insufficientOpportunityClassification
+    .rules
+    .structureAbsenceTreatment,
+  "neutral"
+);
+
+assert.equal(
+  insufficientOpportunityClassification
+    .rules
+    .classificationChangesScores,
+  false
+);
+
+console.log(
+  "PASS Opportunity Classification remains conservative when evidence is insufficient"
+);
+
+
+const unclassifiedFeatureClassification =
+  classifyOceanOpportunity({
+    environmentalOpportunityEvidence: {
+      combined: {
+        pathways: {
+          structureAssociated: {
+            available: false
+          },
+
+          openWater: {
+            available: true,
+            organized: false
+          },
+
+          persistence: {
+            available: false
+          }
+        }
+      }
+    },
+
+    featureCandidates: [
+      {
+        type:
+          "temperature-transition-candidate",
+
+        supportingEvidence: [
+          "temperature"
+        ],
+
+        sourceFamilies: [
+          "spatial-temperature"
+        ]
+      }
+    ]
+  });
+
+assert.equal(
+  unclassifiedFeatureClassification
+    .available,
+  true
+);
+
+assert.equal(
+  unclassifiedFeatureClassification
+    .classification,
+  "environmental-feature-unclassified"
+);
+
+assert.equal(
+  unclassifiedFeatureClassification
+    .pathway,
+  "observed-feature-candidate"
+);
+
+assert.equal(
+  unclassifiedFeatureClassification
+    .evidence
+    .featureCandidateCount,
+  1
+);
+
+assert.deepEqual(
+  unclassifiedFeatureClassification
+    .sourceOpportunityTypes,
+  [
+    "temperature-transition-candidate"
+  ]
+);
+
+assert.deepEqual(
+  unclassifiedFeatureClassification
+    .supportingEvidenceGroups,
+  [
+    "temperature"
+  ]
+);
+
+console.log(
+  "PASS Opportunity Classification preserves an environmental feature candidate when its pathway is not yet verified"
+);
+
+
+const openWaterOpportunityClassification =
+  classifyOceanOpportunity({
+    environmentalOpportunityEvidence: {
+      combined: {
+        pathways: {
+          structureAssociated: {
+            available: false
+          },
+
+          openWater: {
+            available: true,
+            organized: true
+          },
+
+          persistence: {
+            available: false
+          }
+        }
+      }
+    },
+
+    featureCandidates: [
+      {
+        type:
+          "multi-signal-feature-candidate",
+
+        supportingEvidence: [
+          "temperature",
+          "current"
+        ],
+
+        sourceFamilies: [
+          "spatial-temperature",
+          "spatial-current"
+        ]
+      }
+    ]
+  });
+
+assert.equal(
+  openWaterOpportunityClassification
+    .classification,
+  "open-water"
+);
+
+assert.equal(
+  openWaterOpportunityClassification
+    .pathway,
+  "environmental-organization"
+);
+
+assert.equal(
+  openWaterOpportunityClassification
+    .evidence
+    .structureAvailable,
+  false
+);
+
+assert.equal(
+  openWaterOpportunityClassification
+    .evidence
+    .openWaterOrganized,
+  true
+);
+
+assert.equal(
+  openWaterOpportunityClassification
+    .rules
+    .missingStructureIsNegative,
+  false
+);
+
+console.log(
+  "PASS Opportunity Classification recognizes a first-class open-water pathway without physical structure"
+);
+
+
+const structureOpportunityClassification =
+  classifyOceanOpportunity({
+    environmentalOpportunityEvidence: {
+      combined: {
+        pathways: {
+          structureAssociated: {
+            available: true
+          },
+
+          openWater: {
+            available: false,
+            organized: false
+          },
+
+          persistence: {
+            available: false
+          }
+        }
+      }
+    },
+
+    featureCandidates: []
+  });
+
+assert.equal(
+  structureOpportunityClassification
+    .classification,
+  "structure-associated"
+);
+
+assert.equal(
+  structureOpportunityClassification
+    .pathway,
+  "physical-structure"
+);
+
+assert.equal(
+  structureOpportunityClassification
+    .evidence
+    .structureAvailable,
+  true
+);
+
+assert.equal(
+  structureOpportunityClassification
+    .evidence
+    .openWaterOrganized,
+  false
+);
+
+console.log(
+  "PASS Opportunity Classification recognizes an independent structure-associated pathway"
+);
+
+
+const combinedOpportunityClassification =
+  classifyOceanOpportunity({
+    environmentalOpportunityEvidence: {
+      combined: {
+        pathways: {
+          structureAssociated: {
+            available: true
+          },
+
+          openWater: {
+            available: true,
+            organized: true
+          },
+
+          persistence: {
+            available: true
+          }
+        }
+      }
+    },
+
+    featureCandidates: [
+      {
+        type:
+          "multi-signal-feature-candidate",
+
+        supportingEvidence: [
+          "temperature",
+          "current",
+          "productivity"
+        ],
+
+        sourceFamilies: [
+          "spatial-temperature",
+          "spatial-current",
+          "surface-chlorophyll"
+        ]
+      }
+    ]
+  });
+
+assert.equal(
+  combinedOpportunityClassification
+    .classification,
+  "combined"
+);
+
+assert.equal(
+  combinedOpportunityClassification
+    .pathway,
+  "structure-and-open-water"
+);
+
+assert.equal(
+  combinedOpportunityClassification
+    .evidence
+    .structureAvailable,
+  true
+);
+
+assert.equal(
+  combinedOpportunityClassification
+    .evidence
+    .openWaterOrganized,
+  true
+);
+
+assert.equal(
+  combinedOpportunityClassification
+    .evidence
+    .persistenceAvailable,
+  true
+);
+
+assert.deepEqual(
+  combinedOpportunityClassification
+    .supportingPathways,
+  [
+    "structure-associated",
+    "open-water",
+    "persistence",
+    "environmental-feature-candidate"
+  ]
+);
+
+assert.equal(
+  combinedOpportunityClassification
+    .rules
+    .biologicalInferenceAllowed,
+  false
+);
+
+console.log(
+  "PASS Opportunity Classification recognizes a combined structure and open-water pathway"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Opportunity pathway-classification integration
+ * ------------------------------------------------------------
+ */
+
+const pathwayIntegrationEvidence =
+  assessOceanEvidence({
+    marine: {
+      wind: {
+        speedKnots: 12,
+        directionDegrees: 180
+      },
+
+      waves: {
+        heightFeet: 2,
+        directionDegrees: 175,
+        periodSeconds: 7
+      },
+
+      swell: {
+        heightFeet: 2,
+        directionDegrees: 170,
+        periodSeconds: 8
+      },
+
+      current: {
+        speedKnots: 1.6,
+        directionDegrees: 90
+      },
+
+      sst: {
+        temperatureF: 80
+      },
+
+      chlorophyll: {
+        value: 0.22
+      }
+    },
+
+    spatialTemperature: {
+      center: 80,
+      north: 81.4,
+      south: 79.1,
+      east: 80.9,
+      west: 79.4
+    },
+
+    dataQuality: {}
+  });
+
+const pathwayIntegrationBaseline =
+  assessOceanOpportunity({
+    oceanEvidence:
+      pathwayIntegrationEvidence
+  });
+
+assert.ok(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+    .rules
+    .structureRequired,
+  false
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+    .rules
+    .missingStructureIsNegative,
+  false
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+    .rules
+    .structureAbsenceTreatment,
+  "neutral"
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+    .rules
+    .classificationIsSpeciesNeutral,
+  true
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+    .rules
+    .classificationChangesScores,
+  false
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+    .rules
+    .biologicalInferenceAllowed,
+  false
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .pathwayClassification
+    .evidence
+    .featureCandidateCount,
+  pathwayIntegrationBaseline
+    .opportunities
+    .length
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .summary
+    .opportunityCount,
+  pathwayIntegrationBaseline
+    .opportunities
+    .length
+);
+
+assert.equal(
+  pathwayIntegrationBaseline
+    .methodVersion,
+  "pelora-ocean-opportunity-v1.1"
+);
+
+console.log(
+  "PASS Ocean Opportunity exposes pathway classification without changing established opportunity behavior"
+);
+
+
+const noEvidencePathwayIntegration =
+  assessOceanOpportunity({
+    oceanEvidence: {
+      groups: {},
+
+      confidence: {
+        score: 0,
+        level: "Very Low"
+      },
+
+      environmentalOpportunityEvidence: {
+        combined: {
+          pathways: {
+            structureAssociated: {
+              available: false
+            },
+
+            openWater: {
+              available: false,
+              organized: false
+            },
+
+            persistence: {
+              available: false
+            }
+          }
+        }
+      },
+
+      summary: {
+        availableGroupCount: 0
+      },
+
+      limitations: []
+    }
+  });
+
+assert.equal(
+  noEvidencePathwayIntegration
+    .summary
+    .classification,
+  "no-supported-feature-candidate"
+);
+
+assert.equal(
+  noEvidencePathwayIntegration
+    .summary
+    .opportunityCount,
+  0
+);
+
+assert.equal(
+  noEvidencePathwayIntegration
+    .opportunities
+    .length,
+  0
+);
+
+assert.equal(
+  noEvidencePathwayIntegration
+    .pathwayClassification
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  noEvidencePathwayIntegration
+    .pathwayClassification
+    .available,
+  false
+);
+
+assert.equal(
+  noEvidencePathwayIntegration
+    .confidence
+    .score,
+  0
+);
+
+console.log(
+  "PASS Ocean Opportunity pathway integration preserves the insufficient-evidence fallback"
 );

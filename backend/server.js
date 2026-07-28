@@ -7321,6 +7321,302 @@ function buildPersistenceEvidence() {
 
 /**
  * ------------------------------------------------------------
+ * Opportunity Classification Engine v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Normalize species-neutral environmental opportunity evidence
+ * into a stable pathway classification.
+ *
+ * This engine answers:
+ * "What kind of environmental opportunity pathway is currently
+ * supported?"
+ *
+ * It does not establish biological significance, prey
+ * concentration, fish presence, fishing quality, habitat
+ * suitability, or species probability.
+ *
+ * Physical structure is one possible pathway. It is never a
+ * universal prerequisite. Missing structure remains neutral.
+ */
+export function classifyOceanOpportunity({
+  environmentalOpportunityEvidence = null,
+  featureCandidates = []
+} = {}) {
+  const combinedEvidence =
+    environmentalOpportunityEvidence
+      ?.combined ??
+    environmentalOpportunityEvidence ??
+    {};
+
+  const pathways =
+    combinedEvidence?.pathways ??
+    {};
+
+  const structureAvailable =
+    pathways
+      ?.structureAssociated
+      ?.available === true;
+
+  const openWaterAvailable =
+    pathways
+      ?.openWater
+      ?.available === true;
+
+  const openWaterOrganized =
+    pathways
+      ?.openWater
+      ?.organized === true;
+
+  const persistenceAvailable =
+    pathways
+      ?.persistence
+      ?.available === true;
+
+  const candidates =
+    Array.isArray(
+      featureCandidates
+    )
+      ? featureCandidates
+      : [];
+
+  const featureCandidateCount =
+    candidates.length;
+
+  const environmentalFeatureSupported =
+    featureCandidateCount > 0;
+
+  let classification;
+  let pathway;
+  let headline;
+  let detail;
+  let reason;
+
+  if (
+    structureAvailable &&
+    openWaterOrganized
+  ) {
+    classification =
+      "combined";
+
+    pathway =
+      "structure-and-open-water";
+
+    headline =
+      "Combined environmental opportunity pathway";
+
+    detail =
+      "Verified structure evidence and independently supported open-water organization are both present.";
+
+    reason =
+      "structure-and-open-water-evidence-supported";
+  } else if (
+    openWaterOrganized
+  ) {
+    classification =
+      "open-water";
+
+    pathway =
+      "environmental-organization";
+
+    headline =
+      "Open-water environmental opportunity pathway";
+
+    detail =
+      "Environmental organization is supported without requiring nearby physical structure.";
+
+    reason =
+      "open-water-organization-supported";
+  } else if (
+    structureAvailable
+  ) {
+    classification =
+      "structure-associated";
+
+    pathway =
+      "physical-structure";
+
+    headline =
+      "Structure-associated environmental opportunity pathway";
+
+    detail =
+      "Verified physical structure evidence is present. Open-water organization has not been independently established.";
+
+    reason =
+      "structure-evidence-supported";
+  } else if (
+    environmentalFeatureSupported
+  ) {
+    classification =
+      "environmental-feature-unclassified";
+
+    pathway =
+      "observed-feature-candidate";
+
+    headline =
+      "Environmental feature candidate remains unclassified";
+
+    detail =
+      "One or more environmental feature candidates are supported, but current evidence does not yet establish a structure-associated, open-water, or combined pathway.";
+
+    reason =
+      "feature-candidate-supported-without-verified-pathway";
+  } else {
+    classification =
+      "insufficient-evidence";
+
+    pathway =
+      "unresolved";
+
+    headline =
+      "Opportunity pathway cannot yet be classified";
+
+    detail =
+      "The available evidence does not currently support a defensible structure-associated, open-water, combined, or other environmental feature pathway.";
+
+    reason =
+      "insufficient-opportunity-pathway-evidence";
+  }
+
+  const supportingPathways = [
+    structureAvailable
+      ? "structure-associated"
+      : null,
+
+    openWaterOrganized
+      ? "open-water"
+      : null,
+
+    persistenceAvailable
+      ? "persistence"
+      : null,
+
+    environmentalFeatureSupported
+      ? "environmental-feature-candidate"
+      : null
+  ].filter(Boolean);
+
+  const sourceOpportunityTypes = [
+    ...new Set(
+      candidates
+        .map(
+          candidate =>
+            candidate?.type
+        )
+        .filter(Boolean)
+    )
+  ];
+
+  const supportingEvidenceGroups = [
+    ...new Set(
+      candidates.flatMap(
+        candidate =>
+          Array.isArray(
+            candidate
+              ?.supportingEvidence
+          )
+            ? candidate
+                .supportingEvidence
+            : []
+      )
+    )
+  ];
+
+  const sourceFamilies = [
+    ...new Set(
+      candidates.flatMap(
+        candidate =>
+          Array.isArray(
+            candidate
+              ?.sourceFamilies
+          )
+            ? candidate
+                .sourceFamilies
+            : []
+      )
+    )
+  ];
+
+  const limitations = [
+    "species-neutral-classification",
+    "does-not-establish-biological-significance",
+    "does-not-establish-prey-concentration",
+    "does-not-establish-fish-presence",
+    "does-not-indicate-fishing-quality",
+    "does-not-indicate-habitat-suitability",
+    "does-not-indicate-species-probability"
+  ];
+
+  if (!openWaterOrganized) {
+    limitations.push(
+      "open-water-organization-not-established"
+    );
+  }
+
+  if (!persistenceAvailable) {
+    limitations.push(
+      "persistence-not-established"
+    );
+  }
+
+  return {
+    available:
+      classification !==
+      "insufficient-evidence",
+
+    classification,
+
+    pathway,
+
+    headline,
+
+    detail,
+
+    reason,
+
+    interpretation:
+      "species-neutral-opportunity-pathway-classification",
+
+    evidence: {
+      structureAvailable,
+      openWaterAvailable,
+      openWaterOrganized,
+      persistenceAvailable,
+      environmentalFeatureSupported,
+      featureCandidateCount
+    },
+
+    supportingPathways,
+
+    sourceOpportunityTypes,
+
+    supportingEvidenceGroups,
+
+    sourceFamilies,
+
+    rules: {
+      structureRequired: false,
+      missingStructureIsNegative: false,
+      structureAbsenceTreatment:
+        "neutral",
+      classificationIsSpeciesNeutral:
+        true,
+      classificationChangesScores:
+        false,
+      biologicalInferenceAllowed:
+        false
+    },
+
+    limitations,
+
+    methodVersion:
+      "pelora-opportunity-classification-v1.0"
+  };
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Opportunity Engine
  * ------------------------------------------------------------
  *
@@ -7980,6 +8276,17 @@ export function assessOceanOpportunity({
     ])
   ];
 
+  const pathwayClassification =
+    classifyOceanOpportunity({
+      environmentalOpportunityEvidence:
+        oceanEvidence
+          ?.environmentalOpportunityEvidence ??
+        null,
+
+      featureCandidates:
+        opportunities
+    });
+
   return {
     summary: {
       classification:
@@ -8015,6 +8322,8 @@ export function assessOceanOpportunity({
     },
 
     opportunities,
+
+    pathwayClassification,
 
     confidence: {
       score:
@@ -8074,7 +8383,7 @@ export function assessOceanOpportunity({
       "species-neutral-ocean-opportunity-assessment",
 
     methodVersion:
-      "pelora-ocean-opportunity-v1.0"
+      "pelora-ocean-opportunity-v1.1"
   };
 }
 
