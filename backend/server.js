@@ -6229,6 +6229,133 @@ function findNearestStructure(
  * state until Pelora connects verified structure data and
  * spatial interaction analysis.
  */
+function buildStructureMetadata({
+  structure,
+  distanceNm
+}) {
+  const sourceAgency =
+    structure.source?.agency ??
+    "Unknown";
+
+  const influenceRadiusMeters =
+    safeNumber(
+      structure.influenceRadius
+    );
+
+  const analysisRadiusNm =
+    influenceRadiusMeters === null
+      ? null
+      : Number(
+          (
+            influenceRadiusMeters /
+            1852
+          ).toFixed(2)
+        );
+
+  const depthMatch =
+    typeof structure.depth === "string"
+      ? structure.depth.match(
+          /([\d,.]+)\s*ft/i
+        )
+      : null;
+
+  const depthFeet =
+    depthMatch
+      ? safeNumber(
+          depthMatch[1].replace(
+            /,/g,
+            ""
+          )
+        )
+      : null;
+
+  return {
+    featureType:
+      structure.type ??
+      structure.category ??
+      "Offshore Structure",
+
+    featureName:
+      structure.name ??
+      structure.shortName ??
+      "Unnamed Structure",
+
+    featureSource:
+      sourceAgency,
+
+    nearestStructureDistanceNm:
+      distanceNm,
+
+    depthFeet,
+
+    depthChangeFeet: null,
+
+    analysisRadiusNm,
+
+    bathymetricGradient: null,
+
+    observedAt:
+      structure.source?.reportDate ??
+      structure.source?.importedAt ??
+      null,
+
+    ageHours: null,
+
+    freshness:
+      "verified-static"
+  };
+}
+
+
+function evaluateCurrentInteraction() {
+  return {
+    currentInteraction: false
+  };
+}
+
+
+function evaluateThermalInteraction() {
+  return {
+    thermalInteraction: false
+  };
+}
+
+
+function evaluateProductivityInteraction() {
+  return {
+    productivityInteraction: false
+  };
+}
+
+
+function buildStructureConfidence({
+  structure,
+  featureSource
+}) {
+  const sourceVerified =
+    structure.source?.verified === true ||
+    featureSource === "BOEM";
+
+  return {
+    score:
+      sourceVerified
+        ? 95
+        : 80,
+
+    level:
+      sourceVerified
+        ? "High"
+        : "Moderate",
+
+    limitations: [
+      "location-may-be-approximate",
+      "nearest-structure-only",
+      "structure-presence-does-not-confirm-biological-activity"
+    ]
+  };
+}
+
+
 function buildStructureEvidence({
   latitude,
   longitude
@@ -6351,45 +6478,37 @@ function buildStructureEvidence({
   const distanceNm =
     nearest.distanceNm;
 
-  const sourceAgency =
-    structure.source?.agency ??
-    "Unknown";
+  const metadata =
+    buildStructureMetadata({
+      structure,
+      distanceNm
+    });
 
-  const influenceRadiusMeters =
-    safeNumber(
-      structure.influenceRadius
+  const currentInteraction =
+    evaluateCurrentInteraction();
+
+  const thermalInteraction =
+    evaluateThermalInteraction();
+
+  const productivityInteraction =
+    evaluateProductivityInteraction();
+
+  const multiSignalInteraction =
+    currentInteraction
+      .currentInteraction === true &&
+    (
+      thermalInteraction
+        .thermalInteraction === true ||
+      productivityInteraction
+        .productivityInteraction === true
     );
 
-  const analysisRadiusNm =
-    influenceRadiusMeters === null
-      ? null
-      : Number(
-          (
-            influenceRadiusMeters /
-            1852
-          ).toFixed(2)
-        );
-
-  const depthMatch =
-    typeof structure.depth === "string"
-      ? structure.depth.match(
-          /([\d,.]+)\s*ft/i
-        )
-      : null;
-
-  const depthFeet =
-    depthMatch
-      ? safeNumber(
-          depthMatch[1].replace(
-            /,/g,
-            ""
-          )
-        )
-      : null;
-
-  const sourceVerified =
-    structure.source?.verified === true ||
-    sourceAgency === "BOEM";
+  const confidence =
+    buildStructureConfidence({
+      structure,
+      featureSource:
+        metadata.featureSource
+    });
 
   return {
     available: true,
@@ -6401,7 +6520,7 @@ function buildStructureEvidence({
       "Verified offshore structure identified",
 
     detail:
-      `${structure.name} is the nearest verified structure, approximately ${distanceNm} nautical miles from the analysis location.`,
+      `${metadata.featureName} is the nearest verified structure, approximately ${distanceNm} nautical miles from the analysis location.`,
 
     reason:
       "nearest-verified-structure-identified",
@@ -6410,66 +6529,24 @@ function buildStructureEvidence({
       "species-neutral-structure-evidence",
 
     values: {
-      featureType:
-        structure.type ??
-        structure.category ??
-        "Offshore Structure",
+      ...metadata,
 
-      featureName:
-        structure.name ??
-        structure.shortName ??
-        "Unnamed Structure",
+      currentInteraction:
+        currentInteraction
+          .currentInteraction,
 
-      featureSource:
-        sourceAgency,
+      thermalInteraction:
+        thermalInteraction
+          .thermalInteraction,
 
-      nearestStructureDistanceNm:
-        distanceNm,
+      productivityInteraction:
+        productivityInteraction
+          .productivityInteraction,
 
-      depthFeet,
-
-      depthChangeFeet: null,
-
-      analysisRadiusNm,
-
-      bathymetricGradient: null,
-
-      currentInteraction: false,
-
-      thermalInteraction: false,
-
-      productivityInteraction: false,
-
-      multiSignalInteraction: false,
-
-      observedAt:
-        structure.source?.reportDate ??
-        structure.source?.importedAt ??
-        null,
-
-      ageHours: null,
-
-      freshness:
-        "verified-static"
+      multiSignalInteraction
     },
 
-    confidence: {
-      score:
-        sourceVerified
-          ? 95
-          : 80,
-
-      level:
-        sourceVerified
-          ? "High"
-          : "Moderate",
-
-      limitations: [
-        "location-may-be-approximate",
-        "nearest-structure-only",
-        "structure-presence-does-not-confirm-biological-activity"
-      ]
-    },
+    confidence,
 
     limitations: [
       "nearest-structure-only",
