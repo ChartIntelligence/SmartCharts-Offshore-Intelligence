@@ -5568,3 +5568,142 @@ assert.ok(
 console.log(
   "PASS Structure Evidence Contract v1.0 remains species-neutral and unavailable until verified structure analysis is connected"
 );
+
+
+/**
+ * ------------------------------------------------------------
+ * Persistence Evidence Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const persistenceEvidenceContractResult =
+  assessBlueMarlinHabitat({
+    oceanOpportunity: {
+      opportunities: [],
+      confidence: {
+        score: 0,
+        level: "Very Low"
+      },
+      limitations: []
+    },
+
+    oceanEvidence: {
+      groups: {},
+      confidence: {
+        score: 0,
+        level: "Very Low"
+      }
+    }
+  });
+
+const persistenceEvidence =
+  persistenceEvidenceContractResult
+    .relationshipGroups
+    .persistence;
+
+assert.equal(
+  persistenceEvidence.available,
+  false
+);
+
+assert.equal(
+  persistenceEvidence.classification,
+  "unavailable"
+);
+
+assert.equal(
+  persistenceEvidence.headline,
+  "Feature persistence unavailable"
+);
+
+assert.equal(
+  persistenceEvidence.reason,
+  "persistence-analysis-not-yet-implemented"
+);
+
+assert.equal(
+  persistenceEvidence.interpretation,
+  "species-neutral-persistence-evidence"
+);
+
+assert.equal(
+  persistenceEvidence.score,
+  0
+);
+
+assert.equal(
+  persistenceEvidence.maximumScore,
+  5
+);
+
+assert.equal(
+  persistenceEvidence.values
+    .lifecycleState,
+  null
+);
+
+assert.equal(
+  persistenceEvidence.values
+    .observationWindowHours,
+  null
+);
+
+assert.equal(
+  persistenceEvidence.values
+    .sampleCount,
+  null
+);
+
+assert.equal(
+  persistenceEvidence.values
+    .multiSignalPersistence,
+  false
+);
+
+assert.equal(
+  persistenceEvidence.values
+    .freshness,
+  "unknown"
+);
+
+assert.equal(
+  persistenceEvidence.confidence
+    .score,
+  0
+);
+
+assert.equal(
+  persistenceEvidence.confidence
+    .level,
+  "Unavailable"
+);
+
+assert.ok(
+  persistenceEvidence.confidence
+    .limitations.includes(
+      "historical-observations-not-connected"
+    )
+);
+
+assert.ok(
+  persistenceEvidence.limitations
+    .includes(
+      "single-time-observation-does-not-establish-persistence"
+    )
+);
+
+assert.ok(
+  persistenceEvidence.limitations
+    .includes(
+      "persistence-does-not-establish-prey-or-fish-presence"
+    )
+);
+
+assert.deepEqual(
+  persistenceEvidence.drivers,
+  []
+);
+
+console.log(
+  "PASS Persistence Evidence Contract v1.0 remains species-neutral and unavailable until verified temporal analysis is connected"
+);

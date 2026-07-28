@@ -6195,6 +6195,90 @@ function buildStructureEvidence() {
 
 /**
  * ------------------------------------------------------------
+ * Persistence Evidence Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Provide a stable, species-neutral contract for describing
+ * whether an observed environmental feature has remained
+ * organized through time.
+ *
+ * Persistence cannot be established from a single-time
+ * observation. This contract intentionally remains unavailable
+ * until verified historical or repeated observations are
+ * connected and assessed.
+ */
+function buildPersistenceEvidence() {
+  return {
+    available: false,
+
+    classification:
+      "unavailable",
+
+    headline:
+      "Feature persistence unavailable",
+
+    detail:
+      "Repeated observations have not yet been analyzed to determine whether this environmental feature is developing, stable, persistent, or fading.",
+
+    reason:
+      "persistence-analysis-not-yet-implemented",
+
+    values: {
+      lifecycleState: null,
+      observationWindowHours:
+        null,
+      sampleCount: null,
+      firstObservedAt: null,
+      lastObservedAt: null,
+      durationHours: null,
+      temporalAgreement: null,
+      featureMovementNm: null,
+      temperatureStability:
+        null,
+      currentStability: null,
+      productivityConsistency:
+        null,
+      multiSignalPersistence:
+        false,
+      observedAt: null,
+      ageHours: null,
+      freshness:
+        "unknown"
+    },
+
+    confidence: {
+      score: 0,
+      level:
+        "Unavailable",
+
+      limitations: [
+        "historical-observations-not-connected",
+        "temporal-feature-comparison-not-assessed"
+      ]
+    },
+
+    drivers: [],
+
+    limitations: [
+      "historical-observations-not-connected",
+      "repeated-observations-not-assessed",
+      "feature-duration-not-established",
+      "feature-movement-not-assessed",
+      "forecast-continuity-not-assessed",
+      "single-time-observation-does-not-establish-persistence",
+      "persistence-does-not-establish-prey-or-fish-presence"
+    ],
+
+    interpretation:
+      "species-neutral-persistence-evidence"
+  };
+}
+
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Opportunity Engine
  * ------------------------------------------------------------
  *
@@ -8080,21 +8164,39 @@ export function assessBlueMarlinHabitat({
    * Relationship Group 6:
    * Persistence
    *
-   * Persistence cannot be established from a single-time
-   * environmental assessment.
+   * Persistence Evidence Contract v1.0 currently remains
+   * unavailable because only a single-time environmental
+   * assessment is connected.
+   */
+  const persistenceEvidence =
+    buildPersistenceEvidence();
+
+  /*
+   * Species-neutral persistence evidence does not contribute
+   * to blue marlin habitat suitability until verified temporal
+   * analysis is available.
    */
   const persistenceScore = 0;
 
-  const persistenceClassification =
-    "not-established";
-
-  negativeDrivers.push(
-    "feature-persistence-not-established"
-  );
+  if (
+    persistenceEvidence
+      ?.available !== true
+  ) {
+    negativeDrivers.push(
+      "feature-persistence-not-established"
+    );
+  }
 
   limitations.push(
-    "single-time-assessment",
-    "historical-feature-tracking-not-yet-implemented"
+    ...(
+      Array.isArray(
+        persistenceEvidence
+          ?.limitations
+      )
+        ? persistenceEvidence
+            .limitations
+        : []
+    )
   );
 
 
@@ -8277,8 +8379,7 @@ export function assessBlueMarlinHabitat({
       },
 
       persistence: {
-        classification:
-          persistenceClassification,
+        ...persistenceEvidence,
 
         score:
           persistenceScore,
