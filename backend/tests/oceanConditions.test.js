@@ -4,7 +4,9 @@ import {
   assessOceanConditions,
   assessOceanEvidence,
   assessOceanOpportunity,
-  assessBlueMarlinHabitat
+  assessBlueMarlinHabitat,
+  buildOpenWaterEvidence,
+  buildEnvironmentalOpportunityEvidence
 } from "../server.js";
 
 
@@ -6156,4 +6158,587 @@ assert.deepEqual(
 
 console.log(
   "PASS Persistence Evidence Contract v1.0 remains species-neutral and unavailable until verified temporal analysis is connected"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Open-Water Organization Evidence Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableOpenWaterEvidence =
+  buildOpenWaterEvidence();
+
+assert.equal(
+  unavailableOpenWaterEvidence.available,
+  false
+);
+
+assert.equal(
+  unavailableOpenWaterEvidence.classification,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableOpenWaterEvidence.values
+    .organized,
+  false
+);
+
+assert.equal(
+  unavailableOpenWaterEvidence.values
+    .organizationSignalCount,
+  0
+);
+
+assert.equal(
+  unavailableOpenWaterEvidence.values
+    .structureRequired,
+  false
+);
+
+assert.equal(
+  unavailableOpenWaterEvidence.confidence
+    .score,
+  0
+);
+
+assert.equal(
+  unavailableOpenWaterEvidence.confidence
+    .level,
+  "Unavailable"
+);
+
+assert.ok(
+  unavailableOpenWaterEvidence.limitations
+    .includes(
+      "open-water-organization-does-not-establish-fish-presence"
+    )
+);
+
+console.log(
+  "PASS Open-Water Evidence remains conservative when spatial environmental data is unavailable"
+);
+
+
+const openWaterOnlyEvidence =
+  buildOpenWaterEvidence({
+    current: {
+      available: true,
+      convergenceDetected: true,
+      shearDetected: false,
+      currentEdgeDetected: false,
+      eddyBoundaryDetected: false,
+      observedAt:
+        "2026-07-28T18:00:00.000Z",
+      ageHours: 1,
+      freshness: "fresh"
+    }
+  });
+
+assert.equal(
+  openWaterOnlyEvidence.available,
+  true
+);
+
+assert.equal(
+  openWaterOnlyEvidence.classification,
+  "single-signal-open-water-organization"
+);
+
+assert.equal(
+  openWaterOnlyEvidence.values
+    .organized,
+  true
+);
+
+assert.equal(
+  openWaterOnlyEvidence.values
+    .organizationSignalCount,
+  1
+);
+
+assert.equal(
+  openWaterOnlyEvidence.values
+    .currentConvergenceDetected,
+  true
+);
+
+assert.equal(
+  openWaterOnlyEvidence.values
+    .structureRequired,
+  false
+);
+
+assert.deepEqual(
+  openWaterOnlyEvidence.drivers,
+  [
+    "current-convergence"
+  ]
+);
+
+console.log(
+  "PASS Open-Water Evidence identifies environmental organization without requiring physical structure"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Environmental Opportunity Evidence Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableEnvironmentalEvidence =
+  buildEnvironmentalOpportunityEvidence({
+    structureEvidence: {
+      available: false
+    },
+
+    openWaterEvidence:
+      unavailableOpenWaterEvidence,
+
+    persistenceEvidence: {
+      available: false
+    }
+  });
+
+assert.equal(
+  unavailableEnvironmentalEvidence.available,
+  false
+);
+
+assert.equal(
+  unavailableEnvironmentalEvidence.classification,
+  "insufficient-environmental-opportunity-evidence"
+);
+
+assert.equal(
+  unavailableEnvironmentalEvidence.rules
+    .structureRequired,
+  false
+);
+
+assert.equal(
+  unavailableEnvironmentalEvidence.rules
+    .missingStructureIsNegative,
+  false
+);
+
+assert.equal(
+  unavailableEnvironmentalEvidence.rules
+    .structureAbsenceTreatment,
+  "neutral"
+);
+
+console.log(
+  "PASS Environmental Opportunity Evidence treats missing structure as neutral"
+);
+
+
+const openWaterEnvironmentalEvidence =
+  buildEnvironmentalOpportunityEvidence({
+    structureEvidence: {
+      available: false,
+      classification:
+        "unavailable"
+    },
+
+    openWaterEvidence:
+      openWaterOnlyEvidence,
+
+    persistenceEvidence: {
+      available: false,
+      classification:
+        "unavailable"
+    }
+  });
+
+assert.equal(
+  openWaterEnvironmentalEvidence.available,
+  true
+);
+
+assert.equal(
+  openWaterEnvironmentalEvidence.classification,
+  "open-water-evidence"
+);
+
+assert.equal(
+  openWaterEnvironmentalEvidence.pathways
+    .structureAssociated
+    .available,
+  false
+);
+
+assert.equal(
+  openWaterEnvironmentalEvidence.pathways
+    .openWater
+    .available,
+  true
+);
+
+assert.equal(
+  openWaterEnvironmentalEvidence.pathways
+    .openWater
+    .organized,
+  true
+);
+
+assert.equal(
+  openWaterEnvironmentalEvidence.rules
+    .missingStructureIsNegative,
+  false
+);
+
+console.log(
+  "PASS Environmental Opportunity Evidence supports a first-class open-water-only pathway"
+);
+
+
+const structureOnlyEnvironmentalEvidence =
+  buildEnvironmentalOpportunityEvidence({
+    structureEvidence: {
+      available: true,
+      classification:
+        "verified-structure-proximity"
+    },
+
+    openWaterEvidence:
+      unavailableOpenWaterEvidence,
+
+    persistenceEvidence: {
+      available: false,
+      classification:
+        "unavailable"
+    }
+  });
+
+assert.equal(
+  structureOnlyEnvironmentalEvidence.available,
+  true
+);
+
+assert.equal(
+  structureOnlyEnvironmentalEvidence.classification,
+  "structure-evidence"
+);
+
+assert.equal(
+  structureOnlyEnvironmentalEvidence.pathways
+    .structureAssociated
+    .available,
+  true
+);
+
+assert.equal(
+  structureOnlyEnvironmentalEvidence.pathways
+    .openWater
+    .organized,
+  false
+);
+
+console.log(
+  "PASS Environmental Opportunity Evidence preserves the independent structure-associated pathway"
+);
+
+
+const multiSignalOpenWaterEvidence =
+  buildOpenWaterEvidence({
+    current: {
+      available: true,
+      currentEdgeDetected: true,
+      eddyBoundaryDetected: true,
+      observedAt:
+        "2026-07-28T18:00:00.000Z",
+      ageHours: 1,
+      freshness: "fresh"
+    },
+
+    thermal: {
+      available: true,
+      boundaryDetected: true,
+      observedAt:
+        "2026-07-28T18:00:00.000Z",
+      ageHours: 1,
+      freshness: "fresh"
+    }
+  });
+
+const combinedEnvironmentalEvidence =
+  buildEnvironmentalOpportunityEvidence({
+    structureEvidence: {
+      available: true,
+      classification:
+        "verified-structure-proximity"
+    },
+
+    openWaterEvidence:
+      multiSignalOpenWaterEvidence,
+
+    persistenceEvidence: {
+      available: false,
+      classification:
+        "unavailable"
+    }
+  });
+
+assert.equal(
+  multiSignalOpenWaterEvidence.classification,
+  "multi-signal-open-water-organization"
+);
+
+assert.equal(
+  multiSignalOpenWaterEvidence.values
+    .organizationSignalCount,
+  3
+);
+
+assert.equal(
+  combinedEnvironmentalEvidence.classification,
+  "structure-and-open-water-evidence"
+);
+
+assert.equal(
+  combinedEnvironmentalEvidence.pathways
+    .structureAssociated
+    .available,
+  true
+);
+
+assert.equal(
+  combinedEnvironmentalEvidence.pathways
+    .openWater
+    .organized,
+  true
+);
+
+assert.equal(
+  combinedEnvironmentalEvidence.rules
+    .structureRequired,
+  false
+);
+
+console.log(
+  "PASS Environmental Opportunity Evidence recognizes combined structure and open-water pathways"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Environmental Opportunity Evidence integration
+ * ------------------------------------------------------------
+ */
+
+const integratedEnvironmentalEvidence =
+  assessOceanEvidence({
+    latitude: 28.25,
+    longitude: -85.58,
+
+    sst: null,
+    chlorophyll: null,
+    currents: null,
+
+    dataQuality: {}
+  });
+
+assert.ok(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+);
+
+assert.ok(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+);
+
+assert.ok(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .persistence
+);
+
+assert.ok(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .combined
+);
+
+assert.equal(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .organized,
+  false
+);
+
+assert.equal(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .structureRequired,
+  false
+);
+
+assert.equal(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .persistence
+    .available,
+  false
+);
+
+assert.equal(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .combined
+    .rules
+    .structureRequired,
+  false
+);
+
+assert.equal(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .combined
+    .rules
+    .missingStructureIsNegative,
+  false
+);
+
+assert.equal(
+  integratedEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .combined
+    .rules
+    .structureAbsenceTreatment,
+  "neutral"
+);
+
+assert.deepEqual(
+  Object.keys(
+    integratedEnvironmentalEvidence.groups
+  ),
+  [
+    "temperature",
+    "current",
+    "productivity",
+    "clarity",
+    "structure"
+  ]
+);
+
+assert.equal(
+  integratedEnvironmentalEvidence
+    .methodVersion,
+  "pelora-ocean-evidence-v1.2"
+);
+
+console.log(
+  "PASS Ocean Evidence exposes environmental opportunity contracts without changing established evidence groups"
+);
+
+
+const singlePointEnvironmentalEvidence =
+  assessOceanEvidence({
+    latitude: 28.25,
+    longitude: -85.58,
+
+    sst: {
+      temperatureFahrenheit: 82,
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    chlorophyll: null,
+
+    currents: {
+      speedKnots: 1.5,
+      directionDegrees: 220,
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    dataQuality: {}
+  });
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .currentConvergenceDetected,
+  false
+);
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .currentShearDetected,
+  false
+);
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .currentEdgeDetected,
+  false
+);
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .eddyBoundaryDetected,
+  false
+);
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .thermalBoundaryDetected,
+  false
+);
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .productivityBoundaryDetected,
+  false
+);
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .waterMassInteractionDetected,
+  false
+);
+
+assert.equal(
+  singlePointEnvironmentalEvidence
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .organized,
+  false
+);
+
+console.log(
+  "PASS Ocean Evidence does not infer open-water spatial organization from single-point observations"
 );

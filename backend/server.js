@@ -4423,6 +4423,108 @@ export function assessOceanEvidence({
       current
     });
 
+  /*
+   * Open-water evidence currently receives only availability
+   * and observation metadata from the connected evidence
+   * groups.
+   *
+   * Spatial organization flags intentionally remain false.
+   * Single-point observations cannot establish convergence,
+   * shear, current edges, eddy boundaries, thermal boundaries,
+   * productivity boundaries, or water-mass interaction.
+   */
+  const openWater =
+    buildOpenWaterEvidence({
+      current: {
+        available:
+          current?.available === true,
+
+        observedAt:
+          current?.values
+            ?.observedAt ??
+          current?.observedAt ??
+          null,
+
+        ageHours:
+          current?.values
+            ?.ageHours ??
+          current?.ageHours ??
+          null,
+
+        freshness:
+          current?.values
+            ?.freshness ??
+          current?.freshness ??
+          "unknown"
+      },
+
+      thermal: {
+        available:
+          temperature?.available === true,
+
+        observedAt:
+          temperature?.values
+            ?.observedAt ??
+          temperature?.observedAt ??
+          null,
+
+        ageHours:
+          temperature?.values
+            ?.ageHours ??
+          temperature?.ageHours ??
+          null,
+
+        freshness:
+          temperature?.values
+            ?.freshness ??
+          temperature?.freshness ??
+          "unknown"
+      },
+
+      productivity: {
+        available:
+          productivity?.available === true,
+
+        observedAt:
+          productivity?.values
+            ?.observedAt ??
+          productivity?.observedAt ??
+          null,
+
+        ageHours:
+          productivity?.values
+            ?.ageHours ??
+          productivity?.ageHours ??
+          null,
+
+        freshness:
+          productivity?.values
+            ?.freshness ??
+          productivity?.freshness ??
+          "unknown"
+      }
+    });
+
+  const persistence =
+    buildPersistenceEvidence();
+
+  const environmentalOpportunity =
+    buildEnvironmentalOpportunityEvidence({
+      structureEvidence:
+        structure,
+
+      openWaterEvidence:
+        openWater,
+
+      persistenceEvidence:
+        persistence
+    });
+
+  /*
+   * Keep the established evidence groups unchanged so this
+   * contract integration cannot alter existing confidence,
+   * summary, opportunity, or species-model behavior.
+   */
   const groups = {
     temperature,
     current,
@@ -4464,12 +4566,24 @@ export function assessOceanEvidence({
 
     groups,
 
+    /*
+     * Environmental opportunity pathways remain separate from
+     * the established evidence groups until their contribution
+     * to confidence and scoring is scientifically governed.
+     */
+    environmentalOpportunityEvidence: {
+      openWater,
+      persistence,
+      combined:
+        environmentalOpportunity
+    },
+
     confidence,
 
     limitations,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.1"
+      "pelora-ocean-evidence-v1.2"
   };
 }
 
@@ -6705,6 +6819,417 @@ current
       "does-not-evaluate-productivity-interaction",
       "does-not-establish-fish-presence",
       "does-not-indicate-species-suitability"
+    ]
+  };
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Open-Water Organization Evidence Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Provide a stable, species-neutral contract for describing
+ * environmental organization that may exist independently of
+ * physical structure.
+ *
+ * Open-water opportunity may be supported by verified current
+ * convergence, current shear, current edges, eddy boundaries,
+ * thermal boundaries, productivity boundaries, or interacting
+ * water masses.
+ *
+ * Physical structure is not required. The absence of nearby
+ * structure must remain neutral unless a later species-specific
+ * model explicitly requires it.
+ */
+export function buildOpenWaterEvidence({
+  current = null,
+  thermal = null,
+  productivity = null
+} = {}) {
+  const currentAvailable =
+    current?.available === true;
+
+  const thermalAvailable =
+    thermal?.available === true;
+
+  const productivityAvailable =
+    productivity?.available === true;
+
+  /*
+   * A single current observation can describe local current
+   * speed and direction, but cannot establish spatial
+   * convergence, shear, an edge, or an eddy boundary.
+   */
+  const currentConvergenceDetected =
+    current?.convergenceDetected === true;
+
+  const currentShearDetected =
+    current?.shearDetected === true;
+
+  const currentEdgeDetected =
+    current?.currentEdgeDetected === true;
+
+  const eddyBoundaryDetected =
+    current?.eddyBoundaryDetected === true;
+
+  const thermalBoundaryDetected =
+    thermal?.boundaryDetected === true;
+
+  const productivityBoundaryDetected =
+    productivity?.boundaryDetected === true;
+
+  const waterMassInteractionDetected =
+    thermal?.waterMassInteractionDetected === true ||
+    productivity?.waterMassInteractionDetected === true;
+
+  const organizationSignals = [
+    currentConvergenceDetected,
+    currentShearDetected,
+    currentEdgeDetected,
+    eddyBoundaryDetected,
+    thermalBoundaryDetected,
+    productivityBoundaryDetected,
+    waterMassInteractionDetected
+  ];
+
+  const organizationSignalCount =
+    organizationSignals.filter(Boolean).length;
+
+  const available =
+    currentAvailable ||
+    thermalAvailable ||
+    productivityAvailable;
+
+  const organized =
+    organizationSignalCount > 0;
+
+  let classification;
+  let headline;
+  let detail;
+  let reason;
+
+  if (!available) {
+    classification =
+      "unavailable";
+
+    headline =
+      "Open-water organization unavailable";
+
+    detail =
+      "Spatial current, thermal-boundary, productivity-boundary, and water-mass interaction evidence has not yet been connected.";
+
+    reason =
+      "open-water-spatial-analysis-not-yet-connected";
+  } else if (!organized) {
+    classification =
+      "observations-available-no-verified-organization";
+
+    headline =
+      "No open-water organization has been verified";
+
+    detail =
+      "Available observations do not currently establish convergence, shear, an eddy boundary, a thermal boundary, a productivity boundary, or interacting water masses.";
+
+    reason =
+      "no-verified-open-water-organization";
+  } else if (
+    organizationSignalCount >= 2
+  ) {
+    classification =
+      "multi-signal-open-water-organization";
+
+    headline =
+      "Multiple open-water organization signals identified";
+
+    detail =
+      "Multiple independent environmental signals support a species-neutral open-water organization candidate.";
+
+    reason =
+      "multiple-open-water-signals-identified";
+  } else {
+    classification =
+      "single-signal-open-water-organization";
+
+    headline =
+      "Open-water organization signal identified";
+
+    detail =
+      "One verified environmental signal supports a species-neutral open-water organization candidate.";
+
+    reason =
+      "single-open-water-signal-identified";
+  }
+
+  const limitations = [];
+
+  if (!currentAvailable) {
+    limitations.push(
+      "spatial-current-analysis-unavailable"
+    );
+  }
+
+  if (!thermalAvailable) {
+    limitations.push(
+      "thermal-boundary-analysis-unavailable"
+    );
+  }
+
+  if (!productivityAvailable) {
+    limitations.push(
+      "productivity-boundary-analysis-unavailable"
+    );
+  }
+
+  limitations.push(
+    "single-point-observations-do-not-establish-spatial-organization",
+    "open-water-organization-does-not-establish-prey-concentration",
+    "open-water-organization-does-not-establish-fish-presence",
+    "does-not-indicate-species-suitability"
+  );
+
+  return {
+    available,
+
+    classification,
+
+    headline,
+
+    detail,
+
+    reason,
+
+    interpretation:
+      "species-neutral-open-water-organization-evidence",
+
+    values: {
+      organized,
+      organizationSignalCount,
+
+      currentConvergenceDetected,
+      currentShearDetected,
+      currentEdgeDetected,
+      eddyBoundaryDetected,
+
+      thermalBoundaryDetected,
+      productivityBoundaryDetected,
+      waterMassInteractionDetected,
+
+      structureRequired: false,
+
+      observedAt:
+        current?.observedAt ??
+        thermal?.observedAt ??
+        productivity?.observedAt ??
+        null,
+
+      ageHours:
+        current?.ageHours ??
+        thermal?.ageHours ??
+        productivity?.ageHours ??
+        null,
+
+      freshness:
+        current?.freshness ??
+        thermal?.freshness ??
+        productivity?.freshness ??
+        "unknown"
+    },
+
+    confidence: {
+      score:
+        !available
+          ? 0
+          : organizationSignalCount >= 2
+            ? 80
+            : organized
+              ? 65
+              : 40,
+
+      level:
+        !available
+          ? "Unavailable"
+          : organizationSignalCount >= 2
+            ? "High"
+            : organized
+              ? "Moderate"
+              : "Limited",
+
+      limitations
+    },
+
+    drivers: [
+      currentConvergenceDetected
+        ? "current-convergence"
+        : null,
+
+      currentShearDetected
+        ? "current-shear"
+        : null,
+
+      currentEdgeDetected
+        ? "current-edge"
+        : null,
+
+      eddyBoundaryDetected
+        ? "eddy-boundary"
+        : null,
+
+      thermalBoundaryDetected
+        ? "thermal-boundary"
+        : null,
+
+      productivityBoundaryDetected
+        ? "productivity-boundary"
+        : null,
+
+      waterMassInteractionDetected
+        ? "water-mass-interaction"
+        : null
+    ].filter(Boolean),
+
+    limitations
+  };
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Environmental Opportunity Evidence Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Combine independent, species-neutral evidence pathways
+ * without making physical structure a prerequisite.
+ *
+ * Structure evidence, open-water organization evidence, and
+ * persistence evidence remain independently inspectable.
+ */
+export function buildEnvironmentalOpportunityEvidence({
+  structureEvidence = null,
+  openWaterEvidence = null,
+  persistenceEvidence = null
+} = {}) {
+  const structureAvailable =
+    structureEvidence?.available === true;
+
+  const openWaterAvailable =
+    openWaterEvidence?.available === true;
+
+  const openWaterOrganized =
+    openWaterEvidence
+      ?.values
+      ?.organized === true;
+
+  const persistenceAvailable =
+    persistenceEvidence?.available === true;
+
+  let classification;
+  let headline;
+  let detail;
+
+  if (
+    structureAvailable &&
+    openWaterOrganized
+  ) {
+    classification =
+      "structure-and-open-water-evidence";
+
+    headline =
+      "Structure and open-water evidence are both present";
+
+    detail =
+      "A verified structure is nearby and independent environmental organization is also supported.";
+  } else if (openWaterOrganized) {
+    classification =
+      "open-water-evidence";
+
+    headline =
+      "Open-water opportunity evidence is present";
+
+    detail =
+      "Environmental organization is supported without requiring nearby physical structure.";
+  } else if (structureAvailable) {
+    classification =
+      "structure-evidence";
+
+    headline =
+      "Structure evidence is present";
+
+    detail =
+      "A verified offshore structure is nearby, but open-water environmental organization has not been established.";
+  } else {
+    classification =
+      "insufficient-environmental-opportunity-evidence";
+
+    headline =
+      "Environmental opportunity evidence remains limited";
+
+    detail =
+      "Neither verified nearby structure nor verified open-water organization currently supports an opportunity pathway.";
+  }
+
+  const available =
+    structureAvailable ||
+    openWaterAvailable ||
+    persistenceAvailable;
+
+  return {
+    available,
+
+    classification,
+
+    headline,
+
+    detail,
+
+    interpretation:
+      "species-neutral-environmental-opportunity-evidence",
+
+    pathways: {
+      structureAssociated: {
+        available:
+          structureAvailable,
+
+        evidence:
+          structureEvidence
+      },
+
+      openWater: {
+        available:
+          openWaterAvailable,
+
+        organized:
+          openWaterOrganized,
+
+        evidence:
+          openWaterEvidence
+      },
+
+      persistence: {
+        available:
+          persistenceAvailable,
+
+        evidence:
+          persistenceEvidence
+      }
+    },
+
+    rules: {
+      structureRequired: false,
+      missingStructureIsNegative: false,
+      structureAbsenceTreatment:
+        "neutral",
+      speciesSpecificRequirementsDeferred:
+        true
+    },
+
+    limitations: [
+      "does-not-establish-prey-concentration",
+      "does-not-establish-fish-presence",
+      "does-not-indicate-species-suitability",
+      "species-specific-interpretation-not-applied"
     ]
   };
 }
