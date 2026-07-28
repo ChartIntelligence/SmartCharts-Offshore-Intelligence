@@ -12,7 +12,11 @@ import {
   interpretBlueMarlinPathway,
   resolveBlueMarlinOpportunityType,
   resolveSpeciesOpportunityType,
-  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE,
+  SPECIES_RELATIONSHIP_IMPORTANCE,
+  SPECIES_KNOWLEDGE_FRAMEWORK,
+  resolveRelationshipImportance,
+  validateSpeciesKnowledgeProfile
 } from "../server.js";
 
 
@@ -8116,7 +8120,7 @@ assert.equal(
 assert.equal(
   blueMarlinAfterRelationshipContext
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.4"
+  "pelora-blue-marlin-hsm-v1.5"
 );
 
 console.log(
@@ -8664,7 +8668,7 @@ assert.deepEqual(
 assert.equal(
   habitatWithResolvedPathway
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.4"
+  "pelora-blue-marlin-hsm-v1.5"
 );
 
 console.log(
@@ -9428,7 +9432,7 @@ assert.deepEqual(
 assert.equal(
   habitatWithTypeResolutionPathway
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.4"
+  "pelora-blue-marlin-hsm-v1.5"
 );
 
 console.log(
@@ -9469,7 +9473,7 @@ assert.equal(
     ["feeding-corridor"]
     .signals
     .organizedCurrent,
-  3
+  "strong"
 );
 
 assert.equal(
@@ -9478,7 +9482,7 @@ assert.equal(
     ["productive-water-boundary"]
     .signals
     .productivityBoundary,
-  5
+  "critical"
 );
 
 
@@ -9620,13 +9624,13 @@ assert.equal(
   genericBlueMarlinResolution
     .knowledgeProfile
     .methodVersion,
-  "pelora-blue-marlin-opportunity-type-profile-v1.0"
+  "pelora-blue-marlin-species-knowledge-profile-v1.0"
 );
 
 assert.equal(
   genericBlueMarlinResolution
     .methodVersion,
-  "pelora-species-opportunity-type-resolution-v1.0"
+  "pelora-species-opportunity-type-resolution-v1.1"
 );
 
 console.log(
@@ -9753,9 +9757,291 @@ assert.equal(
 assert.equal(
   wrappedBlueMarlinResolution
     .methodVersion,
-  "pelora-blue-marlin-opportunity-type-resolution-v1.1"
+  "pelora-blue-marlin-opportunity-type-resolution-v1.2"
 );
 
 console.log(
   "PASS Blue Marlin resolver wrapper preserves generic resolution behavior"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Species Knowledge Framework v1.0
+ * ------------------------------------------------------------
+ */
+
+assert.deepEqual(
+  SPECIES_RELATIONSHIP_IMPORTANCE,
+  {
+    unavailable: 0,
+    supporting: 1,
+    moderate: 2,
+    strong: 3,
+    critical: 5
+  }
+);
+
+assert.equal(
+  resolveRelationshipImportance(
+    "critical"
+  ),
+  5
+);
+
+assert.equal(
+  resolveRelationshipImportance(
+    "strong"
+  ),
+  3
+);
+
+assert.equal(
+  resolveRelationshipImportance(
+    "moderate"
+  ),
+  2
+);
+
+assert.equal(
+  resolveRelationshipImportance(
+    "supporting"
+  ),
+  1
+);
+
+assert.equal(
+  resolveRelationshipImportance(
+    "unknown"
+  ),
+  0
+);
+
+console.log(
+  "PASS Species Knowledge Framework translates governed importance levels"
+);
+
+
+assert.equal(
+  SPECIES_KNOWLEDGE_FRAMEWORK
+    .methodVersion,
+  "pelora-species-knowledge-framework-v1.0"
+);
+
+assert.ok(
+  SPECIES_KNOWLEDGE_FRAMEWORK
+    .requiredRelationshipGroups
+    .includes(
+      "oceanMovement"
+    )
+);
+
+assert.ok(
+  SPECIES_KNOWLEDGE_FRAMEWORK
+    .requiredRelationshipGroups
+    .includes(
+      "persistence"
+    )
+);
+
+console.log(
+  "PASS Species Knowledge Framework defines canonical relationship groups"
+);
+
+
+const blueMarlinProfileValidation =
+  validateSpeciesKnowledgeProfile(
+    BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+  );
+
+assert.equal(
+  blueMarlinProfileValidation
+    .valid,
+  true
+);
+
+assert.deepEqual(
+  blueMarlinProfileValidation
+    .errors,
+  []
+);
+
+assert.deepEqual(
+  blueMarlinProfileValidation
+    .warnings,
+  []
+);
+
+assert.equal(
+  blueMarlinProfileValidation
+    .knowledgeStatus,
+  "provisional"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .commonName,
+  "Blue Marlin"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .scientificName,
+  "Makaira nigricans"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .relationshipGroups
+    .structureInteraction
+    .required,
+  false
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .opportunityTypes
+    ["feeding-corridor"]
+    .signals
+    .organizedCurrent,
+  "strong"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .opportunityTypes
+    ["productive-water-boundary"]
+    .signals
+    .productivityBoundary,
+  "critical"
+);
+
+console.log(
+  "PASS Species Knowledge Framework validates the governed Blue Marlin profile"
+);
+
+
+const invalidSpeciesProfile = {
+  species:
+    "test-species",
+
+  opportunityTypes: {
+    "test-opportunity": {
+      signals: {
+        currentSupport:
+          "extreme"
+      }
+    }
+  },
+
+  rules: {
+    biologicalInferenceAllowed:
+      true,
+
+    confirmedTypeAllowed:
+      true,
+
+    changesHabitatScores:
+      true
+  }
+};
+
+
+const invalidProfileValidation =
+  validateSpeciesKnowledgeProfile(
+    invalidSpeciesProfile
+  );
+
+assert.equal(
+  invalidProfileValidation
+    .valid,
+  false
+);
+
+assert.ok(
+  invalidProfileValidation
+    .errors
+    .includes(
+      "invalid-relationship-importance:test-opportunity:currentSupport"
+    )
+);
+
+assert.ok(
+  invalidProfileValidation
+    .errors
+    .includes(
+      "invalid-required-rule:biologicalInferenceAllowed"
+    )
+);
+
+assert.ok(
+  invalidProfileValidation
+    .errors
+    .includes(
+      "confirmed-opportunity-types-are-not-allowed"
+    )
+);
+
+console.log(
+  "PASS Species Knowledge Framework rejects unsafe or incomplete species profiles"
+);
+
+
+const invalidProfileResolution =
+  resolveSpeciesOpportunityType({
+    speciesProfile:
+      invalidSpeciesProfile,
+
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "open-water",
+
+      plausibleOpportunityTypes: [
+        "test-opportunity"
+      ]
+    }
+  });
+
+
+assert.equal(
+  invalidProfileResolution
+    .available,
+  false
+);
+
+assert.equal(
+  invalidProfileResolution
+    .classification,
+  "species-knowledge-profile-invalid"
+);
+
+assert.equal(
+  invalidProfileResolution
+    .leadingCandidate,
+  null
+);
+
+assert.equal(
+  invalidProfileResolution
+    .confirmedType,
+  null
+);
+
+assert.equal(
+  invalidProfileResolution
+    .rules
+    .rankingAllowed,
+  false
+);
+
+assert.equal(
+  invalidProfileResolution
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+console.log(
+  "PASS generic resolver refuses to use an invalid species knowledge profile"
 );

@@ -9020,9 +9020,442 @@ export function interpretBlueMarlinPathway({
  * - change habitat scoring
  * - change model confidence
  */
+/**
+ * ------------------------------------------------------------
+ * Species Knowledge Framework v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Define the governed vocabulary and validation rules used by
+ * Pelora species knowledge profiles.
+ *
+ * The framework separates:
+ *
+ * - species-neutral environmental evidence
+ * - species-specific ecological interpretation
+ * - generic software resolution mechanics
+ *
+ * Importance levels express relative ecological relevance.
+ * Numeric values remain an internal resolver implementation
+ * detail and are not presented as scientific measurements.
+ */
+
+
+/**
+ * Governed relationship-importance vocabulary.
+ *
+ * unavailable:
+ * The relationship is not used by this species profile.
+ *
+ * supporting:
+ * The signal may strengthen an interpretation but should not
+ * independently establish the opportunity type.
+ *
+ * moderate:
+ * The relationship is meaningful but normally requires other
+ * supporting evidence.
+ *
+ * strong:
+ * The relationship is a major component of the opportunity.
+ *
+ * critical:
+ * The opportunity type should rarely be interpreted without
+ * this relationship.
+ */
+export const SPECIES_RELATIONSHIP_IMPORTANCE = {
+  unavailable:
+    0,
+
+  supporting:
+    1,
+
+  moderate:
+    2,
+
+  strong:
+    3,
+
+  critical:
+    5
+};
+
+
+/**
+ * Canonical Pelora species knowledge-profile schema.
+ *
+ * Profiles may contain additional governed fields in future
+ * versions, but every profile must preserve this foundation.
+ */
+export const SPECIES_KNOWLEDGE_FRAMEWORK = {
+  requiredProfileFields: [
+    "species",
+    "commonName",
+    "scientificName",
+    "knowledgeStatus",
+    "habitatPurpose",
+    "relationshipGroups",
+    "opportunityTypes",
+    "confidencePolicy",
+    "rules",
+    "methodVersion"
+  ],
+
+  allowedKnowledgeStatuses: [
+    "provisional",
+    "reviewed",
+    "validated"
+  ],
+
+  allowedImportanceLevels:
+    Object.keys(
+      SPECIES_RELATIONSHIP_IMPORTANCE
+    ),
+
+  requiredRelationshipGroups: [
+    "oceanMovement",
+    "thermalStructure",
+    "productivityAndPreySupport",
+    "waterCharacter",
+    "structureInteraction",
+    "persistence"
+  ],
+
+  requiredRules: {
+    biologicalInferenceAllowed:
+      false,
+
+    confirmedTypeAllowed:
+      false,
+
+    changesHabitatScores:
+      false
+  },
+
+  methodVersion:
+    "pelora-species-knowledge-framework-v1.0"
+};
+
+
+/**
+ * Convert a governed relationship-importance label into the
+ * internal value used by the generic resolver.
+ */
+export function resolveRelationshipImportance(
+  importance
+) {
+  if (
+    typeof importance === "number" &&
+    Number.isFinite(importance)
+  ) {
+    /*
+     * Temporary backward compatibility for profiles created
+     * before Species Knowledge Framework v1.0.
+     *
+     * New and updated profiles should use governed labels.
+     */
+    return importance;
+  }
+
+  return (
+    SPECIES_RELATIONSHIP_IMPORTANCE[
+      importance
+    ] ??
+    0
+  );
+}
+
+
+/**
+ * Validate a species knowledge profile before it is used by a
+ * species model or opportunity resolver.
+ *
+ * Validation is structural. It does not certify the underlying
+ * biological relationships as scientifically proven.
+ */
+export function validateSpeciesKnowledgeProfile(
+  profile
+) {
+  const errors = [];
+
+  const warnings = [];
+
+  if (
+    !profile ||
+    typeof profile !== "object" ||
+    Array.isArray(profile)
+  ) {
+    return {
+      valid:
+        false,
+
+      errors: [
+        "species-profile-must-be-an-object"
+      ],
+
+      warnings: [],
+
+      methodVersion:
+        "pelora-species-knowledge-profile-validation-v1.0"
+    };
+  }
+
+  for (
+    const field
+    of SPECIES_KNOWLEDGE_FRAMEWORK
+      .requiredProfileFields
+  ) {
+    if (
+      profile[field] === undefined ||
+      profile[field] === null
+    ) {
+      errors.push(
+        `missing-required-profile-field:${field}`
+      );
+    }
+  }
+
+  if (
+    profile.knowledgeStatus &&
+    !SPECIES_KNOWLEDGE_FRAMEWORK
+      .allowedKnowledgeStatuses
+      .includes(
+        profile.knowledgeStatus
+      )
+  ) {
+    errors.push(
+      "invalid-knowledge-status"
+    );
+  }
+
+  if (
+    profile.relationshipGroups &&
+    typeof profile.relationshipGroups ===
+      "object"
+  ) {
+    for (
+      const group
+      of SPECIES_KNOWLEDGE_FRAMEWORK
+        .requiredRelationshipGroups
+    ) {
+      if (
+        !profile.relationshipGroups[
+          group
+        ]
+      ) {
+        errors.push(
+          `missing-relationship-group:${group}`
+        );
+      }
+    }
+  }
+
+  const opportunityTypes =
+    profile.opportunityTypes;
+
+  if (
+    opportunityTypes &&
+    typeof opportunityTypes ===
+      "object"
+  ) {
+    for (
+      const [
+        opportunityType,
+        opportunityProfile
+      ]
+      of Object.entries(
+        opportunityTypes
+      )
+    ) {
+      if (
+        !opportunityProfile ||
+        typeof opportunityProfile !==
+          "object"
+      ) {
+        errors.push(
+          `invalid-opportunity-type:${opportunityType}`
+        );
+
+        continue;
+      }
+
+      if (
+        !opportunityProfile.signals ||
+        typeof opportunityProfile.signals !==
+          "object"
+      ) {
+        errors.push(
+          `missing-opportunity-signals:${opportunityType}`
+        );
+
+        continue;
+      }
+
+      for (
+        const [
+          signalName,
+          importance
+        ]
+        of Object.entries(
+          opportunityProfile.signals
+        )
+      ) {
+        const validLabel =
+          typeof importance === "string" &&
+          SPECIES_KNOWLEDGE_FRAMEWORK
+            .allowedImportanceLevels
+            .includes(
+              importance
+            );
+
+        const legacyNumber =
+          typeof importance === "number" &&
+          Number.isFinite(importance);
+
+        if (
+          !validLabel &&
+          !legacyNumber
+        ) {
+          errors.push(
+            `invalid-relationship-importance:${opportunityType}:${signalName}`
+          );
+        }
+
+        if (legacyNumber) {
+          warnings.push(
+            `legacy-numeric-importance:${opportunityType}:${signalName}`
+          );
+        }
+      }
+    }
+  }
+
+  const requiredRules =
+    SPECIES_KNOWLEDGE_FRAMEWORK
+      .requiredRules;
+
+  for (
+    const [
+      ruleName,
+      requiredValue
+    ]
+    of Object.entries(
+      requiredRules
+    )
+  ) {
+    if (
+      profile
+        ?.rules
+        ?.[ruleName] !==
+      requiredValue
+    ) {
+      errors.push(
+        `invalid-required-rule:${ruleName}`
+      );
+    }
+  }
+
+  if (
+    profile
+      ?.rules
+      ?.confirmedTypeAllowed ===
+    true
+  ) {
+    errors.push(
+      "confirmed-opportunity-types-are-not-allowed"
+    );
+  }
+
+  return {
+    valid:
+      errors.length === 0,
+
+    species:
+      profile.species ??
+      null,
+
+    knowledgeStatus:
+      profile.knowledgeStatus ??
+      null,
+
+    errors: [
+      ...new Set(errors)
+    ],
+
+    warnings: [
+      ...new Set(warnings)
+    ],
+
+    methodVersion:
+      "pelora-species-knowledge-profile-validation-v1.0"
+  };
+}
+
+
 export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
   species:
     "blue-marlin",
+
+  commonName:
+    "Blue Marlin",
+
+  scientificName:
+    "Makaira nigricans",
+
+  knowledgeStatus:
+    "provisional",
+
+  habitatPurpose:
+    "Identify where the ocean is creating a persistent, biologically plausible feeding opportunity for Blue Marlin without inferring fish presence or fishing success.",
+
+  relationshipGroups: {
+    oceanMovement: {
+      purpose:
+        "Evaluate whether current organization may create movement corridors, convergence, retention, or directional feeding opportunity.",
+
+      required:
+        false
+    },
+
+    thermalStructure: {
+      purpose:
+        "Evaluate temperature boundaries and organized thermal transitions that may help define pelagic habitat.",
+
+      required:
+        false
+    },
+
+    productivityAndPreySupport: {
+      purpose:
+        "Evaluate environmental productivity that may support prey availability without confirming prey concentration.",
+
+      required:
+        false
+    },
+
+    waterCharacter: {
+      purpose:
+        "Evaluate water-mass character and transitions without treating water color as direct biological proof.",
+
+      required:
+        false
+    },
+
+    structureInteraction: {
+      purpose:
+        "Evaluate bathymetric or physical structure association independently from open-water opportunity.",
+
+      required:
+        false
+    },
+
+    persistence: {
+      purpose:
+        "Evaluate whether an environmental feature remains organized long enough to create a plausible recurring opportunity.",
+
+      required:
+        false
+    }
+  },
 
   leadingCandidateThreshold:
     4,
@@ -9034,16 +9467,16 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
     "feeding-corridor": {
       signals: {
         openWaterOrganization:
-          2,
+          "moderate",
 
         organizedCurrent:
-          3,
+          "strong",
 
         thermalBoundary:
-          2,
+          "moderate",
 
         multiSignalSupport:
-          1
+          "supporting"
       },
 
       missingEvidence: {
@@ -9064,13 +9497,13 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
     "current-convergence-feeding-pocket": {
       signals: {
         openWaterOrganization:
-          2,
+          "moderate",
 
         currentSupport:
-          2,
+          "moderate",
 
         currentConvergence:
-          5
+          "critical"
       },
 
       missingEvidence: {
@@ -9091,13 +9524,13 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
     "eddy-edge-opportunity": {
       signals: {
         openWaterOrganization:
-          1,
+          "supporting",
 
         eddyBoundary:
-          7,
+          "critical",
 
         thermalBoundary:
-          1
+          "supporting"
       },
 
       missingEvidence: {
@@ -9112,16 +9545,16 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
     "productive-water-boundary": {
       signals: {
         productivityBoundary:
-          5,
+          "critical",
 
         thermalBoundary:
-          2,
+          "moderate",
 
         currentSupport:
-          1,
+          "supporting",
 
         multiSignalSupport:
-          1
+          "supporting"
       },
 
       missingEvidence: {
@@ -9136,16 +9569,16 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
     "open-water-prey-aggregation": {
       signals: {
         openWaterOrganization:
-          2,
+          "moderate",
 
         productivityBoundary:
-          3,
+          "strong",
 
         currentSupport:
-          2,
+          "moderate",
 
         persistence:
-          2
+          "moderate"
       },
 
       missingEvidence: {
@@ -9168,13 +9601,13 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
     "bathymetric-interaction-zone": {
       signals: {
         structureAssociation:
-          4,
+          "strong",
 
         currentSupport:
-          2,
+          "moderate",
 
         verifiedStructureInteraction:
-          4
+          "strong"
       },
 
       missingEvidence: {
@@ -9190,6 +9623,23 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
       limitations: []
     }
+  },
+
+  confidencePolicy: {
+    leadingCandidateRequiresDifferentiation:
+      true,
+
+    leadingCandidateThreshold:
+      4,
+
+    moderateConfidenceThreshold:
+      8,
+
+    unresolvedTiesRemainUnresolved:
+      true,
+
+    missingPersistenceMustBeDisclosed:
+      true
   },
 
   rules: {
@@ -9210,7 +9660,7 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
   },
 
   methodVersion:
-    "pelora-blue-marlin-opportunity-type-profile-v1.0"
+    "pelora-blue-marlin-species-knowledge-profile-v1.0"
 };
 
 
@@ -9236,6 +9686,109 @@ export function resolveSpeciesOpportunityType({
   oceanEvidence = null,
   oceanOpportunity = null
 } = {}) {
+  const profileValidation =
+    validateSpeciesKnowledgeProfile(
+      speciesProfile
+    );
+
+  if (!profileValidation.valid) {
+    return {
+      available:
+        false,
+
+      species:
+        speciesProfile
+          ?.species ??
+        "unknown-species",
+
+      environmentalPathway:
+        speciesPathwayInterpretation
+          ?.environmentalPathway ??
+        relationshipContext
+          ?.pathway ??
+        "insufficient-evidence",
+
+      resolvedType:
+        null,
+
+      confirmedType:
+        null,
+
+      leadingCandidate:
+        null,
+
+      candidateTypes: [],
+
+      rankedCandidates: [],
+
+      evidenceFor: [],
+
+      evidenceMissing: [
+        "valid-species-knowledge-profile-required"
+      ],
+
+      confidence:
+        "insufficient",
+
+      classification:
+        "species-knowledge-profile-invalid",
+
+      summary:
+        "Opportunity-type resolution is unavailable because the species knowledge profile is incomplete or invalid.",
+
+      limitations: [
+        "species-knowledge-profile-invalid",
+        "does-not-confirm-species-presence",
+        "does-not-confirm-feeding",
+        "does-not-estimate-catch-probability",
+        "does-not-change-habitat-scores",
+        "does-not-change-model-confidence"
+      ],
+
+      evidenceSignals: {},
+
+      profileValidation,
+
+      rules: {
+        rankingAllowed:
+          false,
+
+        leadingCandidateAllowed:
+          false,
+
+        confirmedTypeAllowed:
+          false,
+
+        biologicalInferenceAllowed:
+          false,
+
+        changesHabitatScores:
+          false,
+
+        changesConfidence:
+          false,
+
+        structureRequired:
+          false
+      },
+
+      knowledgeProfile: {
+        species:
+          speciesProfile
+            ?.species ??
+          null,
+
+        methodVersion:
+          speciesProfile
+            ?.methodVersion ??
+          null
+      },
+
+      methodVersion:
+        "pelora-species-opportunity-type-resolution-v1.1"
+    };
+  }
+
   const species =
     speciesProfile
       ?.species ??
@@ -9572,7 +10125,9 @@ export function resolveSpeciesOpportunityType({
             signals[signalName] === true
           ) {
             supportScore +=
-              Number(weight) || 0;
+              resolveRelationshipImportance(
+                weight
+              );
 
             evidenceFor.push(
               evidenceLabels[
@@ -9843,14 +10398,31 @@ export function resolveSpeciesOpportunityType({
           ?.species ??
         null,
 
+      commonName:
+        speciesProfile
+          ?.commonName ??
+        null,
+
+      scientificName:
+        speciesProfile
+          ?.scientificName ??
+        null,
+
+      knowledgeStatus:
+        speciesProfile
+          ?.knowledgeStatus ??
+        null,
+
       methodVersion:
         speciesProfile
           ?.methodVersion ??
         null
     },
 
+    profileValidation,
+
     methodVersion:
-      "pelora-species-opportunity-type-resolution-v1.0"
+      "pelora-species-opportunity-type-resolution-v1.1"
   };
 }
 
@@ -9886,7 +10458,7 @@ export function resolveBlueMarlinOpportunityType({
     ...resolution,
 
     methodVersion:
-      "pelora-blue-marlin-opportunity-type-resolution-v1.1"
+      "pelora-blue-marlin-opportunity-type-resolution-v1.2"
   };
 }
 
@@ -11351,7 +11923,7 @@ export function assessBlueMarlinHabitat({
       "blue-marlin-habitat-suitability",
 
     methodVersion:
-      "pelora-blue-marlin-hsm-v1.4"
+      "pelora-blue-marlin-hsm-v1.5"
   };
 }
 
