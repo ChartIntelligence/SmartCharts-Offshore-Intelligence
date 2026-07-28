@@ -5332,6 +5332,95 @@ function buildTemperatureEvidence(
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Current Spatial Analysis Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Describe whether Pelora possesses sufficient spatial current
+ * observations to evaluate relationships between neighboring
+ * current vectors.
+ *
+ * This contract intentionally performs no scientific analysis.
+ * It only describes the availability and quality of spatial
+ * current observations.
+ *
+ * Future engines may evaluate:
+ *
+ * - current convergence
+ * - current divergence
+ * - current shear
+ * - current edges
+ * - eddy boundaries
+ * - persistent current organization
+ *
+ * Until those engines exist, every detection remains unavailable.
+ */
+function buildCurrentSpatialAnalysis(
+  current
+) {
+
+  const hasVector =
+    Number.isFinite(
+      current?.speedKnots
+    ) &&
+    Number.isFinite(
+      current?.directionDegrees
+    );
+
+  if (!hasVector) {
+    return {
+      available: false,
+
+      observationType:
+        "unavailable",
+
+      coverage:
+        "unavailable",
+
+      sampleCount: 0,
+
+      vectors: [],
+
+      convergence: null,
+
+      shear: null,
+
+      edge: null,
+
+      eddyBoundary: null,
+
+      confidence: null
+    };
+  }
+
+  return {
+    available: false,
+
+    observationType:
+      "single-point",
+
+    coverage:
+      "insufficient",
+
+    sampleCount: 1,
+
+    vectors: [],
+
+    convergence: null,
+
+    shear: null,
+
+    edge: null,
+
+    eddyBoundary: null,
+
+    confidence: null
+  };
+}
+
+
 function buildCurrentEvidence(
   currents
 ) {
@@ -5382,6 +5471,11 @@ function buildCurrentEvidence(
   const available =
     speedKnots !== null &&
     directionDegrees !== null;
+
+  const spatialAnalysis =
+    buildCurrentSpatialAnalysis(
+     currents
+  );
 
   const drivers = [];
 
@@ -5486,6 +5580,8 @@ function buildCurrentEvidence(
         freshness,
         sourceAvailability
       },
+
+      spatialAnalysis,
 
       drivers,
 
@@ -5600,6 +5696,8 @@ function buildCurrentEvidence(
       freshness,
       sourceAvailability
     },
+
+    spatialAnalysis,
 
     drivers,
 
