@@ -1,0 +1,6707 @@
+[
+  {
+    "id": "boem-mc-397-23893",
+    "name": "Alabaster",
+    "shortName": "Alabaster",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 397",
+    "coordinates": [
+      28.546431,
+      -89.929614
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23893",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 397,
+      "datum": "NAD27",
+      "rawLabel": "A (Alabaster)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-254-251",
+    "name": "Allegheny Sea",
+    "shortName": "Allegheny Sea",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 254",
+    "coordinates": [
+      27.69156972,
+      -90.2755364
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "251",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 254,
+      "datum": "NAD27",
+      "rawLabel": "A(Allegheny Sea",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-109-23883",
+    "name": "Amberjack",
+    "shortName": "Amberjack",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 109",
+    "coordinates": [
+      28.86467752,
+      -88.93079054
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23883",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 109,
+      "datum": "NAD27",
+      "rawLabel": "A (Amberjack)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-763-2698",
+    "name": "Anchor",
+    "shortName": "Anchor",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 763",
+    "coordinates": [
+      27.22646916,
+      -91.18999522
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2698",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 763,
+      "datum": "NAD27",
+      "rawLabel": "A (Anchor)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-437-2623",
+    "name": "Appomattox",
+    "shortName": "Appomattox",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 437",
+    "coordinates": [
+      28.57350034,
+      -87.93421264
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2623",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 437,
+      "datum": "NAD27",
+      "rawLabel": "A (Appomattox)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-780-2665",
+    "name": "Argos",
+    "shortName": "Argos",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 780",
+    "coordinates": [
+      27.17325833,
+      -90.3656333
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2665",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 780,
+      "datum": "NAD27",
+      "rawLabel": "A (Argos)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-787-1223",
+    "name": "Atlantis",
+    "shortName": "Atlantis",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 787",
+    "coordinates": [
+      27.19545638,
+      -90.02698449
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1223",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 787,
+      "datum": "NAD27",
+      "rawLabel": "A (Atlantis)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-426-24080",
+    "name": "Auger",
+    "shortName": "Auger",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 426",
+    "coordinates": [
+      27.54594688,
+      -92.44329374
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24080",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 426,
+      "datum": "NAD27",
+      "rawLabel": "A (Auger)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-260-33039",
+    "name": "Baldpate",
+    "shortName": "Baldpate",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 260",
+    "coordinates": [
+      27.73335401,
+      -91.99361647
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "33039",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 260,
+      "datum": "NAD27",
+      "rawLabel": "A (Baldpate)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-wr-29-2422",
+    "name": "Big Foot",
+    "shortName": "Big Foot",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "WR 29",
+    "coordinates": [
+      26.93203794,
+      -90.52082006
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2422",
+      "district": 2,
+      "area": "WR",
+      "areaIdentifier": "1WR",
+      "block": 29,
+      "datum": "NAD27",
+      "rawLabel": "A (Big Foot)",
+      "importedAt": "2026-07-14T04:28:57.023Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-650-1930",
+    "name": "Blind Faith",
+    "shortName": "Blind Faith",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 650",
+    "coordinates": [
+      28.34153544,
+      -88.26568688
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1930",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 650,
+      "datum": "NAD27",
+      "rawLabel": "A (Blind Faith)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-19-23277",
+    "name": "Boxer",
+    "shortName": "Boxer",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 19",
+    "coordinates": [
+      27.945795,
+      -90.996981
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23277",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 19,
+      "datum": "NAD27",
+      "rawLabel": "A (Boxer)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-158-420",
+    "name": "Brutus",
+    "shortName": "Brutus",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 158",
+    "coordinates": [
+      27.79523773,
+      -90.64754125
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "420",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 158,
+      "datum": "NAD27",
+      "rawLabel": "A (Brutus)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-65-23552",
+    "name": "Bullwinkle",
+    "shortName": "Bullwinkle",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 65",
+    "coordinates": [
+      27.88309663,
+      -90.90151639
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23552",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 65,
+      "datum": "NAD27",
+      "rawLabel": "A (Bullwinkle)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-213-1351",
+    "name": "CAISSON #1",
+    "shortName": "CAISSON #1",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 213",
+    "coordinates": [
+      29.78427928,
+      -87.83200744
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1351",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 213,
+      "datum": "NAD27",
+      "rawLabel": "A CAISSON #1",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-89-85",
+    "name": "Cinnamon",
+    "shortName": "Cinnamon",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 89",
+    "coordinates": [
+      27.87628574,
+      -91.87284424
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "85",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 89,
+      "datum": "NAD27",
+      "rawLabel": "A (Cinnamon)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-194-22178",
+    "name": "Cognac",
+    "shortName": "Cognac",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 194",
+    "coordinates": [
+      28.790953,
+      -89.056403
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22178",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 194,
+      "datum": "NAD27",
+      "rawLabel": "A (Cognac)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-680-1665",
+    "name": "Constitution",
+    "shortName": "Constitution",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 680",
+    "coordinates": [
+      27.29220815,
+      -90.96802088
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1665",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 680,
+      "datum": "NAD27",
+      "rawLabel": "A(Constitution)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-388-24079",
+    "name": "COOPE FPF",
+    "shortName": "COOPE FPF",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 388",
+    "coordinates": [
+      27.62428816,
+      -92.18969085
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24079",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 388,
+      "datum": "NAD27",
+      "rawLabel": "A (COOPE FPF)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-365-23875",
+    "name": "Corral",
+    "shortName": "Corral",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 365",
+    "coordinates": [
+      28.600964,
+      -89.31131
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23875",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 365,
+      "datum": "NAD27",
+      "rawLabel": "A (Corral)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-52-23567",
+    "name": "CPP",
+    "shortName": "CPP",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 52",
+    "coordinates": [
+      27.899555,
+      -91.510172
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23567",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 52,
+      "datum": "NAD27",
+      "rawLabel": "CPP",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-254-2513",
+    "name": "Delta House",
+    "shortName": "Delta House",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 254",
+    "coordinates": [
+      28.75448203,
+      -88.26731603
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2513",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 254,
+      "datum": "NAD27",
+      "rawLabel": "A (Delta House)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-773-1175",
+    "name": "Devils Tower",
+    "shortName": "Devils Tower",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 773",
+    "coordinates": [
+      28.20875531,
+      -88.73747383
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1175",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 773,
+      "datum": "NAD27",
+      "rawLabel": "A(Devils Tower)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-128-27056",
+    "name": "Enchilada",
+    "shortName": "Enchilada",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 128",
+    "coordinates": [
+      27.87552744,
+      -91.98639816
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "27056",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 128,
+      "datum": "NAD27",
+      "rawLabel": "A (Enchilada)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-29-23543",
+    "name": "FPS",
+    "shortName": "FPS",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 29",
+    "coordinates": [
+      27.946993,
+      -90.498825
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23543",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 29,
+      "datum": "NAD27",
+      "rawLabel": "(FPS)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-338-1290",
+    "name": "Front Runner",
+    "shortName": "Front Runner",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 338",
+    "coordinates": [
+      27.62484093,
+      -90.44104746
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1290",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 338,
+      "datum": "NAD27",
+      "rawLabel": "A(Front Runner)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-142-1320",
+    "name": "GB 142 Platform 1320",
+    "shortName": "GB 142 Platform 1320",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 142",
+    "coordinates": [
+      27.8080675,
+      -93.4314275
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1320",
+      "district": 4,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 142,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-191-23788",
+    "name": "GB 191 Platform 23788",
+    "shortName": "GB 191 Platform 23788",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 191",
+    "coordinates": [
+      27.7878513,
+      -93.18794459
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23788",
+      "district": 5,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 191,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-236-22372",
+    "name": "GB 236 Platform 22372",
+    "shortName": "GB 236 Platform 22372",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 236",
+    "coordinates": [
+      27.761081,
+      -93.137728
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22372",
+      "district": 5,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 236,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-387-625",
+    "name": "GB 387 Platform 625",
+    "shortName": "GB 387 Platform 625",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 387",
+    "coordinates": [
+      27.6288515,
+      -92.2444824
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "625",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 387,
+      "datum": "NAD27",
+      "rawLabel": "SB",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-72-27032",
+    "name": "GB 72 Platform 27032",
+    "shortName": "GB 72 Platform 27032",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 72",
+    "coordinates": [
+      27.92248336,
+      -92.55396793
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "27032",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 72,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-18-23503",
+    "name": "GC 18 Platform 23503",
+    "shortName": "GC 18 Platform 23503",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 18",
+    "coordinates": [
+      27.943725,
+      -91.029094
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23503",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 18,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-6-23581",
+    "name": "GC 6 Platform 23581",
+    "shortName": "GC 6 Platform 23581",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 6",
+    "coordinates": [
+      27.946065,
+      -91.646494
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23581",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 6,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-205-67",
+    "name": "Genesis",
+    "shortName": "Genesis",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 205",
+    "coordinates": [
+      27.77925703,
+      -90.51890764
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "67",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 205,
+      "datum": "NAD27",
+      "rawLabel": "A (Genesis)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-711-1771",
+    "name": "GOMEZ",
+    "shortName": "GOMEZ",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 711",
+    "coordinates": [
+      28.22065524,
+      -89.61507167
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1771",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 711,
+      "datum": "NAD27",
+      "rawLabel": "A (GOMEZ)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-724-2498",
+    "name": "Gulfstar 1",
+    "shortName": "Gulfstar 1",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 724",
+    "coordinates": [
+      28.23497328,
+      -88.99536265
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2498",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 724,
+      "datum": "NAD27",
+      "rawLabel": "A (Gulfstar 1)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-668-1288",
+    "name": "Gunnison",
+    "shortName": "Gunnison",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 668",
+    "coordinates": [
+      27.30383941,
+      -93.53830635
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1288",
+      "district": 4,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 668,
+      "datum": "NAD27",
+      "rawLabel": "A (Gunnison)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-860-2597",
+    "name": "Heidelberg",
+    "shortName": "Heidelberg",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 860",
+    "coordinates": [
+      27.11142926,
+      -90.76396349
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2597",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 860,
+      "datum": "NAD27",
+      "rawLabel": "A (Heidelberg)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-237-2133",
+    "name": "Helix",
+    "shortName": "Helix",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 237",
+    "coordinates": [
+      27.729759,
+      -91.10850258
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2133",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 237,
+      "datum": "NAD27",
+      "rawLabel": "B (Helix)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-645-1035",
+    "name": "Holstein",
+    "shortName": "Holstein",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 645",
+    "coordinates": [
+      27.32122996,
+      -90.53546944
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1035",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 645,
+      "datum": "NAD27",
+      "rawLabel": "A (Holstein)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-ac-25-183",
+    "name": "Hoover",
+    "shortName": "Hoover",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "AC 25",
+    "coordinates": [
+      26.93905139,
+      -94.68872137
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "183",
+      "district": 4,
+      "area": "AC",
+      "areaIdentifier": "1AC",
+      "block": 25,
+      "datum": "NAD27",
+      "rawLabel": "A (Hoover)",
+      "importedAt": "2026-07-14T04:28:56.974Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-127-876",
+    "name": "Horn Mountain",
+    "shortName": "Horn Mountain",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 127",
+    "coordinates": [
+      28.86601399,
+      -88.05626441
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "876",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 127,
+      "datum": "NAD27",
+      "rawLabel": "A(Horn Mountain",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-920-1766",
+    "name": "Independence",
+    "shortName": "Independence",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 920",
+    "coordinates": [
+      28.08505618,
+      -87.98583928
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1766",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 920,
+      "datum": "NAD27",
+      "rawLabel": "A(Independence)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-wr-718-2440",
+    "name": "Jack St. Malo",
+    "shortName": "Jack St. Malo",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "WR 718",
+    "coordinates": [
+      26.23498342,
+      -91.26110675
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2440",
+      "district": 2,
+      "area": "WR",
+      "areaIdentifier": "1WR",
+      "block": 718,
+      "datum": "NAD27",
+      "rawLabel": "A(Jack St. Malo",
+      "importedAt": "2026-07-14T04:28:57.023Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-184-23583",
+    "name": "Jolliet",
+    "shortName": "Jolliet",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 184",
+    "coordinates": [
+      27.767356,
+      -91.51609
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23583",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 184,
+      "datum": "NAD27",
+      "rawLabel": "A (Jolliet)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-433-2710",
+    "name": "Kings Quay",
+    "shortName": "Kings Quay",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 433",
+    "coordinates": [
+      27.51964433,
+      -90.09797323
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2710",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 433,
+      "datum": "NAD27",
+      "rawLabel": "A (Kings Quay)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-280-22840",
+    "name": "Lena CT",
+    "shortName": "Lena CT",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 280",
+    "coordinates": [
+      28.662679,
+      -89.157757
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22840",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 280,
+      "datum": "NAD27",
+      "rawLabel": "A (Lena CT)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-kc-875-2576",
+    "name": "Lucius",
+    "shortName": "Lucius",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "KC 875",
+    "coordinates": [
+      26.13196228,
+      -92.04008253
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2576",
+      "district": 3,
+      "area": "KC",
+      "areaIdentifier": "1KC",
+      "block": 875,
+      "datum": "NAD27",
+      "rawLabel": "A (Lucius)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-782-1215",
+    "name": "Mad Dog",
+    "shortName": "Mad Dog",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 782",
+    "coordinates": [
+      27.18836886,
+      -90.26871119
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1215",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 782,
+      "datum": "NAD27",
+      "rawLabel": "A (Mad Dog)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-783-1218",
+    "name": "Magnolia",
+    "shortName": "Magnolia",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 783",
+    "coordinates": [
+      27.20385147,
+      -92.20260063
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1218",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 783,
+      "datum": "NAD27",
+      "rawLabel": "A (Magnolia)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-608-1323",
+    "name": "Marco Polo",
+    "shortName": "Marco Polo",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 608",
+    "coordinates": [
+      27.36212111,
+      -90.18138623
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1323",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 608,
+      "datum": "NAD27",
+      "rawLabel": "A (Marco Polo)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-915-235",
+    "name": "Marlin",
+    "shortName": "Marlin",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 915",
+    "coordinates": [
+      29.10755646,
+      -87.94362203
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "235",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 915,
+      "datum": "NAD27",
+      "rawLabel": "A (Marlin)",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-807-24199",
+    "name": "Mars",
+    "shortName": "Mars",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 807",
+    "coordinates": [
+      28.169524,
+      -89.222876
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24199",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 807,
+      "datum": "NAD27",
+      "rawLabel": "A (Mars)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-243-1088",
+    "name": "Matterhorn Se",
+    "shortName": "Matterhorn Se",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 243",
+    "coordinates": [
+      28.74226919,
+      -88.82563306
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1088",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 243,
+      "datum": "NAD27",
+      "rawLabel": "A(Matterhorn Se",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-148-22583",
+    "name": "MC 148 Platform 22583",
+    "shortName": "MC 148 Platform 22583",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 148",
+    "coordinates": [
+      28.795115,
+      -89.176848
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22583",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 148,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-20-23051",
+    "name": "MC 20 Platform 23051",
+    "shortName": "MC 20 Platform 23051",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 20",
+    "coordinates": [
+      28.938022,
+      -88.970963
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23051",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 20,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-268-22311",
+    "name": "MC 268 Platform 22311",
+    "shortName": "MC 268 Platform 22311",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 268",
+    "coordinates": [
+      28.652145,
+      -89.786457
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22311",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 268,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-311-22224",
+    "name": "MC 311 Platform 22224",
+    "shortName": "MC 311 Platform 22224",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 311",
+    "coordinates": [
+      28.642636,
+      -89.794241
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22224",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 311,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-486-23859",
+    "name": "MC 486 Platform 23859",
+    "shortName": "MC 486 Platform 23859",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 486",
+    "coordinates": [
+      28.455912,
+      -89.852231
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23859",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 486,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-63-22846",
+    "name": "MC 63 Platform 22846",
+    "shortName": "MC 63 Platform 22846",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 63",
+    "coordinates": [
+      28.901681,
+      -89.023531
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22846",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 63,
+      "datum": "NAD27",
+      "rawLabel": "B",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-582-1090",
+    "name": "Medusa",
+    "shortName": "Medusa",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 582",
+    "coordinates": [
+      28.39240104,
+      -89.45346089
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1090",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 582,
+      "datum": "NAD27",
+      "rawLabel": "A (Medusa)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-941-2089",
+    "name": "Mirage/Titan",
+    "shortName": "Mirage/Titan",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 941",
+    "coordinates": [
+      28.03364844,
+      -89.10075833
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2089",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 941,
+      "datum": "NAD27",
+      "rawLabel": "A(Mirage/Titan)      N      E",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-474-1001",
+    "name": "Na Kika",
+    "shortName": "Na Kika",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 474",
+    "coordinates": [
+      28.52090278,
+      -88.28878889
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1001",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 474,
+      "datum": "NAD27",
+      "rawLabel": "A(Na Kika)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-613-1799",
+    "name": "Neptune",
+    "shortName": "Neptune",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 613",
+    "coordinates": [
+      27.3700796,
+      -89.92402389
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1799",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 613,
+      "datum": "NAD27",
+      "rawLabel": "A (Neptune)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-826-24235",
+    "name": "Neptune Spar",
+    "shortName": "Neptune Spar",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 826",
+    "coordinates": [
+      29.16345432,
+      -87.98775824
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24235",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 826,
+      "datum": "NAD27",
+      "rawLabel": "A(Neptune Spar)",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-122-31020",
+    "name": "No.1",
+    "shortName": "No.1",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 122",
+    "coordinates": [
+      29.85178107,
+      -88.01217676
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "31020",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 122,
+      "datum": "NAD27",
+      "rawLabel": "A(No.1)",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-782-90330",
+    "name": "Oil PLEM",
+    "shortName": "Oil PLEM",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 782",
+    "coordinates": [
+      27.23618628,
+      -92.28493215
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90330",
+      "district": null,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 782,
+      "datum": "NAD27",
+      "rawLabel": "Oil PLEM",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-807-2385",
+    "name": "Olympus",
+    "shortName": "Olympus",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 807",
+    "coordinates": [
+      28.15988546,
+      -89.23912709
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2385",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 807,
+      "datum": "NAD27",
+      "rawLabel": "B (Olympus)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-ac-857-2008",
+    "name": "Perdido",
+    "shortName": "Perdido",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "AC 857",
+    "coordinates": [
+      26.12890071,
+      -94.89791489
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2008",
+      "district": 4,
+      "area": "AC",
+      "areaIdentifier": "1AC",
+      "block": 857,
+      "datum": "NAD27",
+      "rawLabel": "A (Perdido)",
+      "importedAt": "2026-07-14T04:28:56.974Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-786-70012",
+    "name": "Petronius",
+    "shortName": "Petronius",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 786",
+    "coordinates": [
+      29.22900348,
+      -87.78096836
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "70012",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 786,
+      "datum": "NAD27",
+      "rawLabel": "A (Petronius)",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-wr-249-2229",
+    "name": "Pioneer",
+    "shortName": "Pioneer",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "WR 249",
+    "coordinates": [
+      26.69617876,
+      -90.50837794
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2229",
+      "district": 2,
+      "area": "WR",
+      "areaIdentifier": "1WR",
+      "block": 249,
+      "datum": "NAD27",
+      "rawLabel": "A (Pioneer)",
+      "importedAt": "2026-07-14T04:28:57.023Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-562-90317",
+    "name": "PLEM #1",
+    "shortName": "PLEM #1",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 562",
+    "coordinates": [
+      28.44356661,
+      -88.27722407
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90317",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 562,
+      "datum": "NAD27",
+      "rawLabel": "PLEM #1",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-199-90315",
+    "name": "PLEM #2",
+    "shortName": "PLEM #2",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 199",
+    "coordinates": [
+      27.76772556,
+      -90.79839485
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90315",
+      "district": null,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 199,
+      "datum": "NAD27",
+      "rawLabel": "PLEM #2",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-562-90312",
+    "name": "PLEM #2",
+    "shortName": "PLEM #2",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 562",
+    "coordinates": [
+      28.44380652,
+      -88.2771071
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90312",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 562,
+      "datum": "NAD27",
+      "rawLabel": "PLEM #2",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-383-90314",
+    "name": "PLEM #3",
+    "shortName": "PLEM #3",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 383",
+    "coordinates": [
+      28.73314479,
+      -88.3668905
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90314",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 383,
+      "datum": "NAD27",
+      "rawLabel": "PLEM #3",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-at-37-90320",
+    "name": "PLEM 1A",
+    "shortName": "PLEM 1A",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "AT 37",
+    "coordinates": [
+      27.95048235,
+      -88.15300616
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90320",
+      "district": null,
+      "area": "AT",
+      "areaIdentifier": "1AT",
+      "block": 37,
+      "datum": "NAD27",
+      "rawLabel": "PLEM 1A",
+      "importedAt": "2026-07-14T04:28:56.974Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-877-90319",
+    "name": "PLEM 2",
+    "shortName": "PLEM 2",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 877",
+    "coordinates": [
+      27.12124841,
+      -91.92205964
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90319",
+      "district": null,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 877,
+      "datum": "NAD27",
+      "rawLabel": "PLEM 2",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-906-90310",
+    "name": "PLEM 4",
+    "shortName": "PLEM 4",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 906",
+    "coordinates": [
+      27.06935786,
+      -90.68319874
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90310",
+      "district": null,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 906,
+      "datum": "NAD27",
+      "rawLabel": "PLEM 4",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-877-90318",
+    "name": "PLEM No. 1",
+    "shortName": "PLEM No. 1",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 877",
+    "coordinates": [
+      27.12113343,
+      -91.92213762
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90318",
+      "district": null,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 877,
+      "datum": "NAD27",
+      "rawLabel": "PLEM No. 1",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-906-90309",
+    "name": "PLEM P2",
+    "shortName": "PLEM P2",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 906",
+    "coordinates": [
+      27.06920218,
+      -90.68294551
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90309",
+      "district": null,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 906,
+      "datum": "NAD27",
+      "rawLabel": "PLEM P2",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-502-90207",
+    "name": "Production Mani",
+    "shortName": "Production Mani",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 502",
+    "coordinates": [
+      28.45216847,
+      -89.0850702
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90207",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 502,
+      "datum": "NAD27",
+      "rawLabel": "Production Mani",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-711-90235",
+    "name": "Production Mani",
+    "shortName": "Production Mani",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 711",
+    "coordinates": [
+      28.22042838,
+      -89.61518591
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90235",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 711,
+      "datum": "NAD27",
+      "rawLabel": "Production Mani",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-956-24229",
+    "name": "Ram Powell",
+    "shortName": "Ram Powell",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 956",
+    "coordinates": [
+      29.06062965,
+      -88.09172006
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24229",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 956,
+      "datum": "NAD27",
+      "rawLabel": "A (Ram Powell)",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-876-1384",
+    "name": "Red Hawk Spar",
+    "shortName": "Red Hawk Spar",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 876",
+    "coordinates": [
+      27.12105805,
+      -91.95846083
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1384",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 876,
+      "datum": "NAD27",
+      "rawLabel": "A(Red Hawk Spar",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-519-90313",
+    "name": "SA PLEM #1",
+    "shortName": "SA PLEM #1",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 519",
+    "coordinates": [
+      28.46811223,
+      -88.25037859
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90313",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 519,
+      "datum": "NAD27",
+      "rawLabel": "SA PLEM #1",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-kc-689-2716",
+    "name": "Salamanca",
+    "shortName": "Salamanca",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "KC 689",
+    "coordinates": [
+      26.29753274,
+      -92.52189556
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2716",
+      "district": 3,
+      "area": "KC",
+      "areaIdentifier": "1KC",
+      "block": 689,
+      "datum": "NAD27",
+      "rawLabel": "A (Salamanca)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-172-90014",
+    "name": "SALSA",
+    "shortName": "SALSA",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 172",
+    "coordinates": [
+      27.84031894,
+      -91.98776247
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90014",
+      "district": 3,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 172,
+      "datum": "NAD27",
+      "rawLabel": "B (SALSA)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-wr-52-2715",
+    "name": "Shenandoah",
+    "shortName": "Shenandoah",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "WR 52",
+    "coordinates": [
+      26.8933138,
+      -91.53565848
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2715",
+      "district": 2,
+      "area": "WR",
+      "areaIdentifier": "1WR",
+      "block": 52,
+      "datum": "NAD27",
+      "rawLabel": "A (Shenandoah)",
+      "importedAt": "2026-07-14T04:28:57.023Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-653-1899",
+    "name": "Shenzi",
+    "shortName": "Shenzi",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 653",
+    "coordinates": [
+      27.30062339,
+      -90.13500113
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1899",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 653,
+      "datum": "NAD27",
+      "rawLabel": "A (Shenzi)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-21-1482",
+    "name": "Simba",
+    "shortName": "Simba",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 21",
+    "coordinates": [
+      28.93725333,
+      -88.91196917
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1482",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 21,
+      "datum": "NAD27",
+      "rawLabel": "B (Simba)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-780-70016",
+    "name": "Spirit",
+    "shortName": "Spirit",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 780",
+    "coordinates": [
+      29.23724893,
+      -88.10836682
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "70016",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 780,
+      "datum": "NAD27",
+      "rawLabel": "A (Spirit)",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-468-2660",
+    "name": "Stampede",
+    "shortName": "Stampede",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 468",
+    "coordinates": [
+      27.50899334,
+      -90.55632364
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2660",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 468,
+      "datum": "NAD27",
+      "rawLabel": "A (Stampede)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-641-1819",
+    "name": "Tahiti",
+    "shortName": "Tahiti",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 641",
+    "coordinates": [
+      27.325908,
+      -90.71415254
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1819",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 641,
+      "datum": "NAD27",
+      "rawLabel": "A (Tahiti)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-736-2045",
+    "name": "Thunder Hawk",
+    "shortName": "Thunder Hawk",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 736",
+    "coordinates": [
+      28.26728694,
+      -88.39892063
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2045",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 736,
+      "datum": "NAD27",
+      "rawLabel": "A(Thunder Hawk)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-778-1101",
+    "name": "Thunder Horse",
+    "shortName": "Thunder Horse",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 778",
+    "coordinates": [
+      28.19060986,
+      -88.49558496
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1101",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 778,
+      "datum": "NAD27",
+      "rawLabel": "A(Thunder Horse",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gb-189-23760",
+    "name": "Tick",
+    "shortName": "Tick",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GB 189",
+    "coordinates": [
+      27.778568,
+      -93.309502
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23760",
+      "district": 5,
+      "area": "GB",
+      "areaIdentifier": "1GB",
+      "block": 189,
+      "datum": "NAD27",
+      "rawLabel": "A (Tick)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-wr-551-2503",
+    "name": "Turritella",
+    "shortName": "Turritella",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "WR 551",
+    "coordinates": [
+      26.42774525,
+      -90.83349094
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2503",
+      "district": 2,
+      "area": "WR",
+      "areaIdentifier": "1WR",
+      "block": 551,
+      "datum": "NAD27",
+      "rawLabel": "A (Turritella)",
+      "importedAt": "2026-07-14T04:28:57.023Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-gc-237-735",
+    "name": "Typhoon TLP",
+    "shortName": "Typhoon TLP",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "GC 237",
+    "coordinates": [
+      27.73156398,
+      -91.11114852
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "735",
+      "district": 2,
+      "area": "GC",
+      "areaIdentifier": "1GC",
+      "block": 237,
+      "datum": "NAD27",
+      "rawLabel": "A (Typhoon TLP)",
+      "importedAt": "2026-07-14T04:28:56.988Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-809-70004",
+    "name": "Ursa",
+    "shortName": "Ursa",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 809",
+    "coordinates": [
+      28.15402604,
+      -89.10355357
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "70004",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 809,
+      "datum": "NAD27",
+      "rawLabel": "A (Ursa)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-211-90122",
+    "name": "UTA",
+    "shortName": "UTA",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 211",
+    "coordinates": [
+      28.78377987,
+      -88.23433189
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90122",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 211,
+      "datum": "NAD27",
+      "rawLabel": "UTA",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-823-113",
+    "name": "VIRGO",
+    "shortName": "VIRGO",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 823",
+    "coordinates": [
+      29.18192218,
+      -88.16774376
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "113",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 823,
+      "datum": "NAD27",
+      "rawLabel": "A (VIRGO)",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-939-2690",
+    "name": "Vito",
+    "shortName": "Vito",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 939",
+    "coordinates": [
+      28.02538187,
+      -89.20920265
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2690",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 939,
+      "datum": "NAD27",
+      "rawLabel": "A (Vito)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-113-1063",
+    "name": "VK 113 Platform 1063",
+    "shortName": "VK 113 Platform 1063",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 113",
+    "coordinates": [
+      29.88324129,
+      -88.46872346
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1063",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 113,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-114-189",
+    "name": "VK 114 Platform 189",
+    "shortName": "VK 114 Platform 189",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 114",
+    "coordinates": [
+      29.85323245,
+      -88.39589711
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "189",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 114,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-117-31034",
+    "name": "VK 117 Platform 31034",
+    "shortName": "VK 117 Platform 31034",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 117",
+    "coordinates": [
+      29.89107692,
+      -88.236161
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "31034",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 117,
+      "datum": "NAD27",
+      "rawLabel": "#2",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-121-31019",
+    "name": "VK 121 Platform 31019",
+    "shortName": "VK 121 Platform 31019",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 121",
+    "coordinates": [
+      29.88632139,
+      -88.04666148
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "31019",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 121,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-123-31017",
+    "name": "VK 123 Platform 31017",
+    "shortName": "VK 123 Platform 31017",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 123",
+    "coordinates": [
+      29.8606832,
+      -87.95595544
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "31017",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 123,
+      "datum": "NAD27",
+      "rawLabel": "1",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-124-70002",
+    "name": "VK 124 Platform 70002",
+    "shortName": "VK 124 Platform 70002",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 124",
+    "coordinates": [
+      29.85805942,
+      -87.90916891
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "70002",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 124,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-155-24223",
+    "name": "VK 155 Platform 24223",
+    "shortName": "VK 155 Platform 24223",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 155",
+    "coordinates": [
+      29.83849759,
+      -88.56204475
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24223",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 155,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-156-23862",
+    "name": "VK 156 Platform 23862",
+    "shortName": "VK 156 Platform 23862",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 156",
+    "coordinates": [
+      29.815518,
+      -88.520935
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23862",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 156,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-161-70018",
+    "name": "VK 161 Platform 70018",
+    "shortName": "VK 161 Platform 70018",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 161",
+    "coordinates": [
+      29.83526888,
+      -88.23464992
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "70018",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 161,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-20-1700",
+    "name": "VK 20 Platform 1700",
+    "shortName": "VK 20 Platform 1700",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 20",
+    "coordinates": [
+      29.96161472,
+      -88.6901686
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1700",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 20,
+      "datum": "NAD27",
+      "rawLabel": "1",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-203-24147",
+    "name": "VK 203 Platform 24147",
+    "shortName": "VK 203 Platform 24147",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 203",
+    "coordinates": [
+      29.781541,
+      -88.333089
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24147",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 203,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-203-24148",
+    "name": "VK 203 Platform 24148",
+    "shortName": "VK 203 Platform 24148",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 203",
+    "coordinates": [
+      29.786683,
+      -88.349191
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24148",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 203,
+      "datum": "NAD27",
+      "rawLabel": "B",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-204-24149",
+    "name": "VK 204 Platform 24149",
+    "shortName": "VK 204 Platform 24149",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 204",
+    "coordinates": [
+      29.778926,
+      -88.307933
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24149",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 204,
+      "datum": "NAD27",
+      "rawLabel": "C",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-204-24150",
+    "name": "VK 204 Platform 24150",
+    "shortName": "VK 204 Platform 24150",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 204",
+    "coordinates": [
+      29.79612141,
+      -88.28868477
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24150",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 204,
+      "datum": "NAD27",
+      "rawLabel": "3",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-209-70015",
+    "name": "VK 209 Platform 70015",
+    "shortName": "VK 209 Platform 70015",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 209",
+    "coordinates": [
+      29.80359208,
+      -88.03668474
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "70015",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 209,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-22-23870",
+    "name": "VK 22 Platform 23870",
+    "shortName": "VK 22 Platform 23870",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 22",
+    "coordinates": [
+      29.972976,
+      -88.604173
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23870",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 22,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-24-23442",
+    "name": "VK 24 Platform 23442",
+    "shortName": "VK 24 Platform 23442",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 24",
+    "coordinates": [
+      29.947865,
+      -88.48437
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23442",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 24,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-24-35",
+    "name": "VK 24 Platform 35",
+    "shortName": "VK 24 Platform 35",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 24",
+    "coordinates": [
+      29.96814694,
+      -88.52378472
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "35",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 24,
+      "datum": "NAD27",
+      "rawLabel": "2",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-251-257",
+    "name": "VK 251 Platform 257",
+    "shortName": "VK 251 Platform 257",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 251",
+    "coordinates": [
+      29.74576585,
+      -88.15825087
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "257",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 251,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-252-730",
+    "name": "VK 252 Platform 730",
+    "shortName": "VK 252 Platform 730",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 252",
+    "coordinates": [
+      29.76055018,
+      -88.09532023
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "730",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 252,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-27-24109",
+    "name": "VK 27 Platform 24109",
+    "shortName": "VK 27 Platform 24109",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 27",
+    "coordinates": [
+      29.940088,
+      -88.376851
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24109",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 27,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-294-23448",
+    "name": "VK 294 Platform 23448",
+    "shortName": "VK 294 Platform 23448",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 294",
+    "coordinates": [
+      29.701045,
+      -88.182664
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23448",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 294,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-31-24182",
+    "name": "VK 31 Platform 24182",
+    "shortName": "VK 31 Platform 24182",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 31",
+    "coordinates": [
+      29.94922407,
+      -88.16071846
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24182",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 31,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-32-23458",
+    "name": "VK 32 Platform 23458",
+    "shortName": "VK 32 Platform 23458",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 32",
+    "coordinates": [
+      29.941104,
+      -88.106745
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23458",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 32,
+      "datum": "NAD27",
+      "rawLabel": "S",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-32-23459",
+    "name": "VK 32 Platform 23459",
+    "shortName": "VK 32 Platform 23459",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 32",
+    "coordinates": [
+      29.965646,
+      -88.086128
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23459",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 32,
+      "datum": "NAD27",
+      "rawLabel": "3",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-33-31015",
+    "name": "VK 33 Platform 31015",
+    "shortName": "VK 33 Platform 31015",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 33",
+    "coordinates": [
+      29.94740656,
+      -88.0611496
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "31015",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 33,
+      "datum": "NAD27",
+      "rawLabel": "1",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-340-1054",
+    "name": "VK 340 Platform 1054",
+    "shortName": "VK 340 Platform 1054",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 340",
+    "coordinates": [
+      29.63648821,
+      -88.09210805
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1054",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 340,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-35-70006",
+    "name": "VK 35 Platform 70006",
+    "shortName": "VK 35 Platform 70006",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 35",
+    "coordinates": [
+      29.94793704,
+      -87.94445557
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "70006",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 35,
+      "datum": "NAD27",
+      "rawLabel": "1",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-384-1139",
+    "name": "VK 384 Platform 1139",
+    "shortName": "VK 384 Platform 1139",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 384",
+    "coordinates": [
+      29.61387202,
+      -88.10074723
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1139",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 384,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-385-644",
+    "name": "VK 385 Platform 644",
+    "shortName": "VK 385 Platform 644",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 385",
+    "coordinates": [
+      29.59639401,
+      -88.04668573
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "644",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 385,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-432-1894",
+    "name": "VK 432 Platform 1894",
+    "shortName": "VK 432 Platform 1894",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 432",
+    "coordinates": [
+      29.58426613,
+      -87.8959041
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1894",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 432,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-68-43",
+    "name": "VK 68 Platform 43",
+    "shortName": "VK 68 Platform 43",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 68",
+    "coordinates": [
+      29.90306733,
+      -88.48482568
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "43",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 68,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-69-23871",
+    "name": "VK 69 Platform 23871",
+    "shortName": "VK 69 Platform 23871",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 69",
+    "coordinates": [
+      29.92586,
+      -88.478395
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23871",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 69,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-70-256",
+    "name": "VK 70 Platform 256",
+    "shortName": "VK 70 Platform 256",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 70",
+    "coordinates": [
+      29.89050077,
+      -88.41962732
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "256",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 70,
+      "datum": "NAD27",
+      "rawLabel": "1",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-734-407",
+    "name": "VK 734 Platform 407",
+    "shortName": "VK 734 Platform 407",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 734",
+    "coordinates": [
+      29.26908083,
+      -88.19008
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "407",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 734,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-74-23444",
+    "name": "VK 74 Platform 23444",
+    "shortName": "VK 74 Platform 23444",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 74",
+    "coordinates": [
+      29.908335,
+      -88.203027
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23444",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 74,
+      "datum": "NAD27",
+      "rawLabel": "1",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-74-23445",
+    "name": "VK 74 Platform 23445",
+    "shortName": "VK 74 Platform 23445",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 74",
+    "coordinates": [
+      29.924238,
+      -88.180223
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "23445",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 74,
+      "datum": "NAD27",
+      "rawLabel": "2",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-76-24191",
+    "name": "VK 76 Platform 24191",
+    "shortName": "VK 76 Platform 24191",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 76",
+    "coordinates": [
+      29.90612379,
+      -88.11470822
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24191",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 76,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-77-1889",
+    "name": "VK 77 Platform 1889",
+    "shortName": "VK 77 Platform 1889",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 77",
+    "coordinates": [
+      29.92608976,
+      -88.05528709
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "1889",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 77,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.015Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-817-24201",
+    "name": "VK 817 Platform 24201",
+    "shortName": "VK 817 Platform 24201",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 817",
+    "coordinates": [
+      29.16740033,
+      -88.45586715
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24201",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 817,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-899-22211",
+    "name": "VK 899 Platform 22211",
+    "shortName": "VK 899 Platform 22211",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 899",
+    "coordinates": [
+      29.062831,
+      -88.742832
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "22211",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 899,
+      "datum": "NAD27",
+      "rawLabel": "B",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-900-21895",
+    "name": "VK 900 Platform 21895",
+    "shortName": "VK 900 Platform 21895",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 900",
+    "coordinates": [
+      29.084538,
+      -88.704538
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "21895",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 900,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-vk-989-24130",
+    "name": "VK 989 Platform 24130",
+    "shortName": "VK 989 Platform 24130",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "VK 989",
+    "coordinates": [
+      28.97303233,
+      -88.62598209
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "24130",
+      "district": 1,
+      "area": "VK",
+      "areaIdentifier": "1VK",
+      "block": 989,
+      "datum": "NAD27",
+      "rawLabel": "A",
+      "importedAt": "2026-07-14T04:28:57.016Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-934-90277",
+    "name": "WELL A7 NORTH P",
+    "shortName": "WELL A7 NORTH P",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 934",
+    "coordinates": [
+      28.03748347,
+      -89.44480394
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90277",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 934,
+      "datum": "NAD27",
+      "rawLabel": "WELL A7 NORTH P",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-935-90278",
+    "name": "Well A7 SOUTH P",
+    "shortName": "Well A7 SOUTH P",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 935",
+    "coordinates": [
+      28.03748347,
+      -89.44480394
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "90278",
+      "district": null,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 935,
+      "datum": "NAD27",
+      "rawLabel": "Well A7 SOUTH P",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-ac-773-2689",
+    "name": "Whale",
+    "shortName": "Whale",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "AC 773",
+    "coordinates": [
+      26.22344022,
+      -94.67357195
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2689",
+      "district": 4,
+      "area": "AC",
+      "areaIdentifier": "1AC",
+      "block": 773,
+      "datum": "NAD27",
+      "rawLabel": "A (Whale)",
+      "importedAt": "2026-07-14T04:28:56.974Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  },
+  {
+    "id": "boem-mc-547-2424",
+    "name": "Who Dat",
+    "shortName": "Who Dat",
+    "category": "oil_platform",
+    "type": "Offshore Platform",
+    "region": "MC 547",
+    "coordinates": [
+      28.41538737,
+      -89.0162066
+    ],
+    "depth": "Waiting for verified water depth",
+    "influenceRadius": 3500,
+    "active": true,
+    "source": {
+      "agency": "BOEM",
+      "subarea": null,
+      "dataset": "Platform Locations",
+      "complexId": "2424",
+      "district": 1,
+      "area": "MC",
+      "areaIdentifier": "1MC",
+      "block": 547,
+      "datum": "NAD27",
+      "rawLabel": "A (Who Dat)",
+      "importedAt": "2026-07-14T04:28:56.991Z",
+      "locationAccuracy": "Approximate GIS coordinate"
+    },
+    "structureProfile": {
+      "baitRetention": 0,
+      "currentInteraction": 0,
+      "marlinAttraction": 0
+    },
+    "scores": {
+      "blueMarlin": 0,
+      "yellowfin": 0,
+      "blackfin": 0
+    },
+    "conditions": {
+      "sst": null,
+      "current": null,
+      "chlorophyll": null
+    },
+    "recommendation": "Review live ocean conditions before evaluating this structure."
+  }
+]

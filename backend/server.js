@@ -2,6 +2,27 @@ import http from "node:http";
 import { URL } from "node:url";
 
 
+import boemPlatforms
+  from "./data/boemPlatformsImported.json"
+  with { type: "json" };
+
+import fads
+  from "./data/fads.json"
+  with { type: "json" };
+
+
+  /* -----------------------------
+   Verified Structure Catalog
+------------------------------ */
+
+const VERIFIED_STRUCTURES = [
+  ...boemPlatforms,
+  ...fads
+].filter(
+  structure => structure.active !== false
+);
+
+
 const PORT =
   Number(process.env.PORT) || 8787;
 
@@ -72,6 +93,42 @@ function safeNumber(value) {
   return Number.isFinite(number)
     ? number
     : null;
+}
+
+
+function nauticalMilesBetween(
+  lat1,
+  lon1,
+  lat2,
+  lon2
+) {
+  const radians = degrees =>
+    degrees * Math.PI / 180;
+
+  const earthRadiusNm = 3440.065;
+
+  const dLat =
+    radians(lat2 - lat1);
+
+  const dLon =
+    radians(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(radians(lat1)) *
+    Math.cos(radians(lat2)) *
+    Math.sin(dLon / 2) ** 2;
+
+  const c =
+    2 *
+    Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1 - a)
+    );
+
+  return Number(
+    (earthRadiusNm * c).toFixed(2)
+  );
 }
 
 
@@ -6018,6 +6075,40 @@ function buildClarityEvidence(
     interpretation:
       "species-neutral-surface-water-clarity-evidence"
   };
+}
+
+
+function findNearestStructure(
+  latitude,
+  longitude
+) {
+  let nearest = null;
+
+  for (const structure of STRUCTURES) {
+
+    const [lat, lon] =
+      structure.coordinates;
+
+    const distance =
+      nauticalMilesBetween(
+        latitude,
+        longitude,
+        lat,
+        lon
+      );
+
+    if (
+      !nearest ||
+      distance < nearest.distanceNm
+    ) {
+      nearest = {
+        structure,
+        distanceNm: distance
+      };
+    }
+  }
+
+  return nearest;
 }
 
 
