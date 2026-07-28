@@ -5502,6 +5502,30 @@ assert.equal(
 
 assert.equal(
   structureEvidence.values
+    .currentConvergenceDetected,
+  false
+);
+
+assert.equal(
+  structureEvidence.values
+    .currentShearDetected,
+  false
+);
+
+assert.equal(
+  structureEvidence.values
+    .currentEdgeDetected,
+  false
+);
+
+assert.equal(
+  structureEvidence.values
+    .eddyBoundaryDetected,
+  false
+);
+
+assert.equal(
+  structureEvidence.values
     .currentInteractionClassification,
   "unavailable"
 );
@@ -5784,6 +5808,34 @@ assert.equal(
     .values
     .currentInteractionClassification,
   "single-point-current-only"
+);
+
+assert.equal(
+  appomattoxCurrentStructureEvidence
+    .values
+    .currentConvergenceDetected,
+  false
+);
+
+assert.equal(
+  appomattoxCurrentStructureEvidence
+    .values
+    .currentShearDetected,
+  false
+);
+
+assert.equal(
+  appomattoxCurrentStructureEvidence
+    .values
+    .currentEdgeDetected,
+  false
+);
+
+assert.equal(
+  appomattoxCurrentStructureEvidence
+    .values
+    .eddyBoundaryDetected,
+  false
 );
 
 assert.ok(
