@@ -5718,6 +5718,160 @@ console.log(
 );
 
 
+/*
+ * Structure Evidence v2.0 verified FAD proximity
+ *
+ * A valid location matching a verified county FAD should
+ * preserve the FAD identity, source, depth, and conservative
+ * species-neutral limitations.
+ */
+const okaloosaFadStructureResult =
+  assessOceanEvidence({
+    latitude: 29.528317,
+    longitude: -87.043883,
+    sst: null,
+    chlorophyll: null,
+    currents: null,
+    dataQuality: {}
+  });
+
+const okaloosaFadStructureEvidence =
+  okaloosaFadStructureResult
+    .groups
+    .structure;
+
+assert.equal(
+  okaloosaFadStructureEvidence.available,
+  true
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.classification,
+  "verified-structure-proximity"
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.reason,
+  "nearest-verified-structure-identified"
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.interpretation,
+  "species-neutral-structure-evidence"
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .featureName,
+  "Okaloosa FAD 1"
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .featureType,
+  "Fish Aggregating Device"
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .featureSource,
+  "Okaloosa County"
+);
+
+assert.ok(
+  okaloosaFadStructureEvidence.values
+    .nearestStructureDistanceNm <=
+  0.01
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .depthFeet,
+  1191
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .analysisRadiusNm,
+  1.35
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .freshness,
+  "verified-static"
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .currentInteraction,
+  false
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .thermalInteraction,
+  false
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .productivityInteraction,
+  false
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.values
+    .multiSignalInteraction,
+  false
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.confidence
+    .score,
+  95
+);
+
+assert.equal(
+  okaloosaFadStructureEvidence.confidence
+    .level,
+  "High"
+);
+
+assert.ok(
+  okaloosaFadStructureEvidence.confidence
+    .limitations
+    .includes(
+      "structure-presence-does-not-confirm-biological-activity"
+    )
+);
+
+assert.ok(
+  okaloosaFadStructureEvidence.limitations
+    .includes(
+      "does-not-establish-fish-presence"
+    )
+);
+
+assert.ok(
+  okaloosaFadStructureEvidence.limitations
+    .includes(
+      "does-not-indicate-species-suitability"
+    )
+);
+
+assert.ok(
+  okaloosaFadStructureEvidence.limitations
+    .includes(
+      "does-not-evaluate-current-interaction"
+    )
+);
+
+console.log(
+  "PASS Structure Evidence v2.0 identifies verified Okaloosa FAD proximity without biological inference"
+);
+
+
 /**
  * ------------------------------------------------------------
  * Persistence Evidence Contract v1.0
