@@ -4419,7 +4419,8 @@ export function assessOceanEvidence({
   const structure =
     buildStructureEvidence({
       latitude,
-      longitude
+      longitude,
+      current
     });
 
   const groups = {
@@ -6307,9 +6308,21 @@ function buildStructureMetadata({
 }
 
 
-function evaluateCurrentInteraction() {
+function evaluateCurrentInteraction(
+  current
+) {
+  if (!current?.available) {
+    return {
+      currentInteraction: false,
+      classification:
+        "unavailable"
+    };
+  }
+
   return {
-    currentInteraction: false
+    currentInteraction: false,
+    classification:
+      "single-point-current-only"
   };
 }
 
@@ -6358,7 +6371,8 @@ function buildStructureConfidence({
 
 function buildStructureEvidence({
   latitude,
-  longitude
+  longitude,
+current
 }) {
   const validLatitude =
     safeNumber(latitude);
@@ -6485,7 +6499,9 @@ function buildStructureEvidence({
     });
 
   const currentInteraction =
-    evaluateCurrentInteraction();
+    evaluateCurrentInteraction(
+      current
+    );
 
   const thermalInteraction =
     evaluateThermalInteraction();
