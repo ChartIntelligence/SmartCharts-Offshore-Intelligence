@@ -8748,6 +8748,238 @@ export function buildRelationshipContext({
  * Blue Marlin Habitat Suitability Model
  * ------------------------------------------------------------
  */
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Pathway Interpretation v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Translate species-neutral environmental relationship context
+ * into conservative Blue Marlin opportunity interpretations.
+ *
+ * This engine identifies biologically plausible opportunity
+ * types that may be consistent with the observed environmental
+ * pathway.
+ *
+ * It does not confirm:
+ * - Blue Marlin presence
+ * - feeding
+ * - prey concentration
+ * - persistence
+ * - catch probability
+ * - fishing success
+ *
+ * It does not modify habitat scores or confidence.
+ */
+export function interpretBlueMarlinPathway({
+  relationshipContext = null
+} = {}) {
+  const pathway =
+    relationshipContext
+      ?.pathway ??
+    "insufficient-evidence";
+
+  const environmentType =
+    relationshipContext
+      ?.environmentType ??
+    "unresolved";
+
+  const relationshipSupport =
+    relationshipContext
+      ?.relationshipSupport ??
+    {};
+
+  const openWaterSupported =
+    relationshipSupport
+      ?.openWaterOrganization
+      ?.supported === true;
+
+  const structureSupported =
+    relationshipSupport
+      ?.structureInteraction
+      ?.supported === true;
+
+  const persistenceSupported =
+    relationshipSupport
+      ?.persistence
+      ?.supported === true;
+
+  let classification =
+    "insufficient-blue-marlin-pathway-evidence";
+
+  let plausibleOpportunityTypes = [];
+
+  let interpretation =
+    "The available environmental evidence does not yet support a Blue Marlin pathway interpretation.";
+
+  const positiveDrivers = [];
+
+  const limitations = [
+    "blue-marlin-pathway-interpretation-is-preliminary",
+    "does-not-confirm-blue-marlin-presence",
+    "does-not-confirm-feeding",
+    "does-not-confirm-prey-concentration",
+    "does-not-estimate-catch-probability",
+    "does-not-indicate-fishing-success",
+    "does-not-change-habitat-scores",
+    "does-not-change-model-confidence"
+  ];
+
+  if (
+    pathway === "open-water" &&
+    openWaterSupported
+  ) {
+    classification =
+      "open-water-blue-marlin-opportunity-context";
+
+    plausibleOpportunityTypes = [
+      "current-convergence-feeding-pocket",
+      "feeding-corridor",
+      "eddy-edge-opportunity",
+      "productive-water-boundary",
+      "open-water-prey-aggregation"
+    ];
+
+    interpretation =
+      "The environmental pathway is consistent with one or more open-water Blue Marlin opportunity types, but the specific feature and its biological use remain unconfirmed.";
+
+    positiveDrivers.push(
+      "species-neutral-open-water-organization-supported"
+    );
+  } else if (
+    pathway === "structure-associated" &&
+    structureSupported
+  ) {
+    classification =
+      "structure-associated-blue-marlin-opportunity-context";
+
+    plausibleOpportunityTypes = [
+      "bathymetric-interaction-zone"
+    ];
+
+    interpretation =
+      "The environmental pathway is consistent with a possible Blue Marlin bathymetric interaction zone, but structure interaction, prey response, and fish use remain unconfirmed.";
+
+    positiveDrivers.push(
+      "species-neutral-structure-association-supported"
+    );
+  } else if (
+    pathway === "combined" &&
+    openWaterSupported &&
+    structureSupported
+  ) {
+    classification =
+      "combined-blue-marlin-opportunity-context";
+
+    plausibleOpportunityTypes = [
+      "bathymetric-interaction-zone",
+      "current-convergence-feeding-pocket",
+      "feeding-corridor",
+      "eddy-edge-opportunity",
+      "productive-water-boundary",
+      "open-water-prey-aggregation"
+    ];
+
+    interpretation =
+      "The environmental pathway is consistent with a possible structure-enhanced open-water Blue Marlin opportunity, but the feature type, prey response, persistence, and biological use remain unconfirmed.";
+
+    positiveDrivers.push(
+      "species-neutral-open-water-organization-supported",
+      "species-neutral-structure-association-supported"
+    );
+  } else if (
+    pathway ===
+      "environmental-feature-unclassified"
+  ) {
+    classification =
+      "unclassified-blue-marlin-environmental-feature-context";
+
+    interpretation =
+      "An environmental feature candidate is present, but its pathway is not sufficiently resolved to identify a plausible Blue Marlin opportunity type.";
+
+    limitations.push(
+      "environmental-pathway-not-resolved"
+    );
+  } else {
+    limitations.push(
+      "environmental-opportunity-pathway-not-established"
+    );
+  }
+
+  if (!persistenceSupported) {
+    limitations.push(
+      "feature-persistence-not-established"
+    );
+  }
+
+  return {
+    available:
+      plausibleOpportunityTypes
+        .length > 0,
+
+    species:
+      "blue-marlin",
+
+    environmentalPathway:
+      pathway,
+
+    environmentType,
+
+    classification,
+
+    plausibleOpportunityTypes,
+
+    confirmedOpportunityType:
+      null,
+
+    relationshipSupport: {
+      openWaterOrganization:
+        openWaterSupported,
+
+      structureInteraction:
+        structureSupported,
+
+      persistence:
+        persistenceSupported
+    },
+
+    positiveDrivers,
+
+    limitations: [
+      ...new Set(
+        limitations
+          .filter(Boolean)
+      )
+    ],
+
+    interpretation,
+
+    rules: {
+      speciesSpecificInterpretation:
+        true,
+
+      biologicalInferenceAllowed:
+        false,
+
+      confirmedOpportunityTypeAllowed:
+        false,
+
+      changesHabitatScores:
+        false,
+
+      changesConfidence:
+        false,
+
+      structureRequired:
+        false
+    },
+
+    methodVersion:
+      "pelora-blue-marlin-pathway-interpretation-v1.0"
+  };
+}
+
+
 export function assessBlueMarlinHabitat({
   oceanOpportunity,
   oceanEvidence,
@@ -8769,6 +9001,11 @@ export function assessBlueMarlinHabitat({
     buildRelationshipContext({
       oceanOpportunity,
       oceanEvidence
+    });
+
+  const speciesPathwayInterpretation =
+    interpretBlueMarlinPathway({
+      relationshipContext
     });
 
   const temperature =
@@ -10094,6 +10331,14 @@ export function assessBlueMarlinHabitat({
      */
     relationshipContext,
 
+    /*
+     * Blue Marlin-specific interpretation of the species-neutral
+     * environmental pathway.
+     *
+     * This field is explanatory only and contributes no points.
+     */
+    speciesPathwayInterpretation,
+
     opportunityTypes,
 
     positiveDrivers:
@@ -10179,7 +10424,7 @@ export function assessBlueMarlinHabitat({
       "blue-marlin-habitat-suitability",
 
     methodVersion:
-      "pelora-blue-marlin-hsm-v1.1"
+      "pelora-blue-marlin-hsm-v1.2"
   };
 }
 

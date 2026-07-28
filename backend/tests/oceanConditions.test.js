@@ -8,7 +8,8 @@ import {
   buildOpenWaterEvidence,
   buildEnvironmentalOpportunityEvidence,
   classifyOceanOpportunity,
-  buildRelationshipContext
+  buildRelationshipContext,
+  interpretBlueMarlinPathway
 } from "../server.js";
 
 
@@ -8112,9 +8113,557 @@ assert.equal(
 assert.equal(
   blueMarlinAfterRelationshipContext
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.1"
+  "pelora-blue-marlin-hsm-v1.2"
 );
 
 console.log(
   "PASS Blue Marlin HSM exposes relationship context without changing habitat scoring"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Pathway Interpretation v1.0
+ * ------------------------------------------------------------
+ */
+
+const insufficientBlueMarlinPathway =
+  interpretBlueMarlinPathway();
+
+assert.equal(
+  insufficientBlueMarlinPathway
+    .available,
+  false
+);
+
+assert.equal(
+  insufficientBlueMarlinPathway
+    .classification,
+  "insufficient-blue-marlin-pathway-evidence"
+);
+
+assert.deepEqual(
+  insufficientBlueMarlinPathway
+    .plausibleOpportunityTypes,
+  []
+);
+
+assert.equal(
+  insufficientBlueMarlinPathway
+    .confirmedOpportunityType,
+  null
+);
+
+assert.equal(
+  insufficientBlueMarlinPathway
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+assert.equal(
+  insufficientBlueMarlinPathway
+    .rules
+    .biologicalInferenceAllowed,
+  false
+);
+
+console.log(
+  "PASS Blue Marlin Pathway Interpretation remains conservative when pathway evidence is unavailable"
+);
+
+
+const openWaterBlueMarlinPathway =
+  interpretBlueMarlinPathway({
+    relationshipContext: {
+      pathway:
+        "open-water",
+
+      environmentType:
+        "environmental-organization",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: true
+        },
+
+        structureInteraction: {
+          supported: false
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    }
+  });
+
+assert.equal(
+  openWaterBlueMarlinPathway
+    .available,
+  true
+);
+
+assert.equal(
+  openWaterBlueMarlinPathway
+    .classification,
+  "open-water-blue-marlin-opportunity-context"
+);
+
+assert.deepEqual(
+  openWaterBlueMarlinPathway
+    .plausibleOpportunityTypes,
+  [
+    "current-convergence-feeding-pocket",
+    "feeding-corridor",
+    "eddy-edge-opportunity",
+    "productive-water-boundary",
+    "open-water-prey-aggregation"
+  ]
+);
+
+assert.equal(
+  openWaterBlueMarlinPathway
+    .relationshipSupport
+    .structureInteraction,
+  false
+);
+
+assert.ok(
+  openWaterBlueMarlinPathway
+    .limitations
+    .includes(
+      "feature-persistence-not-established"
+    )
+);
+
+console.log(
+  "PASS Blue Marlin Pathway Interpretation recognizes first-class open-water opportunity context"
+);
+
+
+const structureBlueMarlinPathway =
+  interpretBlueMarlinPathway({
+    relationshipContext: {
+      pathway:
+        "structure-associated",
+
+      environmentType:
+        "physical-structure",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: false
+        },
+
+        structureInteraction: {
+          supported: true
+        },
+
+        persistence: {
+          supported: false
+        }
+      }
+    }
+  });
+
+assert.equal(
+  structureBlueMarlinPathway
+    .available,
+  true
+);
+
+assert.deepEqual(
+  structureBlueMarlinPathway
+    .plausibleOpportunityTypes,
+  [
+    "bathymetric-interaction-zone"
+  ]
+);
+
+assert.equal(
+  structureBlueMarlinPathway
+    .rules
+    .structureRequired,
+  false
+);
+
+console.log(
+  "PASS Blue Marlin Pathway Interpretation recognizes an independent structure-associated context"
+);
+
+
+const combinedBlueMarlinPathway =
+  interpretBlueMarlinPathway({
+    relationshipContext: {
+      pathway:
+        "combined",
+
+      environmentType:
+        "structure-and-open-water",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported: true
+        },
+
+        structureInteraction: {
+          supported: true
+        },
+
+        persistence: {
+          supported: true
+        }
+      }
+    }
+  });
+
+assert.equal(
+  combinedBlueMarlinPathway
+    .available,
+  true
+);
+
+assert.equal(
+  combinedBlueMarlinPathway
+    .classification,
+  "combined-blue-marlin-opportunity-context"
+);
+
+assert.ok(
+  combinedBlueMarlinPathway
+    .plausibleOpportunityTypes
+    .includes(
+      "bathymetric-interaction-zone"
+    )
+);
+
+assert.ok(
+  combinedBlueMarlinPathway
+    .plausibleOpportunityTypes
+    .includes(
+      "feeding-corridor"
+    )
+);
+
+assert.equal(
+  combinedBlueMarlinPathway
+    .relationshipSupport
+    .persistence,
+  true
+);
+
+assert.equal(
+  combinedBlueMarlinPathway
+    .confirmedOpportunityType,
+  null
+);
+
+console.log(
+  "PASS Blue Marlin Pathway Interpretation recognizes combined structure and open-water context"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Pathway Interpretation HSM Integration
+ * ------------------------------------------------------------
+ */
+
+const pathwayInterpretationOceanEvidence = {
+  groups: {
+    temperature: {
+      available: true,
+
+      classification:
+        "moderate-temperature-transition",
+
+      values: {
+        transitionStrength:
+          "moderate",
+
+        transitionDirection:
+          "warming",
+
+        patternConfidence:
+          "moderate",
+
+        spatialCoverage:
+          "complete"
+      }
+    },
+
+    current: {
+      available: true,
+
+      classification:
+        "moderate",
+
+      values: {
+        strengthClassification:
+          "moderate",
+
+        speedKnots:
+          1.2,
+
+        directionDegrees:
+          135,
+
+        freshness:
+          "fresh",
+
+        sourceAvailability:
+          "available"
+      }
+    },
+
+    productivity: {
+      available: true,
+
+      classification:
+        "productive-surface-water",
+
+      values: {
+        waterClassification:
+          "productive-green-water",
+
+        concentrationMgM3:
+          0.25,
+
+        freshness:
+          "fresh"
+      }
+    },
+
+    clarity: {
+      available: true,
+
+      classification:
+        "transitional-surface-water",
+
+      values: {
+        waterClassification:
+          "productive-blue-green-transition",
+
+        concentrationMgM3:
+          0.25,
+
+        freshness:
+          "fresh"
+      }
+    },
+
+    structure: {
+      available: false
+    }
+  }
+};
+
+
+const pathwayInterpretationBaseOpportunity = {
+  opportunities: [
+    {
+      type:
+        "current-supported-transition-candidate"
+    },
+
+    {
+      type:
+        "multi-signal-feature-candidate"
+    }
+  ],
+
+  confidence: {
+    score: 60,
+    level: "Moderate"
+  },
+
+  limitations: []
+};
+
+
+const habitatWithoutResolvedPathway =
+  assessBlueMarlinHabitat({
+    oceanOpportunity:
+      pathwayInterpretationBaseOpportunity,
+
+    oceanEvidence:
+      pathwayInterpretationOceanEvidence,
+
+    dataQuality: {
+      score: 80,
+      level: "High"
+    }
+  });
+
+
+const habitatWithResolvedPathway =
+  assessBlueMarlinHabitat({
+    oceanOpportunity: {
+      ...pathwayInterpretationBaseOpportunity,
+
+      pathwayClassification: {
+        classification:
+          "open-water",
+
+        pathway:
+          "environmental-organization",
+
+        evidence: {
+          structureAvailable:
+            false,
+
+          openWaterOrganized:
+            true,
+
+          persistenceAvailable:
+            false
+        }
+      }
+    },
+
+    oceanEvidence:
+      pathwayInterpretationOceanEvidence,
+
+    dataQuality: {
+      score: 80,
+      level: "High"
+    }
+  });
+
+
+assert.equal(
+  habitatWithResolvedPathway
+    .speciesPathwayInterpretation
+    .species,
+  "blue-marlin"
+);
+
+assert.equal(
+  habitatWithResolvedPathway
+    .speciesPathwayInterpretation
+    .environmentalPathway,
+  "open-water"
+);
+
+assert.equal(
+  habitatWithResolvedPathway
+    .speciesPathwayInterpretation
+    .classification,
+  "open-water-blue-marlin-opportunity-context"
+);
+
+assert.ok(
+  habitatWithResolvedPathway
+    .speciesPathwayInterpretation
+    .plausibleOpportunityTypes
+    .includes(
+      "feeding-corridor"
+    )
+);
+
+assert.equal(
+  habitatWithResolvedPathway
+    .speciesPathwayInterpretation
+    .confirmedOpportunityType,
+  null
+);
+
+assert.equal(
+  habitatWithResolvedPathway
+    .speciesPathwayInterpretation
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+
+/*
+ * No final or raw habitat score may change.
+ */
+assert.equal(
+  habitatWithResolvedPathway
+    .summary
+    .suitabilityScore,
+
+  habitatWithoutResolvedPathway
+    .summary
+    .suitabilityScore
+);
+
+assert.equal(
+  habitatWithResolvedPathway
+    .summary
+    .rawSuitabilityScore,
+
+  habitatWithoutResolvedPathway
+    .summary
+    .rawSuitabilityScore
+);
+
+
+/*
+ * No relationship-group score may change.
+ */
+assert.deepEqual(
+  habitatWithResolvedPathway
+    .relationshipGroups,
+
+  habitatWithoutResolvedPathway
+    .relationshipGroups
+);
+
+
+/*
+ * No classification or confidence result may change.
+ */
+assert.equal(
+  habitatWithResolvedPathway
+    .summary
+    .classification,
+
+  habitatWithoutResolvedPathway
+    .summary
+    .classification
+);
+
+assert.deepEqual(
+  habitatWithResolvedPathway
+    .confidence,
+
+  habitatWithoutResolvedPathway
+    .confidence
+);
+
+
+/*
+ * Existing scoring drivers must remain untouched.
+ */
+assert.deepEqual(
+  habitatWithResolvedPathway
+    .positiveDrivers,
+
+  habitatWithoutResolvedPathway
+    .positiveDrivers
+);
+
+assert.deepEqual(
+  habitatWithResolvedPathway
+    .negativeDrivers,
+
+  habitatWithoutResolvedPathway
+    .negativeDrivers
+);
+
+
+assert.equal(
+  habitatWithResolvedPathway
+    .methodVersion,
+  "pelora-blue-marlin-hsm-v1.2"
+);
+
+console.log(
+  "PASS Blue Marlin HSM exposes species pathway interpretation without changing scoring"
 );
