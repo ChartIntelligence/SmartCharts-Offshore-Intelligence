@@ -6315,14 +6315,22 @@ function evaluateCurrentInteraction(
     return {
       currentInteraction: false,
       classification:
-        "unavailable"
+        "unavailable",
+      convergenceDetected: false,
+      shearDetected: false,
+      currentEdgeDetected: false,
+      eddyBoundaryDetected: false
     };
   }
 
   return {
     currentInteraction: false,
     classification:
-      "single-point-current-only"
+      "single-point-current-only",
+    convergenceDetected: false,
+    shearDetected: false,
+    currentEdgeDetected: false,
+    eddyBoundaryDetected: false
   };
 }
 
@@ -6392,7 +6400,11 @@ current
     bathymetricGradient: null,
     currentInteraction: false,
     currentInteractionClassification:
-  "unavailable",
+      "unavailable",
+    currentConvergenceDetected: false,
+    currentShearDetected: false,
+    currentEdgeDetected: false,
+    eddyBoundaryDetected: false,
     thermalInteraction: false,
     productivityInteraction: false,
     multiSignalInteraction: false,
@@ -6553,9 +6565,25 @@ current
         currentInteraction
           .currentInteraction,
 
-        currentInteractionClassification:
-         currentInteraction
+      currentInteractionClassification:
+        currentInteraction
           .classification,
+
+      currentConvergenceDetected:
+        currentInteraction
+          .convergenceDetected,
+
+      currentShearDetected:
+        currentInteraction
+          .shearDetected,
+
+      currentEdgeDetected:
+        currentInteraction
+          .currentEdgeDetected,
+
+      eddyBoundaryDetected:
+        currentInteraction
+          .eddyBoundaryDetected,
 
       thermalInteraction:
         thermalInteraction
