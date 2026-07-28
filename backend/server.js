@@ -1,5 +1,8 @@
 import http from "node:http";
-import { URL } from "node:url";
+import {
+  URL,
+  pathToFileURL
+} from "node:url";
 
 
 import boemPlatforms
@@ -4390,6 +4393,8 @@ export function assessOceanConditions({
  * Pelora engines.
  */
 export function assessOceanEvidence({
+  latitude,
+  longitude,
   sst,
   chlorophyll,
   currents,
@@ -4412,7 +4417,10 @@ export function assessOceanEvidence({
     );
 
   const structure =
-    buildStructureEvidence();
+    buildStructureEvidence({
+      latitude,
+      longitude
+    });
 
   const groups = {
     temperature,
@@ -6084,7 +6092,7 @@ function findNearestStructure(
 ) {
   let nearest = null;
 
-  for (const structure of STRUCTURES) {
+  for (const structure of VERIFIED_STRUCTURES) {
 
     const [lat, lon] =
       structure.coordinates;
@@ -6221,65 +6229,258 @@ function findNearestStructure(
  * state until Pelora connects verified structure data and
  * spatial interaction analysis.
  */
-function buildStructureEvidence() {
+function buildStructureEvidence({
+  latitude,
+  longitude
+}) {
+  const validLatitude =
+    safeNumber(latitude);
+
+  const validLongitude =
+    safeNumber(longitude);
+
+  const unavailableValues = {
+    featureType: null,
+    featureName: null,
+    featureSource: null,
+    nearestStructureDistanceNm:
+      null,
+    depthFeet: null,
+    depthChangeFeet: null,
+    analysisRadiusNm: null,
+    bathymetricGradient: null,
+    currentInteraction: false,
+    thermalInteraction: false,
+    productivityInteraction: false,
+    multiSignalInteraction: false,
+    observedAt: null,
+    ageHours: null,
+    freshness: null
+  };
+
+  if (
+    validLatitude === null ||
+    validLongitude === null
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "unavailable",
+
+      headline:
+        "Structure interaction unavailable",
+
+      detail:
+        "A valid analysis location was not available.",
+
+      reason:
+        "invalid-analysis-location",
+
+      interpretation:
+        "species-neutral-structure-evidence",
+
+      values:
+        unavailableValues,
+
+      confidence: {
+        score: 0,
+        level: "Unavailable",
+        limitations: [
+          "invalid-analysis-location"
+        ]
+      },
+
+      limitations: [
+        "invalid-analysis-location",
+        "does-not-evaluate-bathymetry",
+        "does-not-evaluate-current-interaction",
+        "does-not-establish-fish-presence"
+      ]
+    };
+  }
+
+  const nearest =
+    findNearestStructure(
+      validLatitude,
+      validLongitude
+    );
+
+  if (!nearest?.structure) {
+    return {
+      available: false,
+
+      classification:
+        "unavailable",
+
+      headline:
+        "Structure interaction unavailable",
+
+      detail:
+        "No verified offshore structure was available for spatial analysis.",
+
+      reason:
+        "verified-structure-catalog-empty",
+
+      interpretation:
+        "species-neutral-structure-evidence",
+
+      values:
+        unavailableValues,
+
+      confidence: {
+        score: 0,
+        level: "Unavailable",
+        limitations: [
+          "verified-structure-catalog-empty"
+        ]
+      },
+
+      limitations: [
+        "verified-structure-catalog-empty",
+        "does-not-evaluate-bathymetry",
+        "does-not-evaluate-current-interaction",
+        "does-not-establish-fish-presence"
+      ]
+    };
+  }
+
+  const structure =
+    nearest.structure;
+
+  const distanceNm =
+    nearest.distanceNm;
+
+  const sourceAgency =
+    structure.source?.agency ??
+    "Unknown";
+
+  const influenceRadiusMeters =
+    safeNumber(
+      structure.influenceRadius
+    );
+
+  const analysisRadiusNm =
+    influenceRadiusMeters === null
+      ? null
+      : Number(
+          (
+            influenceRadiusMeters /
+            1852
+          ).toFixed(2)
+        );
+
+  const depthMatch =
+    typeof structure.depth === "string"
+      ? structure.depth.match(
+          /([\d,.]+)\s*ft/i
+        )
+      : null;
+
+  const depthFeet =
+    depthMatch
+      ? safeNumber(
+          depthMatch[1].replace(
+            /,/g,
+            ""
+          )
+        )
+      : null;
+
+  const sourceVerified =
+    structure.source?.verified === true ||
+    sourceAgency === "BOEM";
+
   return {
-    available: false,
+    available: true,
 
     classification:
-      "unavailable",
+      "verified-structure-proximity",
 
     headline:
-      "Structure interaction unavailable",
+      "Verified offshore structure identified",
 
     detail:
-      "Verified bathymetric or fixed-structure interaction has not yet been analyzed.",
+      `${structure.name} is the nearest verified structure, approximately ${distanceNm} nautical miles from the analysis location.`,
 
     reason:
-      "structure-analysis-not-yet-implemented",
+      "nearest-verified-structure-identified",
+
+    interpretation:
+      "species-neutral-structure-evidence",
 
     values: {
-      featureType: null,
-      featureName: null,
-      featureSource: null,
+      featureType:
+        structure.type ??
+        structure.category ??
+        "Offshore Structure",
+
+      featureName:
+        structure.name ??
+        structure.shortName ??
+        "Unnamed Structure",
+
+      featureSource:
+        sourceAgency,
+
       nearestStructureDistanceNm:
-        null,
-      depthFeet: null,
+        distanceNm,
+
+      depthFeet,
+
       depthChangeFeet: null,
-      analysisRadiusNm: null,
+
+      analysisRadiusNm,
+
       bathymetricGradient: null,
+
       currentInteraction: false,
+
       thermalInteraction: false,
+
       productivityInteraction: false,
+
       multiSignalInteraction: false,
-      observedAt: null,
+
+      observedAt:
+        structure.source?.reportDate ??
+        structure.source?.importedAt ??
+        null,
+
       ageHours: null,
+
       freshness:
-        "unknown"
+        "verified-static"
     },
 
     confidence: {
-      score: 0,
+      score:
+        sourceVerified
+          ? 95
+          : 80,
+
       level:
-        "Unavailable",
+        sourceVerified
+          ? "High"
+          : "Moderate",
 
       limitations: [
-        "verified-structure-source-not-connected",
-        "spatial-structure-interaction-not-assessed"
+        "location-may-be-approximate",
+        "nearest-structure-only",
+        "structure-presence-does-not-confirm-biological-activity"
       ]
     },
 
-    drivers: [],
-
     limitations: [
-      "verified-structure-source-not-connected",
-      "bathymetric-gradient-not-assessed",
-      "current-structure-interaction-not-assessed",
-      "thermal-structure-interaction-not-assessed",
-      "structure-presence-does-not-establish-prey-or-fish-presence"
-    ],
-
-    interpretation:
-      "species-neutral-structure-evidence"
+      "nearest-structure-only",
+      "location-may-be-approximate",
+      "does-not-evaluate-bathymetry",
+      "does-not-evaluate-current-interaction",
+      "does-not-evaluate-thermal-interaction",
+      "does-not-evaluate-productivity-interaction",
+      "does-not-establish-fish-presence",
+      "does-not-indicate-species-suitability"
+    ]
   };
 }
 
@@ -9441,6 +9642,12 @@ async function getOceanConditions(
 
 const oceanEvidence =
   assessOceanEvidence({
+    latitude:
+      marine.location.latitude,
+
+    longitude:
+      marine.location.longitude,
+
     sst,
     chlorophyll,
     currents,
@@ -9819,10 +10026,19 @@ const server =
   );
 
 
+const isDirectExecution =
+  Boolean(process.argv[1]) &&
+  import.meta.url ===
+    pathToFileURL(
+      process.argv[1]
+    ).href;
+
+
 if (
+  isDirectExecution &&
   process.env
     .PELORA_TEST_OCEAN_CONDITIONS !==
-  "1"
+    "1"
 ) {
   server.listen(
     PORT,

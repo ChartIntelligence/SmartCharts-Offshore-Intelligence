@@ -5443,11 +5443,11 @@ console.log(
 
 
 /*
- * Structure Evidence Contract v1.0
+ * Structure Evidence missing-location fallback
  *
- * Structure data and spatial interaction analysis are not yet
- * connected. The Ocean Evidence engine must therefore expose a
- * complete but explicitly unavailable species-neutral contract.
+ * Verified structure data is connected, but calls without valid
+ * coordinates must still return a complete, explicitly unavailable,
+ * species-neutral evidence contract.
  */
 const structureEvidenceContractResult =
   assessOceanEvidence({
@@ -5474,7 +5474,7 @@ assert.equal(
 
 assert.equal(
   structureEvidence.reason,
-  "structure-analysis-not-yet-implemented"
+  "invalid-analysis-location"
 );
 
 assert.equal(
@@ -5533,40 +5533,188 @@ assert.equal(
 assert.ok(
   structureEvidence.limitations
     .includes(
-      "verified-structure-source-not-connected"
+      "invalid-analysis-location"
     )
 );
 
 assert.ok(
   structureEvidence.limitations
     .includes(
-      "bathymetric-gradient-not-assessed"
+      "does-not-evaluate-bathymetry"
     )
 );
 
 assert.ok(
   structureEvidence.limitations
     .includes(
-      "current-structure-interaction-not-assessed"
+      "does-not-evaluate-current-interaction"
     )
 );
 
 assert.ok(
   structureEvidence.limitations
     .includes(
-      "thermal-structure-interaction-not-assessed"
-    )
-);
-
-assert.ok(
-  structureEvidence.limitations
-    .includes(
-      "structure-presence-does-not-establish-prey-or-fish-presence"
+      "does-not-establish-fish-presence"
     )
 );
 
 console.log(
-  "PASS Structure Evidence Contract v1.0 remains species-neutral and unavailable until verified structure analysis is connected"
+  "PASS Structure Evidence missing-location fallback remains complete, conservative, and species-neutral"
+);
+
+
+/*
+ * Structure Evidence v2.0 verified proximity
+ *
+ * A valid location matching a verified BOEM structure should
+ * produce available, species-neutral proximity evidence without
+ * claiming biological activity or species suitability.
+ */
+const appomattoxStructureResult =
+  assessOceanEvidence({
+    latitude: 28.57350034,
+    longitude: -87.93421264,
+    sst: null,
+    chlorophyll: null,
+    currents: null,
+    dataQuality: {}
+  });
+
+const appomattoxStructureEvidence =
+  appomattoxStructureResult
+    .groups
+    .structure;
+
+assert.equal(
+  appomattoxStructureEvidence.available,
+  true
+);
+
+assert.equal(
+  appomattoxStructureEvidence.classification,
+  "verified-structure-proximity"
+);
+
+assert.equal(
+  appomattoxStructureEvidence.reason,
+  "nearest-verified-structure-identified"
+);
+
+assert.equal(
+  appomattoxStructureEvidence.interpretation,
+  "species-neutral-structure-evidence"
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .featureName,
+  "Appomattox"
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .featureType,
+  "Offshore Platform"
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .featureSource,
+  "BOEM"
+);
+
+assert.ok(
+  appomattoxStructureEvidence.values
+    .nearestStructureDistanceNm <=
+  0.01
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .analysisRadiusNm,
+  1.89
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .freshness,
+  "verified-static"
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .currentInteraction,
+  false
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .thermalInteraction,
+  false
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .productivityInteraction,
+  false
+);
+
+assert.equal(
+  appomattoxStructureEvidence.values
+    .multiSignalInteraction,
+  false
+);
+
+assert.equal(
+  appomattoxStructureEvidence.confidence
+    .score,
+  95
+);
+
+assert.equal(
+  appomattoxStructureEvidence.confidence
+    .level,
+  "High"
+);
+
+assert.ok(
+  appomattoxStructureEvidence.confidence
+    .limitations
+    .includes(
+      "structure-presence-does-not-confirm-biological-activity"
+    )
+);
+
+assert.ok(
+  appomattoxStructureEvidence.limitations
+    .includes(
+      "does-not-establish-fish-presence"
+    )
+);
+
+assert.ok(
+  appomattoxStructureEvidence.limitations
+    .includes(
+      "does-not-indicate-species-suitability"
+    )
+);
+
+assert.ok(
+  appomattoxStructureEvidence.limitations
+    .includes(
+      "does-not-evaluate-current-interaction"
+    )
+);
+
+assert.ok(
+  appomattoxStructureEvidence.limitations
+    .includes(
+      "does-not-evaluate-bathymetry"
+    )
+);
+
+console.log(
+  "PASS Structure Evidence v2.0 identifies verified Appomattox proximity without biological inference"
 );
 
 
