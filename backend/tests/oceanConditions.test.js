@@ -9,9 +9,14 @@ import {
   buildEnvironmentalOpportunityEvidence,
   classifyOceanOpportunity,
   buildRelationshipContext,
+  buildRelationshipContextLineage,
+  assessRelationships,
+  buildRelationshipAssessmentLineage,
   interpretBlueMarlinPathway,
+  buildBlueMarlinPathwayLineage,
   resolveBlueMarlinOpportunityType,
   resolveSpeciesOpportunityType,
+  buildOpportunityTypeResolutionLineage,
   BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE,
   SPECIES_RELATIONSHIP_IMPORTANCE,
   SPECIES_KNOWLEDGE_FRAMEWORK,
@@ -11929,6 +11934,1973 @@ console.log(
 
 
 
+
+/*
+ * ------------------------------------------------------------
+ * Relationship Context Lineage v1.0
+ * ------------------------------------------------------------
+ */
+
+const relationshipLineageOceanEvidence =
+  assessOceanEvidence({
+    latitude:
+      28.25,
+
+    longitude:
+      -85.58,
+
+    sst: {
+      temperatureFahrenheit:
+        82,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    chlorophyll: {
+      concentrationMgM3:
+        0.2,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    currents: {
+      speedKnots:
+        1.5,
+
+      directionDegrees:
+        220,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    dataQuality: {
+      methodVersion:
+        "test-data-quality-v1.0",
+
+      overall: {
+        classification:
+          "complete"
+      }
+    }
+  });
+
+
+const relationshipLineageOceanOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      relationshipLineageOceanEvidence
+  });
+
+
+const relationshipLineageContext =
+  buildRelationshipContext({
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence
+  });
+
+
+assert.ok(
+  relationshipLineageContext
+    .lineage
+);
+
+assert.equal(
+  relationshipLineageContext
+    .lineage
+    .producedBy,
+  "relationship-context"
+);
+
+assert.equal(
+  relationshipLineageContext
+    .lineage
+    .methodVersion,
+  "pelora-relationship-context-lineage-v1.0"
+);
+
+assert.deepEqual(
+  relationshipLineageContext
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-opportunity",
+
+      methodVersion:
+        "pelora-ocean-opportunity-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  relationshipLineageContext
+    .lineage
+    .evidenceProduced
+    .includes(
+      "relationship-context"
+    )
+);
+
+assert.equal(
+  relationshipLineageContext
+    .lineage
+    .components
+    .pathway,
+  relationshipLineageContext
+    .pathway
+);
+
+assert.equal(
+  relationshipLineageContext
+    .lineage
+    .components
+    .environmentType,
+  relationshipLineageContext
+    .environmentType
+);
+
+assert.deepEqual(
+  relationshipLineageContext
+    .lineage
+    .components
+    .supportedRelationships,
+  relationshipLineageContext
+    .supportedRelationships
+);
+
+assert.deepEqual(
+  relationshipLineageContext
+    .lineage
+    .components
+    .unavailableRelationships,
+  relationshipLineageContext
+    .unavailableRelationships
+);
+
+assert.deepEqual(
+  relationshipLineageContext
+    .lineage
+    .components
+    .unresolvedRelationships,
+  relationshipLineageContext
+    .unresolvedRelationships
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    relationshipLineageContext
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Relationship Context exposes governed multi-parent lineage"
+);
+
+
+const directRelationshipLineage =
+  buildRelationshipContextLineage({
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    pathway:
+      relationshipLineageContext
+        .pathway,
+
+    environmentType:
+      relationshipLineageContext
+        .environmentType,
+
+    supportedRelationships:
+      relationshipLineageContext
+        .supportedRelationships,
+
+    unavailableRelationships:
+      relationshipLineageContext
+        .unavailableRelationships,
+
+    unresolvedRelationships:
+      relationshipLineageContext
+        .unresolvedRelationships,
+
+    limitations:
+      relationshipLineageContext
+        .limitations
+  });
+
+
+assert.equal(
+  validateEvidenceLineage(
+    directRelationshipLineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  directRelationshipLineage
+    .observationsUsed,
+  relationshipLineageContext
+    .lineage
+    .observationsUsed
+);
+
+assert.deepEqual(
+  directRelationshipLineage
+    .observationsUnavailable,
+  relationshipLineageContext
+    .lineage
+    .observationsUnavailable
+);
+
+console.log(
+  "PASS Relationship Context lineage builder preserves inherited observations"
+);
+
+
+const relationshipBehaviorBaseline =
+  buildRelationshipContext({
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence
+  });
+
+
+assert.deepEqual(
+  relationshipBehaviorBaseline
+    .relationshipSupport,
+  relationshipLineageContext
+    .relationshipSupport
+);
+
+assert.deepEqual(
+  relationshipBehaviorBaseline
+    .supportedRelationships,
+  relationshipLineageContext
+    .supportedRelationships
+);
+
+assert.deepEqual(
+  relationshipBehaviorBaseline
+    .unavailableRelationships,
+  relationshipLineageContext
+    .unavailableRelationships
+);
+
+assert.deepEqual(
+  relationshipBehaviorBaseline
+    .unresolvedRelationships,
+  relationshipLineageContext
+    .unresolvedRelationships
+);
+
+assert.equal(
+  relationshipBehaviorBaseline
+    .available,
+  relationshipLineageContext
+    .available
+);
+
+assert.equal(
+  relationshipBehaviorBaseline
+    .pathway,
+  relationshipLineageContext
+    .pathway
+);
+
+assert.equal(
+  relationshipBehaviorBaseline
+    .environmentType,
+  relationshipLineageContext
+    .environmentType
+);
+
+console.log(
+  "PASS Relationship Context lineage integration preserves established scientific behavior"
+);
+
+
+const missingOpportunityLineageContext =
+  buildRelationshipContext({
+    oceanOpportunity: {
+      pathwayClassification:
+        relationshipLineageOceanOpportunity
+          .pathwayClassification
+    },
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence
+  });
+
+
+assert.ok(
+  missingOpportunityLineageContext
+    .lineage
+);
+
+assert.deepEqual(
+  missingOpportunityLineageContext
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  missingOpportunityLineageContext
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-unavailable"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    missingOpportunityLineageContext
+      .lineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  missingOpportunityLineageContext
+    .relationshipSupport,
+  relationshipLineageContext
+    .relationshipSupport
+);
+
+console.log(
+  "PASS Relationship Context discloses missing primary lineage without changing relationship interpretation"
+);
+
+
+const malformedOpportunityLineageContext =
+  buildRelationshipContext({
+    oceanOpportunity: {
+      pathwayClassification:
+        relationshipLineageOceanOpportunity
+          .pathwayClassification,
+
+      lineage: {
+        producedBy:
+          "ocean-opportunity"
+      }
+    },
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence
+  });
+
+
+assert.deepEqual(
+  malformedOpportunityLineageContext
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  malformedOpportunityLineageContext
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-invalid"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    malformedOpportunityLineageContext
+      .lineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  malformedOpportunityLineageContext
+    .relationshipSupport,
+  relationshipLineageContext
+    .relationshipSupport
+);
+
+console.log(
+  "PASS Relationship Context rejects malformed primary lineage while preserving valid secondary provenance"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Relationship Assessment Lineage v1.0
+ * ------------------------------------------------------------
+ */
+
+const relationshipLineageAssessment =
+  assessRelationships({
+    relationshipContext:
+      relationshipLineageContext,
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    dataQuality: {
+      score:
+        0.8
+    }
+  });
+
+
+assert.ok(
+  relationshipLineageAssessment
+    .lineage
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .producedBy,
+  "relationship-assessment"
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .methodVersion,
+  "pelora-relationship-assessment-lineage-v1.0"
+);
+
+assert.deepEqual(
+  relationshipLineageAssessment
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "relationship-context",
+
+      methodVersion:
+        "pelora-relationship-context-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "ocean-opportunity",
+
+      methodVersion:
+        "pelora-ocean-opportunity-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  relationshipLineageAssessment
+    .lineage
+    .evidenceProduced
+    .includes(
+      "relationship-support-assessment"
+    )
+);
+
+assert.ok(
+  relationshipLineageAssessment
+    .lineage
+    .evidenceProduced
+    .includes(
+      "relationship-confidence-assessment"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    relationshipLineageAssessment
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Relationship Assessment exposes governed multi-parent lineage"
+);
+
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .components
+    .pathway,
+  relationshipLineageAssessment
+    .pathway
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .components
+    .environmentType,
+  relationshipLineageAssessment
+    .environmentType
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .components
+    .supportedCount,
+  relationshipLineageAssessment
+    .relationshipConfidence
+    .summary
+    .supportedCount
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .components
+    .unavailableCount,
+  relationshipLineageAssessment
+    .relationshipConfidence
+    .summary
+    .unavailableCount
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .components
+    .unresolvedCount,
+  relationshipLineageAssessment
+    .relationshipConfidence
+    .summary
+    .unresolvedCount
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .components
+    .assessedCount,
+  relationshipLineageAssessment
+    .relationshipConfidence
+    .summary
+    .assessedCount
+);
+
+assert.equal(
+  relationshipLineageAssessment
+    .lineage
+    .components
+    .overallConfidence,
+  relationshipLineageAssessment
+    .relationshipConfidence
+    .overall
+    .value
+);
+
+console.log(
+  "PASS Relationship Assessment lineage records compact canonical output summaries"
+);
+
+
+const directRelationshipAssessmentLineage =
+  buildRelationshipAssessmentLineage({
+    relationshipContext:
+      relationshipLineageContext,
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    pathway:
+      relationshipLineageAssessment
+        .pathway,
+
+    environmentType:
+      relationshipLineageAssessment
+        .environmentType,
+
+    supportedCount:
+      relationshipLineageAssessment
+        .relationshipConfidence
+        .summary
+        .supportedCount,
+
+    unavailableCount:
+      relationshipLineageAssessment
+        .relationshipConfidence
+        .summary
+        .unavailableCount,
+
+    unresolvedCount:
+      relationshipLineageAssessment
+        .relationshipConfidence
+        .summary
+        .unresolvedCount,
+
+    assessedCount:
+      relationshipLineageAssessment
+        .relationshipConfidence
+        .summary
+        .assessedCount,
+
+    overallConfidence:
+      relationshipLineageAssessment
+        .relationshipConfidence
+        .overall
+        .value,
+
+    limitations:
+      relationshipLineageAssessment
+        .limitations
+  });
+
+
+assert.equal(
+  validateEvidenceLineage(
+    directRelationshipAssessmentLineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  directRelationshipAssessmentLineage
+    .observationsUsed,
+  relationshipLineageAssessment
+    .lineage
+    .observationsUsed
+);
+
+assert.deepEqual(
+  directRelationshipAssessmentLineage
+    .observationsUnavailable,
+  relationshipLineageAssessment
+    .lineage
+    .observationsUnavailable
+);
+
+console.log(
+  "PASS Relationship Assessment lineage preserves inherited observation trace"
+);
+
+
+const relationshipAssessmentBehaviorBaseline =
+  assessRelationships({
+    relationshipContext:
+      relationshipLineageContext,
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    dataQuality: {
+      score:
+        0.8
+    }
+  });
+
+
+assert.deepEqual(
+  relationshipAssessmentBehaviorBaseline
+    .relationshipSupport,
+  relationshipLineageAssessment
+    .relationshipSupport
+);
+
+assert.deepEqual(
+  relationshipAssessmentBehaviorBaseline
+    .relationshipConfidence,
+  relationshipLineageAssessment
+    .relationshipConfidence
+);
+
+assert.equal(
+  relationshipAssessmentBehaviorBaseline
+    .available,
+  relationshipLineageAssessment
+    .available
+);
+
+assert.equal(
+  relationshipAssessmentBehaviorBaseline
+    .pathway,
+  relationshipLineageAssessment
+    .pathway
+);
+
+assert.equal(
+  relationshipAssessmentBehaviorBaseline
+    .environmentType,
+  relationshipLineageAssessment
+    .environmentType
+);
+
+assert.deepEqual(
+  relationshipAssessmentBehaviorBaseline
+    .rules,
+  relationshipLineageAssessment
+    .rules
+);
+
+assert.deepEqual(
+  relationshipAssessmentBehaviorBaseline
+    .limitations,
+  relationshipLineageAssessment
+    .limitations
+);
+
+console.log(
+  "PASS Relationship Assessment lineage integration preserves established assessment behavior"
+);
+
+
+const missingContextLineageAssessment =
+  assessRelationships({
+    relationshipContext: {
+      ...relationshipLineageContext,
+
+      lineage:
+        null
+    },
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    dataQuality: {
+      score:
+        0.8
+    }
+  });
+
+
+assert.ok(
+  missingContextLineageAssessment
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-unavailable"
+    )
+);
+
+assert.deepEqual(
+  missingContextLineageAssessment
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-opportunity",
+
+      methodVersion:
+        "pelora-ocean-opportunity-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    missingContextLineageAssessment
+      .lineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  missingContextLineageAssessment
+    .relationshipConfidence,
+  relationshipLineageAssessment
+    .relationshipConfidence
+);
+
+console.log(
+  "PASS Relationship Assessment discloses missing primary lineage without changing confidence"
+);
+
+
+const malformedContextLineageAssessment =
+  assessRelationships({
+    relationshipContext: {
+      ...relationshipLineageContext,
+
+      lineage: {
+        producedBy:
+          "relationship-context"
+      }
+    },
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    dataQuality: {
+      score:
+        0.8
+    }
+  });
+
+
+assert.ok(
+  malformedContextLineageAssessment
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-invalid"
+    )
+);
+
+assert.deepEqual(
+  malformedContextLineageAssessment
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-opportunity",
+
+      methodVersion:
+        "pelora-ocean-opportunity-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    malformedContextLineageAssessment
+      .lineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  malformedContextLineageAssessment
+    .relationshipSupport,
+  relationshipLineageAssessment
+    .relationshipSupport
+);
+
+assert.deepEqual(
+  malformedContextLineageAssessment
+    .relationshipConfidence,
+  relationshipLineageAssessment
+    .relationshipConfidence
+);
+
+console.log(
+  "PASS Relationship Assessment rejects malformed primary lineage while preserving valid secondary provenance"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Blue Marlin Pathway Lineage v1.0
+ * ------------------------------------------------------------
+ */
+
+const blueMarlinPathwayLineageInterpretation =
+  interpretBlueMarlinPathway({
+    relationshipAssessment:
+      relationshipLineageAssessment,
+
+    relationshipContext:
+      relationshipLineageContext
+  });
+
+
+assert.ok(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+);
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .producedBy,
+  "species-pathway"
+);
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .methodVersion,
+  "pelora-blue-marlin-pathway-lineage-v1.0"
+);
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "relationship-assessment",
+
+      methodVersion:
+        "pelora-relationship-assessment-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "relationship-context",
+
+      methodVersion:
+        "pelora-relationship-context-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .evidenceProduced
+    .includes(
+      "blue-marlin-pathway-interpretation"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    blueMarlinPathwayLineageInterpretation
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Blue Marlin Pathway Interpretation exposes governed lineage"
+);
+
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .components
+    .species,
+  "blue-marlin"
+);
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .components
+    .classification,
+  blueMarlinPathwayLineageInterpretation
+    .classification
+);
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .components
+    .pathway,
+  blueMarlinPathwayLineageInterpretation
+    .environmentalPathway
+);
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .components
+    .environmentType,
+  blueMarlinPathwayLineageInterpretation
+    .environmentType
+);
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .components
+    .plausibleOpportunityTypes,
+  blueMarlinPathwayLineageInterpretation
+    .plausibleOpportunityTypes
+);
+
+const expectedSupportedRelationships =
+  Object.entries(
+    blueMarlinPathwayLineageInterpretation
+      .relationshipSupport
+  )
+    .filter(
+      (
+        [
+          ,
+          supported
+        ]
+      ) =>
+        supported === true
+    )
+    .map(
+      (
+        [
+          relationship
+        ]
+      ) =>
+        relationship
+    );
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .components
+    .supportedRelationships,
+  expectedSupportedRelationships
+);
+
+console.log(
+  "PASS Blue Marlin Pathway lineage records compact species interpretation outputs"
+);
+
+
+const directBlueMarlinPathwayLineage =
+  buildBlueMarlinPathwayLineage({
+    relationshipAssessment:
+      relationshipLineageAssessment,
+
+    relationshipContext:
+      relationshipLineageContext,
+
+    classification:
+      blueMarlinPathwayLineageInterpretation
+        .classification,
+
+    pathway:
+      blueMarlinPathwayLineageInterpretation
+        .environmentalPathway,
+
+    environmentType:
+      blueMarlinPathwayLineageInterpretation
+        .environmentType,
+
+    plausibleOpportunityTypes:
+      blueMarlinPathwayLineageInterpretation
+        .plausibleOpportunityTypes,
+
+    supportedRelationships:
+      expectedSupportedRelationships,
+
+    limitations:
+      blueMarlinPathwayLineageInterpretation
+        .limitations
+  });
+
+
+assert.equal(
+  validateEvidenceLineage(
+    directBlueMarlinPathwayLineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  directBlueMarlinPathwayLineage
+    .observationsUsed,
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .observationsUsed
+);
+
+assert.deepEqual(
+  directBlueMarlinPathwayLineage
+    .observationsUnavailable,
+  blueMarlinPathwayLineageInterpretation
+    .lineage
+    .observationsUnavailable
+);
+
+console.log(
+  "PASS Blue Marlin Pathway lineage preserves inherited observation trace"
+);
+
+
+const blueMarlinPathwayBehaviorBaseline =
+  interpretBlueMarlinPathway({
+    relationshipContext:
+      relationshipLineageContext
+  });
+
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .available,
+  blueMarlinPathwayBehaviorBaseline
+    .available
+);
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .classification,
+  blueMarlinPathwayBehaviorBaseline
+    .classification
+);
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .plausibleOpportunityTypes,
+  blueMarlinPathwayBehaviorBaseline
+    .plausibleOpportunityTypes
+);
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .relationshipSupport,
+  blueMarlinPathwayBehaviorBaseline
+    .relationshipSupport
+);
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .positiveDrivers,
+  blueMarlinPathwayBehaviorBaseline
+    .positiveDrivers
+);
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .limitations,
+  blueMarlinPathwayBehaviorBaseline
+    .limitations
+);
+
+assert.equal(
+  blueMarlinPathwayLineageInterpretation
+    .interpretation,
+  blueMarlinPathwayBehaviorBaseline
+    .interpretation
+);
+
+assert.deepEqual(
+  blueMarlinPathwayLineageInterpretation
+    .rules,
+  blueMarlinPathwayBehaviorBaseline
+    .rules
+);
+
+console.log(
+  "PASS Blue Marlin Pathway lineage integration preserves established interpretation behavior"
+);
+
+
+const missingAssessmentLineagePathway =
+  interpretBlueMarlinPathway({
+    relationshipAssessment: {
+      ...relationshipLineageAssessment,
+
+      lineage:
+        null
+    },
+
+    relationshipContext:
+      relationshipLineageContext
+  });
+
+
+assert.ok(
+  missingAssessmentLineagePathway
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-unavailable"
+    )
+);
+
+assert.deepEqual(
+  missingAssessmentLineagePathway
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "relationship-context",
+
+      methodVersion:
+        "pelora-relationship-context-lineage-v1.0"
+    }
+  ]
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    missingAssessmentLineagePathway
+      .lineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  missingAssessmentLineagePathway
+    .classification,
+  blueMarlinPathwayLineageInterpretation
+    .classification
+);
+
+assert.deepEqual(
+  missingAssessmentLineagePathway
+    .plausibleOpportunityTypes,
+  blueMarlinPathwayLineageInterpretation
+    .plausibleOpportunityTypes
+);
+
+console.log(
+  "PASS Blue Marlin Pathway discloses missing assessment lineage without changing interpretation"
+);
+
+
+const malformedAssessmentLineagePathway =
+  interpretBlueMarlinPathway({
+    relationshipAssessment: {
+      ...relationshipLineageAssessment,
+
+      lineage: {
+        producedBy:
+          "relationship-assessment"
+      }
+    },
+
+    relationshipContext:
+      relationshipLineageContext
+  });
+
+
+assert.ok(
+  malformedAssessmentLineagePathway
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-invalid"
+    )
+);
+
+assert.deepEqual(
+  malformedAssessmentLineagePathway
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "relationship-context",
+
+      methodVersion:
+        "pelora-relationship-context-lineage-v1.0"
+    }
+  ]
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    malformedAssessmentLineagePathway
+      .lineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  malformedAssessmentLineagePathway
+    .classification,
+  blueMarlinPathwayLineageInterpretation
+    .classification
+);
+
+assert.deepEqual(
+  malformedAssessmentLineagePathway
+    .plausibleOpportunityTypes,
+  blueMarlinPathwayLineageInterpretation
+    .plausibleOpportunityTypes
+);
+
+console.log(
+  "PASS Blue Marlin Pathway rejects malformed assessment lineage while preserving context provenance"
+);
+
+
+const pathwayLineageHsmResult =
+  assessBlueMarlinHabitat({
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    dataQuality: {
+      score:
+        0.8
+    }
+  });
+
+
+assert.ok(
+  pathwayLineageHsmResult
+    .speciesPathwayInterpretation
+    .lineage
+);
+
+assert.equal(
+  pathwayLineageHsmResult
+    .speciesPathwayInterpretation
+    .lineage
+    .producedBy,
+  "species-pathway"
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    pathwayLineageHsmResult
+      .speciesPathwayInterpretation
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Blue Marlin HSM propagates Relationship Assessment lineage into species pathway interpretation"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Opportunity Type Resolution Lineage v1.0
+ * ------------------------------------------------------------
+ */
+
+const opportunityTypeLineageResolution =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation:
+      blueMarlinPathwayLineageInterpretation,
+
+    relationshipContext:
+      relationshipLineageContext,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity
+  });
+
+
+assert.ok(
+  opportunityTypeLineageResolution
+    .lineage
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .producedBy,
+  "opportunity-type"
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .methodVersion,
+  "pelora-opportunity-type-resolution-lineage-v1.0"
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "species-pathway",
+
+      methodVersion:
+        "pelora-blue-marlin-pathway-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  opportunityTypeLineageResolution
+    .lineage
+    .evidenceProduced
+    .includes(
+      "species-opportunity-type-resolution"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    opportunityTypeLineageResolution
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Opportunity Type Resolution exposes governed species-pathway lineage"
+);
+
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .components
+    .species,
+  opportunityTypeLineageResolution
+    .species
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .components
+    .available,
+  opportunityTypeLineageResolution
+    .available
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .components
+    .classification,
+  opportunityTypeLineageResolution
+    .classification
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .components
+    .confidence,
+  opportunityTypeLineageResolution
+    .confidence
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .components
+    .leadingCandidate,
+  opportunityTypeLineageResolution
+    .leadingCandidate
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .lineage
+    .components
+    .candidateCount,
+  opportunityTypeLineageResolution
+    .candidateTypes
+    .length
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .lineage
+    .components
+    .rankedCandidateTypes,
+  opportunityTypeLineageResolution
+    .rankedCandidates
+    .map(
+      candidate =>
+        candidate.type
+    )
+);
+
+console.log(
+  "PASS Opportunity Type Resolution lineage records compact canonical ranking outputs"
+);
+
+
+const directOpportunityTypeLineage =
+  buildOpportunityTypeResolutionLineage({
+    speciesPathwayInterpretation:
+      blueMarlinPathwayLineageInterpretation,
+
+    species:
+      opportunityTypeLineageResolution
+        .species,
+
+    available:
+      opportunityTypeLineageResolution
+        .available,
+
+    classification:
+      opportunityTypeLineageResolution
+        .classification,
+
+    confidence:
+      opportunityTypeLineageResolution
+        .confidence,
+
+    leadingCandidate:
+      opportunityTypeLineageResolution
+        .leadingCandidate,
+
+    candidateTypes:
+      opportunityTypeLineageResolution
+        .candidateTypes,
+
+    rankedCandidates:
+      opportunityTypeLineageResolution
+        .rankedCandidates,
+
+    limitations:
+      opportunityTypeLineageResolution
+        .limitations
+  });
+
+
+assert.equal(
+  validateEvidenceLineage(
+    directOpportunityTypeLineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  directOpportunityTypeLineage
+    .observationsUsed,
+  opportunityTypeLineageResolution
+    .lineage
+    .observationsUsed
+);
+
+assert.deepEqual(
+  directOpportunityTypeLineage
+    .observationsUnavailable,
+  opportunityTypeLineageResolution
+    .lineage
+    .observationsUnavailable
+);
+
+console.log(
+  "PASS Opportunity Type Resolution lineage preserves inherited observation trace"
+);
+
+
+const opportunityTypeBehaviorBaseline =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        blueMarlinPathwayLineageInterpretation
+          .environmentalPathway,
+
+      plausibleOpportunityTypes:
+        blueMarlinPathwayLineageInterpretation
+          .plausibleOpportunityTypes
+    },
+
+    relationshipContext:
+      relationshipLineageContext,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity
+  });
+
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .available,
+  opportunityTypeBehaviorBaseline
+    .available
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .leadingCandidate,
+  opportunityTypeBehaviorBaseline
+    .leadingCandidate
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .candidateTypes,
+  opportunityTypeBehaviorBaseline
+    .candidateTypes
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .rankedCandidates,
+  opportunityTypeBehaviorBaseline
+    .rankedCandidates
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .confidence,
+  opportunityTypeBehaviorBaseline
+    .confidence
+);
+
+assert.equal(
+  opportunityTypeLineageResolution
+    .classification,
+  opportunityTypeBehaviorBaseline
+    .classification
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .evidenceFor,
+  opportunityTypeBehaviorBaseline
+    .evidenceFor
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .evidenceMissing,
+  opportunityTypeBehaviorBaseline
+    .evidenceMissing
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .limitations,
+  opportunityTypeBehaviorBaseline
+    .limitations
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .knowledgeProfile,
+  opportunityTypeBehaviorBaseline
+    .knowledgeProfile
+);
+
+assert.deepEqual(
+  opportunityTypeLineageResolution
+    .profileValidation,
+  opportunityTypeBehaviorBaseline
+    .profileValidation
+);
+
+console.log(
+  "PASS Opportunity Type Resolution lineage integration preserves established ranking behavior"
+);
+
+
+const missingPathwayLineageResolution =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      ...blueMarlinPathwayLineageInterpretation,
+
+      lineage:
+        null
+    },
+
+    relationshipContext:
+      relationshipLineageContext,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity
+  });
+
+
+assert.ok(
+  missingPathwayLineageResolution
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-unavailable"
+    )
+);
+
+assert.deepEqual(
+  missingPathwayLineageResolution
+    .lineage
+    .upstream,
+  []
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    missingPathwayLineageResolution
+      .lineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  missingPathwayLineageResolution
+    .leadingCandidate,
+  opportunityTypeLineageResolution
+    .leadingCandidate
+);
+
+assert.deepEqual(
+  missingPathwayLineageResolution
+    .rankedCandidates,
+  opportunityTypeLineageResolution
+    .rankedCandidates
+);
+
+console.log(
+  "PASS Opportunity Type Resolution discloses missing pathway lineage without changing ranking"
+);
+
+
+const malformedPathwayLineageResolution =
+  resolveBlueMarlinOpportunityType({
+    speciesPathwayInterpretation: {
+      ...blueMarlinPathwayLineageInterpretation,
+
+      lineage: {
+        producedBy:
+          "species-pathway"
+      }
+    },
+
+    relationshipContext:
+      relationshipLineageContext,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity
+  });
+
+
+assert.ok(
+  malformedPathwayLineageResolution
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-invalid"
+    )
+);
+
+assert.deepEqual(
+  malformedPathwayLineageResolution
+    .lineage
+    .upstream,
+  []
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    malformedPathwayLineageResolution
+      .lineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  malformedPathwayLineageResolution
+    .leadingCandidate,
+  opportunityTypeLineageResolution
+    .leadingCandidate
+);
+
+assert.deepEqual(
+  malformedPathwayLineageResolution
+    .candidateTypes,
+  opportunityTypeLineageResolution
+    .candidateTypes
+);
+
+console.log(
+  "PASS Opportunity Type Resolution rejects malformed pathway lineage without changing candidates"
+);
+
+
+const invalidProfileLineageResolution =
+  resolveSpeciesOpportunityType({
+    speciesProfile: {
+      species:
+        "test-species"
+    },
+
+    speciesPathwayInterpretation:
+      blueMarlinPathwayLineageInterpretation
+  });
+
+
+assert.equal(
+  invalidProfileLineageResolution
+    .classification,
+  "species-knowledge-profile-invalid"
+);
+
+assert.equal(
+  invalidProfileLineageResolution
+    .lineage
+    .producedBy,
+  "opportunity-type"
+);
+
+assert.deepEqual(
+  invalidProfileLineageResolution
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "species-pathway",
+
+      methodVersion:
+        "pelora-blue-marlin-pathway-lineage-v1.0"
+    }
+  ]
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    invalidProfileLineageResolution
+      .lineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  invalidProfileLineageResolution
+    .leadingCandidate,
+  null
+);
+
+assert.deepEqual(
+  invalidProfileLineageResolution
+    .rankedCandidates,
+  []
+);
+
+console.log(
+  "PASS Opportunity Type Resolution preserves lineage when species knowledge validation fails"
+);
+
+
+const opportunityTypeLineageHsmResult =
+  assessBlueMarlinHabitat({
+    oceanOpportunity:
+      relationshipLineageOceanOpportunity,
+
+    oceanEvidence:
+      relationshipLineageOceanEvidence,
+
+    dataQuality: {
+      score:
+        0.8
+    }
+  });
+
+
+assert.ok(
+  opportunityTypeLineageHsmResult
+    .opportunityTypeResolution
+    .lineage
+);
+
+assert.equal(
+  opportunityTypeLineageHsmResult
+    .opportunityTypeResolution
+    .lineage
+    .producedBy,
+  "opportunity-type"
+);
+
+assert.deepEqual(
+  opportunityTypeLineageHsmResult
+    .opportunityTypeResolution
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "species-pathway",
+
+      methodVersion:
+        "pelora-blue-marlin-pathway-lineage-v1.0"
+    }
+  ]
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    opportunityTypeLineageHsmResult
+      .opportunityTypeResolution
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Blue Marlin HSM propagates Species Pathway lineage into opportunity-type resolution"
+);
+
+
 /*
  * ------------------------------------------------------------
  * Lineage Propagation Framework v1.0
@@ -12193,6 +14165,363 @@ assert.equal(
 
 console.log(
   "PASS Lineage Propagation keeps absent upstream lineage explicitly visible"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Lineage Propagation Framework v2.0
+ * ------------------------------------------------------------
+ */
+
+assert.equal(
+  LINEAGE_PROPAGATION_FRAMEWORK
+    .methodVersion,
+  "pelora-lineage-propagation-framework-v2.0"
+);
+
+
+const secondaryPropagationLineage = {
+  upstream: [
+    {
+      engine:
+        "data-assessment",
+
+      methodVersion:
+        "test-secondary-data-assessment-v1.0"
+    }
+  ],
+
+  observationsUsed: [
+    "temperature",
+    "chlorophyll"
+  ],
+
+  observationsUnavailable: [
+    "structure"
+  ],
+
+  evidenceProduced: [
+    "temperature-evidence",
+    "productivity-evidence"
+  ],
+
+  inheritedLimitations: [
+    "secondary-source-limitation"
+  ],
+
+  inheritedWarnings: [
+    "secondary-source-warning"
+  ],
+
+  producedBy:
+    "ocean-evidence",
+
+  methodVersion:
+    "test-secondary-ocean-evidence-lineage-v1.0"
+};
+
+
+const multiParentPropagation =
+  propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      propagatedLineage,
+
+    upstreamLineages: [
+      secondaryPropagationLineage
+    ],
+
+    producedBy:
+      "relationship-context",
+
+    methodVersion:
+      "test-relationship-context-lineage-v1.0",
+
+    evidenceProduced: [
+      "relationship-context"
+    ],
+
+    inheritedLimitations: [
+      "species-neutral-relationship-context"
+    ]
+  });
+
+
+assert.deepEqual(
+  multiParentPropagation
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-opportunity",
+
+      methodVersion:
+        "test-ocean-opportunity-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "test-secondary-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.deepEqual(
+  multiParentPropagation
+    .observationsUsed,
+  [
+    "temperature",
+    "currents",
+    "chlorophyll"
+  ]
+);
+
+assert.deepEqual(
+  multiParentPropagation
+    .observationsUnavailable,
+  [
+    "chlorophyll",
+    "structure"
+  ]
+);
+
+assert.ok(
+  multiParentPropagation
+    .evidenceProduced
+    .includes(
+      "ocean-feature-candidate-assessment"
+    )
+);
+
+assert.ok(
+  multiParentPropagation
+    .evidenceProduced
+    .includes(
+      "productivity-evidence"
+    )
+);
+
+assert.ok(
+  multiParentPropagation
+    .evidenceProduced
+    .includes(
+      "relationship-context"
+    )
+);
+
+assert.ok(
+  multiParentPropagation
+    .inheritedLimitations
+    .includes(
+      "secondary-source-limitation"
+    )
+);
+
+assert.ok(
+  multiParentPropagation
+    .inheritedWarnings
+    .includes(
+      "secondary-source-warning"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    multiParentPropagation
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Lineage Propagation v2.0 merges multiple governed upstream lineage contracts"
+);
+
+
+const invalidSecondaryPropagation =
+  propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      propagatedLineage,
+
+    upstreamLineages: [
+      {
+        producedBy:
+          "ocean-evidence"
+      }
+    ],
+
+    producedBy:
+      "relationship-context",
+
+    methodVersion:
+      "test-relationship-context-lineage-v1.0",
+
+    evidenceProduced: [
+      "relationship-context"
+    ]
+  });
+
+
+assert.deepEqual(
+  invalidSecondaryPropagation
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-opportunity",
+
+      methodVersion:
+        "test-ocean-opportunity-lineage-v1.0"
+    }
+  ]
+);
+
+assert.deepEqual(
+  invalidSecondaryPropagation
+    .observationsUsed,
+  propagatedLineage
+    .observationsUsed
+);
+
+assert.ok(
+  invalidSecondaryPropagation
+    .inheritedWarnings
+    .includes(
+      "upstream-lineage-invalid"
+    )
+);
+
+assert.ok(
+  invalidSecondaryPropagation
+    .inheritedWarnings
+    .includes(
+      "secondary-upstream-lineage-invalid"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    invalidSecondaryPropagation
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Lineage Propagation v2.0 preserves a valid primary chain when a secondary parent is malformed"
+);
+
+
+const duplicateParentPropagation =
+  propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      propagatedLineage,
+
+    upstreamLineages: [
+      propagatedLineage,
+      propagationUpstreamLineage
+    ],
+
+    producedBy:
+      "relationship-context",
+
+    methodVersion:
+      "test-relationship-context-lineage-v1.0"
+  });
+
+
+assert.deepEqual(
+  duplicateParentPropagation
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-opportunity",
+
+      methodVersion:
+        "test-ocean-opportunity-lineage-v1.0"
+    },
+
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "test-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  duplicateParentPropagation
+    .inheritedWarnings
+    .includes(
+      "duplicate-upstream-lineage-ignored"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    duplicateParentPropagation
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Lineage Propagation v2.0 collapses duplicate upstream parents"
+);
+
+
+const legacyPropagationCompatibility =
+  propagateEvidenceLineage({
+    upstreamLineage:
+      propagationUpstreamLineage,
+
+    producedBy:
+      "ocean-opportunity",
+
+    methodVersion:
+      "test-legacy-lineage-v1.0",
+
+    evidenceProduced: [
+      "legacy-compatible-evidence"
+    ]
+  });
+
+
+assert.deepEqual(
+  legacyPropagationCompatibility
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "test-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  legacyPropagationCompatibility
+    .evidenceProduced
+    .includes(
+      "legacy-compatible-evidence"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    legacyPropagationCompatibility
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Lineage Propagation v2.0 preserves the original single-upstream API"
 );
 
 

@@ -8748,6 +8748,106 @@ export function assessOceanOpportunity({
  */
 /**
  * ------------------------------------------------------------
+ * Relationship Context Lineage v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Preserve the governed evidence trace used to construct the
+ * species-neutral Relationship Context contract.
+ *
+ * Ocean Opportunity is the primary inherited reasoning chain.
+ * Ocean Evidence remains visible as a secondary direct dependency.
+ *
+ * This lineage is documentary only. It does not alter relationship
+ * support, pathway classification, confidence, biological
+ * interpretation, or habitat scoring.
+ */
+export function buildRelationshipContextLineage({
+  oceanOpportunity = null,
+  oceanEvidence = null,
+  pathway =
+    "insufficient-evidence",
+  environmentType =
+    "unresolved",
+  supportedRelationships = [],
+  unavailableRelationships = [],
+  unresolvedRelationships = [],
+  limitations = []
+} = {}) {
+  return propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      oceanOpportunity
+        ?.lineage ??
+      null,
+
+    upstreamLineages: [
+      oceanEvidence
+        ?.lineage ??
+      null
+    ],
+
+    producedBy:
+      "relationship-context",
+
+    methodVersion:
+      "pelora-relationship-context-lineage-v1.0",
+
+    evidenceProduced: [
+      "relationship-context"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(
+        limitations
+      )
+        ? limitations
+        : [],
+
+    inheritedWarnings:
+      oceanOpportunity?.lineage
+        ? []
+        : [
+            "primary-upstream-lineage-unavailable"
+          ],
+
+    components: {
+      pathway,
+
+      environmentType,
+
+      supportedRelationships:
+        Array.isArray(
+          supportedRelationships
+        )
+          ? [
+              ...supportedRelationships
+            ]
+          : [],
+
+      unavailableRelationships:
+        Array.isArray(
+          unavailableRelationships
+        )
+          ? [
+              ...unavailableRelationships
+            ]
+          : [],
+
+      unresolvedRelationships:
+        Array.isArray(
+          unresolvedRelationships
+        )
+          ? [
+              ...unresolvedRelationships
+            ]
+          : []
+    }
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Relationship Context Engine v1.0
  * ------------------------------------------------------------
  *
@@ -9033,6 +9133,26 @@ export function buildRelationshipContext({
     );
   }
 
+  const lineage =
+    buildRelationshipContextLineage({
+      oceanOpportunity,
+
+      oceanEvidence,
+
+      pathway,
+
+      environmentType,
+
+      supportedRelationships,
+
+      unavailableRelationships,
+
+      unresolvedRelationships,
+
+      limitations
+    });
+
+
   return {
     available,
 
@@ -9074,9 +9194,128 @@ export function buildRelationshipContext({
 
     limitations,
 
+    lineage,
+
     methodVersion:
       "pelora-relationship-context-v1.0"
   };
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Relationship Assessment Lineage v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Preserve the governed evidence trace used to produce the
+ * canonical species-neutral relationship assessment.
+ *
+ * Relationship Context is the primary upstream reasoning chain.
+ * Ocean Opportunity and Ocean Evidence remain visible as
+ * secondary direct dependencies.
+ *
+ * The lineage records compact assessment outputs only. It does
+ * not duplicate the full confidence contract or alter support,
+ * confidence, scores, classifications, or biological reasoning.
+ */
+export function buildRelationshipAssessmentLineage({
+  relationshipContext = null,
+  oceanOpportunity = null,
+  oceanEvidence = null,
+  pathway =
+    "insufficient-evidence",
+  environmentType =
+    "unresolved",
+  supportedCount = 0,
+  unavailableCount = 0,
+  unresolvedCount = 0,
+  assessedCount = 0,
+  overallConfidence = 0,
+  limitations = []
+} = {}) {
+  return propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      relationshipContext
+        ?.lineage ??
+      null,
+
+    upstreamLineages: [
+      oceanOpportunity
+        ?.lineage ??
+      null,
+
+      oceanEvidence
+        ?.lineage ??
+      null
+    ],
+
+    producedBy:
+      "relationship-assessment",
+
+    methodVersion:
+      "pelora-relationship-assessment-lineage-v1.0",
+
+    evidenceProduced: [
+      "relationship-support-assessment",
+      "relationship-confidence-assessment"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(
+        limitations
+      )
+        ? limitations
+        : [],
+
+    inheritedWarnings:
+      relationshipContext?.lineage
+        ? []
+        : [
+            "primary-upstream-lineage-unavailable"
+          ],
+
+    components: {
+      pathway,
+
+      environmentType,
+
+      supportedCount:
+        Number.isFinite(
+          supportedCount
+        )
+          ? supportedCount
+          : 0,
+
+      unavailableCount:
+        Number.isFinite(
+          unavailableCount
+        )
+          ? unavailableCount
+          : 0,
+
+      unresolvedCount:
+        Number.isFinite(
+          unresolvedCount
+        )
+          ? unresolvedCount
+          : 0,
+
+      assessedCount:
+        Number.isFinite(
+          assessedCount
+        )
+          ? assessedCount
+          : 0,
+
+      overallConfidence:
+        Number.isFinite(
+          overallConfidence
+        )
+          ? overallConfidence
+          : 0
+    }
+  });
 }
 
 
@@ -9447,6 +9686,57 @@ export function assessRelationships({
     );
   }
 
+  const assessmentLimitations = [
+    ...new Set(
+      [
+        ...limitations,
+
+        ...(
+          Array.isArray(
+            context?.limitations
+          )
+            ? context.limitations
+            : []
+        )
+      ]
+    )
+  ];
+
+
+  const lineage =
+    buildRelationshipAssessmentLineage({
+      relationshipContext:
+        context,
+
+      oceanOpportunity,
+
+      oceanEvidence,
+
+      pathway:
+        context?.pathway ??
+        "insufficient-evidence",
+
+      environmentType:
+        context?.environmentType ??
+        "unresolved",
+
+      supportedCount,
+
+      unavailableCount,
+
+      unresolvedCount,
+
+      assessedCount:
+        confidenceValues.length,
+
+      overallConfidence:
+        overallConfidenceValue,
+
+      limitations:
+        assessmentLimitations
+    });
+
+
   return {
     available:
       context?.available === true,
@@ -9527,21 +9817,10 @@ export function assessRelationships({
         false
     },
 
-    limitations: [
-      ...new Set(
-        [
-          ...limitations,
+    limitations:
+      assessmentLimitations,
 
-          ...(
-            Array.isArray(
-              context?.limitations
-            )
-              ? context.limitations
-              : []
-          )
-        ]
-      )
-    ],
+    lineage,
 
     interpretation:
       "species-neutral-relationship-assessment",
@@ -9557,6 +9836,106 @@ export function assessRelationships({
  * Blue Marlin Habitat Suitability Model
  * ------------------------------------------------------------
  */
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Pathway Lineage v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Preserve the governed evidence trace used to translate a
+ * species-neutral relationship assessment into a conservative
+ * Blue Marlin pathway interpretation.
+ *
+ * Relationship Assessment is the primary upstream reasoning
+ * chain. Relationship Context remains visible as a secondary
+ * direct dependency.
+ *
+ * This lineage is documentary only. It does not alter pathway
+ * classification, plausible opportunity types, habitat scores,
+ * confidence, biological interpretation, or opportunity-type
+ * resolution.
+ */
+export function buildBlueMarlinPathwayLineage({
+  relationshipAssessment = null,
+  relationshipContext = null,
+  classification =
+    "insufficient-blue-marlin-pathway-evidence",
+  pathway =
+    "insufficient-evidence",
+  environmentType =
+    "unresolved",
+  plausibleOpportunityTypes = [],
+  supportedRelationships = [],
+  limitations = []
+} = {}) {
+  return propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      relationshipAssessment
+        ?.lineage ??
+      null,
+
+    upstreamLineages: [
+      relationshipContext
+        ?.lineage ??
+      null
+    ],
+
+    producedBy:
+      "species-pathway",
+
+    methodVersion:
+      "pelora-blue-marlin-pathway-lineage-v1.0",
+
+    evidenceProduced: [
+      "blue-marlin-pathway-interpretation"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(
+        limitations
+      )
+        ? limitations
+        : [],
+
+    inheritedWarnings:
+      relationshipAssessment?.lineage
+        ? []
+        : [
+            "primary-upstream-lineage-unavailable"
+          ],
+
+    components: {
+      species:
+        "blue-marlin",
+
+      classification,
+
+      pathway,
+
+      environmentType,
+
+      plausibleOpportunityTypes:
+        Array.isArray(
+          plausibleOpportunityTypes
+        )
+          ? [
+              ...plausibleOpportunityTypes
+            ]
+          : [],
+
+      supportedRelationships:
+        Array.isArray(
+          supportedRelationships
+        )
+          ? [
+              ...supportedRelationships
+            ]
+          : []
+    }
+  });
+}
+
+
 /**
  * ------------------------------------------------------------
  * Blue Marlin Pathway Interpretation v1.0
@@ -9581,20 +9960,33 @@ export function assessRelationships({
  * It does not modify habitat scores or confidence.
  */
 export function interpretBlueMarlinPathway({
+  relationshipAssessment = null,
   relationshipContext = null
 } = {}) {
+  const context =
+    relationshipContext ??
+    relationshipAssessment
+      ?.relationshipContext ??
+    null;
+
   const pathway =
-    relationshipContext
+    context
+      ?.pathway ??
+    relationshipAssessment
       ?.pathway ??
     "insufficient-evidence";
 
   const environmentType =
-    relationshipContext
+    context
+      ?.environmentType ??
+    relationshipAssessment
       ?.environmentType ??
     "unresolved";
 
   const relationshipSupport =
-    relationshipContext
+    relationshipAssessment
+      ?.relationshipSupport ??
+    context
       ?.relationshipSupport ??
     {};
 
@@ -9721,6 +10113,63 @@ export function interpretBlueMarlinPathway({
     );
   }
 
+  const pathwayLimitations = [
+    ...new Set(
+      limitations
+        .filter(Boolean)
+    )
+  ];
+
+
+  const supportedRelationships = [
+    ...(
+      openWaterSupported
+        ? [
+            "openWaterOrganization"
+          ]
+        : []
+    ),
+
+    ...(
+      structureSupported
+        ? [
+            "structureInteraction"
+          ]
+        : []
+    ),
+
+    ...(
+      persistenceSupported
+        ? [
+            "persistence"
+          ]
+        : []
+    )
+  ];
+
+
+  const lineage =
+    buildBlueMarlinPathwayLineage({
+      relationshipAssessment,
+
+      relationshipContext:
+        context,
+
+      classification,
+
+      pathway,
+
+      environmentType,
+
+      plausibleOpportunityTypes,
+
+      supportedRelationships,
+
+      limitations:
+        pathwayLimitations
+    });
+
+
   return {
     available:
       plausibleOpportunityTypes
@@ -9754,12 +10203,10 @@ export function interpretBlueMarlinPathway({
 
     positiveDrivers,
 
-    limitations: [
-      ...new Set(
-        limitations
-          .filter(Boolean)
-      )
-    ],
+    limitations:
+      pathwayLimitations,
+
+    lineage,
 
     interpretation,
 
@@ -11176,7 +11623,7 @@ export const LINEAGE_PROPAGATION_FRAMEWORK = {
   },
 
   methodVersion:
-    "pelora-lineage-propagation-framework-v1.0"
+    "pelora-lineage-propagation-framework-v2.0"
 };
 
 
@@ -11229,6 +11676,8 @@ export function buildLineageUpstreamReference(
  */
 export function propagateEvidenceLineage({
   upstreamLineage = null,
+  upstreamLineages = [],
+  primaryUpstreamLineage = null,
   producedBy,
   methodVersion,
   evidenceProduced = [],
@@ -11237,129 +11686,285 @@ export function propagateEvidenceLineage({
   components = null,
   traceId = null
 } = {}) {
-  const upstreamValidation =
-    validateEvidenceLineage(
-      upstreamLineage,
-      {
-        path:
-          "upstreamLineage"
-      }
-    );
-
-  const upstreamValid =
-    upstreamValidation.valid ===
-    true;
-
-  const upstreamReference =
-    upstreamValid
-      ? buildLineageUpstreamReference(
-          upstreamLineage
-        )
-      : null;
-
-  const observationsUsed =
-    upstreamValid &&
-    Array.isArray(
-      upstreamLineage
-        ?.observationsUsed
-    )
-      ? upstreamLineage
-          .observationsUsed
-      : [];
-
-  const observationsUnavailable =
-    upstreamValid &&
-    Array.isArray(
-      upstreamLineage
-        ?.observationsUnavailable
-    )
-      ? upstreamLineage
-          .observationsUnavailable
-      : [];
-
-  const upstreamEvidenceProduced =
-    upstreamValid &&
-    Array.isArray(
-      upstreamLineage
-        ?.evidenceProduced
-    )
-      ? upstreamLineage
-          .evidenceProduced
-      : [];
-
-  const upstreamLimitations =
-    upstreamValid &&
-    Array.isArray(
-      upstreamLineage
-        ?.inheritedLimitations
-    )
-      ? upstreamLineage
-          .inheritedLimitations
-      : [];
-
-  const upstreamWarnings =
-    upstreamValid &&
-    Array.isArray(
-      upstreamLineage
-        ?.inheritedWarnings
-    )
-      ? upstreamLineage
-          .inheritedWarnings
-      : [];
-
   const propagationWarnings = [];
 
-  if (!upstreamLineage) {
-    propagationWarnings.push(
-      "upstream-lineage-unavailable"
-    );
-  } else if (!upstreamValid) {
-    propagationWarnings.push(
-      "upstream-lineage-invalid"
-    );
+  /*
+   * Preserve the original single-upstream API while supporting
+   * governed multi-parent lineage.
+   *
+   * Ordering establishes documentary priority only:
+   *
+   * 1. Explicit primary upstream lineage
+   * 2. Legacy upstreamLineage argument
+   * 3. Additional upstreamLineages
+   *
+   * Ordering does not change scientific reasoning.
+   */
+  const candidates = [];
 
+  if (primaryUpstreamLineage) {
+    candidates.push({
+      lineage:
+        primaryUpstreamLineage,
+
+      role:
+        "primary",
+
+      path:
+        "primaryUpstreamLineage"
+    });
+  }
+
+  if (upstreamLineage) {
+    candidates.push({
+      lineage:
+        upstreamLineage,
+
+      role:
+        primaryUpstreamLineage
+          ? "secondary"
+          : "primary",
+
+      path:
+        "upstreamLineage"
+    });
+  }
+
+  if (
+    upstreamLineages !== null &&
+    upstreamLineages !== undefined &&
+    !Array.isArray(
+      upstreamLineages
+    )
+  ) {
     propagationWarnings.push(
-      ...upstreamValidation.errors.map(
-        error =>
-          `upstream-validation:${error}`
-      )
+      "upstream-lineages-must-be-an-array"
     );
   }
 
+  if (
+    Array.isArray(
+      upstreamLineages
+    )
+  ) {
+    upstreamLineages.forEach(
+      (
+        lineage,
+        index
+      ) => {
+        if (!lineage) {
+          propagationWarnings.push(
+            `secondary-upstream-lineage-unavailable:${index}`
+          );
+
+          return;
+        }
+
+        candidates.push({
+          lineage,
+
+          role:
+            candidates.length === 0
+              ? "primary"
+              : "secondary",
+
+          path:
+            `upstreamLineages:${index}`
+        });
+      }
+    );
+  }
+
+  if (candidates.length === 0) {
+    propagationWarnings.push(
+      "upstream-lineage-unavailable"
+    );
+  }
+
+  const upstreamReferences = [];
+
+  const observationsUsed = [];
+  const observationsUnavailable = [];
+  const upstreamEvidenceProduced = [];
+  const upstreamLimitations = [];
+  const upstreamWarnings = [];
+
+  const acceptedReferenceKeys =
+    new Set();
+
+  for (
+    const candidate
+    of candidates
+  ) {
+    const validation =
+      validateEvidenceLineage(
+        candidate.lineage,
+        {
+          path:
+            candidate.path
+        }
+      );
+
+    if (!validation.valid) {
+      propagationWarnings.push(
+        "upstream-lineage-invalid"
+      );
+
+      if (
+        candidate.role ===
+        "primary"
+      ) {
+        propagationWarnings.push(
+          "primary-upstream-lineage-invalid"
+        );
+      } else {
+        propagationWarnings.push(
+          "secondary-upstream-lineage-invalid"
+        );
+      }
+
+      propagationWarnings.push(
+        ...validation.errors.map(
+          error =>
+            `upstream-validation:${error}`
+        )
+      );
+
+      continue;
+    }
+
+    const reference =
+      buildLineageUpstreamReference(
+        candidate.lineage
+      );
+
+    if (!reference) {
+      propagationWarnings.push(
+        "upstream-reference-unavailable"
+      );
+
+      continue;
+    }
+
+    const referenceKey =
+      [
+        reference.engine,
+        reference.methodVersion,
+        reference.traceId ??
+          ""
+      ].join("|");
+
+    if (
+      acceptedReferenceKeys.has(
+        referenceKey
+      )
+    ) {
+      propagationWarnings.push(
+        "duplicate-upstream-lineage-ignored"
+      );
+
+      continue;
+    }
+
+    acceptedReferenceKeys.add(
+      referenceKey
+    );
+
+    upstreamReferences.push(
+      reference
+    );
+
+    if (
+      Array.isArray(
+        candidate.lineage
+          .observationsUsed
+      )
+    ) {
+      observationsUsed.push(
+        ...candidate.lineage
+          .observationsUsed
+      );
+    }
+
+    if (
+      Array.isArray(
+        candidate.lineage
+          .observationsUnavailable
+      )
+    ) {
+      observationsUnavailable.push(
+        ...candidate.lineage
+          .observationsUnavailable
+      );
+    }
+
+    if (
+      Array.isArray(
+        candidate.lineage
+          .evidenceProduced
+      )
+    ) {
+      upstreamEvidenceProduced.push(
+        ...candidate.lineage
+          .evidenceProduced
+      );
+    }
+
+    if (
+      Array.isArray(
+        candidate.lineage
+          .inheritedLimitations
+      )
+    ) {
+      upstreamLimitations.push(
+        ...candidate.lineage
+          .inheritedLimitations
+      );
+    }
+
+    if (
+      Array.isArray(
+        candidate.lineage
+          .inheritedWarnings
+      )
+    ) {
+      upstreamWarnings.push(
+        ...candidate.lineage
+          .inheritedWarnings
+      );
+    }
+  }
+
+  const cleanUniqueStrings = (
+    values
+  ) => [
+    ...new Set(
+      values.filter(
+        value =>
+          typeof value ===
+            "string" &&
+          value.trim().length >
+            0
+      )
+    )
+  ];
+
   const lineage = {
     upstream:
-      upstreamReference
-        ? [
-            upstreamReference
-          ]
-        : [],
+      upstreamReferences,
 
-    observationsUsed: [
-      ...new Set(
-        observationsUsed.filter(
-          value =>
-            typeof value ===
-              "string" &&
-            value.trim().length >
-              0
-        )
-      )
-    ],
+    observationsUsed:
+      cleanUniqueStrings(
+        observationsUsed
+      ),
 
-    observationsUnavailable: [
-      ...new Set(
-        observationsUnavailable.filter(
-          value =>
-            typeof value ===
-              "string" &&
-            value.trim().length >
-              0
-        )
-      )
-    ],
+    observationsUnavailable:
+      cleanUniqueStrings(
+        observationsUnavailable
+      ),
 
-    evidenceProduced: [
-      ...new Set([
+    evidenceProduced:
+      cleanUniqueStrings([
         ...upstreamEvidenceProduced,
 
         ...(
@@ -11369,17 +11974,10 @@ export function propagateEvidenceLineage({
             ? evidenceProduced
             : []
         )
-      ].filter(
-        value =>
-          typeof value ===
-            "string" &&
-          value.trim().length >
-            0
-      ))
-    ],
+      ]),
 
-    inheritedLimitations: [
-      ...new Set([
+    inheritedLimitations:
+      cleanUniqueStrings([
         ...upstreamLimitations,
 
         ...(
@@ -11389,19 +11987,11 @@ export function propagateEvidenceLineage({
             ? inheritedLimitations
             : []
         )
-      ].filter(
-        value =>
-          typeof value ===
-            "string" &&
-          value.trim().length >
-            0
-      ))
-    ],
+      ]),
 
-    inheritedWarnings: [
-      ...new Set([
+    inheritedWarnings:
+      cleanUniqueStrings([
         ...upstreamWarnings,
-
         ...propagationWarnings,
 
         ...(
@@ -11411,14 +12001,7 @@ export function propagateEvidenceLineage({
             ? inheritedWarnings
             : []
         )
-      ].filter(
-        value =>
-          typeof value ===
-            "string" &&
-          value.trim().length >
-            0
-      ))
-    ],
+      ]),
 
     producedBy,
 
@@ -12747,6 +13330,109 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
 /**
  * ------------------------------------------------------------
+ * Opportunity Type Resolution Lineage v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Preserve the governed evidence trace used to rank plausible
+ * species opportunity-type candidates.
+ *
+ * Species Pathway Interpretation is the primary upstream
+ * reasoning chain. Earlier environmental and relationship
+ * stages remain visible through inherited lineage.
+ *
+ * This lineage is documentary only. It does not alter candidate
+ * scores, ordering, confidence, ambiguity handling, knowledge
+ * provenance, habitat scoring, or biological interpretation.
+ */
+export function buildOpportunityTypeResolutionLineage({
+  speciesPathwayInterpretation = null,
+  species =
+    "unknown-species",
+  available =
+    false,
+  classification =
+    "insufficient-opportunity-type-evidence",
+  confidence =
+    "insufficient",
+  leadingCandidate =
+    null,
+  candidateTypes = [],
+  rankedCandidates = [],
+  limitations = []
+} = {}) {
+  return propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      speciesPathwayInterpretation
+        ?.lineage ??
+      null,
+
+    producedBy:
+      "opportunity-type",
+
+    methodVersion:
+      "pelora-opportunity-type-resolution-lineage-v1.0",
+
+    evidenceProduced: [
+      "species-opportunity-type-resolution"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(
+        limitations
+      )
+        ? limitations
+        : [],
+
+    inheritedWarnings:
+      speciesPathwayInterpretation
+        ?.lineage
+        ? []
+        : [
+            "primary-upstream-lineage-unavailable"
+          ],
+
+    components: {
+      species,
+
+      available:
+        available === true,
+
+      classification,
+
+      confidence,
+
+      leadingCandidate:
+        typeof leadingCandidate ===
+          "string"
+          ? leadingCandidate
+          : null,
+
+      candidateCount:
+        Array.isArray(
+          candidateTypes
+        )
+          ? candidateTypes.length
+          : 0,
+
+      rankedCandidateTypes:
+        Array.isArray(
+          rankedCandidates
+        )
+          ? rankedCandidates
+              .map(
+                candidate =>
+                  candidate?.type
+              )
+              .filter(Boolean)
+          : []
+    }
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Generic Species Opportunity Type Resolver v1.0
  * ------------------------------------------------------------
  *
@@ -12773,21 +13459,63 @@ export function resolveSpeciesOpportunityType({
     );
 
   if (!profileValidation.valid) {
+    const invalidSpecies =
+      speciesProfile
+        ?.species ??
+      "unknown-species";
+
+    const invalidPathway =
+      speciesPathwayInterpretation
+        ?.environmentalPathway ??
+      relationshipContext
+        ?.pathway ??
+      "insufficient-evidence";
+
+    const invalidLimitations = [
+      "species-knowledge-profile-invalid",
+      "does-not-confirm-species-presence",
+      "does-not-confirm-feeding",
+      "does-not-estimate-catch-probability",
+      "does-not-change-habitat-scores",
+      "does-not-change-model-confidence"
+    ];
+
+    const lineage =
+      buildOpportunityTypeResolutionLineage({
+        speciesPathwayInterpretation,
+
+        species:
+          invalidSpecies,
+
+        available:
+          false,
+
+        classification:
+          "species-knowledge-profile-invalid",
+
+        confidence:
+          "insufficient",
+
+        leadingCandidate:
+          null,
+
+        candidateTypes: [],
+
+        rankedCandidates: [],
+
+        limitations:
+          invalidLimitations
+      });
+
     return {
       available:
         false,
 
       species:
-        speciesProfile
-          ?.species ??
-        "unknown-species",
+        invalidSpecies,
 
       environmentalPathway:
-        speciesPathwayInterpretation
-          ?.environmentalPathway ??
-        relationshipContext
-          ?.pathway ??
-        "insufficient-evidence",
+        invalidPathway,
 
       resolvedType:
         null,
@@ -12817,14 +13545,10 @@ export function resolveSpeciesOpportunityType({
       summary:
         "Opportunity-type resolution is unavailable because the species knowledge profile is incomplete or invalid.",
 
-      limitations: [
-        "species-knowledge-profile-invalid",
-        "does-not-confirm-species-presence",
-        "does-not-confirm-feeding",
-        "does-not-estimate-catch-probability",
-        "does-not-change-habitat-scores",
-        "does-not-change-model-confidence"
-      ],
+      limitations:
+        invalidLimitations,
+
+      lineage,
 
       evidenceSignals: {},
 
@@ -13398,10 +14122,48 @@ export function resolveSpeciesOpportunityType({
   }
 
 
+  const available =
+    rankedCandidates
+      .length > 0;
+
+  const candidateTypes =
+    rankedCandidates.map(
+      candidate =>
+        candidate.type
+    );
+
+  const resolutionLimitations = [
+    ...new Set(
+      limitations
+        .filter(Boolean)
+    )
+  ];
+
+  const lineage =
+    buildOpportunityTypeResolutionLineage({
+      speciesPathwayInterpretation,
+
+      species,
+
+      available,
+
+      classification,
+
+      confidence,
+
+      leadingCandidate,
+
+      candidateTypes,
+
+      rankedCandidates,
+
+      limitations:
+        resolutionLimitations
+    });
+
+
   return {
-    available:
-      rankedCandidates
-        .length > 0,
+    available,
 
     species,
 
@@ -13416,11 +14178,7 @@ export function resolveSpeciesOpportunityType({
 
     leadingCandidate,
 
-    candidateTypes:
-      rankedCandidates.map(
-        candidate =>
-          candidate.type
-      ),
+    candidateTypes,
 
     rankedCandidates,
 
@@ -13440,12 +14198,10 @@ export function resolveSpeciesOpportunityType({
 
     summary,
 
-    limitations: [
-      ...new Set(
-        limitations
-          .filter(Boolean)
-      )
-    ],
+    limitations:
+      resolutionLimitations,
+
+    lineage,
 
     evidenceSignals:
       signals,
@@ -13627,6 +14383,8 @@ export function assessBlueMarlinHabitat({
 
   const speciesPathwayInterpretation =
     interpretBlueMarlinPathway({
+      relationshipAssessment,
+
       relationshipContext:
         relationshipAssessment
           .relationshipContext
