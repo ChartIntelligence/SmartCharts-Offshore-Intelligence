@@ -31,7 +31,8 @@ import {
   LINEAGE_GOVERNANCE_RULES,
   EVIDENCE_LINEAGE_FRAMEWORK,
   validateLineageUpstreamReference,
-  validateEvidenceLineage
+  validateEvidenceLineage,
+  buildOceanEvidenceLineage
 } from "../server.js";
 
 
@@ -11093,7 +11094,7 @@ assert.equal(
 assert.equal(
   EVIDENCE_LINEAGE_FRAMEWORK
     .methodVersion,
-  "pelora-evidence-lineage-framework-v1.0"
+  "pelora-evidence-lineage-framework-v1.1"
 );
 
 
@@ -11152,14 +11153,18 @@ const completeLineageValidation =
       }
     ],
 
-    evidenceUsed: [
+    observationsUsed: [
       "temperature-transition",
       "organized-current",
       "surface-water-boundary"
     ],
 
-    evidenceUnavailable: [
+    observationsUnavailable: [
       "temporal-persistence"
+    ],
+
+    evidenceProduced: [
+      "relationship-assessment-evidence"
     ],
 
     inheritedLimitations: [
@@ -11194,13 +11199,13 @@ assert.equal(
 
 assert.equal(
   completeLineageValidation
-    .evidenceUsedCount,
+    .observationsUsedCount,
   3
 );
 
 assert.equal(
   completeLineageValidation
-    .evidenceUnavailableCount,
+    .observationsUnavailableCount,
   1
 );
 
@@ -11225,7 +11230,9 @@ const missingLineageFields =
   validateEvidenceLineage({
     upstream: [],
 
-    evidenceUsed: [],
+    observationsUsed: [],
+
+    evidenceProduced: [],
 
     producedBy:
       "ocean-evidence",
@@ -11245,7 +11252,7 @@ assert.ok(
   missingLineageFields
     .errors
     .includes(
-      "lineage:missing-lineage-field:evidenceUnavailable"
+      "lineage:missing-lineage-field:observationsUnavailable"
     )
 );
 
@@ -11274,9 +11281,11 @@ const invalidProducedBy =
   validateEvidenceLineage({
     upstream: [],
 
-    evidenceUsed: [],
+    observationsUsed: [],
 
-    evidenceUnavailable: [],
+    observationsUnavailable: [],
+
+    evidenceProduced: [],
 
     inheritedLimitations: [],
 
@@ -11321,11 +11330,13 @@ const invalidUpstreamReference =
       }
     ],
 
-    evidenceUsed: [
+    observationsUsed: [
       "temperature-transition"
     ],
 
-    evidenceUnavailable: [],
+    observationsUnavailable: [],
+
+    evidenceProduced: [],
 
     inheritedLimitations: [],
 
@@ -11370,14 +11381,16 @@ const invalidEvidenceEntries =
   validateEvidenceLineage({
     upstream: [],
 
-    evidenceUsed: [
+    observationsUsed: [
       "",
       null
     ],
 
-    evidenceUnavailable: [
+    observationsUnavailable: [
       "temporal-persistence"
     ],
+
+    evidenceProduced: [],
 
     inheritedLimitations: [
       ""
@@ -11405,7 +11418,7 @@ assert.ok(
   invalidEvidenceEntries
     .errors
     .includes(
-      "lineage:evidenceUsed:0:must-be-a-nonempty-string"
+      "lineage:observationsUsed:0:must-be-a-nonempty-string"
     )
 );
 
@@ -11413,7 +11426,7 @@ assert.ok(
   invalidEvidenceEntries
     .errors
     .includes(
-      "lineage:evidenceUsed:1:must-be-a-nonempty-string"
+      "lineage:observationsUsed:1:must-be-a-nonempty-string"
     )
 );
 
@@ -11434,9 +11447,11 @@ const undocumentedLineageValidation =
   validateEvidenceLineage({
     upstream: [],
 
-    evidenceUsed: [],
+    observationsUsed: [],
 
-    evidenceUnavailable: [],
+    observationsUnavailable: [],
+
+    evidenceProduced: [],
 
     inheritedLimitations: [],
 
@@ -11468,7 +11483,7 @@ assert.ok(
   undocumentedLineageValidation
     .warnings
     .includes(
-      "lineage:no-used-evidence-recorded"
+      "lineage:no-used-observations-recorded"
     )
 );
 
@@ -11476,7 +11491,7 @@ assert.ok(
   undocumentedLineageValidation
     .warnings
     .includes(
-      "lineage:no-unavailable-evidence-recorded"
+      "lineage:no-unavailable-observations-recorded"
     )
 );
 
@@ -11489,9 +11504,11 @@ const explicitEmptyLineageArrays =
   validateEvidenceLineage({
     upstream: [],
 
-    evidenceUsed: [],
+    observationsUsed: [],
 
-    evidenceUnavailable: [],
+    observationsUnavailable: [],
+
+    evidenceProduced: [],
 
     inheritedLimitations: [],
 
@@ -11519,4 +11536,389 @@ assert.equal(
 
 console.log(
   "PASS Evidence Lineage Framework distinguishes explicit empty arrays from missing fields"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Ocean Evidence Lineage v1.0
+ * ------------------------------------------------------------
+ */
+
+const completeOceanEvidenceLineage =
+  assessOceanEvidence({
+    latitude:
+      28.25,
+
+    longitude:
+      -85.58,
+
+    sst: {
+      temperatureFahrenheit:
+        82,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    chlorophyll: {
+      concentrationMgM3:
+        0.2,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    currents: {
+      speedKnots:
+        1.5,
+
+      directionDegrees:
+        220,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    dataQuality: {
+      methodVersion:
+        "test-data-quality-v1.0",
+
+      overall: {
+        classification:
+          "complete"
+      }
+    }
+  });
+
+
+assert.ok(
+  completeOceanEvidenceLineage
+    .lineage
+);
+
+assert.deepEqual(
+  completeOceanEvidenceLineage
+    .lineage
+    .observationsUsed,
+  [
+    "temperature",
+    "currents",
+    "chlorophyll"
+  ]
+);
+
+assert.deepEqual(
+  completeOceanEvidenceLineage
+    .lineage
+    .observationsUnavailable,
+  []
+);
+
+assert.deepEqual(
+  completeOceanEvidenceLineage
+    .lineage
+    .evidenceProduced,
+  [
+    "temperature-evidence",
+    "current-evidence",
+    "productivity-evidence",
+    "clarity-evidence",
+    "structure-evidence",
+    "open-water-evidence",
+    "persistence-evidence",
+    "environmental-opportunity-evidence"
+  ]
+);
+
+assert.equal(
+  completeOceanEvidenceLineage
+    .lineage
+    .upstream[0]
+    .engine,
+  "data-assessment"
+);
+
+assert.equal(
+  completeOceanEvidenceLineage
+    .lineage
+    .upstream[0]
+    .methodVersion,
+  "test-data-quality-v1.0"
+);
+
+assert.equal(
+  completeOceanEvidenceLineage
+    .lineage
+    .producedBy,
+  "ocean-evidence"
+);
+
+assert.equal(
+  completeOceanEvidenceLineage
+    .lineage
+    .methodVersion,
+  "pelora-ocean-evidence-lineage-v1.0"
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    completeOceanEvidenceLineage
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Ocean Evidence exposes a valid observation-to-evidence lineage contract"
+);
+
+
+const missingObservationOceanEvidenceLineage =
+  assessOceanEvidence({
+    latitude:
+      28.25,
+
+    longitude:
+      -85.58,
+
+    sst: {
+      temperatureFahrenheit:
+        82,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    chlorophyll:
+      null,
+
+    currents: {
+      speedKnots:
+        1.5,
+
+      directionDegrees:
+        220,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    dataQuality: {
+      overall: {
+        classification:
+          "degraded"
+      }
+    }
+  });
+
+
+assert.deepEqual(
+  missingObservationOceanEvidenceLineage
+    .lineage
+    .observationsUsed,
+  [
+    "temperature",
+    "currents"
+  ]
+);
+
+assert.deepEqual(
+  missingObservationOceanEvidenceLineage
+    .lineage
+    .observationsUnavailable,
+  [
+    "chlorophyll"
+  ]
+);
+
+assert.ok(
+  missingObservationOceanEvidenceLineage
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "data-quality:degraded"
+    )
+);
+
+assert.ok(
+  missingObservationOceanEvidenceLineage
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "persistence-evidence-unavailable"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    missingObservationOceanEvidenceLineage
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Ocean Evidence lineage keeps unavailable observations and degraded data quality visible"
+);
+
+
+const directOceanEvidenceLineage =
+  buildOceanEvidenceLineage({
+    groups: {
+      temperature: {
+        available:
+          true
+      },
+
+      current: {
+        available:
+          false
+      },
+
+      productivity: {
+        available:
+          false
+      },
+
+      clarity: {
+        available:
+          false
+      },
+
+      structure: {
+        available:
+          false
+      }
+    },
+
+    environmentalOpportunityEvidence: {
+      openWater: {
+        available:
+          false
+      },
+
+      persistence: {
+        available:
+          false
+      },
+
+      combined: {
+        available:
+          false
+      }
+    },
+
+    limitations: [
+      "current-observation-unavailable",
+      "current-observation-unavailable"
+    ],
+
+    dataQuality: {}
+  });
+
+
+assert.deepEqual(
+  directOceanEvidenceLineage
+    .observationsUsed,
+  [
+    "temperature"
+  ]
+);
+
+assert.deepEqual(
+  directOceanEvidenceLineage
+    .observationsUnavailable,
+  [
+    "currents",
+    "chlorophyll"
+  ]
+);
+
+assert.deepEqual(
+  directOceanEvidenceLineage
+    .inheritedLimitations,
+  [
+    "current-observation-unavailable"
+  ]
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    directOceanEvidenceLineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Ocean Evidence lineage deduplicates inherited limitations without altering evidence"
+);
+
+
+const lineageBehaviorPreservation =
+  assessOceanEvidence({
+    latitude:
+      28.25,
+
+    longitude:
+      -85.58,
+
+    sst: {
+      temperatureFahrenheit:
+        82,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    chlorophyll:
+      null,
+
+    currents: {
+      speedKnots:
+        1.5,
+
+      directionDegrees:
+        220,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    dataQuality: {}
+  });
+
+
+assert.deepEqual(
+  Object.keys(
+    lineageBehaviorPreservation
+      .groups
+  ),
+  [
+    "temperature",
+    "current",
+    "productivity",
+    "clarity",
+    "structure"
+  ]
+);
+
+assert.equal(
+  lineageBehaviorPreservation
+    .methodVersion,
+  "pelora-ocean-evidence-v1.2"
+);
+
+assert.equal(
+  lineageBehaviorPreservation
+    .environmentalOpportunityEvidence
+    .openWater
+    .values
+    .organized,
+  false
+);
+
+console.log(
+  "PASS Ocean Evidence lineage integration preserves established scientific behavior"
 );

@@ -4561,6 +4561,24 @@ export function assessOceanEvidence({
     ])
   ];
 
+  const environmentalOpportunityEvidence = {
+    openWater,
+    persistence,
+    combined:
+      environmentalOpportunity
+  };
+
+  const lineage =
+    buildOceanEvidenceLineage({
+      groups,
+
+      environmentalOpportunityEvidence,
+
+      limitations,
+
+      dataQuality
+    });
+
   return {
     summary,
 
@@ -4571,19 +4589,220 @@ export function assessOceanEvidence({
      * the established evidence groups until their contribution
      * to confidence and scoring is scientifically governed.
      */
-    environmentalOpportunityEvidence: {
-      openWater,
-      persistence,
-      combined:
-        environmentalOpportunity
-    },
+    environmentalOpportunityEvidence,
 
     confidence,
 
     limitations,
 
+    /*
+     * Lineage documents how this evidence contract was assembled.
+     * It cannot alter any established evidence or model behavior.
+     */
+    lineage,
+
     methodVersion:
       "pelora-ocean-evidence-v1.2"
+  };
+}
+
+
+
+
+/**
+ * Build the governed lineage record for Ocean Evidence.
+ *
+ * This function documents the observation-to-evidence path.
+ * It does not alter evidence, confidence, scoring, summaries,
+ * classifications, or biological interpretation.
+ */
+export function buildOceanEvidenceLineage({
+  groups,
+  environmentalOpportunityEvidence,
+  limitations,
+  dataQuality
+} = {}) {
+  const observationAvailability = {
+    temperature:
+      groups?.temperature?.available ===
+      true,
+
+    currents:
+      groups?.current?.available ===
+      true,
+
+    chlorophyll:
+      (
+        groups?.productivity
+          ?.available === true ||
+        groups?.clarity
+          ?.available === true
+      )
+  };
+
+  const observationsUsed =
+    Object.entries(
+      observationAvailability
+    )
+      .filter(
+        ([, available]) =>
+          available === true
+      )
+      .map(
+        ([observation]) =>
+          observation
+      );
+
+  const observationsUnavailable =
+    Object.entries(
+      observationAvailability
+    )
+      .filter(
+        ([, available]) =>
+          available !== true
+      )
+      .map(
+        ([observation]) =>
+          observation
+      );
+
+  /*
+   * Evidence contracts are recorded as produced even when they
+   * conservatively report unavailable or insufficient evidence.
+   *
+   * This distinguishes:
+   *
+   * - an evidence contract that was evaluated and returned
+   * - an observation that was unavailable
+   */
+  const evidenceProduced = [
+    "temperature-evidence",
+    "current-evidence",
+    "productivity-evidence",
+    "clarity-evidence",
+    "structure-evidence",
+    "open-water-evidence",
+    "persistence-evidence",
+    "environmental-opportunity-evidence"
+  ];
+
+  const inheritedWarnings = [];
+
+  const dataQualityClassification =
+    dataQuality?.overall
+      ?.classification ??
+    dataQuality?.classification ??
+    null;
+
+  if (
+    typeof dataQualityClassification ===
+      "string" &&
+    ![
+      "complete",
+      "good",
+      "high",
+      "available"
+    ].includes(
+      dataQualityClassification
+        .toLowerCase()
+    )
+  ) {
+    inheritedWarnings.push(
+      `data-quality:${dataQualityClassification}`
+    );
+  }
+
+  if (
+    environmentalOpportunityEvidence
+      ?.openWater
+      ?.available !== true
+  ) {
+    inheritedWarnings.push(
+      "open-water-evidence-unavailable"
+    );
+  }
+
+  if (
+    environmentalOpportunityEvidence
+      ?.persistence
+      ?.available !== true
+  ) {
+    inheritedWarnings.push(
+      "persistence-evidence-unavailable"
+    );
+  }
+
+  const dataQualityMethodVersion =
+    (
+      typeof dataQuality
+        ?.methodVersion ===
+        "string" &&
+      dataQuality
+        .methodVersion
+        .trim()
+        .length > 0
+    )
+      ? dataQuality.methodVersion
+      : "pelora-data-quality-contract-unversioned";
+
+  return {
+    upstream: [
+      {
+        engine:
+          "data-assessment",
+
+        methodVersion:
+          dataQualityMethodVersion
+      }
+    ],
+
+    observationsUsed,
+
+    observationsUnavailable,
+
+    evidenceProduced,
+
+    inheritedLimitations: [
+      ...new Set(
+        Array.isArray(
+          limitations
+        )
+          ? limitations.filter(
+              limitation =>
+                typeof limitation ===
+                  "string" &&
+                limitation
+                  .trim()
+                  .length > 0
+            )
+          : []
+      )
+    ],
+
+    inheritedWarnings: [
+      ...new Set(
+        inheritedWarnings
+      )
+    ],
+
+    producedBy:
+      "ocean-evidence",
+
+    components: {
+      groupsProduced:
+        Object.keys(
+          groups ?? {}
+        ),
+
+      environmentalOpportunityContractsProduced:
+        Object.keys(
+          environmentalOpportunityEvidence ??
+          {}
+        )
+    },
+
+    methodVersion:
+      "pelora-ocean-evidence-lineage-v1.0"
   };
 }
 
@@ -10606,8 +10825,9 @@ export const LINEAGE_GOVERNANCE_RULES = {
 export const EVIDENCE_LINEAGE_FRAMEWORK = {
   requiredFields: [
     "upstream",
-    "evidenceUsed",
-    "evidenceUnavailable",
+    "observationsUsed",
+    "observationsUnavailable",
+    "evidenceProduced",
     "inheritedLimitations",
     "inheritedWarnings",
     "producedBy",
@@ -10631,7 +10851,7 @@ export const EVIDENCE_LINEAGE_FRAMEWORK = {
     LINEAGE_GOVERNANCE_RULES,
 
   methodVersion:
-    "pelora-evidence-lineage-framework-v1.0"
+    "pelora-evidence-lineage-framework-v1.1"
 };
 
 
@@ -10817,8 +11037,9 @@ export function validateEvidenceLineage(
 
   const arrayFields = [
     "upstream",
-    "evidenceUsed",
-    "evidenceUnavailable",
+    "observationsUsed",
+    "observationsUnavailable",
+    "evidenceProduced",
     "inheritedLimitations",
     "inheritedWarnings"
   ];
@@ -10930,8 +11151,9 @@ export function validateEvidenceLineage(
   for (
     const field
     of [
-      "evidenceUsed",
-      "evidenceUnavailable",
+      "observationsUsed",
+      "observationsUnavailable",
+      "evidenceProduced",
       "inheritedLimitations",
       "inheritedWarnings"
     ]
@@ -10974,25 +11196,37 @@ export function validateEvidenceLineage(
 
   if (
     Array.isArray(
-      lineage.evidenceUsed
+      lineage.observationsUsed
     ) &&
-    lineage.evidenceUsed.length ===
+    lineage.observationsUsed.length ===
       0
   ) {
     warnings.push(
-      `${path}:no-used-evidence-recorded`
+      `${path}:no-used-observations-recorded`
     );
   }
 
   if (
     Array.isArray(
-      lineage.evidenceUnavailable
+      lineage.observationsUnavailable
     ) &&
-    lineage.evidenceUnavailable.length ===
+    lineage.observationsUnavailable.length ===
       0
   ) {
     warnings.push(
-      `${path}:no-unavailable-evidence-recorded`
+      `${path}:no-unavailable-observations-recorded`
+    );
+  }
+
+  if (
+    Array.isArray(
+      lineage.evidenceProduced
+    ) &&
+    lineage.evidenceProduced.length ===
+      0
+  ) {
+    warnings.push(
+      `${path}:no-produced-evidence-recorded`
     );
   }
 
@@ -11011,18 +11245,25 @@ export function validateEvidenceLineage(
         ? lineage.upstream.length
         : 0,
 
-    evidenceUsedCount:
+    observationsUsedCount:
       Array.isArray(
-        lineage.evidenceUsed
+        lineage.observationsUsed
       )
-        ? lineage.evidenceUsed.length
+        ? lineage.observationsUsed.length
         : 0,
 
-    evidenceUnavailableCount:
+    observationsUnavailableCount:
       Array.isArray(
-        lineage.evidenceUnavailable
+        lineage.observationsUnavailable
       )
-        ? lineage.evidenceUnavailable.length
+        ? lineage.observationsUnavailable.length
+        : 0,
+
+    evidenceProducedCount:
+      Array.isArray(
+        lineage.evidenceProduced
+      )
+        ? lineage.evidenceProduced.length
         : 0,
 
     inheritedLimitationCount:
