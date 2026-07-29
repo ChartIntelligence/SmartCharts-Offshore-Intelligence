@@ -8122,7 +8122,7 @@ assert.equal(
 assert.equal(
   blueMarlinAfterRelationshipContext
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.6"
+  "pelora-blue-marlin-hsm-v1.7"
 );
 
 console.log(
@@ -8670,7 +8670,7 @@ assert.deepEqual(
 assert.equal(
   habitatWithResolvedPathway
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.6"
+  "pelora-blue-marlin-hsm-v1.7"
 );
 
 console.log(
@@ -9434,7 +9434,7 @@ assert.deepEqual(
 assert.equal(
   habitatWithTypeResolutionPathway
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.6"
+  "pelora-blue-marlin-hsm-v1.7"
 );
 
 console.log(

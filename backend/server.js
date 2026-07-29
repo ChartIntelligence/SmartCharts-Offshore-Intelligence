@@ -8745,6 +8745,478 @@ export function buildRelationshipContext({
 
 /**
  * ------------------------------------------------------------
+ * Relationship Assessment Engine v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Create one canonical, species-neutral assessment contract
+ * containing:
+ *
+ * - environmental relationship support
+ * - confidence in that relationship support
+ * - canonical Species Knowledge Framework aliases
+ * - explicit limitations and governance rules
+ *
+ * Relationship support and relationship confidence remain
+ * separate concepts.
+ *
+ * This engine does not:
+ * - infer biological significance
+ * - infer species presence
+ * - alter habitat scores
+ * - alter model confidence
+ * - alter opportunity-type resolution
+ */
+export function assessRelationships({
+  relationshipContext = null,
+  oceanEvidence = null,
+  oceanOpportunity = null,
+  dataQuality = null
+} = {}) {
+  const context =
+    relationshipContext &&
+    typeof relationshipContext ===
+      "object"
+      ? relationshipContext
+      : buildRelationshipContext({
+          oceanOpportunity,
+          oceanEvidence
+        });
+
+  const relationshipSupport =
+    context?.relationshipSupport ??
+    {};
+
+  const canonicalRelationshipAliases = {
+    thermalStructure:
+      "thermalStructure",
+
+    oceanMovement:
+      "oceanMovement",
+
+    productivity:
+      "productivityAndPreySupport",
+
+    waterCharacter:
+      "waterCharacter",
+
+    structureInteraction:
+      "structureInteraction",
+
+    persistence:
+      "persistence",
+
+    openWaterOrganization:
+      "openWaterOrganization"
+  };
+
+  const confidenceLevelForValue = (
+    value
+  ) => {
+    if (
+      !Number.isFinite(value) ||
+      value <= 0
+    ) {
+      return "insufficient";
+    }
+
+    if (value < 0.3) {
+      return "low";
+    }
+
+    if (value < 0.55) {
+      return "limited";
+    }
+
+    if (value < 0.75) {
+      return "moderate";
+    }
+
+    return "high";
+  };
+
+  const rawDataQualityScore =
+    Number.isFinite(
+      dataQuality?.score
+    )
+      ? dataQuality.score
+      : null;
+
+  const normalizedDataQuality =
+    rawDataQualityScore === null
+      ? null
+      : Math.max(
+          0,
+          Math.min(
+            1,
+            rawDataQualityScore > 1
+              ? rawDataQualityScore / 100
+              : rawDataQualityScore
+          )
+        );
+
+  const relationships = {};
+
+  for (
+    const [
+      relationshipName,
+      support
+    ]
+    of Object.entries(
+      relationshipSupport
+    )
+  ) {
+    const status =
+      support?.status ??
+      "unresolved";
+
+    const supported =
+      support?.supported ===
+      true;
+
+    let confidenceValue = 0.2;
+
+    const positiveDrivers = [];
+    const negativeDrivers = [];
+    const limitations = [];
+
+    if (supported) {
+      confidenceValue = 0.65;
+
+      positiveDrivers.push(
+        "relationship-supported-by-environmental-evidence"
+      );
+    } else if (
+      status === "unavailable"
+    ) {
+      confidenceValue = 0.1;
+
+      negativeDrivers.push(
+        "relationship-evidence-unavailable"
+      );
+
+      limitations.push(
+        "relationship-cannot-be-assessed-from-current-evidence"
+      );
+    } else {
+      confidenceValue = 0.25;
+
+      negativeDrivers.push(
+        "relationship-support-unresolved"
+      );
+
+      limitations.push(
+        "relationship-support-remains-unresolved"
+      );
+    }
+
+    if (support?.source) {
+      confidenceValue += 0.05;
+
+      positiveDrivers.push(
+        `relationship-source-${support.source}`
+      );
+    } else {
+      limitations.push(
+        "relationship-source-not-established"
+      );
+    }
+
+    if (
+      normalizedDataQuality !== null
+    ) {
+      confidenceValue =
+        Math.min(
+          confidenceValue,
+          normalizedDataQuality
+        );
+
+      if (
+        normalizedDataQuality <
+        0.55
+      ) {
+        limitations.push(
+          "relationship-confidence-limited-by-data-quality"
+        );
+      }
+    } else {
+      limitations.push(
+        "data-quality-score-unavailable"
+      );
+    }
+
+    confidenceValue =
+      Number(
+        Math.max(
+          0,
+          Math.min(
+            1,
+            confidenceValue
+          )
+        ).toFixed(2)
+      );
+
+    relationships[
+      relationshipName
+    ] = {
+      relationship:
+        relationshipName,
+
+      canonicalRelationship:
+        canonicalRelationshipAliases[
+          relationshipName
+        ] ??
+        relationshipName,
+
+      supported,
+
+      supportStatus:
+        status,
+
+      source:
+        support?.source ??
+        null,
+
+      confidence: {
+        value:
+          confidenceValue,
+
+        level:
+          confidenceLevelForValue(
+            confidenceValue
+          )
+      },
+
+      positiveDrivers: [
+        ...new Set(
+          positiveDrivers
+        )
+      ],
+
+      negativeDrivers: [
+        ...new Set(
+          negativeDrivers
+        )
+      ],
+
+      limitations: [
+        ...new Set(
+          limitations
+        )
+      ]
+    };
+  }
+
+  const confidenceValues =
+    Object.values(
+      relationships
+    )
+      .map(
+        relationship =>
+          relationship
+            ?.confidence
+            ?.value
+      )
+      .filter(
+        value =>
+          Number.isFinite(value)
+      );
+
+  const overallConfidenceValue =
+    confidenceValues.length > 0
+      ? Number(
+          (
+            confidenceValues.reduce(
+              (
+                total,
+                value
+              ) =>
+                total + value,
+              0
+            ) /
+            confidenceValues.length
+          ).toFixed(2)
+        )
+      : 0;
+
+  const supportedCount =
+    Object.values(
+      relationships
+    )
+      .filter(
+        relationship =>
+          relationship
+            ?.supported === true
+      )
+      .length;
+
+  const unavailableCount =
+    Object.values(
+      relationships
+    )
+      .filter(
+        relationship =>
+          relationship
+            ?.supportStatus ===
+          "unavailable"
+      )
+      .length;
+
+  const unresolvedCount =
+    Object.values(
+      relationships
+    )
+      .filter(
+        relationship =>
+          relationship
+            ?.supportStatus ===
+          "unresolved"
+      )
+      .length;
+
+  const limitations = [
+    "species-neutral-relationship-assessment",
+    "relationship-confidence-is-not-biological-confidence",
+    "relationship-confidence-is-not-species-probability",
+    "relationship-confidence-does-not-confirm-fish-presence",
+    "relationship-confidence-does-not-estimate-catch-probability",
+    "relationship-assessment-does-not-change-habitat-scores",
+    "relationship-assessment-does-not-change-model-confidence",
+    "relationship-assessment-does-not-change-opportunity-resolution"
+  ];
+
+  if (
+    unresolvedCount > 0
+  ) {
+    limitations.push(
+      "one-or-more-relationships-remain-unresolved"
+    );
+  }
+
+  if (
+    unavailableCount > 0
+  ) {
+    limitations.push(
+      "one-or-more-relationship-evidence-groups-are-unavailable"
+    );
+  }
+
+  if (
+    normalizedDataQuality ===
+    null
+  ) {
+    limitations.push(
+      "overall-data-quality-score-unavailable"
+    );
+  }
+
+  return {
+    available:
+      context?.available === true,
+
+    pathway:
+      context?.pathway ??
+      "insufficient-evidence",
+
+    environmentType:
+      context?.environmentType ??
+      "unresolved",
+
+    relationshipContext:
+      context,
+
+    relationshipSupport,
+
+    relationshipConfidence: {
+      overall: {
+        value:
+          overallConfidenceValue,
+
+        level:
+          confidenceLevelForValue(
+            overallConfidenceValue
+          )
+      },
+
+      relationships,
+
+      summary: {
+        assessedCount:
+          confidenceValues.length,
+
+        supportedCount,
+
+        unavailableCount,
+
+        unresolvedCount
+      },
+
+      dataQualityContext: {
+        available:
+          normalizedDataQuality !==
+          null,
+
+        score:
+          rawDataQualityScore,
+
+        normalizedScore:
+          normalizedDataQuality
+      }
+    },
+
+    rules: {
+      contextIsSpeciesNeutral:
+        true,
+
+      confidenceIsSpeciesNeutral:
+        true,
+
+      biologicalInferenceAllowed:
+        false,
+
+      changesHabitatScores:
+        false,
+
+      changesModelConfidence:
+        false,
+
+      changesOpportunityResolution:
+        false,
+
+      confirmsSpeciesPresence:
+        false,
+
+      estimatesCatchProbability:
+        false
+    },
+
+    limitations: [
+      ...new Set(
+        [
+          ...limitations,
+
+          ...(
+            Array.isArray(
+              context?.limitations
+            )
+              ? context.limitations
+              : []
+          )
+        ]
+      )
+    ],
+
+    interpretation:
+      "species-neutral-relationship-assessment",
+
+    methodVersion:
+      "pelora-relationship-assessment-engine-v1.0"
+  };
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Blue Marlin Habitat Suitability Model
  * ------------------------------------------------------------
  */
@@ -11308,9 +11780,19 @@ export function assessBlueMarlinHabitat({
       oceanEvidence
     });
 
+  const relationshipAssessment =
+    assessRelationships({
+      relationshipContext,
+      oceanOpportunity,
+      oceanEvidence,
+      dataQuality
+    });
+
   const speciesPathwayInterpretation =
     interpretBlueMarlinPathway({
-      relationshipContext
+      relationshipContext:
+        relationshipAssessment
+          .relationshipContext
     });
 
   const opportunityTypeResolution =
@@ -12636,7 +13118,21 @@ export function assessBlueMarlinHabitat({
     },
 
     /*
-     * Species-neutral environmental relationship context.
+     * Canonical species-neutral relationship assessment.
+     *
+     * This field combines environmental relationship support
+     * with confidence in that support. It is explanatory only
+     * and does not modify habitat scores, model confidence, or
+     * opportunity-type resolution.
+     */
+    relationshipAssessment,
+
+    /*
+     * Legacy species-neutral environmental relationship context.
+     *
+     * Preserved for backward compatibility during Relationship
+     * Assessment Engine v1.0. New consumers should prefer
+     * relationshipAssessment.relationshipContext.
      *
      * This field is explanatory only. It does not contribute
      * points, modify relationship-group scores, alter confidence,
@@ -12745,7 +13241,7 @@ export function assessBlueMarlinHabitat({
       "blue-marlin-habitat-suitability",
 
     methodVersion:
-      "pelora-blue-marlin-hsm-v1.6"
+      "pelora-blue-marlin-hsm-v1.7"
   };
 }
 
