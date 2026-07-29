@@ -16,7 +16,9 @@ import {
   SPECIES_RELATIONSHIP_IMPORTANCE,
   SPECIES_KNOWLEDGE_FRAMEWORK,
   resolveRelationshipImportance,
-  validateSpeciesKnowledgeProfile
+  validateSpeciesKnowledgeProfile,
+  SPECIES_KNOWLEDGE_PROVENANCE,
+  validateKnowledgeProvenance
 } from "../server.js";
 
 
@@ -8120,7 +8122,7 @@ assert.equal(
 assert.equal(
   blueMarlinAfterRelationshipContext
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.5"
+  "pelora-blue-marlin-hsm-v1.6"
 );
 
 console.log(
@@ -8668,7 +8670,7 @@ assert.deepEqual(
 assert.equal(
   habitatWithResolvedPathway
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.5"
+  "pelora-blue-marlin-hsm-v1.6"
 );
 
 console.log(
@@ -9432,7 +9434,7 @@ assert.deepEqual(
 assert.equal(
   habitatWithTypeResolutionPathway
     .methodVersion,
-  "pelora-blue-marlin-hsm-v1.5"
+  "pelora-blue-marlin-hsm-v1.6"
 );
 
 console.log(
@@ -9624,13 +9626,13 @@ assert.equal(
   genericBlueMarlinResolution
     .knowledgeProfile
     .methodVersion,
-  "pelora-blue-marlin-species-knowledge-profile-v1.0"
+  "pelora-blue-marlin-species-knowledge-profile-v1.1"
 );
 
 assert.equal(
   genericBlueMarlinResolution
     .methodVersion,
-  "pelora-species-opportunity-type-resolution-v1.1"
+  "pelora-species-opportunity-type-resolution-v1.2"
 );
 
 console.log(
@@ -9757,7 +9759,7 @@ assert.equal(
 assert.equal(
   wrappedBlueMarlinResolution
     .methodVersion,
-  "pelora-blue-marlin-opportunity-type-resolution-v1.2"
+  "pelora-blue-marlin-opportunity-type-resolution-v1.3"
 );
 
 console.log(
@@ -9826,7 +9828,7 @@ console.log(
 assert.equal(
   SPECIES_KNOWLEDGE_FRAMEWORK
     .methodVersion,
-  "pelora-species-knowledge-framework-v1.0"
+  "pelora-species-knowledge-framework-v1.1"
 );
 
 assert.ok(
@@ -9867,10 +9869,20 @@ assert.deepEqual(
   []
 );
 
-assert.deepEqual(
+assert.ok(
   blueMarlinProfileValidation
-    .warnings,
-  []
+    .warnings
+    .includes(
+      "profile:no-scientific-references-recorded"
+    )
+);
+
+assert.ok(
+  blueMarlinProfileValidation
+    .warnings
+    .includes(
+      "profile:not-yet-formally-reviewed"
+    )
 );
 
 assert.equal(
@@ -10044,4 +10056,454 @@ assert.equal(
 
 console.log(
   "PASS generic resolver refuses to use an invalid species knowledge profile"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Species Knowledge Provenance and Governance v1.0
+ * ------------------------------------------------------------
+ */
+
+assert.equal(
+  SPECIES_KNOWLEDGE_PROVENANCE
+    .methodVersion,
+  "pelora-species-knowledge-provenance-v1.0"
+);
+
+assert.ok(
+  SPECIES_KNOWLEDGE_PROVENANCE
+    .allowedEvidenceStatuses
+    .includes(
+      "provisional"
+    )
+);
+
+assert.ok(
+  SPECIES_KNOWLEDGE_PROVENANCE
+    .allowedSourceTypes
+    .includes(
+      "peer-reviewed-research"
+    )
+);
+
+assert.ok(
+  SPECIES_KNOWLEDGE_PROVENANCE
+    .allowedSourceTypes
+    .includes(
+      "captain-observation"
+    )
+);
+
+console.log(
+  "PASS Species Knowledge Provenance defines governed vocabularies"
+);
+
+
+const provisionalProvenance =
+  validateKnowledgeProvenance({
+    rationale:
+      "This relationship is retained as a provisional environmental interpretation pending formal scientific review.",
+
+    evidenceStatus:
+      "provisional",
+
+    sourceType:
+      "expert-knowledge",
+
+    references: [],
+
+    reviewedBy: [],
+
+    lastReviewedAt:
+      null,
+
+    regionalScope:
+      "global",
+
+    seasonalScope:
+      "year-round",
+
+    limitations: [
+      "formal-review-not-yet-complete"
+    ]
+  });
+
+
+assert.equal(
+  provisionalProvenance
+    .valid,
+  true
+);
+
+assert.ok(
+  provisionalProvenance
+    .warnings
+    .includes(
+      "knowledge-provenance:no-scientific-references-recorded"
+    )
+);
+
+assert.ok(
+  provisionalProvenance
+    .warnings
+    .includes(
+      "knowledge-provenance:not-yet-formally-reviewed"
+    )
+);
+
+console.log(
+  "PASS provisional knowledge remains valid while review gaps are disclosed"
+);
+
+
+const unsafeValidatedProvenance =
+  validateKnowledgeProvenance({
+    rationale:
+      "This record incorrectly claims validation without attaching a scientific reference or reviewer.",
+
+    evidenceStatus:
+      "validated",
+
+    sourceType:
+      "expert-knowledge",
+
+    references: [],
+
+    reviewedBy: [],
+
+    lastReviewedAt:
+      null,
+
+    regionalScope:
+      "global",
+
+    seasonalScope:
+      "year-round",
+
+    limitations: []
+  });
+
+
+assert.equal(
+  unsafeValidatedProvenance
+    .valid,
+  false
+);
+
+assert.ok(
+  unsafeValidatedProvenance
+    .errors
+    .includes(
+      "knowledge-provenance:reviewed-status-requires-reviewer"
+    )
+);
+
+assert.ok(
+  unsafeValidatedProvenance
+    .errors
+    .includes(
+      "knowledge-provenance:validated-status-requires-reference"
+    )
+);
+
+console.log(
+  "PASS validated knowledge requires references and formal review"
+);
+
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .knowledgeProvenance
+    .evidenceStatus,
+  "provisional"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .knowledgeProvenance
+    .sourceType,
+  "expert-knowledge"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .knowledgeProvenance
+    .regionalScope,
+  "global"
+);
+
+assert.ok(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .knowledgeProvenance
+    .limitations
+    .includes(
+      "formal-literature-review-not-yet-attached"
+    )
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .relationshipGroups
+    .oceanMovement
+    .provenance
+    .evidenceStatus,
+  "provisional"
+);
+
+assert.equal(
+  BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    .opportunityTypes
+    ["feeding-corridor"]
+    .provenance
+    .evidenceStatus,
+  "provisional"
+);
+
+console.log(
+  "PASS Blue Marlin profile exposes governed knowledge provenance"
+);
+
+
+const governedBlueMarlinValidation =
+  validateSpeciesKnowledgeProfile(
+    BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+  );
+
+assert.equal(
+  governedBlueMarlinValidation
+    .valid,
+  true
+);
+
+assert.ok(
+  governedBlueMarlinValidation
+    .warnings
+    .some(
+      warning =>
+        warning.includes(
+          "no-scientific-references-recorded"
+        )
+    )
+);
+
+assert.ok(
+  governedBlueMarlinValidation
+    .warnings
+    .some(
+      warning =>
+        warning.includes(
+          "not-yet-formally-reviewed"
+        )
+    )
+);
+
+console.log(
+  "PASS Species Knowledge Framework preserves provenance warnings without invalidating provisional knowledge"
+);
+
+
+const governedResolution =
+  resolveSpeciesOpportunityType({
+    speciesProfile:
+      BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE,
+
+    speciesPathwayInterpretation: {
+      environmentalPathway:
+        "open-water",
+
+      plausibleOpportunityTypes: [
+        "feeding-corridor"
+      ]
+    },
+
+    relationshipContext: {
+      pathway:
+        "open-water",
+
+      relationshipSupport: {
+        openWaterOrganization: {
+          supported:
+            true
+        },
+
+        persistence: {
+          supported:
+            false
+        }
+      }
+    },
+
+    oceanEvidence: {
+      groups: {
+        current: {
+          available:
+            true,
+
+          classification:
+            "strong",
+
+          values: {
+            strengthClassification:
+              "strong"
+          }
+        },
+
+        temperature: {
+          available:
+            true,
+
+          classification:
+            "moderate-temperature-transition",
+
+          values: {
+            transitionStrength:
+              "moderate"
+          }
+        }
+      }
+    },
+
+    oceanOpportunity: {
+      opportunities: [
+        {
+          type:
+            "current-supported-transition-candidate"
+        }
+      ]
+    }
+  });
+
+
+assert.equal(
+  governedResolution
+    .knowledgeProfile
+    .provenance
+    .evidenceStatus,
+  "provisional"
+);
+
+assert.equal(
+  governedResolution
+    .knowledgeProfile
+    .provenance
+    .referenceCount,
+  0
+);
+
+assert.equal(
+  governedResolution
+    .knowledgeProfile
+    .provenance
+    .reviewerCount,
+  0
+);
+
+assert.equal(
+  governedResolution
+    .rules
+    .changesHabitatScores,
+  false
+);
+
+console.log(
+  "PASS generic resolver exposes provenance without changing resolution behavior"
+);
+
+
+
+const explicitNullReviewDateValidation =
+  validateKnowledgeProvenance({
+    rationale:
+      "This provisional relationship has not yet received formal review, so the review date is explicitly recorded as null.",
+
+    evidenceStatus:
+      "provisional",
+
+    sourceType:
+      "expert-knowledge",
+
+    references: [],
+
+    reviewedBy: [],
+
+    lastReviewedAt:
+      null,
+
+    regionalScope:
+      "global",
+
+    seasonalScope:
+      "year-round",
+
+    limitations: [
+      "formal-review-not-yet-complete"
+    ]
+  });
+
+
+assert.equal(
+  explicitNullReviewDateValidation
+    .valid,
+  true
+);
+
+assert.equal(
+  explicitNullReviewDateValidation
+    .errors
+    .includes(
+      "knowledge-provenance:missing-provenance-field:lastReviewedAt"
+    ),
+  false
+);
+
+console.log(
+  "PASS provenance distinguishes an explicit null review date from a missing review field"
+);
+
+
+const missingReviewDateValidation =
+  validateKnowledgeProvenance({
+    rationale:
+      "This record intentionally omits the review-date field so the validator can distinguish absence from an explicit null value.",
+
+    evidenceStatus:
+      "provisional",
+
+    sourceType:
+      "expert-knowledge",
+
+    references: [],
+
+    reviewedBy: [],
+
+    regionalScope:
+      "global",
+
+    seasonalScope:
+      "year-round",
+
+    limitations: [
+      "formal-review-not-yet-complete"
+    ]
+  });
+
+
+assert.equal(
+  missingReviewDateValidation
+    .valid,
+  false
+);
+
+assert.ok(
+  missingReviewDateValidation
+    .errors
+    .includes(
+      "knowledge-provenance:missing-provenance-field:lastReviewedAt"
+    )
+);
+
+console.log(
+  "PASS provenance rejects a genuinely missing review-date field"
 );

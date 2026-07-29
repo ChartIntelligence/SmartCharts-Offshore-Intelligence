@@ -9086,6 +9086,322 @@ export const SPECIES_RELATIONSHIP_IMPORTANCE = {
  * Profiles may contain additional governed fields in future
  * versions, but every profile must preserve this foundation.
  */
+/**
+ * ------------------------------------------------------------
+ * Species Knowledge Provenance and Governance v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Record why Pelora holds a species relationship, how mature
+ * the supporting knowledge is, where it applies, and what
+ * review remains necessary.
+ *
+ * Provenance describes knowledge governance only.
+ *
+ * It does not:
+ * - prove biological behavior
+ * - confirm fish presence
+ * - confirm feeding
+ * - change habitat scores
+ * - change model confidence
+ */
+export const SPECIES_KNOWLEDGE_PROVENANCE = {
+  allowedEvidenceStatuses: [
+    "hypothesis",
+    "provisional",
+    "reviewed",
+    "validated"
+  ],
+
+  allowedSourceTypes: [
+    "expert-knowledge",
+    "peer-reviewed-research",
+    "government-dataset",
+    "observational-study",
+    "captain-observation",
+    "pelora-derived-hypothesis",
+    "mixed-evidence"
+  ],
+
+  allowedRegionalScopes: [
+    "global",
+    "ocean-basin",
+    "regional",
+    "local",
+    "unknown"
+  ],
+
+  allowedSeasonalScopes: [
+    "year-round",
+    "seasonal",
+    "event-dependent",
+    "unknown"
+  ],
+
+  requiredFields: [
+    "rationale",
+    "evidenceStatus",
+    "sourceType",
+    "references",
+    "reviewedBy",
+    "lastReviewedAt",
+    "regionalScope",
+    "seasonalScope",
+    "limitations"
+  ],
+
+  methodVersion:
+    "pelora-species-knowledge-provenance-v1.0"
+};
+
+
+/**
+ * Validate an individual knowledge-provenance record.
+ *
+ * Empty references and review history are allowed while a
+ * relationship remains provisional, but they must be disclosed.
+ */
+export function validateKnowledgeProvenance(
+  provenance,
+  {
+    path = "knowledge-provenance"
+  } = {}
+) {
+  const errors = [];
+
+  const warnings = [];
+
+  if (
+    !provenance ||
+    typeof provenance !== "object" ||
+    Array.isArray(provenance)
+  ) {
+    return {
+      valid:
+        false,
+
+      errors: [
+        `${path}:provenance-must-be-an-object`
+      ],
+
+      warnings: [],
+
+      methodVersion:
+        "pelora-knowledge-provenance-validation-v1.0"
+    };
+  }
+
+  for (
+    const field
+    of SPECIES_KNOWLEDGE_PROVENANCE
+      .requiredFields
+  ) {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        provenance,
+        field
+      )
+    ) {
+      errors.push(
+        `${path}:missing-provenance-field:${field}`
+      );
+    }
+  }
+
+  if (
+    typeof provenance.rationale !== "string" ||
+    provenance.rationale.trim().length < 20
+  ) {
+    errors.push(
+      `${path}:rationale-must-be-descriptive`
+    );
+  }
+
+  if (
+    !SPECIES_KNOWLEDGE_PROVENANCE
+      .allowedEvidenceStatuses
+      .includes(
+        provenance.evidenceStatus
+      )
+  ) {
+    errors.push(
+      `${path}:invalid-evidence-status`
+    );
+  }
+
+  if (
+    !SPECIES_KNOWLEDGE_PROVENANCE
+      .allowedSourceTypes
+      .includes(
+        provenance.sourceType
+      )
+  ) {
+    errors.push(
+      `${path}:invalid-source-type`
+    );
+  }
+
+  if (
+    !SPECIES_KNOWLEDGE_PROVENANCE
+      .allowedRegionalScopes
+      .includes(
+        provenance.regionalScope
+      )
+  ) {
+    errors.push(
+      `${path}:invalid-regional-scope`
+    );
+  }
+
+  if (
+    !SPECIES_KNOWLEDGE_PROVENANCE
+      .allowedSeasonalScopes
+      .includes(
+        provenance.seasonalScope
+      )
+  ) {
+    errors.push(
+      `${path}:invalid-seasonal-scope`
+    );
+  }
+
+  for (
+    const arrayField
+    of [
+      "references",
+      "reviewedBy",
+      "limitations"
+    ]
+  ) {
+    if (
+      !Array.isArray(
+        provenance[arrayField]
+      )
+    ) {
+      errors.push(
+        `${path}:${arrayField}-must-be-an-array`
+      );
+    }
+  }
+
+  if (
+    provenance.lastReviewedAt !== null &&
+    (
+      typeof provenance.lastReviewedAt !==
+        "string" ||
+      Number.isNaN(
+        Date.parse(
+          provenance.lastReviewedAt
+        )
+      )
+    )
+  ) {
+    errors.push(
+      `${path}:last-reviewed-at-must-be-null-or-iso-date`
+    );
+  }
+
+  if (
+    (
+      provenance.evidenceStatus ===
+        "reviewed" ||
+      provenance.evidenceStatus ===
+        "validated"
+    ) &&
+    (
+      !Array.isArray(
+        provenance.reviewedBy
+      ) ||
+      provenance.reviewedBy.length === 0
+    )
+  ) {
+    errors.push(
+      `${path}:reviewed-status-requires-reviewer`
+    );
+  }
+
+  if (
+    provenance.evidenceStatus ===
+      "validated" &&
+    (
+      !Array.isArray(
+        provenance.references
+      ) ||
+      provenance.references.length === 0
+    )
+  ) {
+    errors.push(
+      `${path}:validated-status-requires-reference`
+    );
+  }
+
+  if (
+    Array.isArray(
+      provenance.references
+    ) &&
+    provenance.references.length === 0
+  ) {
+    warnings.push(
+      `${path}:no-scientific-references-recorded`
+    );
+  }
+
+  if (
+    Array.isArray(
+      provenance.reviewedBy
+    ) &&
+    provenance.reviewedBy.length === 0
+  ) {
+    warnings.push(
+      `${path}:not-yet-formally-reviewed`
+    );
+  }
+
+  if (
+    provenance.regionalScope ===
+      "global" &&
+    provenance.evidenceStatus ===
+      "hypothesis"
+  ) {
+    warnings.push(
+      `${path}:global-scope-hypothesis-requires-caution`
+    );
+  }
+
+  return {
+    valid:
+      errors.length === 0,
+
+    evidenceStatus:
+      provenance.evidenceStatus ??
+      null,
+
+    sourceType:
+      provenance.sourceType ??
+      null,
+
+    regionalScope:
+      provenance.regionalScope ??
+      null,
+
+    seasonalScope:
+      provenance.seasonalScope ??
+      null,
+
+    errors: [
+      ...new Set(errors)
+    ],
+
+    warnings: [
+      ...new Set(warnings)
+    ],
+
+    methodVersion:
+      "pelora-knowledge-provenance-validation-v1.0"
+  };
+}
+
+
 export const SPECIES_KNOWLEDGE_FRAMEWORK = {
   requiredProfileFields: [
     "species",
@@ -9093,6 +9409,7 @@ export const SPECIES_KNOWLEDGE_FRAMEWORK = {
     "scientificName",
     "knowledgeStatus",
     "habitatPurpose",
+    "knowledgeProvenance",
     "relationshipGroups",
     "opportunityTypes",
     "confidencePolicy",
@@ -9131,8 +9448,17 @@ export const SPECIES_KNOWLEDGE_FRAMEWORK = {
       false
   },
 
+  provenanceRequired:
+    true,
+
+  relationshipProvenanceRequired:
+    true,
+
+  opportunityTypeProvenanceRequired:
+    true,
+
   methodVersion:
-    "pelora-species-knowledge-framework-v1.0"
+    "pelora-species-knowledge-framework-v1.1"
 };
 
 
@@ -9227,6 +9553,25 @@ export function validateSpeciesKnowledgeProfile(
     );
   }
 
+  const profileProvenanceValidation =
+    validateKnowledgeProvenance(
+      profile.knowledgeProvenance,
+      {
+        path:
+          "profile"
+      }
+    );
+
+  errors.push(
+    ...profileProvenanceValidation
+      .errors
+  );
+
+  warnings.push(
+    ...profileProvenanceValidation
+      .warnings
+  );
+
   if (
     profile.relationshipGroups &&
     typeof profile.relationshipGroups ===
@@ -9237,15 +9582,38 @@ export function validateSpeciesKnowledgeProfile(
       of SPECIES_KNOWLEDGE_FRAMEWORK
         .requiredRelationshipGroups
     ) {
-      if (
-        !profile.relationshipGroups[
+      const relationshipGroup =
+        profile.relationshipGroups[
           group
-        ]
-      ) {
+        ];
+
+      if (!relationshipGroup) {
         errors.push(
           `missing-relationship-group:${group}`
         );
+
+        continue;
       }
+
+      const relationshipProvenanceValidation =
+        validateKnowledgeProvenance(
+          relationshipGroup
+            .provenance,
+          {
+            path:
+              `relationship-group:${group}`
+          }
+        );
+
+      errors.push(
+        ...relationshipProvenanceValidation
+          .errors
+      );
+
+      warnings.push(
+        ...relationshipProvenanceValidation
+          .warnings
+      );
     }
   }
 
@@ -9277,6 +9645,26 @@ export function validateSpeciesKnowledgeProfile(
 
         continue;
       }
+
+      const opportunityProvenanceValidation =
+        validateKnowledgeProvenance(
+          opportunityProfile
+            .provenance,
+          {
+            path:
+              `opportunity-type:${opportunityType}`
+          }
+        );
+
+      errors.push(
+        ...opportunityProvenanceValidation
+          .errors
+      );
+
+      warnings.push(
+        ...opportunityProvenanceValidation
+          .warnings
+      );
 
       if (
         !opportunityProfile.signals ||
@@ -9407,13 +9795,72 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
   habitatPurpose:
     "Identify where the ocean is creating a persistent, biologically plausible feeding opportunity for Blue Marlin without inferring fish presence or fishing success.",
 
+  knowledgeProvenance: {
+    rationale:
+      "The Blue Marlin profile organizes environmental relationships believed to support persistent pelagic feeding opportunity while preserving uncertainty and avoiding claims of fish presence.",
+
+    evidenceStatus:
+      "provisional",
+
+    sourceType:
+      "expert-knowledge",
+
+    references: [],
+
+    reviewedBy: [],
+
+    lastReviewedAt:
+      null,
+
+    regionalScope:
+      "global",
+
+    seasonalScope:
+      "year-round",
+
+    limitations: [
+      "formal-literature-review-not-yet-attached",
+      "regional-and-seasonal-relationships-require-future-validation",
+      "environmental-support-does-not-confirm-blue-marlin-presence"
+    ]
+  },
+
   relationshipGroups: {
     oceanMovement: {
       purpose:
         "Evaluate whether current organization may create movement corridors, convergence, retention, or directional feeding opportunity.",
 
       required:
-        false
+        false,
+
+      provenance: {
+        rationale:
+          "Organized currents, convergence, shear, and directional flow may create movement corridors or concentrate pelagic feeding opportunity, but single-point current observations cannot establish those spatial processes.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "regional-variation-requires-future-validation"
+        ]
+      }
     },
 
     thermalStructure: {
@@ -9421,7 +9868,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
         "Evaluate temperature boundaries and organized thermal transitions that may help define pelagic habitat.",
 
       required:
-        false
+        false,
+
+      provenance: {
+        rationale:
+          "Thermal transitions may help define water-mass boundaries and organized pelagic habitat, but temperature alone does not establish prey concentration or Blue Marlin presence.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "regional-variation-requires-future-validation"
+        ]
+      }
     },
 
     productivityAndPreySupport: {
@@ -9429,7 +9905,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
         "Evaluate environmental productivity that may support prey availability without confirming prey concentration.",
 
       required:
-        false
+        false,
+
+      provenance: {
+        rationale:
+          "Surface productivity may support the lower food web and increase prey plausibility, but chlorophyll observations do not directly confirm bait or feeding activity.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "regional-variation-requires-future-validation"
+        ]
+      }
     },
 
     waterCharacter: {
@@ -9437,7 +9942,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
         "Evaluate water-mass character and transitions without treating water color as direct biological proof.",
 
       required:
-        false
+        false,
+
+      provenance: {
+        rationale:
+          "Water-mass character and water-color transitions may help describe habitat boundaries, but clarity and color remain environmental context rather than direct biological proof.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "regional-variation-requires-future-validation"
+        ]
+      }
     },
 
     structureInteraction: {
@@ -9445,7 +9979,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
         "Evaluate bathymetric or physical structure association independently from open-water opportunity.",
 
       required:
-        false
+        false,
+
+      provenance: {
+        rationale:
+          "Bathymetric and physical structures may organize currents or create recurring habitat relationships, but proximity does not prove current interaction, prey retention, or fish use.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "regional-variation-requires-future-validation"
+        ]
+      }
     },
 
     persistence: {
@@ -9453,7 +10016,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
         "Evaluate whether an environmental feature remains organized long enough to create a plausible recurring opportunity.",
 
       required:
-        false
+        false,
+
+      provenance: {
+        rationale:
+          "A feature that remains organized through time is more biologically plausible than a brief observation, but verified temporal persistence is not yet fully connected.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "regional-variation-requires-future-validation"
+        ]
+      }
     }
   },
 
@@ -9465,6 +10057,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
   opportunityTypes: {
     "feeding-corridor": {
+      provenance: {
+        rationale:
+          "A feeding corridor is considered plausible where organized current and thermal structure may create directional movement and repeated access to feeding opportunity.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "environmental-opportunity-does-not-confirm-fish-presence",
+          "regional-and-seasonal-expression-may-vary"
+        ]
+      },
+
       signals: {
         openWaterOrganization:
           "moderate",
@@ -9495,6 +10117,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
 
     "current-convergence-feeding-pocket": {
+      provenance: {
+        rationale:
+          "A convergence feeding pocket is considered plausible where verified converging flow may retain or concentrate environmental and prey-supporting features within a localized area.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "environmental-opportunity-does-not-confirm-fish-presence",
+          "regional-and-seasonal-expression-may-vary"
+        ]
+      },
+
       signals: {
         openWaterOrganization:
           "moderate",
@@ -9522,6 +10174,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
 
     "eddy-edge-opportunity": {
+      provenance: {
+        rationale:
+          "An eddy-edge opportunity is considered plausible where a verified eddy boundary creates organized current, thermal, or productivity contrast along a persistent pelagic edge.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "environmental-opportunity-does-not-confirm-fish-presence",
+          "regional-and-seasonal-expression-may-vary"
+        ]
+      },
+
       signals: {
         openWaterOrganization:
           "supporting",
@@ -9543,6 +10225,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
 
     "productive-water-boundary": {
+      provenance: {
+        rationale:
+          "A productive-water boundary is considered plausible where productivity, water character, and thermal evidence describe an organized transition between adjacent water masses.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "environmental-opportunity-does-not-confirm-fish-presence",
+          "regional-and-seasonal-expression-may-vary"
+        ]
+      },
+
       signals: {
         productivityBoundary:
           "critical",
@@ -9567,6 +10279,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
 
     "open-water-prey-aggregation": {
+      provenance: {
+        rationale:
+          "Open-water prey aggregation remains a cautious environmental interpretation where productivity, current organization, and persistence could support concentration, without confirming prey.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "environmental-opportunity-does-not-confirm-fish-presence",
+          "regional-and-seasonal-expression-may-vary"
+        ]
+      },
+
       signals: {
         openWaterOrganization:
           "moderate",
@@ -9599,6 +10341,36 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
 
 
     "bathymetric-interaction-zone": {
+      provenance: {
+        rationale:
+          "A bathymetric interaction zone is considered plausible where verified structure and current evidence support physical interaction that may organize a recurring offshore feature.",
+
+        evidenceStatus:
+          "provisional",
+
+        sourceType:
+          "expert-knowledge",
+
+        references: [],
+
+        reviewedBy: [],
+
+        lastReviewedAt:
+          null,
+
+        regionalScope:
+          "global",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "formal-scientific-review-not-yet-recorded",
+          "environmental-opportunity-does-not-confirm-fish-presence",
+          "regional-and-seasonal-expression-may-vary"
+        ]
+      },
+
       signals: {
         structureAssociation:
           "strong",
@@ -9660,7 +10432,7 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
   },
 
   methodVersion:
-    "pelora-blue-marlin-species-knowledge-profile-v1.0"
+    "pelora-blue-marlin-species-knowledge-profile-v1.1"
 };
 
 
@@ -9785,7 +10557,7 @@ export function resolveSpeciesOpportunityType({
       },
 
       methodVersion:
-        "pelora-species-opportunity-type-resolution-v1.1"
+        "pelora-species-opportunity-type-resolution-v1.2"
     };
   }
 
@@ -10416,13 +11188,63 @@ export function resolveSpeciesOpportunityType({
       methodVersion:
         speciesProfile
           ?.methodVersion ??
-        null
+        null,
+
+      provenance: {
+        evidenceStatus:
+          speciesProfile
+            ?.knowledgeProvenance
+            ?.evidenceStatus ??
+          null,
+
+        sourceType:
+          speciesProfile
+            ?.knowledgeProvenance
+            ?.sourceType ??
+          null,
+
+        regionalScope:
+          speciesProfile
+            ?.knowledgeProvenance
+            ?.regionalScope ??
+          null,
+
+        seasonalScope:
+          speciesProfile
+            ?.knowledgeProvenance
+            ?.seasonalScope ??
+          null,
+
+        referenceCount:
+          Array.isArray(
+            speciesProfile
+              ?.knowledgeProvenance
+              ?.references
+          )
+            ? speciesProfile
+                .knowledgeProvenance
+                .references
+                .length
+            : 0,
+
+        reviewerCount:
+          Array.isArray(
+            speciesProfile
+              ?.knowledgeProvenance
+              ?.reviewedBy
+          )
+            ? speciesProfile
+                .knowledgeProvenance
+                .reviewedBy
+                .length
+            : 0
+      }
     },
 
     profileValidation,
 
     methodVersion:
-      "pelora-species-opportunity-type-resolution-v1.1"
+      "pelora-species-opportunity-type-resolution-v1.2"
   };
 }
 
@@ -10458,7 +11280,7 @@ export function resolveBlueMarlinOpportunityType({
     ...resolution,
 
     methodVersion:
-      "pelora-blue-marlin-opportunity-type-resolution-v1.2"
+      "pelora-blue-marlin-opportunity-type-resolution-v1.3"
   };
 }
 
@@ -11923,7 +12745,7 @@ export function assessBlueMarlinHabitat({
       "blue-marlin-habitat-suitability",
 
     methodVersion:
-      "pelora-blue-marlin-hsm-v1.5"
+      "pelora-blue-marlin-hsm-v1.6"
   };
 }
 
