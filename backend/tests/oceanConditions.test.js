@@ -5,6 +5,7 @@ import {
   assessOceanEvidence,
   assessOceanOpportunity,
   assessBlueMarlinHabitat,
+  buildBlueMarlinHabitatLineage,
   buildOpenWaterEvidence,
   buildEnvironmentalOpportunityEvidence,
   classifyOceanOpportunity,
@@ -13324,6 +13325,590 @@ console.log(
   "PASS Blue Marlin HSM propagates Relationship Assessment lineage into species pathway interpretation"
 );
 
+
+
+/*
+ * ------------------------------------------------------------
+ * Blue Marlin Habitat Suitability Lineage v1.0
+ * ------------------------------------------------------------
+ */
+
+assert.ok(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .producedBy,
+  "habitat-suitability"
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .methodVersion,
+  "pelora-blue-marlin-hsm-lineage-v1.0"
+);
+
+assert.deepEqual(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "opportunity-type",
+
+      methodVersion:
+        "pelora-opportunity-type-resolution-lineage-v1.0"
+    }
+  ]
+);
+
+assert.ok(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .evidenceProduced
+    .includes(
+      "blue-marlin-habitat-suitability-assessment"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    organizedOffshoreFeatureBlueMarlinHabitat
+      .lineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Blue Marlin HSM exposes governed Opportunity Type Resolution lineage"
+);
+
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .species,
+  "blue-marlin"
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .classification,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .classification
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .rawSuitabilityScore,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .suitabilityScore,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .confidenceScore,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .confidenceScore
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .confidenceLevel,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .confidenceLevel
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .maximumSuitabilityScore,
+  100
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .leadingOpportunityCandidate,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .opportunityTypeResolution
+    .leadingCandidate
+);
+
+console.log(
+  "PASS Blue Marlin HSM lineage records compact canonical suitability outputs"
+);
+
+
+for (
+  const [
+    groupName,
+    group
+  ]
+  of Object.entries(
+    organizedOffshoreFeatureBlueMarlinHabitat
+      .relationshipGroups
+  )
+) {
+  const lineageGroup =
+    organizedOffshoreFeatureBlueMarlinHabitat
+      .lineage
+      .components
+      .relationshipGroups[
+        groupName
+      ];
+
+  assert.ok(
+    lineageGroup,
+    `Missing lineage relationship group: ${groupName}`
+  );
+
+  assert.equal(
+    lineageGroup.score,
+    group.score
+  );
+
+  assert.equal(
+    lineageGroup.maximumScore,
+    group.maximumScore
+  );
+}
+
+console.log(
+  "PASS Blue Marlin HSM lineage records every governed relationship-group score"
+);
+
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore,
+  71
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .structureInteraction
+    .score,
+  0
+);
+
+assert.equal(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .relationshipGroups
+    .persistence
+    .score,
+  0
+);
+
+assert.ok(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore <
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .maximumSuitabilityScore
+);
+
+console.log(
+  "PASS Blue Marlin HSM lineage preserves the governed current model ceiling"
+);
+
+
+const directBlueMarlinHabitatLineage =
+  buildBlueMarlinHabitatLineage({
+    opportunityTypeResolution:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .opportunityTypeResolution,
+
+    classification:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .classification,
+
+    suitabilityScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .suitabilityScore,
+
+    rawSuitabilityScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .rawSuitabilityScore,
+
+    confidenceScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .confidenceScore,
+
+    confidenceLevel:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .confidenceLevel,
+
+    relationshipGroups:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .relationshipGroups,
+
+    leadingOpportunityCandidate:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .opportunityTypeResolution
+        .leadingCandidate,
+
+    limitations:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .limitations
+  });
+
+
+assert.equal(
+  validateEvidenceLineage(
+    directBlueMarlinHabitatLineage
+  ).valid,
+  true
+);
+
+assert.deepEqual(
+  directBlueMarlinHabitatLineage
+    .observationsUsed,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .observationsUsed
+);
+
+assert.deepEqual(
+  directBlueMarlinHabitatLineage
+    .observationsUnavailable,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .observationsUnavailable
+);
+
+console.log(
+  "PASS Blue Marlin HSM lineage preserves the complete inherited observation trace"
+);
+
+
+const missingOpportunityTypeLineage =
+  buildBlueMarlinHabitatLineage({
+    opportunityTypeResolution: {
+      ...organizedOffshoreFeatureBlueMarlinHabitat
+        .opportunityTypeResolution,
+
+      lineage:
+        null
+    },
+
+    classification:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .classification,
+
+    suitabilityScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .suitabilityScore,
+
+    rawSuitabilityScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .rawSuitabilityScore,
+
+    confidenceScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .confidenceScore,
+
+    confidenceLevel:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .confidenceLevel,
+
+    relationshipGroups:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .relationshipGroups,
+
+    leadingOpportunityCandidate:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .opportunityTypeResolution
+        .leadingCandidate,
+
+    limitations:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .limitations
+  });
+
+
+assert.deepEqual(
+  missingOpportunityTypeLineage
+    .upstream,
+  []
+);
+
+assert.ok(
+  missingOpportunityTypeLineage
+    .inheritedWarnings
+    .includes(
+      "upstream-lineage-unavailable"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    missingOpportunityTypeLineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  missingOpportunityTypeLineage
+    .components
+    .rawSuitabilityScore,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .rawSuitabilityScore
+);
+
+assert.equal(
+  missingOpportunityTypeLineage
+    .components
+    .suitabilityScore,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .suitabilityScore
+);
+
+console.log(
+  "PASS Blue Marlin HSM discloses missing Opportunity Type lineage without changing documented scores"
+);
+
+
+const malformedOpportunityTypeLineage =
+  buildBlueMarlinHabitatLineage({
+    opportunityTypeResolution: {
+      ...organizedOffshoreFeatureBlueMarlinHabitat
+        .opportunityTypeResolution,
+
+      lineage: {
+        producedBy:
+          "opportunity-type"
+      }
+    },
+
+    classification:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .classification,
+
+    suitabilityScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .suitabilityScore,
+
+    rawSuitabilityScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .rawSuitabilityScore,
+
+    confidenceScore:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .confidenceScore,
+
+    confidenceLevel:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .summary
+        .confidenceLevel,
+
+    relationshipGroups:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .relationshipGroups,
+
+    leadingOpportunityCandidate:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .opportunityTypeResolution
+        .leadingCandidate,
+
+    limitations:
+      organizedOffshoreFeatureBlueMarlinHabitat
+        .limitations
+  });
+
+
+assert.deepEqual(
+  malformedOpportunityTypeLineage
+    .upstream,
+  []
+);
+
+assert.ok(
+  malformedOpportunityTypeLineage
+    .inheritedWarnings
+    .includes(
+      "upstream-lineage-invalid"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    malformedOpportunityTypeLineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  malformedOpportunityTypeLineage
+    .components
+    .classification,
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .summary
+    .classification
+);
+
+console.log(
+  "PASS Blue Marlin HSM rejects malformed Opportunity Type lineage while preserving its documentary result"
+);
+
+
+assert.deepEqual(
+  organizedOffshoreFeatureBlueMarlinHabitat
+    .lineage
+    .components
+    .relationshipGroups,
+  {
+    oceanMovement: {
+      classification:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .oceanMovement
+          .classification,
+
+      score:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .oceanMovement
+          .score,
+
+      maximumScore:
+        20
+    },
+
+    thermalStructure: {
+      classification:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .thermalStructure
+          .classification,
+
+      score:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .thermalStructure
+          .score,
+
+      maximumScore:
+        25
+    },
+
+    productivityAndPreySupport: {
+      classification:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .productivityAndPreySupport
+          .classification,
+
+      score:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .productivityAndPreySupport
+          .score,
+
+      maximumScore:
+        20
+    },
+
+    structureInteraction: {
+      classification:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .structureInteraction
+          .classification,
+
+      score:
+        0,
+
+      maximumScore:
+        15
+    },
+
+    waterCharacter: {
+      classification:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .waterCharacter
+          .classification,
+
+      score:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .waterCharacter
+          .score,
+
+      maximumScore:
+        10
+    },
+
+    persistence: {
+      classification:
+        organizedOffshoreFeatureBlueMarlinHabitat
+          .relationshipGroups
+          .persistence
+          .classification,
+
+      score:
+        0,
+
+      maximumScore:
+        5
+    }
+  }
+);
+
+console.log(
+  "PASS Blue Marlin HSM lineage integration preserves established scientific behavior"
+);
 
 
 /*

@@ -14350,6 +14350,158 @@ export function resolveBlueMarlinOpportunityType({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Blue Marlin Habitat Suitability Lineage v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Document how the final Blue Marlin habitat-suitability
+ * assessment was produced.
+ *
+ * Opportunity Type Resolution is the primary direct parent.
+ * Earlier observations, evidence, opportunity, relationship,
+ * and species-pathway stages remain visible through inherited
+ * lineage.
+ *
+ * This lineage is documentary only. It does not:
+ *
+ * - change habitat scores
+ * - change confidence
+ * - change classifications
+ * - change relationship-group scores
+ * - change candidate rankings
+ * - confirm Blue Marlin presence
+ * - confirm feeding
+ * - estimate catch probability
+ */
+export function buildBlueMarlinHabitatLineage({
+  opportunityTypeResolution = null,
+
+  classification =
+    "insufficient-habitat-evidence",
+
+  suitabilityScore =
+    0,
+
+  rawSuitabilityScore =
+    0,
+
+  confidenceScore =
+    0,
+
+  confidenceLevel =
+    "Very Low",
+
+  relationshipGroups = {},
+
+  leadingOpportunityCandidate =
+    null,
+
+  limitations = []
+} = {}) {
+  const relationshipGroupSummary =
+    Object.fromEntries(
+      Object.entries(
+        relationshipGroups ?? {}
+      ).map(
+        ([
+          groupName,
+          group
+        ]) => [
+          groupName,
+
+          {
+            classification:
+              group?.classification ??
+              null,
+
+            score:
+              Number.isFinite(
+                group?.score
+              )
+                ? group.score
+                : 0,
+
+            maximumScore:
+              Number.isFinite(
+                group?.maximumScore
+              )
+                ? group.maximumScore
+                : null
+          }
+        ]
+      )
+    );
+
+  return propagateEvidenceLineage({
+    upstreamLineage:
+      opportunityTypeResolution
+        ?.lineage ??
+      null,
+
+    producedBy:
+      "habitat-suitability",
+
+    methodVersion:
+      "pelora-blue-marlin-hsm-lineage-v1.0",
+
+    evidenceProduced: [
+      "blue-marlin-habitat-suitability-assessment"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(
+        limitations
+      )
+        ? limitations
+        : [],
+
+    components: {
+      species:
+        "blue-marlin",
+
+      classification,
+
+      rawSuitabilityScore:
+        Number.isFinite(
+          rawSuitabilityScore
+        )
+          ? rawSuitabilityScore
+          : 0,
+
+      suitabilityScore:
+        Number.isFinite(
+          suitabilityScore
+        )
+          ? suitabilityScore
+          : 0,
+
+      confidenceScore:
+        Number.isFinite(
+          confidenceScore
+        )
+          ? confidenceScore
+          : 0,
+
+      confidenceLevel,
+
+      maximumSuitabilityScore:
+        100,
+
+      leadingOpportunityCandidate:
+        typeof leadingOpportunityCandidate ===
+          "string"
+          ? leadingOpportunityCandidate
+          : null,
+
+      relationshipGroups:
+        relationshipGroupSummary
+    }
+  });
+}
+
+
 export function assessBlueMarlinHabitat({
   oceanOpportunity,
   oceanEvidence,
@@ -15616,7 +15768,107 @@ export function assessBlueMarlinHabitat({
       )
     ];
 
+  const habitatRelationshipGroups = {
+    oceanMovement: {
+      classification:
+        oceanMovementClassification,
+
+      score:
+        oceanMovementScore,
+
+      maximumScore:
+        20
+    },
+
+    thermalStructure: {
+      classification:
+        thermalStructureClassification,
+
+      score:
+        thermalStructureScore,
+
+      maximumScore:
+        25
+    },
+
+    productivityAndPreySupport: {
+      classification:
+        productivityAndPreyClassification,
+
+      score:
+        productivityAndPreyScore,
+
+      maximumScore:
+        20
+    },
+
+    structureInteraction: {
+      classification:
+        structureInteractionClassification,
+
+      score:
+        structureInteractionScore,
+
+      maximumScore:
+        15
+    },
+
+    waterCharacter: {
+      classification:
+        waterCharacterClassification,
+
+      score:
+        waterCharacterScore,
+
+      maximumScore:
+        10
+    },
+
+    persistence: {
+      classification:
+        persistenceEvidence
+          ?.classification ??
+        "unavailable",
+
+      score:
+        persistenceScore,
+
+      maximumScore:
+        5
+    }
+  };
+
+  const lineage =
+    buildBlueMarlinHabitatLineage({
+      opportunityTypeResolution,
+
+      classification,
+
+      suitabilityScore,
+
+      rawSuitabilityScore,
+
+      confidenceScore:
+        upstreamConfidenceScore,
+
+      confidenceLevel:
+        upstreamConfidenceLevel,
+
+      relationshipGroups:
+        habitatRelationshipGroups,
+
+      leadingOpportunityCandidate:
+        opportunityTypeResolution
+          ?.leadingCandidate ??
+        null,
+
+      limitations:
+        uniqueLimitations
+    });
+
   return {
+    lineage,
+
     summary: {
       classification,
 
