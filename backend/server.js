@@ -344,6 +344,203 @@ const CURRENTS_DATASET =
 const CURRENTS_MAX_LIVE_AGE_HOURS =
   96;
 
+const CURRENT_SPATIAL_SAMPLE_RADIUS_NM =
+  15;
+
+const CURRENT_POINT_CACHE_TTL_MS =
+  5 * 60 * 1000;
+
+const currentPointCache =
+  new Map();
+
+const currentPointRequestsInFlight =
+  new Map();
+
+
+function createCurrentPointCacheKey(
+  latitude,
+  longitude
+) {
+  return [
+    Number(latitude).toFixed(4),
+    Number(longitude).toFixed(4)
+  ].join(",");
+}
+
+
+function getCachedCurrentPoint(
+  latitude,
+  longitude
+) {
+  const key =
+    createCurrentPointCacheKey(
+      latitude,
+      longitude
+    );
+
+  const cached =
+    currentPointCache.get(key);
+
+  if (!cached) {
+    return null;
+  }
+
+  const ageMilliseconds =
+    Date.now() -
+    cached.cachedAt;
+
+  if (
+    ageMilliseconds >
+    CURRENT_POINT_CACHE_TTL_MS
+  ) {
+    currentPointCache.delete(key);
+    return null;
+  }
+
+  return {
+    ...cached.value,
+
+    cache: {
+      status:
+        "hit",
+
+      ageSeconds:
+        Number(
+          (
+            ageMilliseconds /
+            1000
+          ).toFixed(1)
+        ),
+
+      ttlSeconds:
+        CURRENT_POINT_CACHE_TTL_MS /
+        1000
+    }
+  };
+}
+
+
+function setCachedCurrentPoint(
+  latitude,
+  longitude,
+  value
+) {
+  const hasVector =
+    Number.isFinite(
+      value?.eastwardMetersPerSecond
+    ) &&
+    Number.isFinite(
+      value?.northwardMetersPerSecond
+    );
+
+  if (!hasVector) {
+    return;
+  }
+
+  const key =
+    createCurrentPointCacheKey(
+      latitude,
+      longitude
+    );
+
+  currentPointCache.set(
+    key,
+    {
+      cachedAt:
+        Date.now(),
+
+      value
+    }
+  );
+}
+
+
+/**
+ * Build four nearby current sampling points around a center location.
+ *
+ * Longitude spacing is adjusted for latitude so the east and west
+ * samples remain approximately the requested nautical distance.
+ */
+function createCurrentSpatialSamplePoints(
+  latitude,
+  longitude
+) {
+  const latitudeOffset =
+    CURRENT_SPATIAL_SAMPLE_RADIUS_NM /
+    60;
+
+  const cosineLatitude =
+    Math.cos(
+      latitude *
+      Math.PI /
+      180
+    );
+
+  const longitudeOffset =
+    Math.abs(cosineLatitude) >
+    0.01
+      ? CURRENT_SPATIAL_SAMPLE_RADIUS_NM /
+        (
+          60 *
+          cosineLatitude
+        )
+      : null;
+
+  if (
+    !Number.isFinite(
+      longitudeOffset
+    )
+  ) {
+    return [];
+  }
+
+  return [
+    {
+      direction:
+        "north",
+
+      latitude:
+        latitude +
+        latitudeOffset,
+
+      longitude
+    },
+
+    {
+      direction:
+        "east",
+
+      latitude,
+
+      longitude:
+        longitude +
+        longitudeOffset
+    },
+
+    {
+      direction:
+        "south",
+
+      latitude:
+        latitude -
+        latitudeOffset,
+
+      longitude
+    },
+
+    {
+      direction:
+        "west",
+
+      latitude,
+
+      longitude:
+        longitude -
+        longitudeOffset
+    }
+  ];
+}
+
 
 /*
  * Classify chlorophyll conservatively.
@@ -438,6 +635,86 @@ function currentDirectionDegrees(
       360
     ).toFixed(0)
   );
+}
+
+
+function getCircularDirectionDifference(
+  firstDegrees,
+  secondDegrees
+) {
+  if (
+    !Number.isFinite(
+      firstDegrees
+    ) ||
+    !Number.isFinite(
+      secondDegrees
+    )
+  ) {
+    return null;
+  }
+
+  const rawDifference =
+    Math.abs(
+      firstDegrees -
+      secondDegrees
+    ) % 360;
+
+  return Math.min(
+    rawDifference,
+    360 -
+    rawDifference
+  );
+}
+
+
+function classifyCurrentSpatialVariation({
+  speedRangeKnots,
+  maximumDirectionDifferenceDegrees,
+  sufficientCoverage
+} = {}) {
+  if (!sufficientCoverage) {
+    return "insufficient-spatial-current-data";
+  }
+
+  const hasSpeedRange =
+    Number.isFinite(
+      speedRangeKnots
+    );
+
+  const hasDirectionRange =
+    Number.isFinite(
+      maximumDirectionDifferenceDegrees
+    );
+
+  if (
+    !hasSpeedRange ||
+    !hasDirectionRange
+  ) {
+    return "insufficient-spatial-current-data";
+  }
+
+  if (
+    speedRangeKnots < 0.25 &&
+    maximumDirectionDifferenceDegrees < 20
+  ) {
+    return "uniform-current-field";
+  }
+
+  if (
+    speedRangeKnots < 0.5 &&
+    maximumDirectionDifferenceDegrees < 45
+  ) {
+    return "variable-current-field";
+  }
+
+  if (
+    speedRangeKnots < 1.0 &&
+    maximumDirectionDifferenceDegrees < 90
+  ) {
+    return "organized-current-variation";
+  }
+
+  return "high-current-variation";
 }
 
 
@@ -816,7 +1093,7 @@ async function getChlorophyllConditions(
 }
 
 
-async function getCurrentConditions(
+async function getCurrentConditionsPoint(
   latitude,
   longitude
 ) {
@@ -849,6 +1126,18 @@ async function getCurrentConditions(
     rows.length === 0
   ) {
     return {
+      requestedLatitude:
+        latitude,
+
+      requestedLongitude:
+        longitude,
+
+      resolvedLatitude:
+        latitude,
+
+      resolvedLongitude:
+        longitude,
+
       speedKnots: null,
       directionDegrees: null,
       eastwardMetersPerSecond: null,
@@ -924,6 +1213,18 @@ async function getCurrentConditions(
     );
 
   return {
+    requestedLatitude:
+      latitude,
+
+    requestedLongitude:
+      longitude,
+
+    resolvedLatitude:
+      latitude,
+
+    resolvedLongitude:
+      longitude,
+
     speedKnots,
 
     directionDegrees,
@@ -991,6 +1292,659 @@ async function getCurrentConditions(
           : "no-valid-pixel"
     }
   };
+}
+
+
+async function getCachedCurrentConditionsPoint(
+  latitude,
+  longitude
+) {
+  const cached =
+    getCachedCurrentPoint(
+      latitude,
+      longitude
+    );
+
+  if (cached) {
+    return cached;
+  }
+
+  const key =
+    createCurrentPointCacheKey(
+      latitude,
+      longitude
+    );
+
+  const inFlight =
+    currentPointRequestsInFlight.get(
+      key
+    );
+
+  if (inFlight) {
+    const value =
+      await inFlight;
+
+    return {
+      ...value,
+
+      cache: {
+        status:
+          "shared",
+
+        ageSeconds:
+          0,
+
+        ttlSeconds:
+          CURRENT_POINT_CACHE_TTL_MS /
+          1000
+      }
+    };
+  }
+
+  const request =
+    getCurrentConditionsPoint(
+      latitude,
+      longitude
+    )
+      .then(
+        value => {
+          setCachedCurrentPoint(
+            latitude,
+            longitude,
+            value
+          );
+
+          return value;
+        }
+      )
+      .finally(
+        () => {
+          currentPointRequestsInFlight
+            .delete(key);
+        }
+      );
+
+  currentPointRequestsInFlight.set(
+    key,
+    request
+  );
+
+  const value =
+    await request;
+
+  return {
+    ...value,
+
+    cache: {
+      status:
+        "miss",
+
+      ageSeconds:
+        0,
+
+      ttlSeconds:
+        CURRENT_POINT_CACHE_TTL_MS /
+        1000
+    }
+  };
+}
+
+
+async function getCurrentSpatialStructure(
+  latitude,
+  longitude
+) {
+  const samplePoints =
+    createCurrentSpatialSamplePoints(
+      latitude,
+      longitude
+    );
+
+  if (samplePoints.length === 0) {
+    return {
+      available:
+        false,
+
+      observationType:
+        "spatial-current-sampling",
+
+      coverage:
+        "unavailable",
+
+      requestedSampleCount:
+        0,
+
+      validSampleCount:
+        0,
+
+      failedSampleCount:
+        0,
+
+      sufficientCoverage:
+        false,
+
+      sampleRadiusNauticalMiles:
+        CURRENT_SPATIAL_SAMPLE_RADIUS_NM,
+
+      vectors:
+        [],
+
+      measurements: {
+        minimumSpeedKnots:
+          null,
+
+        maximumSpeedKnots:
+          null,
+
+        speedRangeKnots:
+          null,
+
+        maximumDirectionDifferenceDegrees:
+          null,
+
+        spatialVariation:
+          "insufficient-spatial-current-data"
+      },
+
+      limitations: [
+        "Current spatial sample points could not be created."
+      ]
+    };
+  }
+
+  const results =
+    await Promise.allSettled(
+      samplePoints.map(
+        async samplePoint => {
+          const current =
+            await getCachedCurrentConditionsPoint(
+              samplePoint.latitude,
+              samplePoint.longitude
+            );
+
+          return {
+            ...samplePoint,
+            current
+          };
+        }
+      )
+    );
+
+  const vectors =
+    results
+      .filter(
+        result =>
+          result.status ===
+          "fulfilled"
+      )
+      .map(
+        result => {
+          const sample =
+            result.value;
+
+          return {
+            direction:
+              sample.direction,
+
+            requestedLatitude:
+              sample.latitude,
+
+            requestedLongitude:
+              sample.longitude,
+
+            resolvedLatitude:
+              sample.current
+                ?.resolvedLatitude ??
+              sample.latitude,
+
+            resolvedLongitude:
+              sample.current
+                ?.resolvedLongitude ??
+              sample.longitude,
+
+            speedKnots:
+              Number.isFinite(
+                sample.current
+                  ?.speedKnots
+              )
+                ? sample.current
+                    .speedKnots
+                : null,
+
+            directionDegrees:
+              Number.isFinite(
+                sample.current
+                  ?.directionDegrees
+              )
+                ? sample.current
+                    .directionDegrees
+                : null,
+
+            eastwardMetersPerSecond:
+              Number.isFinite(
+                sample.current
+                  ?.eastwardMetersPerSecond
+              )
+                ? sample.current
+                    .eastwardMetersPerSecond
+                : null,
+
+            northwardMetersPerSecond:
+              Number.isFinite(
+                sample.current
+                  ?.northwardMetersPerSecond
+              )
+                ? sample.current
+                    .northwardMetersPerSecond
+                : null,
+
+            observedAt:
+              sample.current
+                ?.observedAt ??
+              null,
+
+            ageHours:
+              Number.isFinite(
+                sample.current
+                  ?.ageHours
+              )
+                ? sample.current
+                    .ageHours
+                : null,
+
+            cache:
+              sample.current
+                ?.cache ??
+              null
+          };
+        }
+      );
+
+  const validVectors =
+    vectors.filter(
+      vector =>
+        Number.isFinite(
+          vector.speedKnots
+        ) &&
+        Number.isFinite(
+          vector.directionDegrees
+        ) &&
+        Number.isFinite(
+          vector.eastwardMetersPerSecond
+        ) &&
+        Number.isFinite(
+          vector.northwardMetersPerSecond
+        )
+    );
+
+  const speeds =
+    validVectors.map(
+      vector =>
+        vector.speedKnots
+    );
+
+  const minimumSpeedKnots =
+    speeds.length > 0
+      ? Math.min(...speeds)
+      : null;
+
+  const maximumSpeedKnots =
+    speeds.length > 0
+      ? Math.max(...speeds)
+      : null;
+
+  const speedRangeKnots =
+    Number.isFinite(
+      minimumSpeedKnots
+    ) &&
+    Number.isFinite(
+      maximumSpeedKnots
+    )
+      ? Number(
+          (
+            maximumSpeedKnots -
+            minimumSpeedKnots
+          ).toFixed(3)
+        )
+      : null;
+
+  let maximumDirectionDifferenceDegrees =
+    null;
+
+  for (
+    let firstIndex = 0;
+    firstIndex <
+    validVectors.length;
+    firstIndex += 1
+  ) {
+    for (
+      let secondIndex =
+        firstIndex + 1;
+      secondIndex <
+      validVectors.length;
+      secondIndex += 1
+    ) {
+      const difference =
+        getCircularDirectionDifference(
+          validVectors[firstIndex]
+            .directionDegrees,
+          validVectors[secondIndex]
+            .directionDegrees
+        );
+
+      if (
+        Number.isFinite(
+          difference
+        ) &&
+        (
+          maximumDirectionDifferenceDegrees ===
+            null ||
+          difference >
+            maximumDirectionDifferenceDegrees
+        )
+      ) {
+        maximumDirectionDifferenceDegrees =
+          difference;
+      }
+    }
+  }
+
+  const requestedSampleCount =
+    samplePoints.length;
+
+  const validSampleCount =
+    validVectors.length;
+
+  const failedSampleCount =
+    requestedSampleCount -
+    validSampleCount;
+
+  const sufficientCoverage =
+    validSampleCount >= 3;
+
+  const coverage =
+    validSampleCount ===
+    requestedSampleCount
+      ? "complete"
+      : sufficientCoverage
+        ? "partial"
+        : validSampleCount > 0
+          ? "insufficient"
+          : "unavailable";
+
+  const limitations =
+    [];
+
+  if (!sufficientCoverage) {
+    limitations.push(
+      "Fewer than three valid surrounding current vectors were available."
+    );
+  }
+
+  if (
+    failedSampleCount > 0
+  ) {
+    limitations.push(
+      `${failedSampleCount} surrounding current sample${
+        failedSampleCount === 1
+          ? ""
+          : "s"
+      } did not produce a valid vector.`
+    );
+  }
+
+  return {
+    available:
+      sufficientCoverage,
+
+    observationType:
+      "spatial-current-sampling",
+
+    coverage,
+
+    requestedSampleCount,
+
+    validSampleCount,
+
+    failedSampleCount,
+
+    sufficientCoverage,
+
+    sampleRadiusNauticalMiles:
+      CURRENT_SPATIAL_SAMPLE_RADIUS_NM,
+
+    vectors,
+
+    measurements: {
+      minimumSpeedKnots:
+        Number.isFinite(
+          minimumSpeedKnots
+        )
+          ? Number(
+              minimumSpeedKnots
+                .toFixed(3)
+            )
+          : null,
+
+      maximumSpeedKnots:
+        Number.isFinite(
+          maximumSpeedKnots
+        )
+          ? Number(
+              maximumSpeedKnots
+                .toFixed(3)
+            )
+          : null,
+
+      speedRangeKnots,
+
+      maximumDirectionDifferenceDegrees,
+
+      spatialVariation:
+        classifyCurrentSpatialVariation({
+          speedRangeKnots,
+          maximumDirectionDifferenceDegrees,
+          sufficientCoverage
+        })
+    },
+
+    limitations
+  };
+}
+
+
+function buildCurrentOrganizationAnalysis(
+  spatialStructure
+) {
+  const measurements =
+    spatialStructure
+      ?.measurements ??
+    {};
+
+  const sufficientCoverage =
+    spatialStructure
+      ?.sufficientCoverage ===
+    true;
+
+  const speedRangeKnots =
+    Number.isFinite(
+      measurements
+        ?.speedRangeKnots
+    )
+      ? measurements
+          .speedRangeKnots
+      : null;
+
+  const maximumDirectionDifferenceDegrees =
+    Number.isFinite(
+      measurements
+        ?.maximumDirectionDifferenceDegrees
+    )
+      ? measurements
+          .maximumDirectionDifferenceDegrees
+      : null;
+
+  const spatialVariation =
+    measurements
+      ?.spatialVariation ??
+    "insufficient-spatial-current-data";
+
+  if (
+    !sufficientCoverage ||
+    !Number.isFinite(
+      speedRangeKnots
+    ) ||
+    !Number.isFinite(
+      maximumDirectionDifferenceDegrees
+    )
+  ) {
+    return {
+      available:
+        false,
+
+      classification:
+        "unavailable",
+
+      organizationLevel:
+        "insufficient-evidence",
+
+      evidence: {
+        sufficientCoverage,
+
+        speedRangeKnots,
+
+        maximumDirectionDifferenceDegrees,
+
+        spatialVariation
+      },
+
+      interpretation:
+        "Current organization cannot be evaluated from the available spatial measurements.",
+
+      limitations: [
+        "At least three valid surrounding current vectors are required.",
+        "Current organization does not establish convergence, shear, an edge, an eddy, or biological significance."
+      ],
+
+      thresholdVersion:
+        "pelora-current-organization-v1"
+    };
+  }
+
+  let classification =
+    "highly-variable-current-field";
+
+  let organizationLevel =
+    "low";
+
+  let interpretation =
+    "Large speed or directional differences were measured across the surrounding current field.";
+
+  if (
+    spatialVariation ===
+    "uniform-current-field"
+  ) {
+    classification =
+      "uniform-current-field";
+
+    organizationLevel =
+      "high";
+
+    interpretation =
+      "Current speed and direction remain consistent across the surrounding sample field.";
+  } else if (
+    spatialVariation ===
+    "variable-current-field"
+  ) {
+    classification =
+      "weakly-variable-current-field";
+
+    organizationLevel =
+      "moderate";
+
+    interpretation =
+      "Modest current variation is present, but the surrounding flow remains broadly consistent.";
+  } else if (
+    spatialVariation ===
+    "organized-current-variation"
+  ) {
+    classification =
+      "organized-current-transition";
+
+    organizationLevel =
+      "moderate";
+
+    interpretation =
+      "A structured change in current speed or direction is present across the surrounding sample field.";
+  }
+
+  const limitations =
+    [
+      "This result describes spatial current organization only.",
+      "It does not establish convergence, divergence, shear, a current edge, an eddy boundary, persistence, fish presence, or habitat quality."
+    ];
+
+  if (
+    spatialStructure
+      ?.coverage !==
+    "complete"
+  ) {
+    limitations.push(
+      "Organization was evaluated with partial spatial coverage."
+    );
+  }
+
+  return {
+    available:
+      true,
+
+    classification,
+
+    organizationLevel,
+
+    evidence: {
+      sufficientCoverage,
+
+      coverage:
+        spatialStructure
+          ?.coverage ??
+        "unknown",
+
+      requestedSampleCount:
+        spatialStructure
+          ?.requestedSampleCount ??
+        null,
+
+      validSampleCount:
+        spatialStructure
+          ?.validSampleCount ??
+        null,
+
+      speedRangeKnots,
+
+      maximumDirectionDifferenceDegrees,
+
+      spatialVariation
+    },
+
+    interpretation,
+
+    limitations,
+
+    thresholdVersion:
+      "pelora-current-organization-v1"
+  };
+}
+
+
+async function getCurrentConditions(
+  latitude,
+  longitude
+) {
+  return getCachedCurrentConditionsPoint(
+    latitude,
+    longitude
+  );
 }
 
 
