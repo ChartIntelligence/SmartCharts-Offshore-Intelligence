@@ -9934,6 +9934,612 @@ export const SPECIES_KNOWLEDGE_FRAMEWORK = {
 };
 
 
+
+/**
+ * ------------------------------------------------------------
+ * Confidence Governance Framework v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Define the canonical language, scales, propagation rules,
+ * validation requirements, and scientific safeguards governing
+ * confidence throughout Pelora.
+ *
+ * Confidence describes support for observations or interpretations.
+ *
+ * It does not:
+ * - estimate catch probability
+ * - confirm fish presence
+ * - confirm feeding
+ * - prove biological behavior
+ * - modify an existing confidence score
+ * - modify habitat or opportunity scoring
+ */
+export const CONFIDENCE_DOMAINS = {
+  data:
+    "data",
+
+  evidence:
+    "evidence",
+
+  opportunity:
+    "opportunity",
+
+  relationship:
+    "relationship",
+
+  model:
+    "model"
+};
+
+
+export const CONFIDENCE_LEVELS = [
+  "Unavailable",
+  "Very Low",
+  "Low",
+  "Moderate",
+  "High",
+  "Very High"
+];
+
+
+export const CONFIDENCE_SCALES = {
+  normalized: {
+    minimum: 0,
+    maximum: 1
+  },
+
+  percentage: {
+    minimum: 0,
+    maximum: 100
+  }
+};
+
+
+export const CONFIDENCE_GOVERNANCE_RULES = {
+  confidenceMayPropagate:
+    true,
+
+  confidenceMayDecrease:
+    true,
+
+  confidenceMayIncreaseOnlyWithIndependentEvidence:
+    true,
+
+  missingEvidenceReducesConfidenceNotSuitability:
+    true,
+
+  environmentalConfidenceIsNotBiologicalConfidence:
+    true,
+
+  confidenceIsNotCatchProbability:
+    true,
+
+  changesExistingConfidenceScores:
+    false,
+
+  changesHabitatScores:
+    false,
+
+  changesOpportunityScores:
+    false
+};
+
+
+export const CONFIDENCE_GOVERNANCE_FRAMEWORK = {
+  domains:
+    Object.values(
+      CONFIDENCE_DOMAINS
+    ),
+
+  levels:
+    CONFIDENCE_LEVELS,
+
+  scales:
+    CONFIDENCE_SCALES,
+
+  requiredFields: [
+    "domain",
+    "score",
+    "scale",
+    "level",
+    "reasons",
+    "limitations",
+    "methodVersion"
+  ],
+
+  optionalFields: [
+    "derivedFrom",
+    "components"
+  ],
+
+  independentEvidenceReason:
+    "independent-evidence-added",
+
+  rules:
+    CONFIDENCE_GOVERNANCE_RULES,
+
+  methodVersion:
+    "pelora-confidence-governance-framework-v1.0"
+};
+
+
+/**
+ * Convert either of Pelora's governed confidence scales into
+ * a common normalized value without changing the source score.
+ */
+export function normalizeConfidenceScore(
+  score,
+  scale
+) {
+  if (
+    !Number.isFinite(score) ||
+    !Object.prototype.hasOwnProperty.call(
+      CONFIDENCE_SCALES,
+      scale
+    )
+  ) {
+    return null;
+  }
+
+  const scaleDefinition =
+    CONFIDENCE_SCALES[
+      scale
+    ];
+
+  if (
+    score <
+      scaleDefinition.minimum ||
+    score >
+      scaleDefinition.maximum
+  ) {
+    return null;
+  }
+
+  if (
+    scale ===
+      "percentage"
+  ) {
+    return Number(
+      (
+        score / 100
+      ).toFixed(4)
+    );
+  }
+
+  return Number(
+    score.toFixed(4)
+  );
+}
+
+
+/**
+ * Resolve Pelora's canonical confidence label from a governed
+ * confidence score and scale.
+ */
+export function confidenceLevelForScore(
+  score,
+  scale
+) {
+  const normalizedScore =
+    normalizeConfidenceScore(
+      score,
+      scale
+    );
+
+  if (
+    normalizedScore === null ||
+    normalizedScore === 0
+  ) {
+    return "Unavailable";
+  }
+
+  if (
+    normalizedScore < 0.2
+  ) {
+    return "Very Low";
+  }
+
+  if (
+    normalizedScore < 0.4
+  ) {
+    return "Low";
+  }
+
+  if (
+    normalizedScore < 0.7
+  ) {
+    return "Moderate";
+  }
+
+  if (
+    normalizedScore < 0.9
+  ) {
+    return "High";
+  }
+
+  return "Very High";
+}
+
+
+/**
+ * Validate a confidence contract against Pelora's governed
+ * vocabulary and propagation safeguards.
+ *
+ * Validation is observational only. It does not rewrite,
+ * increase, decrease, or otherwise modify confidence.
+ */
+export function validateConfidenceContract(
+  confidence,
+  {
+    path =
+      "confidence"
+  } = {}
+) {
+  const errors = [];
+  const warnings = [];
+
+  if (
+    !confidence ||
+    typeof confidence !==
+      "object" ||
+    Array.isArray(
+      confidence
+    )
+  ) {
+    return {
+      valid:
+        false,
+
+      errors: [
+        `${path}:confidence-must-be-an-object`
+      ],
+
+      warnings: [],
+
+      normalizedScore:
+        null,
+
+      canonicalLevel:
+        null,
+
+      methodVersion:
+        "pelora-confidence-contract-validation-v1.0"
+    };
+  }
+
+  for (
+    const field
+    of CONFIDENCE_GOVERNANCE_FRAMEWORK
+      .requiredFields
+  ) {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        confidence,
+        field
+      )
+    ) {
+      errors.push(
+        `${path}:missing-confidence-field:${field}`
+      );
+    }
+  }
+
+  if (
+    !CONFIDENCE_GOVERNANCE_FRAMEWORK
+      .domains
+      .includes(
+        confidence.domain
+      )
+  ) {
+    errors.push(
+      `${path}:invalid-confidence-domain`
+    );
+  }
+
+  if (
+    !Object.prototype.hasOwnProperty.call(
+      CONFIDENCE_SCALES,
+      confidence.scale
+    )
+  ) {
+    errors.push(
+      `${path}:invalid-confidence-scale`
+    );
+  }
+
+  if (
+    !Number.isFinite(
+      confidence.score
+    )
+  ) {
+    errors.push(
+      `${path}:confidence-score-must-be-finite`
+    );
+  }
+
+  const normalizedScore =
+    normalizeConfidenceScore(
+      confidence.score,
+      confidence.scale
+    );
+
+  if (
+    Number.isFinite(
+      confidence.score
+    ) &&
+    Object.prototype.hasOwnProperty.call(
+      CONFIDENCE_SCALES,
+      confidence.scale
+    ) &&
+    normalizedScore === null
+  ) {
+    errors.push(
+      `${path}:confidence-score-outside-declared-scale`
+    );
+  }
+
+  const canonicalLevel =
+    normalizedScore === null
+      ? null
+      : confidenceLevelForScore(
+          confidence.score,
+          confidence.scale
+        );
+
+  if (
+    !CONFIDENCE_LEVELS.includes(
+      confidence.level
+    )
+  ) {
+    errors.push(
+      `${path}:invalid-confidence-level`
+    );
+  } else if (
+    canonicalLevel !== null &&
+    confidence.level !==
+      canonicalLevel
+  ) {
+    errors.push(
+      `${path}:confidence-level-does-not-match-score`
+    );
+  }
+
+  if (
+    !Array.isArray(
+      confidence.reasons
+    )
+  ) {
+    errors.push(
+      `${path}:reasons-must-be-an-array`
+    );
+  }
+
+  if (
+    !Array.isArray(
+      confidence.limitations
+    )
+  ) {
+    errors.push(
+      `${path}:limitations-must-be-an-array`
+    );
+  }
+
+  if (
+    typeof confidence.methodVersion !==
+      "string" ||
+    confidence.methodVersion
+      .trim()
+      .length === 0
+  ) {
+    errors.push(
+      `${path}:method-version-required`
+    );
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(
+      confidence,
+      "components"
+    ) &&
+    (
+      !confidence.components ||
+      typeof confidence.components !==
+        "object" ||
+      Array.isArray(
+        confidence.components
+      )
+    )
+  ) {
+    errors.push(
+      `${path}:components-must-be-an-object`
+    );
+  }
+
+  const derivedFrom =
+    confidence.derivedFrom;
+
+  if (
+    derivedFrom !== undefined &&
+    !Array.isArray(
+      derivedFrom
+    )
+  ) {
+    errors.push(
+      `${path}:derived-from-must-be-an-array`
+    );
+  }
+
+  const validParentScores = [];
+
+  if (
+    Array.isArray(
+      derivedFrom
+    )
+  ) {
+    derivedFrom.forEach(
+      (
+        parent,
+        index
+      ) => {
+        const parentPath =
+          `${path}:derived-from:${index}`;
+
+        if (
+          !parent ||
+          typeof parent !==
+            "object" ||
+          Array.isArray(
+            parent
+          )
+        ) {
+          errors.push(
+            `${parentPath}:must-be-an-object`
+          );
+
+          return;
+        }
+
+        if (
+          !CONFIDENCE_GOVERNANCE_FRAMEWORK
+            .domains
+            .includes(
+              parent.domain
+            )
+        ) {
+          errors.push(
+            `${parentPath}:invalid-confidence-domain`
+          );
+        }
+
+        if (
+          !Object.prototype.hasOwnProperty.call(
+            CONFIDENCE_SCALES,
+            parent.scale
+          )
+        ) {
+          errors.push(
+            `${parentPath}:invalid-confidence-scale`
+          );
+        }
+
+        const parentNormalizedScore =
+          normalizeConfidenceScore(
+            parent.score,
+            parent.scale
+          );
+
+        if (
+          parentNormalizedScore ===
+            null
+        ) {
+          errors.push(
+            `${parentPath}:invalid-confidence-score`
+          );
+        } else {
+          validParentScores.push(
+            parentNormalizedScore
+          );
+        }
+      }
+    );
+  }
+
+  if (
+    normalizedScore !== null &&
+    validParentScores.length > 0
+  ) {
+    const highestParentScore =
+      Math.max(
+        ...validParentScores
+      );
+
+    const hasIndependentEvidenceDisclosure =
+      Array.isArray(
+        confidence.reasons
+      ) &&
+      confidence.reasons.includes(
+        CONFIDENCE_GOVERNANCE_FRAMEWORK
+          .independentEvidenceReason
+      );
+
+    if (
+      normalizedScore >
+        highestParentScore &&
+      !hasIndependentEvidenceDisclosure
+    ) {
+      errors.push(
+        `${path}:unexplained-confidence-increase`
+      );
+    }
+
+    if (
+      normalizedScore >
+        highestParentScore &&
+      hasIndependentEvidenceDisclosure
+    ) {
+      warnings.push(
+        `${path}:confidence-increase-requires-independent-evidence-review`
+      );
+    }
+  }
+
+  if (
+    Array.isArray(
+      confidence.reasons
+    ) &&
+    confidence.reasons.length === 0
+  ) {
+    warnings.push(
+      `${path}:no-confidence-reasons-recorded`
+    );
+  }
+
+  if (
+    Array.isArray(
+      confidence.limitations
+    ) &&
+    confidence.limitations.length === 0
+  ) {
+    warnings.push(
+      `${path}:no-confidence-limitations-recorded`
+    );
+  }
+
+  return {
+    valid:
+      errors.length === 0,
+
+    domain:
+      confidence.domain ??
+      null,
+
+    scale:
+      confidence.scale ??
+      null,
+
+    normalizedScore,
+
+    canonicalLevel,
+
+    errors: [
+      ...new Set(
+        errors
+      )
+    ],
+
+    warnings: [
+      ...new Set(
+        warnings
+      )
+    ],
+
+    methodVersion:
+      "pelora-confidence-contract-validation-v1.0"
+  };
+}
+
+
 /**
  * Convert a governed relationship-importance label into the
  * internal value used by the generic resolver.

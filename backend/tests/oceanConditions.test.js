@@ -18,7 +18,15 @@ import {
   resolveRelationshipImportance,
   validateSpeciesKnowledgeProfile,
   SPECIES_KNOWLEDGE_PROVENANCE,
-  validateKnowledgeProvenance
+  validateKnowledgeProvenance,
+  CONFIDENCE_DOMAINS,
+  CONFIDENCE_LEVELS,
+  CONFIDENCE_SCALES,
+  CONFIDENCE_GOVERNANCE_RULES,
+  CONFIDENCE_GOVERNANCE_FRAMEWORK,
+  normalizeConfidenceScore,
+  confidenceLevelForScore,
+  validateConfidenceContract
 } from "../server.js";
 
 
@@ -10506,4 +10514,532 @@ assert.ok(
 
 console.log(
   "PASS provenance rejects a genuinely missing review-date field"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Confidence Governance Framework v1.0
+ * ------------------------------------------------------------
+ */
+
+assert.deepEqual(
+  Object.values(
+    CONFIDENCE_DOMAINS
+  ),
+  [
+    "data",
+    "evidence",
+    "opportunity",
+    "relationship",
+    "model"
+  ]
+);
+
+assert.deepEqual(
+  CONFIDENCE_LEVELS,
+  [
+    "Unavailable",
+    "Very Low",
+    "Low",
+    "Moderate",
+    "High",
+    "Very High"
+  ]
+);
+
+assert.deepEqual(
+  Object.keys(
+    CONFIDENCE_SCALES
+  ),
+  [
+    "normalized",
+    "percentage"
+  ]
+);
+
+assert.equal(
+  CONFIDENCE_GOVERNANCE_RULES
+    .confidenceMayIncreaseOnlyWithIndependentEvidence,
+  true
+);
+
+assert.equal(
+  CONFIDENCE_GOVERNANCE_FRAMEWORK
+    .rules
+    .changesExistingConfidenceScores,
+  false
+);
+
+
+const normalizedConfidenceValidation =
+  validateConfidenceContract({
+    domain:
+      "relationship",
+
+    score:
+      0.72,
+
+    scale:
+      "normalized",
+
+    level:
+      "High",
+
+    reasons: [
+      "relationship-supported-by-environmental-evidence"
+    ],
+
+    limitations: [
+      "persistence-evidence-unavailable"
+    ],
+
+    components: {},
+
+    methodVersion:
+      "test-relationship-confidence-v1.0"
+  });
+
+
+assert.equal(
+  normalizedConfidenceValidation
+    .valid,
+  true
+);
+
+assert.equal(
+  normalizedConfidenceValidation
+    .normalizedScore,
+  0.72
+);
+
+assert.equal(
+  normalizedConfidenceValidation
+    .canonicalLevel,
+  "High"
+);
+
+
+const percentageConfidenceValidation =
+  validateConfidenceContract({
+    domain:
+      "evidence",
+
+    score:
+      72,
+
+    scale:
+      "percentage",
+
+    level:
+      "High",
+
+    reasons: [
+      "multiple-evidence-groups-available"
+    ],
+
+    limitations: [
+      "persistence-evidence-unavailable"
+    ],
+
+    components: {},
+
+    methodVersion:
+      "test-evidence-confidence-v1.0"
+  });
+
+
+assert.equal(
+  percentageConfidenceValidation
+    .valid,
+  true
+);
+
+assert.equal(
+  percentageConfidenceValidation
+    .normalizedScore,
+  0.72
+);
+
+assert.equal(
+  normalizeConfidenceScore(
+    72,
+    "percentage"
+  ),
+  normalizeConfidenceScore(
+    0.72,
+    "normalized"
+  )
+);
+
+assert.equal(
+  confidenceLevelForScore(
+    72,
+    "percentage"
+  ),
+  "High"
+);
+
+console.log(
+  "PASS Confidence Governance Framework validates normalized and percentage contracts"
+);
+
+
+const invalidConfidenceDomain =
+  validateConfidenceContract({
+    domain:
+      "biological-certainty",
+
+    score:
+      60,
+
+    scale:
+      "percentage",
+
+    level:
+      "Moderate",
+
+    reasons: [
+      "test"
+    ],
+
+    limitations: [
+      "test"
+    ],
+
+    methodVersion:
+      "test-invalid-domain-v1.0"
+  });
+
+
+assert.equal(
+  invalidConfidenceDomain
+    .valid,
+  false
+);
+
+assert.ok(
+  invalidConfidenceDomain
+    .errors
+    .includes(
+      "confidence:invalid-confidence-domain"
+    )
+);
+
+console.log(
+  "PASS Confidence Governance Framework rejects invalid domains"
+);
+
+
+const invalidConfidenceScore =
+  validateConfidenceContract({
+    domain:
+      "data",
+
+    score:
+      120,
+
+    scale:
+      "percentage",
+
+    level:
+      "Very High",
+
+    reasons: [
+      "test"
+    ],
+
+    limitations: [
+      "test"
+    ],
+
+    methodVersion:
+      "test-invalid-score-v1.0"
+  });
+
+
+assert.equal(
+  invalidConfidenceScore
+    .valid,
+  false
+);
+
+assert.ok(
+  invalidConfidenceScore
+    .errors
+    .includes(
+      "confidence:confidence-score-outside-declared-scale"
+    )
+);
+
+console.log(
+  "PASS Confidence Governance Framework rejects out-of-range scores"
+);
+
+
+const invalidConfidenceScale =
+  validateConfidenceContract({
+    domain:
+      "evidence",
+
+    score:
+      50,
+
+    scale:
+      "ordinal",
+
+    level:
+      "Moderate",
+
+    reasons: [
+      "test"
+    ],
+
+    limitations: [
+      "test"
+    ],
+
+    methodVersion:
+      "test-invalid-scale-v1.0"
+  });
+
+
+assert.equal(
+  invalidConfidenceScale
+    .valid,
+  false
+);
+
+assert.ok(
+  invalidConfidenceScale
+    .errors
+    .includes(
+      "confidence:invalid-confidence-scale"
+    )
+);
+
+console.log(
+  "PASS Confidence Governance Framework rejects invalid scales"
+);
+
+
+const mismatchedConfidenceLevel =
+  validateConfidenceContract({
+    domain:
+      "opportunity",
+
+    score:
+      72,
+
+    scale:
+      "percentage",
+
+    level:
+      "Moderate",
+
+    reasons: [
+      "test"
+    ],
+
+    limitations: [
+      "test"
+    ],
+
+    methodVersion:
+      "test-mismatched-level-v1.0"
+  });
+
+
+assert.equal(
+  mismatchedConfidenceLevel
+    .valid,
+  false
+);
+
+assert.ok(
+  mismatchedConfidenceLevel
+    .errors
+    .includes(
+      "confidence:confidence-level-does-not-match-score"
+    )
+);
+
+console.log(
+  "PASS Confidence Governance Framework rejects score-level mismatches"
+);
+
+
+const incompleteConfidenceContract =
+  validateConfidenceContract({
+    domain:
+      "model",
+
+    score:
+      45,
+
+    scale:
+      "percentage",
+
+    level:
+      "Moderate",
+
+    reasons:
+      "not-an-array",
+
+    methodVersion:
+      ""
+  });
+
+
+assert.equal(
+  incompleteConfidenceContract
+    .valid,
+  false
+);
+
+assert.ok(
+  incompleteConfidenceContract
+    .errors
+    .includes(
+      "confidence:missing-confidence-field:limitations"
+    )
+);
+
+assert.ok(
+  incompleteConfidenceContract
+    .errors
+    .includes(
+      "confidence:reasons-must-be-an-array"
+    )
+);
+
+assert.ok(
+  incompleteConfidenceContract
+    .errors
+    .includes(
+      "confidence:method-version-required"
+    )
+);
+
+console.log(
+  "PASS Confidence Governance Framework rejects incomplete contracts"
+);
+
+
+const unexplainedConfidenceIncrease =
+  validateConfidenceContract({
+    domain:
+      "opportunity",
+
+    score:
+      80,
+
+    scale:
+      "percentage",
+
+    level:
+      "High",
+
+    derivedFrom: [
+      {
+        domain:
+          "evidence",
+
+        score:
+          65,
+
+        scale:
+          "percentage"
+      }
+    ],
+
+    reasons: [
+      "feature-candidate-supported"
+    ],
+
+    limitations: [
+      "persistence-evidence-unavailable"
+    ],
+
+    methodVersion:
+      "test-unexplained-increase-v1.0"
+  });
+
+
+assert.equal(
+  unexplainedConfidenceIncrease
+    .valid,
+  false
+);
+
+assert.ok(
+  unexplainedConfidenceIncrease
+    .errors
+    .includes(
+      "confidence:unexplained-confidence-increase"
+    )
+);
+
+console.log(
+  "PASS Confidence Governance Framework rejects unexplained confidence increases"
+);
+
+
+const independentlySupportedConfidenceIncrease =
+  validateConfidenceContract({
+    domain:
+      "relationship",
+
+    score:
+      80,
+
+    scale:
+      "percentage",
+
+    level:
+      "High",
+
+    derivedFrom: [
+      {
+        domain:
+          "opportunity",
+
+        score:
+          65,
+
+        scale:
+          "percentage"
+      }
+    ],
+
+    reasons: [
+      "independent-evidence-added"
+    ],
+
+    limitations: [
+      "independent-evidence-requires-scientific-review"
+    ],
+
+    methodVersion:
+      "test-explained-increase-v1.0"
+  });
+
+
+assert.equal(
+  independentlySupportedConfidenceIncrease
+    .valid,
+  true
+);
+
+assert.ok(
+  independentlySupportedConfidenceIncrease
+    .warnings
+    .includes(
+      "confidence:confidence-increase-requires-independent-evidence-review"
+    )
+);
+
+console.log(
+  "PASS Confidence Governance Framework discloses independently supported confidence increases"
 );
