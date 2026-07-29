@@ -7851,6 +7851,106 @@ export function classifyOceanOpportunity({
  * suitability, bait, feeding activity, fish presence, or
  * species probability.
  */
+
+
+/**
+ * Build the governed lineage record for Ocean Opportunity.
+ *
+ * This extends Ocean Evidence lineage and records the additional
+ * feature-candidate and pathway-classification products created
+ * by the Ocean Opportunity Engine.
+ */
+export function buildOceanOpportunityLineage({
+  oceanEvidence = null,
+  opportunities = [],
+  pathwayClassification = null,
+  limitations = []
+} = {}) {
+  const candidateCount =
+    Array.isArray(
+      opportunities
+    )
+      ? opportunities.length
+      : 0;
+
+  const warnings = [];
+
+  if (candidateCount === 0) {
+    warnings.push(
+      "no-ocean-feature-candidates-produced"
+    );
+  }
+
+  if (
+    pathwayClassification
+      ?.available !== true
+  ) {
+    warnings.push(
+      "opportunity-pathway-unresolved"
+    );
+  }
+
+  return propagateEvidenceLineage({
+    upstreamLineage:
+      oceanEvidence?.lineage ??
+      null,
+
+    producedBy:
+      "ocean-opportunity",
+
+    methodVersion:
+      "pelora-ocean-opportunity-lineage-v1.0",
+
+    evidenceProduced: [
+      "ocean-feature-candidate-assessment",
+      "opportunity-pathway-classification"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(
+        limitations
+      )
+        ? limitations
+        : [],
+
+    inheritedWarnings:
+      warnings,
+
+    components: {
+      featureCandidateCount:
+        candidateCount,
+
+      featureCandidateTypes: [
+        ...new Set(
+          (
+            Array.isArray(
+              opportunities
+            )
+              ? opportunities
+              : []
+          )
+            .map(
+              opportunity =>
+                opportunity?.type
+            )
+            .filter(Boolean)
+        )
+      ],
+
+      pathwayClassification:
+        pathwayClassification
+          ?.classification ??
+        "insufficient-evidence",
+
+      pathway:
+        pathwayClassification
+          ?.pathway ??
+        "unresolved"
+    }
+  });
+}
+
+
 export function assessOceanOpportunity({
   oceanEvidence
 }) {
@@ -8506,6 +8606,18 @@ export function assessOceanOpportunity({
         opportunities
     });
 
+  const lineage =
+    buildOceanOpportunityLineage({
+      oceanEvidence,
+
+      opportunities,
+
+      pathwayClassification,
+
+      limitations:
+        aggregatedLimitations
+    });
+
   return {
     summary: {
       classification:
@@ -8600,6 +8712,12 @@ export function assessOceanOpportunity({
 
     interpretation:
       "species-neutral-ocean-opportunity-assessment",
+
+    /*
+     * Lineage extends the upstream Ocean Evidence trace.
+     * It cannot change opportunity behavior.
+     */
+    lineage,
 
     methodVersion:
       "pelora-ocean-opportunity-v1.1"
@@ -10975,6 +11093,361 @@ export function validateLineageUpstreamReference(
     validationMethodVersion:
       "pelora-lineage-upstream-validation-v1.0"
   };
+}
+
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Lineage Propagation Framework v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Extend a valid upstream lineage contract through a downstream
+ * engine without reconstructing, rewriting, or changing the
+ * scientific reasoning already recorded upstream.
+ *
+ * Propagation is documentary only.
+ *
+ * It may:
+ * - preserve upstream observation records
+ * - preserve unavailable observations
+ * - preserve inherited limitations and warnings
+ * - append newly produced evidence
+ * - record the immediate upstream engine and method version
+ *
+ * It may not:
+ * - alter evidence
+ * - alter confidence
+ * - alter scores
+ * - alter classifications
+ * - infer biology
+ * - silently trust malformed lineage
+ */
+
+export const LINEAGE_PROPAGATION_FRAMEWORK = {
+  requiredUpstreamFields: [
+    "producedBy",
+    "methodVersion",
+    "observationsUsed",
+    "observationsUnavailable",
+    "evidenceProduced",
+    "inheritedLimitations",
+    "inheritedWarnings"
+  ],
+
+  rules: {
+    upstreamValidationRequired:
+      true,
+
+    observationsRemainImmutable:
+      true,
+
+    unavailableObservationsRemainVisible:
+      true,
+
+    producedEvidenceMayBeAppended:
+      true,
+
+    inheritedLimitationsRemainVisible:
+      true,
+
+    inheritedWarningsRemainVisible:
+      true,
+
+    malformedUpstreamLineageMayNotBeTrusted:
+      true,
+
+    changesEvidence:
+      false,
+
+    changesConfidence:
+      false,
+
+    changesScores:
+      false,
+
+    changesClassifications:
+      false,
+
+    biologicalInferenceAllowed:
+      false
+  },
+
+  methodVersion:
+    "pelora-lineage-propagation-framework-v1.0"
+};
+
+
+/**
+ * Create a stable immediate-upstream reference from a valid
+ * lineage contract.
+ */
+export function buildLineageUpstreamReference(
+  lineage
+) {
+  const validation =
+    validateEvidenceLineage(
+      lineage
+    );
+
+  if (!validation.valid) {
+    return null;
+  }
+
+  return {
+    engine:
+      lineage.producedBy,
+
+    methodVersion:
+      lineage.methodVersion,
+
+    ...(
+      typeof lineage.traceId ===
+        "string" &&
+      lineage.traceId
+        .trim()
+        .length > 0
+        ? {
+            traceId:
+              lineage.traceId
+          }
+        : {}
+    )
+  };
+}
+
+
+/**
+ * Propagate a governed lineage contract into a downstream
+ * scientific engine.
+ *
+ * Invalid or absent upstream lineage is not copied. Instead, the
+ * downstream record remains valid and explicitly discloses the
+ * missing or invalid upstream trace.
+ */
+export function propagateEvidenceLineage({
+  upstreamLineage = null,
+  producedBy,
+  methodVersion,
+  evidenceProduced = [],
+  inheritedLimitations = [],
+  inheritedWarnings = [],
+  components = null,
+  traceId = null
+} = {}) {
+  const upstreamValidation =
+    validateEvidenceLineage(
+      upstreamLineage,
+      {
+        path:
+          "upstreamLineage"
+      }
+    );
+
+  const upstreamValid =
+    upstreamValidation.valid ===
+    true;
+
+  const upstreamReference =
+    upstreamValid
+      ? buildLineageUpstreamReference(
+          upstreamLineage
+        )
+      : null;
+
+  const observationsUsed =
+    upstreamValid &&
+    Array.isArray(
+      upstreamLineage
+        ?.observationsUsed
+    )
+      ? upstreamLineage
+          .observationsUsed
+      : [];
+
+  const observationsUnavailable =
+    upstreamValid &&
+    Array.isArray(
+      upstreamLineage
+        ?.observationsUnavailable
+    )
+      ? upstreamLineage
+          .observationsUnavailable
+      : [];
+
+  const upstreamEvidenceProduced =
+    upstreamValid &&
+    Array.isArray(
+      upstreamLineage
+        ?.evidenceProduced
+    )
+      ? upstreamLineage
+          .evidenceProduced
+      : [];
+
+  const upstreamLimitations =
+    upstreamValid &&
+    Array.isArray(
+      upstreamLineage
+        ?.inheritedLimitations
+    )
+      ? upstreamLineage
+          .inheritedLimitations
+      : [];
+
+  const upstreamWarnings =
+    upstreamValid &&
+    Array.isArray(
+      upstreamLineage
+        ?.inheritedWarnings
+    )
+      ? upstreamLineage
+          .inheritedWarnings
+      : [];
+
+  const propagationWarnings = [];
+
+  if (!upstreamLineage) {
+    propagationWarnings.push(
+      "upstream-lineage-unavailable"
+    );
+  } else if (!upstreamValid) {
+    propagationWarnings.push(
+      "upstream-lineage-invalid"
+    );
+
+    propagationWarnings.push(
+      ...upstreamValidation.errors.map(
+        error =>
+          `upstream-validation:${error}`
+      )
+    );
+  }
+
+  const lineage = {
+    upstream:
+      upstreamReference
+        ? [
+            upstreamReference
+          ]
+        : [],
+
+    observationsUsed: [
+      ...new Set(
+        observationsUsed.filter(
+          value =>
+            typeof value ===
+              "string" &&
+            value.trim().length >
+              0
+        )
+      )
+    ],
+
+    observationsUnavailable: [
+      ...new Set(
+        observationsUnavailable.filter(
+          value =>
+            typeof value ===
+              "string" &&
+            value.trim().length >
+              0
+        )
+      )
+    ],
+
+    evidenceProduced: [
+      ...new Set([
+        ...upstreamEvidenceProduced,
+
+        ...(
+          Array.isArray(
+            evidenceProduced
+          )
+            ? evidenceProduced
+            : []
+        )
+      ].filter(
+        value =>
+          typeof value ===
+            "string" &&
+          value.trim().length >
+            0
+      ))
+    ],
+
+    inheritedLimitations: [
+      ...new Set([
+        ...upstreamLimitations,
+
+        ...(
+          Array.isArray(
+            inheritedLimitations
+          )
+            ? inheritedLimitations
+            : []
+        )
+      ].filter(
+        value =>
+          typeof value ===
+            "string" &&
+          value.trim().length >
+            0
+      ))
+    ],
+
+    inheritedWarnings: [
+      ...new Set([
+        ...upstreamWarnings,
+
+        ...propagationWarnings,
+
+        ...(
+          Array.isArray(
+            inheritedWarnings
+          )
+            ? inheritedWarnings
+            : []
+        )
+      ].filter(
+        value =>
+          typeof value ===
+            "string" &&
+          value.trim().length >
+            0
+      ))
+    ],
+
+    producedBy,
+
+    methodVersion
+  };
+
+  if (
+    components &&
+    typeof components ===
+      "object" &&
+    !Array.isArray(
+      components
+    )
+  ) {
+    lineage.components =
+      components;
+  }
+
+  if (
+    typeof traceId ===
+      "string" &&
+    traceId.trim().length >
+      0
+  ) {
+    lineage.traceId =
+      traceId;
+  }
+
+  return lineage;
 }
 
 

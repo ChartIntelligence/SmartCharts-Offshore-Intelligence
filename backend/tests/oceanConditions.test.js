@@ -32,7 +32,11 @@ import {
   EVIDENCE_LINEAGE_FRAMEWORK,
   validateLineageUpstreamReference,
   validateEvidenceLineage,
-  buildOceanEvidenceLineage
+  buildOceanEvidenceLineage,
+  LINEAGE_PROPAGATION_FRAMEWORK,
+  buildLineageUpstreamReference,
+  propagateEvidenceLineage,
+  buildOceanOpportunityLineage
 } from "../server.js";
 
 
@@ -11921,4 +11925,522 @@ assert.equal(
 
 console.log(
   "PASS Ocean Evidence lineage integration preserves established scientific behavior"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Lineage Propagation Framework v1.0
+ * ------------------------------------------------------------
+ */
+
+assert.equal(
+  LINEAGE_PROPAGATION_FRAMEWORK
+    .rules
+    .upstreamValidationRequired,
+  true
+);
+
+assert.equal(
+  LINEAGE_PROPAGATION_FRAMEWORK
+    .rules
+    .changesScores,
+  false
+);
+
+assert.equal(
+  LINEAGE_PROPAGATION_FRAMEWORK
+    .rules
+    .biologicalInferenceAllowed,
+  false
+);
+
+
+const propagationUpstreamLineage = {
+  upstream: [
+    {
+      engine:
+        "data-assessment",
+
+      methodVersion:
+        "test-data-assessment-v1.0"
+    }
+  ],
+
+  observationsUsed: [
+    "temperature",
+    "currents"
+  ],
+
+  observationsUnavailable: [
+    "chlorophyll"
+  ],
+
+  evidenceProduced: [
+    "temperature-evidence",
+    "current-evidence"
+  ],
+
+  inheritedLimitations: [
+    "single-time-snapshot"
+  ],
+
+  inheritedWarnings: [
+    "chlorophyll-unavailable"
+  ],
+
+  producedBy:
+    "ocean-evidence",
+
+  methodVersion:
+    "test-ocean-evidence-lineage-v1.0"
+};
+
+
+const propagatedLineage =
+  propagateEvidenceLineage({
+    upstreamLineage:
+      propagationUpstreamLineage,
+
+    producedBy:
+      "ocean-opportunity",
+
+    methodVersion:
+      "test-ocean-opportunity-lineage-v1.0",
+
+    evidenceProduced: [
+      "ocean-feature-candidate-assessment"
+    ],
+
+    inheritedLimitations: [
+      "does-not-establish-biological-significance"
+    ],
+
+    inheritedWarnings: [
+      "pathway-unresolved"
+    ]
+  });
+
+
+assert.deepEqual(
+  propagatedLineage
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "test-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.deepEqual(
+  propagatedLineage
+    .observationsUsed,
+  [
+    "temperature",
+    "currents"
+  ]
+);
+
+assert.deepEqual(
+  propagatedLineage
+    .observationsUnavailable,
+  [
+    "chlorophyll"
+  ]
+);
+
+assert.deepEqual(
+  propagatedLineage
+    .evidenceProduced,
+  [
+    "temperature-evidence",
+    "current-evidence",
+    "ocean-feature-candidate-assessment"
+  ]
+);
+
+assert.ok(
+  propagatedLineage
+    .inheritedLimitations
+    .includes(
+      "single-time-snapshot"
+    )
+);
+
+assert.ok(
+  propagatedLineage
+    .inheritedLimitations
+    .includes(
+      "does-not-establish-biological-significance"
+    )
+);
+
+assert.ok(
+  propagatedLineage
+    .inheritedWarnings
+    .includes(
+      "chlorophyll-unavailable"
+    )
+);
+
+assert.ok(
+  propagatedLineage
+    .inheritedWarnings
+    .includes(
+      "pathway-unresolved"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    propagatedLineage
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Lineage Propagation preserves upstream observations and appends downstream evidence"
+);
+
+
+const malformedUpstreamPropagation =
+  propagateEvidenceLineage({
+    upstreamLineage: {
+      producedBy:
+        "ocean-evidence"
+    },
+
+    producedBy:
+      "ocean-opportunity",
+
+    methodVersion:
+      "test-ocean-opportunity-lineage-v1.0",
+
+    evidenceProduced: [
+      "opportunity-pathway-classification"
+    ]
+  });
+
+
+assert.deepEqual(
+  malformedUpstreamPropagation
+    .upstream,
+  []
+);
+
+assert.deepEqual(
+  malformedUpstreamPropagation
+    .observationsUsed,
+  []
+);
+
+assert.ok(
+  malformedUpstreamPropagation
+    .inheritedWarnings
+    .includes(
+      "upstream-lineage-invalid"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    malformedUpstreamPropagation
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Lineage Propagation rejects malformed upstream lineage without invalidating the downstream trace"
+);
+
+
+const missingUpstreamPropagation =
+  propagateEvidenceLineage({
+    upstreamLineage:
+      null,
+
+    producedBy:
+      "ocean-opportunity",
+
+    methodVersion:
+      "test-ocean-opportunity-lineage-v1.0",
+
+    evidenceProduced: [
+      "opportunity-pathway-classification"
+    ]
+  });
+
+
+assert.ok(
+  missingUpstreamPropagation
+    .inheritedWarnings
+    .includes(
+      "upstream-lineage-unavailable"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    missingUpstreamPropagation
+  ).valid,
+  true
+);
+
+console.log(
+  "PASS Lineage Propagation keeps absent upstream lineage explicitly visible"
+);
+
+
+/*
+ * ------------------------------------------------------------
+ * Ocean Opportunity Lineage v1.0
+ * ------------------------------------------------------------
+ */
+
+const lineageOceanEvidence =
+  assessOceanEvidence({
+    latitude:
+      28.25,
+
+    longitude:
+      -85.58,
+
+    sst: {
+      temperatureFahrenheit:
+        82,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    chlorophyll: {
+      concentrationMgM3:
+        0.2,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    currents: {
+      speedKnots:
+        1.5,
+
+      directionDegrees:
+        220,
+
+      observedAt:
+        "2026-07-28T18:00:00.000Z"
+    },
+
+    dataQuality: {
+      methodVersion:
+        "test-data-quality-v1.0",
+
+      overall: {
+        classification:
+          "complete"
+      }
+    }
+  });
+
+
+const lineageOceanOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence:
+      lineageOceanEvidence
+  });
+
+
+assert.ok(
+  lineageOceanOpportunity
+    .lineage
+);
+
+assert.deepEqual(
+  lineageOceanOpportunity
+    .lineage
+    .upstream,
+  [
+    {
+      engine:
+        "ocean-evidence",
+
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  ]
+);
+
+assert.deepEqual(
+  lineageOceanOpportunity
+    .lineage
+    .observationsUsed,
+  lineageOceanEvidence
+    .lineage
+    .observationsUsed
+);
+
+assert.deepEqual(
+  lineageOceanOpportunity
+    .lineage
+    .observationsUnavailable,
+  lineageOceanEvidence
+    .lineage
+    .observationsUnavailable
+);
+
+assert.ok(
+  lineageOceanOpportunity
+    .lineage
+    .evidenceProduced
+    .includes(
+      "ocean-feature-candidate-assessment"
+    )
+);
+
+assert.ok(
+  lineageOceanOpportunity
+    .lineage
+    .evidenceProduced
+    .includes(
+      "opportunity-pathway-classification"
+    )
+);
+
+assert.equal(
+  lineageOceanOpportunity
+    .lineage
+    .producedBy,
+  "ocean-opportunity"
+);
+
+assert.equal(
+  lineageOceanOpportunity
+    .lineage
+    .methodVersion,
+  "pelora-ocean-opportunity-lineage-v1.0"
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    lineageOceanOpportunity
+      .lineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  lineageOceanOpportunity
+    .methodVersion,
+  "pelora-ocean-opportunity-v1.1"
+);
+
+console.log(
+  "PASS Ocean Opportunity extends Ocean Evidence lineage without changing established behavior"
+);
+
+
+const noLineageOceanOpportunity =
+  assessOceanOpportunity({
+    oceanEvidence: {
+      groups: {},
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Very Low"
+      },
+
+      environmentalOpportunityEvidence: {
+        combined: {
+          pathways: {
+            structureAssociated: {
+              available:
+                false
+            },
+
+            openWater: {
+              available:
+                false,
+
+              organized:
+                false
+            },
+
+            persistence: {
+              available:
+                false
+            }
+          }
+        }
+      },
+
+      summary: {
+        availableGroupCount:
+          0
+      },
+
+      limitations: []
+    }
+  });
+
+
+assert.ok(
+  noLineageOceanOpportunity
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "upstream-lineage-unavailable"
+    )
+);
+
+assert.ok(
+  noLineageOceanOpportunity
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "no-ocean-feature-candidates-produced"
+    )
+);
+
+assert.ok(
+  noLineageOceanOpportunity
+    .lineage
+    .inheritedWarnings
+    .includes(
+      "opportunity-pathway-unresolved"
+    )
+);
+
+assert.equal(
+  validateEvidenceLineage(
+    noLineageOceanOpportunity
+      .lineage
+  ).valid,
+  true
+);
+
+assert.equal(
+  noLineageOceanOpportunity
+    .confidence
+    .score,
+  0
+);
+
+assert.equal(
+  noLineageOceanOpportunity
+    .pathwayClassification
+    .classification,
+  "insufficient-evidence"
+);
+
+console.log(
+  "PASS Ocean Opportunity lineage discloses missing upstream trace while preserving insufficient-evidence behavior"
 );
