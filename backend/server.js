@@ -1937,6 +1937,1497 @@ function buildCurrentOrganizationAnalysis(
 }
 
 
+function buildCurrentRelationshipContext(
+  organizationAnalysis
+) {
+  const available =
+    organizationAnalysis
+      ?.available ===
+    true;
+
+  const classification =
+    organizationAnalysis
+      ?.classification ??
+    "unavailable";
+
+  const organizationLevel =
+    organizationAnalysis
+      ?.organizationLevel ??
+    "insufficient-evidence";
+
+  const evidence =
+    organizationAnalysis
+      ?.evidence ??
+    {};
+
+  if (!available) {
+    return {
+      available:
+        false,
+
+      relationshipType:
+        "unavailable",
+
+      relationshipState:
+        "insufficient-evidence",
+
+      organizationLevel:
+        "insufficient-evidence",
+
+      evidence: {
+        organizationAvailable:
+          false,
+
+        organizationClassification:
+          classification,
+
+        spatialVariation:
+          evidence
+            ?.spatialVariation ??
+          "insufficient-spatial-current-data",
+
+        coverage:
+          evidence
+            ?.coverage ??
+          "unknown",
+
+        validSampleCount:
+          evidence
+            ?.validSampleCount ??
+          null
+      },
+
+      interpretation:
+        "A current-field relationship cannot be described because spatial organization evidence is unavailable.",
+
+      limitations: [
+        "Current Relationship Context requires a valid Current Organization result.",
+        "No convergence, divergence, shear, edge, eddy, persistence, habitat, or biological relationship is inferred."
+      ],
+
+      contractVersion:
+        "pelora-current-relationship-context-v1"
+    };
+  }
+
+  let relationshipType =
+    "variable-flow-relationship";
+
+  let relationshipState =
+    "observed";
+
+  let interpretation =
+    "The surrounding current vectors show substantial variation, but the specific physical relationship has not been resolved.";
+
+  if (
+    classification ===
+    "uniform-current-field"
+  ) {
+    relationshipType =
+      "coherent-flow-field";
+
+    relationshipState =
+      "observed";
+
+    interpretation =
+      "The surrounding current vectors describe a coherent flow field with limited spatial variation.";
+  } else if (
+    classification ===
+    "weakly-variable-current-field"
+  ) {
+    relationshipType =
+      "broadly-coherent-flow-field";
+
+    relationshipState =
+      "observed";
+
+    interpretation =
+      "The surrounding current vectors remain broadly coherent while showing modest spatial variation.";
+  } else if (
+    classification ===
+    "organized-current-transition"
+  ) {
+    relationshipType =
+      "organized-flow-transition";
+
+    relationshipState =
+      "candidate";
+
+    interpretation =
+      "The surrounding current vectors describe an organized spatial transition whose physical mechanism has not yet been determined.";
+  } else if (
+    classification ===
+    "highly-variable-current-field"
+  ) {
+    relationshipType =
+      "complex-variable-flow-field";
+
+    relationshipState =
+      "unresolved";
+
+    interpretation =
+      "The surrounding current vectors describe a complex variable flow field that requires additional spatial analysis.";
+  }
+
+  const inheritedLimitations =
+    Array.isArray(
+      organizationAnalysis
+        ?.limitations
+    )
+      ? organizationAnalysis
+          .limitations
+      : [];
+
+  const limitations =
+    [
+      ...new Set([
+        ...inheritedLimitations,
+
+        "This contract describes the relationship among surrounding current observations only.",
+
+        "An organized flow transition is not proof of convergence, divergence, shear, a current edge, or an eddy boundary.",
+
+        "No persistence, prey concentration, fish presence, habitat quality, or species suitability is inferred."
+      ])
+    ];
+
+  return {
+    available:
+      true,
+
+    relationshipType,
+
+    relationshipState,
+
+    organizationLevel,
+
+    evidence: {
+      organizationAvailable:
+        true,
+
+      organizationClassification:
+        classification,
+
+      spatialVariation:
+        evidence
+          ?.spatialVariation ??
+        null,
+
+      coverage:
+        evidence
+          ?.coverage ??
+        "unknown",
+
+      requestedSampleCount:
+        evidence
+          ?.requestedSampleCount ??
+        null,
+
+      validSampleCount:
+        evidence
+          ?.validSampleCount ??
+        null,
+
+      speedRangeKnots:
+        Number.isFinite(
+          evidence
+            ?.speedRangeKnots
+        )
+          ? evidence
+              .speedRangeKnots
+          : null,
+
+      maximumDirectionDifferenceDegrees:
+        Number.isFinite(
+          evidence
+            ?.maximumDirectionDifferenceDegrees
+        )
+          ? evidence
+              .maximumDirectionDifferenceDegrees
+          : null
+    },
+
+    interpretation,
+
+    limitations,
+
+    upstreamContract: {
+      engine:
+        "current-organization",
+
+      version:
+        organizationAnalysis
+          ?.thresholdVersion ??
+        null
+    },
+
+    contractVersion:
+      "pelora-current-relationship-context-v1"
+  };
+}
+
+
+function getCurrentProjectionAxes(
+  sampleDirection
+) {
+  /*
+   * Each inward axis points from the surrounding sample
+   * toward the center of the spatial sampling field.
+   *
+   * The tangential axis is oriented clockwise around the
+   * center point:
+   *
+   * north sample -> east
+   * east sample  -> south
+   * south sample -> west
+   * west sample  -> north
+   */
+  const axes = {
+    north: {
+      inwardEast:
+        0,
+
+      inwardNorth:
+        -1,
+
+      clockwiseTangentialEast:
+        1,
+
+      clockwiseTangentialNorth:
+        0
+    },
+
+    east: {
+      inwardEast:
+        -1,
+
+      inwardNorth:
+        0,
+
+      clockwiseTangentialEast:
+        0,
+
+      clockwiseTangentialNorth:
+        -1
+    },
+
+    south: {
+      inwardEast:
+        0,
+
+      inwardNorth:
+        1,
+
+      clockwiseTangentialEast:
+        -1,
+
+      clockwiseTangentialNorth:
+        0
+    },
+
+    west: {
+      inwardEast:
+        1,
+
+      inwardNorth:
+        0,
+
+      clockwiseTangentialEast:
+        0,
+
+      clockwiseTangentialNorth:
+        1
+    }
+  };
+
+  return axes[
+    sampleDirection
+  ] ?? null;
+}
+
+
+function buildCurrentVectorProjectionAnalysis(
+  spatialStructure
+) {
+  const vectors =
+    Array.isArray(
+      spatialStructure
+        ?.vectors
+    )
+      ? spatialStructure
+          .vectors
+      : [];
+
+  const projectedVectors =
+    vectors.map(
+      vector => {
+        const axes =
+          getCurrentProjectionAxes(
+            vector
+              ?.direction
+          );
+
+        const eastwardMetersPerSecond =
+          Number.isFinite(
+            vector
+              ?.eastwardMetersPerSecond
+          )
+            ? vector
+                .eastwardMetersPerSecond
+            : null;
+
+        const northwardMetersPerSecond =
+          Number.isFinite(
+            vector
+              ?.northwardMetersPerSecond
+          )
+            ? vector
+                .northwardMetersPerSecond
+            : null;
+
+        if (
+          !axes ||
+          !Number.isFinite(
+            eastwardMetersPerSecond
+          ) ||
+          !Number.isFinite(
+            northwardMetersPerSecond
+          )
+        ) {
+          return {
+            sampleDirection:
+              vector
+                ?.direction ??
+              "unknown",
+
+            available:
+              false,
+
+            requestedLatitude:
+              Number.isFinite(
+                vector
+                  ?.requestedLatitude
+              )
+                ? vector
+                    .requestedLatitude
+                : null,
+
+            requestedLongitude:
+              Number.isFinite(
+                vector
+                  ?.requestedLongitude
+              )
+                ? vector
+                    .requestedLongitude
+                : null,
+
+            reason:
+              !axes
+                ? "unsupported-sample-direction"
+                : "missing-current-vector-components"
+          };
+        }
+
+        const vectorMagnitudeMetersPerSecond =
+          Math.hypot(
+            eastwardMetersPerSecond,
+            northwardMetersPerSecond
+          );
+
+        /*
+         * Positive signed radial values point toward the
+         * center. Negative values point away from it.
+         */
+        const signedRadialMetersPerSecond =
+          (
+            eastwardMetersPerSecond *
+            axes.inwardEast
+          ) +
+          (
+            northwardMetersPerSecond *
+            axes.inwardNorth
+          );
+
+        /*
+         * Positive signed tangential values move clockwise
+         * around the center. Negative values move
+         * counterclockwise.
+         */
+        const signedTangentialMetersPerSecond =
+          (
+            eastwardMetersPerSecond *
+            axes
+              .clockwiseTangentialEast
+          ) +
+          (
+            northwardMetersPerSecond *
+            axes
+              .clockwiseTangentialNorth
+          );
+
+        const inwardMetersPerSecond =
+          Math.max(
+            signedRadialMetersPerSecond,
+            0
+          );
+
+        const outwardMetersPerSecond =
+          Math.max(
+            -signedRadialMetersPerSecond,
+            0
+          );
+
+        const absoluteTangentialMetersPerSecond =
+          Math.abs(
+            signedTangentialMetersPerSecond
+          );
+
+        let inwardAlignmentDegrees =
+          null;
+
+        if (
+          vectorMagnitudeMetersPerSecond >
+          0
+        ) {
+          const normalizedProjection =
+            Math.max(
+              -1,
+              Math.min(
+                1,
+                signedRadialMetersPerSecond /
+                vectorMagnitudeMetersPerSecond
+              )
+            );
+
+          inwardAlignmentDegrees =
+            Math.acos(
+              normalizedProjection
+            ) *
+            (
+              180 /
+              Math.PI
+            );
+        }
+
+        return {
+          sampleDirection:
+            vector.direction,
+
+          available:
+            true,
+
+          requestedLatitude:
+            Number.isFinite(
+              vector
+                ?.requestedLatitude
+            )
+              ? vector
+                  .requestedLatitude
+              : null,
+
+          requestedLongitude:
+            Number.isFinite(
+              vector
+                ?.requestedLongitude
+            )
+              ? vector
+                  .requestedLongitude
+              : null,
+
+          resolvedLatitude:
+            Number.isFinite(
+              vector
+                ?.resolvedLatitude
+            )
+              ? vector
+                  .resolvedLatitude
+              : null,
+
+          resolvedLongitude:
+            Number.isFinite(
+              vector
+                ?.resolvedLongitude
+            )
+              ? vector
+                  .resolvedLongitude
+              : null,
+
+          speedKnots:
+            Number.isFinite(
+              vector
+                ?.speedKnots
+            )
+              ? vector
+                  .speedKnots
+              : null,
+
+          directionDegrees:
+            Number.isFinite(
+              vector
+                ?.directionDegrees
+            )
+              ? vector
+                  .directionDegrees
+              : null,
+
+          eastwardMetersPerSecond:
+            Number(
+              eastwardMetersPerSecond
+                .toFixed(4)
+            ),
+
+          northwardMetersPerSecond:
+            Number(
+              northwardMetersPerSecond
+                .toFixed(4)
+            ),
+
+          vectorMagnitudeMetersPerSecond:
+            Number(
+              vectorMagnitudeMetersPerSecond
+                .toFixed(4)
+            ),
+
+          signedRadialMetersPerSecond:
+            Number(
+              signedRadialMetersPerSecond
+                .toFixed(4)
+            ),
+
+          inwardMetersPerSecond:
+            Number(
+              inwardMetersPerSecond
+                .toFixed(4)
+            ),
+
+          outwardMetersPerSecond:
+            Number(
+              outwardMetersPerSecond
+                .toFixed(4)
+            ),
+
+          signedClockwiseTangentialMetersPerSecond:
+            Number(
+              signedTangentialMetersPerSecond
+                .toFixed(4)
+            ),
+
+          absoluteTangentialMetersPerSecond:
+            Number(
+              absoluteTangentialMetersPerSecond
+                .toFixed(4)
+            ),
+
+          inwardAlignmentDegrees:
+            Number.isFinite(
+              inwardAlignmentDegrees
+            )
+              ? Number(
+                  inwardAlignmentDegrees
+                    .toFixed(1)
+                )
+              : null,
+
+          observedAt:
+            vector
+              ?.observedAt ??
+            null,
+
+          ageHours:
+            Number.isFinite(
+              vector
+                ?.ageHours
+            )
+              ? vector
+                  .ageHours
+              : null
+        };
+      }
+    );
+
+  const validProjections =
+    projectedVectors.filter(
+      projection =>
+        projection
+          ?.available ===
+        true
+    );
+
+  const requestedProjectionCount =
+    vectors.length;
+
+  const validProjectionCount =
+    validProjections.length;
+
+  const failedProjectionCount =
+    requestedProjectionCount -
+    validProjectionCount;
+
+  const sufficientCoverage =
+    validProjectionCount >=
+    3;
+
+  const coverage =
+    requestedProjectionCount > 0 &&
+    validProjectionCount ===
+      requestedProjectionCount
+      ? "complete"
+      : sufficientCoverage
+        ? "partial"
+        : validProjectionCount > 0
+          ? "insufficient"
+          : "unavailable";
+
+  const limitations =
+    [];
+
+  if (!sufficientCoverage) {
+    limitations.push(
+      "Fewer than three valid current-vector projections were available."
+    );
+  }
+
+  if (
+    failedProjectionCount > 0
+  ) {
+    limitations.push(
+      `${failedProjectionCount} current vector projection${
+        failedProjectionCount === 1
+          ? ""
+          : "s"
+      } could not be calculated.`
+    );
+  }
+
+  limitations.push(
+    "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+
+    "Positive radial movement is inward and negative radial movement is outward.",
+
+    "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+
+    "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+  );
+
+  return {
+    available:
+      sufficientCoverage,
+
+    analysisType:
+      "current-vector-projection",
+
+    coverage,
+
+    requestedProjectionCount,
+
+    validProjectionCount,
+
+    failedProjectionCount,
+
+    sufficientCoverage,
+
+    sampleRadiusNauticalMiles:
+      Number.isFinite(
+        spatialStructure
+          ?.sampleRadiusNauticalMiles
+      )
+        ? spatialStructure
+            .sampleRadiusNauticalMiles
+        : null,
+
+    projections:
+      projectedVectors,
+
+    interpretation:
+      sufficientCoverage
+        ? "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample."
+        : "The available current vectors were insufficient for a complete spatial projection analysis.",
+
+    limitations: [
+      ...new Set(
+        limitations
+      )
+    ],
+
+    upstreamContract: {
+      engine:
+        "current-spatial-structure",
+
+      version:
+        spatialStructure
+          ?.contractVersion ??
+        spatialStructure
+          ?.thresholdVersion ??
+        null
+    },
+
+    contractVersion:
+      "pelora-current-vector-projection-v1"
+  };
+}
+
+
+function getOpposingCurrentSampleDirection(
+  sampleDirection
+) {
+  const opposingDirections = {
+    north:
+      "south",
+
+    east:
+      "west",
+
+    south:
+      "north",
+
+    west:
+      "east"
+  };
+
+  return opposingDirections[
+    sampleDirection
+  ] ?? null;
+}
+
+
+function buildCurrentConvergenceAnalysis(
+  vectorProjection
+) {
+  const projections =
+    Array.isArray(
+      vectorProjection
+        ?.projections
+    )
+      ? vectorProjection
+          .projections
+      : [];
+
+  const validProjections =
+    projections.filter(
+      projection =>
+        projection
+          ?.available ===
+          true &&
+        Number.isFinite(
+          projection
+            ?.signedRadialMetersPerSecond
+        ) &&
+        Number.isFinite(
+          projection
+            ?.inwardMetersPerSecond
+        ) &&
+        Number.isFinite(
+          projection
+            ?.outwardMetersPerSecond
+        )
+    );
+
+  const sufficientCoverage =
+    vectorProjection
+      ?.sufficientCoverage ===
+      true &&
+    validProjections.length >=
+      3;
+
+  /*
+   * These thresholds identify meaningful radial evidence
+   * within the current spatial sampling field.
+   *
+   * They do not establish persistence, vertical transport,
+   * prey concentration, habitat quality, or biological use.
+   */
+  const meaningfulRadialThresholdMetersPerSecond =
+    0.05;
+
+  const strongRadialThresholdMetersPerSecond =
+    0.15;
+
+  const meaningfulInwardProjections =
+    validProjections.filter(
+      projection =>
+        projection
+          .inwardMetersPerSecond >=
+        meaningfulRadialThresholdMetersPerSecond
+    );
+
+  const strongInwardProjections =
+    validProjections.filter(
+      projection =>
+        projection
+          .inwardMetersPerSecond >=
+        strongRadialThresholdMetersPerSecond
+    );
+
+  const meaningfulOutwardProjections =
+    validProjections.filter(
+      projection =>
+        projection
+          .outwardMetersPerSecond >=
+        meaningfulRadialThresholdMetersPerSecond
+    );
+
+  const meaningfulInwardDirections =
+    new Set(
+      meaningfulInwardProjections.map(
+        projection =>
+          projection
+            .sampleDirection
+      )
+    );
+
+  const opposingInwardPairs =
+    [];
+
+  for (
+    const sampleDirection of
+    meaningfulInwardDirections
+  ) {
+    const opposingDirection =
+      getOpposingCurrentSampleDirection(
+        sampleDirection
+      );
+
+    if (
+      opposingDirection &&
+      meaningfulInwardDirections.has(
+        opposingDirection
+      )
+    ) {
+      const pair =
+        [
+          sampleDirection,
+          opposingDirection
+        ].sort().join("-");
+
+      if (
+        !opposingInwardPairs.includes(
+          pair
+        )
+      ) {
+        opposingInwardPairs.push(
+          pair
+        );
+      }
+    }
+  }
+
+  const inwardValues =
+    meaningfulInwardProjections.map(
+      projection =>
+        projection
+          .inwardMetersPerSecond
+    );
+
+  const meanMeaningfulInwardMetersPerSecond =
+    inwardValues.length > 0
+      ? inwardValues.reduce(
+          (
+            total,
+            value
+          ) =>
+            total + value,
+          0
+        ) /
+        inwardValues.length
+      : null;
+
+  const maximumInwardMetersPerSecond =
+    validProjections.length > 0
+      ? Math.max(
+          ...validProjections.map(
+            projection =>
+              projection
+                .inwardMetersPerSecond
+          )
+        )
+      : null;
+
+  const maximumOutwardMetersPerSecond =
+    validProjections.length > 0
+      ? Math.max(
+          ...validProjections.map(
+            projection =>
+              projection
+                .outwardMetersPerSecond
+          )
+        )
+      : null;
+
+  const distributedInwardSupport =
+    meaningfulInwardProjections.length >=
+      3 &&
+    opposingInwardPairs.length >=
+      1;
+
+  const completeInwardSupport =
+    validProjections.length >=
+      4 &&
+    meaningfulInwardProjections.length ===
+      validProjections.length &&
+    meaningfulOutwardProjections.length ===
+      0;
+
+  let available =
+    sufficientCoverage;
+
+  let convergenceType =
+    "unavailable";
+
+  let convergenceState =
+    "insufficient-evidence";
+
+  let convergenceStrength =
+    "unknown";
+
+  let interpretation =
+    "Convergence cannot be evaluated from the available current-vector projections.";
+
+  if (sufficientCoverage) {
+    convergenceType =
+      "no-convergence-candidate";
+
+    convergenceState =
+      "not-supported";
+
+    convergenceStrength =
+      "none";
+
+    interpretation =
+      "The available radial current projections do not provide spatially distributed support for a convergence candidate.";
+
+    if (
+      distributedInwardSupport
+    ) {
+      convergenceType =
+        completeInwardSupport &&
+        strongInwardProjections.length >=
+          3 &&
+        Number.isFinite(
+          meanMeaningfulInwardMetersPerSecond
+        ) &&
+        meanMeaningfulInwardMetersPerSecond >=
+          strongRadialThresholdMetersPerSecond
+          ? "pronounced-convergence-candidate"
+          : "convergence-candidate";
+
+      convergenceState =
+        "candidate";
+
+      convergenceStrength =
+        convergenceType ===
+          "pronounced-convergence-candidate"
+          ? "pronounced"
+          : "measurable";
+
+      interpretation =
+        convergenceType ===
+          "pronounced-convergence-candidate"
+          ? "Current vectors from all available sides show strong inward radial movement toward the center of the spatial sample."
+          : "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.";
+    } else if (
+      meaningfulInwardProjections.length >
+      0
+    ) {
+      convergenceType =
+        "localized-inward-flow";
+
+      convergenceState =
+        "incomplete-support";
+
+      convergenceStrength =
+        "localized";
+
+      interpretation =
+        "Inward radial movement is present in part of the sampling field, but it is not distributed broadly enough to support a convergence candidate.";
+    }
+  }
+
+  const inheritedLimitations =
+    Array.isArray(
+      vectorProjection
+        ?.limitations
+    )
+      ? vectorProjection
+          .limitations
+      : [];
+
+  const limitations =
+    [
+      ...new Set([
+        ...inheritedLimitations,
+
+        "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+
+        "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+
+        "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+
+        "No divergence classification is produced by this engine.",
+
+        "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+      ])
+    ];
+
+  return {
+    available,
+
+    analysisType:
+      "current-convergence-analysis",
+
+    convergenceType,
+
+    convergenceState,
+
+    convergenceStrength,
+
+    evidence: {
+      coverage:
+        vectorProjection
+          ?.coverage ??
+        "unknown",
+
+      sufficientCoverage,
+
+      requestedProjectionCount:
+        vectorProjection
+          ?.requestedProjectionCount ??
+        null,
+
+      validProjectionCount:
+        validProjections.length,
+
+      meaningfulInwardCount:
+        meaningfulInwardProjections.length,
+
+      strongInwardCount:
+        strongInwardProjections.length,
+
+      meaningfulOutwardCount:
+        meaningfulOutwardProjections.length,
+
+      meaningfulInwardDirections:
+        [
+          ...meaningfulInwardDirections
+        ],
+
+      opposingInwardPairs,
+
+      distributedInwardSupport,
+
+      completeInwardSupport,
+
+      meanMeaningfulInwardMetersPerSecond:
+        Number.isFinite(
+          meanMeaningfulInwardMetersPerSecond
+        )
+          ? Number(
+              meanMeaningfulInwardMetersPerSecond
+                .toFixed(4)
+            )
+          : null,
+
+      maximumInwardMetersPerSecond:
+        Number.isFinite(
+          maximumInwardMetersPerSecond
+        )
+          ? Number(
+              maximumInwardMetersPerSecond
+                .toFixed(4)
+            )
+          : null,
+
+      maximumOutwardMetersPerSecond:
+        Number.isFinite(
+          maximumOutwardMetersPerSecond
+        )
+          ? Number(
+              maximumOutwardMetersPerSecond
+                .toFixed(4)
+            )
+          : null
+    },
+
+    thresholds: {
+      meaningfulRadialMetersPerSecond:
+        meaningfulRadialThresholdMetersPerSecond,
+
+      strongRadialMetersPerSecond:
+        strongRadialThresholdMetersPerSecond,
+
+      minimumMeaningfulInwardSamples:
+        3,
+
+      minimumOpposingInwardPairs:
+        1
+    },
+
+    interpretation,
+
+    limitations,
+
+    upstreamContract: {
+      engine:
+        "current-vector-projection",
+
+      version:
+        vectorProjection
+          ?.contractVersion ??
+        null
+    },
+
+    contractVersion:
+      "pelora-current-convergence-v1"
+  };
+}
+
+
+function buildCurrentSpatialPatternAnalysis(
+  spatialStructure,
+  relationshipContext
+) {
+  const measurements =
+    spatialStructure
+      ?.measurements ??
+    {};
+
+  const relationshipAvailable =
+    relationshipContext
+      ?.available ===
+    true;
+
+  const sufficientCoverage =
+    spatialStructure
+      ?.sufficientCoverage ===
+    true;
+
+  const speedRangeKnots =
+    Number.isFinite(
+      measurements
+        ?.speedRangeKnots
+    )
+      ? measurements
+          .speedRangeKnots
+      : null;
+
+  const maximumDirectionDifferenceDegrees =
+    Number.isFinite(
+      measurements
+        ?.maximumDirectionDifferenceDegrees
+    )
+      ? measurements
+          .maximumDirectionDifferenceDegrees
+      : null;
+
+  const spatialVariation =
+    measurements
+      ?.spatialVariation ??
+    "insufficient-spatial-current-data";
+
+  const relationshipType =
+    relationshipContext
+      ?.relationshipType ??
+    "unavailable";
+
+  if (
+    !relationshipAvailable ||
+    !sufficientCoverage ||
+    !Number.isFinite(
+      speedRangeKnots
+    ) ||
+    !Number.isFinite(
+      maximumDirectionDifferenceDegrees
+    )
+  ) {
+    return {
+      available:
+        false,
+
+      patternType:
+        "unavailable",
+
+      patternState:
+        "insufficient-evidence",
+
+      dominantVariation:
+        "unknown",
+
+      evidence: {
+        relationshipAvailable,
+
+        sufficientCoverage,
+
+        relationshipType,
+
+        spatialVariation,
+
+        speedRangeKnots,
+
+        maximumDirectionDifferenceDegrees,
+
+        coverage:
+          spatialStructure
+            ?.coverage ??
+          "unknown",
+
+        validSampleCount:
+          spatialStructure
+            ?.validSampleCount ??
+          null
+      },
+
+      interpretation:
+        "A current spatial pattern cannot be classified from the available measurements.",
+
+      limitations: [
+        "Current Spatial Pattern Analysis requires sufficient spatial measurements and an available Current Relationship Context.",
+        "No convergence, divergence, shear, edge, rotation, radial flow, eddy, persistence, habitat, or biological significance is inferred."
+      ],
+
+      thresholdVersion:
+        "pelora-current-spatial-pattern-v1"
+    };
+  }
+
+  /*
+   * These thresholds describe which measured property contributes
+   * most strongly to spatial variation.
+   *
+   * They do not establish the physical mechanism creating the
+   * variation.
+   */
+  const meaningfulSpeedVariation =
+    speedRangeKnots >=
+    0.5;
+
+  const strongSpeedVariation =
+    speedRangeKnots >=
+    1.0;
+
+  const meaningfulDirectionVariation =
+    maximumDirectionDifferenceDegrees >=
+    30;
+
+  const strongDirectionVariation =
+    maximumDirectionDifferenceDegrees >=
+    60;
+
+  let patternType =
+    "unresolved-variable-pattern";
+
+  let patternState =
+    "unresolved";
+
+  let dominantVariation =
+    "mixed-or-uncertain";
+
+  let interpretation =
+    "Spatial current variation is present, but its dominant measured pattern remains unresolved.";
+
+  if (
+    spatialVariation ===
+      "uniform-current-field" ||
+    (
+      !meaningfulSpeedVariation &&
+      !meaningfulDirectionVariation
+    )
+  ) {
+    patternType =
+      "uniform-flow-pattern";
+
+    patternState =
+      "observed";
+
+    dominantVariation =
+      "none";
+
+    interpretation =
+      "Current speed and direction remain broadly uniform across the surrounding sample field.";
+  } else if (
+    meaningfulSpeedVariation &&
+    !meaningfulDirectionVariation
+  ) {
+    patternType =
+      strongSpeedVariation
+        ? "pronounced-speed-transition-pattern"
+        : "speed-transition-pattern";
+
+    patternState =
+      "candidate";
+
+    dominantVariation =
+      "speed";
+
+    interpretation =
+      "The surrounding current field shows a measurable speed transition without a comparably strong directional transition.";
+  } else if (
+    !meaningfulSpeedVariation &&
+    meaningfulDirectionVariation
+  ) {
+    patternType =
+      strongDirectionVariation
+        ? "pronounced-directional-transition-pattern"
+        : "directional-transition-pattern";
+
+    patternState =
+      "candidate";
+
+    dominantVariation =
+      "direction";
+
+    interpretation =
+      "The surrounding current field shows a measurable directional transition without a comparably strong speed transition.";
+  } else if (
+    meaningfulSpeedVariation &&
+    meaningfulDirectionVariation
+  ) {
+    patternType =
+      (
+        strongSpeedVariation ||
+        strongDirectionVariation
+      )
+        ? "pronounced-mixed-transition-pattern"
+        : "mixed-transition-pattern";
+
+    patternState =
+      "candidate";
+
+    dominantVariation =
+      "mixed";
+
+    interpretation =
+      "The surrounding current field shows combined spatial changes in current speed and direction.";
+  }
+
+  const inheritedLimitations =
+    [
+      ...(
+        Array.isArray(
+          spatialStructure
+            ?.limitations
+        )
+          ? spatialStructure
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          relationshipContext
+            ?.limitations
+        )
+          ? relationshipContext
+              .limitations
+          : []
+      )
+    ];
+
+  const limitations =
+    [
+      ...new Set([
+        ...inheritedLimitations,
+
+        "This result classifies the dominant measured form of spatial current variation only.",
+
+        "The current sampling geometry has not yet been used to establish vector rotation, radial flow, convergence, divergence, or shear.",
+
+        "A speed or directional transition is not proof of a current edge or eddy boundary.",
+
+        "No persistence, prey concentration, fish presence, habitat quality, or species suitability is inferred."
+      ])
+    ];
+
+  return {
+    available:
+      true,
+
+    patternType,
+
+    patternState,
+
+    dominantVariation,
+
+    evidence: {
+      relationshipAvailable:
+        true,
+
+      relationshipType,
+
+      relationshipState:
+        relationshipContext
+          ?.relationshipState ??
+        null,
+
+      organizationLevel:
+        relationshipContext
+          ?.organizationLevel ??
+        null,
+
+      sufficientCoverage,
+
+      coverage:
+        spatialStructure
+          ?.coverage ??
+        "unknown",
+
+      requestedSampleCount:
+        spatialStructure
+          ?.requestedSampleCount ??
+        null,
+
+      validSampleCount:
+        spatialStructure
+          ?.validSampleCount ??
+        null,
+
+      spatialVariation,
+
+      speedRangeKnots,
+
+      maximumDirectionDifferenceDegrees,
+
+      meaningfulSpeedVariation,
+
+      strongSpeedVariation,
+
+      meaningfulDirectionVariation,
+
+      strongDirectionVariation
+    },
+
+    interpretation,
+
+    limitations,
+
+    upstreamContracts: [
+      {
+        engine:
+          "current-spatial-structure",
+
+        version:
+          spatialStructure
+            ?.contractVersion ??
+          spatialStructure
+            ?.thresholdVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-relationship-context",
+
+        version:
+          relationshipContext
+            ?.contractVersion ??
+          null
+      }
+    ],
+
+    thresholdVersion:
+      "pelora-current-spatial-pattern-v1"
+  };
+}
+
+
 async function getCurrentConditions(
   latitude,
   longitude
