@@ -10540,6 +10540,523 @@ export function validateConfidenceContract(
 }
 
 
+
+/**
+ * ------------------------------------------------------------
+ * Evidence Lineage and Traceability Framework v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Record how a Pelora conclusion was produced, which upstream
+ * contracts contributed to it, which evidence was used, which
+ * evidence was unavailable, and which limitations or warnings
+ * propagated through the reasoning chain.
+ *
+ * Lineage is documentation only.
+ *
+ * It does not:
+ * - alter evidence
+ * - alter confidence
+ * - alter opportunity classification
+ * - alter habitat suitability
+ * - infer biological behavior
+ * - confirm fish presence
+ * - confirm feeding
+ */
+export const LINEAGE_ENGINE_TYPES = [
+  "data-assessment",
+  "ocean-evidence",
+  "environmental-opportunity",
+  "ocean-opportunity",
+  "relationship-context",
+  "relationship-assessment",
+  "species-pathway",
+  "opportunity-type",
+  "habitat-suitability"
+];
+
+
+export const LINEAGE_GOVERNANCE_RULES = {
+  lineageMayExplainReasoning:
+    true,
+
+  lineageMayChangeReasoning:
+    false,
+
+  lineageMayChangeConfidence:
+    false,
+
+  lineageMayChangeScores:
+    false,
+
+  lineageMayInferBiology:
+    false,
+
+  missingEvidenceMustRemainVisible:
+    true,
+
+  inheritedLimitationsMustRemainVisible:
+    true,
+
+  upstreamMethodVersionsMustBePreserved:
+    true
+};
+
+
+export const EVIDENCE_LINEAGE_FRAMEWORK = {
+  requiredFields: [
+    "upstream",
+    "evidenceUsed",
+    "evidenceUnavailable",
+    "inheritedLimitations",
+    "inheritedWarnings",
+    "producedBy",
+    "methodVersion"
+  ],
+
+  optionalFields: [
+    "traceId",
+    "components"
+  ],
+
+  allowedProducedBy:
+    LINEAGE_ENGINE_TYPES,
+
+  requiredUpstreamFields: [
+    "engine",
+    "methodVersion"
+  ],
+
+  rules:
+    LINEAGE_GOVERNANCE_RULES,
+
+  methodVersion:
+    "pelora-evidence-lineage-framework-v1.0"
+};
+
+
+/**
+ * Validate a governed upstream lineage reference.
+ */
+export function validateLineageUpstreamReference(
+  reference,
+  {
+    path =
+      "lineage:upstream"
+  } = {}
+) {
+  const errors = [];
+  const warnings = [];
+
+  if (
+    !reference ||
+    typeof reference !==
+      "object" ||
+    Array.isArray(
+      reference
+    )
+  ) {
+    return {
+      valid:
+        false,
+
+      errors: [
+        `${path}:reference-must-be-an-object`
+      ],
+
+      warnings: [],
+
+      methodVersion:
+        "pelora-lineage-upstream-validation-v1.0"
+    };
+  }
+
+  for (
+    const field
+    of EVIDENCE_LINEAGE_FRAMEWORK
+      .requiredUpstreamFields
+  ) {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        reference,
+        field
+      )
+    ) {
+      errors.push(
+        `${path}:missing-upstream-field:${field}`
+      );
+    }
+  }
+
+  if (
+    !LINEAGE_ENGINE_TYPES.includes(
+      reference.engine
+    )
+  ) {
+    errors.push(
+      `${path}:invalid-upstream-engine`
+    );
+  }
+
+  if (
+    typeof reference.methodVersion !==
+      "string" ||
+    reference.methodVersion
+      .trim()
+      .length === 0
+  ) {
+    errors.push(
+      `${path}:upstream-method-version-required`
+    );
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(
+      reference,
+      "traceId"
+    ) &&
+    (
+      typeof reference.traceId !==
+        "string" ||
+      reference.traceId
+        .trim()
+        .length === 0
+    )
+  ) {
+    errors.push(
+      `${path}:trace-id-must-be-a-nonempty-string`
+    );
+  }
+
+  return {
+    valid:
+      errors.length === 0,
+
+    engine:
+      reference.engine ??
+      null,
+
+    methodVersion:
+      reference.methodVersion ??
+      null,
+
+    errors: [
+      ...new Set(
+        errors
+      )
+    ],
+
+    warnings: [
+      ...new Set(
+        warnings
+      )
+    ],
+
+    validationMethodVersion:
+      "pelora-lineage-upstream-validation-v1.0"
+  };
+}
+
+
+/**
+ * Validate an Evidence Lineage and Traceability contract.
+ *
+ * Validation is observational only. It does not modify the
+ * conclusion, upstream contracts, evidence, confidence, or
+ * scientific interpretation.
+ */
+export function validateEvidenceLineage(
+  lineage,
+  {
+    path =
+      "lineage"
+  } = {}
+) {
+  const errors = [];
+  const warnings = [];
+
+  if (
+    !lineage ||
+    typeof lineage !==
+      "object" ||
+    Array.isArray(
+      lineage
+    )
+  ) {
+    return {
+      valid:
+        false,
+
+      errors: [
+        `${path}:lineage-must-be-an-object`
+      ],
+
+      warnings: [],
+
+      methodVersion:
+        "pelora-evidence-lineage-validation-v1.0"
+    };
+  }
+
+  for (
+    const field
+    of EVIDENCE_LINEAGE_FRAMEWORK
+      .requiredFields
+  ) {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        lineage,
+        field
+      )
+    ) {
+      errors.push(
+        `${path}:missing-lineage-field:${field}`
+      );
+    }
+  }
+
+  const arrayFields = [
+    "upstream",
+    "evidenceUsed",
+    "evidenceUnavailable",
+    "inheritedLimitations",
+    "inheritedWarnings"
+  ];
+
+  for (
+    const field
+    of arrayFields
+  ) {
+    if (
+      !Array.isArray(
+        lineage[field]
+      )
+    ) {
+      errors.push(
+        `${path}:${field}-must-be-an-array`
+      );
+    }
+  }
+
+  if (
+    !LINEAGE_ENGINE_TYPES.includes(
+      lineage.producedBy
+    )
+  ) {
+    errors.push(
+      `${path}:invalid-produced-by`
+    );
+  }
+
+  if (
+    typeof lineage.methodVersion !==
+      "string" ||
+    lineage.methodVersion
+      .trim()
+      .length === 0
+  ) {
+    errors.push(
+      `${path}:method-version-required`
+    );
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(
+      lineage,
+      "traceId"
+    ) &&
+    (
+      typeof lineage.traceId !==
+        "string" ||
+      lineage.traceId
+        .trim()
+        .length === 0
+    )
+  ) {
+    errors.push(
+      `${path}:trace-id-must-be-a-nonempty-string`
+    );
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(
+      lineage,
+      "components"
+    ) &&
+    (
+      !lineage.components ||
+      typeof lineage.components !==
+        "object" ||
+      Array.isArray(
+        lineage.components
+      )
+    )
+  ) {
+    errors.push(
+      `${path}:components-must-be-an-object`
+    );
+  }
+
+  if (
+    Array.isArray(
+      lineage.upstream
+    )
+  ) {
+    lineage.upstream.forEach(
+      (
+        reference,
+        index
+      ) => {
+        const validation =
+          validateLineageUpstreamReference(
+            reference,
+            {
+              path:
+                `${path}:upstream:${index}`
+            }
+          );
+
+        errors.push(
+          ...validation.errors
+        );
+
+        warnings.push(
+          ...validation.warnings
+        );
+      }
+    );
+  }
+
+  for (
+    const field
+    of [
+      "evidenceUsed",
+      "evidenceUnavailable",
+      "inheritedLimitations",
+      "inheritedWarnings"
+    ]
+  ) {
+    if (
+      Array.isArray(
+        lineage[field]
+      )
+    ) {
+      lineage[field].forEach(
+        (
+          value,
+          index
+        ) => {
+          if (
+            typeof value !==
+              "string" ||
+            value.trim().length ===
+              0
+          ) {
+            errors.push(
+              `${path}:${field}:${index}:must-be-a-nonempty-string`
+            );
+          }
+        }
+      );
+    }
+  }
+
+  if (
+    Array.isArray(
+      lineage.upstream
+    ) &&
+    lineage.upstream.length === 0
+  ) {
+    warnings.push(
+      `${path}:no-upstream-contracts-recorded`
+    );
+  }
+
+  if (
+    Array.isArray(
+      lineage.evidenceUsed
+    ) &&
+    lineage.evidenceUsed.length ===
+      0
+  ) {
+    warnings.push(
+      `${path}:no-used-evidence-recorded`
+    );
+  }
+
+  if (
+    Array.isArray(
+      lineage.evidenceUnavailable
+    ) &&
+    lineage.evidenceUnavailable.length ===
+      0
+  ) {
+    warnings.push(
+      `${path}:no-unavailable-evidence-recorded`
+    );
+  }
+
+  return {
+    valid:
+      errors.length === 0,
+
+    producedBy:
+      lineage.producedBy ??
+      null,
+
+    upstreamCount:
+      Array.isArray(
+        lineage.upstream
+      )
+        ? lineage.upstream.length
+        : 0,
+
+    evidenceUsedCount:
+      Array.isArray(
+        lineage.evidenceUsed
+      )
+        ? lineage.evidenceUsed.length
+        : 0,
+
+    evidenceUnavailableCount:
+      Array.isArray(
+        lineage.evidenceUnavailable
+      )
+        ? lineage.evidenceUnavailable.length
+        : 0,
+
+    inheritedLimitationCount:
+      Array.isArray(
+        lineage.inheritedLimitations
+      )
+        ? lineage.inheritedLimitations.length
+        : 0,
+
+    inheritedWarningCount:
+      Array.isArray(
+        lineage.inheritedWarnings
+      )
+        ? lineage.inheritedWarnings.length
+        : 0,
+
+    errors: [
+      ...new Set(
+        errors
+      )
+    ],
+
+    warnings: [
+      ...new Set(
+        warnings
+      )
+    ],
+
+    methodVersion:
+      "pelora-evidence-lineage-validation-v1.0"
+  };
+}
+
+
 /**
  * Convert a governed relationship-importance label into the
  * internal value used by the generic resolver.

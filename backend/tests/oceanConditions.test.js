@@ -26,7 +26,12 @@ import {
   CONFIDENCE_GOVERNANCE_FRAMEWORK,
   normalizeConfidenceScore,
   confidenceLevelForScore,
-  validateConfidenceContract
+  validateConfidenceContract,
+  LINEAGE_ENGINE_TYPES,
+  LINEAGE_GOVERNANCE_RULES,
+  EVIDENCE_LINEAGE_FRAMEWORK,
+  validateLineageUpstreamReference,
+  validateEvidenceLineage
 } from "../server.js";
 
 
@@ -11042,4 +11047,476 @@ assert.ok(
 
 console.log(
   "PASS Confidence Governance Framework discloses independently supported confidence increases"
+);
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Evidence Lineage and Traceability Framework v1.0
+ * ------------------------------------------------------------
+ */
+
+assert.deepEqual(
+  LINEAGE_ENGINE_TYPES,
+  [
+    "data-assessment",
+    "ocean-evidence",
+    "environmental-opportunity",
+    "ocean-opportunity",
+    "relationship-context",
+    "relationship-assessment",
+    "species-pathway",
+    "opportunity-type",
+    "habitat-suitability"
+  ]
+);
+
+assert.equal(
+  LINEAGE_GOVERNANCE_RULES
+    .lineageMayChangeReasoning,
+  false
+);
+
+assert.equal(
+  LINEAGE_GOVERNANCE_RULES
+    .lineageMayChangeConfidence,
+  false
+);
+
+assert.equal(
+  LINEAGE_GOVERNANCE_RULES
+    .missingEvidenceMustRemainVisible,
+  true
+);
+
+assert.equal(
+  EVIDENCE_LINEAGE_FRAMEWORK
+    .methodVersion,
+  "pelora-evidence-lineage-framework-v1.0"
+);
+
+
+const validUpstreamReference =
+  validateLineageUpstreamReference({
+    engine:
+      "ocean-evidence",
+
+    methodVersion:
+      "pelora-ocean-evidence-v2.0",
+
+    traceId:
+      "trace-ocean-evidence-001"
+  });
+
+
+assert.equal(
+  validUpstreamReference
+    .valid,
+  true
+);
+
+assert.equal(
+  validUpstreamReference
+    .engine,
+  "ocean-evidence"
+);
+
+
+const completeLineageValidation =
+  validateEvidenceLineage({
+    traceId:
+      "trace-relationship-assessment-001",
+
+    upstream: [
+      {
+        engine:
+          "ocean-evidence",
+
+        methodVersion:
+          "pelora-ocean-evidence-v2.0",
+
+        traceId:
+          "trace-ocean-evidence-001"
+      },
+
+      {
+        engine:
+          "ocean-opportunity",
+
+        methodVersion:
+          "pelora-ocean-opportunity-v1.0",
+
+        traceId:
+          "trace-ocean-opportunity-001"
+      }
+    ],
+
+    evidenceUsed: [
+      "temperature-transition",
+      "organized-current",
+      "surface-water-boundary"
+    ],
+
+    evidenceUnavailable: [
+      "temporal-persistence"
+    ],
+
+    inheritedLimitations: [
+      "single-point-current-observation"
+    ],
+
+    inheritedWarnings: [
+      "spatial-validation-unavailable"
+    ],
+
+    producedBy:
+      "relationship-assessment",
+
+    components: {},
+
+    methodVersion:
+      "pelora-relationship-lineage-v1.0"
+  });
+
+
+assert.equal(
+  completeLineageValidation
+    .valid,
+  true
+);
+
+assert.equal(
+  completeLineageValidation
+    .upstreamCount,
+  2
+);
+
+assert.equal(
+  completeLineageValidation
+    .evidenceUsedCount,
+  3
+);
+
+assert.equal(
+  completeLineageValidation
+    .evidenceUnavailableCount,
+  1
+);
+
+assert.equal(
+  completeLineageValidation
+    .inheritedLimitationCount,
+  1
+);
+
+assert.equal(
+  completeLineageValidation
+    .inheritedWarningCount,
+  1
+);
+
+console.log(
+  "PASS Evidence Lineage Framework validates a complete governed lineage contract"
+);
+
+
+const missingLineageFields =
+  validateEvidenceLineage({
+    upstream: [],
+
+    evidenceUsed: [],
+
+    producedBy:
+      "ocean-evidence",
+
+    methodVersion:
+      "test-lineage-v1.0"
+  });
+
+
+assert.equal(
+  missingLineageFields
+    .valid,
+  false
+);
+
+assert.ok(
+  missingLineageFields
+    .errors
+    .includes(
+      "lineage:missing-lineage-field:evidenceUnavailable"
+    )
+);
+
+assert.ok(
+  missingLineageFields
+    .errors
+    .includes(
+      "lineage:missing-lineage-field:inheritedLimitations"
+    )
+);
+
+assert.ok(
+  missingLineageFields
+    .errors
+    .includes(
+      "lineage:missing-lineage-field:inheritedWarnings"
+    )
+);
+
+console.log(
+  "PASS Evidence Lineage Framework rejects incomplete lineage contracts"
+);
+
+
+const invalidProducedBy =
+  validateEvidenceLineage({
+    upstream: [],
+
+    evidenceUsed: [],
+
+    evidenceUnavailable: [],
+
+    inheritedLimitations: [],
+
+    inheritedWarnings: [],
+
+    producedBy:
+      "fish-presence-engine",
+
+    methodVersion:
+      "test-invalid-produced-by-v1.0"
+  });
+
+
+assert.equal(
+  invalidProducedBy
+    .valid,
+  false
+);
+
+assert.ok(
+  invalidProducedBy
+    .errors
+    .includes(
+      "lineage:invalid-produced-by"
+    )
+);
+
+console.log(
+  "PASS Evidence Lineage Framework rejects unknown producing engines"
+);
+
+
+const invalidUpstreamReference =
+  validateEvidenceLineage({
+    upstream: [
+      {
+        engine:
+          "unknown-engine",
+
+        methodVersion:
+          ""
+      }
+    ],
+
+    evidenceUsed: [
+      "temperature-transition"
+    ],
+
+    evidenceUnavailable: [],
+
+    inheritedLimitations: [],
+
+    inheritedWarnings: [],
+
+    producedBy:
+      "ocean-opportunity",
+
+    methodVersion:
+      "test-invalid-upstream-v1.0"
+  });
+
+
+assert.equal(
+  invalidUpstreamReference
+    .valid,
+  false
+);
+
+assert.ok(
+  invalidUpstreamReference
+    .errors
+    .includes(
+      "lineage:upstream:0:invalid-upstream-engine"
+    )
+);
+
+assert.ok(
+  invalidUpstreamReference
+    .errors
+    .includes(
+      "lineage:upstream:0:upstream-method-version-required"
+    )
+);
+
+console.log(
+  "PASS Evidence Lineage Framework rejects invalid upstream references"
+);
+
+
+const invalidEvidenceEntries =
+  validateEvidenceLineage({
+    upstream: [],
+
+    evidenceUsed: [
+      "",
+      null
+    ],
+
+    evidenceUnavailable: [
+      "temporal-persistence"
+    ],
+
+    inheritedLimitations: [
+      ""
+    ],
+
+    inheritedWarnings: [
+      "spatial-validation-unavailable"
+    ],
+
+    producedBy:
+      "habitat-suitability",
+
+    methodVersion:
+      "test-invalid-evidence-entry-v1.0"
+  });
+
+
+assert.equal(
+  invalidEvidenceEntries
+    .valid,
+  false
+);
+
+assert.ok(
+  invalidEvidenceEntries
+    .errors
+    .includes(
+      "lineage:evidenceUsed:0:must-be-a-nonempty-string"
+    )
+);
+
+assert.ok(
+  invalidEvidenceEntries
+    .errors
+    .includes(
+      "lineage:evidenceUsed:1:must-be-a-nonempty-string"
+    )
+);
+
+assert.ok(
+  invalidEvidenceEntries
+    .errors
+    .includes(
+      "lineage:inheritedLimitations:0:must-be-a-nonempty-string"
+    )
+);
+
+console.log(
+  "PASS Evidence Lineage Framework rejects malformed lineage entries"
+);
+
+
+const undocumentedLineageValidation =
+  validateEvidenceLineage({
+    upstream: [],
+
+    evidenceUsed: [],
+
+    evidenceUnavailable: [],
+
+    inheritedLimitations: [],
+
+    inheritedWarnings: [],
+
+    producedBy:
+      "data-assessment",
+
+    methodVersion:
+      "test-undocumented-lineage-v1.0"
+  });
+
+
+assert.equal(
+  undocumentedLineageValidation
+    .valid,
+  true
+);
+
+assert.ok(
+  undocumentedLineageValidation
+    .warnings
+    .includes(
+      "lineage:no-upstream-contracts-recorded"
+    )
+);
+
+assert.ok(
+  undocumentedLineageValidation
+    .warnings
+    .includes(
+      "lineage:no-used-evidence-recorded"
+    )
+);
+
+assert.ok(
+  undocumentedLineageValidation
+    .warnings
+    .includes(
+      "lineage:no-unavailable-evidence-recorded"
+    )
+);
+
+console.log(
+  "PASS Evidence Lineage Framework preserves valid empty lineage while disclosing documentation gaps"
+);
+
+
+const explicitEmptyLineageArrays =
+  validateEvidenceLineage({
+    upstream: [],
+
+    evidenceUsed: [],
+
+    evidenceUnavailable: [],
+
+    inheritedLimitations: [],
+
+    inheritedWarnings: [],
+
+    producedBy:
+      "data-assessment",
+
+    methodVersion:
+      "test-explicit-empty-lineage-v1.0"
+  });
+
+
+assert.equal(
+  explicitEmptyLineageArrays
+    .errors
+    .some(
+      error =>
+        error.includes(
+          "missing-lineage-field"
+        )
+    ),
+  false
+);
+
+console.log(
+  "PASS Evidence Lineage Framework distinguishes explicit empty arrays from missing fields"
 );
