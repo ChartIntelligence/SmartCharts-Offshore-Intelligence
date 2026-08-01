@@ -8250,10 +8250,12 @@ function buildCurrentEvidence(
     speedKnots !== null &&
     directionDegrees !== null;
 
-  const spatialAnalysis =
+   const spatialAnalysis =
+    currents?.derived
+      ?.spatialAnalysis ??
     buildCurrentSpatialAnalysis(
-     currents
-  );
+      currents
+    );
 
   const drivers = [];
 
@@ -8373,52 +8375,79 @@ function buildCurrentEvidence(
     };
   }
 
-  let classification =
+   let classification =
     strengthClassification ??
     "current-observation";
 
+  const formattedSpeedKnots =
+    Number.isFinite(
+      speedKnots
+    )
+      ? Number(
+          speedKnots
+            .toFixed(1)
+        )
+      : null;
+
+  const directionDescription =
+    compassDirection
+      ? ` toward ${compassDirection}`
+      : "";
+
   let headline =
-    "A local current observation is available.";
+    formattedSpeedKnots !== null
+      ? `Current is moving${directionDescription} at ${formattedSpeedKnots} knots.`
+      : "A local current observation is available.";
 
   let detail =
-    "Pelora has a single-point current-speed and direction observation. Spatial current structure cannot be determined from this observation alone.";
+    "This direct observation describes current speed and direction at the selected point.";
+
+  const convergence =
+    spatialAnalysis
+      ?.convergence ??
+    null;
 
   if (
-    strengthClassification ===
-    "weak"
+    convergence
+      ?.available ===
+      true &&
+    convergence
+      ?.convergenceState ===
+      "candidate"
   ) {
-    headline =
-      "A weak local current is present.";
+    classification =
+      convergence
+        ?.convergenceType ??
+      classification;
 
-    detail =
-      "The available observation indicates weak current flow at this point. It does not establish nearby convergence, shear, edges, or broader current organization.";
+    if (
+      convergence
+        ?.convergenceType ===
+        "pronounced-convergence-candidate"
+    ) {
+      detail =
+        "Surrounding current vectors show pronounced inward flow from opposing sides, supporting a pronounced convergence candidate. This describes horizontal surface-current geometry only and does not confirm persistence, prey concentration, habitat quality, or fish presence.";
+    } else {
+      detail =
+        "Surrounding current vectors show meaningful inward flow from opposing sides, supporting a measurable convergence candidate. This describes horizontal surface-current geometry only and does not confirm persistence, prey concentration, habitat quality, or fish presence.";
+    }
   } else if (
-    strengthClassification ===
-    "moderate"
+    convergence
+      ?.convergenceState ===
+      "incomplete-support"
   ) {
-    headline =
-      "A moderate local current is present.";
-
     detail =
-      "The available observation indicates moderate current flow at this point. Spatial organization and persistence are not established.";
+      "Localized inward flow is present in part of the surrounding current field, but the evidence is not distributed broadly enough to support a convergence candidate.";
   } else if (
-    strengthClassification ===
-    "strong"
+    spatialAnalysis
+      ?.available ===
+      true
   ) {
-    headline =
-      "A strong local current is present.";
-
     detail =
-      "The available observation indicates strong current flow at this point. A single observation cannot determine whether the flow forms an edge, convergence zone, shear zone, or persistent feature.";
-  } else if (
-    strengthClassification ===
-    "very-strong"
-  ) {
-    headline =
-      "A very strong local current is present.";
-
+      "The surrounding current field was evaluated, but distributed inward flow was not sufficient to support a convergence candidate.";
+  } else {
     detail =
-      "The available observation indicates very strong current flow at this point. This describes current strength only and does not confirm spatial organization or biological importance.";
+      "Spatial current structure could not be established from the available surrounding observations.";
   }
 
   if (
@@ -18658,6 +18687,81 @@ async function getOceanConditions(
 
 
 
+  const currentSpatialResult =
+    await settleWithTiming(
+      () =>
+        getCurrentSpatialStructure(
+          latitude,
+          longitude
+        )
+    );
+
+
+  const currentSpatialStructure =
+    currentSpatialResult.status ===
+    "fulfilled"
+      ? currentSpatialResult.value
+      : {
+          available:
+            false,
+
+          observationType:
+            "spatial-current-sampling",
+
+          coverage:
+            "unavailable",
+
+          requestedSampleCount:
+            4,
+
+          validSampleCount:
+            0,
+
+          failedSampleCount:
+            4,
+
+          sufficientCoverage:
+            false,
+
+          sampleRadiusNauticalMiles:
+            CURRENT_SPATIAL_SAMPLE_RADIUS_NM,
+
+          vectors:
+            [],
+
+          measurements: {
+            minimumSpeedKnots:
+              null,
+
+            maximumSpeedKnots:
+              null,
+
+            speedRangeKnots:
+              null,
+
+            maximumDirectionDifferenceDegrees:
+              null,
+
+            spatialVariation:
+              "insufficient-spatial-current-data"
+          },
+
+          limitations: [
+            "Spatial current sampling was unavailable."
+          ]
+        };
+
+
+  if (
+    currentSpatialResult.status ===
+    "rejected"
+  ) {
+    console.warn(
+      "Current spatial analysis failed:",
+      currentSpatialResult.reason
+    );
+  }
+
   const chlorophyll =
     chlorophyllResult.status ===
     "fulfilled"
@@ -18709,6 +18813,82 @@ async function getOceanConditions(
           }
         };
 
+
+           const currentOrganization =
+    buildCurrentOrganizationAnalysis(
+      currentSpatialStructure
+    );
+
+
+  const currentRelationshipContext =
+    buildCurrentRelationshipContext(
+      currentOrganization
+    );
+
+
+  const currentSpatialPattern =
+    buildCurrentSpatialPatternAnalysis(
+      currentSpatialStructure,
+      currentRelationshipContext
+    );
+
+
+  const currentVectorProjection =
+    buildCurrentVectorProjectionAnalysis(
+      currentSpatialStructure
+    );
+
+
+  const currentConvergence =
+    buildCurrentConvergenceAnalysis(
+      currentVectorProjection
+    );
+
+
+  currents.derived = {
+    ...(
+      currents
+        ?.derived ??
+      {}
+    ),
+
+    spatialAnalysis: {
+      available:
+        currentSpatialStructure
+          ?.available ===
+        true,
+
+      spatialStructure:
+        currentSpatialStructure,
+
+      organization:
+        currentOrganization,
+
+      relationshipContext:
+        currentRelationshipContext,
+
+      spatialPattern:
+        currentSpatialPattern,
+
+      vectorProjection:
+        currentVectorProjection,
+
+      convergence:
+        currentConvergence,
+
+      shear:
+        null,
+
+      edge:
+        null,
+
+      eddyBoundary:
+        null,
+
+      contractVersion:
+        "pelora-current-spatial-analysis-v1"
+    }
+  };
 
   if (
     chlorophyllResult.status ===
