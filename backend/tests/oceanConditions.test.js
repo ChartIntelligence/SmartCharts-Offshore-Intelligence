@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 
 import {
   buildCurrentGradientAnalysis,
+  buildCurrentShearAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
   assessOceanOpportunity,
@@ -15753,4 +15754,410 @@ assert.equal(
 
 console.log(
   "PASS Current Gradient Analysis requires sufficient vector-projection coverage"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Shear Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildShearGradient = ({
+  coverage = "complete",
+  axisComparisons = []
+} = {}) => ({
+  available:
+    axisComparisons.some(
+      comparison =>
+        comparison.available ===
+        true
+    ),
+
+  analysisType:
+    "current-gradient-analysis",
+
+  coverage,
+
+  requestedAxisCount:
+    2,
+
+  validAxisCount:
+    axisComparisons.filter(
+      comparison =>
+        comparison.available ===
+        true
+    ).length,
+
+  failedAxisCount:
+    axisComparisons.filter(
+      comparison =>
+        comparison.available !==
+        true
+    ).length,
+
+  sufficientCoverage:
+    axisComparisons.some(
+      comparison =>
+        comparison.available ===
+        true
+    ),
+
+  axisComparisons,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-current-gradient-v1"
+});
+
+
+const uniformShearGradient =
+  buildShearGradient({
+    axisComparisons: [
+      {
+        axis:
+          "north-south",
+
+        available:
+          true,
+
+        totalVectorGradientMetersPerSecondPerNauticalMile:
+          0,
+
+        tangentialGradientMetersPerSecondPerNauticalMile:
+          0,
+
+        radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+          0
+      },
+
+      {
+        axis:
+          "east-west",
+
+        available:
+          true,
+
+        totalVectorGradientMetersPerSecondPerNauticalMile:
+          0.004,
+
+        tangentialGradientMetersPerSecondPerNauticalMile:
+          0.003,
+
+        radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+          0.001
+      }
+    ]
+  });
+
+
+const uniformCurrentShear =
+  buildCurrentShearAnalysis(
+    uniformShearGradient
+  );
+
+assert.equal(
+  uniformCurrentShear.available,
+  true
+);
+
+assert.equal(
+  uniformCurrentShear.currentShearDetected,
+  false
+);
+
+assert.equal(
+  uniformCurrentShear.shearType,
+  "no-shear-candidate"
+);
+
+assert.equal(
+  uniformCurrentShear.shearState,
+  "not-supported"
+);
+
+assert.equal(
+  uniformCurrentShear.shearStrength,
+  "none"
+);
+
+assert.equal(
+  uniformCurrentShear.contractVersion,
+  "pelora-current-shear-v1"
+);
+
+console.log(
+  "PASS Current Shear Analysis rejects weak horizontal gradients"
+);
+
+
+const measurableShearGradient =
+  buildShearGradient({
+    axisComparisons: [
+      {
+        axis:
+          "north-south",
+
+        available:
+          true,
+
+        totalVectorGradientMetersPerSecondPerNauticalMile:
+          0.014,
+
+        tangentialGradientMetersPerSecondPerNauticalMile:
+          0.011,
+
+        radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+          0.006
+      },
+
+      {
+        axis:
+          "east-west",
+
+        available:
+          true,
+
+        totalVectorGradientMetersPerSecondPerNauticalMile:
+          0.004,
+
+        tangentialGradientMetersPerSecondPerNauticalMile:
+          0.003,
+
+        radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+          0.002
+      }
+    ]
+  });
+
+
+const measurableCurrentShear =
+  buildCurrentShearAnalysis(
+    measurableShearGradient
+  );
+
+assert.equal(
+  measurableCurrentShear.available,
+  true
+);
+
+assert.equal(
+  measurableCurrentShear.currentShearDetected,
+  true
+);
+
+assert.equal(
+  measurableCurrentShear.shearType,
+  "horizontal-shear-candidate"
+);
+
+assert.equal(
+  measurableCurrentShear.shearState,
+  "candidate"
+);
+
+assert.equal(
+  measurableCurrentShear.shearStrength,
+  "measurable"
+);
+
+assert.deepEqual(
+  measurableCurrentShear.evidence
+    .supportingAxes,
+  [
+    "north-south"
+  ]
+);
+
+console.log(
+  "PASS Current Shear Analysis identifies a measurable horizontal shear candidate"
+);
+
+
+const pronouncedShearGradient =
+  buildShearGradient({
+    axisComparisons: [
+      {
+        axis:
+          "north-south",
+
+        available:
+          true,
+
+        totalVectorGradientMetersPerSecondPerNauticalMile:
+          0.024,
+
+        tangentialGradientMetersPerSecondPerNauticalMile:
+          0.019,
+
+        radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+          0.011
+      },
+
+      {
+        axis:
+          "east-west",
+
+        available:
+          true,
+
+        totalVectorGradientMetersPerSecondPerNauticalMile:
+          0.013,
+
+        tangentialGradientMetersPerSecondPerNauticalMile:
+          0.009,
+
+        radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+          0.007
+      }
+    ]
+  });
+
+
+const pronouncedCurrentShear =
+  buildCurrentShearAnalysis(
+    pronouncedShearGradient
+  );
+
+assert.equal(
+  pronouncedCurrentShear.currentShearDetected,
+  true
+);
+
+assert.equal(
+  pronouncedCurrentShear.shearType,
+  "pronounced-horizontal-shear-candidate"
+);
+
+assert.equal(
+  pronouncedCurrentShear.shearStrength,
+  "pronounced"
+);
+
+assert.equal(
+  pronouncedCurrentShear.evidence
+    .strongAxisCount,
+  1
+);
+
+assert.equal(
+  pronouncedCurrentShear.evidence
+    .meaningfulAxisCount,
+  2
+);
+
+console.log(
+  "PASS Current Shear Analysis identifies pronounced horizontal shear"
+);
+
+
+const partialShearGradient =
+  buildShearGradient({
+    coverage:
+      "partial",
+
+    axisComparisons: [
+      {
+        axis:
+          "north-south",
+
+        available:
+          true,
+
+        totalVectorGradientMetersPerSecondPerNauticalMile:
+          0.018,
+
+        tangentialGradientMetersPerSecondPerNauticalMile:
+          0.012,
+
+        radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+          0.008
+      },
+
+      {
+        axis:
+          "east-west",
+
+        available:
+          false,
+
+        reason:
+          "missing-opposing-projection"
+      }
+    ]
+  });
+
+
+const partialCurrentShear =
+  buildCurrentShearAnalysis(
+    partialShearGradient
+  );
+
+assert.equal(
+  partialCurrentShear.available,
+  true
+);
+
+assert.equal(
+  partialCurrentShear.currentShearDetected,
+  false
+);
+
+assert.equal(
+  partialCurrentShear.shearType,
+  "localized-horizontal-velocity-change"
+);
+
+assert.equal(
+  partialCurrentShear.shearState,
+  "incomplete-support"
+);
+
+console.log(
+  "PASS Current Shear Analysis preserves localized change under partial coverage"
+);
+
+
+const unavailableCurrentShear =
+  buildCurrentShearAnalysis({
+    available:
+      false,
+
+    coverage:
+      "unavailable",
+
+    sufficientCoverage:
+      false,
+
+    axisComparisons:
+      [],
+
+    contractVersion:
+      "pelora-current-gradient-v1"
+  });
+
+assert.equal(
+  unavailableCurrentShear.available,
+  false
+);
+
+assert.equal(
+  unavailableCurrentShear.currentShearDetected,
+  false
+);
+
+assert.equal(
+  unavailableCurrentShear.shearType,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableCurrentShear.shearState,
+  "insufficient-evidence"
+);
+
+console.log(
+  "PASS Current Shear Analysis requires available gradient evidence"
 );

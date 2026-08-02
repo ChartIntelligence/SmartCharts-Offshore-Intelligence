@@ -3191,6 +3191,399 @@ export function buildCurrentGradientAnalysis(
 }
 
 
+export function buildCurrentShearAnalysis(
+  currentGradient
+) {
+  const axisComparisons =
+    Array.isArray(
+      currentGradient
+        ?.axisComparisons
+    )
+      ? currentGradient
+          .axisComparisons
+      : [];
+
+  const validAxisComparisons =
+    axisComparisons.filter(
+      comparison =>
+        comparison
+          ?.available ===
+          true &&
+        typeof comparison
+          ?.axis ===
+          "string" &&
+        Number.isFinite(
+          comparison
+            ?.totalVectorGradientMetersPerSecondPerNauticalMile
+        ) &&
+        Number.isFinite(
+          comparison
+            ?.tangentialGradientMetersPerSecondPerNauticalMile
+        ) &&
+        Number.isFinite(
+          comparison
+            ?.radialAsymmetryGradientMetersPerSecondPerNauticalMile
+        )
+    );
+
+  /*
+   * These thresholds identify meaningful horizontal
+   * surface-current velocity change across an opposing
+   * spatial-sampling axis.
+   *
+   * They do not establish a current edge, front,
+   * turbulence, persistence, prey concentration,
+   * habitat quality, or biological use.
+   */
+  const meaningfulTotalVectorGradientMetersPerSecondPerNauticalMile =
+    0.01;
+
+  const strongTotalVectorGradientMetersPerSecondPerNauticalMile =
+    0.02;
+
+  const meaningfulAxisComparisons =
+    validAxisComparisons.filter(
+      comparison =>
+        comparison
+          .totalVectorGradientMetersPerSecondPerNauticalMile >=
+        meaningfulTotalVectorGradientMetersPerSecondPerNauticalMile
+    );
+
+  const strongAxisComparisons =
+    validAxisComparisons.filter(
+      comparison =>
+        comparison
+          .totalVectorGradientMetersPerSecondPerNauticalMile >=
+        strongTotalVectorGradientMetersPerSecondPerNauticalMile
+    );
+
+  const completeAxisCoverage =
+    currentGradient
+      ?.coverage ===
+      "complete" &&
+    validAxisComparisons.length >=
+      2;
+
+  const sufficientCoverage =
+    currentGradient
+      ?.available ===
+      true &&
+    currentGradient
+      ?.sufficientCoverage ===
+      true &&
+    validAxisComparisons.length >=
+      1;
+
+  const meaningfulAxisCount =
+    meaningfulAxisComparisons.length;
+
+  const strongAxisCount =
+    strongAxisComparisons.length;
+
+  const supportingAxes =
+    meaningfulAxisComparisons.map(
+      comparison =>
+        comparison.axis
+    );
+
+  const maximumTotalVectorGradient =
+    validAxisComparisons.length > 0
+      ? Math.max(
+          ...validAxisComparisons.map(
+            comparison =>
+              comparison
+                .totalVectorGradientMetersPerSecondPerNauticalMile
+          )
+        )
+      : null;
+
+  const maximumTangentialGradient =
+    validAxisComparisons.length > 0
+      ? Math.max(
+          ...validAxisComparisons.map(
+            comparison =>
+              comparison
+                .tangentialGradientMetersPerSecondPerNauticalMile
+          )
+        )
+      : null;
+
+  const maximumRadialAsymmetryGradient =
+    validAxisComparisons.length > 0
+      ? Math.max(
+          ...validAxisComparisons.map(
+            comparison =>
+              comparison
+                .radialAsymmetryGradientMetersPerSecondPerNauticalMile
+          )
+        )
+      : null;
+
+  let available =
+    sufficientCoverage;
+
+  let currentShearDetected =
+    false;
+
+  let shearType =
+    "unavailable";
+
+  let shearState =
+    "insufficient-evidence";
+
+  let shearStrength =
+    "unknown";
+
+  let interpretation =
+    "Horizontal current shear cannot be evaluated from the available Current Gradient Analysis.";
+
+  if (sufficientCoverage) {
+    shearType =
+      "no-shear-candidate";
+
+    shearState =
+      "not-supported";
+
+    shearStrength =
+      "none";
+
+    interpretation =
+      "The available opposing-axis measurements do not show a sufficiently strong horizontal velocity gradient to support a current-shear candidate.";
+
+    if (
+      meaningfulAxisCount >
+        0 &&
+      !completeAxisCoverage
+    ) {
+      shearType =
+        "localized-horizontal-velocity-change";
+
+      shearState =
+        "incomplete-support";
+
+      shearStrength =
+        strongAxisCount > 0
+          ? "strong-localized"
+          : "localized";
+
+      interpretation =
+        "Meaningful horizontal velocity change is present on an available opposing axis, but complete two-axis coverage is unavailable.";
+    } else if (
+      completeAxisCoverage &&
+      (
+        strongAxisCount >=
+          1 ||
+        meaningfulAxisCount >=
+          2
+      )
+    ) {
+      currentShearDetected =
+        true;
+
+      shearType =
+        "pronounced-horizontal-shear-candidate";
+
+      shearState =
+        "candidate";
+
+      shearStrength =
+        "pronounced";
+
+      interpretation =
+        strongAxisCount >=
+          1
+          ? "At least one opposing axis shows a strong horizontal velocity gradient with complete two-axis spatial coverage."
+          : "Both opposing axes show meaningful horizontal velocity gradients across the sampled current field.";
+    } else if (
+      completeAxisCoverage &&
+      meaningfulAxisCount ===
+        1
+    ) {
+      currentShearDetected =
+        true;
+
+      shearType =
+        "horizontal-shear-candidate";
+
+      shearState =
+        "candidate";
+
+      shearStrength =
+        "measurable";
+
+      interpretation =
+        "One opposing axis shows a meaningful horizontal velocity gradient while complete two-axis spatial coverage is available.";
+    }
+  }
+
+  const inheritedLimitations =
+    Array.isArray(
+      currentGradient
+        ?.limitations
+    )
+      ? currentGradient
+          .limitations
+      : [];
+
+  const limitations =
+    [
+      ...new Set([
+        ...inheritedLimitations,
+
+        "Current Shear Analysis consumes finite-difference measurements from Current Gradient Analysis.",
+
+        "A shear candidate requires complete north-south and east-west gradient coverage.",
+
+        "Partial coverage may identify localized horizontal velocity change but does not support a shear candidate.",
+
+        "This engine evaluates horizontal surface-current shear only; vertical shear and subsurface structure are unavailable.",
+
+        "A current-shear candidate is not proof of a current edge, front, convergence zone, eddy boundary, turbulence, persistence, prey concentration, habitat quality, fish presence, or biological significance."
+      ])
+    ];
+
+  return {
+    available,
+
+    analysisType:
+      "current-shear-analysis",
+
+    currentShearDetected,
+
+    shearType,
+
+    shearState,
+
+    shearStrength,
+
+    evidence: {
+      gradientAvailable:
+        currentGradient
+          ?.available ===
+        true,
+
+      gradientCoverage:
+        currentGradient
+          ?.coverage ??
+        "unknown",
+
+      sufficientCoverage,
+
+      completeAxisCoverage,
+
+      requestedAxisCount:
+        currentGradient
+          ?.requestedAxisCount ??
+        null,
+
+      validAxisCount:
+        validAxisComparisons.length,
+
+      meaningfulAxisCount,
+
+      strongAxisCount,
+
+      supportingAxes,
+
+      maximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+        Number.isFinite(
+          maximumTotalVectorGradient
+        )
+          ? Number(
+              maximumTotalVectorGradient
+                .toFixed(5)
+            )
+          : null,
+
+      maximumTangentialGradientMetersPerSecondPerNauticalMile:
+        Number.isFinite(
+          maximumTangentialGradient
+        )
+          ? Number(
+              maximumTangentialGradient
+                .toFixed(5)
+            )
+          : null,
+
+      maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile:
+        Number.isFinite(
+          maximumRadialAsymmetryGradient
+        )
+          ? Number(
+              maximumRadialAsymmetryGradient
+                .toFixed(5)
+            )
+          : null,
+
+      axisSupport:
+        validAxisComparisons.map(
+          comparison => ({
+            axis:
+              comparison.axis,
+
+            totalVectorGradientMetersPerSecondPerNauticalMile:
+              comparison
+                .totalVectorGradientMetersPerSecondPerNauticalMile,
+
+            tangentialGradientMetersPerSecondPerNauticalMile:
+              comparison
+                .tangentialGradientMetersPerSecondPerNauticalMile,
+
+            radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+              comparison
+                .radialAsymmetryGradientMetersPerSecondPerNauticalMile,
+
+            meaningful:
+              comparison
+                .totalVectorGradientMetersPerSecondPerNauticalMile >=
+              meaningfulTotalVectorGradientMetersPerSecondPerNauticalMile,
+
+            strong:
+              comparison
+                .totalVectorGradientMetersPerSecondPerNauticalMile >=
+              strongTotalVectorGradientMetersPerSecondPerNauticalMile
+          })
+        )
+    },
+
+    thresholds: {
+      meaningfulTotalVectorGradientMetersPerSecondPerNauticalMile,
+
+      strongTotalVectorGradientMetersPerSecondPerNauticalMile,
+
+      minimumCompleteAxisCount:
+        2,
+
+      minimumMeaningfulAxesForCandidate:
+        1,
+
+      minimumMeaningfulAxesForPronounced:
+        2,
+
+      minimumStrongAxesForPronounced:
+        1
+    },
+
+    interpretation,
+
+    limitations,
+
+    upstreamContract: {
+      engine:
+        "current-gradient-analysis",
+
+      version:
+        currentGradient
+          ?.contractVersion ??
+        null
+    },
+
+    contractVersion:
+      "pelora-current-shear-v1"
+  };
+}
+
+
 function buildCurrentConvergenceAnalysis(
   vectorProjection
 ) {
@@ -19346,6 +19739,12 @@ async function getOceanConditions(
     );
 
 
+    const currentShear =
+  buildCurrentShearAnalysis(
+    currentGradient
+  );
+
+
   const currentConvergence =
     buildCurrentConvergenceAnalysis(
       currentVectorProjection
@@ -19387,7 +19786,7 @@ async function getOceanConditions(
         currentConvergence,
 
       shear:
-        null,
+        currentShear,
 
       edge:
         null,
