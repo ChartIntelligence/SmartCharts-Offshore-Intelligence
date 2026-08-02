@@ -2690,6 +2690,507 @@ function getOpposingCurrentSampleDirection(
 }
 
 
+export function buildCurrentGradientAnalysis(
+  vectorProjection
+) {
+  const projections =
+    Array.isArray(
+      vectorProjection
+        ?.projections
+    )
+      ? vectorProjection
+          .projections
+      : [];
+
+  const validProjections =
+    projections.filter(
+      projection =>
+        projection
+          ?.available ===
+          true &&
+        typeof projection
+          ?.sampleDirection ===
+          "string" &&
+        Number.isFinite(
+          projection
+            ?.eastwardMetersPerSecond
+        ) &&
+        Number.isFinite(
+          projection
+            ?.northwardMetersPerSecond
+        ) &&
+        Number.isFinite(
+          projection
+            ?.signedRadialMetersPerSecond
+        ) &&
+        Number.isFinite(
+          projection
+            ?.signedClockwiseTangentialMetersPerSecond
+        ) &&
+        Number.isFinite(
+          projection
+            ?.requestedLatitude
+        ) &&
+        Number.isFinite(
+          projection
+            ?.requestedLongitude
+        )
+    );
+
+  const projectionsByDirection =
+    new Map(
+      validProjections.map(
+        projection => [
+          projection
+            .sampleDirection,
+          projection
+        ]
+      )
+    );
+
+  const requestedAxisPairs = [
+    {
+      axis:
+        "north-south",
+
+      firstDirection:
+        "north",
+
+      secondDirection:
+        "south"
+    },
+
+    {
+      axis:
+        "east-west",
+
+      firstDirection:
+        "east",
+
+      secondDirection:
+        "west"
+    }
+  ];
+
+  const axisComparisons =
+    requestedAxisPairs.map(
+      ({
+        axis,
+        firstDirection,
+        secondDirection
+      }) => {
+        const firstProjection =
+          projectionsByDirection.get(
+            firstDirection
+          );
+
+        const secondProjection =
+          projectionsByDirection.get(
+            secondDirection
+          );
+
+        if (
+          !firstProjection ||
+          !secondProjection
+        ) {
+          return {
+            axis,
+
+            available:
+              false,
+
+            firstDirection,
+
+            secondDirection,
+
+            reason:
+              "missing-opposing-projection"
+          };
+        }
+
+        const separationNauticalMiles =
+          nauticalMilesBetween(
+            firstProjection
+              .requestedLatitude,
+            firstProjection
+              .requestedLongitude,
+            secondProjection
+              .requestedLatitude,
+            secondProjection
+              .requestedLongitude
+          );
+
+        if (
+          !Number.isFinite(
+            separationNauticalMiles
+          ) ||
+          separationNauticalMiles <=
+            0
+        ) {
+          return {
+            axis,
+
+            available:
+              false,
+
+            firstDirection,
+
+            secondDirection,
+
+            reason:
+              "invalid-axis-separation"
+          };
+        }
+
+        const eastwardDifferenceMetersPerSecond =
+          secondProjection
+            .eastwardMetersPerSecond -
+          firstProjection
+            .eastwardMetersPerSecond;
+
+        const northwardDifferenceMetersPerSecond =
+          secondProjection
+            .northwardMetersPerSecond -
+          firstProjection
+            .northwardMetersPerSecond;
+
+        const totalVectorDifferenceMetersPerSecond =
+          Math.hypot(
+            eastwardDifferenceMetersPerSecond,
+            northwardDifferenceMetersPerSecond
+          );
+
+        const totalVectorGradientMetersPerSecondPerNauticalMile =
+          totalVectorDifferenceMetersPerSecond /
+          separationNauticalMiles;
+
+        const opposingRadialSumMetersPerSecond =
+          firstProjection
+            .signedRadialMetersPerSecond +
+          secondProjection
+            .signedRadialMetersPerSecond;
+
+        const radialAsymmetryMetersPerSecond =
+          Math.abs(
+            firstProjection
+              .signedRadialMetersPerSecond -
+            secondProjection
+              .signedRadialMetersPerSecond
+          );
+
+        const radialAsymmetryGradientMetersPerSecondPerNauticalMile =
+          radialAsymmetryMetersPerSecond /
+          separationNauticalMiles;
+
+        const tangentialDifferenceMetersPerSecond =
+          Math.abs(
+            firstProjection
+              .signedClockwiseTangentialMetersPerSecond -
+            secondProjection
+              .signedClockwiseTangentialMetersPerSecond
+          );
+
+        const tangentialGradientMetersPerSecondPerNauticalMile =
+          tangentialDifferenceMetersPerSecond /
+          separationNauticalMiles;
+
+        const speedDifferenceKnots =
+          Number.isFinite(
+            firstProjection
+              ?.speedKnots
+          ) &&
+          Number.isFinite(
+            secondProjection
+              ?.speedKnots
+          )
+            ? Math.abs(
+                firstProjection
+                  .speedKnots -
+                secondProjection
+                  .speedKnots
+              )
+            : null;
+
+        const directionDifferenceDegrees =
+          Number.isFinite(
+            firstProjection
+              ?.directionDegrees
+          ) &&
+          Number.isFinite(
+            secondProjection
+              ?.directionDegrees
+          )
+            ? getCircularDirectionDifference(
+                firstProjection
+                  .directionDegrees,
+                secondProjection
+                  .directionDegrees
+              )
+            : null;
+
+        return {
+          axis,
+
+          available:
+            true,
+
+          firstDirection,
+
+          secondDirection,
+
+          separationNauticalMiles:
+            Number(
+              separationNauticalMiles
+                .toFixed(3)
+            ),
+
+          eastwardDifferenceMetersPerSecond:
+            Number(
+              eastwardDifferenceMetersPerSecond
+                .toFixed(4)
+            ),
+
+          northwardDifferenceMetersPerSecond:
+            Number(
+              northwardDifferenceMetersPerSecond
+                .toFixed(4)
+            ),
+
+          totalVectorDifferenceMetersPerSecond:
+            Number(
+              totalVectorDifferenceMetersPerSecond
+                .toFixed(4)
+            ),
+
+          totalVectorGradientMetersPerSecondPerNauticalMile:
+            Number(
+              totalVectorGradientMetersPerSecondPerNauticalMile
+                .toFixed(5)
+            ),
+
+          opposingRadialSumMetersPerSecond:
+            Number(
+              opposingRadialSumMetersPerSecond
+                .toFixed(4)
+            ),
+
+          radialAsymmetryMetersPerSecond:
+            Number(
+              radialAsymmetryMetersPerSecond
+                .toFixed(4)
+            ),
+
+          radialAsymmetryGradientMetersPerSecondPerNauticalMile:
+            Number(
+              radialAsymmetryGradientMetersPerSecondPerNauticalMile
+                .toFixed(5)
+            ),
+
+          tangentialDifferenceMetersPerSecond:
+            Number(
+              tangentialDifferenceMetersPerSecond
+                .toFixed(4)
+            ),
+
+          tangentialGradientMetersPerSecondPerNauticalMile:
+            Number(
+              tangentialGradientMetersPerSecondPerNauticalMile
+                .toFixed(5)
+            ),
+
+          speedDifferenceKnots:
+            Number.isFinite(
+              speedDifferenceKnots
+            )
+              ? Number(
+                  speedDifferenceKnots
+                    .toFixed(3)
+                )
+              : null,
+
+          directionDifferenceDegrees:
+            Number.isFinite(
+              directionDifferenceDegrees
+            )
+              ? Number(
+                  directionDifferenceDegrees
+                    .toFixed(1)
+                )
+              : null
+        };
+      }
+    );
+
+  const validAxisComparisons =
+    axisComparisons.filter(
+      comparison =>
+        comparison
+          ?.available ===
+        true
+    );
+
+  const validAxisCount =
+    validAxisComparisons.length;
+
+  const sufficientCoverage =
+    vectorProjection
+      ?.sufficientCoverage ===
+      true &&
+    validAxisCount >=
+      1;
+
+  const coverage =
+    validAxisCount ===
+      requestedAxisPairs.length
+      ? "complete"
+      : validAxisCount ===
+          1
+        ? "partial"
+        : "unavailable";
+
+  const maximumTotalVectorGradient =
+    validAxisCount > 0
+      ? Math.max(
+          ...validAxisComparisons.map(
+            comparison =>
+              comparison
+                .totalVectorGradientMetersPerSecondPerNauticalMile
+          )
+        )
+      : null;
+
+  const maximumRadialAsymmetryGradient =
+    validAxisCount > 0
+      ? Math.max(
+          ...validAxisComparisons.map(
+            comparison =>
+              comparison
+                .radialAsymmetryGradientMetersPerSecondPerNauticalMile
+          )
+        )
+      : null;
+
+  const maximumTangentialGradient =
+    validAxisCount > 0
+      ? Math.max(
+          ...validAxisComparisons.map(
+            comparison =>
+              comparison
+                .tangentialGradientMetersPerSecondPerNauticalMile
+          )
+        )
+      : null;
+
+  const inheritedLimitations =
+    Array.isArray(
+      vectorProjection
+        ?.limitations
+    )
+      ? vectorProjection
+          .limitations
+      : [];
+
+  const limitations =
+    [
+      ...new Set([
+        ...inheritedLimitations,
+
+        "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+
+        "The analysis describes horizontal surface-current variation within the sampled radius only.",
+
+        "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+
+        "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance."
+      ])
+    ];
+
+  return {
+    available:
+      sufficientCoverage,
+
+    analysisType:
+      "current-gradient-analysis",
+
+    coverage,
+
+    requestedAxisCount:
+      requestedAxisPairs.length,
+
+    validAxisCount,
+
+    failedAxisCount:
+      requestedAxisPairs.length -
+      validAxisCount,
+
+    sufficientCoverage,
+
+    sampleRadiusNauticalMiles:
+      Number.isFinite(
+        vectorProjection
+          ?.sampleRadiusNauticalMiles
+      )
+        ? vectorProjection
+            .sampleRadiusNauticalMiles
+        : null,
+
+    axisComparisons,
+
+    measurements: {
+      maximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+        Number.isFinite(
+          maximumTotalVectorGradient
+        )
+          ? Number(
+              maximumTotalVectorGradient
+                .toFixed(5)
+            )
+          : null,
+
+      maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile:
+        Number.isFinite(
+          maximumRadialAsymmetryGradient
+        )
+          ? Number(
+              maximumRadialAsymmetryGradient
+                .toFixed(5)
+            )
+          : null,
+
+      maximumTangentialGradientMetersPerSecondPerNauticalMile:
+        Number.isFinite(
+          maximumTangentialGradient
+        )
+          ? Number(
+              maximumTangentialGradient
+                .toFixed(5)
+            )
+          : null
+    },
+
+    interpretation:
+      sufficientCoverage
+        ? "Opposing current samples were compared to measure radial, tangential, and total horizontal velocity change across the spatial field."
+        : "Opposing current samples were insufficient for Current Gradient Analysis.",
+
+    limitations,
+
+    upstreamContract: {
+      engine:
+        "current-vector-projection",
+
+      version:
+        vectorProjection
+          ?.contractVersion ??
+        null
+    },
+
+    contractVersion:
+      "pelora-current-gradient-v1"
+  };
+}
+
+
 function buildCurrentConvergenceAnalysis(
   vectorProjection
 ) {
@@ -18839,6 +19340,12 @@ async function getOceanConditions(
     );
 
 
+  const currentGradient =
+    buildCurrentGradientAnalysis(
+      currentVectorProjection
+    );
+
+
   const currentConvergence =
     buildCurrentConvergenceAnalysis(
       currentVectorProjection
@@ -18872,6 +19379,9 @@ async function getOceanConditions(
 
       vectorProjection:
         currentVectorProjection,
+
+      gradient:
+        currentGradient,
 
       convergence:
         currentConvergence,

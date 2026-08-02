@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 import {
+  buildCurrentGradientAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
   assessOceanOpportunity,
@@ -15357,4 +15358,399 @@ assert.equal(
 
 console.log(
   "PASS Ocean Opportunity lineage discloses missing upstream trace while preserving insufficient-evidence behavior"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Gradient Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildGradientProjection =
+  projections => ({
+    available:
+      projections.length >= 3,
+
+    analysisType:
+      "current-vector-projection",
+
+    coverage:
+      projections.length === 4
+        ? "complete"
+        : projections.length >= 3
+          ? "partial"
+          : "insufficient",
+
+    requestedProjectionCount:
+      4,
+
+    validProjectionCount:
+      projections.length,
+
+    failedProjectionCount:
+      4 - projections.length,
+
+    sufficientCoverage:
+      projections.length >= 3,
+
+    sampleRadiusNauticalMiles:
+      15,
+
+    projections,
+
+    limitations:
+      [],
+
+    contractVersion:
+      "pelora-current-vector-projection-v1"
+  });
+
+
+const uniformGradientProjections = [
+  {
+    sampleDirection:
+      "north",
+
+    available:
+      true,
+
+    requestedLatitude:
+      29.25,
+
+    requestedLongitude:
+      -87,
+
+    speedKnots:
+      0.972,
+
+    directionDegrees:
+      90,
+
+    eastwardMetersPerSecond:
+      0.5,
+
+    northwardMetersPerSecond:
+      0,
+
+    signedRadialMetersPerSecond:
+      0,
+
+    signedClockwiseTangentialMetersPerSecond:
+      0.5
+  },
+
+  {
+    sampleDirection:
+      "east",
+
+    available:
+      true,
+
+    requestedLatitude:
+      29,
+
+    requestedLongitude:
+      -86.713,
+
+    speedKnots:
+      0.972,
+
+    directionDegrees:
+      90,
+
+    eastwardMetersPerSecond:
+      0.5,
+
+    northwardMetersPerSecond:
+      0,
+
+    signedRadialMetersPerSecond:
+      -0.5,
+
+    signedClockwiseTangentialMetersPerSecond:
+      0
+  },
+
+  {
+    sampleDirection:
+      "south",
+
+    available:
+      true,
+
+    requestedLatitude:
+      28.75,
+
+    requestedLongitude:
+      -87,
+
+    speedKnots:
+      0.972,
+
+    directionDegrees:
+      90,
+
+    eastwardMetersPerSecond:
+      0.5,
+
+    northwardMetersPerSecond:
+      0,
+
+    signedRadialMetersPerSecond:
+      0,
+
+    signedClockwiseTangentialMetersPerSecond:
+      -0.5
+  },
+
+  {
+    sampleDirection:
+      "west",
+
+    available:
+      true,
+
+    requestedLatitude:
+      29,
+
+    requestedLongitude:
+      -87.287,
+
+    speedKnots:
+      0.972,
+
+    directionDegrees:
+      90,
+
+    eastwardMetersPerSecond:
+      0.5,
+
+    northwardMetersPerSecond:
+      0,
+
+    signedRadialMetersPerSecond:
+      0.5,
+
+    signedClockwiseTangentialMetersPerSecond:
+      0
+  }
+];
+
+
+const uniformCurrentGradient =
+  buildCurrentGradientAnalysis(
+    buildGradientProjection(
+      uniformGradientProjections
+    )
+  );
+
+assert.equal(
+  uniformCurrentGradient.available,
+  true
+);
+
+assert.equal(
+  uniformCurrentGradient.coverage,
+  "complete"
+);
+
+assert.equal(
+  uniformCurrentGradient.validAxisCount,
+  2
+);
+
+assert.equal(
+  uniformCurrentGradient.failedAxisCount,
+  0
+);
+
+assert.equal(
+  uniformCurrentGradient.axisComparisons.length,
+  2
+);
+
+assert.equal(
+  uniformCurrentGradient.measurements
+    .maximumTotalVectorGradientMetersPerSecondPerNauticalMile,
+  0
+);
+
+assert.equal(
+  uniformCurrentGradient.contractVersion,
+  "pelora-current-gradient-v1"
+);
+
+assert.equal(
+  uniformCurrentGradient.upstreamContract
+    .version,
+  "pelora-current-vector-projection-v1"
+);
+
+console.log(
+  "PASS Current Gradient Analysis measures a complete uniform current field"
+);
+
+
+const changingGradientProjections =
+  uniformGradientProjections.map(
+    projection => ({
+      ...projection
+    })
+  );
+
+changingGradientProjections[2] = {
+  ...changingGradientProjections[2],
+
+  speedKnots:
+    0.972,
+
+  directionDegrees:
+    270,
+
+  eastwardMetersPerSecond:
+    -0.5,
+
+  signedClockwiseTangentialMetersPerSecond:
+    0.5
+};
+
+changingGradientProjections[3] = {
+  ...changingGradientProjections[3],
+
+  directionDegrees:
+    0,
+
+  eastwardMetersPerSecond:
+    0,
+
+  northwardMetersPerSecond:
+    0.5,
+
+  signedRadialMetersPerSecond:
+    0,
+
+  signedClockwiseTangentialMetersPerSecond:
+    0.5
+};
+
+
+const changingCurrentGradient =
+  buildCurrentGradientAnalysis(
+    buildGradientProjection(
+      changingGradientProjections
+    )
+  );
+
+assert.equal(
+  changingCurrentGradient.available,
+  true
+);
+
+assert.equal(
+  changingCurrentGradient.validAxisCount,
+  2
+);
+
+assert.ok(
+  changingCurrentGradient.measurements
+    .maximumTotalVectorGradientMetersPerSecondPerNauticalMile >
+    0
+);
+
+assert.ok(
+  changingCurrentGradient.measurements
+    .maximumTangentialGradientMetersPerSecondPerNauticalMile >
+    0
+);
+
+assert.ok(
+  changingCurrentGradient.axisComparisons.some(
+    comparison =>
+      comparison.available ===
+        true &&
+      comparison
+        .totalVectorDifferenceMetersPerSecond >
+        0
+  )
+);
+
+console.log(
+  "PASS Current Gradient Analysis measures horizontal vector change across opposing axes"
+);
+
+
+const partialCurrentGradient =
+  buildCurrentGradientAnalysis(
+    buildGradientProjection(
+      uniformGradientProjections.slice(
+        0,
+        3
+      )
+    )
+  );
+
+assert.equal(
+  partialCurrentGradient.available,
+  true
+);
+
+assert.equal(
+  partialCurrentGradient.coverage,
+  "partial"
+);
+
+assert.equal(
+  partialCurrentGradient.validAxisCount,
+  1
+);
+
+assert.equal(
+  partialCurrentGradient.failedAxisCount,
+  1
+);
+
+assert.equal(
+  partialCurrentGradient.axisComparisons
+    .find(
+      comparison =>
+        comparison.axis ===
+        "east-west"
+    )
+    .reason,
+  "missing-opposing-projection"
+);
+
+console.log(
+  "PASS Current Gradient Analysis reports partial opposing-axis coverage"
+);
+
+
+const unavailableCurrentGradient =
+  buildCurrentGradientAnalysis(
+    buildGradientProjection(
+      uniformGradientProjections.slice(
+        0,
+        2
+      )
+    )
+  );
+
+assert.equal(
+  unavailableCurrentGradient.available,
+  false
+);
+
+assert.equal(
+  unavailableCurrentGradient.sufficientCoverage,
+  false
+);
+
+assert.equal(
+  unavailableCurrentGradient.coverage,
+  "unavailable"
+);
+
+console.log(
+  "PASS Current Gradient Analysis requires sufficient vector-projection coverage"
 );
