@@ -8196,6 +8196,15 @@ export function assessOceanEvidence({
       current
     });
 
+  const oceanPhysicsExplainability =
+    buildOceanPhysicsExplainabilitySummary({
+      surfaceWaterCharacter,
+      waterMassAnalysis,
+      mixingZoneAnalysis,
+      environmentalTransitionAnalysis,
+      oceanFrontAnalysis
+    });
+
   const structure =
     buildStructureEvidence({
       latitude,
@@ -8402,6 +8411,12 @@ export function assessOceanEvidence({
     oceanFrontAnalysis,
 
     /*
+     * Ocean Physics Explainability provides a normalized downstream
+     * integration contract without changing any authoritative engine.
+     */
+    oceanPhysicsExplainability,
+
+    /*
      * Environmental opportunity pathways remain separate from
      * the established evidence groups until their contribution
      * to confidence and scoring is scientifically governed.
@@ -8419,7 +8434,7 @@ export function assessOceanEvidence({
     lineage,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.7"
+      "pelora-ocean-evidence-v1.8"
   };
 }
 
@@ -12751,6 +12766,339 @@ export function buildOceanFrontAnalysis({
 
     contractVersion:
       "pelora-ocean-front-analysis-v1"
+  };
+}
+
+
+export function buildOceanPhysicsExplainabilitySummary({
+  surfaceWaterCharacter = null,
+  waterMassAnalysis = null,
+  mixingZoneAnalysis = null,
+  environmentalTransitionAnalysis = null,
+  oceanFrontAnalysis = null
+} = {}) {
+  const normalizeStage = ({
+    stage,
+    contract,
+    state = null,
+    ready = null,
+    detected = null
+  }) => ({
+    stage,
+
+    available:
+      contract
+        ?.available ===
+      true,
+
+    analysisType:
+      contract
+        ?.analysisType ??
+      null,
+
+    classification:
+      contract
+        ?.classification ??
+      "unavailable",
+
+    state,
+
+    ready:
+      typeof ready ===
+        "boolean"
+        ? ready
+        : null,
+
+    detected:
+      typeof detected ===
+        "boolean"
+        ? detected
+        : null,
+
+    missingRequirements:
+      Array.isArray(
+        contract
+          ?.missingRequirements
+      )
+        ? contract
+            .missingRequirements
+        : [],
+
+    contractVersion:
+      contract
+        ?.contractVersion ??
+      contract
+        ?.thresholdVersion ??
+      contract
+        ?.methodVersion ??
+      null
+  });
+
+  const stages = [
+    normalizeStage({
+      stage:
+        "surface-water-character",
+
+      contract:
+        surfaceWaterCharacter,
+
+      state:
+        surfaceWaterCharacter
+          ?.state ??
+        null
+    }),
+
+    normalizeStage({
+      stage:
+        "water-mass",
+
+      contract:
+        waterMassAnalysis,
+
+      state:
+        waterMassAnalysis
+          ?.readinessState ??
+        null,
+
+      ready:
+        waterMassAnalysis
+          ?.waterMassDistinctionReady,
+
+      detected:
+        waterMassAnalysis
+          ?.distinctAdjacentWaterMassesEstablished
+    }),
+
+    normalizeStage({
+      stage:
+        "mixing-zone",
+
+      contract:
+        mixingZoneAnalysis,
+
+      state:
+        mixingZoneAnalysis
+          ?.readinessState ??
+        null,
+
+      ready:
+        mixingZoneAnalysis
+          ?.mixingZoneReady,
+
+      detected:
+        mixingZoneAnalysis
+          ?.mixingZoneDetected
+    }),
+
+    normalizeStage({
+      stage:
+        "environmental-transition",
+
+      contract:
+        environmentalTransitionAnalysis,
+
+      state:
+        environmentalTransitionAnalysis
+          ?.transitionState ??
+        null,
+
+      ready:
+        environmentalTransitionAnalysis
+          ?.environmentalTransitionReady,
+
+      detected:
+        environmentalTransitionAnalysis
+          ?.environmentalTransitionDetected
+    }),
+
+    normalizeStage({
+      stage:
+        "ocean-front",
+
+      contract:
+        oceanFrontAnalysis,
+
+      state:
+        oceanFrontAnalysis
+          ?.frontState ??
+        null,
+
+      ready:
+        oceanFrontAnalysis
+          ?.oceanFrontReady,
+
+      detected:
+        oceanFrontAnalysis
+          ?.oceanFrontDetected
+    })
+  ];
+
+  const availableStages =
+    stages.filter(
+      stage =>
+        stage.available
+    );
+
+  const stageOrder = [
+    "surface-water-character",
+    "water-mass",
+    "mixing-zone",
+    "environmental-transition",
+    "ocean-front"
+  ];
+
+  const highestSupportedStage =
+    [...availableStages]
+      .sort(
+        (a, b) =>
+          stageOrder.indexOf(
+            b.stage
+          ) -
+          stageOrder.indexOf(
+            a.stage
+          )
+      )[0]
+      ?.stage ??
+    "unavailable";
+
+  const readiness = {
+    waterMass:
+      waterMassAnalysis
+        ?.waterMassDistinctionReady ===
+      true,
+
+    mixingZone:
+      mixingZoneAnalysis
+        ?.mixingZoneReady ===
+      true,
+
+    environmentalTransition:
+      environmentalTransitionAnalysis
+        ?.environmentalTransitionReady ===
+      true,
+
+    oceanFront:
+      oceanFrontAnalysis
+        ?.oceanFrontReady ===
+      true
+  };
+
+  const detections = {
+    distinctAdjacentWaterMasses:
+      waterMassAnalysis
+        ?.distinctAdjacentWaterMassesEstablished ===
+      true,
+
+    mixingZone:
+      mixingZoneAnalysis
+        ?.mixingZoneDetected ===
+      true,
+
+    environmentalTransition:
+      environmentalTransitionAnalysis
+        ?.environmentalTransitionDetected ===
+      true,
+
+    oceanFront:
+      oceanFrontAnalysis
+        ?.oceanFrontDetected ===
+      true
+  };
+
+  const missingRequirements = [
+    ...new Set(
+      stages.flatMap(
+        stage =>
+          stage
+            .missingRequirements
+      )
+    )
+  ];
+
+  const inheritedLimitations = [
+    surfaceWaterCharacter,
+    waterMassAnalysis,
+    mixingZoneAnalysis,
+    environmentalTransitionAnalysis,
+    oceanFrontAnalysis
+  ].flatMap(
+    contract =>
+      Array.isArray(
+        contract
+          ?.limitations
+      )
+        ? contract
+            .limitations
+        : []
+  );
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      "Ocean Physics Explainability Summary normalizes existing scientific contracts without changing their classifications, readiness, detections, evidence, or limitations.",
+
+      "The original engine contracts remain authoritative.",
+
+      "This summary is intended for downstream explainability and Captain Experience translation, not direct scientific inference.",
+
+      "No captain-facing narrative is generated by this contract."
+    ])
+  ];
+
+  let summaryState =
+    "unavailable";
+
+  if (
+    availableStages.length >
+    0
+  ) {
+    summaryState =
+      Object.values(
+        detections
+      ).some(Boolean)
+        ? "verified-detection-present"
+        : Object.values(
+            readiness
+          ).some(Boolean)
+          ? "readiness-present"
+          : "candidate-or-observational-context";
+  }
+
+  return {
+    available:
+      availableStages.length >
+      0,
+
+    layerType:
+      "ocean-physics-explainability",
+
+    summaryState,
+
+    highestSupportedStage,
+
+    stages,
+
+    readiness,
+
+    detections,
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersions:
+      Object.fromEntries(
+        stages.map(
+          stage => [
+            stage.stage,
+            stage.contractVersion
+          ]
+        )
+      ),
+
+    contractVersion:
+      "pelora-ocean-physics-explainability-v1"
   };
 }
 

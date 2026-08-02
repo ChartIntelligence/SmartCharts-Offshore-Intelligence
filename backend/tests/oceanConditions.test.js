@@ -8,6 +8,7 @@ import {
   buildMixingZoneAnalysis,
   buildEnvironmentalTransitionAnalysis,
   buildOceanFrontAnalysis,
+  buildOceanPhysicsExplainabilitySummary,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6680,7 +6681,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.7"
+  "pelora-ocean-evidence-v1.8"
 );
 
 console.log(
@@ -11925,7 +11926,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.7"
+  "pelora-ocean-evidence-v1.8"
 );
 
 assert.equal(
@@ -18632,4 +18633,272 @@ assert.ok(
 
 console.log(
   "PASS Ocean Front Analysis identifies multi-signal front context without confirming an ocean front"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Physics Explainability Summary Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildExplainabilityContract = ({
+  available = true,
+  analysisType,
+  classification,
+  stateField = {},
+  readyField = {},
+  detectedField = {},
+  missingRequirements = [],
+  contractVersion
+}) => ({
+  available,
+
+  analysisType,
+
+  classification,
+
+  ...stateField,
+
+  ...readyField,
+
+  ...detectedField,
+
+  missingRequirements,
+
+  limitations:
+    [],
+
+  contractVersion
+});
+
+
+const emptyPhysicsExplainability =
+  buildOceanPhysicsExplainabilitySummary();
+
+assert.equal(
+  emptyPhysicsExplainability.available,
+  false
+);
+
+assert.equal(
+  emptyPhysicsExplainability.summaryState,
+  "unavailable"
+);
+
+assert.equal(
+  emptyPhysicsExplainability.highestSupportedStage,
+  "unavailable"
+);
+
+console.log(
+  "PASS Ocean Physics Explainability remains unavailable without upstream contracts"
+);
+
+
+const candidatePhysicsExplainability =
+  buildOceanPhysicsExplainabilitySummary({
+    surfaceWaterCharacter:
+      buildExplainabilityContract({
+        analysisType:
+          "surface-water-character-analysis",
+
+        classification:
+          "combined-thermal-current-boundary-context",
+
+        stateField: {
+          state:
+            "candidate-context"
+        },
+
+        contractVersion:
+          "pelora-surface-water-character-v1"
+      }),
+
+    waterMassAnalysis:
+      buildExplainabilityContract({
+        analysisType:
+          "water-mass-analysis",
+
+        classification:
+          "combined-boundary-context-without-water-mass-distinction",
+
+        stateField: {
+          readinessState:
+            "partially-ready"
+        },
+
+        readyField: {
+          waterMassDistinctionReady:
+            false
+        },
+
+        detectedField: {
+          distinctAdjacentWaterMassesEstablished:
+            false
+        },
+
+        missingRequirements: [
+          "second-independent-spatial-water-character-variable"
+        ],
+
+        contractVersion:
+          "pelora-water-mass-analysis-v1"
+      }),
+
+    mixingZoneAnalysis:
+      buildExplainabilityContract({
+        analysisType:
+          "mixing-zone-analysis",
+
+        classification:
+          "multi-signal-boundary-interaction-context",
+
+        stateField: {
+          readinessState:
+            "partially-ready"
+        },
+
+        readyField: {
+          mixingZoneReady:
+            false
+        },
+
+        detectedField: {
+          mixingZoneDetected:
+            false
+        },
+
+        missingRequirements: [
+          "temporal-persistence"
+        ],
+
+        contractVersion:
+          "pelora-mixing-zone-analysis-v1"
+      }),
+
+    environmentalTransitionAnalysis:
+      buildExplainabilityContract({
+        analysisType:
+          "environmental-transition-analysis",
+
+        classification:
+          "multi-signal-environmental-transition-context",
+
+        stateField: {
+          transitionState:
+            "candidate-context"
+        },
+
+        readyField: {
+          environmentalTransitionReady:
+            false
+        },
+
+        detectedField: {
+          environmentalTransitionDetected:
+            false
+        },
+
+        missingRequirements: [
+          "temporal-persistence"
+        ],
+
+        contractVersion:
+          "pelora-environmental-transition-analysis-v1"
+      }),
+
+    oceanFrontAnalysis:
+      buildExplainabilityContract({
+        analysisType:
+          "ocean-front-analysis",
+
+        classification:
+          "multi-signal-ocean-front-candidate-context",
+
+        stateField: {
+          frontState:
+            "candidate-context"
+        },
+
+        readyField: {
+          oceanFrontReady:
+            false
+        },
+
+        detectedField: {
+          oceanFrontDetected:
+            false
+        },
+
+        missingRequirements: [
+          "temporal-persistence",
+          "second-independent-spatial-water-character-variable"
+        ],
+
+        contractVersion:
+          "pelora-ocean-front-analysis-v1"
+      })
+  });
+
+assert.equal(
+  candidatePhysicsExplainability.available,
+  true
+);
+
+assert.equal(
+  candidatePhysicsExplainability.highestSupportedStage,
+  "ocean-front"
+);
+
+assert.equal(
+  candidatePhysicsExplainability.summaryState,
+  "candidate-or-observational-context"
+);
+
+assert.equal(
+  candidatePhysicsExplainability.stages.length,
+  5
+);
+
+assert.equal(
+  candidatePhysicsExplainability
+    .readiness
+    .oceanFront,
+  false
+);
+
+assert.equal(
+  candidatePhysicsExplainability
+    .detections
+    .oceanFront,
+  false
+);
+
+assert.equal(
+  candidatePhysicsExplainability
+    .missingRequirements
+    .filter(
+      requirement =>
+        requirement ===
+        "temporal-persistence"
+    ).length,
+  1
+);
+
+assert.equal(
+  candidatePhysicsExplainability
+    .contractVersions
+    ["ocean-front"],
+  "pelora-ocean-front-analysis-v1"
+);
+
+assert.equal(
+  candidatePhysicsExplainability.contractVersion,
+  "pelora-ocean-physics-explainability-v1"
+);
+
+console.log(
+  "PASS Ocean Physics Explainability normalizes the complete physics chain without changing scientific meaning"
 );
