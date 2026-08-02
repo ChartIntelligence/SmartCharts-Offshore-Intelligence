@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
+  buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
   assessOceanOpportunity,
@@ -16160,4 +16161,454 @@ assert.equal(
 
 console.log(
   "PASS Current Shear Analysis requires available gradient evidence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Edge Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildEdgeGradient = ({
+  available = true,
+  coverage = "complete"
+} = {}) => ({
+  available,
+
+  coverage,
+
+  sufficientCoverage:
+    available,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-current-gradient-v1"
+});
+
+
+const buildEdgeShear = ({
+  available = true,
+  detected = false,
+  state = "not-supported",
+  type = "no-shear-candidate",
+  strength = "none",
+  completeAxisCoverage = true,
+  supportingAxes = []
+} = {}) => ({
+  available,
+
+  currentShearDetected:
+    detected,
+
+  shearState:
+    state,
+
+  shearType:
+    type,
+
+  shearStrength:
+    strength,
+
+  evidence: {
+    completeAxisCoverage,
+
+    supportingAxes,
+
+    maximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+      detected
+        ? 0.015
+        : 0.004
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-current-shear-v1"
+});
+
+
+const buildEdgePattern = ({
+  available = true,
+  type = "uniform-flow-pattern",
+  state = "observed",
+  dominantVariation = "none",
+  speedRangeKnots = 0.1,
+  maximumDirectionDifferenceDegrees = 10
+} = {}) => ({
+  available,
+
+  patternType:
+    type,
+
+  patternState:
+    state,
+
+  dominantVariation,
+
+  evidence: {
+    speedRangeKnots,
+
+    maximumDirectionDifferenceDegrees
+  },
+
+  limitations:
+    [],
+
+  thresholdVersion:
+    "pelora-current-spatial-pattern-v1"
+});
+
+
+const buildEdgeConvergence = ({
+  available = true,
+  detected = false
+} = {}) => ({
+  available,
+
+  currentConvergenceDetected:
+    detected,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-current-convergence-v1"
+});
+
+
+const unavailableCurrentEdge =
+  buildCurrentEdgeAnalysis(
+    buildEdgeGradient({
+      available:
+        false,
+
+      coverage:
+        "unavailable"
+    }),
+
+    buildEdgeShear({
+      available:
+        false,
+
+      completeAxisCoverage:
+        false
+    }),
+
+    buildEdgePattern({
+      available:
+        false
+    }),
+
+    buildEdgeConvergence({
+      available:
+        false
+    })
+  );
+
+assert.equal(
+  unavailableCurrentEdge.available,
+  false
+);
+
+assert.equal(
+  unavailableCurrentEdge.edgeType,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableCurrentEdge.edgeState,
+  "insufficient-evidence"
+);
+
+console.log(
+  "PASS Current Edge Analysis requires available gradient, shear, and spatial-pattern evidence"
+);
+
+
+const uniformCurrentEdge =
+  buildCurrentEdgeAnalysis(
+    buildEdgeGradient(),
+
+    buildEdgeShear(),
+
+    buildEdgePattern(),
+
+    buildEdgeConvergence()
+  );
+
+assert.equal(
+  uniformCurrentEdge.available,
+  true
+);
+
+assert.equal(
+  uniformCurrentEdge.currentEdgeDetected,
+  false
+);
+
+assert.equal(
+  uniformCurrentEdge.edgeType,
+  "no-edge-candidate"
+);
+
+assert.equal(
+  uniformCurrentEdge.edgeState,
+  "not-supported"
+);
+
+console.log(
+  "PASS Current Edge Analysis rejects a uniform current field"
+);
+
+
+const measurableCurrentEdge =
+  buildCurrentEdgeAnalysis(
+    buildEdgeGradient(),
+
+    buildEdgeShear({
+      detected:
+        true,
+
+      state:
+        "candidate",
+
+      type:
+        "horizontal-shear-candidate",
+
+      strength:
+        "measurable",
+
+      supportingAxes: [
+        "east-west"
+      ]
+    }),
+
+    buildEdgePattern({
+      type:
+        "speed-transition-pattern",
+
+      state:
+        "candidate",
+
+      dominantVariation:
+        "speed",
+
+      speedRangeKnots:
+        0.7
+    }),
+
+    buildEdgeConvergence()
+  );
+
+assert.equal(
+  measurableCurrentEdge.currentEdgeDetected,
+  true
+);
+
+assert.equal(
+  measurableCurrentEdge.edgeType,
+  "current-edge-candidate"
+);
+
+assert.equal(
+  measurableCurrentEdge.edgeStrength,
+  "measurable"
+);
+
+assert.equal(
+  measurableCurrentEdge.dominantTransition,
+  "speed"
+);
+
+console.log(
+  "PASS Current Edge Analysis identifies a corroborated current-edge candidate"
+);
+
+
+const pronouncedCurrentEdge =
+  buildCurrentEdgeAnalysis(
+    buildEdgeGradient(),
+
+    buildEdgeShear({
+      detected:
+        true,
+
+      state:
+        "candidate",
+
+      type:
+        "pronounced-horizontal-shear-candidate",
+
+      strength:
+        "pronounced",
+
+      supportingAxes: [
+        "north-south",
+        "east-west"
+      ]
+    }),
+
+    buildEdgePattern({
+      type:
+        "pronounced-mixed-transition-pattern",
+
+      state:
+        "candidate",
+
+      dominantVariation:
+        "mixed",
+
+      speedRangeKnots:
+        1.2,
+
+      maximumDirectionDifferenceDegrees:
+        75
+    }),
+
+    buildEdgeConvergence({
+      detected:
+        true
+    })
+  );
+
+assert.equal(
+  pronouncedCurrentEdge.currentEdgeDetected,
+  true
+);
+
+assert.equal(
+  pronouncedCurrentEdge.edgeType,
+  "pronounced-current-edge-candidate"
+);
+
+assert.equal(
+  pronouncedCurrentEdge.edgeStrength,
+  "pronounced"
+);
+
+assert.equal(
+  pronouncedCurrentEdge.evidence
+    .convergenceCandidateSupported,
+  true
+);
+
+console.log(
+  "PASS Current Edge Analysis identifies a pronounced current-edge candidate"
+);
+
+
+const localizedCurrentTransition =
+  buildCurrentEdgeAnalysis(
+    buildEdgeGradient({
+      coverage:
+        "partial"
+    }),
+
+    buildEdgeShear({
+      detected:
+        false,
+
+      state:
+        "incomplete-support",
+
+      type:
+        "localized-horizontal-velocity-change",
+
+      strength:
+        "localized",
+
+      completeAxisCoverage:
+        false,
+
+      supportingAxes: [
+        "east-west"
+      ]
+    }),
+
+    buildEdgePattern({
+      type:
+        "speed-transition-pattern",
+
+      state:
+        "candidate",
+
+      dominantVariation:
+        "speed",
+
+      speedRangeKnots:
+        0.8
+    }),
+
+    buildEdgeConvergence()
+  );
+
+assert.equal(
+  localizedCurrentTransition.currentEdgeDetected,
+  false
+);
+
+assert.equal(
+  localizedCurrentTransition.edgeType,
+  "localized-current-transition"
+);
+
+assert.equal(
+  localizedCurrentTransition.edgeState,
+  "incomplete-support"
+);
+
+console.log(
+  "PASS Current Edge Analysis preserves localized transition evidence under partial coverage"
+);
+
+
+const transitionWithoutShear =
+  buildCurrentEdgeAnalysis(
+    buildEdgeGradient(),
+
+    buildEdgeShear(),
+
+    buildEdgePattern({
+      type:
+        "directional-transition-pattern",
+
+      state:
+        "candidate",
+
+      dominantVariation:
+        "direction",
+
+      maximumDirectionDifferenceDegrees:
+        45
+    }),
+
+    buildEdgeConvergence()
+  );
+
+assert.equal(
+  transitionWithoutShear.currentEdgeDetected,
+  false
+);
+
+assert.equal(
+  transitionWithoutShear.edgeType,
+  "no-edge-candidate"
+);
+
+console.log(
+  "PASS Current Edge Analysis does not promote an uncorroborated transition into an edge"
+);
+
+
+assert.equal(
+  pronouncedCurrentEdge.contractVersion,
+  "pelora-current-edge-v1"
+);
+
+console.log(
+  "PASS Current Edge Analysis exposes the governed v1 contract"
 );

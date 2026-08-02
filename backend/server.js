@@ -3584,6 +3584,404 @@ export function buildCurrentShearAnalysis(
 }
 
 
+export function buildCurrentEdgeAnalysis(
+  currentGradient,
+  currentShear,
+  currentSpatialPattern,
+  currentConvergence
+) {
+  const gradientAvailable =
+    currentGradient
+      ?.available ===
+    true;
+
+  const shearAvailable =
+    currentShear
+      ?.available ===
+    true;
+
+  const patternAvailable =
+    currentSpatialPattern
+      ?.available ===
+    true;
+
+  const completeAxisCoverage =
+    currentShear
+      ?.evidence
+      ?.completeAxisCoverage ===
+    true;
+
+  const patternState =
+    currentSpatialPattern
+      ?.patternState ??
+    "insufficient-evidence";
+
+  const patternType =
+    currentSpatialPattern
+      ?.patternType ??
+    "unavailable";
+
+  const dominantVariation =
+    currentSpatialPattern
+      ?.dominantVariation ??
+    "unknown";
+
+  const transitionPatternSupported =
+    patternState ===
+      "candidate" &&
+    [
+      "speed",
+      "direction",
+      "mixed"
+    ].includes(
+      dominantVariation
+    );
+
+  const pronouncedTransitionPattern =
+    typeof patternType ===
+      "string" &&
+    patternType.startsWith(
+      "pronounced-"
+    );
+
+  const shearCandidateSupported =
+    currentShear
+      ?.currentShearDetected ===
+    true &&
+    currentShear
+      ?.shearState ===
+    "candidate";
+
+  const pronouncedShearSupported =
+    currentShear
+      ?.shearStrength ===
+    "pronounced";
+
+  const localizedVelocityChange =
+    currentShear
+      ?.shearType ===
+    "localized-horizontal-velocity-change";
+
+  const convergenceCandidateSupported =
+    currentConvergence
+      ?.currentConvergenceDetected ===
+    true;
+
+  const sufficientEvidence =
+    gradientAvailable &&
+    shearAvailable &&
+    patternAvailable;
+
+  let available =
+    sufficientEvidence;
+
+  let currentEdgeDetected =
+    false;
+
+  let edgeType =
+    "unavailable";
+
+  let edgeState =
+    "insufficient-evidence";
+
+  let edgeStrength =
+    "unknown";
+
+  let interpretation =
+    "A current edge cannot be evaluated from the available spatial-current evidence.";
+
+  if (sufficientEvidence) {
+    edgeType =
+      "no-edge-candidate";
+
+    edgeState =
+      "not-supported";
+
+    edgeStrength =
+      "none";
+
+    interpretation =
+      "The available spatial-current measurements do not provide corroborating transition and shear evidence for a current-edge candidate.";
+
+    if (
+      transitionPatternSupported &&
+      localizedVelocityChange &&
+      !completeAxisCoverage
+    ) {
+      edgeType =
+        "localized-current-transition";
+
+      edgeState =
+        "incomplete-support";
+
+      edgeStrength =
+        pronouncedTransitionPattern
+          ? "strong-localized"
+          : "localized";
+
+      interpretation =
+        "A measurable current transition and localized horizontal velocity change are present, but complete two-axis gradient coverage is unavailable.";
+    } else if (
+      transitionPatternSupported &&
+      shearCandidateSupported &&
+      completeAxisCoverage
+    ) {
+      currentEdgeDetected =
+        true;
+
+      edgeType =
+        (
+          pronouncedTransitionPattern ||
+          pronouncedShearSupported
+        )
+          ? "pronounced-current-edge-candidate"
+          : "current-edge-candidate";
+
+      edgeState =
+        "candidate";
+
+      edgeStrength =
+        (
+          pronouncedTransitionPattern ||
+          pronouncedShearSupported
+        )
+          ? "pronounced"
+          : "measurable";
+
+      interpretation =
+        convergenceCandidateSupported
+          ? "A spatial current transition is corroborated by horizontal shear with complete two-axis coverage. Convergent flow is also present within the sampled field."
+          : "A spatial current transition is corroborated by horizontal shear with complete two-axis coverage.";
+    }
+  }
+
+  const inheritedLimitations = [
+    ...(
+      Array.isArray(
+        currentGradient
+          ?.limitations
+      )
+        ? currentGradient
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentShear
+          ?.limitations
+      )
+        ? currentShear
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentSpatialPattern
+          ?.limitations
+      )
+        ? currentSpatialPattern
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentConvergence
+          ?.limitations
+      )
+        ? currentConvergence
+            .limitations
+        : []
+    )
+  ];
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      "Current Edge Analysis requires a measurable spatial transition corroborated by horizontal current-shear evidence.",
+
+      "A current-edge candidate requires complete north-south and east-west gradient coverage.",
+
+      "Convergence may support the interpretation but is not required because current edges may exist without convergent surface flow.",
+
+      "This analysis describes a surface-current boundary candidate within the sampled radius only.",
+
+      "No water-mass identity, thermal front, productivity boundary, persistence, prey concentration, habitat quality, fish presence, or biological significance is inferred."
+    ])
+  ];
+
+  return {
+    available,
+
+    analysisType:
+      "current-edge-analysis",
+
+    currentEdgeDetected,
+
+    edgeType,
+
+    edgeState,
+
+    edgeStrength,
+
+    dominantTransition:
+      transitionPatternSupported
+        ? dominantVariation
+        : "none",
+
+    evidence: {
+      gradientAvailable,
+
+      shearAvailable,
+
+      patternAvailable,
+
+      completeAxisCoverage,
+
+      transitionPatternSupported,
+
+      pronouncedTransitionPattern,
+
+      shearCandidateSupported,
+
+      pronouncedShearSupported,
+
+      localizedVelocityChange,
+
+      convergenceAvailable:
+        currentConvergence
+          ?.available ===
+        true,
+
+      convergenceCandidateSupported,
+
+      patternType,
+
+      patternState,
+
+      dominantVariation,
+
+      gradientCoverage:
+        currentGradient
+          ?.coverage ??
+        "unknown",
+
+      supportingAxes:
+        Array.isArray(
+          currentShear
+            ?.evidence
+            ?.supportingAxes
+        )
+          ? currentShear
+              .evidence
+              .supportingAxes
+          : [],
+
+      maximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+        Number.isFinite(
+          currentShear
+            ?.evidence
+            ?.maximumTotalVectorGradientMetersPerSecondPerNauticalMile
+        )
+          ? currentShear
+              .evidence
+              .maximumTotalVectorGradientMetersPerSecondPerNauticalMile
+          : null,
+
+      speedRangeKnots:
+        Number.isFinite(
+          currentSpatialPattern
+            ?.evidence
+            ?.speedRangeKnots
+        )
+          ? currentSpatialPattern
+              .evidence
+              .speedRangeKnots
+          : null,
+
+      maximumDirectionDifferenceDegrees:
+        Number.isFinite(
+          currentSpatialPattern
+            ?.evidence
+            ?.maximumDirectionDifferenceDegrees
+        )
+          ? currentSpatialPattern
+              .evidence
+              .maximumDirectionDifferenceDegrees
+          : null
+    },
+
+    thresholds: {
+      requiresTransitionPattern:
+        true,
+
+      requiresShearCandidate:
+        true,
+
+      requiresCompleteAxisCoverage:
+        true,
+
+      convergenceRequired:
+        false
+    },
+
+    interpretation,
+
+    limitations,
+
+    upstreamContracts: [
+      {
+        engine:
+          "current-gradient-analysis",
+
+        version:
+          currentGradient
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-shear-analysis",
+
+        version:
+          currentShear
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-spatial-pattern-analysis",
+
+        version:
+          currentSpatialPattern
+            ?.contractVersion ??
+          currentSpatialPattern
+            ?.thresholdVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-convergence-analysis",
+
+        version:
+          currentConvergence
+            ?.contractVersion ??
+          null
+      }
+    ],
+
+    contractVersion:
+      "pelora-current-edge-v1"
+  };
+}
+
+
 function buildCurrentConvergenceAnalysis(
   vectorProjection
 ) {
@@ -19271,7 +19669,7 @@ export function assessBlueMarlinHabitat({
            * Five additional design points are reserved for future
            * current-organization evidence such as convergence,
            * eddy boundaries, bathymetric interaction, and persistence.
-           */ 
+           */
 
         maximumScore:
           20
@@ -19751,7 +20149,16 @@ async function getOceanConditions(
     );
 
 
-  currents.derived = {
+
+
+  const currentEdge =
+    buildCurrentEdgeAnalysis(
+      currentGradient,
+      currentShear,
+      currentSpatialPattern,
+      currentConvergence
+    );
+currents.derived = {
     ...(
       currents
         ?.derived ??
@@ -19784,6 +20191,9 @@ async function getOceanConditions(
 
       convergence:
         currentConvergence,
+
+      edge:
+        currentEdge,
 
       shear:
         currentShear,
