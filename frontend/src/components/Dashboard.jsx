@@ -18,6 +18,10 @@ import {
   useLiveMarineConditions
 } from "../hooks/useLiveMarineConditions";
 
+import {
+  useOceanMemoryPersistence
+} from "../hooks/useOceanMemoryPersistence";
+
 import "../styles/dashboard.css";
 
 import peloraHeaderLockup from "../assets/branding/pelora-header-lockup.png";
@@ -164,6 +168,19 @@ const {
   user,
   loading: authLoading
 } = useSupabaseAuth();
+
+
+useOceanMemoryPersistence({
+  user,
+
+  selectedLocation:
+    selectedSpot,
+
+  oceanSnapshot:
+    selectedMarineData
+      ?.oceanSnapshot ??
+    null
+});
 
 
 const handleReportSaved = () => {
