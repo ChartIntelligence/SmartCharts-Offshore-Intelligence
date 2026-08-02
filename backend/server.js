@@ -20198,9 +20198,6 @@ currents.derived = {
       shear:
         currentShear,
 
-      edge:
-        null,
-
       eddyBoundary:
         null,
 
