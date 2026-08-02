@@ -4,6 +4,7 @@ import {
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
+  buildWaterMassAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6676,7 +6677,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.3"
+  "pelora-ocean-evidence-v1.4"
 );
 
 console.log(
@@ -11921,7 +11922,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.3"
+  "pelora-ocean-evidence-v1.4"
 );
 
 assert.equal(
@@ -17046,4 +17047,381 @@ assert.equal(
 
 console.log(
   "PASS Surface Water Character Analysis identifies combined thermal-current boundary context"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Water Mass Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildWaterMassSurfaceCharacter = ({
+  available = true
+} = {}) => ({
+  available,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-surface-water-character-v1"
+});
+
+
+const buildWaterMassTemperature = ({
+  available = true,
+  classification = "temperature-only",
+  spatialClassification = null,
+  coverage = "unavailable",
+  directional = false
+} = {}) => ({
+  available,
+
+  classification,
+
+  values: {
+    coverage,
+
+    spatialClassification
+  },
+
+  orientation: {
+    classification:
+      directional
+        ? "directional-temperature-transition"
+        : "no-clear-directional-transition"
+  },
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-temperature-structure-evidence"
+});
+
+
+const buildWaterMassProductivity = ({
+  available = true
+} = {}) => ({
+  available,
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-surface-productivity-evidence"
+});
+
+
+const buildWaterMassClarity = ({
+  available = true
+} = {}) => ({
+  available,
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-surface-water-clarity-evidence"
+});
+
+
+const buildWaterMassCurrent = ({
+  edgeAvailable = false,
+  edgeDetected = false,
+  edgeType = "no-edge-candidate",
+  edgeStrength = "none"
+} = {}) => ({
+  spatialAnalysis: {
+    edge: {
+      available:
+        edgeAvailable,
+
+      currentEdgeDetected:
+        edgeDetected,
+
+      edgeState:
+        edgeDetected
+          ? "candidate"
+          : "not-supported",
+
+      edgeType,
+
+      edgeStrength,
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-edge-v1"
+    }
+  }
+});
+
+
+const unavailableWaterMassAnalysis =
+  buildWaterMassAnalysis({
+    surfaceWaterCharacter:
+      buildWaterMassSurfaceCharacter({
+        available:
+          false
+      }),
+
+    temperature:
+      buildWaterMassTemperature({
+        available:
+          false
+      }),
+
+    productivity:
+      buildWaterMassProductivity({
+        available:
+          false
+      }),
+
+    clarity:
+      buildWaterMassClarity({
+        available:
+          false
+      }),
+
+    current:
+      buildWaterMassCurrent()
+  });
+
+assert.equal(
+  unavailableWaterMassAnalysis.available,
+  false
+);
+
+assert.equal(
+  unavailableWaterMassAnalysis.classification,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableWaterMassAnalysis
+    .distinctAdjacentWaterMassesEstablished,
+  false
+);
+
+console.log(
+  "PASS Water Mass Analysis requires available surface-water character"
+);
+
+
+const localOnlyWaterMassAnalysis =
+  buildWaterMassAnalysis({
+    surfaceWaterCharacter:
+      buildWaterMassSurfaceCharacter(),
+
+    temperature:
+      buildWaterMassTemperature(),
+
+    productivity:
+      buildWaterMassProductivity(),
+
+    clarity:
+      buildWaterMassClarity(),
+
+    current:
+      buildWaterMassCurrent()
+  });
+
+assert.equal(
+  localOnlyWaterMassAnalysis.classification,
+  "local-surface-character-only"
+);
+
+assert.equal(
+  localOnlyWaterMassAnalysis.readinessState,
+  "not-ready"
+);
+
+assert.equal(
+  localOnlyWaterMassAnalysis
+    .waterMassDistinctionReady,
+  false
+);
+
+console.log(
+  "PASS Water Mass Analysis preserves local character without inventing adjacent water masses"
+);
+
+
+const uniformWaterMassAnalysis =
+  buildWaterMassAnalysis({
+    surfaceWaterCharacter:
+      buildWaterMassSurfaceCharacter(),
+
+    temperature:
+      buildWaterMassTemperature({
+        classification:
+          "uniform-water",
+
+        spatialClassification:
+          "uniform-water",
+
+        coverage:
+          "sufficient"
+      }),
+
+    productivity:
+      buildWaterMassProductivity(),
+
+    clarity:
+      buildWaterMassClarity(),
+
+    current:
+      buildWaterMassCurrent()
+  });
+
+assert.equal(
+  uniformWaterMassAnalysis.classification,
+  "uniform-surface-water-context"
+);
+
+assert.equal(
+  uniformWaterMassAnalysis.readinessState,
+  "not-ready"
+);
+
+console.log(
+  "PASS Water Mass Analysis identifies uniform thermal context"
+);
+
+
+const thermalContrastWaterMassAnalysis =
+  buildWaterMassAnalysis({
+    surfaceWaterCharacter:
+      buildWaterMassSurfaceCharacter(),
+
+    temperature:
+      buildWaterMassTemperature({
+        classification:
+          "moderate-temperature-structure",
+
+        spatialClassification:
+          "moderate-temperature-transition",
+
+        coverage:
+          "sufficient",
+
+        directional:
+          true
+      }),
+
+    productivity:
+      buildWaterMassProductivity(),
+
+    clarity:
+      buildWaterMassClarity(),
+
+    current:
+      buildWaterMassCurrent()
+  });
+
+assert.equal(
+  thermalContrastWaterMassAnalysis.classification,
+  "single-variable-spatial-water-contrast"
+);
+
+assert.equal(
+  thermalContrastWaterMassAnalysis.readinessState,
+  "partially-ready"
+);
+
+assert.equal(
+  thermalContrastWaterMassAnalysis
+    .evidence
+    .independentSpatialCharacterVariableCount,
+  1
+);
+
+console.log(
+  "PASS Water Mass Analysis recognizes temperature as a single spatial water-character variable"
+);
+
+
+const combinedWaterMassBoundary =
+  buildWaterMassAnalysis({
+    surfaceWaterCharacter:
+      buildWaterMassSurfaceCharacter(),
+
+    temperature:
+      buildWaterMassTemperature({
+        classification:
+          "strong-temperature-break-candidate",
+
+        spatialClassification:
+          "strong-temperature-break-candidate",
+
+        coverage:
+          "sufficient",
+
+        directional:
+          true
+      }),
+
+    productivity:
+      buildWaterMassProductivity(),
+
+    clarity:
+      buildWaterMassClarity(),
+
+    current:
+      buildWaterMassCurrent({
+        edgeAvailable:
+          true,
+
+        edgeDetected:
+          true,
+
+        edgeType:
+          "pronounced-current-edge-candidate",
+
+        edgeStrength:
+          "pronounced"
+      })
+  });
+
+assert.equal(
+  combinedWaterMassBoundary.classification,
+  "combined-boundary-context-without-water-mass-distinction"
+);
+
+assert.equal(
+  combinedWaterMassBoundary.readinessState,
+  "partially-ready"
+);
+
+assert.equal(
+  combinedWaterMassBoundary
+    .distinctAdjacentWaterMassesEstablished,
+  false
+);
+
+assert.equal(
+  combinedWaterMassBoundary
+    .waterMassDistinctionReady,
+  false
+);
+
+assert.equal(
+  combinedWaterMassBoundary.contractVersion,
+  "pelora-water-mass-analysis-v1"
+);
+
+assert.ok(
+  combinedWaterMassBoundary
+    .missingRequirements
+    .includes(
+      "second-independent-spatial-water-character-variable"
+    )
+);
+
+console.log(
+  "PASS Water Mass Analysis preserves combined boundary evidence without overstating water-mass distinction"
 );

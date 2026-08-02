@@ -8161,6 +8161,15 @@ export function assessOceanEvidence({
       current
     });
 
+  const waterMassAnalysis =
+    buildWaterMassAnalysis({
+      surfaceWaterCharacter,
+      temperature,
+      productivity,
+      clarity,
+      current
+    });
+
   const structure =
     buildStructureEvidence({
       latitude,
@@ -8337,6 +8346,13 @@ export function assessOceanEvidence({
     surfaceWaterCharacter,
 
     /*
+     * Water Mass Analysis remains a readiness and boundary-context
+     * contract. It cannot alter evidence-group confidence, summaries,
+     * opportunity scoring, or species-model behavior.
+     */
+    waterMassAnalysis,
+
+    /*
      * Environmental opportunity pathways remain separate from
      * the established evidence groups until their contribution
      * to confidence and scoring is scientifically governed.
@@ -8354,7 +8370,7 @@ export function assessOceanEvidence({
     lineage,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.3"
+      "pelora-ocean-evidence-v1.4"
   };
 }
 
@@ -10555,6 +10571,498 @@ export function buildSurfaceWaterCharacterAnalysis({
 
     contractVersion:
       "pelora-surface-water-character-v1"
+  };
+}
+
+
+export function buildWaterMassAnalysis({
+  surfaceWaterCharacter = null,
+  temperature = null,
+  productivity = null,
+  clarity = null,
+  current = null
+} = {}) {
+  const surfaceCharacterAvailable =
+    surfaceWaterCharacter
+      ?.available ===
+    true;
+
+  const temperatureAvailable =
+    temperature
+      ?.available ===
+    true;
+
+  const productivityAvailable =
+    productivity
+      ?.available ===
+    true;
+
+  const clarityAvailable =
+    clarity
+      ?.available ===
+    true;
+
+  const temperatureCoverage =
+    temperature
+      ?.values
+      ?.coverage ??
+    "unavailable";
+
+  const temperatureClassification =
+    temperature
+      ?.classification ??
+    "unavailable";
+
+  const spatialTemperatureClassification =
+    temperature
+      ?.values
+      ?.spatialClassification ??
+    null;
+
+  const sufficientTemperatureCoverage =
+    temperatureCoverage ===
+    "sufficient";
+
+  const uniformThermalField =
+    sufficientTemperatureCoverage &&
+    (
+      temperatureClassification ===
+        "uniform-water" ||
+      spatialTemperatureClassification ===
+        "uniform-water"
+    );
+
+  const thermalTransitionClassifications =
+    new Set([
+      "weak-temperature-structure",
+      "moderate-temperature-structure",
+      "strong-temperature-break-candidate"
+    ]);
+
+  const spatialThermalContrast =
+    sufficientTemperatureCoverage &&
+    thermalTransitionClassifications.has(
+      temperatureClassification
+    );
+
+  const meaningfulSpatialThermalContrast =
+    sufficientTemperatureCoverage &&
+    (
+      temperatureClassification ===
+        "moderate-temperature-structure" ||
+      temperatureClassification ===
+        "strong-temperature-break-candidate"
+    );
+
+  const directionalThermalContrast =
+    temperature
+      ?.orientation
+      ?.classification ===
+    "directional-temperature-transition";
+
+  const currentEdge =
+    current
+      ?.spatialAnalysis
+      ?.edge ??
+    null;
+
+  const currentEdgeAvailable =
+    currentEdge
+      ?.available ===
+    true;
+
+  const currentEdgeDetected =
+    currentEdge
+      ?.currentEdgeDetected ===
+    true &&
+    currentEdge
+      ?.edgeState ===
+    "candidate";
+
+  /*
+   * Current v1 data availability:
+   *
+   * - Temperature has spatial sampling.
+   * - Current has spatial boundary analysis.
+   * - Chlorophyll and clarity describe the selected point only.
+   * - Salinity and water-column profiles are unavailable.
+   *
+   * Therefore, Pelora currently has at most one direct spatial
+   * water-character variable: temperature.
+   */
+  const spatialCharacterVariables = [
+    spatialThermalContrast
+      ? "temperature"
+      : null
+  ].filter(Boolean);
+
+  const localCharacterVariables = [
+    temperatureAvailable
+      ? "temperature"
+      : null,
+
+    productivityAvailable
+      ? "chlorophyll"
+      : null,
+
+    clarityAvailable
+      ? "inferred-clarity"
+      : null
+  ].filter(Boolean);
+
+  const independentSpatialCharacterVariableCount =
+    spatialCharacterVariables.length;
+
+  const localCharacterVariableCount =
+    localCharacterVariables.length;
+
+  const salinityAvailable =
+    false;
+
+  const spatialChlorophyllAvailable =
+    false;
+
+  const verticalProfileAvailable =
+    false;
+
+  const densityAvailable =
+    false;
+
+  const persistenceAvailable =
+    false;
+
+  const distinctAdjacentWaterMassesEstablished =
+    false;
+
+  const waterMassDistinctionReady =
+    independentSpatialCharacterVariableCount >=
+      2 &&
+    salinityAvailable ===
+      true;
+
+  let available =
+    surfaceCharacterAvailable;
+
+  let classification =
+    "unavailable";
+
+  let readinessState =
+    "insufficient-evidence";
+
+  let headline =
+    "Water-mass evidence is unavailable.";
+
+  let detail =
+    "Pelora does not currently have enough surface-water evidence to evaluate whether adjacent waters are distinguishable.";
+
+  if (available) {
+    classification =
+      "local-surface-character-only";
+
+    readinessState =
+      "not-ready";
+
+    headline =
+      "Local surface-water character is available.";
+
+    detail =
+      "Temperature, chlorophyll, and inferred clarity may describe the selected location, but adjacent water masses cannot be distinguished from local observations alone.";
+
+    if (
+      uniformThermalField
+    ) {
+      classification =
+        "uniform-surface-water-context";
+
+      readinessState =
+        "not-ready";
+
+      headline =
+        "The sampled surface water is thermally uniform.";
+
+      detail =
+        "Nearby temperatures remain broadly uniform. Local chlorophyll and clarity observations do not establish separate adjacent water masses.";
+    } else if (
+      spatialThermalContrast &&
+      !currentEdgeDetected
+    ) {
+      classification =
+        "single-variable-spatial-water-contrast";
+
+      readinessState =
+        "partially-ready";
+
+      headline =
+        "A temperature-based surface-water contrast is present.";
+
+      detail =
+        "Spatial temperature evidence indicates changing surface-water character, but temperature is currently the only direct spatial water-character variable. Distinct adjacent water masses are not established.";
+    } else if (
+      currentEdgeDetected &&
+      !spatialThermalContrast
+    ) {
+      classification =
+        "hydrodynamic-boundary-with-local-water-character";
+
+      readinessState =
+        "partially-ready";
+
+      headline =
+        "A current boundary is present beside locally observed water character.";
+
+      detail =
+        "Current evidence supports a hydrodynamic boundary candidate, but spatial temperature, chlorophyll, or salinity evidence does not yet distinguish the water on both sides.";
+    } else if (
+      spatialThermalContrast &&
+      currentEdgeDetected
+    ) {
+      classification =
+        "combined-boundary-context-without-water-mass-distinction";
+
+      readinessState =
+        "partially-ready";
+
+      headline =
+        "Thermal and current evidence describe a combined surface boundary.";
+
+      detail =
+        meaningfulSpatialThermalContrast
+          ? "A meaningful temperature contrast and current-edge candidate occur within the sampled area. This supports a combined boundary context, but a second independent spatial water-character variable is still required to distinguish adjacent water masses."
+          : "A limited temperature contrast and current-edge candidate occur within the sampled area. Distinct adjacent water masses remain unverified.";
+    }
+  }
+
+  const missingRequirements = [
+    !spatialChlorophyllAvailable
+      ? "spatial-chlorophyll-structure"
+      : null,
+
+    !salinityAvailable
+      ? "spatial-salinity-structure"
+      : null,
+
+    !densityAvailable
+      ? "density-structure"
+      : null,
+
+    !verticalProfileAvailable
+      ? "vertical-water-column-profiles"
+      : null,
+
+    !persistenceAvailable
+      ? "temporal-persistence"
+      : null,
+
+    independentSpatialCharacterVariableCount <
+      2
+      ? "second-independent-spatial-water-character-variable"
+      : null
+  ].filter(Boolean);
+
+  const inheritedLimitations = [
+    ...(
+      Array.isArray(
+        surfaceWaterCharacter
+          ?.limitations
+      )
+        ? surfaceWaterCharacter
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        temperature
+          ?.limitations
+      )
+        ? temperature
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        productivity
+          ?.limitations
+      )
+        ? productivity
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        clarity
+          ?.limitations
+      )
+        ? clarity
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentEdge
+          ?.limitations
+      )
+        ? currentEdge
+            .limitations
+        : []
+    )
+  ];
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      "Water Mass Analysis v1 evaluates evidence readiness and surface-boundary context only.",
+
+      "Temperature is currently the only direct spatial water-character variable.",
+
+      "Chlorophyll and inferred clarity currently describe the selected point rather than both sides of a boundary.",
+
+      "Salinity, density, dissolved oxygen, subsurface temperature, vertical profiles, and full water-column structure are unavailable.",
+
+      "Current boundaries describe flow organization and do not independently identify water masses.",
+
+      "No named water mass, water-mass origin, mixing zone, current front, ocean front, persistence, habitat quality, prey concentration, fish presence, or biological significance is inferred."
+    ])
+  ];
+
+  return {
+    available,
+
+    analysisType:
+      "water-mass-analysis",
+
+    classification,
+
+    readinessState,
+
+    waterMassDistinctionReady,
+
+    distinctAdjacentWaterMassesEstablished,
+
+    evidence: {
+      surfaceCharacterAvailable,
+
+      localCharacterVariables,
+
+      localCharacterVariableCount,
+
+      spatialCharacterVariables,
+
+      independentSpatialCharacterVariableCount,
+
+      temperatureAvailable,
+
+      temperatureCoverage,
+
+      sufficientTemperatureCoverage,
+
+      temperatureClassification,
+
+      spatialTemperatureClassification,
+
+      uniformThermalField,
+
+      spatialThermalContrast,
+
+      meaningfulSpatialThermalContrast,
+
+      directionalThermalContrast,
+
+      productivityAvailable,
+
+      clarityAvailable,
+
+      currentEdgeAvailable,
+
+      currentEdgeDetected,
+
+      currentEdgeType:
+        currentEdge
+          ?.edgeType ??
+        null,
+
+      currentEdgeStrength:
+        currentEdge
+          ?.edgeStrength ??
+        null,
+
+      spatialChlorophyllAvailable,
+
+      salinityAvailable,
+
+      densityAvailable,
+
+      verticalProfileAvailable,
+
+      persistenceAvailable
+    },
+
+    missingRequirements,
+
+    headline,
+
+    detail,
+
+    limitations,
+
+    upstreamContracts: [
+      {
+        engine:
+          "surface-water-character-analysis",
+
+        version:
+          surfaceWaterCharacter
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "temperature-evidence",
+
+        version:
+          temperature
+            ?.interpretation ??
+          null
+      },
+
+      {
+        engine:
+          "surface-productivity-evidence",
+
+        version:
+          productivity
+            ?.interpretation ??
+          null
+      },
+
+      {
+        engine:
+          "surface-water-clarity-evidence",
+
+        version:
+          clarity
+            ?.interpretation ??
+          null
+      },
+
+      {
+        engine:
+          "current-edge-analysis",
+
+        version:
+          currentEdge
+            ?.contractVersion ??
+          null
+      }
+    ],
+
+    contractVersion:
+      "pelora-water-mass-analysis-v1"
   };
 }
 
