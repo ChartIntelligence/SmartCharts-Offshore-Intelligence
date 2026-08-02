@@ -8170,6 +8170,14 @@ export function assessOceanEvidence({
       current
     });
 
+  const mixingZoneAnalysis =
+    buildMixingZoneAnalysis({
+      waterMassAnalysis,
+      surfaceWaterCharacter,
+      temperature,
+      current
+    });
+
   const structure =
     buildStructureEvidence({
       latitude,
@@ -8353,6 +8361,13 @@ export function assessOceanEvidence({
     waterMassAnalysis,
 
     /*
+     * Mixing Zone Analysis remains a readiness and interaction-
+     * context contract. It cannot alter established evidence
+     * confidence, summaries, scoring, or species-model behavior.
+     */
+    mixingZoneAnalysis,
+
+    /*
      * Environmental opportunity pathways remain separate from
      * the established evidence groups until their contribution
      * to confidence and scoring is scientifically governed.
@@ -8370,7 +8385,7 @@ export function assessOceanEvidence({
     lineage,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.4"
+      "pelora-ocean-evidence-v1.5"
   };
 }
 
@@ -11063,6 +11078,474 @@ export function buildWaterMassAnalysis({
 
     contractVersion:
       "pelora-water-mass-analysis-v1"
+  };
+}
+
+
+export function buildMixingZoneAnalysis({
+  waterMassAnalysis = null,
+  surfaceWaterCharacter = null,
+  temperature = null,
+  current = null
+} = {}) {
+  const waterMassAnalysisAvailable =
+    waterMassAnalysis
+      ?.available ===
+    true;
+
+  const surfaceCharacterAvailable =
+    surfaceWaterCharacter
+      ?.available ===
+    true;
+
+  const distinctAdjacentWaterMassesEstablished =
+    waterMassAnalysis
+      ?.distinctAdjacentWaterMassesEstablished ===
+    true;
+
+  const waterMassDistinctionReady =
+    waterMassAnalysis
+      ?.waterMassDistinctionReady ===
+    true;
+
+  const spatialThermalContrast =
+    waterMassAnalysis
+      ?.evidence
+      ?.spatialThermalContrast ===
+    true;
+
+  const meaningfulSpatialThermalContrast =
+    waterMassAnalysis
+      ?.evidence
+      ?.meaningfulSpatialThermalContrast ===
+    true;
+
+  const directionalThermalContrast =
+    waterMassAnalysis
+      ?.evidence
+      ?.directionalThermalContrast ===
+    true;
+
+  const currentSpatialAnalysis =
+    current
+      ?.spatialAnalysis ??
+    null;
+
+  const currentEdge =
+    currentSpatialAnalysis
+      ?.edge ??
+    null;
+
+  const currentConvergence =
+    currentSpatialAnalysis
+      ?.convergence ??
+    null;
+
+  const currentShear =
+    currentSpatialAnalysis
+      ?.shear ??
+    null;
+
+  const currentEdgeDetected =
+    currentEdge
+      ?.currentEdgeDetected ===
+    true &&
+    currentEdge
+      ?.edgeState ===
+    "candidate";
+
+  const convergenceDetected =
+    currentConvergence
+      ?.currentConvergenceDetected ===
+    true &&
+    currentConvergence
+      ?.convergenceState ===
+    "candidate";
+
+  const shearDetected =
+    currentShear
+      ?.currentShearDetected ===
+    true &&
+    currentShear
+      ?.shearState ===
+    "candidate";
+
+  const hydrodynamicInteractionSignalCount =
+    [
+      currentEdgeDetected,
+      convergenceDetected,
+      shearDetected
+    ].filter(Boolean).length;
+
+  const hydrodynamicInteractionSupported =
+    hydrodynamicInteractionSignalCount >
+    0;
+
+  const combinedBoundaryContext =
+    spatialThermalContrast &&
+    currentEdgeDetected;
+
+  /*
+   * A verified mixing-zone interpretation requires:
+   *
+   * - distinct adjacent water masses,
+   * - spatial evidence describing their characteristics,
+   * - hydrodynamic evidence supporting interaction,
+   * - and sufficient persistence or repeated observations.
+   *
+   * Current v1 evidence does not satisfy those requirements.
+   */
+  const persistenceAvailable =
+    false;
+
+  const verticalStructureAvailable =
+    false;
+
+  const spatialSalinityAvailable =
+    false;
+
+  const spatialChlorophyllAvailable =
+    false;
+
+  const mixingZoneReady =
+    distinctAdjacentWaterMassesEstablished &&
+    waterMassDistinctionReady &&
+    hydrodynamicInteractionSupported &&
+    persistenceAvailable;
+
+  const mixingZoneDetected =
+    false;
+
+  let available =
+    waterMassAnalysisAvailable ||
+    surfaceCharacterAvailable;
+
+  let classification =
+    "unavailable";
+
+  let readinessState =
+    "insufficient-evidence";
+
+  let interactionContext =
+    "unavailable";
+
+  let headline =
+    "Mixing-zone evidence is unavailable.";
+
+  let detail =
+    "Pelora does not currently have enough water-character or boundary evidence to evaluate possible water interaction.";
+
+  if (available) {
+    classification =
+      "no-mixing-zone-context";
+
+    readinessState =
+      "not-ready";
+
+    interactionContext =
+      "not-established";
+
+    headline =
+      "A mixing zone is not established.";
+
+    detail =
+      "Available surface observations do not currently provide combined water-character and hydrodynamic interaction evidence.";
+
+    if (
+      spatialThermalContrast &&
+      !hydrodynamicInteractionSupported
+    ) {
+      classification =
+        "thermal-boundary-context-without-mixing-evidence";
+
+      readinessState =
+        "partially-ready";
+
+      interactionContext =
+        "thermal-boundary-only";
+
+      headline =
+        "A thermal boundary is present without verified mixing evidence.";
+
+      detail =
+        "Spatial temperature observations describe changing surface-water character, but current evidence does not establish interaction between distinct waters.";
+    } else if (
+      hydrodynamicInteractionSupported &&
+      !spatialThermalContrast
+    ) {
+      classification =
+        "hydrodynamic-boundary-context-without-water-mass-distinction";
+
+      readinessState =
+        "partially-ready";
+
+      interactionContext =
+        "hydrodynamic-boundary-only";
+
+      headline =
+        "Hydrodynamic interaction signals are present without water-mass distinction.";
+
+      detail =
+        "Current edge, shear, or convergence evidence describes surface-flow organization, but adjacent water characteristics have not been independently distinguished.";
+    } else if (
+      combinedBoundaryContext
+    ) {
+      classification =
+        hydrodynamicInteractionSignalCount >=
+          2
+          ? "multi-signal-boundary-interaction-context"
+          : "combined-boundary-interaction-context";
+
+      readinessState =
+        "partially-ready";
+
+      interactionContext =
+        hydrodynamicInteractionSignalCount >=
+          2
+          ? "thermal-and-multiple-current-signals"
+          : "thermal-and-current-edge";
+
+      headline =
+        hydrodynamicInteractionSignalCount >=
+          2
+          ? "Multiple boundary signals describe possible surface-water interaction context."
+          : "Thermal and current-edge evidence describe possible surface-water interaction context.";
+
+      detail =
+        meaningfulSpatialThermalContrast
+          ? "A meaningful thermal contrast coincides with organized current behavior. This supports an interaction context, but distinct adjacent water masses, persistence, and full mixing have not been established."
+          : "A limited thermal contrast coincides with organized current behavior. The evidence remains insufficient to identify a mixing zone.";
+    }
+  }
+
+  const missingRequirements = [
+    !distinctAdjacentWaterMassesEstablished
+      ? "distinct-adjacent-water-masses"
+      : null,
+
+    !waterMassDistinctionReady
+      ? "water-mass-distinction-readiness"
+      : null,
+
+    !spatialSalinityAvailable
+      ? "spatial-salinity-structure"
+      : null,
+
+    !spatialChlorophyllAvailable
+      ? "spatial-chlorophyll-structure"
+      : null,
+
+    !verticalStructureAvailable
+      ? "vertical-water-column-structure"
+      : null,
+
+    !persistenceAvailable
+      ? "temporal-persistence"
+      : null
+  ].filter(Boolean);
+
+  const inheritedLimitations = [
+    ...(
+      Array.isArray(
+        waterMassAnalysis
+          ?.limitations
+      )
+        ? waterMassAnalysis
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        surfaceWaterCharacter
+          ?.limitations
+      )
+        ? surfaceWaterCharacter
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        temperature
+          ?.limitations
+      )
+        ? temperature
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentEdge
+          ?.limitations
+      )
+        ? currentEdge
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentConvergence
+          ?.limitations
+      )
+        ? currentConvergence
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentShear
+          ?.limitations
+      )
+        ? currentShear
+            .limitations
+        : []
+    )
+  ];
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      "Mixing Zone Analysis v1 evaluates evidence readiness and possible surface interaction context only.",
+
+      "Current edge, convergence, and shear describe horizontal surface-flow organization but do not independently confirm mixing.",
+
+      "A thermal boundary does not independently establish two distinct water masses or active mixing.",
+
+      "Salinity, density, spatial chlorophyll, vertical profiles, turbulence, exchange rates, and full water-column structure are unavailable.",
+
+      "No mixing zone, water-mass exchange, current front, ocean front, persistence, prey concentration, habitat quality, fish presence, or biological significance is confirmed."
+    ])
+  ];
+
+  return {
+    available,
+
+    analysisType:
+      "mixing-zone-analysis",
+
+    classification,
+
+    readinessState,
+
+    interactionContext,
+
+    mixingZoneReady,
+
+    mixingZoneDetected,
+
+    evidence: {
+      waterMassAnalysisAvailable,
+
+      surfaceCharacterAvailable,
+
+      distinctAdjacentWaterMassesEstablished,
+
+      waterMassDistinctionReady,
+
+      spatialThermalContrast,
+
+      meaningfulSpatialThermalContrast,
+
+      directionalThermalContrast,
+
+      currentEdgeDetected,
+
+      convergenceDetected,
+
+      shearDetected,
+
+      hydrodynamicInteractionSignalCount,
+
+      hydrodynamicInteractionSupported,
+
+      combinedBoundaryContext,
+
+      persistenceAvailable,
+
+      verticalStructureAvailable,
+
+      spatialSalinityAvailable,
+
+      spatialChlorophyllAvailable
+    },
+
+    missingRequirements,
+
+    headline,
+
+    detail,
+
+    limitations,
+
+    upstreamContracts: [
+      {
+        engine:
+          "water-mass-analysis",
+
+        version:
+          waterMassAnalysis
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "surface-water-character-analysis",
+
+        version:
+          surfaceWaterCharacter
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "temperature-evidence",
+
+        version:
+          temperature
+            ?.interpretation ??
+          null
+      },
+
+      {
+        engine:
+          "current-edge-analysis",
+
+        version:
+          currentEdge
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-convergence-analysis",
+
+        version:
+          currentConvergence
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-shear-analysis",
+
+        version:
+          currentShear
+            ?.contractVersion ??
+          null
+      }
+    ],
+
+    contractVersion:
+      "pelora-mixing-zone-analysis-v1"
   };
 }
 

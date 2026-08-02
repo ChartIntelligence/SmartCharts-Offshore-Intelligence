@@ -5,6 +5,7 @@ import {
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
   buildWaterMassAnalysis,
+  buildMixingZoneAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6677,7 +6678,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.4"
+  "pelora-ocean-evidence-v1.5"
 );
 
 console.log(
@@ -11922,7 +11923,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.4"
+  "pelora-ocean-evidence-v1.5"
 );
 
 assert.equal(
@@ -17424,4 +17425,341 @@ assert.ok(
 
 console.log(
   "PASS Water Mass Analysis preserves combined boundary evidence without overstating water-mass distinction"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Mixing Zone Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildMixingWaterMass = ({
+  available = true,
+  spatialThermalContrast = false,
+  meaningfulThermalContrast = false
+} = {}) => ({
+  available,
+
+  distinctAdjacentWaterMassesEstablished:
+    false,
+
+  waterMassDistinctionReady:
+    false,
+
+  evidence: {
+    spatialThermalContrast,
+
+    meaningfulSpatialThermalContrast:
+      meaningfulThermalContrast,
+
+    directionalThermalContrast:
+      spatialThermalContrast
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-water-mass-analysis-v1"
+});
+
+
+const buildMixingSurfaceCharacter = ({
+  available = true
+} = {}) => ({
+  available,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-surface-water-character-v1"
+});
+
+
+const buildMixingTemperature = () => ({
+  available:
+    true,
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-temperature-structure-evidence"
+});
+
+
+const buildMixingCurrent = ({
+  edge = false,
+  convergence = false,
+  shear = false
+} = {}) => ({
+  spatialAnalysis: {
+    edge: {
+      currentEdgeDetected:
+        edge,
+
+      edgeState:
+        edge
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-edge-v1"
+    },
+
+    convergence: {
+      currentConvergenceDetected:
+        convergence,
+
+      convergenceState:
+        convergence
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-convergence-v1"
+    },
+
+    shear: {
+      currentShearDetected:
+        shear,
+
+      shearState:
+        shear
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-shear-v1"
+    }
+  }
+});
+
+
+const unavailableMixingZone =
+  buildMixingZoneAnalysis({
+    waterMassAnalysis:
+      buildMixingWaterMass({
+        available:
+          false
+      }),
+
+    surfaceWaterCharacter:
+      buildMixingSurfaceCharacter({
+        available:
+          false
+      }),
+
+    temperature:
+      buildMixingTemperature(),
+
+    current:
+      buildMixingCurrent()
+  });
+
+assert.equal(
+  unavailableMixingZone.available,
+  false
+);
+
+assert.equal(
+  unavailableMixingZone.classification,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableMixingZone.mixingZoneDetected,
+  false
+);
+
+console.log(
+  "PASS Mixing Zone Analysis requires water-character or water-mass evidence"
+);
+
+
+const noMixingContext =
+  buildMixingZoneAnalysis({
+    waterMassAnalysis:
+      buildMixingWaterMass(),
+
+    surfaceWaterCharacter:
+      buildMixingSurfaceCharacter(),
+
+    temperature:
+      buildMixingTemperature(),
+
+    current:
+      buildMixingCurrent()
+  });
+
+assert.equal(
+  noMixingContext.classification,
+  "no-mixing-zone-context"
+);
+
+assert.equal(
+  noMixingContext.readinessState,
+  "not-ready"
+);
+
+console.log(
+  "PASS Mixing Zone Analysis remains conservative without boundary evidence"
+);
+
+
+const thermalOnlyMixingContext =
+  buildMixingZoneAnalysis({
+    waterMassAnalysis:
+      buildMixingWaterMass({
+        spatialThermalContrast:
+          true,
+
+        meaningfulThermalContrast:
+          true
+      }),
+
+    surfaceWaterCharacter:
+      buildMixingSurfaceCharacter(),
+
+    temperature:
+      buildMixingTemperature(),
+
+    current:
+      buildMixingCurrent()
+  });
+
+assert.equal(
+  thermalOnlyMixingContext.classification,
+  "thermal-boundary-context-without-mixing-evidence"
+);
+
+assert.equal(
+  thermalOnlyMixingContext.mixingZoneReady,
+  false
+);
+
+console.log(
+  "PASS Mixing Zone Analysis preserves thermal-boundary context without claiming mixing"
+);
+
+
+const hydrodynamicOnlyMixingContext =
+  buildMixingZoneAnalysis({
+    waterMassAnalysis:
+      buildMixingWaterMass(),
+
+    surfaceWaterCharacter:
+      buildMixingSurfaceCharacter(),
+
+    temperature:
+      buildMixingTemperature(),
+
+    current:
+      buildMixingCurrent({
+        edge:
+          true
+      })
+  });
+
+assert.equal(
+  hydrodynamicOnlyMixingContext.classification,
+  "hydrodynamic-boundary-context-without-water-mass-distinction"
+);
+
+assert.equal(
+  hydrodynamicOnlyMixingContext
+    .evidence
+    .hydrodynamicInteractionSignalCount,
+  1
+);
+
+console.log(
+  "PASS Mixing Zone Analysis preserves hydrodynamic context without inventing water masses"
+);
+
+
+const combinedMixingContext =
+  buildMixingZoneAnalysis({
+    waterMassAnalysis:
+      buildMixingWaterMass({
+        spatialThermalContrast:
+          true,
+
+        meaningfulThermalContrast:
+          true
+      }),
+
+    surfaceWaterCharacter:
+      buildMixingSurfaceCharacter(),
+
+    temperature:
+      buildMixingTemperature(),
+
+    current:
+      buildMixingCurrent({
+        edge:
+          true,
+
+        convergence:
+          true,
+
+        shear:
+          true
+      })
+  });
+
+assert.equal(
+  combinedMixingContext.classification,
+  "multi-signal-boundary-interaction-context"
+);
+
+assert.equal(
+  combinedMixingContext.readinessState,
+  "partially-ready"
+);
+
+assert.equal(
+  combinedMixingContext
+    .evidence
+    .hydrodynamicInteractionSignalCount,
+  3
+);
+
+assert.equal(
+  combinedMixingContext.mixingZoneDetected,
+  false
+);
+
+assert.equal(
+  combinedMixingContext.mixingZoneReady,
+  false
+);
+
+assert.equal(
+  combinedMixingContext.contractVersion,
+  "pelora-mixing-zone-analysis-v1"
+);
+
+assert.ok(
+  combinedMixingContext
+    .missingRequirements
+    .includes(
+      "distinct-adjacent-water-masses"
+    )
+);
+
+console.log(
+  "PASS Mixing Zone Analysis identifies multi-signal interaction context without confirming a mixing zone"
 );
