@@ -8187,6 +8187,15 @@ export function assessOceanEvidence({
       current
     });
 
+  const oceanFrontAnalysis =
+    buildOceanFrontAnalysis({
+      environmentalTransitionAnalysis,
+      waterMassAnalysis,
+      mixingZoneAnalysis,
+      temperature,
+      current
+    });
+
   const structure =
     buildStructureEvidence({
       latitude,
@@ -8385,6 +8394,14 @@ export function assessOceanEvidence({
     environmentalTransitionAnalysis,
 
     /*
+     * Ocean Front Analysis remains a scientific readiness and
+     * candidate-context contract. It cannot alter established
+     * evidence confidence, summaries, opportunity scoring,
+     * species models, or captain-facing language.
+     */
+    oceanFrontAnalysis,
+
+    /*
      * Environmental opportunity pathways remain separate from
      * the established evidence groups until their contribution
      * to confidence and scoring is scientifically governed.
@@ -8402,7 +8419,7 @@ export function assessOceanEvidence({
     lineage,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.6"
+      "pelora-ocean-evidence-v1.7"
   };
 }
 
@@ -12228,6 +12245,512 @@ export function buildEnvironmentalTransitionAnalysis({
 
     contractVersion:
       "pelora-environmental-transition-analysis-v1"
+  };
+}
+
+
+export function buildOceanFrontAnalysis({
+  environmentalTransitionAnalysis = null,
+  waterMassAnalysis = null,
+  mixingZoneAnalysis = null,
+  temperature = null,
+  current = null
+} = {}) {
+  const environmentalTransitionAvailable =
+    environmentalTransitionAnalysis
+      ?.available ===
+    true;
+
+  const environmentalTransitionClassification =
+    environmentalTransitionAnalysis
+      ?.classification ??
+    "unavailable";
+
+  const environmentalTransitionState =
+    environmentalTransitionAnalysis
+      ?.transitionState ??
+    "insufficient-evidence";
+
+  const environmentalTransitionStrength =
+    environmentalTransitionAnalysis
+      ?.transitionStrength ??
+    "unknown";
+
+  const thermalTransitionSupported =
+    environmentalTransitionAnalysis
+      ?.evidence
+      ?.thermalTransitionSupported ===
+    true;
+
+  const meaningfulThermalTransition =
+    environmentalTransitionAnalysis
+      ?.evidence
+      ?.meaningfulThermalTransition ===
+    true;
+
+  const directionalThermalTransition =
+    environmentalTransitionAnalysis
+      ?.evidence
+      ?.directionalThermalTransition ===
+    true;
+
+  const hydrodynamicTransitionSupported =
+    environmentalTransitionAnalysis
+      ?.evidence
+      ?.hydrodynamicTransitionSupported ===
+    true;
+
+  const hydrodynamicSignalCount =
+    Number.isFinite(
+      environmentalTransitionAnalysis
+        ?.evidence
+        ?.hydrodynamicSignalCount
+    )
+      ? environmentalTransitionAnalysis
+          .evidence
+          .hydrodynamicSignalCount
+      : 0;
+
+  const combinedThermalCurrentContext =
+    environmentalTransitionAnalysis
+      ?.evidence
+      ?.combinedThermalCurrentContext ===
+    true;
+
+  const multiSignalEnvironmentalContext =
+    environmentalTransitionClassification ===
+      "multi-signal-environmental-transition-context";
+
+  const currentEdgeDetected =
+    environmentalTransitionAnalysis
+      ?.evidence
+      ?.currentEdgeDetected ===
+    true;
+
+  const distinctAdjacentWaterMassesEstablished =
+    waterMassAnalysis
+      ?.distinctAdjacentWaterMassesEstablished ===
+    true;
+
+  const waterMassDistinctionReady =
+    waterMassAnalysis
+      ?.waterMassDistinctionReady ===
+    true;
+
+  const independentSpatialCharacterVariableCount =
+    Number.isFinite(
+      waterMassAnalysis
+        ?.evidence
+        ?.independentSpatialCharacterVariableCount
+    )
+      ? waterMassAnalysis
+          .evidence
+          .independentSpatialCharacterVariableCount
+      : 0;
+
+  const mixingZoneDetected =
+    mixingZoneAnalysis
+      ?.mixingZoneDetected ===
+    true;
+
+  const mixingZoneReady =
+    mixingZoneAnalysis
+      ?.mixingZoneReady ===
+    true;
+
+  const mixingInteractionContext =
+    [
+      "combined-boundary-interaction-context",
+      "multi-signal-boundary-interaction-context"
+    ].includes(
+      mixingZoneAnalysis
+        ?.classification
+    );
+
+  const persistenceAvailable =
+    false;
+
+  const crossBoundaryWaterCharacterAvailable =
+    independentSpatialCharacterVariableCount >=
+    2;
+
+  const fullWaterColumnStructureAvailable =
+    false;
+
+  const sufficientFrontEvidence =
+    meaningfulThermalTransition &&
+    hydrodynamicTransitionSupported &&
+    currentEdgeDetected;
+
+  const corroboratingFrontContext =
+    sufficientFrontEvidence &&
+    (
+      hydrodynamicSignalCount >=
+        2 ||
+      mixingInteractionContext ||
+      multiSignalEnvironmentalContext
+    );
+
+  const oceanFrontReady =
+    sufficientFrontEvidence &&
+    crossBoundaryWaterCharacterAvailable &&
+    distinctAdjacentWaterMassesEstablished &&
+    waterMassDistinctionReady &&
+    mixingZoneReady &&
+    persistenceAvailable;
+
+  const oceanFrontDetected =
+    false;
+
+  const available =
+    environmentalTransitionAvailable ||
+    thermalTransitionSupported ||
+    hydrodynamicTransitionSupported;
+
+  let classification =
+    "unavailable";
+
+  let frontState =
+    "insufficient-evidence";
+
+  let frontStrength =
+    "unknown";
+
+  let frontType =
+    "unavailable";
+
+  let headline =
+    "Ocean-front evidence is unavailable.";
+
+  let detail =
+    "Pelora does not currently have enough environmental evidence to evaluate an ocean-front context.";
+
+  if (available) {
+    classification =
+      "no-ocean-front-context";
+
+    frontState =
+      "not-supported";
+
+    frontStrength =
+      "none";
+
+    frontType =
+      "none";
+
+    headline =
+      "An ocean-front context is not established.";
+
+    detail =
+      "The available observations do not show a corroborated thermal and current boundary.";
+
+    if (
+      thermalTransitionSupported &&
+      !hydrodynamicTransitionSupported
+    ) {
+      classification =
+        "thermal-boundary-without-front-support";
+
+      frontState =
+        "incomplete-support";
+
+      frontStrength =
+        meaningfulThermalTransition
+          ? "measurable"
+          : "weak";
+
+      frontType =
+        "thermal-only";
+
+      headline =
+        "A temperature boundary is present without enough current support.";
+
+      detail =
+        "Nearby temperatures change across the sampled area, but organized current evidence does not yet support the same boundary.";
+    } else if (
+      hydrodynamicTransitionSupported &&
+      !thermalTransitionSupported
+    ) {
+      classification =
+        "current-boundary-without-front-support";
+
+      frontState =
+        "incomplete-support";
+
+      frontStrength =
+        hydrodynamicSignalCount >=
+          2
+          ? "pronounced"
+          : "measurable";
+
+      frontType =
+        "hydrodynamic-only";
+
+      headline =
+        "An organized current boundary is present without enough water-character support.";
+
+      detail =
+        "Current evidence shows an organized boundary, but matching spatial temperature or other water-character evidence is not established.";
+    } else if (
+      sufficientFrontEvidence &&
+      !corroboratingFrontContext
+    ) {
+      classification =
+        "ocean-front-candidate-context";
+
+      frontState =
+        "candidate-context";
+
+      frontStrength =
+        (
+          environmentalTransitionStrength ===
+            "pronounced"
+        )
+          ? "pronounced"
+          : "measurable";
+
+      frontType =
+        "thermal-current-boundary";
+
+      headline =
+        "Temperature and current evidence describe an ocean-front candidate context.";
+
+      detail =
+        "A meaningful temperature transition coincides with a current-edge candidate. Distinct adjacent water masses and persistence remain unverified.";
+    } else if (
+      corroboratingFrontContext
+    ) {
+      classification =
+        "multi-signal-ocean-front-candidate-context";
+
+      frontState =
+        "candidate-context";
+
+      frontStrength =
+        (
+          environmentalTransitionStrength ===
+            "pronounced" ||
+          hydrodynamicSignalCount >=
+            2
+        )
+          ? "pronounced"
+          : "measurable";
+
+      frontType =
+        "multi-signal-surface-boundary";
+
+      headline =
+        "Several independent signals describe a strong ocean-front candidate context.";
+
+      detail =
+        "Thermal change, an organized current boundary, and additional interaction evidence occur within the sampled area. The evidence remains insufficient to verify a persistent ocean front.";
+    }
+  }
+
+  const missingRequirements = [
+    !crossBoundaryWaterCharacterAvailable
+      ? "second-independent-spatial-water-character-variable"
+      : null,
+
+    !distinctAdjacentWaterMassesEstablished
+      ? "distinct-adjacent-water-masses"
+      : null,
+
+    !waterMassDistinctionReady
+      ? "water-mass-distinction-readiness"
+      : null,
+
+    !mixingZoneDetected
+      ? "verified-mixing-zone"
+      : null,
+
+    !persistenceAvailable
+      ? "temporal-persistence"
+      : null,
+
+    !fullWaterColumnStructureAvailable
+      ? "full-water-column-structure"
+      : null
+  ].filter(Boolean);
+
+  const inheritedLimitations = [
+    ...(
+      Array.isArray(
+        environmentalTransitionAnalysis
+          ?.limitations
+      )
+        ? environmentalTransitionAnalysis
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        waterMassAnalysis
+          ?.limitations
+      )
+        ? waterMassAnalysis
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        mixingZoneAnalysis
+          ?.limitations
+      )
+        ? mixingZoneAnalysis
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        temperature
+          ?.limitations
+      )
+        ? temperature
+            .limitations
+        : []
+    )
+  ];
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      "Ocean Front Analysis v1 evaluates ocean-front readiness and candidate context only.",
+
+      "Coincident temperature and current boundaries do not independently confirm a persistent ocean front.",
+
+      "A verified ocean front requires distinct cross-boundary water characteristics and temporal persistence.",
+
+      "Spatial chlorophyll, salinity, density, subsurface temperature, vertical profiles, and full water-column structure are unavailable.",
+
+      "The internal headline and detail are scientific summaries and are not captain-facing narrative.",
+
+      "No verified ocean front, water-mass exchange, persistence, prey concentration, habitat quality, fish presence, fishing quality, or biological significance is confirmed."
+    ])
+  ];
+
+  return {
+    available,
+
+    analysisType:
+      "ocean-front-analysis",
+
+    classification,
+
+    frontType,
+
+    frontState,
+
+    frontStrength,
+
+    oceanFrontReady,
+
+    oceanFrontDetected,
+
+    evidence: {
+      environmentalTransitionAvailable,
+
+      environmentalTransitionClassification,
+
+      environmentalTransitionState,
+
+      environmentalTransitionStrength,
+
+      thermalTransitionSupported,
+
+      meaningfulThermalTransition,
+
+      directionalThermalTransition,
+
+      hydrodynamicTransitionSupported,
+
+      hydrodynamicSignalCount,
+
+      combinedThermalCurrentContext,
+
+      multiSignalEnvironmentalContext,
+
+      currentEdgeDetected,
+
+      sufficientFrontEvidence,
+
+      corroboratingFrontContext,
+
+      distinctAdjacentWaterMassesEstablished,
+
+      waterMassDistinctionReady,
+
+      independentSpatialCharacterVariableCount,
+
+      crossBoundaryWaterCharacterAvailable,
+
+      mixingZoneDetected,
+
+      mixingZoneReady,
+
+      mixingInteractionContext,
+
+      persistenceAvailable,
+
+      fullWaterColumnStructureAvailable
+    },
+
+    missingRequirements,
+
+    headline,
+
+    detail,
+
+    limitations,
+
+    upstreamContracts: [
+      {
+        engine:
+          "environmental-transition-analysis",
+
+        version:
+          environmentalTransitionAnalysis
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "water-mass-analysis",
+
+        version:
+          waterMassAnalysis
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "mixing-zone-analysis",
+
+        version:
+          mixingZoneAnalysis
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "temperature-evidence",
+
+        version:
+          temperature
+            ?.interpretation ??
+          null
+      }
+    ],
+
+    contractVersion:
+      "pelora-ocean-front-analysis-v1"
   };
 }
 

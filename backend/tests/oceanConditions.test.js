@@ -7,6 +7,7 @@ import {
   buildWaterMassAnalysis,
   buildMixingZoneAnalysis,
   buildEnvironmentalTransitionAnalysis,
+  buildOceanFrontAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6679,7 +6680,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.6"
+  "pelora-ocean-evidence-v1.7"
 );
 
 console.log(
@@ -11924,7 +11925,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.6"
+  "pelora-ocean-evidence-v1.7"
 );
 
 assert.equal(
@@ -18252,4 +18253,383 @@ assert.equal(
 
 console.log(
   "PASS Environmental Transition Analysis identifies multi-signal context without confirming an ocean front"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Front Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildFrontEnvironmentalTransition = ({
+  available = true,
+  classification =
+    "uniform-environmental-context",
+  strength = "none",
+  thermal = false,
+  meaningfulThermal = false,
+  hydrodynamic = false,
+  hydrodynamicSignalCount = 0,
+  currentEdge = false
+} = {}) => ({
+  available,
+
+  classification,
+
+  transitionState:
+    classification ===
+      "uniform-environmental-context"
+      ? "observed"
+      : "candidate-context",
+
+  transitionStrength:
+    strength,
+
+  evidence: {
+    thermalTransitionSupported:
+      thermal,
+
+    meaningfulThermalTransition:
+      meaningfulThermal,
+
+    directionalThermalTransition:
+      thermal,
+
+    hydrodynamicTransitionSupported:
+      hydrodynamic,
+
+    hydrodynamicSignalCount,
+
+    combinedThermalCurrentContext:
+      thermal &&
+      hydrodynamic,
+
+    currentEdgeDetected:
+      currentEdge
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-environmental-transition-analysis-v1"
+});
+
+
+const buildFrontWaterMass = ({
+  spatialVariableCount = 1
+} = {}) => ({
+  distinctAdjacentWaterMassesEstablished:
+    false,
+
+  waterMassDistinctionReady:
+    false,
+
+  evidence: {
+    independentSpatialCharacterVariableCount:
+      spatialVariableCount
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-water-mass-analysis-v1"
+});
+
+
+const buildFrontMixingZone = ({
+  classification =
+    "no-mixing-zone-context"
+} = {}) => ({
+  classification,
+
+  mixingZoneDetected:
+    false,
+
+  mixingZoneReady:
+    false,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-mixing-zone-analysis-v1"
+});
+
+
+const buildFrontTemperature = () => ({
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-temperature-structure-evidence"
+});
+
+
+const unavailableOceanFront =
+  buildOceanFrontAnalysis({
+    environmentalTransitionAnalysis:
+      buildFrontEnvironmentalTransition({
+        available:
+          false
+      }),
+
+    waterMassAnalysis:
+      buildFrontWaterMass(),
+
+    mixingZoneAnalysis:
+      buildFrontMixingZone(),
+
+    temperature:
+      buildFrontTemperature()
+  });
+
+assert.equal(
+  unavailableOceanFront.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanFront.classification,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableOceanFront.oceanFrontDetected,
+  false
+);
+
+console.log(
+  "PASS Ocean Front Analysis requires available environmental-transition evidence"
+);
+
+
+const thermalOnlyOceanFront =
+  buildOceanFrontAnalysis({
+    environmentalTransitionAnalysis:
+      buildFrontEnvironmentalTransition({
+        classification:
+          "thermal-transition-context",
+
+        strength:
+          "measurable",
+
+        thermal:
+          true,
+
+        meaningfulThermal:
+          true
+      }),
+
+    waterMassAnalysis:
+      buildFrontWaterMass(),
+
+    mixingZoneAnalysis:
+      buildFrontMixingZone(),
+
+    temperature:
+      buildFrontTemperature()
+  });
+
+assert.equal(
+  thermalOnlyOceanFront.classification,
+  "thermal-boundary-without-front-support"
+);
+
+assert.equal(
+  thermalOnlyOceanFront.frontState,
+  "incomplete-support"
+);
+
+console.log(
+  "PASS Ocean Front Analysis preserves thermal-only boundary context"
+);
+
+
+const currentOnlyOceanFront =
+  buildOceanFrontAnalysis({
+    environmentalTransitionAnalysis:
+      buildFrontEnvironmentalTransition({
+        classification:
+          "hydrodynamic-transition-context",
+
+        strength:
+          "pronounced",
+
+        hydrodynamic:
+          true,
+
+        hydrodynamicSignalCount:
+          2,
+
+        currentEdge:
+          true
+      }),
+
+    waterMassAnalysis:
+      buildFrontWaterMass(),
+
+    mixingZoneAnalysis:
+      buildFrontMixingZone(),
+
+    temperature:
+      buildFrontTemperature()
+  });
+
+assert.equal(
+  currentOnlyOceanFront.classification,
+  "current-boundary-without-front-support"
+);
+
+assert.equal(
+  currentOnlyOceanFront.frontStrength,
+  "pronounced"
+);
+
+console.log(
+  "PASS Ocean Front Analysis preserves current-only boundary context"
+);
+
+
+const candidateOceanFront =
+  buildOceanFrontAnalysis({
+    environmentalTransitionAnalysis:
+      buildFrontEnvironmentalTransition({
+        classification:
+          "combined-environmental-transition-context",
+
+        strength:
+          "measurable",
+
+        thermal:
+          true,
+
+        meaningfulThermal:
+          true,
+
+        hydrodynamic:
+          true,
+
+        hydrodynamicSignalCount:
+          1,
+
+        currentEdge:
+          true
+      }),
+
+    waterMassAnalysis:
+      buildFrontWaterMass(),
+
+    mixingZoneAnalysis:
+      buildFrontMixingZone(),
+
+    temperature:
+      buildFrontTemperature()
+  });
+
+assert.equal(
+  candidateOceanFront.classification,
+  "ocean-front-candidate-context"
+);
+
+assert.equal(
+  candidateOceanFront.frontType,
+  "thermal-current-boundary"
+);
+
+assert.equal(
+  candidateOceanFront.oceanFrontReady,
+  false
+);
+
+console.log(
+  "PASS Ocean Front Analysis identifies thermal-current candidate context"
+);
+
+
+const multiSignalOceanFront =
+  buildOceanFrontAnalysis({
+    environmentalTransitionAnalysis:
+      buildFrontEnvironmentalTransition({
+        classification:
+          "multi-signal-environmental-transition-context",
+
+        strength:
+          "pronounced",
+
+        thermal:
+          true,
+
+        meaningfulThermal:
+          true,
+
+        hydrodynamic:
+          true,
+
+        hydrodynamicSignalCount:
+          3,
+
+        currentEdge:
+          true
+      }),
+
+    waterMassAnalysis:
+      buildFrontWaterMass(),
+
+    mixingZoneAnalysis:
+      buildFrontMixingZone({
+        classification:
+          "multi-signal-boundary-interaction-context"
+      }),
+
+    temperature:
+      buildFrontTemperature()
+  });
+
+assert.equal(
+  multiSignalOceanFront.classification,
+  "multi-signal-ocean-front-candidate-context"
+);
+
+assert.equal(
+  multiSignalOceanFront.frontStrength,
+  "pronounced"
+);
+
+assert.equal(
+  multiSignalOceanFront.oceanFrontReady,
+  false
+);
+
+assert.equal(
+  multiSignalOceanFront.oceanFrontDetected,
+  false
+);
+
+assert.equal(
+  multiSignalOceanFront.contractVersion,
+  "pelora-ocean-front-analysis-v1"
+);
+
+assert.ok(
+  multiSignalOceanFront
+    .missingRequirements
+    .includes(
+      "temporal-persistence"
+    )
+);
+
+assert.ok(
+  multiSignalOceanFront
+    .missingRequirements
+    .includes(
+      "second-independent-spatial-water-character-variable"
+    )
+);
+
+console.log(
+  "PASS Ocean Front Analysis identifies multi-signal front context without confirming an ocean front"
 );
