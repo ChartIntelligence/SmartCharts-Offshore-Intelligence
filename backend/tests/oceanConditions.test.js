@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
+  buildSurfaceWaterCharacterAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6675,7 +6676,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.2"
+  "pelora-ocean-evidence-v1.3"
 );
 
 console.log(
@@ -11920,7 +11921,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.2"
+  "pelora-ocean-evidence-v1.3"
 );
 
 assert.equal(
@@ -16611,4 +16612,438 @@ assert.equal(
 
 console.log(
   "PASS Current Edge Analysis exposes the governed v1 contract"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Surface Water Character Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildSurfaceTemperature = ({
+  available = true,
+  classification = "temperature-only",
+  spatialClassification = null,
+  coverage = "unavailable",
+  rangeFahrenheit = null,
+  orientationClassification =
+    "no-clear-directional-transition"
+} = {}) => ({
+  available,
+
+  classification,
+
+  values: {
+    temperatureFahrenheit:
+      available
+        ? 82
+        : null,
+
+    temperatureBand:
+      available
+        ? "warm"
+        : null,
+
+    spatialClassification,
+
+    coverage,
+
+    spatialRangeFahrenheit:
+      rangeFahrenheit
+  },
+
+  orientation: {
+    classification:
+      orientationClassification,
+
+    dominantAxis:
+      orientationClassification ===
+        "directional-temperature-transition"
+        ? "east-west"
+        : null,
+
+    warmSide:
+      orientationClassification ===
+        "directional-temperature-transition"
+        ? "east"
+        : null,
+
+    coolSide:
+      orientationClassification ===
+        "directional-temperature-transition"
+        ? "west"
+        : null,
+
+    dominantDifferenceFahrenheit:
+      orientationClassification ===
+        "directional-temperature-transition"
+        ? rangeFahrenheit
+        : null
+  },
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-temperature-structure-evidence"
+});
+
+
+const buildSurfaceProductivity = ({
+  available = true,
+  classification = "clear-blue-water"
+} = {}) => ({
+  available,
+
+  classification,
+
+  values: {
+    concentrationMgM3:
+      available
+        ? 0.15
+        : null,
+
+    productivityClassification:
+      classification,
+
+    freshness:
+      "recent"
+  },
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-surface-productivity-evidence"
+});
+
+
+const buildSurfaceClarity = ({
+  available = true,
+  classification = "clear-surface-water"
+} = {}) => ({
+  available,
+
+  classification,
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-surface-water-clarity-evidence"
+});
+
+
+const buildSurfaceCurrent = ({
+  edgeAvailable = false,
+  edgeDetected = false,
+  edgeType = "no-edge-candidate",
+  edgeStrength = "none"
+} = {}) => ({
+  spatialAnalysis: {
+    edge: {
+      available:
+        edgeAvailable,
+
+      currentEdgeDetected:
+        edgeDetected,
+
+      edgeState:
+        edgeDetected
+          ? "candidate"
+          : "not-supported",
+
+      edgeType,
+
+      edgeStrength,
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-edge-v1"
+    }
+  }
+});
+
+
+const unavailableSurfaceWaterCharacter =
+  buildSurfaceWaterCharacterAnalysis({
+    temperature:
+      buildSurfaceTemperature({
+        available:
+          false
+      }),
+
+    productivity:
+      buildSurfaceProductivity({
+        available:
+          false,
+
+        classification:
+          "unavailable"
+      }),
+
+    clarity:
+      buildSurfaceClarity({
+        available:
+          false,
+
+        classification:
+          "unavailable"
+      }),
+
+    current:
+      buildSurfaceCurrent()
+  });
+
+assert.equal(
+  unavailableSurfaceWaterCharacter.available,
+  false
+);
+
+assert.equal(
+  unavailableSurfaceWaterCharacter.classification,
+  "unavailable"
+);
+
+console.log(
+  "PASS Surface Water Character Analysis requires at least one local observation"
+);
+
+
+const singleObservationSurfaceWater =
+  buildSurfaceWaterCharacterAnalysis({
+    temperature:
+      buildSurfaceTemperature(),
+
+    productivity:
+      buildSurfaceProductivity(),
+
+    clarity:
+      buildSurfaceClarity(),
+
+    current:
+      buildSurfaceCurrent()
+  });
+
+assert.equal(
+  singleObservationSurfaceWater.classification,
+  "single-observation-surface-water-character"
+);
+
+assert.equal(
+  singleObservationSurfaceWater.state,
+  "observed"
+);
+
+console.log(
+  "PASS Surface Water Character Analysis preserves local observations without inventing spatial water masses"
+);
+
+
+const uniformSurfaceWater =
+  buildSurfaceWaterCharacterAnalysis({
+    temperature:
+      buildSurfaceTemperature({
+        classification:
+          "uniform-water",
+
+        spatialClassification:
+          "uniform-water",
+
+        coverage:
+          "sufficient",
+
+        rangeFahrenheit:
+          0.2
+      }),
+
+    productivity:
+      buildSurfaceProductivity(),
+
+    clarity:
+      buildSurfaceClarity(),
+
+    current:
+      buildSurfaceCurrent()
+  });
+
+assert.equal(
+  uniformSurfaceWater.classification,
+  "uniform-thermal-surface-water-character"
+);
+
+assert.equal(
+  uniformSurfaceWater.boundaryContext,
+  "not-established"
+);
+
+console.log(
+  "PASS Surface Water Character Analysis identifies a uniform thermal surface-water field"
+);
+
+
+const moderateThermalSurfaceWater =
+  buildSurfaceWaterCharacterAnalysis({
+    temperature:
+      buildSurfaceTemperature({
+        classification:
+          "moderate-temperature-structure",
+
+        spatialClassification:
+          "moderate-temperature-transition",
+
+        coverage:
+          "sufficient",
+
+        rangeFahrenheit:
+          1.3,
+
+        orientationClassification:
+          "directional-temperature-transition"
+      }),
+
+    productivity:
+      buildSurfaceProductivity({
+        classification:
+          "productive-blue-green-transition"
+      }),
+
+    clarity:
+      buildSurfaceClarity({
+        classification:
+          "transitional-surface-water"
+      }),
+
+    current:
+      buildSurfaceCurrent()
+  });
+
+assert.equal(
+  moderateThermalSurfaceWater.classification,
+  "surface-water-near-moderate-thermal-transition"
+);
+
+assert.equal(
+  moderateThermalSurfaceWater.spatialContext
+    .directionalThermalTransition,
+  true
+);
+
+console.log(
+  "PASS Surface Water Character Analysis identifies moderate thermal-boundary context"
+);
+
+
+const currentEdgeSurfaceWater =
+  buildSurfaceWaterCharacterAnalysis({
+    temperature:
+      buildSurfaceTemperature(),
+
+    productivity:
+      buildSurfaceProductivity(),
+
+    clarity:
+      buildSurfaceClarity(),
+
+    current:
+      buildSurfaceCurrent({
+        edgeAvailable:
+          true,
+
+        edgeDetected:
+          true,
+
+        edgeType:
+          "current-edge-candidate",
+
+        edgeStrength:
+          "measurable"
+      })
+  });
+
+assert.equal(
+  currentEdgeSurfaceWater.classification,
+  "surface-water-character-near-current-edge"
+);
+
+assert.equal(
+  currentEdgeSurfaceWater.spatialContext
+    .currentEdgeDetected,
+  true
+);
+
+console.log(
+  "PASS Surface Water Character Analysis preserves current-edge boundary context"
+);
+
+
+const combinedSurfaceBoundary =
+  buildSurfaceWaterCharacterAnalysis({
+    temperature:
+      buildSurfaceTemperature({
+        classification:
+          "strong-temperature-break-candidate",
+
+        spatialClassification:
+          "strong-temperature-break-candidate",
+
+        coverage:
+          "sufficient",
+
+        rangeFahrenheit:
+          2.4,
+
+        orientationClassification:
+          "directional-temperature-transition"
+      }),
+
+    productivity:
+      buildSurfaceProductivity({
+        classification:
+          "productive-blue-green-transition"
+      }),
+
+    clarity:
+      buildSurfaceClarity({
+        classification:
+          "transitional-surface-water"
+      }),
+
+    current:
+      buildSurfaceCurrent({
+        edgeAvailable:
+          true,
+
+        edgeDetected:
+          true,
+
+        edgeType:
+          "pronounced-current-edge-candidate",
+
+        edgeStrength:
+          "pronounced"
+      })
+  });
+
+assert.equal(
+  combinedSurfaceBoundary.classification,
+  "combined-thermal-current-boundary-context"
+);
+
+assert.equal(
+  combinedSurfaceBoundary.boundaryContext,
+  "pronounced-thermal-and-current-boundary"
+);
+
+assert.equal(
+  combinedSurfaceBoundary.contractVersion,
+  "pelora-surface-water-character-v1"
+);
+
+console.log(
+  "PASS Surface Water Character Analysis identifies combined thermal-current boundary context"
 );

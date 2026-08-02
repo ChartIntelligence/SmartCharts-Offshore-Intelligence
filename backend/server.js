@@ -8153,6 +8153,14 @@ export function assessOceanEvidence({
       chlorophyll
     );
 
+  const surfaceWaterCharacter =
+    buildSurfaceWaterCharacterAnalysis({
+      temperature,
+      productivity,
+      clarity,
+      current
+    });
+
   const structure =
     buildStructureEvidence({
       latitude,
@@ -8322,6 +8330,13 @@ export function assessOceanEvidence({
     groups,
 
     /*
+     * Surface Water Character remains separate from established
+     * evidence groups so it cannot alter confidence, summaries,
+     * opportunity scoring, or species-model behavior.
+     */
+    surfaceWaterCharacter,
+
+    /*
      * Environmental opportunity pathways remain separate from
      * the established evidence groups until their contribution
      * to confidence and scoring is scientifically governed.
@@ -8339,7 +8354,7 @@ export function assessOceanEvidence({
     lineage,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.2"
+      "pelora-ocean-evidence-v1.3"
   };
 }
 
@@ -10036,6 +10051,510 @@ function buildProductivityEvidence(
 
     interpretation:
       "species-neutral-surface-productivity-evidence"
+  };
+}
+
+
+export function buildSurfaceWaterCharacterAnalysis({
+  temperature = null,
+  productivity = null,
+  clarity = null,
+  current = null
+} = {}) {
+  const temperatureAvailable =
+    temperature
+      ?.available ===
+    true;
+
+  const productivityAvailable =
+    productivity
+      ?.available ===
+    true;
+
+  const clarityAvailable =
+    clarity
+      ?.available ===
+    true;
+
+  const currentEdge =
+    current
+      ?.spatialAnalysis
+      ?.edge ??
+    null;
+
+  const currentEdgeAvailable =
+    currentEdge
+      ?.available ===
+    true;
+
+  const currentEdgeDetected =
+    currentEdge
+      ?.currentEdgeDetected ===
+    true &&
+    currentEdge
+      ?.edgeState ===
+    "candidate";
+
+  const temperatureClassification =
+    temperature
+      ?.classification ??
+    "unavailable";
+
+  const spatialTemperatureClassification =
+    temperature
+      ?.values
+      ?.spatialClassification ??
+    null;
+
+  const thermalCoverage =
+    temperature
+      ?.values
+      ?.coverage ??
+    "unavailable";
+
+  const thermalRangeFahrenheit =
+    Number.isFinite(
+      temperature
+        ?.values
+        ?.spatialRangeFahrenheit
+    )
+      ? temperature
+          .values
+          .spatialRangeFahrenheit
+      : null;
+
+  const orientation =
+    temperature
+      ?.orientation ??
+    null;
+
+  const directionalThermalTransition =
+    orientation
+      ?.classification ===
+    "directional-temperature-transition";
+
+  const localTemperatureFahrenheit =
+    Number.isFinite(
+      temperature
+        ?.values
+        ?.temperatureFahrenheit
+    )
+      ? temperature
+          .values
+          .temperatureFahrenheit
+      : null;
+
+  const temperatureBand =
+    temperature
+      ?.values
+      ?.temperatureBand ??
+    null;
+
+  const productivityClassification =
+    productivity
+      ?.classification ??
+    productivity
+      ?.values
+      ?.productivityClassification ??
+    null;
+
+  const clarityClassification =
+    clarity
+      ?.classification ??
+    null;
+
+  const chlorophyllConcentrationMgM3 =
+    Number.isFinite(
+      productivity
+        ?.values
+        ?.concentrationMgM3
+    )
+      ? productivity
+          .values
+          .concentrationMgM3
+      : null;
+
+  const productivityFreshness =
+    productivity
+      ?.values
+      ?.freshness ??
+    "unknown";
+
+  const anyLocalObservationAvailable =
+    temperatureAvailable ||
+    productivityAvailable ||
+    clarityAvailable;
+
+  const sufficientThermalCoverage =
+    thermalCoverage ===
+    "sufficient";
+
+  const weakThermalTransition =
+    temperatureClassification ===
+    "weak-temperature-structure";
+
+  const moderateThermalTransition =
+    temperatureClassification ===
+    "moderate-temperature-structure";
+
+  const strongThermalTransition =
+    temperatureClassification ===
+    "strong-temperature-break-candidate";
+
+  const meaningfulThermalTransition =
+    moderateThermalTransition ||
+    strongThermalTransition;
+
+  const uniformThermalField =
+    temperatureClassification ===
+    "uniform-water" ||
+    spatialTemperatureClassification ===
+    "uniform-water";
+
+  let available =
+    anyLocalObservationAvailable;
+
+  let classification =
+    "unavailable";
+
+  let state =
+    "insufficient-evidence";
+
+  let boundaryContext =
+    "unavailable";
+
+  let headline =
+    "Surface-water character cannot be described from the available observations.";
+
+  let detail =
+    "Pelora does not currently have sufficient temperature, chlorophyll, or inferred clarity evidence for this location.";
+
+  if (available) {
+    classification =
+      "single-observation-surface-water-character";
+
+    state =
+      "observed";
+
+    boundaryContext =
+      "not-established";
+
+    headline =
+      "Local surface-water character is available.";
+
+    detail =
+      "Available temperature and surface chlorophyll observations describe conditions at the selected location, but they do not establish distinct adjacent water masses.";
+
+    if (
+      uniformThermalField &&
+      sufficientThermalCoverage
+    ) {
+      classification =
+        "uniform-thermal-surface-water-character";
+
+      state =
+        "observed";
+
+      headline =
+        "Local surface water lies within a broadly uniform thermal field.";
+
+      detail =
+        "Nearby temperature samples remain broadly uniform. Chlorophyll and inferred clarity describe the selected point only.";
+    } else if (
+      weakThermalTransition &&
+      sufficientThermalCoverage
+    ) {
+      classification =
+        "surface-water-near-weak-thermal-transition";
+
+      state =
+        "candidate-context";
+
+      boundaryContext =
+        "weak-thermal-transition";
+
+      headline =
+        "Local surface water lies near a weak thermal transition.";
+
+      detail =
+        "Nearby samples show limited temperature change. The local chlorophyll observation describes the selected point and does not establish conditions on both sides of the transition.";
+    } else if (
+      moderateThermalTransition &&
+      sufficientThermalCoverage
+    ) {
+      classification =
+        currentEdgeDetected
+          ? "combined-thermal-current-boundary-context"
+          : "surface-water-near-moderate-thermal-transition";
+
+      state =
+        "candidate-context";
+
+      boundaryContext =
+        currentEdgeDetected
+          ? "thermal-and-current-boundary"
+          : "moderate-thermal-transition";
+
+      headline =
+        currentEdgeDetected
+          ? "Thermal and current evidence describe a combined boundary context."
+          : "Local surface water lies near a moderate thermal transition.";
+
+      detail =
+        currentEdgeDetected
+          ? "A meaningful temperature transition and a current-edge candidate occur within the sampled area. This supports a combined surface-boundary context but does not identify distinct water masses."
+          : "Nearby samples show meaningful temperature variation. Chlorophyll and clarity remain local observations rather than spatial measurements across the boundary.";
+    } else if (
+      strongThermalTransition &&
+      sufficientThermalCoverage
+    ) {
+      classification =
+        currentEdgeDetected
+          ? "combined-thermal-current-boundary-context"
+          : "surface-water-near-strong-thermal-break-candidate";
+
+      state =
+        "candidate-context";
+
+      boundaryContext =
+        currentEdgeDetected
+          ? "pronounced-thermal-and-current-boundary"
+          : "strong-thermal-break-candidate";
+
+      headline =
+        currentEdgeDetected
+          ? "Pronounced thermal and current evidence describe a combined boundary context."
+          : "Local surface water lies near a strong thermal-break candidate.";
+
+      detail =
+        currentEdgeDetected
+          ? "A pronounced temperature transition and a current-edge candidate occur within the sampled area. Adjacent water-mass identity and persistence remain unverified."
+          : "Nearby samples show a pronounced temperature range. This remains a local surface-pattern candidate rather than a confirmed front or water-mass boundary.";
+    } else if (
+      currentEdgeDetected
+    ) {
+      classification =
+        "surface-water-character-near-current-edge";
+
+      state =
+        "candidate-context";
+
+      boundaryContext =
+        "current-edge";
+
+      headline =
+        "Local surface-water character lies near a current-edge candidate.";
+
+      detail =
+        "Current evidence supports a hydrodynamic boundary candidate, while temperature and chlorophyll describe the selected location. Distinct water characteristics on both sides have not been established.";
+    }
+  }
+
+  const inheritedLimitations = [
+    ...(
+      Array.isArray(
+        temperature
+          ?.limitations
+      )
+        ? temperature
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        productivity
+          ?.limitations
+      )
+        ? productivity
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        clarity
+          ?.limitations
+      )
+        ? clarity
+            .limitations
+        : []
+    ),
+
+    ...(
+      Array.isArray(
+        currentEdge
+          ?.limitations
+      )
+        ? currentEdge
+            .limitations
+        : []
+    )
+  ];
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      "Surface Water Character Analysis describes local surface observations and available thermal-boundary context only.",
+
+      "Chlorophyll and inferred clarity currently describe the selected point and do not establish spatial conditions on both sides of a boundary.",
+
+      "Salinity, density, dissolved oxygen, subsurface temperature, vertical profiles, and full water-column structure are unavailable.",
+
+      "No named or regional oceanographic water mass is assigned.",
+
+      "No distinct adjacent water masses, mixing zone, current front, ocean front, origin, persistence, prey concentration, habitat quality, fish presence, or biological significance is confirmed."
+    ])
+  ];
+
+  return {
+    available,
+
+    analysisType:
+      "surface-water-character-analysis",
+
+    classification,
+
+    state,
+
+    boundaryContext,
+
+    localCharacter: {
+      temperatureAvailable,
+
+      localTemperatureFahrenheit,
+
+      temperatureBand,
+
+      productivityAvailable,
+
+      chlorophyllConcentrationMgM3,
+
+      productivityClassification,
+
+      productivityFreshness,
+
+      clarityAvailable,
+
+      clarityClassification
+    },
+
+    spatialContext: {
+      thermalCoverage,
+
+      sufficientThermalCoverage,
+
+      spatialTemperatureClassification,
+
+      thermalRangeFahrenheit,
+
+      weakThermalTransition,
+
+      moderateThermalTransition,
+
+      strongThermalTransition,
+
+      meaningfulThermalTransition,
+
+      directionalThermalTransition,
+
+      orientation: {
+        classification:
+          orientation
+            ?.classification ??
+          null,
+
+        dominantAxis:
+          orientation
+            ?.dominantAxis ??
+          null,
+
+        warmSide:
+          orientation
+            ?.warmSide ??
+          null,
+
+        coolSide:
+          orientation
+            ?.coolSide ??
+          null,
+
+        dominantDifferenceFahrenheit:
+          Number.isFinite(
+            orientation
+              ?.dominantDifferenceFahrenheit
+          )
+            ? orientation
+                .dominantDifferenceFahrenheit
+            : null
+      },
+
+      currentEdgeAvailable,
+
+      currentEdgeDetected,
+
+      currentEdgeType:
+        currentEdge
+          ?.edgeType ??
+        null,
+
+      currentEdgeStrength:
+        currentEdge
+          ?.edgeStrength ??
+        null
+    },
+
+    headline,
+
+    detail,
+
+    limitations,
+
+    upstreamContracts: [
+      {
+        engine:
+          "temperature-evidence",
+
+        version:
+          temperature
+            ?.interpretation ??
+          null
+      },
+
+      {
+        engine:
+          "surface-productivity-evidence",
+
+        version:
+          productivity
+            ?.interpretation ??
+          null
+      },
+
+      {
+        engine:
+          "surface-water-clarity-evidence",
+
+        version:
+          clarity
+            ?.interpretation ??
+          null
+      },
+
+      {
+        engine:
+          "current-edge-analysis",
+
+        version:
+          currentEdge
+            ?.contractVersion ??
+          null
+      }
+    ],
+
+    contractVersion:
+      "pelora-surface-water-character-v1"
   };
 }
 
