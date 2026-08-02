@@ -15555,6 +15555,926 @@ export function buildOceanChangeAnalysis({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Snapshot Metadata Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Provide the authoritative identity, provenance, timestamps,
+ * availability, lifecycle state, version manifest, and lineage
+ * references for one canonical Pelora Ocean Memory Snapshot.
+ *
+ * Snapshot Metadata performs no scientific reasoning and does
+ * not modify the Observation Snapshot or Intelligence Snapshot.
+ */
+
+function normalizeSnapshotIdentityPart(
+  value
+) {
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return "unavailable";
+  }
+
+  return String(
+    value
+  )
+    .trim()
+    .toLowerCase();
+}
+
+
+function deterministicSnapshotHash(
+  value
+) {
+  let hash =
+    2166136261;
+
+  for (
+    let index = 0;
+    index < value.length;
+    index += 1
+  ) {
+    hash ^=
+      value.charCodeAt(
+        index
+      );
+
+    hash =
+      Math.imul(
+        hash,
+        16777619
+      );
+  }
+
+  return (
+    hash >>>
+    0
+  )
+    .toString(
+      16
+    )
+    .padStart(
+      8,
+      "0"
+    );
+}
+
+
+export function buildSnapshotMetadata({
+  observationSnapshot = null,
+  intelligenceSnapshot = null,
+  captureMode = "live",
+  sourceType = "live-observation",
+  lifecycleState = "live",
+  reconstructionStatus = "not-applicable",
+  region = null,
+  subregion = null,
+  locationId = null
+} = {}) {
+  const observationSnapshotAvailable =
+    observationSnapshot
+      ?.available ===
+    true;
+
+  const intelligenceSnapshotAvailable =
+    intelligenceSnapshot
+      ?.available ===
+    true;
+
+  const observedAt =
+    observationSnapshot
+      ?.observedAt ??
+    intelligenceSnapshot
+      ?.observedAt ??
+    null;
+
+  const generatedAt =
+    observationSnapshot
+      ?.generatedAt ??
+    intelligenceSnapshot
+      ?.generatedAt ??
+    null;
+
+  const latitude =
+    Number.isFinite(
+      observationSnapshot
+        ?.location
+        ?.latitude
+    )
+      ? observationSnapshot
+          .location
+          .latitude
+      : null;
+
+  const longitude =
+    Number.isFinite(
+      observationSnapshot
+        ?.location
+        ?.longitude
+    )
+      ? observationSnapshot
+          .location
+          .longitude
+      : null;
+
+  const locationName =
+    typeof observationSnapshot
+      ?.location
+      ?.name ===
+      "string"
+      ? observationSnapshot
+          .location
+          .name
+      : null;
+
+  const validLocation =
+    latitude !==
+      null &&
+    longitude !==
+      null;
+
+  const validObservedAt =
+    typeof observedAt ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedAt
+      )
+    );
+
+  const validGeneratedAt =
+    typeof generatedAt ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        generatedAt
+      )
+    );
+
+  const normalizedCaptureMode =
+    [
+      "live",
+      "historical-backfill",
+      "reprocessed",
+      "simulation"
+    ].includes(
+      captureMode
+    )
+      ? captureMode
+      : "unknown";
+
+  const normalizedLifecycleState =
+    [
+      "live",
+      "historical-backfill",
+      "reprocessed",
+      "archived",
+      "deprecated"
+    ].includes(
+      lifecycleState
+    )
+      ? lifecycleState
+      : "unknown";
+
+  const historicalBackfill =
+    normalizedCaptureMode ===
+      "historical-backfill";
+
+  const snapshotSchemaVersion =
+    "pelora-ocean-memory-snapshot-schema-v1";
+
+  const identityBasis = [
+    snapshotSchemaVersion,
+    normalizeSnapshotIdentityPart(
+      latitude
+    ),
+    normalizeSnapshotIdentityPart(
+      longitude
+    ),
+    normalizeSnapshotIdentityPart(
+      observedAt
+    ),
+    normalizeSnapshotIdentityPart(
+      normalizedCaptureMode
+    )
+  ].join(
+    "|"
+  );
+
+  const snapshotId =
+    "pelora-snapshot-" +
+    deterministicSnapshotHash(
+      identityBasis
+    );
+
+  const engineVersions = {
+    oceanEvidence:
+      observationSnapshot
+        ?.contractVersions
+        ?.oceanEvidence ??
+      null,
+
+    surfaceWaterCharacter:
+      observationSnapshot
+        ?.contractVersions
+        ?.surfaceWaterCharacter ??
+      null,
+
+    waterMassAnalysis:
+      observationSnapshot
+        ?.contractVersions
+        ?.waterMassAnalysis ??
+      null,
+
+    mixingZoneAnalysis:
+      observationSnapshot
+        ?.contractVersions
+        ?.mixingZoneAnalysis ??
+      null,
+
+    environmentalTransitionAnalysis:
+      observationSnapshot
+        ?.contractVersions
+        ?.environmentalTransitionAnalysis ??
+      null,
+
+    oceanFrontAnalysis:
+      observationSnapshot
+        ?.contractVersions
+        ?.oceanFrontAnalysis ??
+      null,
+
+    oceanPhysicsExplainability:
+      observationSnapshot
+        ?.contractVersions
+        ?.oceanPhysicsExplainability ??
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.oceanPhysicsExplainability ??
+      null,
+
+    oceanOrganization:
+      observationSnapshot
+        ?.contractVersions
+        ?.oceanOrganization ??
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.oceanOrganization ??
+      null,
+
+    oceanOpportunity:
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.oceanOpportunity ??
+      null,
+
+    relationshipContext:
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.relationshipContext ??
+      null,
+
+    relationshipAssessment:
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.relationshipAssessment ??
+      null,
+
+    dataQuality:
+      observationSnapshot
+        ?.contractVersions
+        ?.dataQuality ??
+      null
+  };
+
+  const contractVersions = {
+    observationSnapshot:
+      observationSnapshot
+        ?.contractVersion ??
+      null,
+
+    intelligenceSnapshot:
+      intelligenceSnapshot
+        ?.contractVersion ??
+      null,
+
+    oceanEvidenceLineage:
+      observationSnapshot
+        ?.contractVersions
+        ?.oceanEvidenceLineage ??
+      null,
+
+    oceanPhysicsExplainabilityLineage:
+      observationSnapshot
+        ?.contractVersions
+        ?.oceanPhysicsExplainabilityLineage ??
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.oceanPhysicsExplainabilityLineage ??
+      null,
+
+    oceanOpportunityLineage:
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.oceanOpportunityLineage ??
+      null,
+
+    relationshipContextLineage:
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.relationshipContextLineage ??
+      null,
+
+    relationshipAssessmentLineage:
+      intelligenceSnapshot
+        ?.contractVersions
+        ?.relationshipAssessmentLineage ??
+      null,
+
+    snapshotMetadata:
+      "pelora-snapshot-metadata-v1"
+  };
+
+  const versionManifest = {
+    engineVersions:
+      cloneSnapshotValue(
+        engineVersions
+      ),
+
+    contractVersions:
+      cloneSnapshotValue(
+        contractVersions
+      ),
+
+    snapshotSchemaVersion,
+
+    manifestVersion:
+      "pelora-version-manifest-v1"
+  };
+
+  const availableContractCount =
+    [
+      observationSnapshotAvailable,
+      intelligenceSnapshotAvailable
+    ].filter(Boolean).length;
+
+  let availabilityClassification =
+    "unavailable";
+
+  if (
+    availableContractCount ===
+    2
+  ) {
+    availabilityClassification =
+      "complete";
+  } else if (
+    availableContractCount ===
+    1
+  ) {
+    availabilityClassification =
+      "partial";
+  }
+
+  const available =
+    validLocation &&
+    validObservedAt &&
+    observationSnapshotAvailable;
+
+  const missingRequirements = [
+    !observationSnapshotAvailable
+      ? "observation-snapshot"
+      : null,
+
+    !intelligenceSnapshotAvailable
+      ? "intelligence-snapshot"
+      : null,
+
+    !validLocation
+      ? "snapshot-location"
+      : null,
+
+    !validObservedAt
+      ? "valid-observed-at"
+      : null,
+
+    !validGeneratedAt
+      ? "valid-generated-at"
+      : null
+  ].filter(Boolean);
+
+  const missingEngineVersions =
+    Object.entries(
+      engineVersions
+    )
+      .filter(
+        ([, version]) =>
+          typeof version !==
+            "string" ||
+          version.trim().length ===
+            0
+      )
+      .map(
+        ([engine]) =>
+          "engine-version-unavailable:" +
+          engine
+      );
+
+  const missingContractVersions =
+    Object.entries(
+      contractVersions
+    )
+      .filter(
+        ([, version]) =>
+          typeof version !==
+            "string" ||
+          version.trim().length ===
+            0
+      )
+      .map(
+        ([contract]) =>
+          "contract-version-unavailable:" +
+          contract
+      );
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+      ...missingEngineVersions,
+      ...missingContractVersions,
+
+      "Snapshot Metadata identifies and documents a snapshot but does not modify preserved observations or intelligence.",
+
+      "The deterministic snapshot ID is based on location, observed time, capture mode, and snapshot schema version.",
+
+      "Snapshot Metadata does not evaluate scientific evidence, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const metadata = {
+    available,
+
+    metadataType:
+      "snapshot-metadata",
+
+    responsibility:
+      "preserve",
+
+    identity: {
+      snapshotId,
+
+      snapshotSchemaVersion,
+
+      identityStrategy:
+        "deterministic-location-time-capture-schema-v1"
+    },
+
+    time: {
+      observedAt:
+        validObservedAt
+          ? observedAt
+          : null,
+
+      generatedAt:
+        validGeneratedAt
+          ? generatedAt
+          : null
+    },
+
+    location: {
+      latitude,
+
+      longitude,
+
+      name:
+        locationName,
+
+      region:
+        typeof region ===
+          "string"
+          ? region
+          : null,
+
+      subregion:
+        typeof subregion ===
+          "string"
+          ? subregion
+          : null,
+
+      locationId:
+        typeof locationId ===
+          "string"
+          ? locationId
+          : null
+    },
+
+    provenance: {
+      captureMode:
+        normalizedCaptureMode,
+
+      sourceType:
+        typeof sourceType ===
+          "string"
+          ? sourceType
+          : "unknown",
+
+      historicalBackfill,
+
+      reconstructionStatus:
+        typeof reconstructionStatus ===
+          "string"
+          ? reconstructionStatus
+          : "unknown"
+    },
+
+    availability: {
+      classification:
+        availabilityClassification,
+
+      observationSnapshotAvailable,
+
+      intelligenceSnapshotAvailable,
+
+      validLocation,
+
+      validObservedAt,
+
+      validGeneratedAt
+    },
+
+    versionManifest:
+      cloneSnapshotValue(
+        versionManifest
+      ),
+
+    lineageReferences: {
+      observationSnapshot:
+        cloneSnapshotValue(
+          observationSnapshot
+            ?.lineage ??
+          null
+        ),
+
+      intelligenceSnapshot:
+        cloneSnapshotValue(
+          intelligenceSnapshot
+            ?.lineage ??
+          null
+        )
+    },
+
+    lifecycleState:
+      normalizedLifecycleState,
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-snapshot-metadata-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    metadata
+  );
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Snapshot Assembly v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Compose Snapshot Metadata, Observation Snapshot, and
+ * Intelligence Snapshot into one immutable canonical Ocean
+ * Memory record.
+ *
+ * This contract does not alter, recompute, compare, persist,
+ * interpret, score, or summarize any contained contract.
+ */
+export function buildOceanSnapshot({
+  snapshotMetadata = null,
+  observationSnapshot = null,
+  intelligenceSnapshot = null
+} = {}) {
+  const metadataAvailable =
+    snapshotMetadata
+      ?.available ===
+    true;
+
+  const observationSnapshotAvailable =
+    observationSnapshot
+      ?.available ===
+    true;
+
+  const intelligenceSnapshotAvailable =
+    intelligenceSnapshot
+      ?.available ===
+    true;
+
+  const snapshotId =
+    snapshotMetadata
+      ?.identity
+      ?.snapshotId ??
+    null;
+
+  const snapshotSchemaVersion =
+    snapshotMetadata
+      ?.identity
+      ?.snapshotSchemaVersion ??
+    snapshotMetadata
+      ?.versionManifest
+      ?.snapshotSchemaVersion ??
+    null;
+
+  const metadataObservedAt =
+    snapshotMetadata
+      ?.time
+      ?.observedAt ??
+    null;
+
+  const observationObservedAt =
+    observationSnapshot
+      ?.observedAt ??
+    null;
+
+  const intelligenceObservedAt =
+    intelligenceSnapshot
+      ?.observedAt ??
+    null;
+
+  const metadataGeneratedAt =
+    snapshotMetadata
+      ?.time
+      ?.generatedAt ??
+    null;
+
+  const observationGeneratedAt =
+    observationSnapshot
+      ?.generatedAt ??
+    null;
+
+  const intelligenceGeneratedAt =
+    intelligenceSnapshot
+      ?.generatedAt ??
+    null;
+
+  const observedAtValues =
+    [
+      metadataObservedAt,
+      observationObservedAt,
+      intelligenceObservedAt
+    ].filter(
+      value =>
+        typeof value ===
+          "string"
+    );
+
+  const generatedAtValues =
+    [
+      metadataGeneratedAt,
+      observationGeneratedAt,
+      intelligenceGeneratedAt
+    ].filter(
+      value =>
+        typeof value ===
+          "string"
+    );
+
+  const observedAtConsistent =
+    observedAtValues.length >
+      0 &&
+    new Set(
+      observedAtValues
+    ).size ===
+      1;
+
+  const generatedAtConsistent =
+    generatedAtValues.length >
+      0 &&
+    new Set(
+      generatedAtValues
+    ).size ===
+      1;
+
+  const metadataObservationContractVersion =
+    snapshotMetadata
+      ?.versionManifest
+      ?.contractVersions
+      ?.observationSnapshot ??
+    null;
+
+  const metadataIntelligenceContractVersion =
+    snapshotMetadata
+      ?.versionManifest
+      ?.contractVersions
+      ?.intelligenceSnapshot ??
+    null;
+
+  const observationContractVersion =
+    observationSnapshot
+      ?.contractVersion ??
+    null;
+
+  const intelligenceContractVersion =
+    intelligenceSnapshot
+      ?.contractVersion ??
+    null;
+
+  const observationContractConsistent =
+    typeof observationContractVersion ===
+      "string" &&
+    metadataObservationContractVersion ===
+      observationContractVersion;
+
+  const intelligenceContractConsistent =
+    typeof intelligenceContractVersion ===
+      "string" &&
+    metadataIntelligenceContractVersion ===
+      intelligenceContractVersion;
+
+  const requiredContractsAvailable =
+    metadataAvailable &&
+    observationSnapshotAvailable;
+
+  const available =
+    requiredContractsAvailable &&
+    typeof snapshotId ===
+      "string" &&
+    snapshotId.trim().length >
+      0 &&
+    typeof snapshotSchemaVersion ===
+      "string" &&
+    snapshotSchemaVersion.trim().length >
+      0 &&
+    observedAtConsistent &&
+    generatedAtConsistent &&
+    observationContractConsistent &&
+    (
+      !intelligenceSnapshotAvailable ||
+      intelligenceContractConsistent
+    );
+
+  const missingRequirements = [
+    !metadataAvailable
+      ? "snapshot-metadata"
+      : null,
+
+    !observationSnapshotAvailable
+      ? "observation-snapshot"
+      : null,
+
+    !intelligenceSnapshotAvailable
+      ? "intelligence-snapshot"
+      : null,
+
+    typeof snapshotId !==
+      "string" ||
+    snapshotId.trim().length ===
+      0
+      ? "snapshot-id"
+      : null,
+
+    typeof snapshotSchemaVersion !==
+      "string" ||
+    snapshotSchemaVersion.trim().length ===
+      0
+      ? "snapshot-schema-version"
+      : null,
+
+    !observedAtConsistent
+      ? "consistent-observed-at"
+      : null,
+
+    !generatedAtConsistent
+      ? "consistent-generated-at"
+      : null,
+
+    !observationContractConsistent
+      ? "observation-contract-version-consistency"
+      : null,
+
+    intelligenceSnapshotAvailable &&
+    !intelligenceContractConsistent
+      ? "intelligence-contract-version-consistency"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          snapshotMetadata
+            ?.limitations
+        )
+          ? snapshotMetadata
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          observationSnapshot
+            ?.limitations
+        )
+          ? observationSnapshot
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          intelligenceSnapshot
+            ?.limitations
+        )
+          ? intelligenceSnapshot
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Ocean Snapshot Assembly composes governed contracts without modifying their contents.",
+
+      "The assembled snapshot is an immutable record, not a storage operation.",
+
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const oceanSnapshot = {
+    available,
+
+    snapshotType:
+      "ocean-memory",
+
+    responsibility:
+      "preserve",
+
+    identity: {
+      snapshotId,
+
+      snapshotSchemaVersion
+    },
+
+    metadata:
+      cloneSnapshotValue(
+        snapshotMetadata
+      ),
+
+    observation:
+      cloneSnapshotValue(
+        observationSnapshot
+      ),
+
+    intelligence:
+      cloneSnapshotValue(
+        intelligenceSnapshot
+      ),
+
+    integrity: {
+      metadataAvailable,
+
+      observationSnapshotAvailable,
+
+      intelligenceSnapshotAvailable,
+
+      observedAtConsistent,
+
+      generatedAtConsistent,
+
+      observationContractConsistent,
+
+      intelligenceContractConsistent,
+
+      immutable:
+        true
+    },
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-snapshot-assembly-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    oceanSnapshot
+  );
+}
+
+
 function buildClarityEvidence(
   chlorophyll
 ) {
@@ -26518,6 +27438,34 @@ const observationSnapshot =
         null
     });
 
+  const snapshotMetadata =
+    buildSnapshotMetadata({
+      observationSnapshot,
+
+      intelligenceSnapshot,
+
+      captureMode:
+        "live",
+
+      sourceType:
+        "live-observation",
+
+      lifecycleState:
+        "live",
+
+      reconstructionStatus:
+        "not-applicable"
+    });
+
+  const oceanSnapshot =
+    buildOceanSnapshot({
+      snapshotMetadata,
+
+      observationSnapshot,
+
+      intelligenceSnapshot
+    });
+
 
   const blueMarlinHabitat =
     assessBlueMarlinHabitat({
@@ -26607,6 +27555,18 @@ const observationSnapshot =
      * reasoning, or captain-facing guidance.
      */
     intelligenceSnapshot,
+
+    /*
+     * Snapshot Metadata is the authoritative identity and
+     * provenance contract for the current Ocean Memory state.
+     */
+    snapshotMetadata,
+
+    /*
+     * Ocean Snapshot is the canonical immutable Ocean Memory
+     * record for the current place and time.
+     */
+    oceanSnapshot,
 
     oceanOpportunity,
 

@@ -13,6 +13,8 @@ import {
   buildOceanOrganizationAnalysis,
   buildObservationSnapshot,
   buildIntelligenceSnapshot,
+  buildSnapshotMetadata,
+  buildOceanSnapshot,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -20846,4 +20848,853 @@ assert.equal(
 
 console.log(
   "PASS Ocean Change Analysis excludes persistence, trend, and captain guidance"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Snapshot Metadata Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const metadataObservationSnapshot = {
+  available:
+    true,
+
+  snapshotType:
+    "observation",
+
+  observedAt:
+    "2026-08-02T20:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T20:05:00.000Z",
+
+  location: {
+    latitude:
+      29.5,
+
+    longitude:
+      -87.2,
+
+    name:
+      "Test Water"
+  },
+
+  lineage: {
+    oceanEvidence: {
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    }
+  },
+
+  contractVersions: {
+    oceanEvidence:
+      "pelora-ocean-evidence-v2.0",
+
+    surfaceWaterCharacter:
+      "pelora-surface-water-character-v1",
+
+    waterMassAnalysis:
+      "pelora-water-mass-analysis-v1",
+
+    mixingZoneAnalysis:
+      "pelora-mixing-zone-analysis-v1",
+
+    environmentalTransitionAnalysis:
+      "pelora-environmental-transition-analysis-v1",
+
+    oceanFrontAnalysis:
+      "pelora-ocean-front-analysis-v1",
+
+    oceanPhysicsExplainability:
+      "pelora-ocean-physics-explainability-v1",
+
+    oceanPhysicsExplainabilityLineage:
+      "pelora-ocean-physics-explainability-lineage-v1.0",
+
+    oceanOrganization:
+      "pelora-ocean-organization-v1",
+
+    oceanEvidenceLineage:
+      "pelora-ocean-evidence-lineage-v1.0",
+
+    dataQuality:
+      "pelora-data-quality-v2"
+  },
+
+  contractVersion:
+    "pelora-observation-snapshot-v1"
+};
+
+
+const metadataIntelligenceSnapshot = {
+  available:
+    true,
+
+  snapshotType:
+    "intelligence",
+
+  observedAt:
+    "2026-08-02T20:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T20:05:00.000Z",
+
+  lineage: {
+    oceanOpportunity: {
+      methodVersion:
+        "pelora-ocean-opportunity-lineage-v1.0"
+    }
+  },
+
+  contractVersions: {
+    oceanOpportunity:
+      "pelora-ocean-opportunity-v1.2",
+
+    oceanOpportunityLineage:
+      "pelora-ocean-opportunity-lineage-v1.0",
+
+    relationshipContext:
+      "pelora-relationship-context-v1.0",
+
+    relationshipContextLineage:
+      "pelora-relationship-context-lineage-v1.0",
+
+    relationshipAssessment:
+      "pelora-relationship-assessment-v1.0",
+
+    relationshipAssessmentLineage:
+      "pelora-relationship-assessment-lineage-v1.0",
+
+    oceanPhysicsExplainability:
+      "pelora-ocean-physics-explainability-v1",
+
+    oceanPhysicsExplainabilityLineage:
+      "pelora-ocean-physics-explainability-lineage-v1.0",
+
+    oceanOrganization:
+      "pelora-ocean-organization-v1"
+  },
+
+  contractVersion:
+    "pelora-intelligence-snapshot-v1"
+};
+
+
+const governedSnapshotMetadata =
+  buildSnapshotMetadata({
+    observationSnapshot:
+      metadataObservationSnapshot,
+
+    intelligenceSnapshot:
+      metadataIntelligenceSnapshot,
+
+    captureMode:
+      "live",
+
+    sourceType:
+      "live-observation",
+
+    lifecycleState:
+      "live"
+  });
+
+assert.equal(
+  governedSnapshotMetadata.available,
+  true
+);
+
+assert.equal(
+  governedSnapshotMetadata.metadataType,
+  "snapshot-metadata"
+);
+
+assert.equal(
+  governedSnapshotMetadata.responsibility,
+  "preserve"
+);
+
+assert.equal(
+  governedSnapshotMetadata
+    .availability
+    .classification,
+  "complete"
+);
+
+assert.equal(
+  governedSnapshotMetadata
+    .provenance
+    .historicalBackfill,
+  false
+);
+
+assert.equal(
+  governedSnapshotMetadata
+    .versionManifest
+    .snapshotSchemaVersion,
+  "pelora-ocean-memory-snapshot-schema-v1"
+);
+
+assert.equal(
+  governedSnapshotMetadata
+    .versionManifest
+    .manifestVersion,
+  "pelora-version-manifest-v1"
+);
+
+assert.equal(
+  governedSnapshotMetadata
+    .versionManifest
+    .contractVersions
+    .observationSnapshot,
+  "pelora-observation-snapshot-v1"
+);
+
+assert.equal(
+  governedSnapshotMetadata.contractVersion,
+  "pelora-snapshot-metadata-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedSnapshotMetadata
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedSnapshotMetadata
+      .versionManifest
+  ),
+  true
+);
+
+console.log(
+  "PASS Snapshot Metadata preserves authoritative identity, provenance, and version manifest"
+);
+
+
+const repeatedSnapshotMetadata =
+  buildSnapshotMetadata({
+    observationSnapshot:
+      metadataObservationSnapshot,
+
+    intelligenceSnapshot:
+      metadataIntelligenceSnapshot,
+
+    captureMode:
+      "live"
+  });
+
+assert.equal(
+  repeatedSnapshotMetadata
+    .identity
+    .snapshotId,
+  governedSnapshotMetadata
+    .identity
+    .snapshotId
+);
+
+console.log(
+  "PASS Snapshot Metadata produces deterministic identity for the same governed snapshot"
+);
+
+
+const historicalSnapshotMetadata =
+  buildSnapshotMetadata({
+    observationSnapshot: {
+      ...metadataObservationSnapshot,
+
+      observedAt:
+        "2026-06-15T11:00:00.000Z",
+
+      generatedAt:
+        "2026-08-02T20:05:00.000Z"
+    },
+
+    intelligenceSnapshot: {
+      ...metadataIntelligenceSnapshot,
+
+      observedAt:
+        "2026-06-15T11:00:00.000Z",
+
+      generatedAt:
+        "2026-08-02T20:05:00.000Z"
+    },
+
+    captureMode:
+      "historical-backfill",
+
+    sourceType:
+      "archived-observation",
+
+    lifecycleState:
+      "historical-backfill",
+
+    reconstructionStatus:
+      "completed"
+  });
+
+assert.equal(
+  historicalSnapshotMetadata
+    .provenance
+    .historicalBackfill,
+  true
+);
+
+assert.equal(
+  historicalSnapshotMetadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  historicalSnapshotMetadata
+    .time
+    .generatedAt,
+  "2026-08-02T20:05:00.000Z"
+);
+
+assert.notEqual(
+  historicalSnapshotMetadata
+    .identity
+    .snapshotId,
+  governedSnapshotMetadata
+    .identity
+    .snapshotId
+);
+
+console.log(
+  "PASS Snapshot Metadata distinguishes historical backfill time and provenance"
+);
+
+
+const partialSnapshotMetadata =
+  buildSnapshotMetadata({
+    observationSnapshot:
+      metadataObservationSnapshot,
+
+    intelligenceSnapshot:
+      null
+  });
+
+assert.equal(
+  partialSnapshotMetadata.available,
+  true
+);
+
+assert.equal(
+  partialSnapshotMetadata
+    .availability
+    .classification,
+  "partial"
+);
+
+assert.ok(
+  partialSnapshotMetadata
+    .missingRequirements
+    .includes(
+      "intelligence-snapshot"
+    )
+);
+
+console.log(
+  "PASS Snapshot Metadata preserves partial snapshot availability"
+);
+
+
+const unavailableSnapshotMetadata =
+  buildSnapshotMetadata();
+
+assert.equal(
+  unavailableSnapshotMetadata.available,
+  false
+);
+
+assert.equal(
+  unavailableSnapshotMetadata
+    .availability
+    .classification,
+  "unavailable"
+);
+
+assert.ok(
+  unavailableSnapshotMetadata
+    .missingRequirements
+    .includes(
+      "observation-snapshot"
+    )
+);
+
+assert.ok(
+  unavailableSnapshotMetadata
+    .missingRequirements
+    .includes(
+      "snapshot-location"
+    )
+);
+
+console.log(
+  "PASS Snapshot Metadata discloses missing identity and provenance inputs"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    governedSnapshotMetadata,
+    "oceanOpportunity"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedSnapshotMetadata,
+    "observations"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedSnapshotMetadata,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedSnapshotMetadata,
+    "captainNarrative"
+  ),
+  false
+);
+
+console.log(
+  "PASS Snapshot Metadata excludes scientific reasoning, comparison, and guidance"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Snapshot Assembly Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const assemblyObservationSnapshot = {
+  available:
+    true,
+
+  snapshotType:
+    "observation",
+
+  observedAt:
+    "2026-08-02T21:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T21:05:00.000Z",
+
+  location: {
+    latitude:
+      29.5,
+
+    longitude:
+      -87.2
+  },
+
+  observations: {
+    sst: {
+      temperatureFahrenheit:
+        83
+    }
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-observation-snapshot-v1"
+};
+
+
+const assemblyIntelligenceSnapshot = {
+  available:
+    true,
+
+  snapshotType:
+    "intelligence",
+
+  observedAt:
+    "2026-08-02T21:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T21:05:00.000Z",
+
+  oceanOrganization: {
+    organizationLevel:
+      "organized"
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-intelligence-snapshot-v1"
+};
+
+
+const assemblySnapshotMetadata = {
+  available:
+    true,
+
+  identity: {
+    snapshotId:
+      "pelora-snapshot-test1234",
+
+    snapshotSchemaVersion:
+      "pelora-ocean-memory-snapshot-schema-v1"
+  },
+
+  time: {
+    observedAt:
+      "2026-08-02T21:00:00.000Z",
+
+    generatedAt:
+      "2026-08-02T21:05:00.000Z"
+  },
+
+  versionManifest: {
+    contractVersions: {
+      observationSnapshot:
+        "pelora-observation-snapshot-v1",
+
+      intelligenceSnapshot:
+        "pelora-intelligence-snapshot-v1"
+    },
+
+    snapshotSchemaVersion:
+      "pelora-ocean-memory-snapshot-schema-v1",
+
+    manifestVersion:
+      "pelora-version-manifest-v1"
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-snapshot-metadata-v1"
+};
+
+
+const governedOceanSnapshot =
+  buildOceanSnapshot({
+    snapshotMetadata:
+      assemblySnapshotMetadata,
+
+    observationSnapshot:
+      assemblyObservationSnapshot,
+
+    intelligenceSnapshot:
+      assemblyIntelligenceSnapshot
+  });
+
+assert.equal(
+  governedOceanSnapshot.available,
+  true
+);
+
+assert.equal(
+  governedOceanSnapshot.snapshotType,
+  "ocean-memory"
+);
+
+assert.equal(
+  governedOceanSnapshot.responsibility,
+  "preserve"
+);
+
+assert.equal(
+  governedOceanSnapshot
+    .identity
+    .snapshotId,
+  "pelora-snapshot-test1234"
+);
+
+assert.equal(
+  governedOceanSnapshot
+    .integrity
+    .observedAtConsistent,
+  true
+);
+
+assert.equal(
+  governedOceanSnapshot
+    .integrity
+    .generatedAtConsistent,
+  true
+);
+
+assert.equal(
+  governedOceanSnapshot
+    .integrity
+    .observationContractConsistent,
+  true
+);
+
+assert.equal(
+  governedOceanSnapshot
+    .integrity
+    .intelligenceContractConsistent,
+  true
+);
+
+assert.equal(
+  governedOceanSnapshot.contractVersion,
+  "pelora-ocean-snapshot-assembly-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanSnapshot
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanSnapshot
+      .metadata
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanSnapshot
+      .observation
+      .observations
+  ),
+  true
+);
+
+console.log(
+  "PASS Ocean Snapshot Assembly composes and freezes the canonical Ocean Memory record"
+);
+
+
+assemblyObservationSnapshot
+  .observations
+  .sst
+  .temperatureFahrenheit =
+  90;
+
+assert.equal(
+  governedOceanSnapshot
+    .observation
+    .observations
+    .sst
+    .temperatureFahrenheit,
+  83
+);
+
+console.log(
+  "PASS Ocean Snapshot Assembly remains isolated from later child-contract mutation"
+);
+
+
+const partialOceanSnapshot =
+  buildOceanSnapshot({
+    snapshotMetadata: {
+      ...assemblySnapshotMetadata,
+
+      versionManifest: {
+        ...assemblySnapshotMetadata
+          .versionManifest,
+
+        contractVersions: {
+          observationSnapshot:
+            "pelora-observation-snapshot-v1",
+
+          intelligenceSnapshot:
+            null
+        }
+      }
+    },
+
+    observationSnapshot:
+      assemblyObservationSnapshot,
+
+    intelligenceSnapshot:
+      null
+  });
+
+assert.equal(
+  partialOceanSnapshot.available,
+  true
+);
+
+assert.equal(
+  partialOceanSnapshot
+    .integrity
+    .intelligenceSnapshotAvailable,
+  false
+);
+
+assert.ok(
+  partialOceanSnapshot
+    .missingRequirements
+    .includes(
+      "intelligence-snapshot"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot Assembly preserves a valid observation-only partial record"
+);
+
+
+const inconsistentTimeOceanSnapshot =
+  buildOceanSnapshot({
+    snapshotMetadata:
+      assemblySnapshotMetadata,
+
+    observationSnapshot:
+      assemblyObservationSnapshot,
+
+    intelligenceSnapshot: {
+      ...assemblyIntelligenceSnapshot,
+
+      observedAt:
+        "2026-08-02T22:00:00.000Z"
+    }
+  });
+
+assert.equal(
+  inconsistentTimeOceanSnapshot.available,
+  false
+);
+
+assert.equal(
+  inconsistentTimeOceanSnapshot
+    .integrity
+    .observedAtConsistent,
+  false
+);
+
+assert.ok(
+  inconsistentTimeOceanSnapshot
+    .missingRequirements
+    .includes(
+      "consistent-observed-at"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot Assembly rejects inconsistent observation timestamps"
+);
+
+
+const inconsistentVersionOceanSnapshot =
+  buildOceanSnapshot({
+    snapshotMetadata:
+      assemblySnapshotMetadata,
+
+    observationSnapshot: {
+      ...assemblyObservationSnapshot,
+
+      contractVersion:
+        "pelora-observation-snapshot-v2"
+    },
+
+    intelligenceSnapshot:
+      assemblyIntelligenceSnapshot
+  });
+
+assert.equal(
+  inconsistentVersionOceanSnapshot.available,
+  false
+);
+
+assert.equal(
+  inconsistentVersionOceanSnapshot
+    .integrity
+    .observationContractConsistent,
+  false
+);
+
+assert.ok(
+  inconsistentVersionOceanSnapshot
+    .missingRequirements
+    .includes(
+      "observation-contract-version-consistency"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot Assembly rejects inconsistent governed contract versions"
+);
+
+
+const unavailableOceanSnapshot =
+  buildOceanSnapshot();
+
+assert.equal(
+  unavailableOceanSnapshot.available,
+  false
+);
+
+assert.ok(
+  unavailableOceanSnapshot
+    .missingRequirements
+    .includes(
+      "snapshot-metadata"
+    )
+);
+
+assert.ok(
+  unavailableOceanSnapshot
+    .missingRequirements
+    .includes(
+      "observation-snapshot"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot Assembly discloses missing canonical child contracts"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshot,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshot,
+    "persistence"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshot,
+    "captainNarrative"
+  ),
+  false
+);
+
+console.log(
+  "PASS Ocean Snapshot Assembly excludes comparison, persistence, and guidance"
 );
