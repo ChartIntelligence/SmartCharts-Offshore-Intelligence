@@ -8205,6 +8205,17 @@ export function assessOceanEvidence({
       oceanFrontAnalysis
     });
 
+  const oceanOrganization =
+    buildOceanOrganizationAnalysis({
+      current,
+      temperature,
+      surfaceWaterCharacter,
+      waterMassAnalysis,
+      mixingZoneAnalysis,
+      environmentalTransitionAnalysis,
+      oceanFrontAnalysis
+    });
+
   const structure =
     buildStructureEvidence({
       latitude,
@@ -8443,6 +8454,13 @@ export function assessOceanEvidence({
       oceanPhysicsExplainabilityWithLineage,
 
     /*
+     * Ocean Organization synthesizes the governed physics layer.
+     * It does not alter confidence, opportunity scoring, species
+     * models, or captain-facing language.
+     */
+    oceanOrganization,
+
+    /*
      * Environmental opportunity pathways remain separate from
      * the established evidence groups until their contribution
      * to confidence and scoring is scientifically governed.
@@ -8460,7 +8478,7 @@ export function assessOceanEvidence({
     lineage,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.9"
+      "pelora-ocean-evidence-v2.0"
   };
 }
 
@@ -13323,6 +13341,691 @@ export function buildOceanPhysicsExplainabilityLineage({
       contractVersions
     }
   });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Organization Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Synthesize governed physical-ocean contracts into one
+ * species-neutral description of environmental organization.
+ *
+ * This engine does not detect a new physical feature. It records
+ * how many independent physical observations and synthesis
+ * contracts agree that the sampled ocean is organized.
+ *
+ * It does not evaluate habitat, fishing opportunity, species
+ * suitability, prey, fish presence, or catch probability.
+ */
+export function buildOceanOrganizationAnalysis({
+  current = null,
+  temperature = null,
+  surfaceWaterCharacter = null,
+  waterMassAnalysis = null,
+  mixingZoneAnalysis = null,
+  environmentalTransitionAnalysis = null,
+  oceanFrontAnalysis = null
+} = {}) {
+  const currentSpatialAnalysis =
+    current
+      ?.spatialAnalysis ??
+    null;
+
+  const currentOrganization =
+    currentSpatialAnalysis
+      ?.organization ??
+    null;
+
+  const currentPattern =
+    currentSpatialAnalysis
+      ?.spatialPattern ??
+    null;
+
+  const currentShear =
+    currentSpatialAnalysis
+      ?.shear ??
+    null;
+
+  const currentConvergence =
+    currentSpatialAnalysis
+      ?.convergence ??
+    null;
+
+  const currentEdge =
+    currentSpatialAnalysis
+      ?.edge ??
+    null;
+
+  const currentOrganizationAvailable =
+    currentOrganization
+      ?.available ===
+    true;
+
+  const currentFieldUniform =
+    currentOrganization
+      ?.classification ===
+      "uniform-current-field" ||
+    currentPattern
+      ?.patternType ===
+      "uniform-flow-pattern";
+
+  const currentVariationObserved =
+    currentOrganization
+      ?.classification ===
+      "organized-current-transition" ||
+    currentPattern
+      ?.patternState ===
+      "candidate";
+
+  const shearDetected =
+    currentShear
+      ?.currentShearDetected ===
+    true &&
+    currentShear
+      ?.shearState ===
+    "candidate";
+
+  const convergenceDetected =
+    currentConvergence
+      ?.currentConvergenceDetected ===
+    true &&
+    currentConvergence
+      ?.convergenceState ===
+    "candidate";
+
+  const currentEdgeDetected =
+    currentEdge
+      ?.currentEdgeDetected ===
+    true &&
+    currentEdge
+      ?.edgeState ===
+    "candidate";
+
+  const sufficientThermalCoverage =
+    temperature
+      ?.values
+      ?.coverage ===
+    "sufficient";
+
+  const temperatureClassification =
+    temperature
+      ?.classification ??
+    "unavailable";
+
+  const uniformThermalField =
+    sufficientThermalCoverage &&
+    (
+      temperatureClassification ===
+        "uniform-water" ||
+      temperature
+        ?.values
+        ?.spatialClassification ===
+        "uniform-water"
+    );
+
+  const meaningfulThermalTransition =
+    sufficientThermalCoverage &&
+    [
+      "moderate-temperature-structure",
+      "strong-temperature-break-candidate"
+    ].includes(
+      temperatureClassification
+    );
+
+  const pronouncedThermalTransition =
+    sufficientThermalCoverage &&
+    temperatureClassification ===
+      "strong-temperature-break-candidate";
+
+  const surfaceBoundaryContext =
+    [
+      "thermal-boundary-context",
+      "current-boundary-context",
+      "combined-thermal-current-boundary-context"
+    ].includes(
+      surfaceWaterCharacter
+        ?.classification
+    );
+
+  const waterMassBoundaryContext =
+    [
+      "single-variable-spatial-water-contrast",
+      "hydrodynamic-boundary-with-local-water-character",
+      "combined-boundary-context-without-water-mass-distinction"
+    ].includes(
+      waterMassAnalysis
+        ?.classification
+    );
+
+  const mixingInteractionContext =
+    [
+      "combined-boundary-interaction-context",
+      "multi-signal-boundary-interaction-context"
+    ].includes(
+      mixingZoneAnalysis
+        ?.classification
+    );
+
+  const environmentalTransitionContext =
+    [
+      "combined-environmental-transition-context",
+      "multi-signal-environmental-transition-context"
+    ].includes(
+      environmentalTransitionAnalysis
+        ?.classification
+    );
+
+  const oceanFrontCandidateContext =
+    [
+      "ocean-front-candidate-context",
+      "multi-signal-ocean-front-candidate-context"
+    ].includes(
+      oceanFrontAnalysis
+        ?.classification
+    );
+
+  /*
+   * The index is transparent and additive.
+   *
+   * Direct physical measurements receive one point each.
+   * Higher synthesis contracts receive one point each because
+   * they represent corroboration across upstream evidence.
+   *
+   * This is an organization index only. It is not confidence,
+   * habitat suitability, fishing quality, or probability.
+   */
+  const weightedSignals = [
+    {
+      driver:
+        "organized-current-variation",
+
+      supported:
+        currentVariationObserved,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "current-shear",
+
+      supported:
+        shearDetected,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "current-convergence",
+
+      supported:
+        convergenceDetected,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "current-edge",
+
+      supported:
+        currentEdgeDetected,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "meaningful-thermal-transition",
+
+      supported:
+        meaningfulThermalTransition,
+
+      weight:
+        pronouncedThermalTransition
+          ? 2
+          : 1
+    },
+
+    {
+      driver:
+        "surface-water-boundary-context",
+
+      supported:
+        surfaceBoundaryContext,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "water-mass-boundary-context",
+
+      supported:
+        waterMassBoundaryContext,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "mixing-interaction-context",
+
+      supported:
+        mixingInteractionContext,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "environmental-transition-context",
+
+      supported:
+        environmentalTransitionContext,
+
+      weight:
+        1
+    },
+
+    {
+      driver:
+        "ocean-front-candidate-context",
+
+      supported:
+        oceanFrontCandidateContext,
+
+      weight:
+        1
+    }
+  ];
+
+  const supportedSignals =
+    weightedSignals.filter(
+      signal =>
+        signal.supported
+    );
+
+  const organizationDrivers =
+    supportedSignals.map(
+      signal =>
+        signal.driver
+    );
+
+  const organizationSignalCount =
+    organizationDrivers.length;
+
+  const organizationIndex =
+    supportedSignals.reduce(
+      (
+        total,
+        signal
+      ) =>
+        total +
+        signal.weight,
+      0
+    );
+
+  const counterEvidence = [
+    currentFieldUniform
+      ? "uniform-current-field"
+      : null,
+
+    uniformThermalField
+      ? "uniform-temperature-field"
+      : null,
+
+    waterMassAnalysis
+      ?.distinctAdjacentWaterMassesEstablished !==
+      true
+      ? "distinct-water-masses-not-established"
+      : null,
+
+    mixingZoneAnalysis
+      ?.mixingZoneDetected !==
+      true
+      ? "mixing-zone-not-established"
+      : null,
+
+    environmentalTransitionAnalysis
+      ?.environmentalTransitionDetected !==
+      true
+      ? "verified-environmental-transition-not-established"
+      : null,
+
+    oceanFrontAnalysis
+      ?.oceanFrontDetected !==
+      true
+      ? "verified-ocean-front-not-established"
+      : null
+  ].filter(Boolean);
+
+  const available =
+    currentOrganizationAvailable ||
+    temperature
+      ?.available ===
+    true ||
+    surfaceWaterCharacter
+      ?.available ===
+    true ||
+    waterMassAnalysis
+      ?.available ===
+    true ||
+    mixingZoneAnalysis
+      ?.available ===
+    true ||
+    environmentalTransitionAnalysis
+      ?.available ===
+    true ||
+    oceanFrontAnalysis
+      ?.available ===
+    true;
+
+  let classification =
+    "unavailable";
+
+  let organizationLevel =
+    "unavailable";
+
+  let organizationState =
+    "insufficient-evidence";
+
+  let interpretation =
+    "Ocean organization cannot be evaluated from the available physical evidence.";
+
+  if (available) {
+    classification =
+      "uniform-or-unresolved-ocean";
+
+    organizationLevel =
+      "uniform";
+
+    organizationState =
+      "observed";
+
+    interpretation =
+      "The available physical observations remain broadly uniform or do not yet agree on an organized environmental pattern.";
+
+    if (
+      organizationIndex >=
+      8
+    ) {
+      classification =
+        "highly-organized-ocean-context";
+
+      organizationLevel =
+        "highly-organized";
+
+      organizationState =
+        "strong-candidate-context";
+
+      interpretation =
+        "Many independent physical signals agree that the sampled ocean is strongly organized.";
+    } else if (
+      organizationIndex >=
+      5
+    ) {
+      classification =
+        "organized-ocean-context";
+
+      organizationLevel =
+        "organized";
+
+      organizationState =
+        "candidate-context";
+
+      interpretation =
+        "Several independent physical signals agree that the sampled ocean is organized.";
+    } else if (
+      organizationIndex >=
+      3
+    ) {
+      classification =
+        "developing-ocean-organization";
+
+      organizationLevel =
+        "developing-organization";
+
+      organizationState =
+        "candidate-context";
+
+      interpretation =
+        "Multiple physical observations indicate developing environmental organization.";
+    } else if (
+      organizationIndex >=
+      1
+    ) {
+      classification =
+        "limited-ocean-organization";
+
+      organizationLevel =
+        "limited-organization";
+
+      organizationState =
+        "limited-support";
+
+      interpretation =
+        "One or more physical signals suggest localized organization, but broader agreement remains limited.";
+    }
+  }
+
+  const inheritedLimitations = [
+    currentOrganization,
+    currentPattern,
+    currentShear,
+    currentConvergence,
+    currentEdge,
+    temperature,
+    surfaceWaterCharacter,
+    waterMassAnalysis,
+    mixingZoneAnalysis,
+    environmentalTransitionAnalysis,
+    oceanFrontAnalysis
+  ].flatMap(
+    contract =>
+      Array.isArray(
+        contract
+          ?.limitations
+      )
+        ? contract
+            .limitations
+        : []
+  );
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      "Ocean Organization Analysis synthesizes existing physical evidence and does not detect a new ocean feature.",
+
+      "The organization index is a transparent evidence index, not confidence, habitat suitability, fishing quality, or probability.",
+
+      "Higher-level boundary contracts may share upstream observations; the index describes corroborating contract support and must not be treated as fully independent statistical evidence.",
+
+      "Temporal stability and persistence are not evaluated.",
+
+      "No prey concentration, fish presence, habitat quality, species suitability, catch probability, or fishing recommendation is inferred."
+    ])
+  ];
+
+  return {
+    available,
+
+    analysisType:
+      "ocean-organization-analysis",
+
+    classification,
+
+    organizationLevel,
+
+    organizationState,
+
+    organizationIndex,
+
+    organizationSignalCount,
+
+    organizationDrivers,
+
+    counterEvidence,
+
+    evidence: {
+      currentOrganizationAvailable,
+
+      currentFieldUniform,
+
+      currentVariationObserved,
+
+      shearDetected,
+
+      convergenceDetected,
+
+      currentEdgeDetected,
+
+      sufficientThermalCoverage,
+
+      uniformThermalField,
+
+      meaningfulThermalTransition,
+
+      pronouncedThermalTransition,
+
+      surfaceBoundaryContext,
+
+      waterMassBoundaryContext,
+
+      mixingInteractionContext,
+
+      environmentalTransitionContext,
+
+      oceanFrontCandidateContext,
+
+      weightedSignals:
+        weightedSignals.map(
+          signal => ({
+            driver:
+              signal.driver,
+
+            supported:
+              signal.supported,
+
+            weight:
+              signal.weight
+          })
+        )
+    },
+
+    interpretation,
+
+    limitations,
+
+    upstreamContracts: [
+      {
+        engine:
+          "current-organization-analysis",
+
+        version:
+          currentOrganization
+            ?.thresholdVersion ??
+          currentOrganization
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-shear-analysis",
+
+        version:
+          currentShear
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-convergence-analysis",
+
+        version:
+          currentConvergence
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "current-edge-analysis",
+
+        version:
+          currentEdge
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "surface-water-character-analysis",
+
+        version:
+          surfaceWaterCharacter
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "water-mass-analysis",
+
+        version:
+          waterMassAnalysis
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "mixing-zone-analysis",
+
+        version:
+          mixingZoneAnalysis
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "environmental-transition-analysis",
+
+        version:
+          environmentalTransitionAnalysis
+            ?.contractVersion ??
+          null
+      },
+
+      {
+        engine:
+          "ocean-front-analysis",
+
+        version:
+          oceanFrontAnalysis
+            ?.contractVersion ??
+          null
+      }
+    ],
+
+    contractVersion:
+      "pelora-ocean-organization-v1"
+  };
 }
 
 

@@ -10,6 +10,7 @@ import {
   buildOceanFrontAnalysis,
   buildOceanPhysicsExplainabilitySummary,
   buildOceanPhysicsExplainabilityLineage,
+  buildOceanOrganizationAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6682,7 +6683,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.9"
+  "pelora-ocean-evidence-v2.0"
 );
 
 console.log(
@@ -11928,7 +11929,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.9"
+  "pelora-ocean-evidence-v2.0"
 );
 
 assert.equal(
@@ -19247,4 +19248,488 @@ assert.equal(
 
 console.log(
   "PASS Ocean Physics Explainability Lineage discloses missing upstream lineage without changing the documentary summary"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Organization Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildOrganizationCurrent = ({
+  organizationAvailable = true,
+  organizationClassification =
+    "uniform-current-field",
+  patternType =
+    "uniform-flow-pattern",
+  patternState =
+    "observed",
+  shear = false,
+  convergence = false,
+  edge = false
+} = {}) => ({
+  spatialAnalysis: {
+    organization: {
+      available:
+        organizationAvailable,
+
+      classification:
+        organizationClassification,
+
+      limitations:
+        [],
+
+      thresholdVersion:
+        "pelora-current-organization-v1"
+    },
+
+    spatialPattern: {
+      patternType,
+
+      patternState,
+
+      limitations:
+        [],
+
+      thresholdVersion:
+        "pelora-current-spatial-pattern-v1"
+    },
+
+    shear: {
+      currentShearDetected:
+        shear,
+
+      shearState:
+        shear
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-shear-v1"
+    },
+
+    convergence: {
+      currentConvergenceDetected:
+        convergence,
+
+      convergenceState:
+        convergence
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-convergence-v1"
+    },
+
+    edge: {
+      currentEdgeDetected:
+        edge,
+
+      edgeState:
+        edge
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-edge-v1"
+    }
+  }
+});
+
+
+const buildOrganizationTemperature = ({
+  available = true,
+  classification =
+    "uniform-water",
+  coverage =
+    "sufficient",
+  spatialClassification =
+    "uniform-water"
+} = {}) => ({
+  available,
+
+  classification,
+
+  values: {
+    coverage,
+
+    spatialClassification
+  },
+
+  limitations:
+    []
+});
+
+
+const buildOrganizationContract = ({
+  available = true,
+  classification,
+  detectedFields = {},
+  contractVersion
+} = {}) => ({
+  available,
+
+  classification,
+
+  ...detectedFields,
+
+  limitations:
+    [],
+
+  contractVersion
+});
+
+
+const unavailableOceanOrganization =
+  buildOceanOrganizationAnalysis();
+
+assert.equal(
+  unavailableOceanOrganization.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanOrganization.organizationLevel,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableOceanOrganization.organizationIndex,
+  0
+);
+
+console.log(
+  "PASS Ocean Organization Analysis remains unavailable without physical evidence"
+);
+
+
+const uniformOceanOrganization =
+  buildOceanOrganizationAnalysis({
+    current:
+      buildOrganizationCurrent(),
+
+    temperature:
+      buildOrganizationTemperature(),
+
+    surfaceWaterCharacter:
+      buildOrganizationContract({
+        classification:
+          "uniform-surface-water-character",
+
+        contractVersion:
+          "pelora-surface-water-character-v1"
+      }),
+
+    waterMassAnalysis:
+      buildOrganizationContract({
+        classification:
+          "uniform-surface-water-context",
+
+        detectedFields: {
+          distinctAdjacentWaterMassesEstablished:
+            false
+        },
+
+        contractVersion:
+          "pelora-water-mass-analysis-v1"
+      }),
+
+    mixingZoneAnalysis:
+      buildOrganizationContract({
+        classification:
+          "no-mixing-zone-context",
+
+        detectedFields: {
+          mixingZoneDetected:
+            false
+        },
+
+        contractVersion:
+          "pelora-mixing-zone-analysis-v1"
+      }),
+
+    environmentalTransitionAnalysis:
+      buildOrganizationContract({
+        classification:
+          "uniform-environmental-context",
+
+        detectedFields: {
+          environmentalTransitionDetected:
+            false
+        },
+
+        contractVersion:
+          "pelora-environmental-transition-analysis-v1"
+      }),
+
+    oceanFrontAnalysis:
+      buildOrganizationContract({
+        classification:
+          "no-ocean-front-context",
+
+        detectedFields: {
+          oceanFrontDetected:
+            false
+        },
+
+        contractVersion:
+          "pelora-ocean-front-analysis-v1"
+      })
+  });
+
+assert.equal(
+  uniformOceanOrganization.organizationLevel,
+  "uniform"
+);
+
+assert.equal(
+  uniformOceanOrganization.organizationIndex,
+  0
+);
+
+assert.ok(
+  uniformOceanOrganization
+    .counterEvidence
+    .includes(
+      "uniform-current-field"
+    )
+);
+
+assert.ok(
+  uniformOceanOrganization
+    .counterEvidence
+    .includes(
+      "uniform-temperature-field"
+    )
+);
+
+console.log(
+  "PASS Ocean Organization Analysis preserves a uniform ocean context"
+);
+
+
+const developingOceanOrganization =
+  buildOceanOrganizationAnalysis({
+    current:
+      buildOrganizationCurrent({
+        organizationClassification:
+          "organized-current-transition",
+
+        patternType:
+          "speed-transition-pattern",
+
+        patternState:
+          "candidate",
+
+        shear:
+          true
+      }),
+
+    temperature:
+      buildOrganizationTemperature({
+        classification:
+          "moderate-temperature-structure",
+
+        spatialClassification:
+          "moderate-temperature-transition"
+      }),
+
+    surfaceWaterCharacter:
+      buildOrganizationContract({
+        classification:
+          "thermal-boundary-context",
+
+        contractVersion:
+          "pelora-surface-water-character-v1"
+      }),
+
+    waterMassAnalysis:
+      buildOrganizationContract({
+        classification:
+          "local-surface-character-only",
+
+        contractVersion:
+          "pelora-water-mass-analysis-v1"
+      }),
+
+    mixingZoneAnalysis:
+      buildOrganizationContract({
+        classification:
+          "no-mixing-zone-context",
+
+        contractVersion:
+          "pelora-mixing-zone-analysis-v1"
+      }),
+
+    environmentalTransitionAnalysis:
+      buildOrganizationContract({
+        classification:
+          "thermal-transition-context",
+
+        contractVersion:
+          "pelora-environmental-transition-analysis-v1"
+      }),
+
+    oceanFrontAnalysis:
+      buildOrganizationContract({
+        classification:
+          "thermal-boundary-without-front-support",
+
+        contractVersion:
+          "pelora-ocean-front-analysis-v1"
+      })
+  });
+
+assert.equal(
+  developingOceanOrganization.organizationLevel,
+  "developing-organization"
+);
+
+assert.equal(
+  developingOceanOrganization.organizationIndex,
+  4
+);
+
+assert.equal(
+  developingOceanOrganization.organizationSignalCount,
+  4
+);
+
+console.log(
+  "PASS Ocean Organization Analysis identifies developing multi-signal organization"
+);
+
+
+const highlyOrganizedOcean =
+  buildOceanOrganizationAnalysis({
+    current:
+      buildOrganizationCurrent({
+        organizationClassification:
+          "organized-current-transition",
+
+        patternType:
+          "pronounced-mixed-transition-pattern",
+
+        patternState:
+          "candidate",
+
+        shear:
+          true,
+
+        convergence:
+          true,
+
+        edge:
+          true
+      }),
+
+    temperature:
+      buildOrganizationTemperature({
+        classification:
+          "strong-temperature-break-candidate",
+
+        spatialClassification:
+          "strong-temperature-break-candidate"
+      }),
+
+    surfaceWaterCharacter:
+      buildOrganizationContract({
+        classification:
+          "combined-thermal-current-boundary-context",
+
+        contractVersion:
+          "pelora-surface-water-character-v1"
+      }),
+
+    waterMassAnalysis:
+      buildOrganizationContract({
+        classification:
+          "combined-boundary-context-without-water-mass-distinction",
+
+        contractVersion:
+          "pelora-water-mass-analysis-v1"
+      }),
+
+    mixingZoneAnalysis:
+      buildOrganizationContract({
+        classification:
+          "multi-signal-boundary-interaction-context",
+
+        contractVersion:
+          "pelora-mixing-zone-analysis-v1"
+      }),
+
+    environmentalTransitionAnalysis:
+      buildOrganizationContract({
+        classification:
+          "multi-signal-environmental-transition-context",
+
+        contractVersion:
+          "pelora-environmental-transition-analysis-v1"
+      }),
+
+    oceanFrontAnalysis:
+      buildOrganizationContract({
+        classification:
+          "multi-signal-ocean-front-candidate-context",
+
+        contractVersion:
+          "pelora-ocean-front-analysis-v1"
+      })
+  });
+
+assert.equal(
+  highlyOrganizedOcean.organizationLevel,
+  "highly-organized"
+);
+
+assert.equal(
+  highlyOrganizedOcean.organizationState,
+  "strong-candidate-context"
+);
+
+assert.equal(
+  highlyOrganizedOcean.organizationIndex,
+  11
+);
+
+assert.equal(
+  highlyOrganizedOcean.organizationSignalCount,
+  10
+);
+
+assert.equal(
+  highlyOrganizedOcean.contractVersion,
+  "pelora-ocean-organization-v1"
+);
+
+assert.ok(
+  highlyOrganizedOcean
+    .organizationDrivers
+    .includes(
+      "current-edge"
+    )
+);
+
+assert.ok(
+  highlyOrganizedOcean
+    .organizationDrivers
+    .includes(
+      "ocean-front-candidate-context"
+    )
+);
+
+console.log(
+  "PASS Ocean Organization Analysis identifies highly organized multi-contract context"
 );
