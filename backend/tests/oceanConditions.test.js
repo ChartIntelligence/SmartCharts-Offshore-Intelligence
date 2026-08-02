@@ -11,6 +11,9 @@ import {
   buildOceanPhysicsExplainabilitySummary,
   buildOceanPhysicsExplainabilityLineage,
   buildOceanOrganizationAnalysis,
+  buildObservationSnapshot,
+  buildIntelligenceSnapshot,
+  buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -19732,4 +19735,1115 @@ assert.ok(
 
 console.log(
   "PASS Ocean Organization Analysis identifies highly organized multi-contract context"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Observation Snapshot Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const observationSnapshotSource = {
+  location: {
+    latitude:
+      29.5,
+
+    longitude:
+      -87.2,
+
+    name:
+      "Test Water"
+  },
+
+  observedAt:
+    "2026-08-02T18:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T18:05:00.000Z",
+
+  observations: {
+    sst: {
+      temperatureFahrenheit:
+        84.2
+    },
+
+    currents: {
+      speedKnots:
+        1.4,
+
+      directionDegrees:
+        92
+    }
+  },
+
+  oceanEvidence: {
+    summary: {
+      classification:
+        "available"
+    },
+
+    groups: {
+      temperature: {
+        available:
+          true,
+
+        interpretation:
+          "species-neutral-temperature-structure-evidence"
+      },
+
+      current: {
+        available:
+          true,
+
+        interpretation:
+          "species-neutral-current-evidence"
+      }
+    },
+
+    surfaceWaterCharacter: {
+      available:
+        true,
+
+      contractVersion:
+        "pelora-surface-water-character-v1"
+    },
+
+    waterMassAnalysis: {
+      available:
+        true,
+
+      contractVersion:
+        "pelora-water-mass-analysis-v1"
+    },
+
+    mixingZoneAnalysis: {
+      available:
+        true,
+
+      contractVersion:
+        "pelora-mixing-zone-analysis-v1"
+    },
+
+    environmentalTransitionAnalysis: {
+      available:
+        true,
+
+      contractVersion:
+        "pelora-environmental-transition-analysis-v1"
+    },
+
+    oceanFrontAnalysis: {
+      available:
+        true,
+
+      contractVersion:
+        "pelora-ocean-front-analysis-v1"
+    },
+
+    oceanPhysicsExplainability: {
+      available:
+        true,
+
+      contractVersion:
+        "pelora-ocean-physics-explainability-v1",
+
+      lineage: {
+        methodVersion:
+          "pelora-ocean-physics-explainability-lineage-v1.0"
+      }
+    },
+
+    oceanOrganization: {
+      available:
+        true,
+
+      organizationLevel:
+        "developing-organization",
+
+      contractVersion:
+        "pelora-ocean-organization-v1"
+    },
+
+    confidence: {
+      score:
+        72,
+
+      level:
+        "Moderate"
+    },
+
+    limitations:
+      [],
+
+    lineage: {
+      methodVersion:
+        "pelora-ocean-evidence-lineage-v1.0"
+    },
+
+    methodVersion:
+      "pelora-ocean-evidence-v2.0"
+  },
+
+  dataQuality: {
+    overall: {
+      classification:
+        "partial"
+    },
+
+    methodVersion:
+      "pelora-data-quality-v2"
+  }
+};
+
+
+const governedObservationSnapshot =
+  buildObservationSnapshot(
+    observationSnapshotSource
+  );
+
+assert.equal(
+  governedObservationSnapshot.available,
+  true
+);
+
+assert.equal(
+  governedObservationSnapshot.snapshotType,
+  "observation"
+);
+
+assert.equal(
+  governedObservationSnapshot.responsibility,
+  "preserve"
+);
+
+assert.equal(
+  governedObservationSnapshot
+    .location
+    .latitude,
+  29.5
+);
+
+assert.equal(
+  governedObservationSnapshot
+    .oceanOrganization
+    .organizationLevel,
+  "developing-organization"
+);
+
+assert.equal(
+  governedObservationSnapshot
+    .contractVersions
+    .oceanOrganization,
+  "pelora-ocean-organization-v1"
+);
+
+assert.equal(
+  governedObservationSnapshot.contractVersion,
+  "pelora-observation-snapshot-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedObservationSnapshot
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedObservationSnapshot
+      .oceanPhysics
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedObservationSnapshot
+      .observations
+      .sst
+  ),
+  true
+);
+
+console.log(
+  "PASS Observation Snapshot preserves and freezes governed ocean-state contracts"
+);
+
+
+observationSnapshotSource
+  .observations
+  .sst
+  .temperatureFahrenheit =
+  90;
+
+assert.equal(
+  governedObservationSnapshot
+    .observations
+    .sst
+    .temperatureFahrenheit,
+  84.2
+);
+
+console.log(
+  "PASS Observation Snapshot remains isolated from later upstream-object mutation"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    governedObservationSnapshot,
+    "oceanOpportunity"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedObservationSnapshot,
+    "blueMarlinHabitat"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedObservationSnapshot,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedObservationSnapshot,
+    "persistence"
+  ),
+  false
+);
+
+console.log(
+  "PASS Observation Snapshot excludes opportunity, species, trend, and persistence reasoning"
+);
+
+
+const unavailableObservationSnapshot =
+  buildObservationSnapshot();
+
+assert.equal(
+  unavailableObservationSnapshot.available,
+  false
+);
+
+assert.ok(
+  unavailableObservationSnapshot
+    .limitations
+    .includes(
+      "snapshot-location-unavailable"
+    )
+);
+
+assert.ok(
+  unavailableObservationSnapshot
+    .limitations
+    .includes(
+      "ocean-evidence-unavailable"
+    )
+);
+
+console.log(
+  "PASS Observation Snapshot discloses missing preservation inputs"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Intelligence Snapshot Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const intelligenceSnapshotSource = {
+  observedAt:
+    "2026-08-02T19:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T19:05:00.000Z",
+
+  oceanOpportunity: {
+    opportunities: [
+      {
+        type:
+          "environmental-transition-zone",
+
+        classification:
+          "temperature-transition-candidate"
+      }
+    ],
+
+    pathwayClassification: {
+      classification:
+        "open-water",
+
+      pathway:
+        "environmental-organization"
+    },
+
+    limitations:
+      [],
+
+    lineage: {
+      methodVersion:
+        "pelora-ocean-opportunity-lineage-v1.0"
+    },
+
+    methodVersion:
+      "pelora-ocean-opportunity-v1.2"
+  },
+
+  relationshipContext: {
+    available:
+      true,
+
+    pathway:
+      "open-water",
+
+    environmentType:
+      "environmental-organization",
+
+    supportedRelationships: [
+      "thermalStructure",
+      "oceanMovement"
+    ],
+
+    limitations:
+      [],
+
+    lineage: {
+      methodVersion:
+        "pelora-relationship-context-lineage-v1.0"
+    },
+
+    methodVersion:
+      "pelora-relationship-context-v1.0"
+  },
+
+  relationshipAssessment: {
+    available:
+      true,
+
+    relationshipContext: {
+      pathway:
+        "open-water"
+    },
+
+    relationshipConfidence: {
+      overall: {
+        value:
+          0.62,
+
+        level:
+          "Moderate"
+      }
+    },
+
+    limitations:
+      [],
+
+    lineage: {
+      methodVersion:
+        "pelora-relationship-assessment-lineage-v1.0"
+    },
+
+    methodVersion:
+      "pelora-relationship-assessment-v1.0"
+  },
+
+  oceanPhysicsExplainability: {
+    available:
+      true,
+
+    highestSupportedStage:
+      "ocean-front",
+
+    limitations:
+      [],
+
+    lineage: {
+      methodVersion:
+        "pelora-ocean-physics-explainability-lineage-v1.0"
+    },
+
+    contractVersion:
+      "pelora-ocean-physics-explainability-v1"
+  },
+
+  oceanOrganization: {
+    available:
+      true,
+
+    organizationLevel:
+      "organized",
+
+    organizationIndex:
+      6,
+
+    limitations:
+      [],
+
+    contractVersion:
+      "pelora-ocean-organization-v1"
+  }
+};
+
+
+const governedIntelligenceSnapshot =
+  buildIntelligenceSnapshot(
+    intelligenceSnapshotSource
+  );
+
+assert.equal(
+  governedIntelligenceSnapshot.available,
+  true
+);
+
+assert.equal(
+  governedIntelligenceSnapshot.snapshotType,
+  "intelligence"
+);
+
+assert.equal(
+  governedIntelligenceSnapshot.responsibility,
+  "preserve"
+);
+
+assert.equal(
+  governedIntelligenceSnapshot
+    .relationshipContext
+    .pathway,
+  "open-water"
+);
+
+assert.equal(
+  governedIntelligenceSnapshot
+    .relationshipAssessment
+    .relationshipConfidence
+    .overall
+    .level,
+  "Moderate"
+);
+
+assert.equal(
+  governedIntelligenceSnapshot
+    .oceanOrganization
+    .organizationIndex,
+  6
+);
+
+assert.equal(
+  governedIntelligenceSnapshot
+    .contractVersions
+    .oceanOrganization,
+  "pelora-ocean-organization-v1"
+);
+
+assert.equal(
+  governedIntelligenceSnapshot.contractVersion,
+  "pelora-intelligence-snapshot-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedIntelligenceSnapshot
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedIntelligenceSnapshot
+      .relationshipAssessment
+  ),
+  true
+);
+
+console.log(
+  "PASS Intelligence Snapshot preserves and freezes governed interpretation contracts"
+);
+
+
+intelligenceSnapshotSource
+  .oceanOrganization
+  .organizationIndex =
+  10;
+
+assert.equal(
+  governedIntelligenceSnapshot
+    .oceanOrganization
+    .organizationIndex,
+  6
+);
+
+console.log(
+  "PASS Intelligence Snapshot remains isolated from later upstream-object mutation"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    governedIntelligenceSnapshot,
+    "observations"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedIntelligenceSnapshot,
+    "groups"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedIntelligenceSnapshot,
+    "blueMarlinHabitat"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedIntelligenceSnapshot,
+    "speciesPathwayInterpretation"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedIntelligenceSnapshot,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedIntelligenceSnapshot,
+    "persistence"
+  ),
+  false
+);
+
+console.log(
+  "PASS Intelligence Snapshot excludes observations, species, trend, and persistence reasoning"
+);
+
+
+const unavailableIntelligenceSnapshot =
+  buildIntelligenceSnapshot();
+
+assert.equal(
+  unavailableIntelligenceSnapshot.available,
+  false
+);
+
+assert.ok(
+  unavailableIntelligenceSnapshot
+    .limitations
+    .includes(
+      "ocean-opportunity-unavailable"
+    )
+);
+
+assert.ok(
+  unavailableIntelligenceSnapshot
+    .limitations
+    .includes(
+      "relationship-context-unavailable"
+    )
+);
+
+assert.ok(
+  unavailableIntelligenceSnapshot
+    .limitations
+    .includes(
+      "relationship-assessment-unavailable"
+    )
+);
+
+console.log(
+  "PASS Intelligence Snapshot discloses missing preservation inputs"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Change Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildChangeObservationSnapshot = ({
+  observedAt,
+  latitude = 29.5,
+  longitude = -87.2,
+  currentSpeedKnots = 1,
+  currentDirectionDegrees = 90,
+  temperatureFahrenheit = 82,
+  organizationIndex = 2,
+  organizationLevel =
+    "limited-organization",
+  frontClassification =
+    "thermal-boundary-without-front-support"
+} = {}) => ({
+  available:
+    true,
+
+  snapshotType:
+    "observation",
+
+  observedAt,
+
+  location: {
+    latitude,
+    longitude
+  },
+
+  observations: {
+    currents: {
+      speedKnots:
+        currentSpeedKnots,
+
+      directionDegrees:
+        currentDirectionDegrees
+    },
+
+    sst: {
+      temperatureFahrenheit
+    }
+  },
+
+  oceanPhysics: {
+    oceanFrontAnalysis: {
+      classification:
+        frontClassification
+    }
+  },
+
+  oceanOrganization: {
+    organizationIndex,
+
+    organizationLevel
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-observation-snapshot-v1"
+});
+
+
+const buildChangeIntelligenceSnapshot = ({
+  observedAt,
+  organizationIndex = 2,
+  organizationLevel =
+    "limited-organization",
+  pathway =
+    "insufficient-evidence"
+} = {}) => ({
+  available:
+    true,
+
+  snapshotType:
+    "intelligence",
+
+  observedAt,
+
+  oceanOrganization: {
+    organizationIndex,
+
+    organizationLevel
+  },
+
+  oceanOpportunity: {
+    pathwayClassification: {
+      classification:
+        pathway
+    }
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-intelligence-snapshot-v1"
+});
+
+
+const unavailableOceanChange =
+  buildOceanChangeAnalysis();
+
+assert.equal(
+  unavailableOceanChange.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanChange.changeState,
+  "insufficient-comparison-evidence"
+);
+
+assert.ok(
+  unavailableOceanChange
+    .missingRequirements
+    .includes(
+      "previous-observation-snapshot"
+    )
+);
+
+assert.ok(
+  unavailableOceanChange
+    .missingRequirements
+    .includes(
+      "current-observation-snapshot"
+    )
+);
+
+console.log(
+  "PASS Ocean Change Analysis requires two governed observation snapshots"
+);
+
+
+const stableOceanChange =
+  buildOceanChangeAnalysis({
+    previousObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T12:00:00.000Z"
+      }),
+
+    currentObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T18:00:00.000Z",
+
+        currentSpeedKnots:
+          1.05,
+
+        currentDirectionDegrees:
+          95,
+
+        temperatureFahrenheit:
+          82.1
+      }),
+
+    previousIntelligenceSnapshot:
+      buildChangeIntelligenceSnapshot({
+        observedAt:
+          "2026-08-02T12:00:00.000Z"
+      }),
+
+    currentIntelligenceSnapshot:
+      buildChangeIntelligenceSnapshot({
+        observedAt:
+          "2026-08-02T18:00:00.000Z"
+      })
+  });
+
+assert.equal(
+  stableOceanChange.available,
+  true
+);
+
+assert.equal(
+  stableOceanChange.changeState,
+  "no-meaningful-change-detected"
+);
+
+assert.equal(
+  stableOceanChange.meaningfulChangeDetected,
+  false
+);
+
+assert.equal(
+  stableOceanChange.changes.length,
+  0
+);
+
+assert.equal(
+  stableOceanChange
+    .comparison
+    .durationHours,
+  6
+);
+
+console.log(
+  "PASS Ocean Change Analysis preserves a stable two-snapshot comparison"
+);
+
+
+const measurableOceanChange =
+  buildOceanChangeAnalysis({
+    previousObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T06:00:00.000Z",
+
+        currentSpeedKnots:
+          0.8,
+
+        currentDirectionDegrees:
+          80,
+
+        temperatureFahrenheit:
+          81.5,
+
+        organizationIndex:
+          2,
+
+        organizationLevel:
+          "limited-organization"
+      }),
+
+    currentObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T18:00:00.000Z",
+
+        currentSpeedKnots:
+          1.4,
+
+        currentDirectionDegrees:
+          110,
+
+        temperatureFahrenheit:
+          82.4,
+
+        organizationIndex:
+          6,
+
+        organizationLevel:
+          "organized",
+
+        frontClassification:
+          "multi-signal-ocean-front-candidate-context"
+      }),
+
+    previousIntelligenceSnapshot:
+      buildChangeIntelligenceSnapshot({
+        observedAt:
+          "2026-08-02T06:00:00.000Z",
+
+        organizationIndex:
+          2,
+
+        organizationLevel:
+          "limited-organization",
+
+        pathway:
+          "insufficient-evidence"
+      }),
+
+    currentIntelligenceSnapshot:
+      buildChangeIntelligenceSnapshot({
+        observedAt:
+          "2026-08-02T18:00:00.000Z",
+
+        organizationIndex:
+          6,
+
+        organizationLevel:
+          "organized",
+
+        pathway:
+          "open-water-opportunity"
+      })
+  });
+
+assert.equal(
+  measurableOceanChange.available,
+  true
+);
+
+assert.equal(
+  measurableOceanChange.changeState,
+  "change-detected"
+);
+
+assert.equal(
+  measurableOceanChange.changeClassification,
+  "measurable-ocean-change"
+);
+
+assert.equal(
+  measurableOceanChange.meaningfulChangeDetected,
+  true
+);
+
+assert.ok(
+  measurableOceanChange
+    .changes
+    .some(
+      change =>
+        change.dimension ===
+        "current-speed"
+    )
+);
+
+assert.ok(
+  measurableOceanChange
+    .changes
+    .some(
+      change =>
+        change.dimension ===
+        "ocean-organization-index"
+    )
+);
+
+assert.ok(
+  measurableOceanChange
+    .changes
+    .some(
+      change =>
+        change.dimension ===
+        "ocean-front-context"
+    )
+);
+
+assert.ok(
+  measurableOceanChange
+    .changes
+    .some(
+      change =>
+        change.dimension ===
+        "opportunity-pathway"
+    )
+);
+
+assert.equal(
+  measurableOceanChange.contractVersion,
+  "pelora-ocean-change-analysis-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    measurableOceanChange
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    measurableOceanChange
+      .changes
+  ),
+  true
+);
+
+console.log(
+  "PASS Ocean Change Analysis identifies measurable governed snapshot differences"
+);
+
+
+const movedLocationOceanChange =
+  buildOceanChangeAnalysis({
+    previousObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T12:00:00.000Z"
+      }),
+
+    currentObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T18:00:00.000Z",
+
+        latitude:
+          29.7
+      })
+  });
+
+assert.equal(
+  movedLocationOceanChange.available,
+  false
+);
+
+assert.ok(
+  movedLocationOceanChange
+    .missingRequirements
+    .includes(
+      "matching-snapshot-location"
+    )
+);
+
+console.log(
+  "PASS Ocean Change Analysis refuses to compare different snapshot locations"
+);
+
+
+const reversedTimeOceanChange =
+  buildOceanChangeAnalysis({
+    previousObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T18:00:00.000Z"
+      }),
+
+    currentObservationSnapshot:
+      buildChangeObservationSnapshot({
+        observedAt:
+          "2026-08-02T12:00:00.000Z"
+      })
+  });
+
+assert.equal(
+  reversedTimeOceanChange.available,
+  false
+);
+
+assert.ok(
+  reversedTimeOceanChange
+    .missingRequirements
+    .includes(
+      "current-snapshot-must-follow-previous-snapshot"
+    )
+);
+
+console.log(
+  "PASS Ocean Change Analysis requires chronological snapshot order"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    measurableOceanChange,
+    "persistence"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    measurableOceanChange,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    measurableOceanChange,
+    "captainNarrative"
+  ),
+  false
+);
+
+console.log(
+  "PASS Ocean Change Analysis excludes persistence, trend, and captain guidance"
 );

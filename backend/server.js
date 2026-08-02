@@ -14029,6 +14029,1532 @@ export function buildOceanOrganizationAnalysis({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Observation Snapshot Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Preserve an immutable copy of the governed observations,
+ * evidence, physical-ocean contracts, organization, confidence,
+ * data quality, and lineage available at one place and time.
+ *
+ * This contract does not compare observations, infer trends,
+ * calculate persistence, create opportunity, perform biological
+ * reasoning, or generate captain-facing language.
+ */
+
+function cloneSnapshotValue(
+  value
+) {
+  if (
+    value === undefined
+  ) {
+    return null;
+  }
+
+  return structuredClone(
+    value
+  );
+}
+
+
+function deepFreezeSnapshotValue(
+  value
+) {
+  if (
+    value === null ||
+    typeof value !==
+      "object" ||
+    Object.isFrozen(
+      value
+    )
+  ) {
+    return value;
+  }
+
+  Object.freeze(
+    value
+  );
+
+  for (
+    const child of
+    Object.values(
+      value
+    )
+  ) {
+    deepFreezeSnapshotValue(
+      child
+    );
+  }
+
+  return value;
+}
+
+
+export function buildObservationSnapshot({
+  location = null,
+  observedAt = null,
+  generatedAt = null,
+  observations = null,
+  oceanEvidence = null,
+  dataQuality = null
+} = {}) {
+  const latitude =
+    Number.isFinite(
+      location?.latitude
+    )
+      ? location.latitude
+      : null;
+
+  const longitude =
+    Number.isFinite(
+      location?.longitude
+    )
+      ? location.longitude
+      : null;
+
+  const validLocation =
+    latitude !== null &&
+    longitude !== null;
+
+  const evidenceAvailable =
+    oceanEvidence !== null &&
+    typeof oceanEvidence ===
+      "object" &&
+    !Array.isArray(
+      oceanEvidence
+    );
+
+  const available =
+    validLocation &&
+    evidenceAvailable;
+
+  const groups =
+    oceanEvidence
+      ?.groups ??
+    {};
+
+  const oceanPhysics = {
+    surfaceWaterCharacter:
+      oceanEvidence
+        ?.surfaceWaterCharacter ??
+      null,
+
+    waterMassAnalysis:
+      oceanEvidence
+        ?.waterMassAnalysis ??
+      null,
+
+    mixingZoneAnalysis:
+      oceanEvidence
+        ?.mixingZoneAnalysis ??
+      null,
+
+    environmentalTransitionAnalysis:
+      oceanEvidence
+        ?.environmentalTransitionAnalysis ??
+      null,
+
+    oceanFrontAnalysis:
+      oceanEvidence
+        ?.oceanFrontAnalysis ??
+      null,
+
+    explainability:
+      oceanEvidence
+        ?.oceanPhysicsExplainability ??
+      null
+  };
+
+  const oceanOrganization =
+    oceanEvidence
+      ?.oceanOrganization ??
+    null;
+
+  const contractVersions = {
+    oceanEvidence:
+      oceanEvidence
+        ?.methodVersion ??
+      null,
+
+    temperatureEvidence:
+      groups
+        ?.temperature
+        ?.interpretation ??
+      null,
+
+    currentEvidence:
+      groups
+        ?.current
+        ?.interpretation ??
+      null,
+
+    productivityEvidence:
+      groups
+        ?.productivity
+        ?.interpretation ??
+      null,
+
+    clarityEvidence:
+      groups
+        ?.clarity
+        ?.interpretation ??
+      null,
+
+    structureEvidence:
+      groups
+        ?.structure
+        ?.methodVersion ??
+      groups
+        ?.structure
+        ?.interpretation ??
+      null,
+
+    surfaceWaterCharacter:
+      oceanPhysics
+        .surfaceWaterCharacter
+        ?.contractVersion ??
+      null,
+
+    waterMassAnalysis:
+      oceanPhysics
+        .waterMassAnalysis
+        ?.contractVersion ??
+      null,
+
+    mixingZoneAnalysis:
+      oceanPhysics
+        .mixingZoneAnalysis
+        ?.contractVersion ??
+      null,
+
+    environmentalTransitionAnalysis:
+      oceanPhysics
+        .environmentalTransitionAnalysis
+        ?.contractVersion ??
+      null,
+
+    oceanFrontAnalysis:
+      oceanPhysics
+        .oceanFrontAnalysis
+        ?.contractVersion ??
+      null,
+
+    oceanPhysicsExplainability:
+      oceanPhysics
+        .explainability
+        ?.contractVersion ??
+      null,
+
+    oceanPhysicsExplainabilityLineage:
+      oceanPhysics
+        .explainability
+        ?.lineage
+        ?.methodVersion ??
+      null,
+
+    oceanOrganization:
+      oceanOrganization
+        ?.contractVersion ??
+      null,
+
+    oceanEvidenceLineage:
+      oceanEvidence
+        ?.lineage
+        ?.methodVersion ??
+      null,
+
+    dataQuality:
+      dataQuality
+        ?.methodVersion ??
+      null
+  };
+
+  const missingContractVersions =
+    Object.entries(
+      contractVersions
+    )
+      .filter(
+        ([, version]) =>
+          typeof version !==
+            "string" ||
+          version.trim().length ===
+            0
+      )
+      .map(
+        ([contract]) =>
+          "contract-version-unavailable:" +
+          contract
+      );
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          oceanEvidence
+            ?.limitations
+        )
+          ? oceanEvidence
+              .limitations
+          : []
+      ),
+
+      ...missingContractVersions,
+
+      ...(
+        validLocation
+          ? []
+          : [
+              "snapshot-location-unavailable"
+            ]
+      ),
+
+      ...(
+        evidenceAvailable
+          ? []
+          : [
+              "ocean-evidence-unavailable"
+            ]
+      ),
+
+      "Observation Snapshot preserves governed inputs without modifying their scientific meaning.",
+
+      "This contract does not create snapshot identity or storage metadata.",
+
+      "This contract does not compare observations, calculate persistence, infer trends, create opportunity, perform biological reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const snapshot = {
+    available,
+
+    snapshotType:
+      "observation",
+
+    responsibility:
+      "preserve",
+
+    location: {
+      latitude,
+
+      longitude,
+
+      name:
+        typeof location?.name ===
+          "string"
+          ? location.name
+          : null
+    },
+
+    observedAt:
+      typeof observedAt ===
+        "string"
+        ? observedAt
+        : null,
+
+    generatedAt:
+      typeof generatedAt ===
+        "string"
+        ? generatedAt
+        : null,
+
+    observations:
+      cloneSnapshotValue(
+        observations ?? {}
+      ),
+
+    evidence: {
+      summary:
+        cloneSnapshotValue(
+          oceanEvidence
+            ?.summary ??
+          null
+        ),
+
+      groups:
+        cloneSnapshotValue(
+          groups
+        )
+    },
+
+    oceanPhysics:
+      cloneSnapshotValue(
+        oceanPhysics
+      ),
+
+    oceanOrganization:
+      cloneSnapshotValue(
+        oceanOrganization
+      ),
+
+    confidence:
+      cloneSnapshotValue(
+        oceanEvidence
+          ?.confidence ??
+        null
+      ),
+
+    dataQuality:
+      cloneSnapshotValue(
+        dataQuality
+      ),
+
+    lineage: {
+      oceanEvidence:
+        cloneSnapshotValue(
+          oceanEvidence
+            ?.lineage ??
+          null
+        ),
+
+      oceanPhysicsExplainability:
+        cloneSnapshotValue(
+          oceanPhysics
+            .explainability
+            ?.lineage ??
+          null
+        )
+    },
+
+    contractVersions:
+      cloneSnapshotValue(
+        contractVersions
+      ),
+
+    limitations,
+
+    contractVersion:
+      "pelora-observation-snapshot-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    snapshot
+  );
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Intelligence Snapshot Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Preserve an immutable copy of Pelora's governed,
+ * species-neutral scientific interpretations at one place and
+ * time.
+ *
+ * This contract preserves existing outputs only. It does not
+ * create opportunity, alter confidence, compare snapshots,
+ * calculate persistence, perform species reasoning, or generate
+ * captain-facing language.
+ */
+export function buildIntelligenceSnapshot({
+  observedAt = null,
+  generatedAt = null,
+  oceanOpportunity = null,
+  relationshipContext = null,
+  relationshipAssessment = null,
+  oceanPhysicsExplainability = null,
+  oceanOrganization = null
+} = {}) {
+  const opportunityAvailable =
+    oceanOpportunity !== null &&
+    typeof oceanOpportunity ===
+      "object" &&
+    !Array.isArray(
+      oceanOpportunity
+    );
+
+  const relationshipContextAvailable =
+    relationshipContext !== null &&
+    typeof relationshipContext ===
+      "object" &&
+    !Array.isArray(
+      relationshipContext
+    );
+
+  const relationshipAssessmentAvailable =
+    relationshipAssessment !== null &&
+    typeof relationshipAssessment ===
+      "object" &&
+    !Array.isArray(
+      relationshipAssessment
+    );
+
+  const explainabilityAvailable =
+    oceanPhysicsExplainability !== null &&
+    typeof oceanPhysicsExplainability ===
+      "object" &&
+    !Array.isArray(
+      oceanPhysicsExplainability
+    );
+
+  const organizationAvailable =
+    oceanOrganization !== null &&
+    typeof oceanOrganization ===
+      "object" &&
+    !Array.isArray(
+      oceanOrganization
+    );
+
+  const available =
+    opportunityAvailable ||
+    relationshipContextAvailable ||
+    relationshipAssessmentAvailable ||
+    explainabilityAvailable ||
+    organizationAvailable;
+
+  const contractVersions = {
+    oceanOpportunity:
+      oceanOpportunity
+        ?.methodVersion ??
+      oceanOpportunity
+        ?.contractVersion ??
+      null,
+
+    oceanOpportunityLineage:
+      oceanOpportunity
+        ?.lineage
+        ?.methodVersion ??
+      null,
+
+    relationshipContext:
+      relationshipContext
+        ?.methodVersion ??
+      relationshipContext
+        ?.contractVersion ??
+      null,
+
+    relationshipContextLineage:
+      relationshipContext
+        ?.lineage
+        ?.methodVersion ??
+      null,
+
+    relationshipAssessment:
+      relationshipAssessment
+        ?.methodVersion ??
+      relationshipAssessment
+        ?.contractVersion ??
+      null,
+
+    relationshipAssessmentLineage:
+      relationshipAssessment
+        ?.lineage
+        ?.methodVersion ??
+      null,
+
+    oceanPhysicsExplainability:
+      oceanPhysicsExplainability
+        ?.contractVersion ??
+      null,
+
+    oceanPhysicsExplainabilityLineage:
+      oceanPhysicsExplainability
+        ?.lineage
+        ?.methodVersion ??
+      null,
+
+    oceanOrganization:
+      oceanOrganization
+        ?.contractVersion ??
+      null
+  };
+
+  const missingContractVersions =
+    Object.entries(
+      contractVersions
+    )
+      .filter(
+        ([, version]) =>
+          typeof version !==
+            "string" ||
+          version.trim().length ===
+            0
+      )
+      .map(
+        ([contract]) =>
+          "contract-version-unavailable:" +
+          contract
+      );
+
+  const inheritedLimitations = [
+    oceanOpportunity,
+    relationshipContext,
+    relationshipAssessment,
+    oceanPhysicsExplainability,
+    oceanOrganization
+  ].flatMap(
+    contract =>
+      Array.isArray(
+        contract
+          ?.limitations
+      )
+        ? contract
+            .limitations
+        : []
+  );
+
+  const limitations = [
+    ...new Set([
+      ...inheritedLimitations,
+
+      ...missingContractVersions,
+
+      ...(
+        opportunityAvailable
+          ? []
+          : [
+              "ocean-opportunity-unavailable"
+            ]
+      ),
+
+      ...(
+        relationshipContextAvailable
+          ? []
+          : [
+              "relationship-context-unavailable"
+            ]
+      ),
+
+      ...(
+        relationshipAssessmentAvailable
+          ? []
+          : [
+              "relationship-assessment-unavailable"
+            ]
+      ),
+
+      "Intelligence Snapshot preserves governed scientific interpretations without modifying their meaning.",
+
+      "This contract does not preserve raw observations or duplicate Ocean Evidence groups.",
+
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const snapshot = {
+    available,
+
+    snapshotType:
+      "intelligence",
+
+    responsibility:
+      "preserve",
+
+    observedAt:
+      typeof observedAt ===
+        "string"
+        ? observedAt
+        : null,
+
+    generatedAt:
+      typeof generatedAt ===
+        "string"
+        ? generatedAt
+        : null,
+
+    oceanOpportunity:
+      cloneSnapshotValue(
+        oceanOpportunity
+      ),
+
+    relationshipContext:
+      cloneSnapshotValue(
+        relationshipContext
+      ),
+
+    relationshipAssessment:
+      cloneSnapshotValue(
+        relationshipAssessment
+      ),
+
+    oceanPhysicsExplainability:
+      cloneSnapshotValue(
+        oceanPhysicsExplainability
+      ),
+
+    oceanOrganization:
+      cloneSnapshotValue(
+        oceanOrganization
+      ),
+
+    lineage: {
+      oceanOpportunity:
+        cloneSnapshotValue(
+          oceanOpportunity
+            ?.lineage ??
+          null
+        ),
+
+      relationshipContext:
+        cloneSnapshotValue(
+          relationshipContext
+            ?.lineage ??
+          null
+        ),
+
+      relationshipAssessment:
+        cloneSnapshotValue(
+          relationshipAssessment
+            ?.lineage ??
+          null
+        ),
+
+      oceanPhysicsExplainability:
+        cloneSnapshotValue(
+          oceanPhysicsExplainability
+            ?.lineage ??
+          null
+        )
+    },
+
+    contractVersions:
+      cloneSnapshotValue(
+        contractVersions
+      ),
+
+    limitations,
+
+    contractVersion:
+      "pelora-intelligence-snapshot-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    snapshot
+  );
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Change Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare two governed Pelora snapshot pairs and describe
+ * measurable differences between them.
+ *
+ * This contract does not modify either snapshot, create new
+ * observations, calculate persistence, infer a long-term trend,
+ * estimate opportunity quality, perform species reasoning, or
+ * generate captain-facing guidance.
+ */
+
+function angularDifferenceDegrees(
+  firstDirection,
+  secondDirection
+) {
+  if (
+    !Number.isFinite(
+      firstDirection
+    ) ||
+    !Number.isFinite(
+      secondDirection
+    )
+  ) {
+    return null;
+  }
+
+  const rawDifference =
+    Math.abs(
+      secondDirection -
+      firstDirection
+    ) %
+    360;
+
+  return Math.min(
+    rawDifference,
+    360 -
+      rawDifference
+  );
+}
+
+
+function snapshotTimestampMilliseconds(
+  snapshot
+) {
+  const timestamp =
+    snapshot
+      ?.observedAt ??
+    snapshot
+      ?.generatedAt ??
+    null;
+
+  if (
+    typeof timestamp !==
+    "string"
+  ) {
+    return null;
+  }
+
+  const parsed =
+    Date.parse(
+      timestamp
+    );
+
+  return Number.isFinite(
+    parsed
+  )
+    ? parsed
+    : null;
+}
+
+
+export function buildOceanChangeAnalysis({
+  previousObservationSnapshot = null,
+  currentObservationSnapshot = null,
+  previousIntelligenceSnapshot = null,
+  currentIntelligenceSnapshot = null
+} = {}) {
+  const previousObservationAvailable =
+    previousObservationSnapshot
+      ?.available ===
+    true;
+
+  const currentObservationAvailable =
+    currentObservationSnapshot
+      ?.available ===
+    true;
+
+  const previousIntelligenceAvailable =
+    previousIntelligenceSnapshot
+      ?.available ===
+    true;
+
+  const currentIntelligenceAvailable =
+    currentIntelligenceSnapshot
+      ?.available ===
+    true;
+
+  const previousTimestampMilliseconds =
+    snapshotTimestampMilliseconds(
+      previousObservationSnapshot ??
+      previousIntelligenceSnapshot
+    );
+
+  const currentTimestampMilliseconds =
+    snapshotTimestampMilliseconds(
+      currentObservationSnapshot ??
+      currentIntelligenceSnapshot
+    );
+
+  const timestampsAvailable =
+    Number.isFinite(
+      previousTimestampMilliseconds
+    ) &&
+    Number.isFinite(
+      currentTimestampMilliseconds
+    );
+
+  const chronologicalOrderValid =
+    timestampsAvailable &&
+    currentTimestampMilliseconds >
+      previousTimestampMilliseconds;
+
+  const durationHours =
+    chronologicalOrderValid
+      ? (
+          currentTimestampMilliseconds -
+          previousTimestampMilliseconds
+        ) /
+        3600000
+      : null;
+
+  const previousLocation =
+    previousObservationSnapshot
+      ?.location ??
+    null;
+
+  const currentLocation =
+    currentObservationSnapshot
+      ?.location ??
+    null;
+
+  const locationDifferenceLatitude =
+    Number.isFinite(
+      previousLocation
+        ?.latitude
+    ) &&
+    Number.isFinite(
+      currentLocation
+        ?.latitude
+    )
+      ? Math.abs(
+          currentLocation.latitude -
+          previousLocation.latitude
+        )
+      : null;
+
+  const locationDifferenceLongitude =
+    Number.isFinite(
+      previousLocation
+        ?.longitude
+    ) &&
+    Number.isFinite(
+      currentLocation
+        ?.longitude
+    )
+      ? Math.abs(
+          currentLocation.longitude -
+          previousLocation.longitude
+        )
+      : null;
+
+  /*
+   * v1 requires effectively identical snapshot coordinates.
+   * Movement-aware feature comparison belongs to a later engine.
+   */
+  const comparableLocation =
+    Number.isFinite(
+      locationDifferenceLatitude
+    ) &&
+    Number.isFinite(
+      locationDifferenceLongitude
+    ) &&
+    locationDifferenceLatitude <=
+      0.0001 &&
+    locationDifferenceLongitude <=
+      0.0001;
+
+  const previousCurrent =
+    previousObservationSnapshot
+      ?.observations
+      ?.currents ??
+    null;
+
+  const currentCurrent =
+    currentObservationSnapshot
+      ?.observations
+      ?.currents ??
+    null;
+
+  const previousCurrentSpeedKnots =
+    Number.isFinite(
+      previousCurrent
+        ?.speedKnots
+    )
+      ? previousCurrent.speedKnots
+      : null;
+
+  const currentCurrentSpeedKnots =
+    Number.isFinite(
+      currentCurrent
+        ?.speedKnots
+    )
+      ? currentCurrent.speedKnots
+      : null;
+
+  const currentSpeedChangeKnots =
+    previousCurrentSpeedKnots !==
+      null &&
+    currentCurrentSpeedKnots !==
+      null
+      ? currentCurrentSpeedKnots -
+        previousCurrentSpeedKnots
+      : null;
+
+  const currentDirectionChangeDegrees =
+    angularDifferenceDegrees(
+      previousCurrent
+        ?.directionDegrees,
+      currentCurrent
+        ?.directionDegrees
+    );
+
+  const previousTemperatureFahrenheit =
+    Number.isFinite(
+      previousObservationSnapshot
+        ?.observations
+        ?.sst
+        ?.temperatureFahrenheit
+    )
+      ? previousObservationSnapshot
+          .observations
+          .sst
+          .temperatureFahrenheit
+      : null;
+
+  const currentTemperatureFahrenheit =
+    Number.isFinite(
+      currentObservationSnapshot
+        ?.observations
+        ?.sst
+        ?.temperatureFahrenheit
+    )
+      ? currentObservationSnapshot
+          .observations
+          .sst
+          .temperatureFahrenheit
+      : null;
+
+  const temperatureChangeFahrenheit =
+    previousTemperatureFahrenheit !==
+      null &&
+    currentTemperatureFahrenheit !==
+      null
+      ? currentTemperatureFahrenheit -
+        previousTemperatureFahrenheit
+      : null;
+
+  const previousOrganization =
+    previousIntelligenceSnapshot
+      ?.oceanOrganization ??
+    previousObservationSnapshot
+      ?.oceanOrganization ??
+    null;
+
+  const currentOrganization =
+    currentIntelligenceSnapshot
+      ?.oceanOrganization ??
+    currentObservationSnapshot
+      ?.oceanOrganization ??
+    null;
+
+  const previousOrganizationIndex =
+    Number.isFinite(
+      previousOrganization
+        ?.organizationIndex
+    )
+      ? previousOrganization
+          .organizationIndex
+      : null;
+
+  const currentOrganizationIndex =
+    Number.isFinite(
+      currentOrganization
+        ?.organizationIndex
+    )
+      ? currentOrganization
+          .organizationIndex
+      : null;
+
+  const organizationIndexChange =
+    previousOrganizationIndex !==
+      null &&
+    currentOrganizationIndex !==
+      null
+      ? currentOrganizationIndex -
+        previousOrganizationIndex
+      : null;
+
+  const previousOrganizationLevel =
+    previousOrganization
+      ?.organizationLevel ??
+    null;
+
+  const currentOrganizationLevel =
+    currentOrganization
+      ?.organizationLevel ??
+    null;
+
+  const previousOceanFrontClassification =
+    previousObservationSnapshot
+      ?.oceanPhysics
+      ?.oceanFrontAnalysis
+      ?.classification ??
+    null;
+
+  const currentOceanFrontClassification =
+    currentObservationSnapshot
+      ?.oceanPhysics
+      ?.oceanFrontAnalysis
+      ?.classification ??
+    null;
+
+  const previousPathway =
+    previousIntelligenceSnapshot
+      ?.oceanOpportunity
+      ?.pathwayClassification
+      ?.classification ??
+    null;
+
+  const currentPathway =
+    currentIntelligenceSnapshot
+      ?.oceanOpportunity
+      ?.pathwayClassification
+      ?.classification ??
+    null;
+
+  const changes = [];
+
+  if (
+    Number.isFinite(
+      currentSpeedChangeKnots
+    ) &&
+    Math.abs(
+      currentSpeedChangeKnots
+    ) >=
+      0.1
+  ) {
+    changes.push({
+      dimension:
+        "current-speed",
+
+      state:
+        currentSpeedChangeKnots >
+        0
+          ? "increased"
+          : "decreased",
+
+      previousValue:
+        previousCurrentSpeedKnots,
+
+      currentValue:
+        currentCurrentSpeedKnots,
+
+      difference:
+        currentSpeedChangeKnots,
+
+      units:
+        "knots"
+    });
+  }
+
+  if (
+    Number.isFinite(
+      currentDirectionChangeDegrees
+    ) &&
+    currentDirectionChangeDegrees >=
+      10
+  ) {
+    changes.push({
+      dimension:
+        "current-direction",
+
+      state:
+        "shifted",
+
+      previousValue:
+        previousCurrent
+          ?.directionDegrees ??
+        null,
+
+      currentValue:
+        currentCurrent
+          ?.directionDegrees ??
+        null,
+
+      difference:
+        currentDirectionChangeDegrees,
+
+      units:
+        "degrees"
+    });
+  }
+
+  if (
+    Number.isFinite(
+      temperatureChangeFahrenheit
+    ) &&
+    Math.abs(
+      temperatureChangeFahrenheit
+    ) >=
+      0.2
+  ) {
+    changes.push({
+      dimension:
+        "surface-temperature",
+
+      state:
+        temperatureChangeFahrenheit >
+        0
+          ? "increased"
+          : "decreased",
+
+      previousValue:
+        previousTemperatureFahrenheit,
+
+      currentValue:
+        currentTemperatureFahrenheit,
+
+      difference:
+        temperatureChangeFahrenheit,
+
+      units:
+        "degrees-fahrenheit"
+    });
+  }
+
+  if (
+    Number.isFinite(
+      organizationIndexChange
+    ) &&
+    organizationIndexChange !==
+      0
+  ) {
+    changes.push({
+      dimension:
+        "ocean-organization-index",
+
+      state:
+        organizationIndexChange >
+        0
+          ? "increased"
+          : "decreased",
+
+      previousValue:
+        previousOrganizationIndex,
+
+      currentValue:
+        currentOrganizationIndex,
+
+      difference:
+        organizationIndexChange,
+
+      units:
+        "organization-index"
+    });
+  }
+
+  if (
+    typeof previousOrganizationLevel ===
+      "string" &&
+    typeof currentOrganizationLevel ===
+      "string" &&
+    previousOrganizationLevel !==
+      currentOrganizationLevel
+  ) {
+    changes.push({
+      dimension:
+        "ocean-organization-level",
+
+      state:
+        "changed",
+
+      previousValue:
+        previousOrganizationLevel,
+
+      currentValue:
+        currentOrganizationLevel,
+
+      difference:
+        null,
+
+      units:
+        null
+    });
+  }
+
+  if (
+    typeof previousOceanFrontClassification ===
+      "string" &&
+    typeof currentOceanFrontClassification ===
+      "string" &&
+    previousOceanFrontClassification !==
+      currentOceanFrontClassification
+  ) {
+    changes.push({
+      dimension:
+        "ocean-front-context",
+
+      state:
+        "changed",
+
+      previousValue:
+        previousOceanFrontClassification,
+
+      currentValue:
+        currentOceanFrontClassification,
+
+      difference:
+        null,
+
+      units:
+        null
+    });
+  }
+
+  if (
+    typeof previousPathway ===
+      "string" &&
+    typeof currentPathway ===
+      "string" &&
+    previousPathway !==
+      currentPathway
+  ) {
+    changes.push({
+      dimension:
+        "opportunity-pathway",
+
+      state:
+        "changed",
+
+      previousValue:
+        previousPathway,
+
+      currentValue:
+        currentPathway,
+
+      difference:
+        null,
+
+      units:
+        null
+    });
+  }
+
+  const available =
+    previousObservationAvailable &&
+    currentObservationAvailable &&
+    chronologicalOrderValid &&
+    comparableLocation;
+
+  let changeState =
+    "insufficient-comparison-evidence";
+
+  let changeClassification =
+    "unavailable";
+
+  let interpretation =
+    "Ocean change cannot be evaluated from the supplied snapshots.";
+
+  if (available) {
+    if (
+      changes.length ===
+      0
+    ) {
+      changeState =
+        "no-meaningful-change-detected";
+
+      changeClassification =
+        "stable-between-two-observations";
+
+      interpretation =
+        "No measured difference exceeded the governed v1 change thresholds between these two snapshots.";
+    } else {
+      changeState =
+        "change-detected";
+
+      changeClassification =
+        "measurable-ocean-change";
+
+      interpretation =
+        "One or more governed ocean-state dimensions changed between the two supplied snapshots.";
+    }
+  }
+
+  const missingRequirements = [
+    !previousObservationAvailable
+      ? "previous-observation-snapshot"
+      : null,
+
+    !currentObservationAvailable
+      ? "current-observation-snapshot"
+      : null,
+
+    !timestampsAvailable
+      ? "comparable-observation-timestamps"
+      : null,
+
+    timestampsAvailable &&
+    !chronologicalOrderValid
+      ? "current-snapshot-must-follow-previous-snapshot"
+      : null,
+
+    previousObservationAvailable &&
+    currentObservationAvailable &&
+    !comparableLocation
+      ? "matching-snapshot-location"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          previousObservationSnapshot
+            ?.limitations
+        )
+          ? previousObservationSnapshot
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          currentObservationSnapshot
+            ?.limitations
+        )
+          ? currentObservationSnapshot
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          previousIntelligenceSnapshot
+            ?.limitations
+        )
+          ? previousIntelligenceSnapshot
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          currentIntelligenceSnapshot
+            ?.limitations
+        )
+          ? currentIntelligenceSnapshot
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Ocean Change Analysis compares exactly two governed snapshot states.",
+
+      "A two-snapshot comparison does not establish persistence, a long-term trend, a feature lifecycle, or forecast continuity.",
+
+      "Snapshot locations must match within the governed v1 coordinate tolerance.",
+
+      "Classification changes describe contract differences and do not independently confirm physical feature formation or dissipation.",
+
+      "No prey concentration, fish presence, habitat quality, species suitability, fishing quality, catch probability, or captain recommendation is inferred."
+    ])
+  ];
+
+  const result = {
+    available,
+
+    analysisType:
+      "ocean-change-analysis",
+
+    responsibility:
+      "compare",
+
+    changeClassification,
+
+    changeState,
+
+    meaningfulChangeDetected:
+      available &&
+      changes.length >
+        0,
+
+    comparison: {
+      previousObservedAt:
+        previousObservationSnapshot
+          ?.observedAt ??
+        previousIntelligenceSnapshot
+          ?.observedAt ??
+        null,
+
+      currentObservedAt:
+        currentObservationSnapshot
+          ?.observedAt ??
+        currentIntelligenceSnapshot
+          ?.observedAt ??
+        null,
+
+      durationHours,
+
+      comparableLocation,
+
+      locationToleranceDegrees:
+        0.0001,
+
+      previousLocation:
+        cloneSnapshotValue(
+          previousLocation
+        ),
+
+      currentLocation:
+        cloneSnapshotValue(
+          currentLocation
+        )
+    },
+
+    changes:
+      cloneSnapshotValue(
+        changes
+      ),
+
+    evidence: {
+      previousObservationAvailable,
+
+      currentObservationAvailable,
+
+      previousIntelligenceAvailable,
+
+      currentIntelligenceAvailable,
+
+      timestampsAvailable,
+
+      chronologicalOrderValid,
+
+      comparableLocation,
+
+      currentSpeedChangeKnots,
+
+      currentDirectionChangeDegrees,
+
+      temperatureChangeFahrenheit,
+
+      organizationIndexChange,
+
+      previousOrganizationLevel,
+
+      currentOrganizationLevel,
+
+      previousOceanFrontClassification,
+
+      currentOceanFrontClassification,
+
+      previousPathway,
+
+      currentPathway
+    },
+
+    missingRequirements,
+
+    interpretation,
+
+    limitations,
+
+    upstreamContracts: {
+      previousObservationSnapshot:
+        previousObservationSnapshot
+          ?.contractVersion ??
+        null,
+
+      currentObservationSnapshot:
+        currentObservationSnapshot
+          ?.contractVersion ??
+        null,
+
+      previousIntelligenceSnapshot:
+        previousIntelligenceSnapshot
+          ?.contractVersion ??
+        null,
+
+      currentIntelligenceSnapshot:
+        currentIntelligenceSnapshot
+          ?.contractVersion ??
+        null
+    },
+
+    contractVersion:
+      "pelora-ocean-change-analysis-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    result
+  );
+}
+
+
 function buildClarityEvidence(
   chlorophyll
 ) {
@@ -24907,11 +26433,90 @@ const oceanEvidence =
     dataQuality
   });
 
+const observationSnapshot =
+  buildObservationSnapshot({
+    location:
+      marine.location,
+
+    observedAt:
+      marine.observedAt,
+
+    generatedAt:
+      marine.retrievedAt,
+
+    observations: {
+      wind:
+        marine.wind,
+
+      waves:
+        marine.waves,
+
+      swell:
+        marine.swell,
+
+      sst,
+
+      chlorophyll,
+
+      currents,
+
+      moon
+    },
+
+    oceanEvidence,
+
+    dataQuality
+  });
+
 
   const oceanOpportunity =
   assessOceanOpportunity({
     oceanEvidence
   });
+
+  /*
+   * These contracts are species-neutral even though they were
+   * first consumed by the Blue Marlin HSM. Assemble them once
+   * here so Ocean Memory does not depend on species internals.
+   */
+  const relationshipContext =
+    buildRelationshipContext({
+      oceanOpportunity,
+      oceanEvidence
+    });
+
+  const relationshipAssessment =
+    assessRelationships({
+      relationshipContext,
+      oceanOpportunity,
+      oceanEvidence,
+      dataQuality
+    });
+
+  const intelligenceSnapshot =
+    buildIntelligenceSnapshot({
+      observedAt:
+        marine.observedAt,
+
+      generatedAt:
+        marine.retrievedAt,
+
+      oceanOpportunity,
+
+      relationshipContext,
+
+      relationshipAssessment,
+
+      oceanPhysicsExplainability:
+        oceanEvidence
+          ?.oceanPhysicsExplainability ??
+        null,
+
+      oceanOrganization:
+        oceanEvidence
+          ?.oceanOrganization ??
+        null
+    });
 
 
   const blueMarlinHabitat =
@@ -24989,7 +26594,25 @@ const oceanEvidence =
 
     oceanEvidence,
 
+    /*
+     * Observation Snapshot preserves the governed state of the
+     * ocean at this place and time. It performs no comparison,
+     * opportunity reasoning, biological reasoning, or guidance.
+     */
+    observationSnapshot,
+
+    /*
+     * Intelligence Snapshot preserves governed species-neutral
+     * interpretation contracts without comparison, species
+     * reasoning, or captain-facing guidance.
+     */
+    intelligenceSnapshot,
+
     oceanOpportunity,
+
+    relationshipContext,
+
+    relationshipAssessment,
 
     blueMarlinHabitat,
 
