@@ -9,6 +9,7 @@ import {
   buildEnvironmentalTransitionAnalysis,
   buildOceanFrontAnalysis,
   buildOceanPhysicsExplainabilitySummary,
+  buildOceanPhysicsExplainabilityLineage,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6681,7 +6682,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.8"
+  "pelora-ocean-evidence-v1.9"
 );
 
 console.log(
@@ -11088,7 +11089,8 @@ assert.deepEqual(
     "relationship-assessment",
     "species-pathway",
     "opportunity-type",
-    "habitat-suitability"
+    "habitat-suitability",
+    "ocean-physics-explainability"
   ]
 );
 
@@ -11926,7 +11928,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.8"
+  "pelora-ocean-evidence-v1.9"
 );
 
 assert.equal(
@@ -18901,4 +18903,348 @@ assert.equal(
 
 console.log(
   "PASS Ocean Physics Explainability normalizes the complete physics chain without changing scientific meaning"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Physics Explainability Lineage Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildPhysicsLineageUpstream = ({
+  available = true
+} = {}) => (
+  available
+    ? {
+        upstream: [
+          {
+            engine:
+              "data-assessment",
+
+            methodVersion:
+              "pelora-data-quality-v2"
+          }
+        ],
+
+        observationsUsed: [
+          "temperature",
+          "currents"
+        ],
+
+        observationsUnavailable: [
+          "chlorophyll"
+        ],
+
+        evidenceProduced: [
+          "temperature-evidence",
+          "current-evidence"
+        ],
+
+        inheritedLimitations: [
+          "single-time-snapshot"
+        ],
+
+        inheritedWarnings: [],
+
+        producedBy:
+          "ocean-evidence",
+
+        components: {
+          groupsProduced: [
+            "temperature",
+            "current"
+          ]
+        },
+
+        methodVersion:
+          "pelora-ocean-evidence-lineage-v1.0"
+      }
+    : null
+);
+
+
+const buildPhysicsLineageContract = ({
+  available = true,
+  contractVersion
+} = {}) => ({
+  available,
+
+  limitations:
+    [],
+
+  contractVersion
+});
+
+
+const physicsExplainabilityForLineage = {
+  available:
+    true,
+
+  summaryState:
+    "candidate-or-observational-context",
+
+  highestSupportedStage:
+    "ocean-front",
+
+  stages: [
+    {
+      stage:
+        "surface-water-character",
+
+      available:
+        true
+    },
+
+    {
+      stage:
+        "water-mass",
+
+      available:
+        true
+    },
+
+    {
+      stage:
+        "mixing-zone",
+
+      available:
+        true
+    },
+
+    {
+      stage:
+        "environmental-transition",
+
+      available:
+        true
+    },
+
+    {
+      stage:
+        "ocean-front",
+
+      available:
+        true
+    }
+  ],
+
+  readiness: {
+    waterMass:
+      false,
+
+    mixingZone:
+      false,
+
+    environmentalTransition:
+      false,
+
+    oceanFront:
+      false
+  },
+
+  detections: {
+    distinctAdjacentWaterMasses:
+      false,
+
+    mixingZone:
+      false,
+
+    environmentalTransition:
+      false,
+
+    oceanFront:
+      false
+  },
+
+  missingRequirements: [
+    "temporal-persistence",
+    "second-independent-spatial-water-character-variable"
+  ],
+
+  limitations: [
+    "No verified ocean front is confirmed."
+  ],
+
+  contractVersion:
+    "pelora-ocean-physics-explainability-v1"
+};
+
+
+const governedPhysicsExplainabilityLineage =
+  buildOceanPhysicsExplainabilityLineage({
+    oceanEvidenceLineage:
+      buildPhysicsLineageUpstream(),
+
+    oceanPhysicsExplainability:
+      physicsExplainabilityForLineage,
+
+    surfaceWaterCharacter:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-surface-water-character-v1"
+      }),
+
+    waterMassAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-water-mass-analysis-v1"
+      }),
+
+    mixingZoneAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-mixing-zone-analysis-v1"
+      }),
+
+    environmentalTransitionAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-environmental-transition-analysis-v1"
+      }),
+
+    oceanFrontAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-ocean-front-analysis-v1"
+      })
+  });
+
+
+const governedPhysicsLineageValidation =
+  validateEvidenceLineage(
+    governedPhysicsExplainabilityLineage
+  );
+
+assert.equal(
+  governedPhysicsLineageValidation.valid,
+  true
+);
+
+assert.equal(
+  governedPhysicsExplainabilityLineage.producedBy,
+  "ocean-physics-explainability"
+);
+
+assert.equal(
+  governedPhysicsExplainabilityLineage.upstream.length,
+  1
+);
+
+assert.equal(
+  governedPhysicsExplainabilityLineage.upstream[0].engine,
+  "ocean-evidence"
+);
+
+assert.ok(
+  governedPhysicsExplainabilityLineage
+    .observationsUsed
+    .includes(
+      "temperature"
+    )
+);
+
+assert.ok(
+  governedPhysicsExplainabilityLineage
+    .observationsUsed
+    .includes(
+      "currents"
+    )
+);
+
+assert.ok(
+  governedPhysicsExplainabilityLineage
+    .evidenceProduced
+    .includes(
+      "ocean-physics-explainability-summary"
+    )
+);
+
+assert.equal(
+  governedPhysicsExplainabilityLineage
+    .components
+    .highestSupportedStage,
+  "ocean-front"
+);
+
+assert.equal(
+  governedPhysicsExplainabilityLineage
+    .components
+    .contractVersions
+    .oceanFrontAnalysis,
+  "pelora-ocean-front-analysis-v1"
+);
+
+assert.equal(
+  governedPhysicsExplainabilityLineage.methodVersion,
+  "pelora-ocean-physics-explainability-lineage-v1.0"
+);
+
+console.log(
+  "PASS Ocean Physics Explainability Lineage preserves a valid observation-to-explainability trace"
+);
+
+
+const missingUpstreamPhysicsLineage =
+  buildOceanPhysicsExplainabilityLineage({
+    oceanEvidenceLineage:
+      null,
+
+    oceanPhysicsExplainability:
+      physicsExplainabilityForLineage,
+
+    surfaceWaterCharacter:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-surface-water-character-v1"
+      }),
+
+    waterMassAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-water-mass-analysis-v1"
+      }),
+
+    mixingZoneAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-mixing-zone-analysis-v1"
+      }),
+
+    environmentalTransitionAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-environmental-transition-analysis-v1"
+      }),
+
+    oceanFrontAnalysis:
+      buildPhysicsLineageContract({
+        contractVersion:
+          "pelora-ocean-front-analysis-v1"
+      })
+  });
+
+assert.ok(
+  missingUpstreamPhysicsLineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-unavailable"
+    )
+);
+
+assert.equal(
+  missingUpstreamPhysicsLineage.upstream.length,
+  0
+);
+
+assert.equal(
+  missingUpstreamPhysicsLineage
+    .components
+    .highestSupportedStage,
+  "ocean-front"
+);
+
+console.log(
+  "PASS Ocean Physics Explainability Lineage discloses missing upstream lineage without changing the documentary summary"
 );

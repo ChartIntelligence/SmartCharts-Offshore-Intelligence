@@ -8368,6 +8368,31 @@ export function assessOceanEvidence({
       dataQuality
     });
 
+  const oceanPhysicsExplainabilityLineage =
+    buildOceanPhysicsExplainabilityLineage({
+      oceanEvidenceLineage:
+        lineage,
+
+      oceanPhysicsExplainability,
+
+      surfaceWaterCharacter,
+
+      waterMassAnalysis,
+
+      mixingZoneAnalysis,
+
+      environmentalTransitionAnalysis,
+
+      oceanFrontAnalysis
+    });
+
+  const oceanPhysicsExplainabilityWithLineage = {
+    ...oceanPhysicsExplainability,
+
+    lineage:
+      oceanPhysicsExplainabilityLineage
+  };
+
   return {
     summary,
 
@@ -8414,7 +8439,8 @@ export function assessOceanEvidence({
      * Ocean Physics Explainability provides a normalized downstream
      * integration contract without changing any authoritative engine.
      */
-    oceanPhysicsExplainability,
+    oceanPhysicsExplainability:
+      oceanPhysicsExplainabilityWithLineage,
 
     /*
      * Environmental opportunity pathways remain separate from
@@ -8434,7 +8460,7 @@ export function assessOceanEvidence({
     lineage,
 
     methodVersion:
-      "pelora-ocean-evidence-v1.8"
+      "pelora-ocean-evidence-v1.9"
   };
 }
 
@@ -13100,6 +13126,203 @@ export function buildOceanPhysicsExplainabilitySummary({
     contractVersion:
       "pelora-ocean-physics-explainability-v1"
   };
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Physics Explainability Lineage v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Preserve the governed observation-to-explainability path used
+ * by the normalized Ocean Physics Explainability Summary.
+ *
+ * Ocean Evidence is the authoritative upstream observation and
+ * evidence trace. The individual physics contracts remain visible
+ * through documentary components and contract versions.
+ *
+ * This lineage is documentary only. It does not alter scientific
+ * classifications, readiness, detections, confidence, scoring,
+ * missing requirements, or captain-facing language.
+ */
+export function buildOceanPhysicsExplainabilityLineage({
+  oceanEvidenceLineage = null,
+  oceanPhysicsExplainability = null,
+  surfaceWaterCharacter = null,
+  waterMassAnalysis = null,
+  mixingZoneAnalysis = null,
+  environmentalTransitionAnalysis = null,
+  oceanFrontAnalysis = null
+} = {}) {
+  const stages =
+    Array.isArray(
+      oceanPhysicsExplainability
+        ?.stages
+    )
+      ? oceanPhysicsExplainability
+          .stages
+      : [];
+
+  const availableStages =
+    stages
+      .filter(
+        stage =>
+          stage
+            ?.available ===
+          true
+      )
+      .map(
+        stage =>
+          stage.stage
+      );
+
+  const unavailableStages =
+    stages
+      .filter(
+        stage =>
+          stage
+            ?.available !==
+          true
+      )
+      .map(
+        stage =>
+          stage.stage
+      );
+
+  const contractVersions = {
+    surfaceWaterCharacter:
+      surfaceWaterCharacter
+        ?.contractVersion ??
+      null,
+
+    waterMassAnalysis:
+      waterMassAnalysis
+        ?.contractVersion ??
+      null,
+
+    mixingZoneAnalysis:
+      mixingZoneAnalysis
+        ?.contractVersion ??
+      null,
+
+    environmentalTransitionAnalysis:
+      environmentalTransitionAnalysis
+        ?.contractVersion ??
+      null,
+
+    oceanFrontAnalysis:
+      oceanFrontAnalysis
+        ?.contractVersion ??
+      null,
+
+    explainabilitySummary:
+      oceanPhysicsExplainability
+        ?.contractVersion ??
+      null
+  };
+
+  const missingContractVersions =
+    Object.entries(
+      contractVersions
+    )
+      .filter(
+        ([, version]) =>
+          typeof version !==
+            "string" ||
+          version.trim().length ===
+            0
+      )
+      .map(
+        ([contract]) =>
+          "contract-version-unavailable:" + contract
+      );
+
+  const inheritedWarnings = [
+    ...(
+      oceanEvidenceLineage
+        ? []
+        : [
+            "primary-upstream-lineage-unavailable"
+          ]
+    ),
+
+    ...missingContractVersions
+  ];
+
+  return propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      oceanEvidenceLineage,
+
+    producedBy:
+      "ocean-physics-explainability",
+
+    methodVersion:
+      "pelora-ocean-physics-explainability-lineage-v1.0",
+
+    evidenceProduced: [
+      "ocean-physics-explainability-summary"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(
+        oceanPhysicsExplainability
+          ?.limitations
+      )
+        ? oceanPhysicsExplainability
+            .limitations
+        : [],
+
+    inheritedWarnings,
+
+    components: {
+      summaryState:
+        oceanPhysicsExplainability
+          ?.summaryState ??
+        "unavailable",
+
+      highestSupportedStage:
+        oceanPhysicsExplainability
+          ?.highestSupportedStage ??
+        "unavailable",
+
+      availableStages,
+
+      unavailableStages,
+
+      stageCount:
+        stages.length,
+
+      readiness: {
+        ...(
+          oceanPhysicsExplainability
+            ?.readiness ??
+          {}
+        )
+      },
+
+      detections: {
+        ...(
+          oceanPhysicsExplainability
+            ?.detections ??
+          {}
+        )
+      },
+
+      missingRequirements:
+        Array.isArray(
+          oceanPhysicsExplainability
+            ?.missingRequirements
+        )
+          ? [
+              ...oceanPhysicsExplainability
+                .missingRequirements
+            ]
+          : [],
+
+      contractVersions
+    }
+  });
 }
 
 
@@ -18185,7 +18408,8 @@ export const LINEAGE_ENGINE_TYPES = [
   "relationship-assessment",
   "species-pathway",
   "opportunity-type",
-  "habitat-suitability"
+  "habitat-suitability",
+  "ocean-physics-explainability"
 ];
 
 
