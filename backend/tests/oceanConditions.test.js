@@ -6,6 +6,7 @@ import {
   buildSurfaceWaterCharacterAnalysis,
   buildWaterMassAnalysis,
   buildMixingZoneAnalysis,
+  buildEnvironmentalTransitionAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
   assessOceanEvidence,
@@ -6678,7 +6679,7 @@ assert.deepEqual(
 assert.equal(
   integratedEnvironmentalEvidence
     .methodVersion,
-  "pelora-ocean-evidence-v1.5"
+  "pelora-ocean-evidence-v1.6"
 );
 
 console.log(
@@ -11923,7 +11924,7 @@ assert.deepEqual(
 assert.equal(
   lineageBehaviorPreservation
     .methodVersion,
-  "pelora-ocean-evidence-v1.5"
+  "pelora-ocean-evidence-v1.6"
 );
 
 assert.equal(
@@ -17762,4 +17763,493 @@ assert.ok(
 
 console.log(
   "PASS Mixing Zone Analysis identifies multi-signal interaction context without confirming a mixing zone"
+);
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Environmental Transition Analysis Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const buildTransitionSurfaceCharacter = ({
+  available = true
+} = {}) => ({
+  available,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-surface-water-character-v1"
+});
+
+
+const buildTransitionWaterMass = ({
+  available = true,
+  classification =
+    "local-surface-character-only",
+  spatialVariableCount = 1
+} = {}) => ({
+  available,
+
+  classification,
+
+  distinctAdjacentWaterMassesEstablished:
+    false,
+
+  evidence: {
+    independentSpatialCharacterVariableCount:
+      spatialVariableCount
+  },
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-water-mass-analysis-v1"
+});
+
+
+const buildTransitionMixingZone = ({
+  available = true,
+  classification =
+    "no-mixing-zone-context"
+} = {}) => ({
+  available,
+
+  classification,
+
+  mixingZoneDetected:
+    false,
+
+  limitations:
+    [],
+
+  contractVersion:
+    "pelora-mixing-zone-analysis-v1"
+});
+
+
+const buildTransitionTemperature = ({
+  available = true,
+  classification = "temperature-only",
+  coverage = "unavailable",
+  spatialClassification = null,
+  directional = false
+} = {}) => ({
+  available,
+
+  classification,
+
+  values: {
+    coverage,
+
+    spatialClassification
+  },
+
+  orientation: {
+    classification:
+      directional
+        ? "directional-temperature-transition"
+        : "no-clear-directional-transition"
+  },
+
+  limitations:
+    [],
+
+  interpretation:
+    "species-neutral-temperature-structure-evidence"
+});
+
+
+const buildTransitionCurrent = ({
+  edge = false,
+  edgeStrength = "none",
+  convergence = false,
+  shear = false
+} = {}) => ({
+  spatialAnalysis: {
+    edge: {
+      currentEdgeDetected:
+        edge,
+
+      edgeState:
+        edge
+          ? "candidate"
+          : "not-supported",
+
+      edgeStrength,
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-edge-v1"
+    },
+
+    convergence: {
+      currentConvergenceDetected:
+        convergence,
+
+      convergenceState:
+        convergence
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-convergence-v1"
+    },
+
+    shear: {
+      currentShearDetected:
+        shear,
+
+      shearState:
+        shear
+          ? "candidate"
+          : "not-supported",
+
+      limitations:
+        [],
+
+      contractVersion:
+        "pelora-current-shear-v1"
+    }
+  }
+});
+
+
+const unavailableEnvironmentalTransition =
+  buildEnvironmentalTransitionAnalysis({
+    surfaceWaterCharacter:
+      buildTransitionSurfaceCharacter({
+        available:
+          false
+      }),
+
+    waterMassAnalysis:
+      buildTransitionWaterMass({
+        available:
+          false
+      }),
+
+    mixingZoneAnalysis:
+      buildTransitionMixingZone({
+        available:
+          false
+      }),
+
+    temperature:
+      buildTransitionTemperature({
+        available:
+          false
+      }),
+
+    current:
+      buildTransitionCurrent()
+  });
+
+assert.equal(
+  unavailableEnvironmentalTransition.available,
+  false
+);
+
+assert.equal(
+  unavailableEnvironmentalTransition.classification,
+  "unavailable"
+);
+
+assert.equal(
+  unavailableEnvironmentalTransition
+    .environmentalTransitionDetected,
+  false
+);
+
+console.log(
+  "PASS Environmental Transition Analysis requires available upstream evidence"
+);
+
+
+const uniformEnvironmentalContext =
+  buildEnvironmentalTransitionAnalysis({
+    surfaceWaterCharacter:
+      buildTransitionSurfaceCharacter(),
+
+    waterMassAnalysis:
+      buildTransitionWaterMass(),
+
+    mixingZoneAnalysis:
+      buildTransitionMixingZone(),
+
+    temperature:
+      buildTransitionTemperature({
+        classification:
+          "uniform-water",
+
+        coverage:
+          "sufficient",
+
+        spatialClassification:
+          "uniform-water"
+      }),
+
+    current:
+      buildTransitionCurrent()
+  });
+
+assert.equal(
+  uniformEnvironmentalContext.classification,
+  "uniform-environmental-context"
+);
+
+assert.equal(
+  uniformEnvironmentalContext.transitionState,
+  "observed"
+);
+
+console.log(
+  "PASS Environmental Transition Analysis identifies uniform environmental context"
+);
+
+
+const thermalEnvironmentalContext =
+  buildEnvironmentalTransitionAnalysis({
+    surfaceWaterCharacter:
+      buildTransitionSurfaceCharacter(),
+
+    waterMassAnalysis:
+      buildTransitionWaterMass({
+        classification:
+          "single-variable-spatial-water-contrast"
+      }),
+
+    mixingZoneAnalysis:
+      buildTransitionMixingZone({
+        classification:
+          "thermal-boundary-context-without-mixing-evidence"
+      }),
+
+    temperature:
+      buildTransitionTemperature({
+        classification:
+          "moderate-temperature-structure",
+
+        coverage:
+          "sufficient",
+
+        spatialClassification:
+          "moderate-temperature-transition",
+
+        directional:
+          true
+      }),
+
+    current:
+      buildTransitionCurrent()
+  });
+
+assert.equal(
+  thermalEnvironmentalContext.classification,
+  "thermal-transition-context"
+);
+
+assert.equal(
+  thermalEnvironmentalContext.transitionStrength,
+  "measurable"
+);
+
+console.log(
+  "PASS Environmental Transition Analysis preserves thermal-only transition context"
+);
+
+
+const hydrodynamicEnvironmentalContext =
+  buildEnvironmentalTransitionAnalysis({
+    surfaceWaterCharacter:
+      buildTransitionSurfaceCharacter(),
+
+    waterMassAnalysis:
+      buildTransitionWaterMass({
+        classification:
+          "hydrodynamic-boundary-with-local-water-character"
+      }),
+
+    mixingZoneAnalysis:
+      buildTransitionMixingZone({
+        classification:
+          "hydrodynamic-boundary-context-without-water-mass-distinction"
+      }),
+
+    temperature:
+      buildTransitionTemperature(),
+
+    current:
+      buildTransitionCurrent({
+        edge:
+          true,
+
+        shear:
+          true
+      })
+  });
+
+assert.equal(
+  hydrodynamicEnvironmentalContext.classification,
+  "hydrodynamic-transition-context"
+);
+
+assert.equal(
+  hydrodynamicEnvironmentalContext
+    .evidence
+    .hydrodynamicSignalCount,
+  2
+);
+
+console.log(
+  "PASS Environmental Transition Analysis preserves hydrodynamic-only transition context"
+);
+
+
+const combinedEnvironmentalContext =
+  buildEnvironmentalTransitionAnalysis({
+    surfaceWaterCharacter:
+      buildTransitionSurfaceCharacter(),
+
+    waterMassAnalysis:
+      buildTransitionWaterMass({
+        classification:
+          "local-surface-character-only"
+      }),
+
+    mixingZoneAnalysis:
+      buildTransitionMixingZone({
+        classification:
+          "no-mixing-zone-context"
+      }),
+
+    temperature:
+      buildTransitionTemperature({
+        classification:
+          "moderate-temperature-structure",
+
+        coverage:
+          "sufficient",
+
+        spatialClassification:
+          "moderate-temperature-transition",
+
+        directional:
+          true
+      }),
+
+    current:
+      buildTransitionCurrent({
+        edge:
+          true
+      })
+  });
+
+assert.equal(
+  combinedEnvironmentalContext.classification,
+  "combined-environmental-transition-context"
+);
+
+assert.equal(
+  combinedEnvironmentalContext.transitionType,
+  "thermal-and-hydrodynamic"
+);
+
+console.log(
+  "PASS Environmental Transition Analysis identifies combined thermal-current context"
+);
+
+
+const multiSignalEnvironmentalContext =
+  buildEnvironmentalTransitionAnalysis({
+    surfaceWaterCharacter:
+      buildTransitionSurfaceCharacter(),
+
+    waterMassAnalysis:
+      buildTransitionWaterMass({
+        classification:
+          "combined-boundary-context-without-water-mass-distinction"
+      }),
+
+    mixingZoneAnalysis:
+      buildTransitionMixingZone({
+        classification:
+          "multi-signal-boundary-interaction-context"
+      }),
+
+    temperature:
+      buildTransitionTemperature({
+        classification:
+          "strong-temperature-break-candidate",
+
+        coverage:
+          "sufficient",
+
+        spatialClassification:
+          "strong-temperature-break-candidate",
+
+        directional:
+          true
+      }),
+
+    current:
+      buildTransitionCurrent({
+        edge:
+          true,
+
+        edgeStrength:
+          "pronounced",
+
+        convergence:
+          true,
+
+        shear:
+          true
+      })
+  });
+
+assert.equal(
+  multiSignalEnvironmentalContext.classification,
+  "multi-signal-environmental-transition-context"
+);
+
+assert.equal(
+  multiSignalEnvironmentalContext.transitionStrength,
+  "pronounced"
+);
+
+assert.equal(
+  multiSignalEnvironmentalContext
+    .environmentalTransitionReady,
+  false
+);
+
+assert.equal(
+  multiSignalEnvironmentalContext
+    .environmentalTransitionDetected,
+  false
+);
+
+assert.equal(
+  multiSignalEnvironmentalContext
+    .oceanFrontDetected,
+  false
+);
+
+assert.equal(
+  multiSignalEnvironmentalContext.contractVersion,
+  "pelora-environmental-transition-analysis-v1"
+);
+
+console.log(
+  "PASS Environmental Transition Analysis identifies multi-signal context without confirming an ocean front"
 );
