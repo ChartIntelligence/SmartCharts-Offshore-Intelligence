@@ -2,6 +2,8 @@ import intelligenceZones from "./intelligenceZones.json";
 import gulfStructures from "./gulfStructures.json";
 import boemPlatformsImported from "./boemPlatformsImported.json";
 import drillShips from "./drillShips.json";
+import fads from "./fads.json";
+
 
 function normalizeLocationName(value = "") {
   return String(value)
@@ -16,14 +18,16 @@ function normalizeLocationName(value = "") {
  *
  * 1. Intelligence zones
  * 2. Curated structures
- * 3. Drill ships
- * 4. Imported BOEM platforms
+ * 3. FADs
+ * 4. Drill ships
+ * 5. Imported BOEM platforms
  *
  * The first version of a duplicate name is retained.
  */
 const combinedLocations = [
   ...intelligenceZones,
   ...gulfStructures,
+  ...fads.filter((fad) => fad.active !== false),
   ...drillShips,
   ...boemPlatformsImported,
 ];
