@@ -64,22 +64,24 @@ const isDrillShip =
     .includes("rig");
 
 
-    const currentZoom =
-  map.getZoom();
-
-if (
-  isPlatform &&
-  currentZoom < 8
-) {
-  return;
-}
-  
-
-const isFad =
+   const isFad =
   spot.category === "fad" ||
   String(spot.type || "")
     .toLowerCase()
     .includes("fish aggregating device");
+
+const currentZoom =
+  map.getZoom();
+
+if (
+  (
+    isPlatform ||
+    isFad
+  ) &&
+  currentZoom < 8
+) {
+  return;
+}
 
 const isSelected =
   selectedSpot?.name === spot.name;

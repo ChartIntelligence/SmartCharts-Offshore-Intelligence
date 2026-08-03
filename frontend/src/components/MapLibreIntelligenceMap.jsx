@@ -34,34 +34,69 @@ function MapLibreIntelligenceMap({
    * Only ordinary oil platforms and structures are clustered.
    * Important fishing zones, FADs and drillships retain their icons.
    */
-  const structureClusterGeoJson = useMemo(() => {
-    const clusterableStructures = structures.filter((spot) => {
-      const category = String(
-        spot.category || ""
-      ).toLowerCase();
+    const structureClusterGeoJson = useMemo(() => {
+    const clusterableStructures =
+      structures.filter((spot) => {
+        const category =
+          String(
+            spot.category || ""
+          ).toLowerCase();
 
-      const type = String(
-        spot.type || ""
-      ).toLowerCase();
+        const type =
+          String(
+            spot.type || ""
+          ).toLowerCase();
 
-      return (
-        category === "structure" ||
-        category === "oil_platform" ||
-        type.includes("platform") ||
-        type.includes("rig")
-      );
-    });
+        return (
+          category === "structure" ||
+          category === "oil_platform" ||
+          type.includes("platform") ||
+          type.includes("rig")
+        );
+      });
 
     return buildMapGeoJson(
       clusterableStructures
     );
   }, []);
 
+
+  const fadClusterGeoJson = useMemo(() => {
+    const activeFads =
+      structures.filter((spot) => {
+        const category =
+          String(
+            spot.category || ""
+          ).toLowerCase();
+
+        const type =
+          String(
+            spot.type || ""
+          ).toLowerCase();
+
+        return (
+          spot.active !== false &&
+          (
+            category === "fad" ||
+            type.includes(
+              "fish aggregating device"
+            )
+          )
+        );
+      });
+
+    return buildMapGeoJson(
+      activeFads
+    );
+  }, []);
+
+
   useMapLibreSetup({
     containerRef,
     mapRef,
     geoJson,
     structureClusterGeoJson,
+    fadClusterGeoJson,
     layers
   });
 

@@ -6,6 +6,7 @@ export function useMapLibreSetup({
   mapRef,
   geoJson,
   structureClusterGeoJson,
+  fadClusterGeoJson,
   layers,
 }) {
   useEffect(() => {
@@ -83,7 +84,32 @@ export function useMapLibreSetup({
 
             cluster: true,
 
-            clusterMaxZoom: 8,
+            clusterMaxZoom: 7,
+
+            clusterRadius: 55,
+          }
+        );
+      }
+
+            if (
+        !map.getSource(
+          "pelora-fad-clusters"
+        )
+      ) {
+        map.addSource(
+          "pelora-fad-clusters",
+          {
+            type: "geojson",
+
+            data:
+              fadClusterGeoJson ?? {
+                type: "FeatureCollection",
+                features: [],
+              },
+
+            cluster: true,
+
+            clusterMaxZoom: 7,
 
             clusterRadius: 55,
           }
@@ -509,6 +535,116 @@ export function useMapLibreSetup({
           },
         });
       }
+
+            if (
+        !map.getLayer(
+          "fad-clusters"
+        )
+      ) {
+        map.addLayer({
+          id: "fad-clusters",
+
+          type: "circle",
+
+          source:
+            "pelora-fad-clusters",
+
+          filter: [
+            "has",
+            "point_count",
+          ],
+
+          layout: {
+            visibility:
+              layers.locations !== false
+                ? "visible"
+                : "none",
+          },
+
+          paint: {
+            "circle-color":
+              "#f28c45",
+
+            "circle-radius": [
+              "step",
+              ["get", "point_count"],
+
+              19,
+
+              4,
+              23,
+
+              8,
+              27,
+            ],
+
+            "circle-stroke-color":
+              "rgba(255, 255, 255, 0.9)",
+
+            "circle-stroke-width":
+              2,
+
+            "circle-opacity":
+              0.95,
+          },
+        });
+      }
+
+
+      if (
+        !map.getLayer(
+          "fad-cluster-count"
+        )
+      ) {
+        map.addLayer({
+          id:
+            "fad-cluster-count",
+
+          type:
+            "symbol",
+
+          source:
+            "pelora-fad-clusters",
+
+          filter: [
+            "has",
+            "point_count",
+          ],
+
+          layout: {
+            visibility:
+              layers.locations !== false
+                ? "visible"
+                : "none",
+
+            "text-field": [
+              "concat",
+              [
+                "get",
+                "point_count_abbreviated",
+              ],
+              " FADs",
+            ],
+
+            "text-size":
+              12,
+
+            "text-allow-overlap":
+              true,
+          },
+
+          paint: {
+            "text-color":
+              "#ffffff",
+
+            "text-halo-color":
+              "rgba(0, 0, 0, 0.35)",
+
+            "text-halo-width":
+              1,
+          },
+        });
+      }
     };
 
 
@@ -574,6 +710,71 @@ export function useMapLibreSetup({
     };
 
 
+        const handleFadClusterClick =
+      async (event) => {
+        const features =
+          map.queryRenderedFeatures(
+            event.point,
+            {
+              layers: [
+                "fad-clusters",
+              ],
+            }
+          );
+
+        const clusterFeature =
+          features[0];
+
+        if (!clusterFeature) {
+          return;
+        }
+
+        const clusterId =
+          clusterFeature.properties
+            ?.cluster_id;
+
+        const source =
+          map.getSource(
+            "pelora-fad-clusters"
+          );
+
+        if (
+          clusterId === undefined ||
+          !source
+        ) {
+          return;
+        }
+
+        try {
+          const zoom =
+            await source
+              .getClusterExpansionZoom(
+                clusterId
+              );
+
+          map.easeTo({
+            center:
+              clusterFeature.geometry
+                .coordinates,
+
+            zoom:
+              Math.min(
+                zoom,
+                10
+              ),
+
+            duration:
+              550,
+          });
+        } catch (error) {
+          console.error(
+            "Unable to expand FAD cluster:",
+            error
+          );
+        }
+      };
+
+
     const showClusterPointer = () => {
       map.getCanvas().style.cursor =
         "pointer";
@@ -599,6 +800,24 @@ export function useMapLibreSetup({
       "click",
       "structure-clusters",
       handleClusterClick
+    );
+
+        map.on(
+      "click",
+      "fad-clusters",
+      handleFadClusterClick
+    );
+
+    map.on(
+      "mouseenter",
+      "fad-clusters",
+      showClusterPointer
+    );
+
+    map.on(
+      "mouseleave",
+      "fad-clusters",
+      hideClusterPointer
     );
 
     map.on(
@@ -635,6 +854,24 @@ export function useMapLibreSetup({
       map.off(
         "mouseleave",
         "structure-clusters",
+        hideClusterPointer
+      );
+
+      map.off(
+        "click",
+        "fad-clusters",
+        handleFadClusterClick
+      );
+
+      map.off(
+        "mouseenter",
+        "fad-clusters",
+        showClusterPointer
+      );
+
+      map.off(
+        "mouseleave",
+        "fad-clusters",
         hideClusterPointer
       );
 
