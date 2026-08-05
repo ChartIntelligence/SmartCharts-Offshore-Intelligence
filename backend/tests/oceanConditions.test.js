@@ -29,6 +29,8 @@ import {
   buildWaterMassPersistence,
   buildMixingZonePersistence,
   buildOceanFrontPersistence,
+  buildProductivityPersistence,
+  buildClarityPersistence,
   buildOceanPersistence,
   OCEAN_PERSISTENCE_LIFECYCLE_STATES,
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
@@ -22956,7 +22958,7 @@ assert.equal(
   oceanPersistenceNoHistory
     .values
     .registeredFeatureCount,
-  15
+  16
 );
 
 assert.equal(
@@ -23000,7 +23002,7 @@ assert.ok(
 assert.equal(
   oceanPersistenceNoHistory
     .featurePersistence
-    .chlorophyll
+    .productivity
     .featureFamily,
   "biological-ocean"
 );
@@ -29017,4 +29019,1490 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed Ocean Front Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Productivity Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const productivityPersistenceNoHistory =
+  buildProductivityPersistence();
+
+assert.equal(
+  productivityPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  productivityPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  productivityPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+assert.equal(
+  productivityPersistenceNoHistory
+    .featureType,
+  "surface-productivity"
+);
+
+assert.equal(
+  productivityPersistenceNoHistory
+    .featureFamily,
+  "biological-ocean"
+);
+
+console.log(
+  "PASS Productivity Persistence v1 remains unavailable without governed history"
+);
+
+
+const buildHistoricalProductivitySnapshot = ({
+  baseObservationSnapshot,
+  productivityEvidence,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  evidence: {
+    ...(
+      baseObservationSnapshot
+        ?.evidence ??
+      {}
+    ),
+
+    groups: {
+      ...(
+        baseObservationSnapshot
+          ?.evidence
+          ?.groups ??
+        {}
+      ),
+
+      productivity:
+        productivityEvidence
+    }
+  }
+});
+
+
+const clearBlueProductivityEvidence = {
+  available:
+    true,
+
+  classification:
+    "clear-blue-water",
+
+  headline:
+    "Clear blue water is present.",
+
+  detail:
+    "Satellite observations indicate relatively clear offshore surface water.",
+
+  values: {
+    concentrationMgM3:
+      0.12,
+
+    productivityClassification:
+      "clear-blue-water",
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z",
+
+    ageHours:
+      4,
+
+    freshness:
+      "recent",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "clear-blue-water",
+    "observation-recent"
+  ],
+
+  limitations: [
+    "surface-productivity-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-confirm-water-column-productivity",
+    "does-not-confirm-bait",
+    "does-not-confirm-feeding",
+    "does-not-establish-biological-productivity",
+    "does-not-indicate-species-suitability"
+  ],
+
+  interpretation:
+    "species-neutral-surface-productivity-evidence"
+};
+
+
+const transitionalProductivityEvidence = {
+  available:
+    true,
+
+  classification:
+    "productive-blue-green-transition",
+
+  headline:
+    "A productive blue-green transition is present.",
+
+  detail:
+    "Satellite observations indicate moderate surface chlorophyll consistent with transitional water.",
+
+  values: {
+    concentrationMgM3:
+      0.32,
+
+    productivityClassification:
+      "productive-blue-green-transition",
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z",
+
+    ageHours:
+      10,
+
+    freshness:
+      "recent",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "productive-blue-green-transition",
+    "observation-recent"
+  ],
+
+  limitations: [
+    "surface-productivity-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-confirm-water-column-productivity",
+    "does-not-confirm-bait",
+    "does-not-confirm-feeding",
+    "does-not-establish-biological-productivity",
+    "does-not-indicate-species-suitability"
+  ],
+
+  interpretation:
+    "species-neutral-surface-productivity-evidence"
+};
+
+
+const greenWaterProductivityEvidence = {
+  available:
+    true,
+
+  classification:
+    "productive-green-water",
+
+  headline:
+    "Productive green water is present.",
+
+  detail:
+    "Satellite observations indicate elevated surface chlorophyll concentration.",
+
+  values: {
+    concentrationMgM3:
+      0.75,
+
+    productivityClassification:
+      "productive-green-water",
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z",
+
+    ageHours:
+      20,
+
+    freshness:
+      "aging",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "productive-green-water",
+    "observation-aging"
+  ],
+
+  limitations: [
+    "surface-productivity-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-confirm-water-column-productivity",
+    "does-not-confirm-bait",
+    "does-not-confirm-feeding",
+    "does-not-establish-biological-productivity",
+    "does-not-indicate-species-suitability",
+    "satellite-observation-aging"
+  ],
+
+  interpretation:
+    "species-neutral-surface-productivity-evidence"
+};
+
+
+const laterClearBlueProductivityEvidence = {
+  available:
+    true,
+
+  classification:
+    "clear-blue-water",
+
+  headline:
+    "Clear blue water is present.",
+
+  detail:
+    "Satellite observations indicate relatively clear offshore surface water.",
+
+  values: {
+    concentrationMgM3:
+      0.16,
+
+    productivityClassification:
+      "clear-blue-water",
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z",
+
+    ageHours:
+      50,
+
+    freshness:
+      "stale",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "clear-blue-water",
+    "observation-stale"
+  ],
+
+  limitations: [
+    "surface-productivity-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-confirm-water-column-productivity",
+    "does-not-confirm-bait",
+    "does-not-confirm-feeding",
+    "does-not-establish-biological-productivity",
+    "does-not-indicate-species-suitability",
+    "satellite-observation-stale"
+  ],
+
+  interpretation:
+    "species-neutral-surface-productivity-evidence"
+};
+
+
+const earlierClearBlueProductivityObservationSnapshot =
+  buildHistoricalProductivitySnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    productivityEvidence:
+      clearBlueProductivityEvidence,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterTransitionalProductivityObservationSnapshot =
+  buildHistoricalProductivitySnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    productivityEvidence:
+      transitionalProductivityEvidence,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierClearBlueProductivityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierClearBlueProductivityObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-productivity-test-location"
+  });
+
+
+const laterTransitionalProductivityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterTransitionalProductivityObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-productivity-test-location"
+  });
+
+
+const singleProductivityPersistence =
+  buildProductivityPersistence({
+    historicalSnapshots: [
+      earlierClearBlueProductivityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  singleProductivityPersistence.available,
+  false
+);
+
+assert.equal(
+  singleProductivityPersistence.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  singleProductivityPersistence
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  singleProductivityPersistence
+    .values
+    .firstClassification,
+  "clear-blue-water"
+);
+
+assert.equal(
+  singleProductivityPersistence
+    .values
+    .firstConcentrationMgM3,
+  0.12
+);
+
+console.log(
+  "PASS Productivity Persistence v1 requires two chronological contracts"
+);
+
+
+const increasingProductivityPersistence =
+  buildProductivityPersistence({
+    historicalSnapshots: [
+      laterTransitionalProductivityHistoricalBackfill,
+      earlierClearBlueProductivityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  increasingProductivityPersistence.available,
+  true
+);
+
+assert.equal(
+  increasingProductivityPersistence.classification,
+  "increasing-surface-productivity-context"
+);
+
+assert.equal(
+  increasingProductivityPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .firstClassification,
+  "clear-blue-water"
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .lastClassification,
+  "productive-blue-green-transition"
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .classificationChange,
+  1
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .firstConcentrationMgM3,
+  0.12
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .lastConcentrationMgM3,
+  0.32
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .concentrationChangeMgM3,
+  0.2
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .firstFreshness,
+  "recent"
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .lastFreshness,
+  "recent"
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .freshnessChange,
+  0
+);
+
+assert.equal(
+  increasingProductivityPersistence
+    .values
+    .sourceInterpretation,
+  "species-neutral-surface-productivity-evidence"
+);
+
+console.log(
+  "PASS Productivity Persistence v1 identifies increasing governed surface productivity"
+);
+
+
+const earlierGreenWaterProductivityObservationSnapshot =
+  buildHistoricalProductivitySnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    productivityEvidence:
+      greenWaterProductivityEvidence,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterClearBlueProductivityObservationSnapshot =
+  buildHistoricalProductivitySnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    productivityEvidence:
+      laterClearBlueProductivityEvidence,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierGreenWaterProductivityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierGreenWaterProductivityObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-productivity-decrease-test-location"
+  });
+
+
+const laterClearBlueProductivityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterClearBlueProductivityObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-productivity-decrease-test-location"
+  });
+
+
+const decreasingProductivityPersistence =
+  buildProductivityPersistence({
+    historicalSnapshots: [
+      laterClearBlueProductivityHistoricalBackfill,
+      earlierGreenWaterProductivityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  decreasingProductivityPersistence.available,
+  true
+);
+
+assert.equal(
+  decreasingProductivityPersistence.classification,
+  "decreasing-surface-productivity-context"
+);
+
+assert.equal(
+  decreasingProductivityPersistence.lifecycleState,
+  "weakening"
+);
+
+assert.equal(
+  decreasingProductivityPersistence
+    .values
+    .classificationChange,
+  -2
+);
+
+assert.equal(
+  decreasingProductivityPersistence
+    .values
+    .firstConcentrationMgM3,
+  0.75
+);
+
+assert.equal(
+  decreasingProductivityPersistence
+    .values
+    .lastConcentrationMgM3,
+  0.16
+);
+
+assert.equal(
+  decreasingProductivityPersistence
+    .values
+    .concentrationChangeMgM3,
+  -0.59
+);
+
+assert.equal(
+  decreasingProductivityPersistence
+    .values
+    .firstFreshness,
+  "aging"
+);
+
+assert.equal(
+  decreasingProductivityPersistence
+    .values
+    .lastFreshness,
+  "stale"
+);
+
+assert.equal(
+  decreasingProductivityPersistence
+    .values
+    .freshnessChange,
+  -1
+);
+
+assert.ok(
+  decreasingProductivityPersistence
+    .limitations
+    .includes(
+      "surface-productivity-persistence-does-not-confirm-bait-or-prey"
+    )
+);
+
+console.log(
+  "PASS Productivity Persistence v1 identifies decreasing productivity and preserves freshness change"
+);
+
+
+const oceanPersistenceWithProductivity =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterTransitionalProductivityHistoricalBackfill,
+      earlierClearBlueProductivityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithProductivity
+    .featurePersistence
+    .productivity
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithProductivity
+    .featurePersistence
+    .productivity
+    .classification,
+  "increasing-surface-productivity-context"
+);
+
+assert.equal(
+  oceanPersistenceWithProductivity
+    .featurePersistence
+    .productivity
+    .featureType,
+  "surface-productivity"
+);
+
+assert.equal(
+  oceanPersistenceWithProductivity
+    .featurePersistence
+    .productivity
+    .featureFamily,
+  "biological-ocean"
+);
+
+assert.equal(
+  oceanPersistenceWithProductivity
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Productivity Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Surface-Water Clarity Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const clarityPersistenceNoHistory =
+  buildClarityPersistence();
+
+assert.equal(
+  clarityPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  clarityPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  clarityPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+assert.equal(
+  clarityPersistenceNoHistory
+    .featureType,
+  "surface-water-clarity"
+);
+
+assert.equal(
+  clarityPersistenceNoHistory
+    .featureFamily,
+  "physical-ocean"
+);
+
+console.log(
+  "PASS Clarity Persistence v1 remains unavailable without governed history"
+);
+
+
+const buildHistoricalClaritySnapshot = ({
+  baseObservationSnapshot,
+  clarityEvidence,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  evidence: {
+    ...(
+      baseObservationSnapshot
+        ?.evidence ??
+      {}
+    ),
+
+    groups: {
+      ...(
+        baseObservationSnapshot
+          ?.evidence
+          ?.groups ??
+        {}
+      ),
+
+      clarity:
+        clarityEvidence
+    }
+  }
+});
+
+
+const transitionalClarityEvidence = {
+  available:
+    true,
+
+  classification:
+    "transitional-surface-water",
+
+  headline:
+    "Transitional blue-green surface water is indicated.",
+
+  detail:
+    "Moderate chlorophyll concentration suggests a transition between clearer blue water and more chlorophyll-influenced water.",
+
+  values: {
+    concentrationMgM3:
+      0.32,
+
+    waterClassification:
+      "productive-blue-green-transition",
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z",
+
+    ageHours:
+      10,
+
+    freshness:
+      "recent",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "productive-blue-green-transition",
+    "observation-recent"
+  ],
+
+  limitations: [
+    "surface-water-clarity-inference-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-directly-measure-visibility",
+    "does-not-confirm-subsurface-clarity",
+    "does-not-indicate-species-suitability"
+  ],
+
+  interpretation:
+    "species-neutral-surface-water-clarity-evidence"
+};
+
+
+const clearBlueClarityEvidence = {
+  available:
+    true,
+
+  classification:
+    "clear-blue-surface-water",
+
+  headline:
+    "Clear blue surface water is indicated.",
+
+  detail:
+    "Low chlorophyll concentration suggests relatively clear offshore surface water.",
+
+  values: {
+    concentrationMgM3:
+      0.12,
+
+    waterClassification:
+      "clear-blue-water",
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z",
+
+    ageHours:
+      5,
+
+    freshness:
+      "recent",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "clear-blue-water",
+    "observation-recent"
+  ],
+
+  limitations: [
+    "surface-water-clarity-inference-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-directly-measure-visibility",
+    "does-not-confirm-subsurface-clarity",
+    "does-not-indicate-species-suitability"
+  ],
+
+  interpretation:
+    "species-neutral-surface-water-clarity-evidence"
+};
+
+
+const veryClearClarityEvidence = {
+  available:
+    true,
+
+  classification:
+    "very-clear-surface-water",
+
+  headline:
+    "Very clear surface water is indicated.",
+
+  detail:
+    "Very low chlorophyll concentration suggests very clear surface water.",
+
+  values: {
+    concentrationMgM3:
+      0.05,
+
+    waterClassification:
+      "very-clear-low-productivity",
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z",
+
+    ageHours:
+      20,
+
+    freshness:
+      "aging",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "very-clear-low-productivity",
+    "observation-aging"
+  ],
+
+  limitations: [
+    "surface-water-clarity-inference-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-directly-measure-visibility",
+    "does-not-confirm-subsurface-clarity",
+    "does-not-indicate-species-suitability",
+    "clarity-inference-based-on-aging-observation"
+  ],
+
+  interpretation:
+    "species-neutral-surface-water-clarity-evidence"
+};
+
+
+const chlorophyllInfluencedClarityEvidence = {
+  available:
+    true,
+
+  classification:
+    "chlorophyll-influenced-surface-water",
+
+  headline:
+    "Chlorophyll-influenced green surface water is indicated.",
+
+  detail:
+    "Elevated chlorophyll concentration suggests greener, less optically clear surface water.",
+
+  values: {
+    concentrationMgM3:
+      0.75,
+
+    waterClassification:
+      "productive-green-water",
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z",
+
+    ageHours:
+      50,
+
+    freshness:
+      "stale",
+
+    units:
+      "mg m^-3"
+  },
+
+  drivers: [
+    "chlorophyll-available",
+    "productive-green-water",
+    "observation-stale"
+  ],
+
+  limitations: [
+    "surface-water-clarity-inference-only",
+    "satellite-observation",
+    "single-time-snapshot",
+    "does-not-directly-measure-visibility",
+    "does-not-confirm-subsurface-clarity",
+    "does-not-indicate-species-suitability",
+    "clarity-inference-based-on-stale-observation"
+  ],
+
+  interpretation:
+    "species-neutral-surface-water-clarity-evidence"
+};
+
+
+const earlierTransitionalClarityObservationSnapshot =
+  buildHistoricalClaritySnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    clarityEvidence:
+      transitionalClarityEvidence,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterClearBlueClarityObservationSnapshot =
+  buildHistoricalClaritySnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    clarityEvidence:
+      clearBlueClarityEvidence,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierTransitionalClarityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierTransitionalClarityObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-clarity-test-location"
+  });
+
+
+const laterClearBlueClarityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterClearBlueClarityObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-clarity-test-location"
+  });
+
+
+const singleClarityPersistence =
+  buildClarityPersistence({
+    historicalSnapshots: [
+      earlierTransitionalClarityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  singleClarityPersistence.available,
+  false
+);
+
+assert.equal(
+  singleClarityPersistence.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  singleClarityPersistence
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  singleClarityPersistence
+    .values
+    .firstClassification,
+  "transitional-surface-water"
+);
+
+assert.equal(
+  singleClarityPersistence
+    .values
+    .firstConcentrationMgM3,
+  0.32
+);
+
+console.log(
+  "PASS Clarity Persistence v1 requires two chronological contracts"
+);
+
+
+const increasingClarityPersistence =
+  buildClarityPersistence({
+    historicalSnapshots: [
+      laterClearBlueClarityHistoricalBackfill,
+      earlierTransitionalClarityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  increasingClarityPersistence.available,
+  true
+);
+
+assert.equal(
+  increasingClarityPersistence.classification,
+  "increasing-surface-water-clarity-context"
+);
+
+assert.equal(
+  increasingClarityPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .firstClassification,
+  "transitional-surface-water"
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .lastClassification,
+  "clear-blue-surface-water"
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .clarityRankChange,
+  1
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .firstWaterClassification,
+  "productive-blue-green-transition"
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .lastWaterClassification,
+  "clear-blue-water"
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .firstConcentrationMgM3,
+  0.32
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .lastConcentrationMgM3,
+  0.12
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .concentrationChangeMgM3,
+  -0.2
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .firstFreshness,
+  "recent"
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .lastFreshness,
+  "recent"
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .freshnessChange,
+  0
+);
+
+assert.equal(
+  increasingClarityPersistence
+    .values
+    .sourceInterpretation,
+  "species-neutral-surface-water-clarity-evidence"
+);
+
+console.log(
+  "PASS Clarity Persistence v1 identifies increasing governed surface-water clarity"
+);
+
+
+const earlierVeryClearClarityObservationSnapshot =
+  buildHistoricalClaritySnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    clarityEvidence:
+      veryClearClarityEvidence,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterChlorophyllInfluencedClarityObservationSnapshot =
+  buildHistoricalClaritySnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    clarityEvidence:
+      chlorophyllInfluencedClarityEvidence,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierVeryClearClarityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierVeryClearClarityObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-clarity-decrease-test-location"
+  });
+
+
+const laterChlorophyllInfluencedClarityHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterChlorophyllInfluencedClarityObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-clarity-decrease-test-location"
+  });
+
+
+const decreasingClarityPersistence =
+  buildClarityPersistence({
+    historicalSnapshots: [
+      laterChlorophyllInfluencedClarityHistoricalBackfill,
+      earlierVeryClearClarityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  decreasingClarityPersistence.available,
+  true
+);
+
+assert.equal(
+  decreasingClarityPersistence.classification,
+  "decreasing-surface-water-clarity-context"
+);
+
+assert.equal(
+  decreasingClarityPersistence.lifecycleState,
+  "weakening"
+);
+
+assert.equal(
+  decreasingClarityPersistence
+    .values
+    .clarityRankChange,
+  -3
+);
+
+assert.equal(
+  decreasingClarityPersistence
+    .values
+    .firstConcentrationMgM3,
+  0.05
+);
+
+assert.equal(
+  decreasingClarityPersistence
+    .values
+    .lastConcentrationMgM3,
+  0.75
+);
+
+assert.equal(
+  decreasingClarityPersistence
+    .values
+    .concentrationChangeMgM3,
+  0.7
+);
+
+assert.equal(
+  decreasingClarityPersistence
+    .values
+    .firstFreshness,
+  "aging"
+);
+
+assert.equal(
+  decreasingClarityPersistence
+    .values
+    .lastFreshness,
+  "stale"
+);
+
+assert.equal(
+  decreasingClarityPersistence
+    .values
+    .freshnessChange,
+  -1
+);
+
+assert.ok(
+  decreasingClarityPersistence
+    .limitations
+    .includes(
+      "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement"
+    )
+);
+
+console.log(
+  "PASS Clarity Persistence v1 identifies decreasing clarity and preserves freshness change"
+);
+
+
+const oceanPersistenceWithClarity =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterClearBlueClarityHistoricalBackfill,
+      earlierTransitionalClarityHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithClarity
+    .featurePersistence
+    .clarity
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithClarity
+    .featurePersistence
+    .clarity
+    .classification,
+  "increasing-surface-water-clarity-context"
+);
+
+assert.equal(
+  oceanPersistenceWithClarity
+    .featurePersistence
+    .clarity
+    .featureType,
+  "surface-water-clarity"
+);
+
+assert.equal(
+  oceanPersistenceWithClarity
+    .featurePersistence
+    .clarity
+    .featureFamily,
+  "physical-ocean"
+);
+
+assert.equal(
+  oceanPersistenceWithClarity
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Clarity Persistence"
 );

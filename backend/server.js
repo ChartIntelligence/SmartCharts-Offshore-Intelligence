@@ -26220,6 +26220,1358 @@ export function buildOceanFrontPersistence({
 
 /**
  * ------------------------------------------------------------
+ * Productivity Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Surface Productivity Evidence contracts
+ * across chronological Ocean Memory snapshots.
+ *
+ * This version evaluates persistence of observed surface
+ * productivity context derived from satellite chlorophyll.
+ * It does not establish full water-column productivity, bait,
+ * prey concentration, feeding activity, habitat quality,
+ * species presence, or fishing opportunity.
+ */
+export function buildProductivityPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const productivityRank = {
+    "very-clear-low-productivity": 0,
+    "clear-blue-water": 1,
+    "productive-blue-green-transition": 2,
+    "productive-green-water": 3,
+    "high-chlorophyll-coastal-or-bloom-influenced": 4
+  };
+
+  const freshnessRank = {
+    unknown: 0,
+    stale: 1,
+    aging: 2,
+    recent: 3
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const productivityEvidence =
+          oceanSnapshot
+            ?.observation
+            ?.evidence
+            ?.groups
+            ?.productivity ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const snapshotObservedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const evidenceObservedAt =
+          productivityEvidence
+            ?.values
+            ?.observedAt ??
+          null;
+
+        const observedAt =
+          typeof evidenceObservedAt ===
+            "string"
+            ? evidenceObservedAt
+            : snapshotObservedAt;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const interpretation =
+          productivityEvidence
+            ?.interpretation ??
+          null;
+
+        const evidenceAvailable =
+          productivityEvidence
+            ?.available ===
+          true;
+
+        const classification =
+          typeof productivityEvidence
+            ?.classification ===
+            "string"
+            ? productivityEvidence
+                .classification
+            : null;
+
+        const productivityClassification =
+          typeof productivityEvidence
+            ?.values
+            ?.productivityClassification ===
+            "string"
+            ? productivityEvidence
+                .values
+                .productivityClassification
+            : classification;
+
+        const classificationRank =
+          Object.hasOwn(
+            productivityRank,
+            productivityClassification
+          )
+            ? productivityRank[
+                productivityClassification
+              ]
+            : null;
+
+        const concentrationMgM3 =
+          Number.isFinite(
+            productivityEvidence
+              ?.values
+              ?.concentrationMgM3
+          )
+            ? productivityEvidence
+                .values
+                .concentrationMgM3
+            : null;
+
+        const ageHours =
+          Number.isFinite(
+            productivityEvidence
+              ?.values
+              ?.ageHours
+          )
+            ? productivityEvidence
+                .values
+                .ageHours
+            : null;
+
+        const freshness =
+          typeof productivityEvidence
+            ?.values
+            ?.freshness ===
+            "string"
+            ? productivityEvidence
+                .values
+                .freshness
+            : "unknown";
+
+        const freshnessScore =
+          Object.hasOwn(
+            freshnessRank,
+            freshness
+          )
+            ? freshnessRank[
+                freshness
+              ]
+            : null;
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          interpretation,
+
+          evidenceAvailable,
+
+          classification,
+
+          productivityClassification,
+
+          classificationRank,
+
+          concentrationMgM3,
+
+          ageHours,
+
+          freshness,
+
+          freshnessScore,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            interpretation ===
+              "species-neutral-surface-productivity-evidence" &&
+            evidenceAvailable &&
+            classificationRank !==
+              null &&
+            concentrationMgM3 !==
+              null &&
+            freshnessScore !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "surface-productivity",
+
+      featureFamily:
+        "biological-ocean",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-productivity-evidence-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstClassification:
+          null,
+
+        lastClassification:
+          null,
+
+        classificationChange:
+          null,
+
+        firstConcentrationMgM3:
+          null,
+
+        lastConcentrationMgM3:
+          null,
+
+        concentrationChangeMgM3:
+          null,
+
+        firstFreshness:
+          null,
+
+        lastFreshness:
+          null,
+
+        freshnessChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-productivity-evidence-unavailable",
+        "surface-productivity-persistence-not-assessed",
+        "surface-productivity-absence-not-established",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "surface-productivity",
+
+      featureFamily:
+        "biological-ocean",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-productivity-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstClassification:
+          firstObservation
+            ?.productivityClassification ??
+          null,
+
+        lastClassification:
+          lastObservation
+            ?.productivityClassification ??
+          null,
+
+        classificationChange:
+          null,
+
+        firstConcentrationMgM3:
+          firstObservation
+            ?.concentrationMgM3 ??
+          null,
+
+        lastConcentrationMgM3:
+          lastObservation
+            ?.concentrationMgM3 ??
+          null,
+
+        concentrationChangeMgM3:
+          null,
+
+        firstFreshness:
+          firstObservation
+            ?.freshness ??
+          null,
+
+        lastFreshness:
+          lastObservation
+            ?.freshness ??
+          null,
+
+        freshnessChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-productivity-evidence-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-productivity-contracts-required",
+        "surface-productivity-persistence-not-assessed",
+        "surface-productivity-absence-not-established"
+      ]
+    });
+  }
+
+  const classificationChange =
+    lastObservation
+      .classificationRank -
+    firstObservation
+      .classificationRank;
+
+  const concentrationChangeMgM3 =
+    lastObservation
+      .concentrationMgM3 -
+    firstObservation
+      .concentrationMgM3;
+
+  const freshnessChange =
+    lastObservation
+      .freshnessScore -
+    firstObservation
+      .freshnessScore;
+
+  let classification =
+    "stable-surface-productivity-context";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-surface-productivity-context-remained-stable";
+
+  const concentrationToleranceMgM3 =
+    0.02;
+
+  if (
+    concentrationChangeMgM3 >
+      concentrationToleranceMgM3 ||
+    classificationChange >
+      0
+  ) {
+    classification =
+      "increasing-surface-productivity-context";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-surface-productivity-increased";
+  } else if (
+    concentrationChangeMgM3 <
+      -concentrationToleranceMgM3 ||
+    classificationChange <
+      0
+  ) {
+    classification =
+      "decreasing-surface-productivity-context";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-surface-productivity-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "surface-productivity",
+
+    featureFamily:
+      "biological-ocean",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstClassification:
+        firstObservation
+          .productivityClassification,
+
+      lastClassification:
+        lastObservation
+          .productivityClassification,
+
+      classificationChange,
+
+      firstConcentrationMgM3:
+        firstObservation
+          .concentrationMgM3,
+
+      lastConcentrationMgM3:
+        lastObservation
+          .concentrationMgM3,
+
+      concentrationChangeMgM3:
+        Number(
+          concentrationChangeMgM3
+            .toFixed(4)
+        ),
+
+      firstFreshness:
+        firstObservation
+          .freshness,
+
+      lastFreshness:
+        lastObservation
+          .freshness,
+
+      freshnessChange:
+        freshnessChange,
+
+      firstAgeHours:
+        firstObservation
+          .ageHours,
+
+      lastAgeHours:
+        lastObservation
+          .ageHours,
+
+      sourceInterpretation:
+        "species-neutral-surface-productivity-evidence"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-productivity-contracts-available",
+      "chronological-productivity-observation-window-established",
+      `surface-productivity-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+      "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+      "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+      "surface-productivity-persistence-does-not-confirm-feeding-activity",
+      "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+      "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Surface-Water Clarity Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Surface-Water Clarity Evidence contracts
+ * across chronological Ocean Memory snapshots.
+ *
+ * This version evaluates persistence of broad surface-water
+ * clarity context inferred from satellite chlorophyll. It does
+ * not directly measure visibility, subsurface clarity, turbidity,
+ * water-column structure, habitat quality, fish presence, or
+ * fishing opportunity.
+ */
+export function buildClarityPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const clarityRank = {
+    "very-clear-surface-water": 4,
+    "clear-blue-surface-water": 3,
+    "transitional-surface-water": 2,
+    "chlorophyll-influenced-surface-water": 1,
+    "strongly-chlorophyll-influenced-surface-water": 0,
+    "clarity-undetermined": 0
+  };
+
+  const freshnessRank = {
+    unknown: 0,
+    stale: 1,
+    aging: 2,
+    recent: 3
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const clarityEvidence =
+          oceanSnapshot
+            ?.observation
+            ?.evidence
+            ?.groups
+            ?.clarity ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const snapshotObservedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const evidenceObservedAt =
+          clarityEvidence
+            ?.values
+            ?.observedAt ??
+          null;
+
+        const observedAt =
+          typeof evidenceObservedAt ===
+            "string"
+            ? evidenceObservedAt
+            : snapshotObservedAt;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const interpretation =
+          clarityEvidence
+            ?.interpretation ??
+          null;
+
+        const evidenceAvailable =
+          clarityEvidence
+            ?.available ===
+          true;
+
+        const classification =
+          typeof clarityEvidence
+            ?.classification ===
+            "string"
+            ? clarityEvidence
+                .classification
+            : null;
+
+        const classificationRank =
+          Object.hasOwn(
+            clarityRank,
+            classification
+          )
+            ? clarityRank[
+                classification
+              ]
+            : null;
+
+        const waterClassification =
+          typeof clarityEvidence
+            ?.values
+            ?.waterClassification ===
+            "string"
+            ? clarityEvidence
+                .values
+                .waterClassification
+            : null;
+
+        const concentrationMgM3 =
+          Number.isFinite(
+            clarityEvidence
+              ?.values
+              ?.concentrationMgM3
+          )
+            ? clarityEvidence
+                .values
+                .concentrationMgM3
+            : null;
+
+        const ageHours =
+          Number.isFinite(
+            clarityEvidence
+              ?.values
+              ?.ageHours
+          )
+            ? clarityEvidence
+                .values
+                .ageHours
+            : null;
+
+        const freshness =
+          typeof clarityEvidence
+            ?.values
+            ?.freshness ===
+            "string"
+            ? clarityEvidence
+                .values
+                .freshness
+            : "unknown";
+
+        const freshnessScore =
+          Object.hasOwn(
+            freshnessRank,
+            freshness
+          )
+            ? freshnessRank[
+                freshness
+              ]
+            : null;
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          interpretation,
+
+          evidenceAvailable,
+
+          classification,
+
+          classificationRank,
+
+          waterClassification,
+
+          concentrationMgM3,
+
+          ageHours,
+
+          freshness,
+
+          freshnessScore,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            interpretation ===
+              "species-neutral-surface-water-clarity-evidence" &&
+            evidenceAvailable &&
+            classificationRank !==
+              null &&
+            concentrationMgM3 !==
+              null &&
+            freshnessScore !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "surface-water-clarity",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-clarity-evidence-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstClassification:
+          null,
+
+        lastClassification:
+          null,
+
+        clarityRankChange:
+          null,
+
+        firstConcentrationMgM3:
+          null,
+
+        lastConcentrationMgM3:
+          null,
+
+        concentrationChangeMgM3:
+          null,
+
+        firstFreshness:
+          null,
+
+        lastFreshness:
+          null,
+
+        freshnessChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-clarity-evidence-unavailable",
+        "surface-water-clarity-persistence-not-assessed",
+        "surface-water-clarity-absence-not-established",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "surface-water-clarity",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-clarity-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstClassification:
+          firstObservation
+            ?.classification ??
+          null,
+
+        lastClassification:
+          lastObservation
+            ?.classification ??
+          null,
+
+        clarityRankChange:
+          null,
+
+        firstConcentrationMgM3:
+          firstObservation
+            ?.concentrationMgM3 ??
+          null,
+
+        lastConcentrationMgM3:
+          lastObservation
+            ?.concentrationMgM3 ??
+          null,
+
+        concentrationChangeMgM3:
+          null,
+
+        firstFreshness:
+          firstObservation
+            ?.freshness ??
+          null,
+
+        lastFreshness:
+          lastObservation
+            ?.freshness ??
+          null,
+
+        freshnessChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-clarity-evidence-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-clarity-contracts-required",
+        "surface-water-clarity-persistence-not-assessed",
+        "surface-water-clarity-absence-not-established"
+      ]
+    });
+  }
+
+  const clarityRankChange =
+    lastObservation
+      .classificationRank -
+    firstObservation
+      .classificationRank;
+
+  const concentrationChangeMgM3 =
+    lastObservation
+      .concentrationMgM3 -
+    firstObservation
+      .concentrationMgM3;
+
+  const freshnessChange =
+    lastObservation
+      .freshnessScore -
+    firstObservation
+      .freshnessScore;
+
+  let classification =
+    "stable-surface-water-clarity-context";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-surface-water-clarity-context-remained-stable";
+
+  if (
+    clarityRankChange >
+      0
+  ) {
+    classification =
+      "increasing-surface-water-clarity-context";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-surface-water-clarity-increased";
+  } else if (
+    clarityRankChange <
+      0
+  ) {
+    classification =
+      "decreasing-surface-water-clarity-context";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-surface-water-clarity-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "surface-water-clarity",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstClassification:
+        firstObservation
+          .classification,
+
+      lastClassification:
+        lastObservation
+          .classification,
+
+      clarityRankChange,
+
+      firstWaterClassification:
+        firstObservation
+          .waterClassification,
+
+      lastWaterClassification:
+        lastObservation
+          .waterClassification,
+
+      firstConcentrationMgM3:
+        firstObservation
+          .concentrationMgM3,
+
+      lastConcentrationMgM3:
+        lastObservation
+          .concentrationMgM3,
+
+      concentrationChangeMgM3:
+        Number(
+          concentrationChangeMgM3
+            .toFixed(4)
+        ),
+
+      firstFreshness:
+        firstObservation
+          .freshness,
+
+      lastFreshness:
+        lastObservation
+          .freshness,
+
+      freshnessChange,
+
+      firstAgeHours:
+        firstObservation
+          .ageHours,
+
+      lastAgeHours:
+        lastObservation
+          .ageHours,
+
+      sourceInterpretation:
+        "species-neutral-surface-water-clarity-evidence"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-clarity-contracts-available",
+      "chronological-clarity-observation-window-established",
+      `surface-water-clarity-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+      "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+      "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+      "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+      "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Persistence Engine Contract v1.0
  * ------------------------------------------------------------
  *
@@ -26297,6 +27649,16 @@ export function buildOceanPersistence({
 
   const oceanFront =
     buildOceanFrontPersistence({
+      historicalSnapshots
+    });
+
+  const productivity =
+    buildProductivityPersistence({
+      historicalSnapshots
+    });
+
+  const clarity =
+    buildClarityPersistence({
       historicalSnapshots
     });
 
@@ -26504,14 +27866,9 @@ export function buildOceanPersistence({
 
     oceanFront,
 
-    chlorophyll:
-      buildUnavailableFeature({
-        featureType:
-          "chlorophyll",
+    productivity,
 
-        featureFamily:
-          "biological-ocean"
-      }),
+    clarity,
 
     salinity:
       buildUnavailableFeature({
@@ -27109,7 +28466,8 @@ export function buildOceanOpportunityLineage({
 
 
 export function assessOceanOpportunity({
-  oceanEvidence
+  oceanEvidence,
+  oceanPersistence = null
 }) {
   const groups =
     oceanEvidence?.groups ??
@@ -27752,6 +29110,93 @@ export function assessOceanOpportunity({
     ])
   ];
 
+    const persistenceAvailable =
+    oceanPersistence
+      ?.available ===
+    true;
+
+  const persistenceContext = {
+    available:
+      persistenceAvailable,
+
+    classification:
+      oceanPersistence
+        ?.classification ??
+      "unavailable",
+
+    lifecycleState:
+      oceanPersistence
+        ?.values
+        ?.lifecycleState ??
+      null,
+
+    sampleCount:
+      oceanPersistence
+        ?.values
+        ?.sampleCount ??
+      null,
+
+    observationWindowHours:
+      oceanPersistence
+        ?.values
+        ?.observationWindowHours ??
+      null,
+
+    assessedFeatureCount:
+      oceanPersistence
+        ?.values
+        ?.assessedFeatureCount ??
+      0,
+
+    registeredFeatureCount:
+      oceanPersistence
+        ?.values
+        ?.registeredFeatureCount ??
+      null,
+
+    confidence: {
+      score:
+        oceanPersistence
+          ?.confidence
+          ?.score ??
+        0,
+
+      level:
+        oceanPersistence
+          ?.confidence
+          ?.level ??
+        "Unavailable"
+    },
+
+    interpretation:
+      oceanPersistence
+        ?.interpretation ??
+      "species-neutral-ocean-persistence-unavailable",
+
+    contractVersion:
+      oceanPersistence
+        ?.contractVersion ??
+      null,
+
+    limitations: [
+      ...(
+        Array.isArray(
+          oceanPersistence
+            ?.limitations
+        )
+          ? oceanPersistence
+              .limitations
+          : [
+              "ocean-persistence-not-supplied"
+            ]
+      ),
+
+      "persistence-context-is-documentary-only",
+      "persistence-context-does-not-change-opportunity-scoring",
+      "persistence-context-does-not-establish-biological-significance"
+    ]
+  };
+
   const pathwayClassification =
     classifyOceanOpportunity({
       environmentalOpportunityEvidence:
@@ -27812,6 +29257,8 @@ export function assessOceanOpportunity({
     opportunities,
 
     pathwayClassification,
+
+    persistenceContext,
 
     confidence: {
       score:
