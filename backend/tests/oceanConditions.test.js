@@ -19,6 +19,10 @@ import {
   buildOceanSnapshotRetrieval,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
+  buildOceanPersistence,
+  OCEAN_PERSISTENCE_LIFECYCLE_STATES,
+  OCEAN_PERSISTENCE_FEATURE_FAMILIES,
+  buildFeaturePersistenceContract,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -22899,4 +22903,359 @@ assert.equal(
 
 console.log(
   "PASS Persistence Evidence v2 remains species-neutral before temporal lifecycle analysis"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Persistence Engine Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const oceanPersistenceNoHistory =
+  buildOceanPersistence();
+
+assert.equal(
+  oceanPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  oceanPersistenceNoHistory.contractVersion,
+  "pelora-ocean-persistence-v1"
+);
+
+assert.equal(
+  oceanPersistenceNoHistory.responsibility,
+  "Compare"
+);
+
+assert.equal(
+  oceanPersistenceNoHistory.interpretation,
+  "species-neutral-ocean-persistence"
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .compatibility
+    .legacyContractVersion,
+  "pelora-persistence-evidence-v2"
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .values
+    .registeredFeatureCount,
+  10
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .values
+    .assessedFeatureCount,
+  0
+);
+
+console.log(
+  "PASS Ocean Persistence v1 establishes the canonical multi-feature contract"
+);
+
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .featurePersistence
+    .seaSurfaceTemperature
+    .available,
+  false
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .featurePersistence
+    .seaSurfaceTemperature
+    .reason,
+  "feature-persistence-analyzer-not-connected"
+);
+
+assert.ok(
+  oceanPersistenceNoHistory
+    .featurePersistence
+    .seaSurfaceTemperature
+    .limitations
+    .includes(
+      "feature-absence-not-established"
+    )
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .featurePersistence
+    .chlorophyll
+    .featureFamily,
+  "biological-ocean"
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .featurePersistence
+    .salinity
+    .featureFamily,
+  "chemical-ocean"
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .featurePersistence
+    .dissolvedOxygen
+    .featureFamily,
+  "chemical-ocean"
+);
+
+console.log(
+  "PASS Ocean Persistence v1 registers future analyzers without claiming feature absence"
+);
+
+
+const oceanPersistenceChronologicalHistory =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterHistoricalBackfill,
+      governedHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceChronologicalHistory
+    .classification,
+  persistenceChronologicalHistory
+    .classification
+);
+
+assert.equal(
+  oceanPersistenceChronologicalHistory
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  oceanPersistenceChronologicalHistory
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  oceanPersistenceChronologicalHistory
+    .featurePersistence
+    .oceanOrganization
+    .classification,
+  persistenceChronologicalHistory
+    .classification
+);
+
+assert.equal(
+  oceanPersistenceChronologicalHistory
+    .featurePersistence
+    .oceanOrganization
+    .values
+    .firstObservedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanPersistenceChronologicalHistory
+    .featurePersistence
+    .oceanOrganization
+    .values
+    .lastObservedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanPersistenceChronologicalHistory
+    .featurePersistence
+    .seaSurfaceTemperature
+    .available,
+  false
+);
+
+console.log(
+  "PASS Ocean Persistence v1 preserves governed Persistence Evidence v2 meaning"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    oceanPersistenceChronologicalHistory,
+    "species"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    oceanPersistenceChronologicalHistory,
+    "captainNarrative"
+  ),
+  false
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanPersistenceChronologicalHistory
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanPersistenceChronologicalHistory
+      .featurePersistence
+  ),
+  true
+);
+
+assert.ok(
+  oceanPersistenceChronologicalHistory
+    .limitations
+    .includes(
+      "ocean-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    )
+);
+
+console.log(
+  "PASS Ocean Persistence v1 remains frozen, species-neutral, and non-prescriptive"
+);
+
+assert.deepEqual(
+  OCEAN_PERSISTENCE_LIFECYCLE_STATES,
+  [
+    "emerging",
+    "developing",
+    "stable",
+    "strengthening",
+    "weakening",
+    "fading"
+  ]
+);
+
+assert.ok(
+  OCEAN_PERSISTENCE_FEATURE_FAMILIES
+    .includes(
+      "physical-ocean"
+    )
+);
+
+console.log(
+  "PASS Feature Persistence v1 exposes governed lifecycle and family vocabularies"
+);
+
+
+const governedFeaturePersistence =
+  buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "sea-surface-temperature",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification:
+      "stable",
+
+    lifecycleState:
+      "stable",
+
+    reason:
+      "governed-temperature-history-assessed",
+
+    values: {
+      sampleCount:
+        3,
+
+      durationHours:
+        48
+    },
+
+    confidence: {
+      score:
+        70,
+
+      level:
+        "High"
+    },
+
+    drivers: [
+      "multiple-temperature-observations-available"
+    ]
+  });
+
+assert.equal(
+  governedFeaturePersistence.available,
+  true
+);
+
+assert.equal(
+  governedFeaturePersistence.lifecycleState,
+  "stable"
+);
+
+assert.equal(
+  governedFeaturePersistence.contractVersion,
+  "pelora-feature-persistence-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedFeaturePersistence
+  ),
+  true
+);
+
+console.log(
+  "PASS Feature Persistence v1 builds a frozen governed feature contract"
+);
+
+
+const invalidLifecyclePersistence =
+  buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "chlorophyll",
+
+    featureFamily:
+      "biological-ocean",
+
+    classification:
+      "unknown-state",
+
+    lifecycleState:
+      "accelerating"
+  });
+
+assert.equal(
+  invalidLifecyclePersistence.available,
+  false
+);
+
+assert.equal(
+  invalidLifecyclePersistence.lifecycleState,
+  null
+);
+
+assert.ok(
+  invalidLifecyclePersistence
+    .limitations
+    .includes(
+      "lifecycle-state-not-governed"
+    )
+);
+
+console.log(
+  "PASS Feature Persistence v1 rejects ungoverned lifecycle states"
 );

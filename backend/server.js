@@ -19294,6 +19294,653 @@ return deepFreezeSnapshotValue({
 
 /**
  * ------------------------------------------------------------
+ * Feature Persistence Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Provide one governed contract shape for every environmental
+ * feature evaluated by the Ocean Persistence Engine.
+ */
+
+export const OCEAN_PERSISTENCE_LIFECYCLE_STATES =
+  Object.freeze([
+    "emerging",
+    "developing",
+    "stable",
+    "strengthening",
+    "weakening",
+    "fading"
+  ]);
+
+export const OCEAN_PERSISTENCE_FEATURE_FAMILIES =
+  Object.freeze([
+    "physical-ocean",
+    "biological-ocean",
+    "chemical-ocean",
+    "integrated-ocean-physics"
+  ]);
+
+export function buildFeaturePersistenceContract({
+  available = false,
+  featureType = null,
+  featureFamily = null,
+  classification = "not-assessed",
+  lifecycleState = null,
+  reason = "feature-persistence-analyzer-not-connected",
+  values = {},
+  confidence = {},
+  drivers = [],
+  limitations = []
+} = {}) {
+  const validFeatureType =
+    typeof featureType ===
+      "string" &&
+    featureType.trim().length >
+      0;
+
+  const validFeatureFamily =
+    OCEAN_PERSISTENCE_FEATURE_FAMILIES
+      .includes(
+        featureFamily
+      );
+
+  const validLifecycleState =
+    lifecycleState ===
+      null ||
+    OCEAN_PERSISTENCE_LIFECYCLE_STATES
+      .includes(
+        lifecycleState
+      );
+
+  const contractAvailable =
+    available ===
+      true &&
+    validFeatureType &&
+    validFeatureFamily &&
+    validLifecycleState;
+
+  const normalizedLimitations = [
+    ...(
+      Array.isArray(
+        limitations
+      )
+        ? limitations
+        : []
+    )
+  ];
+
+  if (
+    !validFeatureType
+  ) {
+    normalizedLimitations.push(
+      "feature-type-missing-or-invalid"
+    );
+  }
+
+  if (
+    !validFeatureFamily
+  ) {
+    normalizedLimitations.push(
+      "feature-family-missing-or-invalid"
+    );
+  }
+
+  if (
+    !validLifecycleState
+  ) {
+    normalizedLimitations.push(
+      "lifecycle-state-not-governed"
+    );
+  }
+
+  return deepFreezeSnapshotValue({
+    available:
+      contractAvailable,
+
+    featureType:
+      validFeatureType
+        ? featureType
+        : null,
+
+    featureFamily:
+      validFeatureFamily
+        ? featureFamily
+        : null,
+
+    classification:
+      typeof classification ===
+        "string"
+        ? classification
+        : "not-assessed",
+
+    lifecycleState:
+      validLifecycleState
+        ? lifecycleState
+        : null,
+
+    reason:
+      typeof reason ===
+        "string"
+        ? reason
+        : "feature-persistence-contract-invalid",
+
+    values: {
+      ...(
+        values &&
+        typeof values ===
+          "object" &&
+        !Array.isArray(
+          values
+        )
+          ? values
+          : {}
+      )
+    },
+
+    confidence: {
+      score:
+        Number.isFinite(
+          confidence
+            ?.score
+        )
+          ? confidence
+              .score
+          : 0,
+
+      level:
+        typeof confidence
+          ?.level ===
+          "string"
+          ? confidence
+              .level
+          : "Unavailable"
+    },
+
+    drivers: [
+      ...(
+        Array.isArray(
+          drivers
+        )
+          ? drivers
+          : []
+      )
+    ],
+
+    limitations: [
+      ...new Set(
+        normalizedLimitations
+      )
+    ],
+
+    responsibility:
+      "Compare",
+
+    interpretation:
+      "species-neutral-feature-persistence",
+
+    contractVersion:
+      "pelora-feature-persistence-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Persistence Engine Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Provide the canonical, extensible contract for measuring how
+ * governed ocean features evolve through time.
+ *
+ * Persistence Evidence v2 remains the compatibility contract for
+ * existing downstream consumers. This engine wraps that governed
+ * result without changing its scientific meaning.
+ *
+ * Feature-specific analyzers will be connected incrementally.
+ * An unavailable feature entry means the analyzer is not yet
+ * connected; it does not mean the ocean feature is absent.
+ *
+ * This contract is species-neutral. It does not establish prey
+ * concentration, fish presence, habitat quality, fishing quality,
+ * species probability, or captain guidance.
+ */
+export function buildOceanPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const persistenceEvidence =
+    buildPersistenceEvidence({
+      historicalSnapshots
+    });
+
+ const buildUnavailableFeature = ({
+  featureType,
+  featureFamily
+}) =>
+  buildFeaturePersistenceContract({
+    available:
+      false,
+
+    featureType,
+
+    featureFamily,
+
+    classification:
+      "not-assessed",
+
+    lifecycleState:
+      null,
+
+    reason:
+      "feature-persistence-analyzer-not-connected",
+
+    values: {
+      sampleCount:
+        persistenceEvidence
+          ?.values
+          ?.sampleCount ??
+        null,
+
+      firstObservedAt:
+        persistenceEvidence
+          ?.values
+          ?.firstObservedAt ??
+        null,
+
+      lastObservedAt:
+        persistenceEvidence
+          ?.values
+          ?.lastObservedAt ??
+        null,
+
+      durationHours:
+        persistenceEvidence
+          ?.values
+          ?.durationHours ??
+        null
+    },
+
+    confidence: {
+      score:
+        0,
+
+      level:
+        "Unavailable"
+    },
+
+    limitations: [
+      "feature-persistence-analyzer-not-connected",
+      "feature-absence-not-established"
+    ]
+  });
+
+  const organizationAvailable =
+    persistenceEvidence
+      ?.available ===
+    true;
+
+  const oceanOrganization = {
+    available:
+      organizationAvailable,
+
+    featureType:
+      "ocean-organization",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    classification:
+      persistenceEvidence
+        ?.classification ??
+      "unavailable",
+
+    lifecycleState:
+      persistenceEvidence
+        ?.values
+        ?.lifecycleState ??
+      null,
+
+    reason:
+      persistenceEvidence
+        ?.reason ??
+      "persistence-evidence-unavailable",
+
+    values: {
+      sampleCount:
+        persistenceEvidence
+          ?.values
+          ?.organizationSampleCount ??
+        persistenceEvidence
+          ?.values
+          ?.sampleCount ??
+        null,
+
+      firstObservedAt:
+        persistenceEvidence
+          ?.values
+          ?.firstObservedAt ??
+        null,
+
+      lastObservedAt:
+        persistenceEvidence
+          ?.values
+          ?.lastObservedAt ??
+        null,
+
+      durationHours:
+        persistenceEvidence
+          ?.values
+          ?.durationHours ??
+        null,
+
+      indexStart:
+        persistenceEvidence
+          ?.values
+          ?.organizationIndexStart ??
+        null,
+
+      indexEnd:
+        persistenceEvidence
+          ?.values
+          ?.organizationIndexEnd ??
+        null,
+
+      indexChange:
+        persistenceEvidence
+          ?.values
+          ?.organizationIndexChange ??
+        null,
+
+      temporalAgreement:
+        persistenceEvidence
+          ?.values
+          ?.temporalAgreement ??
+        null
+    },
+
+    confidence: {
+      score:
+        persistenceEvidence
+          ?.confidence
+          ?.score ??
+        0,
+
+      level:
+        persistenceEvidence
+          ?.confidence
+          ?.level ??
+        "Unavailable"
+    },
+
+    limitations: [
+      ...(
+        Array.isArray(
+          persistenceEvidence
+            ?.limitations
+        )
+          ? persistenceEvidence
+              .limitations
+          : []
+      )
+    ]
+  };
+
+  const featurePersistence = {
+    oceanOrganization,
+
+    seaSurfaceTemperature:
+      buildUnavailableFeature({
+        featureType:
+          "sea-surface-temperature",
+
+        featureFamily:
+          "physical-ocean"
+      }),
+
+    temperatureFront:
+      buildUnavailableFeature({
+        featureType:
+          "temperature-front",
+
+        featureFamily:
+          "physical-ocean"
+      }),
+
+    current:
+      buildUnavailableFeature({
+        featureType:
+          "current",
+
+        featureFamily:
+          "physical-ocean"
+      }),
+
+    currentEdge:
+      buildUnavailableFeature({
+        featureType:
+          "current-edge",
+
+        featureFamily:
+          "physical-ocean"
+      }),
+
+    currentShear:
+      buildUnavailableFeature({
+        featureType:
+          "current-shear",
+
+        featureFamily:
+          "physical-ocean"
+      }),
+
+    currentConvergence:
+      buildUnavailableFeature({
+        featureType:
+          "current-convergence",
+
+        featureFamily:
+          "physical-ocean"
+      }),
+
+    chlorophyll:
+      buildUnavailableFeature({
+        featureType:
+          "chlorophyll",
+
+        featureFamily:
+          "biological-ocean"
+      }),
+
+    salinity:
+      buildUnavailableFeature({
+        featureType:
+          "salinity",
+
+        featureFamily:
+          "chemical-ocean"
+      }),
+
+    dissolvedOxygen:
+      buildUnavailableFeature({
+        featureType:
+          "dissolved-oxygen",
+
+        featureFamily:
+          "chemical-ocean"
+      })
+  };
+
+  const assessedFeatureCount =
+    Object.values(
+      featurePersistence
+    ).filter(
+      feature =>
+        feature.available ===
+        true
+    ).length;
+
+  return deepFreezeSnapshotValue({
+    available:
+      persistenceEvidence
+        ?.available ===
+      true,
+
+    classification:
+      persistenceEvidence
+        ?.classification ??
+      "unavailable",
+
+    headline:
+      persistenceEvidence
+        ?.headline ??
+      "Ocean persistence unavailable",
+
+    detail:
+      persistenceEvidence
+        ?.detail ??
+      "Governed historical observations are not yet sufficient for ocean persistence analysis.",
+
+    reason:
+      persistenceEvidence
+        ?.reason ??
+      "ocean-persistence-unavailable",
+
+    values: {
+      lifecycleState:
+        persistenceEvidence
+          ?.values
+          ?.lifecycleState ??
+        null,
+
+      observationWindowHours:
+        persistenceEvidence
+          ?.values
+          ?.observationWindowHours ??
+        null,
+
+      sampleCount:
+        persistenceEvidence
+          ?.values
+          ?.sampleCount ??
+        null,
+
+      firstObservedAt:
+        persistenceEvidence
+          ?.values
+          ?.firstObservedAt ??
+        null,
+
+      lastObservedAt:
+        persistenceEvidence
+          ?.values
+          ?.lastObservedAt ??
+        null,
+
+      durationHours:
+        persistenceEvidence
+          ?.values
+          ?.durationHours ??
+        null,
+
+      assessedFeatureCount,
+
+      registeredFeatureCount:
+        Object.keys(
+          featurePersistence
+        ).length
+    },
+
+    featurePersistence,
+
+    confidence: {
+      score:
+        persistenceEvidence
+          ?.confidence
+          ?.score ??
+        0,
+
+      level:
+        persistenceEvidence
+          ?.confidence
+          ?.level ??
+        "Unavailable",
+
+      limitations: [
+        ...(
+          Array.isArray(
+            persistenceEvidence
+              ?.confidence
+              ?.limitations
+          )
+            ? persistenceEvidence
+                .confidence
+                .limitations
+            : []
+        )
+      ]
+    },
+
+    drivers: [
+      ...(
+        Array.isArray(
+          persistenceEvidence
+            ?.drivers
+        )
+          ? persistenceEvidence
+              .drivers
+          : []
+      )
+    ],
+
+    limitations: [
+      ...new Set([
+        ...(
+          Array.isArray(
+            persistenceEvidence
+              ?.limitations
+          )
+            ? persistenceEvidence
+                .limitations
+            : []
+        ),
+
+        "feature-specific-persistence-analyzers-are-being-connected-incrementally",
+        "unavailable-feature-analysis-does-not-establish-feature-absence",
+        "ocean-persistence-does-not-establish-prey-or-fish-presence",
+        "ocean-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+      ])
+    ],
+
+    compatibility: {
+      legacyContract:
+        "persistence-evidence",
+
+      legacyContractVersion:
+        persistenceEvidence
+          ?.contractVersion ??
+        "pelora-persistence-evidence-v2"
+    },
+
+    responsibility:
+      "Compare",
+
+    interpretation:
+      "species-neutral-ocean-persistence",
+
+    contractVersion:
+      "pelora-ocean-persistence-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Opportunity Classification Engine v1.0
  * ------------------------------------------------------------
  *
