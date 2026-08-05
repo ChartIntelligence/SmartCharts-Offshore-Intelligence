@@ -16,6 +16,7 @@ import {
   buildSnapshotMetadata,
   buildOceanSnapshot,
   buildOceanMemoryStorage,
+  buildOceanMemoryStorageRecordFromRow,
   buildOceanSnapshotRetrieval,
   buildHistoricalSnapshotQuery,
   buildHistoricalSnapshotBackfill,
@@ -21947,6 +21948,579 @@ assert.equal(
 
 console.log(
   "PASS Ocean Memory Storage excludes retrieval, comparison, persistence, trend, and guidance"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Memory Storage Row Adapter v1.0
+ * ------------------------------------------------------------
+ */
+
+const validOceanSnapshotDatabaseRow = {
+  id:
+    "database-row-test-1",
+
+  snapshot_id:
+    governedOceanSnapshot
+      .identity
+      .snapshotId,
+
+  user_id:
+    "pelora-test-user",
+
+  fishing_day_report_id:
+    "pelora-test-report",
+
+  observed_at:
+    governedOceanSnapshot
+      .metadata
+      .time
+      .observedAt,
+
+  generated_at:
+    governedOceanSnapshot
+      .metadata
+      .time
+      .generatedAt,
+
+  created_at:
+    "2026-08-05T21:30:00.000Z",
+
+  latitude:
+    governedOceanSnapshot
+      .observation
+      .location
+      .latitude,
+
+  longitude:
+    governedOceanSnapshot
+      .observation
+      .location
+      .longitude,
+
+  capture_mode:
+    "live",
+
+  lifecycle_state:
+    "live",
+
+  availability_classification:
+    "complete",
+
+  snapshot_schema_version:
+    governedOceanSnapshot
+      .identity
+      .snapshotSchemaVersion,
+
+  snapshot_contract_version:
+    governedOceanSnapshot
+      .contractVersion,
+
+  snapshot_payload:
+    JSON.parse(
+      JSON.stringify(
+        governedOceanSnapshot
+      )
+    )
+};
+
+
+const adaptedOceanMemoryStorageRecord =
+  buildOceanMemoryStorageRecordFromRow({
+    row:
+      validOceanSnapshotDatabaseRow
+  });
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord.available,
+  true
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .storageType,
+  "ocean-memory-storage-record"
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .responsibility,
+  "preserve"
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .identity
+    .snapshotId,
+  governedOceanSnapshot
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .identity
+    .snapshotSchemaVersion,
+  governedOceanSnapshot
+    .identity
+    .snapshotSchemaVersion
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .identity
+    .userId,
+  "pelora-test-user"
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .storage
+    .storedAt,
+  "2026-08-05T21:30:00.000Z"
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .storage
+    .storageProvider,
+  "supabase-ocean-snapshots"
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .storage
+    .externalWritePerformed,
+  true
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .governedVersions
+    .oceanSnapshot,
+  governedOceanSnapshot
+    .contractVersion
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .contractVersion,
+  "pelora-ocean-memory-storage-v1"
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter converts a valid Supabase row into a governed storage record"
+);
+
+
+assert.deepEqual(
+  adaptedOceanMemoryStorageRecord
+    .snapshot,
+  governedOceanSnapshot
+);
+
+assert.notEqual(
+  adaptedOceanMemoryStorageRecord
+    .snapshot,
+  validOceanSnapshotDatabaseRow
+    .snapshot_payload
+);
+
+assert.equal(
+  Object.isFrozen(
+    adaptedOceanMemoryStorageRecord
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    adaptedOceanMemoryStorageRecord
+      .snapshot
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    adaptedOceanMemoryStorageRecord
+      .databaseReference
+  ),
+  true
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter preserves and freezes the canonical snapshot payload"
+);
+
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .databaseReference
+    .rowId,
+  "database-row-test-1"
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .databaseReference
+    .fishingDayReportId,
+  "pelora-test-report"
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .databaseReference
+    .observedAt,
+  governedOceanSnapshot
+    .metadata
+    .time
+    .observedAt
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .databaseReference
+    .latitude,
+  governedOceanSnapshot
+    .observation
+    .location
+    .latitude
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .databaseReference
+    .longitude,
+  governedOceanSnapshot
+    .observation
+    .location
+    .longitude
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .integrity
+    .payloadAvailable,
+  true
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .integrity
+    .snapshotIdConsistent,
+  true
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .integrity
+    .snapshotSchemaVersionConsistent,
+  true
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .integrity
+    .snapshotContractVersionConsistent,
+  true
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .integrity
+    .observedAtConsistent,
+  true
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter preserves ownership, provenance, and integrity"
+);
+
+
+const missingCreatedAtStorageRecord =
+  buildOceanMemoryStorageRecordFromRow({
+    row: {
+      ...validOceanSnapshotDatabaseRow,
+
+      created_at:
+        null
+    }
+  });
+
+assert.equal(
+  missingCreatedAtStorageRecord.available,
+  false
+);
+
+assert.ok(
+  missingCreatedAtStorageRecord
+    .missingRequirements
+    .includes(
+      "database-created-at"
+    )
+);
+
+assert.equal(
+  missingCreatedAtStorageRecord
+    .snapshot,
+  null
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter rejects missing external storage time"
+);
+
+
+const mismatchedSnapshotIdStorageRecord =
+  buildOceanMemoryStorageRecordFromRow({
+    row: {
+      ...validOceanSnapshotDatabaseRow,
+
+      snapshot_id:
+        "mismatched-database-snapshot-id"
+    }
+  });
+
+assert.equal(
+  mismatchedSnapshotIdStorageRecord.available,
+  false
+);
+
+assert.equal(
+  mismatchedSnapshotIdStorageRecord
+    .integrity
+    .snapshotIdConsistent,
+  false
+);
+
+assert.ok(
+  mismatchedSnapshotIdStorageRecord
+    .missingRequirements
+    .includes(
+      "snapshot-id-consistency"
+    )
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter rejects mismatched snapshot identity"
+);
+
+
+const mismatchedSchemaVersionStorageRecord =
+  buildOceanMemoryStorageRecordFromRow({
+    row: {
+      ...validOceanSnapshotDatabaseRow,
+
+      snapshot_schema_version:
+        "pelora-test-mismatched-schema-version"
+    }
+  });
+
+assert.equal(
+  mismatchedSchemaVersionStorageRecord.available,
+  false
+);
+
+assert.equal(
+  mismatchedSchemaVersionStorageRecord
+    .integrity
+    .snapshotSchemaVersionConsistent,
+  false
+);
+
+assert.ok(
+  mismatchedSchemaVersionStorageRecord
+    .missingRequirements
+    .includes(
+      "snapshot-schema-version-consistency"
+    )
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter rejects mismatched snapshot schema versions"
+);
+
+
+const mismatchedContractVersionStorageRecord =
+  buildOceanMemoryStorageRecordFromRow({
+    row: {
+      ...validOceanSnapshotDatabaseRow,
+
+      snapshot_contract_version:
+        "pelora-test-mismatched-contract-version"
+    }
+  });
+
+assert.equal(
+  mismatchedContractVersionStorageRecord.available,
+  false
+);
+
+assert.equal(
+  mismatchedContractVersionStorageRecord
+    .integrity
+    .snapshotContractVersionConsistent,
+  false
+);
+
+assert.ok(
+  mismatchedContractVersionStorageRecord
+    .missingRequirements
+    .includes(
+      "snapshot-contract-version-consistency"
+    )
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter rejects mismatched snapshot contract versions"
+);
+
+
+const mismatchedObservedAtStorageRecord =
+  buildOceanMemoryStorageRecordFromRow({
+    row: {
+      ...validOceanSnapshotDatabaseRow,
+
+      observed_at:
+        "2026-08-05T00:00:00.000Z"
+    }
+  });
+
+assert.equal(
+  mismatchedObservedAtStorageRecord.available,
+  false
+);
+
+assert.equal(
+  mismatchedObservedAtStorageRecord
+    .integrity
+    .observedAtConsistent,
+  false
+);
+
+assert.ok(
+  mismatchedObservedAtStorageRecord
+    .missingRequirements
+    .includes(
+      "snapshot-observed-at-consistency"
+    )
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter rejects mismatched observation timestamps"
+);
+
+
+const historicalQueryWithAdaptedStorageRecord =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      adaptedOceanMemoryStorageRecord
+    ],
+
+    observedAfter:
+      governedOceanSnapshot
+        .metadata
+        .time
+        .observedAt,
+
+    observedBefore:
+      governedOceanSnapshot
+        .metadata
+        .time
+        .observedAt,
+
+    snapshotSchemaVersion:
+      governedOceanSnapshot
+        .identity
+        .snapshotSchemaVersion
+  });
+
+assert.equal(
+  historicalQueryWithAdaptedStorageRecord
+    .available,
+  true
+);
+
+assert.equal(
+  historicalQueryWithAdaptedStorageRecord
+    .summary
+    .inputRecordCount,
+  1
+);
+
+assert.equal(
+  historicalQueryWithAdaptedStorageRecord
+    .summary
+    .validGovernedRecordCount,
+  1
+);
+
+assert.equal(
+  historicalQueryWithAdaptedStorageRecord
+    .summary
+    .returnedRecordCount,
+  1
+);
+
+assert.equal(
+  historicalQueryWithAdaptedStorageRecord
+    .historicalSnapshots[0]
+    .identity
+    .snapshotId,
+  governedOceanSnapshot
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  historicalQueryWithAdaptedStorageRecord
+    .historicalSnapshots[0]
+    .storage
+    .storageProvider,
+  "supabase-ocean-snapshots"
+);
+
+console.log(
+  "PASS Historical Snapshot Query accepts governed records produced by the Supabase row adapter"
+);
+
+
+assert.ok(
+  adaptedOceanMemoryStorageRecord
+    .limitations
+    .includes(
+      "This contract does not query a database, authorize access, compare snapshots, calculate persistence, infer trends, perform opportunity or species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .trend,
+  undefined
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  adaptedOceanMemoryStorageRecord
+    .species,
+  undefined
+);
+
+console.log(
+  "PASS Ocean Memory Storage Row Adapter remains preservation-only and excludes scientific reasoning"
 );
 
 

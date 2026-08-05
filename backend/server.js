@@ -16668,6 +16668,389 @@ export function buildOceanMemoryStorage({
 
 /**
  * ------------------------------------------------------------
+ * Ocean Memory Storage Row Adapter v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Convert one externally stored ocean_snapshots database row
+ * into the governed Ocean Memory storage-record shape consumed
+ * by Snapshot Retrieval and Historical Snapshot Query.
+ *
+ * This contract does not query a database, alter the canonical
+ * Ocean Snapshot, compare snapshots, calculate persistence,
+ * infer trends, perform species reasoning, or generate guidance.
+ */
+export function buildOceanMemoryStorageRecordFromRow({
+  row = null
+} = {}) {
+  const snapshotId =
+    typeof row
+      ?.snapshot_id ===
+      "string"
+      ? row.snapshot_id.trim() ||
+        null
+      : null;
+
+  const userId =
+    typeof row
+      ?.user_id ===
+      "string"
+      ? row.user_id.trim() ||
+        null
+      : null;
+
+  const observedAt =
+    typeof row
+      ?.observed_at ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        row.observed_at
+      )
+    )
+      ? row.observed_at
+      : null;
+
+  const storedAtSource =
+    row
+      ?.created_at ??
+    row
+      ?.stored_at ??
+    null;
+
+  const storedAt =
+    typeof storedAtSource ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        storedAtSource
+      )
+    )
+      ? storedAtSource
+      : null;
+
+  const snapshotSchemaVersion =
+    typeof row
+      ?.snapshot_schema_version ===
+      "string"
+      ? row
+          .snapshot_schema_version
+          .trim() ||
+        null
+      : null;
+
+  const snapshotContractVersion =
+    typeof row
+      ?.snapshot_contract_version ===
+      "string"
+      ? row
+          .snapshot_contract_version
+          .trim() ||
+        null
+      : null;
+
+  const snapshotPayload =
+    row
+      ?.snapshot_payload &&
+    typeof row
+      .snapshot_payload ===
+      "object" &&
+    !Array.isArray(
+      row.snapshot_payload
+    )
+      ? row.snapshot_payload
+      : null;
+
+  const payloadAvailable =
+    snapshotPayload
+      ?.available ===
+    true;
+
+  const payloadSnapshotId =
+    snapshotPayload
+      ?.identity
+      ?.snapshotId ??
+    null;
+
+  const payloadSchemaVersion =
+    snapshotPayload
+      ?.identity
+      ?.snapshotSchemaVersion ??
+    null;
+
+  const payloadContractVersion =
+    snapshotPayload
+      ?.contractVersion ??
+    null;
+
+  const payloadObservedAt =
+    snapshotPayload
+      ?.metadata
+      ?.time
+      ?.observedAt ??
+    snapshotPayload
+      ?.observation
+      ?.observedAt ??
+    null;
+
+  const snapshotIdConsistent =
+    typeof snapshotId ===
+      "string" &&
+    typeof payloadSnapshotId ===
+      "string" &&
+    snapshotId ===
+      payloadSnapshotId;
+
+  const snapshotSchemaVersionConsistent =
+    typeof snapshotSchemaVersion ===
+      "string" &&
+    typeof payloadSchemaVersion ===
+      "string" &&
+    snapshotSchemaVersion ===
+      payloadSchemaVersion;
+
+  const snapshotContractVersionConsistent =
+    typeof snapshotContractVersion ===
+      "string" &&
+    typeof payloadContractVersion ===
+      "string" &&
+    snapshotContractVersion ===
+      payloadContractVersion;
+
+  const observedAtConsistent =
+    typeof observedAt ===
+      "string" &&
+    typeof payloadObservedAt ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        payloadObservedAt
+      )
+    ) &&
+    Date.parse(
+      observedAt
+    ) ===
+      Date.parse(
+        payloadObservedAt
+      );
+
+  const available =
+    typeof snapshotId ===
+      "string" &&
+    typeof userId ===
+      "string" &&
+    typeof observedAt ===
+      "string" &&
+    typeof storedAt ===
+      "string" &&
+    typeof snapshotSchemaVersion ===
+      "string" &&
+    typeof snapshotContractVersion ===
+      "string" &&
+    payloadAvailable &&
+    snapshotIdConsistent &&
+    snapshotSchemaVersionConsistent &&
+    snapshotContractVersionConsistent &&
+    observedAtConsistent;
+
+  const missingRequirements = [
+    typeof snapshotId !==
+      "string"
+      ? "database-snapshot-id"
+      : null,
+
+    typeof userId !==
+      "string"
+      ? "database-user-id"
+      : null,
+
+    typeof observedAt !==
+      "string"
+      ? "database-observed-at"
+      : null,
+
+    typeof storedAt !==
+      "string"
+      ? "database-created-at"
+      : null,
+
+    typeof snapshotSchemaVersion !==
+      "string"
+      ? "database-snapshot-schema-version"
+      : null,
+
+    typeof snapshotContractVersion !==
+      "string"
+      ? "database-snapshot-contract-version"
+      : null,
+
+    !snapshotPayload
+      ? "database-snapshot-payload"
+      : null,
+
+    snapshotPayload &&
+    !payloadAvailable
+      ? "available-canonical-ocean-snapshot"
+      : null,
+
+    snapshotPayload &&
+    !snapshotIdConsistent
+      ? "snapshot-id-consistency"
+      : null,
+
+    snapshotPayload &&
+    !snapshotSchemaVersionConsistent
+      ? "snapshot-schema-version-consistency"
+      : null,
+
+    snapshotPayload &&
+    !snapshotContractVersionConsistent
+      ? "snapshot-contract-version-consistency"
+      : null,
+
+    snapshotPayload &&
+    !observedAtConsistent
+      ? "snapshot-observed-at-consistency"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+
+      "Ocean Memory Storage Row Adapter preserves one externally stored canonical Ocean Snapshot.",
+
+      "The database row remains authoritative for ownership and external storage provenance.",
+
+      "The canonical snapshot payload remains authoritative for scientific contracts and internal snapshot content.",
+
+      "This contract does not query a database, authorize access, compare snapshots, calculate persistence, infer trends, perform opportunity or species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const storageRecord = {
+    available,
+
+    storageType:
+      "ocean-memory-storage-record",
+
+    responsibility:
+      "preserve",
+
+    identity: {
+      snapshotId,
+
+      snapshotSchemaVersion,
+
+      userId
+    },
+
+    storage: {
+      storedAt,
+
+      storageProvider:
+        "supabase-ocean-snapshots",
+
+      immutable:
+        true,
+
+      externalWritePerformed:
+        true
+    },
+
+    governedVersions: {
+      oceanSnapshot:
+        snapshotContractVersion
+    },
+
+    snapshot:
+      available
+        ? cloneSnapshotValue(
+            snapshotPayload
+          )
+        : null,
+
+    databaseReference: {
+      rowId:
+        row
+          ?.id ??
+        null,
+
+      fishingDayReportId:
+        row
+          ?.fishing_day_report_id ??
+        null,
+
+      observedAt,
+
+      generatedAt:
+        row
+          ?.generated_at ??
+        null,
+
+      latitude:
+        Number.isFinite(
+          row
+            ?.latitude
+        )
+          ? row.latitude
+          : null,
+
+      longitude:
+        Number.isFinite(
+          row
+            ?.longitude
+        )
+          ? row.longitude
+          : null,
+
+      captureMode:
+        row
+          ?.capture_mode ??
+        null,
+
+      lifecycleState:
+        row
+          ?.lifecycle_state ??
+        null,
+
+      availabilityClassification:
+        row
+          ?.availability_classification ??
+        null
+    },
+
+    integrity: {
+      payloadAvailable,
+
+      snapshotIdConsistent,
+
+      snapshotSchemaVersionConsistent,
+
+      snapshotContractVersionConsistent,
+
+      observedAtConsistent
+    },
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-memory-storage-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    storageRecord
+  );
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Snapshot Retrieval Contract v1.0
  * ------------------------------------------------------------
  *
