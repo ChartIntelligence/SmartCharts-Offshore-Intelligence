@@ -15,6 +15,8 @@ import {
   buildIntelligenceSnapshot,
   buildSnapshotMetadata,
   buildOceanSnapshot,
+  buildBackendSupabaseConfiguration,
+  retrieveOceanMemoryRows,
   buildOceanMemoryStorage,
   buildOceanMemoryStorageRecordFromRow,
   buildOceanSnapshotRetrieval,
@@ -21719,6 +21721,1107 @@ assert.equal(
 
 console.log(
   "PASS Ocean Snapshot Assembly excludes comparison, persistence, and guidance"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Backend Supabase Configuration v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableBackendSupabaseConfiguration =
+  buildBackendSupabaseConfiguration({
+    environment: {}
+  });
+
+assert.equal(
+  unavailableBackendSupabaseConfiguration
+    .available,
+  false
+);
+
+assert.equal(
+  unavailableBackendSupabaseConfiguration
+    .configurationType,
+  "backend-supabase-configuration"
+);
+
+assert.equal(
+  unavailableBackendSupabaseConfiguration
+    .responsibility,
+  "preserve"
+);
+
+assert.equal(
+  unavailableBackendSupabaseConfiguration
+    .restUrl,
+  null
+);
+
+assert.equal(
+  unavailableBackendSupabaseConfiguration
+    .projectUrl,
+  null
+);
+
+assert.equal(
+  unavailableBackendSupabaseConfiguration
+    .publishableKeyAvailable,
+  false
+);
+
+assert.ok(
+  unavailableBackendSupabaseConfiguration
+    .missingRequirements
+    .includes(
+      "supabase-url"
+    )
+);
+
+assert.ok(
+  unavailableBackendSupabaseConfiguration
+    .missingRequirements
+    .includes(
+      "supabase-publishable-key"
+    )
+);
+
+console.log(
+  "PASS Backend Supabase Configuration remains unavailable without environment variables"
+);
+
+
+const validBackendSupabaseConfiguration =
+  buildBackendSupabaseConfiguration({
+    environment: {
+      SUPABASE_URL:
+        "https://pelora-test.supabase.co/",
+
+      SUPABASE_PUBLISHABLE_KEY:
+        "pelora-test-publishable-key"
+    }
+  });
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .available,
+  true
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .projectUrl,
+  "https://pelora-test.supabase.co"
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .restUrl,
+  "https://pelora-test.supabase.co/rest/v1"
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .publishableKeyAvailable,
+  true
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .serviceRoleConfigured,
+  false
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .credentials
+    .publishableKey,
+  "pelora-test-publishable-key"
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .credentials
+    .serviceRoleKey,
+  null
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .diagnostics
+    .urlConfigured,
+  true
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .diagnostics
+    .urlValid,
+  true
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .diagnostics
+    .publishableKeyConfigured,
+  true
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .contractVersion,
+  "pelora-backend-supabase-configuration-v1"
+);
+
+console.log(
+  "PASS Backend Supabase Configuration accepts and normalizes valid public REST configuration"
+);
+
+
+const invalidProtocolBackendSupabaseConfiguration =
+  buildBackendSupabaseConfiguration({
+    environment: {
+      SUPABASE_URL:
+        "http://pelora-test.supabase.co",
+
+      SUPABASE_PUBLISHABLE_KEY:
+        "pelora-test-publishable-key"
+    }
+  });
+
+assert.equal(
+  invalidProtocolBackendSupabaseConfiguration
+    .available,
+  false
+);
+
+assert.equal(
+  invalidProtocolBackendSupabaseConfiguration
+    .diagnostics
+    .urlConfigured,
+  true
+);
+
+assert.equal(
+  invalidProtocolBackendSupabaseConfiguration
+    .diagnostics
+    .urlValid,
+  false
+);
+
+assert.ok(
+  invalidProtocolBackendSupabaseConfiguration
+    .missingRequirements
+    .includes(
+      "supabase-url"
+    )
+);
+
+console.log(
+  "PASS Backend Supabase Configuration rejects non-HTTPS project URLs"
+);
+
+
+const malformedBackendSupabaseConfiguration =
+  buildBackendSupabaseConfiguration({
+    environment: {
+      SUPABASE_URL:
+        "not-a-valid-url",
+
+      SUPABASE_PUBLISHABLE_KEY:
+        "pelora-test-publishable-key"
+    }
+  });
+
+assert.equal(
+  malformedBackendSupabaseConfiguration
+    .available,
+  false
+);
+
+assert.equal(
+  malformedBackendSupabaseConfiguration
+    .projectUrl,
+  null
+);
+
+assert.equal(
+  malformedBackendSupabaseConfiguration
+    .restUrl,
+  null
+);
+
+assert.equal(
+  malformedBackendSupabaseConfiguration
+    .diagnostics
+    .urlValid,
+  false
+);
+
+console.log(
+  "PASS Backend Supabase Configuration rejects malformed project URLs"
+);
+
+
+const serviceRoleBackendSupabaseConfiguration =
+  buildBackendSupabaseConfiguration({
+    environment: {
+      SUPABASE_URL:
+        "https://pelora-test.supabase.co",
+
+      SUPABASE_PUBLISHABLE_KEY:
+        "pelora-test-publishable-key",
+
+      SUPABASE_SERVICE_ROLE_KEY:
+        "pelora-test-service-role-key"
+    }
+  });
+
+assert.equal(
+  serviceRoleBackendSupabaseConfiguration
+    .available,
+  false
+);
+
+assert.equal(
+  serviceRoleBackendSupabaseConfiguration
+    .serviceRoleConfigured,
+  true
+);
+
+assert.equal(
+  serviceRoleBackendSupabaseConfiguration
+    .credentials
+    .publishableKey,
+  null
+);
+
+assert.equal(
+  serviceRoleBackendSupabaseConfiguration
+    .credentials
+    .serviceRoleKey,
+  null
+);
+
+assert.equal(
+  serviceRoleBackendSupabaseConfiguration
+    .diagnostics
+    .serviceRoleRejected,
+  true
+);
+
+assert.ok(
+  serviceRoleBackendSupabaseConfiguration
+    .missingRequirements
+    .includes(
+      "remove-service-role-key-from-ocean-memory-runtime"
+    )
+);
+
+console.log(
+  "PASS Backend Supabase Configuration rejects service-role access"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    validBackendSupabaseConfiguration
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    validBackendSupabaseConfiguration
+      .credentials
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    validBackendSupabaseConfiguration
+      .diagnostics
+  ),
+  true
+);
+
+assert.ok(
+  validBackendSupabaseConfiguration
+    .limitations
+    .includes(
+      "This contract does not query Supabase, validate a captain session, expose credentials, bypass Row Level Security, or support service-role access."
+    )
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .query,
+  undefined
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .session,
+  undefined
+);
+
+assert.equal(
+  validBackendSupabaseConfiguration
+    .user,
+  undefined
+);
+
+console.log(
+  "PASS Backend Supabase Configuration remains frozen and excludes database or authentication behavior"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Backend Ocean Memory Retrieval v1.0
+ * ------------------------------------------------------------
+ */
+
+let missingRequirementsFetchCallCount =
+  0;
+
+
+const unavailableOceanMemoryRetrieval =
+  await retrieveOceanMemoryRows({
+    configuration:
+      unavailableBackendSupabaseConfiguration,
+
+    bearerToken:
+      null,
+
+    fetchImplementation:
+      async () => {
+        missingRequirementsFetchCallCount +=
+          1;
+
+        throw new Error(
+          "Fetch should not be called."
+        );
+      }
+  });
+
+
+assert.equal(
+  unavailableOceanMemoryRetrieval.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanMemoryRetrieval
+    .retrievalType,
+  "backend-ocean-memory-row-retrieval"
+);
+
+assert.equal(
+  unavailableOceanMemoryRetrieval
+    .responsibility,
+  "preserve"
+);
+
+assert.equal(
+  unavailableOceanMemoryRetrieval
+    .requestPerformed,
+  false
+);
+
+assert.equal(
+  missingRequirementsFetchCallCount,
+  0
+);
+
+assert.deepEqual(
+  unavailableOceanMemoryRetrieval.rows,
+  []
+);
+
+assert.ok(
+  unavailableOceanMemoryRetrieval
+    .missingRequirements
+    .includes(
+      "available-backend-supabase-configuration"
+    )
+);
+
+assert.ok(
+  unavailableOceanMemoryRetrieval
+    .missingRequirements
+    .includes(
+      "captain-bearer-token"
+    )
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval remains unavailable and avoids network access without required inputs"
+);
+
+
+let authenticatedRequestUrl =
+  null;
+
+let authenticatedRequestOptions =
+  null;
+
+
+const successfulOceanMemoryRows = [
+  {
+    id:
+      "database-row-1",
+
+    snapshot_id:
+      "pelora-snapshot-1",
+
+    user_id:
+      "captain-test-user",
+
+    observed_at:
+      "2026-08-01T12:00:00.000Z",
+
+    created_at:
+      "2026-08-01T12:05:00.000Z",
+
+    snapshot_schema_version:
+      "pelora-ocean-memory-snapshot-schema-v1",
+
+    snapshot_contract_version:
+      "pelora-ocean-snapshot-assembly-v1",
+
+    snapshot_payload: {
+      available:
+        true
+    }
+  },
+
+  {
+    id:
+      "database-row-2",
+
+    snapshot_id:
+      "pelora-snapshot-2",
+
+    user_id:
+      "captain-test-user",
+
+    observed_at:
+      "2026-08-02T12:00:00.000Z",
+
+    created_at:
+      "2026-08-02T12:05:00.000Z",
+
+    snapshot_schema_version:
+      "pelora-ocean-memory-snapshot-schema-v1",
+
+    snapshot_contract_version:
+      "pelora-ocean-snapshot-assembly-v1",
+
+    snapshot_payload: {
+      available:
+        true
+    }
+  }
+];
+
+
+const successfulOceanMemoryRetrieval =
+  await retrieveOceanMemoryRows({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "captain-test-access-token",
+
+    latitude:
+      29.5,
+
+    longitude:
+      -87.25,
+
+    observedAfter:
+      "2026-08-01T00:00:00.000Z",
+
+    observedBefore:
+      "2026-08-03T00:00:00.000Z",
+
+    maximumRows:
+      25,
+
+    fetchImplementation:
+      async (
+        url,
+        options
+      ) => {
+        authenticatedRequestUrl =
+          url;
+
+        authenticatedRequestOptions =
+          options;
+
+        return {
+          ok:
+            true,
+
+          status:
+            200,
+
+          async json() {
+            return successfulOceanMemoryRows;
+          }
+        };
+      }
+  });
+
+
+assert.equal(
+  successfulOceanMemoryRetrieval.available,
+  true
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .requestPerformed,
+  true
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .summary
+    .responseOk,
+  true
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .summary
+    .httpStatus,
+  200
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .summary
+    .returnedRowCount,
+  2
+);
+
+assert.deepEqual(
+  successfulOceanMemoryRetrieval.rows,
+  successfulOceanMemoryRows
+);
+
+assert.notEqual(
+  successfulOceanMemoryRetrieval.rows,
+  successfulOceanMemoryRows
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .contractVersion,
+  "pelora-backend-ocean-memory-retrieval-v1"
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval returns successful captain-owned REST rows"
+);
+
+
+const parsedAuthenticatedRequestUrl =
+  new URL(
+    authenticatedRequestUrl
+  );
+
+
+assert.equal(
+  parsedAuthenticatedRequestUrl.origin,
+  "https://pelora-test.supabase.co"
+);
+
+assert.equal(
+  parsedAuthenticatedRequestUrl.pathname,
+  "/rest/v1/ocean_snapshots"
+);
+
+assert.equal(
+  parsedAuthenticatedRequestUrl
+    .searchParams
+    .get(
+      "select"
+    ),
+  "*"
+);
+
+assert.equal(
+  parsedAuthenticatedRequestUrl
+    .searchParams
+    .get(
+      "latitude"
+    ),
+  "eq.29.5"
+);
+
+assert.equal(
+  parsedAuthenticatedRequestUrl
+    .searchParams
+    .get(
+      "longitude"
+    ),
+  "eq.-87.25"
+);
+
+assert.deepEqual(
+  parsedAuthenticatedRequestUrl
+    .searchParams
+    .getAll(
+      "observed_at"
+    ),
+  [
+    "gte.2026-08-01T00:00:00.000Z",
+    "lte.2026-08-03T00:00:00.000Z"
+  ]
+);
+
+assert.equal(
+  parsedAuthenticatedRequestUrl
+    .searchParams
+    .get(
+      "order"
+    ),
+  "observed_at.asc"
+);
+
+assert.equal(
+  parsedAuthenticatedRequestUrl
+    .searchParams
+    .get(
+      "limit"
+    ),
+  "25"
+);
+
+assert.equal(
+  authenticatedRequestOptions.method,
+  "GET"
+);
+
+assert.equal(
+  authenticatedRequestOptions
+    .headers
+    .apikey,
+  "pelora-test-publishable-key"
+);
+
+assert.equal(
+  authenticatedRequestOptions
+    .headers
+    .Authorization,
+  "Bearer captain-test-access-token"
+);
+
+assert.equal(
+  authenticatedRequestOptions
+    .headers
+    .Accept,
+  "application/json"
+);
+
+assert.equal(
+  authenticatedRequestOptions.cache,
+  "no-store"
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .request
+    .coordinateFilterApplied,
+  true
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .request
+    .latitude,
+  29.5
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .request
+    .longitude,
+  -87.25
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval builds authenticated RLS-preserving filters and headers"
+);
+
+
+let cappedLimitRequestUrl =
+  null;
+
+
+const cappedLimitOceanMemoryRetrieval =
+  await retrieveOceanMemoryRows({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "captain-test-access-token",
+
+    maximumRows:
+      1000,
+
+    fetchImplementation:
+      async url => {
+        cappedLimitRequestUrl =
+          url;
+
+        return {
+          ok:
+            true,
+
+          status:
+            200,
+
+          async json() {
+            return [];
+          }
+        };
+      }
+  });
+
+
+assert.equal(
+  cappedLimitOceanMemoryRetrieval
+    .request
+    .maximumRows,
+  250
+);
+
+assert.equal(
+  new URL(
+    cappedLimitRequestUrl
+  )
+    .searchParams
+    .get(
+      "limit"
+    ),
+  "250"
+);
+
+assert.equal(
+  cappedLimitOceanMemoryRetrieval
+    .request
+    .coordinateFilterApplied,
+  false
+);
+
+assert.ok(
+  cappedLimitOceanMemoryRetrieval
+    .limitations
+    .includes(
+      "exact-coordinate-filter-not-applied"
+    )
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval caps row limits and discloses missing coordinate filtering"
+);
+
+
+const emptyOceanMemoryRetrieval =
+  await retrieveOceanMemoryRows({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "captain-test-access-token",
+
+    fetchImplementation:
+      async () => ({
+        ok:
+          true,
+
+        status:
+          200,
+
+        async json() {
+          return [];
+        }
+      })
+  });
+
+
+assert.equal(
+  emptyOceanMemoryRetrieval.available,
+  true
+);
+
+assert.equal(
+  emptyOceanMemoryRetrieval
+    .summary
+    .responseOk,
+  true
+);
+
+assert.equal(
+  emptyOceanMemoryRetrieval
+    .summary
+    .returnedRowCount,
+  0
+);
+
+assert.ok(
+  emptyOceanMemoryRetrieval
+    .limitations
+    .includes(
+      "no-ocean-memory-rows-returned"
+    )
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval preserves a successful empty historical response"
+);
+
+
+const unsuccessfulOceanMemoryRetrieval =
+  await retrieveOceanMemoryRows({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "captain-test-access-token",
+
+    fetchImplementation:
+      async () => ({
+        ok:
+          false,
+
+        status:
+          401,
+
+        async json() {
+          return {
+            message:
+              "Unauthorized"
+          };
+        }
+      })
+  });
+
+
+assert.equal(
+  unsuccessfulOceanMemoryRetrieval.available,
+  false
+);
+
+assert.equal(
+  unsuccessfulOceanMemoryRetrieval
+    .requestPerformed,
+  true
+);
+
+assert.equal(
+  unsuccessfulOceanMemoryRetrieval
+    .summary
+    .responseOk,
+  false
+);
+
+assert.equal(
+  unsuccessfulOceanMemoryRetrieval
+    .summary
+    .httpStatus,
+  401
+);
+
+assert.equal(
+  unsuccessfulOceanMemoryRetrieval
+    .summary
+    .returnedRowCount,
+  0
+);
+
+assert.ok(
+  unsuccessfulOceanMemoryRetrieval
+    .limitations
+    .includes(
+      "supabase-response-not-successful"
+    )
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval preserves unsuccessful Supabase responses without exposing data"
+);
+
+
+const failedNetworkOceanMemoryRetrieval =
+  await retrieveOceanMemoryRows({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "captain-test-access-token",
+
+    fetchImplementation:
+      async () => {
+        throw new Error(
+          "Test network failure"
+        );
+      }
+  });
+
+
+assert.equal(
+  failedNetworkOceanMemoryRetrieval.available,
+  false
+);
+
+assert.equal(
+  failedNetworkOceanMemoryRetrieval
+    .requestPerformed,
+  true
+);
+
+assert.equal(
+  failedNetworkOceanMemoryRetrieval
+    .summary
+    .responseOk,
+  false
+);
+
+assert.equal(
+  failedNetworkOceanMemoryRetrieval
+    .summary
+    .httpStatus,
+  null
+);
+
+assert.deepEqual(
+  failedNetworkOceanMemoryRetrieval.rows,
+  []
+);
+
+assert.ok(
+  failedNetworkOceanMemoryRetrieval
+    .limitations
+    .includes(
+      "supabase-request-failed"
+    )
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval degrades safely after a network failure"
+);
+
+
+const invalidWindowOceanMemoryRetrieval =
+  await retrieveOceanMemoryRows({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "captain-test-access-token",
+
+    observedAfter:
+      "2026-08-05T00:00:00.000Z",
+
+    observedBefore:
+      "2026-08-01T00:00:00.000Z",
+
+    fetchImplementation:
+      async () => {
+        throw new Error(
+          "Fetch should not be called for an invalid time window."
+        );
+      }
+  });
+
+
+assert.equal(
+  invalidWindowOceanMemoryRetrieval.available,
+  false
+);
+
+assert.equal(
+  invalidWindowOceanMemoryRetrieval
+    .requestPerformed,
+  false
+);
+
+assert.ok(
+  invalidWindowOceanMemoryRetrieval
+    .missingRequirements
+    .includes(
+      "valid-observed-time-window"
+    )
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval rejects an invalid observation window before network access"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    successfulOceanMemoryRetrieval
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    successfulOceanMemoryRetrieval.rows
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    successfulOceanMemoryRetrieval
+      .request
+  ),
+  true
+);
+
+assert.ok(
+  successfulOceanMemoryRetrieval
+    .limitations
+    .includes(
+      "This contract does not adapt database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .trend,
+  undefined
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  successfulOceanMemoryRetrieval
+    .species,
+  undefined
+);
+
+console.log(
+  "PASS Backend Ocean Memory Retrieval remains frozen, preservation-only, and scientifically neutral"
 );
 
 

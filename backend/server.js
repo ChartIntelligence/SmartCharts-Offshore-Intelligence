@@ -30,6 +30,642 @@ const PORT =
   Number(process.env.PORT) || 8787;
 
 
+/**
+ * ------------------------------------------------------------
+ * Backend Supabase Configuration v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Normalize the public Supabase REST configuration used for
+ * authenticated Ocean Memory retrieval.
+ *
+ * This contract never accepts or exposes a service-role key.
+ * Missing configuration must not interrupt live ocean data.
+ */
+export function buildBackendSupabaseConfiguration({
+  environment = process.env
+} = {}) {
+  const rawUrl =
+    typeof environment
+      ?.SUPABASE_URL ===
+      "string"
+      ? environment
+          .SUPABASE_URL
+          .trim()
+      : "";
+
+  const rawPublishableKey =
+    typeof environment
+      ?.SUPABASE_PUBLISHABLE_KEY ===
+      "string"
+      ? environment
+          .SUPABASE_PUBLISHABLE_KEY
+          .trim()
+      : "";
+
+  let normalizedUrl =
+    null;
+
+  try {
+    const parsedUrl =
+      new URL(
+        rawUrl
+      );
+
+    const validProtocol =
+      parsedUrl.protocol ===
+        "https:";
+
+    const validHostname =
+      typeof parsedUrl.hostname ===
+        "string" &&
+      parsedUrl.hostname
+        .trim()
+        .length >
+        0;
+
+    if (
+      validProtocol &&
+      validHostname
+    ) {
+      normalizedUrl =
+        parsedUrl.origin;
+    }
+  } catch {
+    normalizedUrl =
+      null;
+  }
+
+  const publishableKeyAvailable =
+    rawPublishableKey.length >
+      0;
+
+  const serviceRoleConfigured =
+    typeof environment
+      ?.SUPABASE_SERVICE_ROLE_KEY ===
+      "string" &&
+    environment
+      .SUPABASE_SERVICE_ROLE_KEY
+      .trim()
+      .length >
+      0;
+
+  const available =
+    typeof normalizedUrl ===
+      "string" &&
+    publishableKeyAvailable &&
+    !serviceRoleConfigured;
+
+  const missingRequirements = [
+    typeof normalizedUrl !==
+      "string"
+      ? "supabase-url"
+      : null,
+
+    !publishableKeyAvailable
+      ? "supabase-publishable-key"
+      : null,
+
+    serviceRoleConfigured
+      ? "remove-service-role-key-from-ocean-memory-runtime"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+
+      "Backend Supabase Configuration supports authenticated REST access with a public publishable key only.",
+
+      "Captain authorization must be supplied separately through a user bearer token.",
+
+      "Missing or invalid Supabase configuration must not interrupt live ocean-condition delivery.",
+
+      "This contract does not query Supabase, validate a captain session, expose credentials, bypass Row Level Security, or support service-role access."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    configurationType:
+      "backend-supabase-configuration",
+
+    responsibility:
+      "preserve",
+
+    restUrl:
+      available
+        ? `${normalizedUrl}/rest/v1`
+        : null,
+
+    projectUrl:
+      available
+        ? normalizedUrl
+        : null,
+
+    publishableKeyAvailable,
+
+    serviceRoleConfigured,
+
+    credentials: {
+      publishableKey:
+        available
+          ? rawPublishableKey
+          : null,
+
+      serviceRoleKey:
+        null
+    },
+
+    diagnostics: {
+      urlConfigured:
+        rawUrl.length >
+          0,
+
+      urlValid:
+        typeof normalizedUrl ===
+          "string",
+
+      publishableKeyConfigured:
+        publishableKeyAvailable,
+
+      serviceRoleRejected:
+        serviceRoleConfigured
+    },
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-backend-supabase-configuration-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Backend Ocean Memory Retrieval v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Retrieve captain-owned Ocean Snapshot rows through the
+ * Supabase REST API while preserving Row Level Security.
+ *
+ * This function must use a public publishable key and the
+ * captain's bearer token. It must never use service-role access.
+ */
+export async function retrieveOceanMemoryRows({
+  configuration = null,
+  bearerToken = null,
+  latitude = null,
+  longitude = null,
+  observedAfter = null,
+  observedBefore = null,
+  maximumRows = 48,
+  fetchImplementation = fetch
+} = {}) {
+  const configurationAvailable =
+    configuration
+      ?.available ===
+    true;
+
+  const restUrl =
+    typeof configuration
+      ?.restUrl ===
+      "string"
+      ? configuration.restUrl
+          .trim() ||
+        null
+      : null;
+
+  const publishableKey =
+    typeof configuration
+      ?.credentials
+      ?.publishableKey ===
+      "string"
+      ? configuration
+          .credentials
+          .publishableKey
+          .trim() ||
+        null
+      : null;
+
+  const normalizedBearerToken =
+    typeof bearerToken ===
+      "string"
+      ? bearerToken.trim() ||
+        null
+      : null;
+
+  const validLatitude =
+    Number.isFinite(
+      latitude
+    );
+
+  const validLongitude =
+    Number.isFinite(
+      longitude
+    );
+
+  const resolvedObservedAfter =
+    typeof observedAfter ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedAfter
+      )
+    )
+      ? observedAfter
+      : null;
+
+  const resolvedObservedBefore =
+    typeof observedBefore ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedBefore
+      )
+    )
+      ? observedBefore
+      : null;
+
+  const observedAfterTimestamp =
+    resolvedObservedAfter
+      ? Date.parse(
+          resolvedObservedAfter
+        )
+      : null;
+
+  const observedBeforeTimestamp =
+    resolvedObservedBefore
+      ? Date.parse(
+          resolvedObservedBefore
+        )
+      : null;
+
+  const validObservedWindow =
+    observedAfterTimestamp ===
+      null ||
+    observedBeforeTimestamp ===
+      null ||
+    observedAfterTimestamp <=
+      observedBeforeTimestamp;
+
+  const resolvedMaximumRows =
+    Number.isInteger(
+      maximumRows
+    ) &&
+    maximumRows >
+      0
+      ? Math.min(
+          maximumRows,
+          250
+        )
+      : null;
+
+  const validFetchImplementation =
+    typeof fetchImplementation ===
+      "function";
+
+  const missingRequirements = [
+    !configurationAvailable
+      ? "available-backend-supabase-configuration"
+      : null,
+
+    typeof restUrl !==
+      "string"
+      ? "supabase-rest-url"
+      : null,
+
+    typeof publishableKey !==
+      "string"
+      ? "supabase-publishable-key"
+      : null,
+
+    typeof normalizedBearerToken !==
+      "string"
+      ? "captain-bearer-token"
+      : null,
+
+    !validObservedWindow
+      ? "valid-observed-time-window"
+      : null,
+
+    resolvedMaximumRows ===
+      null
+      ? "valid-maximum-row-limit"
+      : null,
+
+    !validFetchImplementation
+      ? "fetch-implementation"
+      : null
+  ].filter(Boolean);
+
+  const requestReady =
+    missingRequirements.length ===
+      0;
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+
+      !validLatitude ||
+      !validLongitude
+        ? "exact-coordinate-filter-not-applied"
+        : null,
+
+      resolvedObservedAfter ===
+        null &&
+      observedAfter !==
+        null
+        ? "invalid-observed-after-filter"
+        : null,
+
+      resolvedObservedBefore ===
+        null &&
+      observedBefore !==
+        null
+        ? "invalid-observed-before-filter"
+        : null,
+
+      "Backend Ocean Memory Retrieval reads captain-owned Ocean Snapshot rows through Supabase REST.",
+
+      "Row Level Security remains responsible for ownership enforcement.",
+
+      "This contract does not adapt database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ].filter(Boolean))
+  ];
+
+  if (!requestReady) {
+    return deepFreezeSnapshotValue({
+      available:
+        false,
+
+      retrievalType:
+        "backend-ocean-memory-row-retrieval",
+
+      responsibility:
+        "preserve",
+
+      requestPerformed:
+        false,
+
+      request: {
+        coordinateFilterApplied:
+          false,
+
+        latitude:
+          validLatitude
+            ? latitude
+            : null,
+
+        longitude:
+          validLongitude
+            ? longitude
+            : null,
+
+        observedAfter:
+          resolvedObservedAfter,
+
+        observedBefore:
+          resolvedObservedBefore,
+
+        maximumRows:
+          resolvedMaximumRows
+      },
+
+      rows: [],
+
+      summary: {
+        returnedRowCount:
+          0,
+
+        httpStatus:
+          null,
+
+        responseOk:
+          false
+      },
+
+      missingRequirements,
+
+      limitations,
+
+      contractVersion:
+        "pelora-backend-ocean-memory-retrieval-v1"
+    });
+  }
+
+  const queryUrl =
+    new URL(
+      `${restUrl}/ocean_snapshots`
+    );
+
+  queryUrl.searchParams.set(
+    "select",
+    "*"
+  );
+
+  if (
+    validLatitude &&
+    validLongitude
+  ) {
+    queryUrl.searchParams.set(
+      "latitude",
+      `eq.${latitude}`
+    );
+
+    queryUrl.searchParams.set(
+      "longitude",
+      `eq.${longitude}`
+    );
+  }
+
+  if (
+    resolvedObservedAfter
+  ) {
+    queryUrl.searchParams.set(
+      "observed_at",
+      `gte.${resolvedObservedAfter}`
+    );
+  }
+
+  if (
+    resolvedObservedBefore
+  ) {
+    queryUrl.searchParams.append(
+      "observed_at",
+      `lte.${resolvedObservedBefore}`
+    );
+  }
+
+  queryUrl.searchParams.set(
+    "order",
+    "observed_at.asc"
+  );
+
+  queryUrl.searchParams.set(
+    "limit",
+    String(
+      resolvedMaximumRows
+    )
+  );
+
+  let response =
+    null;
+
+  let responseRows = [];
+
+  try {
+    response =
+      await fetchImplementation(
+        queryUrl.toString(),
+        {
+          method:
+            "GET",
+
+          headers: {
+            apikey:
+              publishableKey,
+
+            Authorization:
+              `Bearer ${normalizedBearerToken}`,
+
+            Accept:
+              "application/json"
+          },
+
+          cache:
+            "no-store"
+        }
+      );
+
+    if (
+      response?.ok ===
+      true
+    ) {
+      const parsedBody =
+        await response.json();
+
+      responseRows =
+        Array.isArray(
+          parsedBody
+        )
+          ? parsedBody
+          : [];
+    }
+  } catch {
+    response =
+      null;
+
+    responseRows = [];
+  }
+
+  const responseOk =
+    response?.ok ===
+    true;
+
+  const httpStatus =
+    Number.isInteger(
+      response?.status
+    )
+      ? response.status
+      : null;
+
+  const available =
+    responseOk;
+
+  const responseLimitations = [
+    ...limitations,
+
+    !response
+      ? "supabase-request-failed"
+      : null,
+
+    response &&
+    !responseOk
+      ? "supabase-response-not-successful"
+      : null,
+
+    responseOk &&
+    responseRows.length ===
+      0
+      ? "no-ocean-memory-rows-returned"
+      : null
+  ].filter(Boolean);
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    retrievalType:
+      "backend-ocean-memory-row-retrieval",
+
+    responsibility:
+      "preserve",
+
+    requestPerformed:
+      true,
+
+    request: {
+      coordinateFilterApplied:
+        validLatitude &&
+        validLongitude,
+
+      latitude:
+        validLatitude
+          ? latitude
+          : null,
+
+      longitude:
+        validLongitude
+          ? longitude
+          : null,
+
+      observedAfter:
+        resolvedObservedAfter,
+
+      observedBefore:
+        resolvedObservedBefore,
+
+      maximumRows:
+        resolvedMaximumRows
+    },
+
+    rows:
+      cloneSnapshotValue(
+        responseRows
+      ),
+
+    summary: {
+      returnedRowCount:
+        responseRows.length,
+
+      httpStatus,
+
+      responseOk
+    },
+
+    missingRequirements,
+
+    limitations: [
+      ...new Set(
+        responseLimitations
+      )
+    ],
+
+    contractVersion:
+      "pelora-backend-ocean-memory-retrieval-v1"
+  });
+}
+
 const DEFAULT_LATITUDE = 28.19;
 const DEFAULT_LONGITUDE = -88.49;
 
