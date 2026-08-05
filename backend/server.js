@@ -21749,6 +21749,3641 @@ export function buildCurrentShearPersistence({
 }
 
 
+export function buildCurrentConvergencePersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const convergenceStrengthRank = {
+    none: 0,
+    localized: 1,
+    measurable: 2,
+    pronounced: 3
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const convergence =
+          oceanSnapshot
+            ?.observation
+            ?.observations
+            ?.currents
+            ?.derived
+            ?.spatialAnalysis
+            ?.convergence ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          convergence
+            ?.contractVersion ??
+          null;
+
+        const convergenceAvailable =
+          convergence
+            ?.available ===
+          true;
+
+        const convergenceType =
+          typeof convergence
+            ?.convergenceType ===
+            "string"
+            ? convergence
+                .convergenceType
+            : null;
+
+        const convergenceState =
+          typeof convergence
+            ?.convergenceState ===
+            "string"
+            ? convergence
+                .convergenceState
+            : null;
+
+        const convergenceStrength =
+          typeof convergence
+            ?.convergenceStrength ===
+            "string"
+            ? convergence
+                .convergenceStrength
+            : null;
+
+        const strengthRank =
+          Object.hasOwn(
+            convergenceStrengthRank,
+            convergenceStrength
+          )
+            ? convergenceStrengthRank[
+                convergenceStrength
+              ]
+            : null;
+
+        const convergenceDetected =
+          convergenceState ===
+            "candidate" &&
+          [
+            "convergence-candidate",
+            "pronounced-convergence-candidate"
+          ].includes(
+            convergenceType
+          );
+
+        const meanMeaningfulInwardMetersPerSecond =
+          Number.isFinite(
+            convergence
+              ?.evidence
+              ?.meanMeaningfulInwardMetersPerSecond
+          )
+            ? convergence
+                .evidence
+                .meanMeaningfulInwardMetersPerSecond
+            : null;
+
+        const maximumInwardMetersPerSecond =
+          Number.isFinite(
+            convergence
+              ?.evidence
+              ?.maximumInwardMetersPerSecond
+          )
+            ? convergence
+                .evidence
+                .maximumInwardMetersPerSecond
+            : null;
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          convergenceAvailable,
+
+          convergenceDetected,
+
+          convergenceType,
+
+          convergenceState,
+
+          convergenceStrength,
+
+          strengthRank,
+
+          meanMeaningfulInwardMetersPerSecond,
+
+          maximumInwardMetersPerSecond,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-current-convergence-v1" &&
+            convergenceAvailable &&
+            strengthRank !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current-convergence",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-current-convergence-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstConvergenceDetected:
+          null,
+
+        lastConvergenceDetected:
+          null,
+
+        firstConvergenceStrength:
+          null,
+
+        lastConvergenceStrength:
+          null,
+
+        convergenceStrengthChange:
+          null,
+
+        meanInwardChangeMetersPerSecond:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-current-convergence-contracts-unavailable",
+        "current-convergence-persistence-not-assessed",
+        "current-convergence-movement-not-assessed",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current-convergence",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-current-convergence-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstConvergenceDetected:
+          firstObservation
+            ?.convergenceDetected ??
+          null,
+
+        lastConvergenceDetected:
+          lastObservation
+            ?.convergenceDetected ??
+          null,
+
+        firstConvergenceStrength:
+          firstObservation
+            ?.convergenceStrength ??
+          null,
+
+        lastConvergenceStrength:
+          lastObservation
+            ?.convergenceStrength ??
+          null,
+
+        convergenceStrengthChange:
+          null,
+
+        meanInwardChangeMetersPerSecond:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-current-convergence-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-current-convergence-contracts-required",
+        "current-convergence-persistence-not-assessed",
+        "current-convergence-movement-not-assessed"
+      ]
+    });
+  }
+
+  const firstConvergenceDetected =
+    firstObservation
+      .convergenceDetected;
+
+  const lastConvergenceDetected =
+    lastObservation
+      .convergenceDetected;
+
+  const firstConvergenceStrength =
+    firstObservation
+      .convergenceStrength;
+
+  const lastConvergenceStrength =
+    lastObservation
+      .convergenceStrength;
+
+  const convergenceStrengthChange =
+    lastObservation
+      .strengthRank -
+    firstObservation
+      .strengthRank;
+
+  const meanInwardChangeMetersPerSecond =
+    firstObservation
+      .meanMeaningfulInwardMetersPerSecond !==
+      null &&
+    lastObservation
+      .meanMeaningfulInwardMetersPerSecond !==
+      null
+      ? lastObservation
+          .meanMeaningfulInwardMetersPerSecond -
+        firstObservation
+          .meanMeaningfulInwardMetersPerSecond
+      : null;
+
+  let classification =
+    "stable-current-convergence";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-current-convergence-strength-remained-stable";
+
+  if (
+    !firstConvergenceDetected &&
+    lastConvergenceDetected
+  ) {
+    classification =
+      "emerging-current-convergence";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-current-convergence-candidate-developed";
+  } else if (
+    firstConvergenceDetected &&
+    !lastConvergenceDetected
+  ) {
+    classification =
+      "fading-current-convergence";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-current-convergence-candidate-no-longer-supported";
+  } else if (
+    convergenceStrengthChange >
+      0
+  ) {
+    classification =
+      "strengthening-current-convergence";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-current-convergence-strength-increased";
+  } else if (
+    convergenceStrengthChange <
+      0
+  ) {
+    classification =
+      "weakening-current-convergence";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-current-convergence-strength-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "current-convergence",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstConvergenceDetected,
+
+      lastConvergenceDetected,
+
+      firstConvergenceType:
+        firstObservation
+          .convergenceType,
+
+      lastConvergenceType:
+        lastObservation
+          .convergenceType,
+
+      firstConvergenceState:
+        firstObservation
+          .convergenceState,
+
+      lastConvergenceState:
+        lastObservation
+          .convergenceState,
+
+      firstConvergenceStrength,
+
+      lastConvergenceStrength,
+
+      convergenceStrengthChange,
+
+      firstMeanMeaningfulInwardMetersPerSecond:
+        firstObservation
+          .meanMeaningfulInwardMetersPerSecond,
+
+      lastMeanMeaningfulInwardMetersPerSecond:
+        lastObservation
+          .meanMeaningfulInwardMetersPerSecond,
+
+      meanInwardChangeMetersPerSecond,
+
+      firstMaximumInwardMetersPerSecond:
+        firstObservation
+          .maximumInwardMetersPerSecond,
+
+      lastMaximumInwardMetersPerSecond:
+        lastObservation
+          .maximumInwardMetersPerSecond,
+
+      sourceContractVersion:
+        "pelora-current-convergence-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-current-convergence-contracts-available",
+      "chronological-current-convergence-observation-window-established",
+      `current-convergence-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "current-convergence-identity-across-space-is-not-confirmed",
+      "current-convergence-movement-not-assessed",
+      "current-convergence-geometry-not-preserved",
+      "current-convergence-does-not-establish-vertical-motion",
+      "current-convergence-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Environmental Transition Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Environmental Transition Analysis contracts
+ * across chronological Ocean Memory snapshots.
+ *
+ * This version evaluates persistence of environmental-transition
+ * context. It does not confirm a verified environmental
+ * transition, ocean front, habitat, species opportunity, prey
+ * concentration, or fishing quality.
+ */
+export function buildEnvironmentalTransitionPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const transitionStrengthRank = {
+    none: 0,
+    weak: 1,
+    measurable: 2,
+    pronounced: 3
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const environmentalTransition =
+          oceanSnapshot
+            ?.observation
+            ?.oceanPhysics
+            ?.environmentalTransitionAnalysis ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          environmentalTransition
+            ?.contractVersion ??
+          null;
+
+        const transitionAvailable =
+          environmentalTransition
+            ?.available ===
+          true;
+
+        const classification =
+          typeof environmentalTransition
+            ?.classification ===
+            "string"
+            ? environmentalTransition
+                .classification
+            : null;
+
+        const transitionType =
+          typeof environmentalTransition
+            ?.transitionType ===
+            "string"
+            ? environmentalTransition
+                .transitionType
+            : null;
+
+        const transitionState =
+          typeof environmentalTransition
+            ?.transitionState ===
+            "string"
+            ? environmentalTransition
+                .transitionState
+            : null;
+
+        const transitionStrength =
+          typeof environmentalTransition
+            ?.transitionStrength ===
+            "string"
+            ? environmentalTransition
+                .transitionStrength
+            : null;
+
+        const strengthRank =
+          Object.hasOwn(
+            transitionStrengthRank,
+            transitionStrength
+          )
+            ? transitionStrengthRank[
+                transitionStrength
+              ]
+            : null;
+
+        const transitionContextSupported =
+          transitionState ===
+            "candidate-context" &&
+          [
+            "thermal",
+            "hydrodynamic",
+            "thermal-and-hydrodynamic",
+            "multi-signal"
+          ].includes(
+            transitionType
+          );
+
+        const thermalTransitionSupported =
+          environmentalTransition
+            ?.evidence
+            ?.thermalTransitionSupported ===
+          true;
+
+        const hydrodynamicTransitionSupported =
+          environmentalTransition
+            ?.evidence
+            ?.hydrodynamicTransitionSupported ===
+          true;
+
+        const independentTransitionSignalCount =
+          Number.isFinite(
+            environmentalTransition
+              ?.evidence
+              ?.independentTransitionSignalCount
+          )
+            ? environmentalTransition
+                .evidence
+                .independentTransitionSignalCount
+            : null;
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          transitionAvailable,
+
+          classification,
+
+          transitionType,
+
+          transitionState,
+
+          transitionStrength,
+
+          strengthRank,
+
+          transitionContextSupported,
+
+          thermalTransitionSupported,
+
+          hydrodynamicTransitionSupported,
+
+          independentTransitionSignalCount,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-environmental-transition-analysis-v1" &&
+            transitionAvailable &&
+            strengthRank !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "environmental-transition",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-environmental-transition-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstTransitionContextSupported:
+          null,
+
+        lastTransitionContextSupported:
+          null,
+
+        firstTransitionStrength:
+          null,
+
+        lastTransitionStrength:
+          null,
+
+        transitionStrengthChange:
+          null,
+
+        firstIndependentTransitionSignalCount:
+          null,
+
+        lastIndependentTransitionSignalCount:
+          null,
+
+        transitionSignalCountChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-environmental-transition-contracts-unavailable",
+        "environmental-transition-persistence-not-assessed",
+        "transition-identity-across-space-not-established",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "environmental-transition",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-environmental-transition-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstTransitionContextSupported:
+          firstObservation
+            ?.transitionContextSupported ??
+          null,
+
+        lastTransitionContextSupported:
+          lastObservation
+            ?.transitionContextSupported ??
+          null,
+
+        firstTransitionStrength:
+          firstObservation
+            ?.transitionStrength ??
+          null,
+
+        lastTransitionStrength:
+          lastObservation
+            ?.transitionStrength ??
+          null,
+
+        transitionStrengthChange:
+          null,
+
+        firstIndependentTransitionSignalCount:
+          firstObservation
+            ?.independentTransitionSignalCount ??
+          null,
+
+        lastIndependentTransitionSignalCount:
+          lastObservation
+            ?.independentTransitionSignalCount ??
+          null,
+
+        transitionSignalCountChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-environmental-transition-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-environmental-transition-contracts-required",
+        "environmental-transition-persistence-not-assessed",
+        "transition-identity-across-space-not-established"
+      ]
+    });
+  }
+
+  const firstTransitionContextSupported =
+    firstObservation
+      .transitionContextSupported;
+
+  const lastTransitionContextSupported =
+    lastObservation
+      .transitionContextSupported;
+
+  const firstTransitionStrength =
+    firstObservation
+      .transitionStrength;
+
+  const lastTransitionStrength =
+    lastObservation
+      .transitionStrength;
+
+  const transitionStrengthChange =
+    lastObservation
+      .strengthRank -
+    firstObservation
+      .strengthRank;
+
+  const transitionSignalCountChange =
+    firstObservation
+      .independentTransitionSignalCount !==
+      null &&
+    lastObservation
+      .independentTransitionSignalCount !==
+      null
+      ? lastObservation
+          .independentTransitionSignalCount -
+        firstObservation
+          .independentTransitionSignalCount
+      : null;
+
+  let classification =
+    "stable-environmental-transition-context";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-environmental-transition-context-remained-stable";
+
+  if (
+    !firstTransitionContextSupported &&
+    lastTransitionContextSupported
+  ) {
+    classification =
+      "emerging-environmental-transition-context";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-environmental-transition-context-developed";
+  } else if (
+    firstTransitionContextSupported &&
+    !lastTransitionContextSupported
+  ) {
+    classification =
+      "fading-environmental-transition-context";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-environmental-transition-context-no-longer-supported";
+  } else if (
+    transitionStrengthChange >
+      0
+  ) {
+    classification =
+      "strengthening-environmental-transition-context";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-environmental-transition-strength-increased";
+  } else if (
+    transitionStrengthChange <
+      0
+  ) {
+    classification =
+      "weakening-environmental-transition-context";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-environmental-transition-strength-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "environmental-transition",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstTransitionContextSupported,
+
+      lastTransitionContextSupported,
+
+      firstClassification:
+        firstObservation
+          .classification,
+
+      lastClassification:
+        lastObservation
+          .classification,
+
+      firstTransitionType:
+        firstObservation
+          .transitionType,
+
+      lastTransitionType:
+        lastObservation
+          .transitionType,
+
+      firstTransitionState:
+        firstObservation
+          .transitionState,
+
+      lastTransitionState:
+        lastObservation
+          .transitionState,
+
+      firstTransitionStrength,
+
+      lastTransitionStrength,
+
+      transitionStrengthChange,
+
+      firstThermalTransitionSupported:
+        firstObservation
+          .thermalTransitionSupported,
+
+      lastThermalTransitionSupported:
+        lastObservation
+          .thermalTransitionSupported,
+
+      firstHydrodynamicTransitionSupported:
+        firstObservation
+          .hydrodynamicTransitionSupported,
+
+      lastHydrodynamicTransitionSupported:
+        lastObservation
+          .hydrodynamicTransitionSupported,
+
+      firstIndependentTransitionSignalCount:
+        firstObservation
+          .independentTransitionSignalCount,
+
+      lastIndependentTransitionSignalCount:
+        lastObservation
+          .independentTransitionSignalCount,
+
+      transitionSignalCountChange,
+
+      sourceContractVersion:
+        "pelora-environmental-transition-analysis-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-environmental-transition-contracts-available",
+      "chronological-environmental-transition-observation-window-established",
+      `environmental-transition-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "environmental-transition-context-persistence-does-not-confirm-a-verified-transition",
+      "environmental-transition-identity-across-space-is-not-confirmed",
+      "environmental-transition-movement-not-assessed",
+      "full-water-column-structure-not-assessed",
+      "environmental-transition-persistence-does-not-establish-an-ocean-front",
+      "environmental-transition-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Surface Water Character Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Surface Water Character Analysis contracts
+ * across chronological Ocean Memory snapshots.
+ *
+ * This version evaluates persistence of local surface-water
+ * context and boundary context. It does not establish a named
+ * water mass, distinct adjacent water masses, a mixing zone,
+ * an ocean front, habitat, species opportunity, prey
+ * concentration, or fishing quality.
+ */
+export function buildSurfaceWaterCharacterPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const boundaryStrengthRank = {
+    unavailable: 0,
+    "not-established": 0,
+    "weak-thermal-transition": 1,
+    "moderate-thermal-transition": 2,
+    "strong-thermal-break-candidate": 3,
+    "current-edge": 2,
+    "thermal-and-current-boundary": 3,
+    "pronounced-thermal-and-current-boundary": 4
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const surfaceWaterCharacter =
+          oceanSnapshot
+            ?.observation
+            ?.oceanPhysics
+            ?.surfaceWaterCharacter ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          surfaceWaterCharacter
+            ?.contractVersion ??
+          null;
+
+        const characterAvailable =
+          surfaceWaterCharacter
+            ?.available ===
+          true;
+
+        const classification =
+          typeof surfaceWaterCharacter
+            ?.classification ===
+            "string"
+            ? surfaceWaterCharacter
+                .classification
+            : null;
+
+        const state =
+          typeof surfaceWaterCharacter
+            ?.state ===
+            "string"
+            ? surfaceWaterCharacter
+                .state
+            : null;
+
+        const boundaryContext =
+          typeof surfaceWaterCharacter
+            ?.boundaryContext ===
+            "string"
+            ? surfaceWaterCharacter
+                .boundaryContext
+            : null;
+
+        const boundaryStrength =
+          Object.hasOwn(
+            boundaryStrengthRank,
+            boundaryContext
+          )
+            ? boundaryStrengthRank[
+                boundaryContext
+              ]
+            : null;
+
+        const boundaryContextSupported =
+          state ===
+            "candidate-context" &&
+          boundaryContext !==
+            "not-established";
+
+        const localTemperatureFahrenheit =
+          Number.isFinite(
+            surfaceWaterCharacter
+              ?.localCharacter
+              ?.localTemperatureFahrenheit
+          )
+            ? surfaceWaterCharacter
+                .localCharacter
+                .localTemperatureFahrenheit
+            : null;
+
+        const chlorophyllConcentrationMgM3 =
+          Number.isFinite(
+            surfaceWaterCharacter
+              ?.localCharacter
+              ?.chlorophyllConcentrationMgM3
+          )
+            ? surfaceWaterCharacter
+                .localCharacter
+                .chlorophyllConcentrationMgM3
+            : null;
+
+        const thermalRangeFahrenheit =
+          Number.isFinite(
+            surfaceWaterCharacter
+              ?.spatialContext
+              ?.thermalRangeFahrenheit
+          )
+            ? surfaceWaterCharacter
+                .spatialContext
+                .thermalRangeFahrenheit
+            : null;
+
+        const currentEdgeDetected =
+          surfaceWaterCharacter
+            ?.spatialContext
+            ?.currentEdgeDetected ===
+          true;
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          characterAvailable,
+
+          classification,
+
+          state,
+
+          boundaryContext,
+
+          boundaryStrength,
+
+          boundaryContextSupported,
+
+          localTemperatureFahrenheit,
+
+          chlorophyllConcentrationMgM3,
+
+          thermalRangeFahrenheit,
+
+          currentEdgeDetected,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-surface-water-character-v1" &&
+            characterAvailable &&
+            boundaryStrength !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "surface-water-character",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-surface-water-character-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstBoundaryContextSupported:
+          null,
+
+        lastBoundaryContextSupported:
+          null,
+
+        firstBoundaryContext:
+          null,
+
+        lastBoundaryContext:
+          null,
+
+        boundaryStrengthChange:
+          null,
+
+        localTemperatureChangeFahrenheit:
+          null,
+
+        chlorophyllChangeMgM3:
+          null,
+
+        thermalRangeChangeFahrenheit:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-surface-water-character-contracts-unavailable",
+        "surface-water-character-persistence-not-assessed",
+        "water-mass-identity-not-established",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "surface-water-character",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-surface-water-character-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstBoundaryContextSupported:
+          firstObservation
+            ?.boundaryContextSupported ??
+          null,
+
+        lastBoundaryContextSupported:
+          lastObservation
+            ?.boundaryContextSupported ??
+          null,
+
+        firstBoundaryContext:
+          firstObservation
+            ?.boundaryContext ??
+          null,
+
+        lastBoundaryContext:
+          lastObservation
+            ?.boundaryContext ??
+          null,
+
+        boundaryStrengthChange:
+          null,
+
+        localTemperatureChangeFahrenheit:
+          null,
+
+        chlorophyllChangeMgM3:
+          null,
+
+        thermalRangeChangeFahrenheit:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-surface-water-character-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-surface-water-character-contracts-required",
+        "surface-water-character-persistence-not-assessed",
+        "water-mass-identity-not-established"
+      ]
+    });
+  }
+
+  const firstBoundaryContextSupported =
+    firstObservation
+      .boundaryContextSupported;
+
+  const lastBoundaryContextSupported =
+    lastObservation
+      .boundaryContextSupported;
+
+  const boundaryStrengthChange =
+    lastObservation
+      .boundaryStrength -
+    firstObservation
+      .boundaryStrength;
+
+  const localTemperatureChangeFahrenheit =
+    firstObservation
+      .localTemperatureFahrenheit !==
+      null &&
+    lastObservation
+      .localTemperatureFahrenheit !==
+      null
+      ? lastObservation
+          .localTemperatureFahrenheit -
+        firstObservation
+          .localTemperatureFahrenheit
+      : null;
+
+  const chlorophyllChangeMgM3 =
+    firstObservation
+      .chlorophyllConcentrationMgM3 !==
+      null &&
+    lastObservation
+      .chlorophyllConcentrationMgM3 !==
+      null
+      ? lastObservation
+          .chlorophyllConcentrationMgM3 -
+        firstObservation
+          .chlorophyllConcentrationMgM3
+      : null;
+
+  const thermalRangeChangeFahrenheit =
+    firstObservation
+      .thermalRangeFahrenheit !==
+      null &&
+    lastObservation
+      .thermalRangeFahrenheit !==
+      null
+      ? lastObservation
+          .thermalRangeFahrenheit -
+        firstObservation
+          .thermalRangeFahrenheit
+      : null;
+
+  let classification =
+    "stable-surface-water-character-context";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-surface-water-character-context-remained-stable";
+
+  if (
+    !firstBoundaryContextSupported &&
+    lastBoundaryContextSupported
+  ) {
+    classification =
+      "emerging-surface-water-boundary-context";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-surface-water-boundary-context-developed";
+  } else if (
+    firstBoundaryContextSupported &&
+    !lastBoundaryContextSupported
+  ) {
+    classification =
+      "fading-surface-water-boundary-context";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-surface-water-boundary-context-no-longer-supported";
+  } else if (
+    boundaryStrengthChange >
+      0
+  ) {
+    classification =
+      "strengthening-surface-water-boundary-context";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-surface-water-boundary-strength-increased";
+  } else if (
+    boundaryStrengthChange <
+      0
+  ) {
+    classification =
+      "weakening-surface-water-boundary-context";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-surface-water-boundary-strength-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "surface-water-character",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstBoundaryContextSupported,
+
+      lastBoundaryContextSupported,
+
+      firstClassification:
+        firstObservation
+          .classification,
+
+      lastClassification:
+        lastObservation
+          .classification,
+
+      firstState:
+        firstObservation
+          .state,
+
+      lastState:
+        lastObservation
+          .state,
+
+      firstBoundaryContext:
+        firstObservation
+          .boundaryContext,
+
+      lastBoundaryContext:
+        lastObservation
+          .boundaryContext,
+
+      boundaryStrengthChange,
+
+      firstLocalTemperatureFahrenheit:
+        firstObservation
+          .localTemperatureFahrenheit,
+
+      lastLocalTemperatureFahrenheit:
+        lastObservation
+          .localTemperatureFahrenheit,
+
+      localTemperatureChangeFahrenheit,
+
+      firstChlorophyllConcentrationMgM3:
+        firstObservation
+          .chlorophyllConcentrationMgM3,
+
+      lastChlorophyllConcentrationMgM3:
+        lastObservation
+          .chlorophyllConcentrationMgM3,
+
+      chlorophyllChangeMgM3,
+
+      firstThermalRangeFahrenheit:
+        firstObservation
+          .thermalRangeFahrenheit,
+
+      lastThermalRangeFahrenheit:
+        lastObservation
+          .thermalRangeFahrenheit,
+
+      thermalRangeChangeFahrenheit,
+
+      firstCurrentEdgeDetected:
+        firstObservation
+          .currentEdgeDetected,
+
+      lastCurrentEdgeDetected:
+        lastObservation
+          .currentEdgeDetected,
+
+      sourceContractVersion:
+        "pelora-surface-water-character-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-surface-water-character-contracts-available",
+      "chronological-surface-water-character-observation-window-established",
+      `surface-water-character-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "surface-water-character-persistence-does-not-establish-a-named-water-mass",
+      "surface-water-character-identity-across-space-is-not-confirmed",
+      "distinct-adjacent-water-masses-not-established",
+      "surface-water-character-movement-not-assessed",
+      "full-water-column-structure-not-assessed",
+      "surface-water-character-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Water Mass Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Water Mass Analysis contracts across
+ * chronological Ocean Memory snapshots.
+ *
+ * This version evaluates persistence of water-mass distinction
+ * readiness and surface-boundary context. It does not establish
+ * a named water mass, origin, verified adjacent water masses,
+ * mixing zone, ocean front, habitat, prey concentration, fish
+ * presence, or fishing quality.
+ */
+export function buildWaterMassPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const readinessRank = {
+    "insufficient-evidence": 0,
+    "not-ready": 1,
+    "partially-ready": 2,
+    ready: 3
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const waterMassAnalysis =
+          oceanSnapshot
+            ?.observation
+            ?.oceanPhysics
+            ?.waterMassAnalysis ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          waterMassAnalysis
+            ?.contractVersion ??
+          null;
+
+        const analysisAvailable =
+          waterMassAnalysis
+            ?.available ===
+          true;
+
+        const classification =
+          typeof waterMassAnalysis
+            ?.classification ===
+            "string"
+            ? waterMassAnalysis
+                .classification
+            : null;
+
+        const readinessState =
+          typeof waterMassAnalysis
+            ?.readinessState ===
+            "string"
+            ? waterMassAnalysis
+                .readinessState
+            : null;
+
+        const readinessScore =
+          Object.hasOwn(
+            readinessRank,
+            readinessState
+          )
+            ? readinessRank[
+                readinessState
+              ]
+            : null;
+
+        const waterMassDistinctionReady =
+          waterMassAnalysis
+            ?.waterMassDistinctionReady ===
+          true;
+
+        const distinctAdjacentWaterMassesEstablished =
+          waterMassAnalysis
+            ?.distinctAdjacentWaterMassesEstablished ===
+          true;
+
+        const independentSpatialCharacterVariableCount =
+          Number.isFinite(
+            waterMassAnalysis
+              ?.evidence
+              ?.independentSpatialCharacterVariableCount
+          )
+            ? waterMassAnalysis
+                .evidence
+                .independentSpatialCharacterVariableCount
+            : null;
+
+        const spatialThermalContrast =
+          waterMassAnalysis
+            ?.evidence
+            ?.spatialThermalContrast ===
+          true;
+
+        const meaningfulSpatialThermalContrast =
+          waterMassAnalysis
+            ?.evidence
+            ?.meaningfulSpatialThermalContrast ===
+          true;
+
+        const currentEdgeDetected =
+          waterMassAnalysis
+            ?.evidence
+            ?.currentEdgeDetected ===
+          true;
+
+        const currentEdgeStrength =
+          typeof waterMassAnalysis
+            ?.evidence
+            ?.currentEdgeStrength ===
+            "string"
+            ? waterMassAnalysis
+                .evidence
+                .currentEdgeStrength
+            : null;
+
+        const missingRequirements =
+          Array.isArray(
+            waterMassAnalysis
+              ?.missingRequirements
+          )
+            ? [
+                ...waterMassAnalysis
+                  .missingRequirements
+              ]
+            : [];
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          analysisAvailable,
+
+          classification,
+
+          readinessState,
+
+          readinessScore,
+
+          waterMassDistinctionReady,
+
+          distinctAdjacentWaterMassesEstablished,
+
+          independentSpatialCharacterVariableCount,
+
+          spatialThermalContrast,
+
+          meaningfulSpatialThermalContrast,
+
+          currentEdgeDetected,
+
+          currentEdgeStrength,
+
+          missingRequirements,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-water-mass-analysis-v1" &&
+            analysisAvailable &&
+            readinessScore !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "water-mass",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-water-mass-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstReadinessState:
+          null,
+
+        lastReadinessState:
+          null,
+
+        readinessChange:
+          null,
+
+        firstIndependentSpatialCharacterVariableCount:
+          null,
+
+        lastIndependentSpatialCharacterVariableCount:
+          null,
+
+        spatialCharacterVariableCountChange:
+          null,
+
+        firstWaterMassDistinctionReady:
+          null,
+
+        lastWaterMassDistinctionReady:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-water-mass-contracts-unavailable",
+        "water-mass-persistence-not-assessed",
+        "water-mass-identity-not-established",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "water-mass",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-water-mass-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstReadinessState:
+          firstObservation
+            ?.readinessState ??
+          null,
+
+        lastReadinessState:
+          lastObservation
+            ?.readinessState ??
+          null,
+
+        readinessChange:
+          null,
+
+        firstIndependentSpatialCharacterVariableCount:
+          firstObservation
+            ?.independentSpatialCharacterVariableCount ??
+          null,
+
+        lastIndependentSpatialCharacterVariableCount:
+          lastObservation
+            ?.independentSpatialCharacterVariableCount ??
+          null,
+
+        spatialCharacterVariableCountChange:
+          null,
+
+        firstWaterMassDistinctionReady:
+          firstObservation
+            ?.waterMassDistinctionReady ??
+          null,
+
+        lastWaterMassDistinctionReady:
+          lastObservation
+            ?.waterMassDistinctionReady ??
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-water-mass-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-water-mass-contracts-required",
+        "water-mass-persistence-not-assessed",
+        "water-mass-identity-not-established"
+      ]
+    });
+  }
+
+  const readinessChange =
+    lastObservation
+      .readinessScore -
+    firstObservation
+      .readinessScore;
+
+  const spatialCharacterVariableCountChange =
+    firstObservation
+      .independentSpatialCharacterVariableCount !==
+      null &&
+    lastObservation
+      .independentSpatialCharacterVariableCount !==
+      null
+      ? lastObservation
+          .independentSpatialCharacterVariableCount -
+        firstObservation
+          .independentSpatialCharacterVariableCount
+      : null;
+
+  let classification =
+    "stable-water-mass-distinction-context";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-water-mass-readiness-remained-stable";
+
+  if (
+    !firstObservation
+      .waterMassDistinctionReady &&
+    lastObservation
+      .waterMassDistinctionReady
+  ) {
+    classification =
+      "emerging-water-mass-distinction-readiness";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-water-mass-distinction-readiness-developed";
+  } else if (
+    firstObservation
+      .waterMassDistinctionReady &&
+    !lastObservation
+      .waterMassDistinctionReady
+  ) {
+    classification =
+      "fading-water-mass-distinction-readiness";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-water-mass-distinction-readiness-no-longer-supported";
+  } else if (
+    readinessChange >
+      0
+  ) {
+    classification =
+      "strengthening-water-mass-distinction-context";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-water-mass-readiness-increased";
+  } else if (
+    readinessChange <
+      0
+  ) {
+    classification =
+      "weakening-water-mass-distinction-context";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-water-mass-readiness-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "water-mass",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstClassification:
+        firstObservation
+          .classification,
+
+      lastClassification:
+        lastObservation
+          .classification,
+
+      firstReadinessState:
+        firstObservation
+          .readinessState,
+
+      lastReadinessState:
+        lastObservation
+          .readinessState,
+
+      readinessChange,
+
+      firstWaterMassDistinctionReady:
+        firstObservation
+          .waterMassDistinctionReady,
+
+      lastWaterMassDistinctionReady:
+        lastObservation
+          .waterMassDistinctionReady,
+
+      firstDistinctAdjacentWaterMassesEstablished:
+        firstObservation
+          .distinctAdjacentWaterMassesEstablished,
+
+      lastDistinctAdjacentWaterMassesEstablished:
+        lastObservation
+          .distinctAdjacentWaterMassesEstablished,
+
+      firstIndependentSpatialCharacterVariableCount:
+        firstObservation
+          .independentSpatialCharacterVariableCount,
+
+      lastIndependentSpatialCharacterVariableCount:
+        lastObservation
+          .independentSpatialCharacterVariableCount,
+
+      spatialCharacterVariableCountChange,
+
+      firstSpatialThermalContrast:
+        firstObservation
+          .spatialThermalContrast,
+
+      lastSpatialThermalContrast:
+        lastObservation
+          .spatialThermalContrast,
+
+      firstMeaningfulSpatialThermalContrast:
+        firstObservation
+          .meaningfulSpatialThermalContrast,
+
+      lastMeaningfulSpatialThermalContrast:
+        lastObservation
+          .meaningfulSpatialThermalContrast,
+
+      firstCurrentEdgeDetected:
+        firstObservation
+          .currentEdgeDetected,
+
+      lastCurrentEdgeDetected:
+        lastObservation
+          .currentEdgeDetected,
+
+      firstCurrentEdgeStrength:
+        firstObservation
+          .currentEdgeStrength,
+
+      lastCurrentEdgeStrength:
+        lastObservation
+          .currentEdgeStrength,
+
+      firstMissingRequirements:
+        firstObservation
+          .missingRequirements,
+
+      lastMissingRequirements:
+        lastObservation
+          .missingRequirements,
+
+      sourceContractVersion:
+        "pelora-water-mass-analysis-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-water-mass-contracts-available",
+      "chronological-water-mass-observation-window-established",
+      `water-mass-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "water-mass-persistence-does-not-establish-a-named-water-mass",
+      "water-mass-identity-across-space-is-not-confirmed",
+      "distinct-adjacent-water-masses-remain-governed-by-upstream-contracts",
+      "water-mass-origin-not-assessed",
+      "vertical-water-column-structure-not-assessed",
+      "water-mass-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Mixing Zone Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Mixing Zone Analysis contracts across
+ * chronological Ocean Memory snapshots.
+ *
+ * This version evaluates persistence of mixing-zone interaction
+ * context and readiness. It does not establish a verified mixing
+ * zone, distinct adjacent water masses, vertical mixing, ocean
+ * front, habitat, prey concentration, fish presence, or fishing
+ * quality.
+ */
+export function buildMixingZonePersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const readinessRank = {
+    "insufficient-evidence": 0,
+    "not-ready": 1,
+    "partially-ready": 2,
+    ready: 3
+  };
+
+  const interactionStrengthRank = {
+    unavailable: 0,
+    "not-established": 0,
+    "thermal-boundary-only": 1,
+    "hydrodynamic-boundary-only": 1,
+    "thermal-and-current-edge": 2,
+    "thermal-and-multiple-current-signals": 3
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const mixingZoneAnalysis =
+          oceanSnapshot
+            ?.observation
+            ?.oceanPhysics
+            ?.mixingZoneAnalysis ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          mixingZoneAnalysis
+            ?.contractVersion ??
+          null;
+
+        const analysisAvailable =
+          mixingZoneAnalysis
+            ?.available ===
+          true;
+
+        const classification =
+          typeof mixingZoneAnalysis
+            ?.classification ===
+            "string"
+            ? mixingZoneAnalysis
+                .classification
+            : null;
+
+        const readinessState =
+          typeof mixingZoneAnalysis
+            ?.readinessState ===
+            "string"
+            ? mixingZoneAnalysis
+                .readinessState
+            : null;
+
+        const readinessScore =
+          Object.hasOwn(
+            readinessRank,
+            readinessState
+          )
+            ? readinessRank[
+                readinessState
+              ]
+            : null;
+
+        const interactionContext =
+          typeof mixingZoneAnalysis
+            ?.interactionContext ===
+            "string"
+            ? mixingZoneAnalysis
+                .interactionContext
+            : null;
+
+        const interactionStrength =
+          Object.hasOwn(
+            interactionStrengthRank,
+            interactionContext
+          )
+            ? interactionStrengthRank[
+                interactionContext
+              ]
+            : null;
+
+        const mixingZoneReady =
+          mixingZoneAnalysis
+            ?.mixingZoneReady ===
+          true;
+
+        const mixingZoneDetected =
+          mixingZoneAnalysis
+            ?.mixingZoneDetected ===
+          true;
+
+        const distinctAdjacentWaterMassesEstablished =
+          mixingZoneAnalysis
+            ?.evidence
+            ?.distinctAdjacentWaterMassesEstablished ===
+          true;
+
+        const waterMassDistinctionReady =
+          mixingZoneAnalysis
+            ?.evidence
+            ?.waterMassDistinctionReady ===
+          true;
+
+        const spatialThermalContrast =
+          mixingZoneAnalysis
+            ?.evidence
+            ?.spatialThermalContrast ===
+          true;
+
+        const meaningfulSpatialThermalContrast =
+          mixingZoneAnalysis
+            ?.evidence
+            ?.meaningfulSpatialThermalContrast ===
+          true;
+
+        const hydrodynamicInteractionSignalCount =
+          Number.isFinite(
+            mixingZoneAnalysis
+              ?.evidence
+              ?.hydrodynamicInteractionSignalCount
+          )
+            ? mixingZoneAnalysis
+                .evidence
+                .hydrodynamicInteractionSignalCount
+            : null;
+
+        const hydrodynamicInteractionSupported =
+          mixingZoneAnalysis
+            ?.evidence
+            ?.hydrodynamicInteractionSupported ===
+          true;
+
+        const combinedBoundaryContext =
+          mixingZoneAnalysis
+            ?.evidence
+            ?.combinedBoundaryContext ===
+          true;
+
+        const missingRequirements =
+          Array.isArray(
+            mixingZoneAnalysis
+              ?.missingRequirements
+          )
+            ? [
+                ...mixingZoneAnalysis
+                  .missingRequirements
+              ]
+            : [];
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          analysisAvailable,
+
+          classification,
+
+          readinessState,
+
+          readinessScore,
+
+          interactionContext,
+
+          interactionStrength,
+
+          mixingZoneReady,
+
+          mixingZoneDetected,
+
+          distinctAdjacentWaterMassesEstablished,
+
+          waterMassDistinctionReady,
+
+          spatialThermalContrast,
+
+          meaningfulSpatialThermalContrast,
+
+          hydrodynamicInteractionSignalCount,
+
+          hydrodynamicInteractionSupported,
+
+          combinedBoundaryContext,
+
+          missingRequirements,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-mixing-zone-analysis-v1" &&
+            analysisAvailable &&
+            readinessScore !==
+              null &&
+            interactionStrength !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "mixing-zone",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-mixing-zone-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstReadinessState:
+          null,
+
+        lastReadinessState:
+          null,
+
+        readinessChange:
+          null,
+
+        firstInteractionContext:
+          null,
+
+        lastInteractionContext:
+          null,
+
+        interactionStrengthChange:
+          null,
+
+        firstHydrodynamicInteractionSignalCount:
+          null,
+
+        lastHydrodynamicInteractionSignalCount:
+          null,
+
+        hydrodynamicSignalCountChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-mixing-zone-contracts-unavailable",
+        "mixing-zone-persistence-not-assessed",
+        "mixing-zone-identity-not-established",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "mixing-zone",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-mixing-zone-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstReadinessState:
+          firstObservation
+            ?.readinessState ??
+          null,
+
+        lastReadinessState:
+          lastObservation
+            ?.readinessState ??
+          null,
+
+        readinessChange:
+          null,
+
+        firstInteractionContext:
+          firstObservation
+            ?.interactionContext ??
+          null,
+
+        lastInteractionContext:
+          lastObservation
+            ?.interactionContext ??
+          null,
+
+        interactionStrengthChange:
+          null,
+
+        firstHydrodynamicInteractionSignalCount:
+          firstObservation
+            ?.hydrodynamicInteractionSignalCount ??
+          null,
+
+        lastHydrodynamicInteractionSignalCount:
+          lastObservation
+            ?.hydrodynamicInteractionSignalCount ??
+          null,
+
+        hydrodynamicSignalCountChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-mixing-zone-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-mixing-zone-contracts-required",
+        "mixing-zone-persistence-not-assessed",
+        "mixing-zone-identity-not-established"
+      ]
+    });
+  }
+
+  const readinessChange =
+    lastObservation
+      .readinessScore -
+    firstObservation
+      .readinessScore;
+
+  const interactionStrengthChange =
+    lastObservation
+      .interactionStrength -
+    firstObservation
+      .interactionStrength;
+
+  const hydrodynamicSignalCountChange =
+    firstObservation
+      .hydrodynamicInteractionSignalCount !==
+      null &&
+    lastObservation
+      .hydrodynamicInteractionSignalCount !==
+      null
+      ? lastObservation
+          .hydrodynamicInteractionSignalCount -
+        firstObservation
+          .hydrodynamicInteractionSignalCount
+      : null;
+
+  let classification =
+    "stable-mixing-zone-interaction-context";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-mixing-zone-interaction-context-remained-stable";
+
+  if (
+    !firstObservation
+      .hydrodynamicInteractionSupported &&
+    lastObservation
+      .hydrodynamicInteractionSupported
+  ) {
+    classification =
+      "emerging-mixing-zone-interaction-context";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-mixing-zone-interaction-context-developed";
+  } else if (
+    firstObservation
+      .hydrodynamicInteractionSupported &&
+    !lastObservation
+      .hydrodynamicInteractionSupported
+  ) {
+    classification =
+      "fading-mixing-zone-interaction-context";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-mixing-zone-interaction-context-no-longer-supported";
+  } else if (
+    readinessChange >
+      0 ||
+    interactionStrengthChange >
+      0
+  ) {
+    classification =
+      "strengthening-mixing-zone-interaction-context";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-mixing-zone-interaction-evidence-increased";
+  } else if (
+    readinessChange <
+      0 ||
+    interactionStrengthChange <
+      0
+  ) {
+    classification =
+      "weakening-mixing-zone-interaction-context";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-mixing-zone-interaction-evidence-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "mixing-zone",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstClassification:
+        firstObservation
+          .classification,
+
+      lastClassification:
+        lastObservation
+          .classification,
+
+      firstReadinessState:
+        firstObservation
+          .readinessState,
+
+      lastReadinessState:
+        lastObservation
+          .readinessState,
+
+      readinessChange,
+
+      firstInteractionContext:
+        firstObservation
+          .interactionContext,
+
+      lastInteractionContext:
+        lastObservation
+          .interactionContext,
+
+      interactionStrengthChange,
+
+      firstMixingZoneReady:
+        firstObservation
+          .mixingZoneReady,
+
+      lastMixingZoneReady:
+        lastObservation
+          .mixingZoneReady,
+
+      firstMixingZoneDetected:
+        firstObservation
+          .mixingZoneDetected,
+
+      lastMixingZoneDetected:
+        lastObservation
+          .mixingZoneDetected,
+
+      firstDistinctAdjacentWaterMassesEstablished:
+        firstObservation
+          .distinctAdjacentWaterMassesEstablished,
+
+      lastDistinctAdjacentWaterMassesEstablished:
+        lastObservation
+          .distinctAdjacentWaterMassesEstablished,
+
+      firstWaterMassDistinctionReady:
+        firstObservation
+          .waterMassDistinctionReady,
+
+      lastWaterMassDistinctionReady:
+        lastObservation
+          .waterMassDistinctionReady,
+
+      firstSpatialThermalContrast:
+        firstObservation
+          .spatialThermalContrast,
+
+      lastSpatialThermalContrast:
+        lastObservation
+          .spatialThermalContrast,
+
+      firstMeaningfulSpatialThermalContrast:
+        firstObservation
+          .meaningfulSpatialThermalContrast,
+
+      lastMeaningfulSpatialThermalContrast:
+        lastObservation
+          .meaningfulSpatialThermalContrast,
+
+      firstHydrodynamicInteractionSignalCount:
+        firstObservation
+          .hydrodynamicInteractionSignalCount,
+
+      lastHydrodynamicInteractionSignalCount:
+        lastObservation
+          .hydrodynamicInteractionSignalCount,
+
+      hydrodynamicSignalCountChange,
+
+      firstHydrodynamicInteractionSupported:
+        firstObservation
+          .hydrodynamicInteractionSupported,
+
+      lastHydrodynamicInteractionSupported:
+        lastObservation
+          .hydrodynamicInteractionSupported,
+
+      firstCombinedBoundaryContext:
+        firstObservation
+          .combinedBoundaryContext,
+
+      lastCombinedBoundaryContext:
+        lastObservation
+          .combinedBoundaryContext,
+
+      firstMissingRequirements:
+        firstObservation
+          .missingRequirements,
+
+      lastMissingRequirements:
+        lastObservation
+          .missingRequirements,
+
+      sourceContractVersion:
+        "pelora-mixing-zone-analysis-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-mixing-zone-contracts-available",
+      "chronological-mixing-zone-observation-window-established",
+      `mixing-zone-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "mixing-zone-persistence-does-not-confirm-a-verified-mixing-zone",
+      "mixing-zone-identity-across-space-is-not-confirmed",
+      "distinct-adjacent-water-masses-remain-governed-by-upstream-contracts",
+      "vertical-mixing-and-water-column-structure-not-assessed",
+      "mixing-zone-movement-not-assessed",
+      "mixing-zone-persistence-does-not-establish-an-ocean-front",
+      "mixing-zone-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
 /**
  * ------------------------------------------------------------
  * Ocean Persistence Engine Contract v1.0
@@ -21800,6 +25435,31 @@ export function buildOceanPersistence({
     buildCurrentShearPersistence({
       historicalSnapshots
     });
+
+  const currentConvergence =
+  buildCurrentConvergencePersistence({
+    historicalSnapshots
+  });
+
+  const environmentalTransition =
+    buildEnvironmentalTransitionPersistence({
+      historicalSnapshots
+    });
+
+      const surfaceWaterCharacter =
+    buildSurfaceWaterCharacterPersistence({
+      historicalSnapshots
+    });
+
+    const waterMass =
+  buildWaterMassPersistence({
+    historicalSnapshots
+  });
+
+  const mixingZone =
+  buildMixingZonePersistence({
+    historicalSnapshots
+  });
 
  const buildUnavailableFeature = ({
   featureType,
@@ -21993,14 +25653,15 @@ export function buildOceanPersistence({
 
     currentShear,
 
-    currentConvergence:
-      buildUnavailableFeature({
-        featureType:
-          "current-convergence",
+    currentConvergence,
 
-        featureFamily:
-          "physical-ocean"
-      }),
+    environmentalTransition,
+
+    surfaceWaterCharacter,
+
+    waterMass,
+
+    mixingZone,
 
     chlorophyll:
       buildUnavailableFeature({

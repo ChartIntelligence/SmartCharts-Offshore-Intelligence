@@ -23,6 +23,11 @@ import {
   buildCurrentPersistence,
   buildCurrentEdgePersistence,
   buildCurrentShearPersistence,
+  buildCurrentConvergencePersistence,
+  buildEnvironmentalTransitionPersistence,
+  buildSurfaceWaterCharacterPersistence,
+  buildWaterMassPersistence,
+  buildMixingZonePersistence,
   buildOceanPersistence,
   OCEAN_PERSISTENCE_LIFECYCLE_STATES,
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
@@ -22950,7 +22955,7 @@ assert.equal(
   oceanPersistenceNoHistory
     .values
     .registeredFeatureCount,
-  10
+  14
 );
 
 assert.equal(
@@ -24944,4 +24949,3155 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed Current Shear Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Convergence Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const currentConvergencePersistenceNoHistory =
+  buildCurrentConvergencePersistence();
+
+assert.equal(
+  currentConvergencePersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  currentConvergencePersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  currentConvergencePersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Current Convergence Persistence v1 remains unavailable without governed convergence history"
+);
+
+
+const buildHistoricalCurrentConvergenceSnapshot = ({
+  baseObservationSnapshot,
+  currentConvergence,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  observations: {
+    currents: {
+      derived: {
+        spatialAnalysis: {
+          convergence:
+            currentConvergence
+        }
+      }
+    }
+  }
+});
+
+
+const noConvergenceContract = {
+  available:
+    true,
+
+  convergenceType:
+    "no-convergence-candidate",
+
+  convergenceState:
+    "not-supported",
+
+  convergenceStrength:
+    "none",
+
+  evidence: {
+    meanMeaningfulInwardMetersPerSecond:
+      null,
+
+    maximumInwardMetersPerSecond:
+      0.02
+  },
+
+  contractVersion:
+    "pelora-current-convergence-v1"
+};
+
+
+const measurableConvergenceContract = {
+  available:
+    true,
+
+  convergenceType:
+    "convergence-candidate",
+
+  convergenceState:
+    "candidate",
+
+  convergenceStrength:
+    "measurable",
+
+  evidence: {
+    meanMeaningfulInwardMetersPerSecond:
+      0.08,
+
+    maximumInwardMetersPerSecond:
+      0.12
+  },
+
+  contractVersion:
+    "pelora-current-convergence-v1"
+};
+
+
+const pronouncedConvergenceContract = {
+  available:
+    true,
+
+  convergenceType:
+    "pronounced-convergence-candidate",
+
+  convergenceState:
+    "candidate",
+
+  convergenceStrength:
+    "pronounced",
+
+  evidence: {
+    meanMeaningfulInwardMetersPerSecond:
+      0.18,
+
+    maximumInwardMetersPerSecond:
+      0.22
+  },
+
+  contractVersion:
+    "pelora-current-convergence-v1"
+};
+
+
+const earlierNoConvergenceObservationSnapshot =
+  buildHistoricalCurrentConvergenceSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    currentConvergence:
+      noConvergenceContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterMeasurableConvergenceObservationSnapshot =
+  buildHistoricalCurrentConvergenceSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    currentConvergence:
+      measurableConvergenceContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierNoConvergenceHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierNoConvergenceObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-convergence-test-location"
+  });
+
+
+const laterMeasurableConvergenceHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterMeasurableConvergenceObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-convergence-test-location"
+  });
+
+
+const emergingCurrentConvergencePersistence =
+  buildCurrentConvergencePersistence({
+    historicalSnapshots: [
+      laterMeasurableConvergenceHistoricalBackfill,
+      earlierNoConvergenceHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  emergingCurrentConvergencePersistence.available,
+  true
+);
+
+assert.equal(
+  emergingCurrentConvergencePersistence.classification,
+  "emerging-current-convergence"
+);
+
+assert.equal(
+  emergingCurrentConvergencePersistence.lifecycleState,
+  "emerging"
+);
+
+assert.equal(
+  emergingCurrentConvergencePersistence
+    .values
+    .firstConvergenceDetected,
+  false
+);
+
+assert.equal(
+  emergingCurrentConvergencePersistence
+    .values
+    .lastConvergenceDetected,
+  true
+);
+
+console.log(
+  "PASS Current Convergence Persistence v1 identifies emerging convergence"
+);
+
+
+const earlierMeasurableConvergenceObservationSnapshot =
+  buildHistoricalCurrentConvergenceSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    currentConvergence:
+      measurableConvergenceContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterPronouncedConvergenceObservationSnapshot =
+  buildHistoricalCurrentConvergenceSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    currentConvergence:
+      pronouncedConvergenceContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierMeasurableConvergenceHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierMeasurableConvergenceObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-convergence-strength-test-location"
+  });
+
+
+const laterPronouncedConvergenceHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterPronouncedConvergenceObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-convergence-strength-test-location"
+  });
+
+
+const strengtheningCurrentConvergencePersistence =
+  buildCurrentConvergencePersistence({
+    historicalSnapshots: [
+      laterPronouncedConvergenceHistoricalBackfill,
+      earlierMeasurableConvergenceHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningCurrentConvergencePersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningCurrentConvergencePersistence.classification,
+  "strengthening-current-convergence"
+);
+
+assert.equal(
+  strengtheningCurrentConvergencePersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningCurrentConvergencePersistence
+    .values
+    .convergenceStrengthChange,
+  1
+);
+
+assert.ok(
+  Math.abs(
+    strengtheningCurrentConvergencePersistence
+      .values
+      .meanInwardChangeMetersPerSecond -
+      0.1
+  ) < 1e-9
+);
+
+console.log(
+  "PASS Current Convergence Persistence v1 identifies strengthening convergence and inward-flow change"
+);
+
+
+const oceanPersistenceWithCurrentConvergence =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedConvergenceHistoricalBackfill,
+      earlierMeasurableConvergenceHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithCurrentConvergence
+    .featurePersistence
+    .currentConvergence
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentConvergence
+    .featurePersistence
+    .currentConvergence
+    .classification,
+  "strengthening-current-convergence"
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentConvergence
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Current Convergence Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Environmental Transition Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const environmentalTransitionPersistenceNoHistory =
+  buildEnvironmentalTransitionPersistence();
+
+assert.equal(
+  environmentalTransitionPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  environmentalTransitionPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  environmentalTransitionPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Environmental Transition Persistence v1 remains unavailable without governed transition history"
+);
+
+
+const buildHistoricalEnvironmentalTransitionSnapshot = ({
+  baseObservationSnapshot,
+  environmentalTransitionAnalysis,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  oceanPhysics: {
+    ...(
+      baseObservationSnapshot
+        ?.oceanPhysics ??
+      {}
+    ),
+
+    environmentalTransitionAnalysis
+  }
+});
+
+
+const uniformEnvironmentalTransitionContract = {
+  available:
+    true,
+
+  classification:
+    "uniform-environmental-context",
+
+  transitionType:
+    "uniform",
+
+  transitionState:
+    "observed",
+
+  transitionStrength:
+    "none",
+
+  evidence: {
+    thermalTransitionSupported:
+      false,
+
+    hydrodynamicTransitionSupported:
+      false,
+
+    independentTransitionSignalCount:
+      0
+  },
+
+  contractVersion:
+    "pelora-environmental-transition-analysis-v1"
+};
+
+
+const measurableCombinedTransitionContract = {
+  available:
+    true,
+
+  classification:
+    "combined-environmental-transition-context",
+
+  transitionType:
+    "thermal-and-hydrodynamic",
+
+  transitionState:
+    "candidate-context",
+
+  transitionStrength:
+    "measurable",
+
+  evidence: {
+    thermalTransitionSupported:
+      true,
+
+    hydrodynamicTransitionSupported:
+      true,
+
+    independentTransitionSignalCount:
+      2
+  },
+
+  contractVersion:
+    "pelora-environmental-transition-analysis-v1"
+};
+
+
+const pronouncedMultiSignalTransitionContract = {
+  available:
+    true,
+
+  classification:
+    "multi-signal-environmental-transition-context",
+
+  transitionType:
+    "multi-signal",
+
+  transitionState:
+    "candidate-context",
+
+  transitionStrength:
+    "pronounced",
+
+  evidence: {
+    thermalTransitionSupported:
+      true,
+
+    hydrodynamicTransitionSupported:
+      true,
+
+    independentTransitionSignalCount:
+      4
+  },
+
+  contractVersion:
+    "pelora-environmental-transition-analysis-v1"
+};
+
+
+const earlierUniformEnvironmentalTransitionObservationSnapshot =
+  buildHistoricalEnvironmentalTransitionSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    environmentalTransitionAnalysis:
+      uniformEnvironmentalTransitionContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterMeasurableEnvironmentalTransitionObservationSnapshot =
+  buildHistoricalEnvironmentalTransitionSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    environmentalTransitionAnalysis:
+      measurableCombinedTransitionContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierUniformEnvironmentalTransitionHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierUniformEnvironmentalTransitionObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-environmental-transition-test-location"
+  });
+
+
+const laterMeasurableEnvironmentalTransitionHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterMeasurableEnvironmentalTransitionObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-environmental-transition-test-location"
+  });
+
+
+const emergingEnvironmentalTransitionPersistence =
+  buildEnvironmentalTransitionPersistence({
+    historicalSnapshots: [
+      laterMeasurableEnvironmentalTransitionHistoricalBackfill,
+      earlierUniformEnvironmentalTransitionHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  emergingEnvironmentalTransitionPersistence.available,
+  true
+);
+
+assert.equal(
+  emergingEnvironmentalTransitionPersistence.classification,
+  "emerging-environmental-transition-context"
+);
+
+assert.equal(
+  emergingEnvironmentalTransitionPersistence.lifecycleState,
+  "emerging"
+);
+
+assert.equal(
+  emergingEnvironmentalTransitionPersistence
+    .values
+    .firstTransitionContextSupported,
+  false
+);
+
+assert.equal(
+  emergingEnvironmentalTransitionPersistence
+    .values
+    .lastTransitionContextSupported,
+  true
+);
+
+assert.equal(
+  emergingEnvironmentalTransitionPersistence
+    .values
+    .transitionSignalCountChange,
+  2
+);
+
+console.log(
+  "PASS Environmental Transition Persistence v1 identifies emerging transition context"
+);
+
+
+const earlierMeasurableEnvironmentalTransitionObservationSnapshot =
+  buildHistoricalEnvironmentalTransitionSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    environmentalTransitionAnalysis:
+      measurableCombinedTransitionContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterPronouncedEnvironmentalTransitionObservationSnapshot =
+  buildHistoricalEnvironmentalTransitionSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    environmentalTransitionAnalysis:
+      pronouncedMultiSignalTransitionContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierMeasurableEnvironmentalTransitionHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierMeasurableEnvironmentalTransitionObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-environmental-transition-strength-test-location"
+  });
+
+
+const laterPronouncedEnvironmentalTransitionHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterPronouncedEnvironmentalTransitionObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-environmental-transition-strength-test-location"
+  });
+
+
+const strengtheningEnvironmentalTransitionPersistence =
+  buildEnvironmentalTransitionPersistence({
+    historicalSnapshots: [
+      laterPronouncedEnvironmentalTransitionHistoricalBackfill,
+      earlierMeasurableEnvironmentalTransitionHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningEnvironmentalTransitionPersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningEnvironmentalTransitionPersistence.classification,
+  "strengthening-environmental-transition-context"
+);
+
+assert.equal(
+  strengtheningEnvironmentalTransitionPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningEnvironmentalTransitionPersistence
+    .values
+    .transitionStrengthChange,
+  1
+);
+
+assert.equal(
+  strengtheningEnvironmentalTransitionPersistence
+    .values
+    .transitionSignalCountChange,
+  2
+);
+
+assert.equal(
+  strengtheningEnvironmentalTransitionPersistence
+    .values
+    .firstTransitionType,
+  "thermal-and-hydrodynamic"
+);
+
+assert.equal(
+  strengtheningEnvironmentalTransitionPersistence
+    .values
+    .lastTransitionType,
+  "multi-signal"
+);
+
+console.log(
+  "PASS Environmental Transition Persistence v1 identifies strengthening multi-signal context"
+);
+
+
+const oceanPersistenceWithEnvironmentalTransition =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedEnvironmentalTransitionHistoricalBackfill,
+      earlierMeasurableEnvironmentalTransitionHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithEnvironmentalTransition
+    .featurePersistence
+    .environmentalTransition
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithEnvironmentalTransition
+    .featurePersistence
+    .environmentalTransition
+    .classification,
+  "strengthening-environmental-transition-context"
+);
+
+assert.equal(
+  oceanPersistenceWithEnvironmentalTransition
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Environmental Transition Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Surface Water Character Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const surfaceWaterCharacterPersistenceNoHistory =
+  buildSurfaceWaterCharacterPersistence();
+
+assert.equal(
+  surfaceWaterCharacterPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  surfaceWaterCharacterPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  surfaceWaterCharacterPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Surface Water Character Persistence v1 remains unavailable without governed history"
+);
+
+
+const buildHistoricalSurfaceWaterCharacterSnapshot = ({
+  baseObservationSnapshot,
+  surfaceWaterCharacter,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  oceanPhysics: {
+    ...(
+      baseObservationSnapshot
+        ?.oceanPhysics ??
+      {}
+    ),
+
+    surfaceWaterCharacter
+  }
+});
+
+
+const uniformSurfaceWaterCharacterContract = {
+  available:
+    true,
+
+  classification:
+    "uniform-thermal-surface-water-character",
+
+  state:
+    "observed",
+
+  boundaryContext:
+    "not-established",
+
+  localCharacter: {
+    temperatureAvailable:
+      true,
+
+    localTemperatureFahrenheit:
+      82,
+
+    temperatureBand:
+      "warm",
+
+    productivityAvailable:
+      true,
+
+    chlorophyllConcentrationMgM3:
+      0.15,
+
+    productivityClassification:
+      "clear-blue-water",
+
+    productivityFreshness:
+      "current",
+
+    clarityAvailable:
+      true,
+
+    clarityClassification:
+      "clear-water"
+  },
+
+  spatialContext: {
+    thermalCoverage:
+      "sufficient",
+
+    sufficientThermalCoverage:
+      true,
+
+    spatialTemperatureClassification:
+      "uniform-water",
+
+    thermalRangeFahrenheit:
+      0.3,
+
+    weakThermalTransition:
+      false,
+
+    moderateThermalTransition:
+      false,
+
+    strongThermalTransition:
+      false,
+
+    meaningfulThermalTransition:
+      false,
+
+    directionalThermalTransition:
+      false,
+
+    currentEdgeAvailable:
+      true,
+
+    currentEdgeDetected:
+      false,
+
+    currentEdgeType:
+      "no-edge-candidate",
+
+    currentEdgeStrength:
+      "none"
+  },
+
+  contractVersion:
+    "pelora-surface-water-character-v1"
+};
+
+
+const moderateBoundarySurfaceWaterCharacterContract = {
+  available:
+    true,
+
+  classification:
+    "surface-water-near-moderate-thermal-transition",
+
+  state:
+    "candidate-context",
+
+  boundaryContext:
+    "moderate-thermal-transition",
+
+  localCharacter: {
+    temperatureAvailable:
+      true,
+
+    localTemperatureFahrenheit:
+      83,
+
+    temperatureBand:
+      "warm",
+
+    productivityAvailable:
+      true,
+
+    chlorophyllConcentrationMgM3:
+      0.2,
+
+    productivityClassification:
+      "clear-blue-water",
+
+    productivityFreshness:
+      "current",
+
+    clarityAvailable:
+      true,
+
+    clarityClassification:
+      "clear-water"
+  },
+
+  spatialContext: {
+    thermalCoverage:
+      "sufficient",
+
+    sufficientThermalCoverage:
+      true,
+
+    spatialTemperatureClassification:
+      "moderate-temperature-structure",
+
+    thermalRangeFahrenheit:
+      1.4,
+
+    weakThermalTransition:
+      false,
+
+    moderateThermalTransition:
+      true,
+
+    strongThermalTransition:
+      false,
+
+    meaningfulThermalTransition:
+      true,
+
+    directionalThermalTransition:
+      true,
+
+    currentEdgeAvailable:
+      true,
+
+    currentEdgeDetected:
+      false,
+
+    currentEdgeType:
+      "no-edge-candidate",
+
+    currentEdgeStrength:
+      "none"
+  },
+
+  contractVersion:
+    "pelora-surface-water-character-v1"
+};
+
+
+const pronouncedCombinedSurfaceWaterCharacterContract = {
+  available:
+    true,
+
+  classification:
+    "combined-thermal-current-boundary-context",
+
+  state:
+    "candidate-context",
+
+  boundaryContext:
+    "pronounced-thermal-and-current-boundary",
+
+  localCharacter: {
+    temperatureAvailable:
+      true,
+
+    localTemperatureFahrenheit:
+      84,
+
+    temperatureBand:
+      "warm",
+
+    productivityAvailable:
+      true,
+
+    chlorophyllConcentrationMgM3:
+      0.25,
+
+    productivityClassification:
+      "productive-blue-green-transition",
+
+    productivityFreshness:
+      "current",
+
+    clarityAvailable:
+      true,
+
+    clarityClassification:
+      "transitional-water"
+  },
+
+  spatialContext: {
+    thermalCoverage:
+      "sufficient",
+
+    sufficientThermalCoverage:
+      true,
+
+    spatialTemperatureClassification:
+      "strong-temperature-break-candidate",
+
+    thermalRangeFahrenheit:
+      3.2,
+
+    weakThermalTransition:
+      false,
+
+    moderateThermalTransition:
+      false,
+
+    strongThermalTransition:
+      true,
+
+    meaningfulThermalTransition:
+      true,
+
+    directionalThermalTransition:
+      true,
+
+    currentEdgeAvailable:
+      true,
+
+    currentEdgeDetected:
+      true,
+
+    currentEdgeType:
+      "pronounced-current-edge-candidate",
+
+    currentEdgeStrength:
+      "pronounced"
+  },
+
+  contractVersion:
+    "pelora-surface-water-character-v1"
+};
+
+
+const earlierUniformSurfaceWaterCharacterObservationSnapshot =
+  buildHistoricalSurfaceWaterCharacterSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    surfaceWaterCharacter:
+      uniformSurfaceWaterCharacterContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterModerateSurfaceWaterCharacterObservationSnapshot =
+  buildHistoricalSurfaceWaterCharacterSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    surfaceWaterCharacter:
+      moderateBoundarySurfaceWaterCharacterContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierUniformSurfaceWaterCharacterHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierUniformSurfaceWaterCharacterObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-surface-water-character-test-location"
+  });
+
+
+const laterModerateSurfaceWaterCharacterHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterModerateSurfaceWaterCharacterObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-surface-water-character-test-location"
+  });
+
+
+const singleSurfaceWaterCharacterPersistence =
+  buildSurfaceWaterCharacterPersistence({
+    historicalSnapshots: [
+      earlierUniformSurfaceWaterCharacterHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  singleSurfaceWaterCharacterPersistence.available,
+  false
+);
+
+assert.equal(
+  singleSurfaceWaterCharacterPersistence.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  singleSurfaceWaterCharacterPersistence
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  singleSurfaceWaterCharacterPersistence
+    .values
+    .firstBoundaryContext,
+  "not-established"
+);
+
+console.log(
+  "PASS Surface Water Character Persistence v1 requires two chronological contracts"
+);
+
+
+const emergingSurfaceWaterCharacterPersistence =
+  buildSurfaceWaterCharacterPersistence({
+    historicalSnapshots: [
+      laterModerateSurfaceWaterCharacterHistoricalBackfill,
+      earlierUniformSurfaceWaterCharacterHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence.available,
+  true
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence.classification,
+  "emerging-surface-water-boundary-context"
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence.lifecycleState,
+  "emerging"
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .firstBoundaryContextSupported,
+  false
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .lastBoundaryContextSupported,
+  true
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .firstBoundaryContext,
+  "not-established"
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .lastBoundaryContext,
+  "moderate-thermal-transition"
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .boundaryStrengthChange,
+  2
+);
+
+assert.equal(
+  emergingSurfaceWaterCharacterPersistence
+    .values
+    .localTemperatureChangeFahrenheit,
+  1
+);
+
+assert.ok(
+  Math.abs(
+    emergingSurfaceWaterCharacterPersistence
+      .values
+      .chlorophyllChangeMgM3 -
+      0.05
+  ) < 1e-9
+);
+
+assert.ok(
+  Math.abs(
+    emergingSurfaceWaterCharacterPersistence
+      .values
+      .thermalRangeChangeFahrenheit -
+      1.1
+  ) < 1e-9
+);
+
+console.log(
+  "PASS Surface Water Character Persistence v1 identifies emerging boundary context"
+);
+
+
+const earlierModerateSurfaceWaterCharacterObservationSnapshot =
+  buildHistoricalSurfaceWaterCharacterSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    surfaceWaterCharacter:
+      moderateBoundarySurfaceWaterCharacterContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterPronouncedSurfaceWaterCharacterObservationSnapshot =
+  buildHistoricalSurfaceWaterCharacterSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    surfaceWaterCharacter:
+      pronouncedCombinedSurfaceWaterCharacterContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierModerateSurfaceWaterCharacterHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierModerateSurfaceWaterCharacterObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-surface-water-character-strength-test-location"
+  });
+
+
+const laterPronouncedSurfaceWaterCharacterHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterPronouncedSurfaceWaterCharacterObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-surface-water-character-strength-test-location"
+  });
+
+
+const strengtheningSurfaceWaterCharacterPersistence =
+  buildSurfaceWaterCharacterPersistence({
+    historicalSnapshots: [
+      laterPronouncedSurfaceWaterCharacterHistoricalBackfill,
+      earlierModerateSurfaceWaterCharacterHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence.classification,
+  "strengthening-surface-water-boundary-context"
+);
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence
+    .values
+    .boundaryStrengthChange,
+  2
+);
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence
+    .values
+    .firstBoundaryContext,
+  "moderate-thermal-transition"
+);
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence
+    .values
+    .lastBoundaryContext,
+  "pronounced-thermal-and-current-boundary"
+);
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence
+    .values
+    .firstCurrentEdgeDetected,
+  false
+);
+
+assert.equal(
+  strengtheningSurfaceWaterCharacterPersistence
+    .values
+    .lastCurrentEdgeDetected,
+  true
+);
+
+console.log(
+  "PASS Surface Water Character Persistence v1 identifies strengthening combined boundary context"
+);
+
+
+const oceanPersistenceWithSurfaceWaterCharacter =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedSurfaceWaterCharacterHistoricalBackfill,
+      earlierModerateSurfaceWaterCharacterHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithSurfaceWaterCharacter
+    .featurePersistence
+    .surfaceWaterCharacter
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithSurfaceWaterCharacter
+    .featurePersistence
+    .surfaceWaterCharacter
+    .classification,
+  "strengthening-surface-water-boundary-context"
+);
+
+assert.equal(
+  oceanPersistenceWithSurfaceWaterCharacter
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Surface Water Character Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Water Mass Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const waterMassPersistenceNoHistory =
+  buildWaterMassPersistence();
+
+assert.equal(
+  waterMassPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  waterMassPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  waterMassPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Water Mass Persistence v1 remains unavailable without governed history"
+);
+
+
+const buildHistoricalWaterMassSnapshot = ({
+  baseObservationSnapshot,
+  waterMassAnalysis,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  oceanPhysics: {
+    ...(
+      baseObservationSnapshot
+        ?.oceanPhysics ??
+      {}
+    ),
+
+    waterMassAnalysis
+  }
+});
+
+
+const uniformWaterMassContextContract = {
+  available:
+    true,
+
+  classification:
+    "uniform-surface-water-context",
+
+  readinessState:
+    "not-ready",
+
+  waterMassDistinctionReady:
+    false,
+
+  distinctAdjacentWaterMassesEstablished:
+    false,
+
+  evidence: {
+    surfaceCharacterAvailable:
+      true,
+
+    localCharacterVariables: [
+      "temperature",
+      "chlorophyll",
+      "inferred-clarity"
+    ],
+
+    localCharacterVariableCount:
+      3,
+
+    spatialCharacterVariables:
+      [],
+
+    independentSpatialCharacterVariableCount:
+      0,
+
+    temperatureAvailable:
+      true,
+
+    temperatureCoverage:
+      "sufficient",
+
+    sufficientTemperatureCoverage:
+      true,
+
+    temperatureClassification:
+      "uniform-water",
+
+    spatialTemperatureClassification:
+      "uniform-water",
+
+    uniformThermalField:
+      true,
+
+    spatialThermalContrast:
+      false,
+
+    meaningfulSpatialThermalContrast:
+      false,
+
+    directionalThermalContrast:
+      false,
+
+    productivityAvailable:
+      true,
+
+    clarityAvailable:
+      true,
+
+    currentEdgeAvailable:
+      true,
+
+    currentEdgeDetected:
+      false,
+
+    currentEdgeType:
+      "no-edge-candidate",
+
+    currentEdgeStrength:
+      "none",
+
+    spatialChlorophyllAvailable:
+      false,
+
+    salinityAvailable:
+      false,
+
+    densityAvailable:
+      false,
+
+    verticalProfileAvailable:
+      false,
+
+    persistenceAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "spatial-chlorophyll-structure",
+    "spatial-salinity-structure",
+    "density-structure",
+    "vertical-water-column-profiles",
+    "temporal-persistence",
+    "second-independent-spatial-water-character-variable"
+  ],
+
+  contractVersion:
+    "pelora-water-mass-analysis-v1"
+};
+
+
+const thermalContrastWaterMassContextContract = {
+  available:
+    true,
+
+  classification:
+    "single-variable-spatial-water-contrast",
+
+  readinessState:
+    "partially-ready",
+
+  waterMassDistinctionReady:
+    false,
+
+  distinctAdjacentWaterMassesEstablished:
+    false,
+
+  evidence: {
+    surfaceCharacterAvailable:
+      true,
+
+    localCharacterVariables: [
+      "temperature",
+      "chlorophyll",
+      "inferred-clarity"
+    ],
+
+    localCharacterVariableCount:
+      3,
+
+    spatialCharacterVariables: [
+      "temperature"
+    ],
+
+    independentSpatialCharacterVariableCount:
+      1,
+
+    temperatureAvailable:
+      true,
+
+    temperatureCoverage:
+      "sufficient",
+
+    sufficientTemperatureCoverage:
+      true,
+
+    temperatureClassification:
+      "moderate-temperature-structure",
+
+    spatialTemperatureClassification:
+      "moderate-temperature-structure",
+
+    uniformThermalField:
+      false,
+
+    spatialThermalContrast:
+      true,
+
+    meaningfulSpatialThermalContrast:
+      true,
+
+    directionalThermalContrast:
+      true,
+
+    productivityAvailable:
+      true,
+
+    clarityAvailable:
+      true,
+
+    currentEdgeAvailable:
+      true,
+
+    currentEdgeDetected:
+      false,
+
+    currentEdgeType:
+      "no-edge-candidate",
+
+    currentEdgeStrength:
+      "none",
+
+    spatialChlorophyllAvailable:
+      false,
+
+    salinityAvailable:
+      false,
+
+    densityAvailable:
+      false,
+
+    verticalProfileAvailable:
+      false,
+
+    persistenceAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "spatial-chlorophyll-structure",
+    "spatial-salinity-structure",
+    "density-structure",
+    "vertical-water-column-profiles",
+    "temporal-persistence",
+    "second-independent-spatial-water-character-variable"
+  ],
+
+  contractVersion:
+    "pelora-water-mass-analysis-v1"
+};
+
+
+const combinedBoundaryWaterMassContextContract = {
+  available:
+    true,
+
+  classification:
+    "combined-boundary-context-without-water-mass-distinction",
+
+  readinessState:
+    "partially-ready",
+
+  waterMassDistinctionReady:
+    false,
+
+  distinctAdjacentWaterMassesEstablished:
+    false,
+
+  evidence: {
+    surfaceCharacterAvailable:
+      true,
+
+    localCharacterVariables: [
+      "temperature",
+      "chlorophyll",
+      "inferred-clarity"
+    ],
+
+    localCharacterVariableCount:
+      3,
+
+    spatialCharacterVariables: [
+      "temperature"
+    ],
+
+    independentSpatialCharacterVariableCount:
+      1,
+
+    temperatureAvailable:
+      true,
+
+    temperatureCoverage:
+      "sufficient",
+
+    sufficientTemperatureCoverage:
+      true,
+
+    temperatureClassification:
+      "strong-temperature-break-candidate",
+
+    spatialTemperatureClassification:
+      "strong-temperature-break-candidate",
+
+    uniformThermalField:
+      false,
+
+    spatialThermalContrast:
+      true,
+
+    meaningfulSpatialThermalContrast:
+      true,
+
+    directionalThermalContrast:
+      true,
+
+    productivityAvailable:
+      true,
+
+    clarityAvailable:
+      true,
+
+    currentEdgeAvailable:
+      true,
+
+    currentEdgeDetected:
+      true,
+
+    currentEdgeType:
+      "pronounced-current-edge-candidate",
+
+    currentEdgeStrength:
+      "pronounced",
+
+    spatialChlorophyllAvailable:
+      false,
+
+    salinityAvailable:
+      false,
+
+    densityAvailable:
+      false,
+
+    verticalProfileAvailable:
+      false,
+
+    persistenceAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "spatial-chlorophyll-structure",
+    "spatial-salinity-structure",
+    "density-structure",
+    "vertical-water-column-profiles",
+    "temporal-persistence",
+    "second-independent-spatial-water-character-variable"
+  ],
+
+  contractVersion:
+    "pelora-water-mass-analysis-v1"
+};
+
+
+const earlierUniformWaterMassObservationSnapshot =
+  buildHistoricalWaterMassSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    waterMassAnalysis:
+      uniformWaterMassContextContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterThermalContrastWaterMassObservationSnapshot =
+  buildHistoricalWaterMassSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    waterMassAnalysis:
+      thermalContrastWaterMassContextContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierUniformWaterMassHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierUniformWaterMassObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-water-mass-test-location"
+  });
+
+
+const laterThermalContrastWaterMassHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterThermalContrastWaterMassObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-water-mass-test-location"
+  });
+
+
+const singleWaterMassPersistence =
+  buildWaterMassPersistence({
+    historicalSnapshots: [
+      earlierUniformWaterMassHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  singleWaterMassPersistence.available,
+  false
+);
+
+assert.equal(
+  singleWaterMassPersistence.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  singleWaterMassPersistence
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  singleWaterMassPersistence
+    .values
+    .firstReadinessState,
+  "not-ready"
+);
+
+console.log(
+  "PASS Water Mass Persistence v1 requires two chronological contracts"
+);
+
+
+const strengtheningWaterMassPersistence =
+  buildWaterMassPersistence({
+    historicalSnapshots: [
+      laterThermalContrastWaterMassHistoricalBackfill,
+      earlierUniformWaterMassHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningWaterMassPersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence.classification,
+  "strengthening-water-mass-distinction-context"
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .firstReadinessState,
+  "not-ready"
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .lastReadinessState,
+  "partially-ready"
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .readinessChange,
+  1
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .firstIndependentSpatialCharacterVariableCount,
+  0
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .lastIndependentSpatialCharacterVariableCount,
+  1
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .spatialCharacterVariableCountChange,
+  1
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .firstSpatialThermalContrast,
+  false
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .lastSpatialThermalContrast,
+  true
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .firstWaterMassDistinctionReady,
+  false
+);
+
+assert.equal(
+  strengtheningWaterMassPersistence
+    .values
+    .lastWaterMassDistinctionReady,
+  false
+);
+
+console.log(
+  "PASS Water Mass Persistence v1 identifies strengthening distinction readiness"
+);
+
+
+const earlierThermalContrastWaterMassObservationSnapshot =
+  buildHistoricalWaterMassSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    waterMassAnalysis:
+      thermalContrastWaterMassContextContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterCombinedBoundaryWaterMassObservationSnapshot =
+  buildHistoricalWaterMassSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    waterMassAnalysis:
+      combinedBoundaryWaterMassContextContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierThermalContrastWaterMassHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierThermalContrastWaterMassObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-water-mass-boundary-test-location"
+  });
+
+
+const laterCombinedBoundaryWaterMassHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterCombinedBoundaryWaterMassObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-water-mass-boundary-test-location"
+  });
+
+
+const stableReadinessWaterMassPersistence =
+  buildWaterMassPersistence({
+    historicalSnapshots: [
+      laterCombinedBoundaryWaterMassHistoricalBackfill,
+      earlierThermalContrastWaterMassHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  stableReadinessWaterMassPersistence.available,
+  true
+);
+
+assert.equal(
+  stableReadinessWaterMassPersistence.classification,
+  "stable-water-mass-distinction-context"
+);
+
+assert.equal(
+  stableReadinessWaterMassPersistence.lifecycleState,
+  "stable"
+);
+
+assert.equal(
+  stableReadinessWaterMassPersistence
+    .values
+    .readinessChange,
+  0
+);
+
+assert.equal(
+  stableReadinessWaterMassPersistence
+    .values
+    .firstCurrentEdgeDetected,
+  false
+);
+
+assert.equal(
+  stableReadinessWaterMassPersistence
+    .values
+    .lastCurrentEdgeDetected,
+  true
+);
+
+assert.equal(
+  stableReadinessWaterMassPersistence
+    .values
+    .lastCurrentEdgeStrength,
+  "pronounced"
+);
+
+assert.equal(
+  stableReadinessWaterMassPersistence
+    .values
+    .lastDistinctAdjacentWaterMassesEstablished,
+  false
+);
+
+console.log(
+  "PASS Water Mass Persistence v1 preserves stronger boundary evidence without overstating readiness"
+);
+
+
+const oceanPersistenceWithWaterMass =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterThermalContrastWaterMassHistoricalBackfill,
+      earlierUniformWaterMassHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithWaterMass
+    .featurePersistence
+    .waterMass
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithWaterMass
+    .featurePersistence
+    .waterMass
+    .classification,
+  "strengthening-water-mass-distinction-context"
+);
+
+assert.equal(
+  oceanPersistenceWithWaterMass
+    .featurePersistence
+    .waterMass
+    .featureType,
+  "water-mass"
+);
+
+assert.equal(
+  oceanPersistenceWithWaterMass
+    .featurePersistence
+    .waterMass
+    .featureFamily,
+  "integrated-ocean-physics"
+);
+
+assert.equal(
+  oceanPersistenceWithWaterMass
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Water Mass Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Mixing Zone Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const mixingZonePersistenceNoHistory =
+  buildMixingZonePersistence();
+
+assert.equal(
+  mixingZonePersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  mixingZonePersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  mixingZonePersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Mixing Zone Persistence v1 remains unavailable without governed history"
+);
+
+
+const buildHistoricalMixingZoneSnapshot = ({
+  baseObservationSnapshot,
+  mixingZoneAnalysis,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  oceanPhysics: {
+    ...(
+      baseObservationSnapshot
+        ?.oceanPhysics ??
+      {}
+    ),
+
+    mixingZoneAnalysis
+  }
+});
+
+
+const noMixingZoneContextContract = {
+  available:
+    true,
+
+  classification:
+    "no-mixing-zone-context",
+
+  readinessState:
+    "not-ready",
+
+  interactionContext:
+    "not-established",
+
+  mixingZoneReady:
+    false,
+
+  mixingZoneDetected:
+    false,
+
+  evidence: {
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    spatialThermalContrast:
+      false,
+
+    meaningfulSpatialThermalContrast:
+      false,
+
+    directionalThermalContrast:
+      false,
+
+    currentEdgeDetected:
+      false,
+
+    convergenceDetected:
+      false,
+
+    shearDetected:
+      false,
+
+    hydrodynamicInteractionSignalCount:
+      0,
+
+    hydrodynamicInteractionSupported:
+      false,
+
+    combinedBoundaryContext:
+      false,
+
+    persistenceAvailable:
+      false,
+
+    verticalStructureAvailable:
+      false,
+
+    spatialSalinityAvailable:
+      false,
+
+    spatialChlorophyllAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "spatial-salinity-structure",
+    "spatial-chlorophyll-structure",
+    "vertical-water-column-structure",
+    "temporal-persistence"
+  ],
+
+  contractVersion:
+    "pelora-mixing-zone-analysis-v1"
+};
+
+
+const hydrodynamicMixingZoneContextContract = {
+  available:
+    true,
+
+  classification:
+    "hydrodynamic-boundary-context-without-water-mass-distinction",
+
+  readinessState:
+    "partially-ready",
+
+  interactionContext:
+    "hydrodynamic-boundary-only",
+
+  mixingZoneReady:
+    false,
+
+  mixingZoneDetected:
+    false,
+
+  evidence: {
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    spatialThermalContrast:
+      false,
+
+    meaningfulSpatialThermalContrast:
+      false,
+
+    directionalThermalContrast:
+      false,
+
+    currentEdgeDetected:
+      true,
+
+    convergenceDetected:
+      false,
+
+    shearDetected:
+      false,
+
+    hydrodynamicInteractionSignalCount:
+      1,
+
+    hydrodynamicInteractionSupported:
+      true,
+
+    combinedBoundaryContext:
+      false,
+
+    persistenceAvailable:
+      false,
+
+    verticalStructureAvailable:
+      false,
+
+    spatialSalinityAvailable:
+      false,
+
+    spatialChlorophyllAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "spatial-salinity-structure",
+    "spatial-chlorophyll-structure",
+    "vertical-water-column-structure",
+    "temporal-persistence"
+  ],
+
+  contractVersion:
+    "pelora-mixing-zone-analysis-v1"
+};
+
+
+const combinedMixingZoneContextContract = {
+  available:
+    true,
+
+  classification:
+    "combined-boundary-interaction-context",
+
+  readinessState:
+    "partially-ready",
+
+  interactionContext:
+    "thermal-and-current-edge",
+
+  mixingZoneReady:
+    false,
+
+  mixingZoneDetected:
+    false,
+
+  evidence: {
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    spatialThermalContrast:
+      true,
+
+    meaningfulSpatialThermalContrast:
+      true,
+
+    directionalThermalContrast:
+      true,
+
+    currentEdgeDetected:
+      true,
+
+    convergenceDetected:
+      false,
+
+    shearDetected:
+      false,
+
+    hydrodynamicInteractionSignalCount:
+      1,
+
+    hydrodynamicInteractionSupported:
+      true,
+
+    combinedBoundaryContext:
+      true,
+
+    persistenceAvailable:
+      false,
+
+    verticalStructureAvailable:
+      false,
+
+    spatialSalinityAvailable:
+      false,
+
+    spatialChlorophyllAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "spatial-salinity-structure",
+    "spatial-chlorophyll-structure",
+    "vertical-water-column-structure",
+    "temporal-persistence"
+  ],
+
+  contractVersion:
+    "pelora-mixing-zone-analysis-v1"
+};
+
+
+const multiSignalMixingZoneContextContract = {
+  available:
+    true,
+
+  classification:
+    "multi-signal-boundary-interaction-context",
+
+  readinessState:
+    "partially-ready",
+
+  interactionContext:
+    "thermal-and-multiple-current-signals",
+
+  mixingZoneReady:
+    false,
+
+  mixingZoneDetected:
+    false,
+
+  evidence: {
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    spatialThermalContrast:
+      true,
+
+    meaningfulSpatialThermalContrast:
+      true,
+
+    directionalThermalContrast:
+      true,
+
+    currentEdgeDetected:
+      true,
+
+    convergenceDetected:
+      true,
+
+    shearDetected:
+      true,
+
+    hydrodynamicInteractionSignalCount:
+      3,
+
+    hydrodynamicInteractionSupported:
+      true,
+
+    combinedBoundaryContext:
+      true,
+
+    persistenceAvailable:
+      false,
+
+    verticalStructureAvailable:
+      false,
+
+    spatialSalinityAvailable:
+      false,
+
+    spatialChlorophyllAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "spatial-salinity-structure",
+    "spatial-chlorophyll-structure",
+    "vertical-water-column-structure",
+    "temporal-persistence"
+  ],
+
+  contractVersion:
+    "pelora-mixing-zone-analysis-v1"
+};
+
+
+const earlierNoMixingZoneObservationSnapshot =
+  buildHistoricalMixingZoneSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    mixingZoneAnalysis:
+      noMixingZoneContextContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterHydrodynamicMixingZoneObservationSnapshot =
+  buildHistoricalMixingZoneSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    mixingZoneAnalysis:
+      hydrodynamicMixingZoneContextContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierNoMixingZoneHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierNoMixingZoneObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-mixing-zone-test-location"
+  });
+
+
+const laterHydrodynamicMixingZoneHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterHydrodynamicMixingZoneObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-mixing-zone-test-location"
+  });
+
+
+const singleMixingZonePersistence =
+  buildMixingZonePersistence({
+    historicalSnapshots: [
+      earlierNoMixingZoneHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  singleMixingZonePersistence.available,
+  false
+);
+
+assert.equal(
+  singleMixingZonePersistence.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  singleMixingZonePersistence
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  singleMixingZonePersistence
+    .values
+    .firstInteractionContext,
+  "not-established"
+);
+
+console.log(
+  "PASS Mixing Zone Persistence v1 requires two chronological contracts"
+);
+
+
+const emergingMixingZonePersistence =
+  buildMixingZonePersistence({
+    historicalSnapshots: [
+      laterHydrodynamicMixingZoneHistoricalBackfill,
+      earlierNoMixingZoneHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  emergingMixingZonePersistence.available,
+  true
+);
+
+assert.equal(
+  emergingMixingZonePersistence.classification,
+  "emerging-mixing-zone-interaction-context"
+);
+
+assert.equal(
+  emergingMixingZonePersistence.lifecycleState,
+  "emerging"
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .firstHydrodynamicInteractionSupported,
+  false
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .lastHydrodynamicInteractionSupported,
+  true
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .firstHydrodynamicInteractionSignalCount,
+  0
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .lastHydrodynamicInteractionSignalCount,
+  1
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .hydrodynamicSignalCountChange,
+  1
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .firstInteractionContext,
+  "not-established"
+);
+
+assert.equal(
+  emergingMixingZonePersistence
+    .values
+    .lastInteractionContext,
+  "hydrodynamic-boundary-only"
+);
+
+console.log(
+  "PASS Mixing Zone Persistence v1 identifies emerging interaction context"
+);
+
+
+const earlierCombinedMixingZoneObservationSnapshot =
+  buildHistoricalMixingZoneSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    mixingZoneAnalysis:
+      combinedMixingZoneContextContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterMultiSignalMixingZoneObservationSnapshot =
+  buildHistoricalMixingZoneSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    mixingZoneAnalysis:
+      multiSignalMixingZoneContextContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierCombinedMixingZoneHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierCombinedMixingZoneObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-mixing-zone-strength-test-location"
+  });
+
+
+const laterMultiSignalMixingZoneHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterMultiSignalMixingZoneObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-mixing-zone-strength-test-location"
+  });
+
+
+const strengtheningMixingZonePersistence =
+  buildMixingZonePersistence({
+    historicalSnapshots: [
+      laterMultiSignalMixingZoneHistoricalBackfill,
+      earlierCombinedMixingZoneHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningMixingZonePersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence.classification,
+  "strengthening-mixing-zone-interaction-context"
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .readinessChange,
+  0
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .interactionStrengthChange,
+  1
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .firstHydrodynamicInteractionSignalCount,
+  1
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .lastHydrodynamicInteractionSignalCount,
+  3
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .hydrodynamicSignalCountChange,
+  2
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .firstInteractionContext,
+  "thermal-and-current-edge"
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .lastInteractionContext,
+  "thermal-and-multiple-current-signals"
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .firstCombinedBoundaryContext,
+  true
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .lastCombinedBoundaryContext,
+  true
+);
+
+assert.equal(
+  strengtheningMixingZonePersistence
+    .values
+    .lastMixingZoneDetected,
+  false
+);
+
+console.log(
+  "PASS Mixing Zone Persistence v1 identifies strengthening multi-signal context"
+);
+
+
+const oceanPersistenceWithMixingZone =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterMultiSignalMixingZoneHistoricalBackfill,
+      earlierCombinedMixingZoneHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithMixingZone
+    .featurePersistence
+    .mixingZone
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithMixingZone
+    .featurePersistence
+    .mixingZone
+    .classification,
+  "strengthening-mixing-zone-interaction-context"
+);
+
+assert.equal(
+  oceanPersistenceWithMixingZone
+    .featurePersistence
+    .mixingZone
+    .featureType,
+  "mixing-zone"
+);
+
+assert.equal(
+  oceanPersistenceWithMixingZone
+    .featurePersistence
+    .mixingZone
+    .featureFamily,
+  "integrated-ocean-physics"
+);
+
+assert.equal(
+  oceanPersistenceWithMixingZone
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Mixing Zone Persistence"
 );
