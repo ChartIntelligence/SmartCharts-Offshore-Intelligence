@@ -38419,9 +38419,23 @@ const observationSnapshot =
   });
 
 
+  const historicalSnapshotQuery =
+    buildHistoricalSnapshotQuery({
+      historicalSnapshots: []
+    });
+
+  const oceanPersistence =
+    buildOceanPersistence({
+      historicalSnapshots:
+        historicalSnapshotQuery
+          .historicalSnapshots
+    });
+
+
   const oceanOpportunity =
   assessOceanOpportunity({
-    oceanEvidence
+    oceanEvidence,
+    oceanPersistence
   });
 
   /*
