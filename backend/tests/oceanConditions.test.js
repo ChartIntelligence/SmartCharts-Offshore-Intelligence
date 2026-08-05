@@ -22751,7 +22751,7 @@ assert.equal(
 
 assert.equal(
   persistenceChronologicalHistory.reason,
-  "temporal-feature-analysis-pending"
+  "organization-history-insufficient"
 );
 
 assert.equal(

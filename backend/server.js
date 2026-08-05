@@ -18510,6 +18510,59 @@ export function buildPersistenceEvidence({
             ?.observedAt ??
           null;
 
+        const oceanOrganization =
+          oceanSnapshot
+            ?.observation
+            ?.oceanOrganization ??
+          oceanSnapshot
+            ?.intelligence
+            ?.oceanOrganization ??
+          null;
+
+        const organizationAvailable =
+          oceanOrganization
+            ?.available ===
+          true;
+
+        const organizationIndex =
+          Number.isFinite(
+            oceanOrganization
+              ?.organizationIndex
+          )
+            ? oceanOrganization
+                .organizationIndex
+            : null;
+
+        const organizationLevel =
+          typeof oceanOrganization
+            ?.organizationLevel ===
+            "string"
+            ? oceanOrganization
+                .organizationLevel
+            : null;
+
+        const organizationState =
+          typeof oceanOrganization
+            ?.organizationState ===
+            "string"
+            ? oceanOrganization
+                .organizationState
+            : null;
+
+        const organizationSignalCount =
+          Number.isFinite(
+            oceanOrganization
+              ?.organizationSignalCount
+          )
+            ? oceanOrganization
+                .organizationSignalCount
+            : null;
+
+        const validOrganization =
+          organizationAvailable &&
+          organizationIndex !==
+            null;
+
         const observedAtTimestamp =
           typeof observedAt ===
             "string"
@@ -18541,6 +18594,20 @@ export function buildPersistenceEvidence({
             validObservedAt
               ? observedAtTimestamp
               : null,
+
+          oceanOrganization,
+
+          organizationAvailable,
+
+          organizationIndex,
+
+          organizationLevel,
+
+          organizationState,
+
+          organizationSignalCount,
+
+          validOrganization,
 
           valid:
             available &&
@@ -18842,6 +18909,60 @@ export function buildPersistenceEvidence({
     });
   }
 
+  const organizationSnapshots =
+  uniqueSnapshots.filter(
+    snapshot =>
+      snapshot
+        .validOrganization
+  );
+
+const organizationSampleCount =
+  organizationSnapshots.length;
+
+const firstOrganizationSnapshot =
+  organizationSampleCount >
+    0
+    ? organizationSnapshots[0]
+    : null;
+
+const lastOrganizationSnapshot =
+  organizationSampleCount >
+    0
+    ? organizationSnapshots[
+        organizationSampleCount - 1
+      ]
+    : null;
+
+const firstOrganizationIndex =
+  firstOrganizationSnapshot
+    ?.organizationIndex ??
+  null;
+
+const lastOrganizationIndex =
+  lastOrganizationSnapshot
+    ?.organizationIndex ??
+  null;
+
+const organizationIndexChange =
+  firstOrganizationIndex !==
+    null &&
+  lastOrganizationIndex !==
+    null
+    ? lastOrganizationIndex -
+      firstOrganizationIndex
+    : null;
+
+const organizationHistoryAvailable =
+  organizationSampleCount >=
+    2 &&
+  firstOrganizationSnapshot
+    ?.observedAtTimestamp !==
+  lastOrganizationSnapshot
+    ?.observedAtTimestamp;
+
+if (
+  !organizationHistoryAvailable
+) {
   return deepFreezeSnapshotValue({
     available:
       false,
@@ -18853,10 +18974,10 @@ export function buildPersistenceEvidence({
       "Historical observations are ready for temporal comparison",
 
     detail:
-      "Multiple chronological Ocean Memory snapshots are available, but governed feature-agreement and lifecycle analysis have not yet been applied.",
+      "Multiple chronological Ocean Memory snapshots are available, but at least two snapshots with governed Ocean Organization evidence are required for lifecycle classification.",
 
     reason:
-      "temporal-feature-analysis-pending",
+      "organization-history-insufficient",
 
     values: {
       lifecycleState:
@@ -18867,6 +18988,8 @@ export function buildPersistenceEvidence({
 
       sampleCount,
 
+      organizationSampleCount,
+
       firstObservedAt,
 
       lastObservedAt,
@@ -18875,6 +18998,14 @@ export function buildPersistenceEvidence({
 
       temporalAgreement:
         null,
+
+      organizationIndexStart:
+        firstOrganizationIndex,
+
+      organizationIndexEnd:
+        lastOrganizationIndex,
+
+      organizationIndexChange,
 
       featureMovementNm:
         null,
@@ -18909,7 +19040,7 @@ export function buildPersistenceEvidence({
         "Unavailable",
 
       limitations: [
-        "temporal-feature-comparison-not-assessed",
+        "minimum-two-organization-snapshots-required",
         "lifecycle-classification-not-assessed"
       ]
     },
@@ -18920,7 +19051,7 @@ export function buildPersistenceEvidence({
     ],
 
     limitations: [
-      "temporal-feature-comparison-not-assessed",
+      "minimum-two-organization-snapshots-required",
       "feature-movement-not-assessed",
       "temperature-stability-not-assessed",
       "current-stability-not-assessed",
@@ -18935,6 +19066,229 @@ export function buildPersistenceEvidence({
     contractVersion:
       "pelora-persistence-evidence-v2"
   });
+}
+
+let classification =
+  "stable";
+
+let lifecycleState =
+  "stable";
+
+let headline =
+  "Ocean organization remained broadly stable";
+
+let detail =
+  "The governed Ocean Organization index remained within a narrow range across the observation window.";
+
+const firstOrganized =
+  firstOrganizationIndex >=
+    3;
+
+const lastOrganized =
+  lastOrganizationIndex >=
+    3;
+
+if (
+  !firstOrganized &&
+  lastOrganized
+) {
+  classification =
+    "developing";
+
+  lifecycleState =
+    "developing";
+
+  headline =
+    "Ocean organization developed during the observation window";
+
+  detail =
+    "The governed Ocean Organization index progressed from limited or uniform evidence into developing or stronger organization.";
+} else if (
+  firstOrganized &&
+  lastOrganizationIndex ===
+    0
+) {
+  classification =
+    "fading";
+
+  lifecycleState =
+    "fading";
+
+  headline =
+    "Previously organized ocean context faded";
+
+  detail =
+    "Earlier governed organization evidence declined to a uniform Ocean Organization index by the end of the observation window.";
+} else if (
+  organizationIndexChange >=
+    2
+) {
+  classification =
+    "strengthening";
+
+  lifecycleState =
+    "strengthening";
+
+  headline =
+    "Ocean organization strengthened";
+
+  detail =
+    "The governed Ocean Organization index increased meaningfully across the observation window.";
+} else if (
+  organizationIndexChange <=
+    -2
+) {
+  classification =
+    "weakening";
+
+  lifecycleState =
+    "weakening";
+
+  headline =
+    "Ocean organization weakened";
+
+  detail =
+    "The governed Ocean Organization index decreased meaningfully across the observation window.";
+}
+
+const temporalAgreement =
+  organizationSampleCount ===
+    2
+    ? (
+        Math.abs(
+          organizationIndexChange
+        ) <=
+        1
+          ? "high"
+          : "changing"
+      )
+    : "multi-snapshot";
+
+const multiSignalPersistence =
+  firstOrganized &&
+  lastOrganized;
+
+const confidenceScore =
+  Math.min(
+    80,
+    40 +
+    (
+      organizationSampleCount *
+      10
+    )
+  );
+
+const confidenceLevel =
+  confidenceScore >=
+    70
+    ? "High"
+    : confidenceScore >=
+        50
+      ? "Moderate"
+      : "Low";
+
+return deepFreezeSnapshotValue({
+  available:
+    true,
+
+  classification,
+
+  headline,
+
+  detail,
+
+  reason:
+    "governed-ocean-organization-history-assessed",
+
+  values: {
+    lifecycleState,
+
+    observationWindowHours:
+      durationHours,
+
+    sampleCount,
+
+    organizationSampleCount,
+
+    firstObservedAt,
+
+    lastObservedAt,
+
+    durationHours,
+
+    temporalAgreement,
+
+    organizationIndexStart:
+      firstOrganizationIndex,
+
+    organizationIndexEnd:
+      lastOrganizationIndex,
+
+    organizationIndexChange,
+
+    featureMovementNm:
+      null,
+
+    temperatureStability:
+      null,
+
+    currentStability:
+      null,
+
+    productivityConsistency:
+      null,
+
+    multiSignalPersistence,
+
+    observedAt:
+      lastObservedAt,
+
+    ageHours:
+      null,
+
+    freshness:
+      "unknown"
+  },
+
+  confidence: {
+    score:
+      confidenceScore,
+
+    level:
+      confidenceLevel,
+
+    limitations: [
+      "confidence-derived-from-governed-organization-history",
+      "feature-movement-not-assessed",
+      "forecast-continuity-not-assessed"
+    ]
+  },
+
+  drivers: [
+    "multiple-governed-historical-snapshots-available",
+    "chronological-observation-window-established",
+    "governed-ocean-organization-history-available",
+    `organization-lifecycle-${lifecycleState}`
+  ],
+
+  limitations: [
+    "organization-index-comparison-does-not-confirm-feature-identity-across-space",
+    "feature-movement-not-assessed",
+    "temperature-stability-not-independently-assessed",
+    "current-stability-not-independently-assessed",
+    "productivity-consistency-not-assessed",
+    "forecast-continuity-not-assessed",
+    "persistence-does-not-establish-prey-or-fish-presence",
+    "persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+  ],
+
+  interpretation:
+    "species-neutral-persistence-evidence",
+
+  contractVersion:
+    "pelora-persistence-evidence-v2"
+ });
+
 }
 
 
