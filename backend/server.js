@@ -16921,6 +16921,633 @@ export function buildOceanSnapshotRetrieval({
 
 /**
  * ------------------------------------------------------------
+ * Historical Snapshot Query Layer v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Select and return governed historical Ocean Memory records
+ * from a supplied collection for downstream persistence
+ * analysis.
+ *
+ * This contract does not compare snapshots, calculate
+ * persistence, infer trends, perform opportunity or species
+ * reasoning, alter scientific contracts, or query an external
+ * database.
+ */
+export function buildHistoricalSnapshotQuery({
+  historicalSnapshots = [],
+  location = null,
+  radiusKm = null,
+  observedAfter = null,
+  observedBefore = null,
+  maximumSnapshots = null,
+  snapshotSchemaVersion = null
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const requestedLocationId =
+    typeof location ===
+      "string"
+      ? location.trim() ||
+        null
+      : typeof location
+          ?.locationId ===
+          "string"
+        ? location.locationId
+            .trim() ||
+          null
+        : typeof location
+            ?.id ===
+            "string"
+          ? location.id
+              .trim() ||
+            null
+          : null;
+
+  const requestedRadiusKm =
+    Number.isFinite(
+      radiusKm
+    ) &&
+    radiusKm >=
+      0
+      ? radiusKm
+      : null;
+
+  const resolvedObservedAfter =
+    typeof observedAfter ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedAfter
+      )
+    )
+      ? observedAfter
+      : null;
+
+  const resolvedObservedBefore =
+    typeof observedBefore ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedBefore
+      )
+    )
+      ? observedBefore
+      : null;
+
+  const observedAfterTimestamp =
+    resolvedObservedAfter
+      ? Date.parse(
+          resolvedObservedAfter
+        )
+      : null;
+
+  const observedBeforeTimestamp =
+    resolvedObservedBefore
+      ? Date.parse(
+          resolvedObservedBefore
+        )
+      : null;
+
+  const validTimeWindow =
+    observedAfterTimestamp ===
+      null ||
+    observedBeforeTimestamp ===
+      null ||
+    observedAfterTimestamp <=
+      observedBeforeTimestamp;
+
+  const resolvedMaximumSnapshots =
+    Number.isInteger(
+      maximumSnapshots
+    ) &&
+    maximumSnapshots >
+      0
+      ? maximumSnapshots
+      : null;
+
+  const requestedSnapshotSchemaVersion =
+    typeof snapshotSchemaVersion ===
+      "string" &&
+    snapshotSchemaVersion
+      .trim()
+      .length >
+      0
+      ? snapshotSchemaVersion
+          .trim()
+      : null;
+
+  const normalizedRecords =
+    snapshotsInput
+      .map(record => {
+        const storageRecord =
+          record
+            ?.storageRecord ??
+          (
+            record
+              ?.snapshot
+              ?.available ===
+            true
+              ? record
+              : null
+          );
+
+        const oceanSnapshot =
+          storageRecord
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const storageRecordAvailable =
+          storageRecord
+            ?.available ===
+          true;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          storageRecord
+            ?.identity
+            ?.snapshotId ??
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const storedLocationId =
+          oceanSnapshot
+            ?.metadata
+            ?.location
+            ?.locationId ??
+          oceanSnapshot
+            ?.metadata
+            ?.identity
+            ?.locationId ??
+          oceanSnapshot
+            ?.identity
+            ?.locationId ??
+          oceanSnapshot
+            ?.observation
+            ?.location
+            ?.locationId ??
+          oceanSnapshot
+            ?.observation
+            ?.location
+            ?.id ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const storedSnapshotSchemaVersion =
+          storageRecord
+            ?.identity
+            ?.snapshotSchemaVersion ??
+          oceanSnapshot
+            ?.identity
+            ?.snapshotSchemaVersion ??
+          null;
+
+        const storageContractVersion =
+          storageRecord
+            ?.contractVersion ??
+          null;
+
+        const oceanSnapshotContractVersion =
+          storageRecord
+            ?.governedVersions
+            ?.oceanSnapshot ??
+          oceanSnapshot
+            ?.contractVersion ??
+          null;
+
+        const locationMatches =
+          requestedLocationId ===
+            null ||
+          (
+            typeof storedLocationId ===
+              "string" &&
+            storedLocationId ===
+              requestedLocationId
+          );
+
+        const afterBoundaryMatches =
+          observedAfterTimestamp ===
+            null ||
+          (
+            validObservedAt &&
+            observedAtTimestamp >=
+              observedAfterTimestamp
+          );
+
+        const beforeBoundaryMatches =
+          observedBeforeTimestamp ===
+            null ||
+          (
+            validObservedAt &&
+            observedAtTimestamp <=
+              observedBeforeTimestamp
+          );
+
+        const schemaVersionMatches =
+          requestedSnapshotSchemaVersion ===
+            null ||
+          storedSnapshotSchemaVersion ===
+            requestedSnapshotSchemaVersion;
+
+        const governedRecordValid =
+          storageRecordAvailable &&
+          snapshotAvailable &&
+          typeof snapshotId ===
+            "string" &&
+          snapshotId.trim().length >
+            0 &&
+          validObservedAt &&
+          typeof storedSnapshotSchemaVersion ===
+            "string" &&
+          storedSnapshotSchemaVersion
+            .trim()
+            .length >
+            0 &&
+          typeof storageContractVersion ===
+            "string" &&
+          storageContractVersion
+            .trim()
+            .length >
+            0 &&
+          typeof oceanSnapshotContractVersion ===
+            "string" &&
+          oceanSnapshotContractVersion
+            .trim()
+            .length >
+            0;
+
+        return {
+          storageRecord,
+
+          oceanSnapshot,
+
+          snapshotId:
+            typeof snapshotId ===
+              "string"
+              ? snapshotId.trim()
+              : null,
+
+          locationId:
+            typeof storedLocationId ===
+              "string"
+              ? storedLocationId
+              : null,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          snapshotSchemaVersion:
+            storedSnapshotSchemaVersion,
+
+          storageContractVersion,
+
+          oceanSnapshotContractVersion,
+
+          governedRecordValid,
+
+          locationMatches,
+
+          afterBoundaryMatches,
+
+          beforeBoundaryMatches,
+
+          schemaVersionMatches,
+
+          selected:
+            governedRecordValid &&
+            locationMatches &&
+            afterBoundaryMatches &&
+            beforeBoundaryMatches &&
+            schemaVersionMatches
+        };
+      });
+
+  const rejectedRecordCount =
+    normalizedRecords.filter(
+      record =>
+        !record.governedRecordValid
+    ).length;
+
+  const locationExcludedCount =
+    normalizedRecords.filter(
+      record =>
+        record.governedRecordValid &&
+        !record.locationMatches
+    ).length;
+
+  const timeExcludedCount =
+    normalizedRecords.filter(
+      record =>
+        record.governedRecordValid &&
+        record.locationMatches &&
+        (
+          !record.afterBoundaryMatches ||
+          !record.beforeBoundaryMatches
+        )
+    ).length;
+
+  const schemaExcludedCount =
+    normalizedRecords.filter(
+      record =>
+        record.governedRecordValid &&
+        record.locationMatches &&
+        record.afterBoundaryMatches &&
+        record.beforeBoundaryMatches &&
+        !record.schemaVersionMatches
+    ).length;
+
+  const selectedRecords =
+    validTimeWindow
+      ? normalizedRecords
+          .filter(
+            record =>
+              record.selected
+          )
+          .sort(
+            (
+              firstRecord,
+              secondRecord
+            ) =>
+              firstRecord
+                .observedAtTimestamp -
+              secondRecord
+                .observedAtTimestamp
+          )
+      : [];
+
+  const uniqueRecords = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  let duplicateRecordCount =
+    0;
+
+  for (
+    const record of
+      selectedRecords
+  ) {
+    if (
+      seenSnapshotIds.has(
+        record.snapshotId
+      )
+    ) {
+      duplicateRecordCount +=
+        1;
+
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      record.snapshotId
+    );
+
+    uniqueRecords.push(
+      record
+    );
+  }
+
+  const resultRecords =
+    resolvedMaximumSnapshots !==
+      null
+      ? uniqueRecords.slice(
+          Math.max(
+            0,
+            uniqueRecords.length -
+              resolvedMaximumSnapshots
+          )
+        )
+      : uniqueRecords;
+
+  const results =
+    resultRecords.map(
+      record =>
+        cloneSnapshotValue(
+          record.storageRecord
+        )
+    );
+
+  const available =
+    validTimeWindow &&
+    results.length >
+      0;
+
+  const missingRequirements = [
+    !Array.isArray(
+      historicalSnapshots
+    )
+      ? "historical-snapshot-collection"
+      : null,
+
+    snapshotsInput.length ===
+      0
+      ? "one-or-more-historical-storage-records"
+      : null,
+
+    !validTimeWindow
+      ? "valid-observed-time-window"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+
+      requestedRadiusKm !==
+        null
+        ? "geographic-radius-filter-not-yet-connected"
+        : null,
+
+      requestedLocationId ===
+        null
+        ? "location-filter-not-applied"
+        : null,
+
+      resolvedObservedAfter ===
+        null &&
+      observedAfter !==
+        null
+        ? "invalid-observed-after-filter-ignored"
+        : null,
+
+      resolvedObservedBefore ===
+        null &&
+      observedBefore !==
+        null
+        ? "invalid-observed-before-filter-ignored"
+        : null,
+
+      resolvedMaximumSnapshots ===
+        null &&
+      maximumSnapshots !==
+        null
+        ? "invalid-maximum-snapshot-limit-ignored"
+        : null,
+
+      requestedSnapshotSchemaVersion ===
+        null &&
+      snapshotSchemaVersion !==
+        null
+        ? "invalid-snapshot-schema-version-filter-ignored"
+        : null,
+
+      "Historical Snapshot Query returns preserved governed storage records from a supplied collection only.",
+
+      "This contract does not query, search, or read from an external database.",
+
+      "This contract does not calculate distance or apply geographic-radius filtering in v1.",
+
+      "This contract does not compare snapshots, calculate persistence, infer trends, alter scientific contracts, perform opportunity or species reasoning, or generate captain guidance."
+    ].filter(Boolean))
+  ];
+
+  const firstObservedAt =
+    resultRecords.length >
+      0
+      ? resultRecords[0]
+          .observedAt
+      : null;
+
+  const lastObservedAt =
+    resultRecords.length >
+      0
+      ? resultRecords[
+          resultRecords.length -
+            1
+        ].observedAt
+      : null;
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    queryType:
+      "historical-snapshot-query",
+
+    responsibility:
+      "preserve",
+
+    query: {
+      locationId:
+        requestedLocationId,
+
+      radiusKm:
+        requestedRadiusKm,
+
+      radiusFilterApplied:
+        false,
+
+      observedAfter:
+        resolvedObservedAfter,
+
+      observedBefore:
+        resolvedObservedBefore,
+
+      maximumSnapshots:
+        resolvedMaximumSnapshots,
+
+      snapshotSchemaVersion:
+        requestedSnapshotSchemaVersion
+    },
+
+    summary: {
+      inputRecordCount:
+        snapshotsInput.length,
+
+      validGovernedRecordCount:
+        normalizedRecords.filter(
+          record =>
+            record.governedRecordValid
+        ).length,
+
+      rejectedRecordCount,
+
+      locationExcludedCount,
+
+      timeExcludedCount,
+
+      schemaExcludedCount,
+
+      duplicateRecordCount,
+
+      matchingRecordCount:
+        uniqueRecords.length,
+
+      returnedRecordCount:
+        results.length,
+
+      resultLimitApplied:
+        resolvedMaximumSnapshots !==
+          null &&
+        uniqueRecords.length >
+          results.length,
+
+      firstObservedAt,
+
+      lastObservedAt
+    },
+
+    results,
+
+    historicalSnapshots:
+      results,
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-historical-snapshot-query-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Historical Snapshot Backfill Contract v1.0
  * ------------------------------------------------------------
  *

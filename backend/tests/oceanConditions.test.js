@@ -17,6 +17,7 @@ import {
   buildOceanSnapshot,
   buildOceanMemoryStorage,
   buildOceanSnapshotRetrieval,
+  buildHistoricalSnapshotQuery,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
   buildSeaSurfaceTemperaturePersistence,
@@ -22717,6 +22718,671 @@ const laterHistoricalIntelligenceSnapshot = {
   generatedAt:
     "2026-08-02T20:06:00.000Z"
 };
+
+
+
+/**
+ * ------------------------------------------------------------
+ * Historical Snapshot Query Layer v1.0
+ * ------------------------------------------------------------
+ */
+
+const historicalSnapshotQueryNoRecords =
+  buildHistoricalSnapshotQuery();
+
+assert.equal(
+  historicalSnapshotQueryNoRecords.available,
+  false
+);
+
+assert.equal(
+  historicalSnapshotQueryNoRecords
+    .queryType,
+  "historical-snapshot-query"
+);
+
+assert.equal(
+  historicalSnapshotQueryNoRecords
+    .responsibility,
+  "preserve"
+);
+
+assert.equal(
+  historicalSnapshotQueryNoRecords
+    .summary
+    .inputRecordCount,
+  0
+);
+
+assert.equal(
+  historicalSnapshotQueryNoRecords
+    .summary
+    .returnedRecordCount,
+  0
+);
+
+assert.deepEqual(
+  historicalSnapshotQueryNoRecords
+    .historicalSnapshots,
+  []
+);
+
+assert.equal(
+  historicalSnapshotQueryNoRecords
+    .contractVersion,
+  "pelora-historical-snapshot-query-v1"
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 remains unavailable without supplied records"
+);
+
+
+const historicalQueryEarlierObservationSnapshot = {
+  ...historicalBackfillObservationSnapshot,
+
+  observedAt:
+    "2026-06-14T11:00:00.000Z"
+};
+
+
+const historicalQueryEarlierIntelligenceSnapshot = {
+  ...historicalBackfillIntelligenceSnapshot,
+
+  observedAt:
+    "2026-06-14T11:00:00.000Z"
+};
+
+
+const historicalQueryMiddleObservationSnapshot = {
+  ...historicalBackfillObservationSnapshot,
+
+  observedAt:
+    "2026-06-15T11:00:00.000Z"
+};
+
+
+const historicalQueryLaterObservationSnapshot = {
+  ...laterHistoricalObservationSnapshot,
+
+  observedAt:
+    "2026-06-16T11:00:00.000Z"
+};
+
+
+const historicalQueryEarlierBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      historicalQueryEarlierObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalQueryEarlierIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-query-location-a"
+  });
+
+
+const historicalQueryMiddleBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      historicalQueryMiddleObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-query-location-a"
+  });
+
+
+const historicalQueryLaterBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      historicalQueryLaterObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:12:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-query-location-a"
+  });
+
+
+const historicalQueryOtherLocationBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      historicalQueryMiddleObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:13:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "Mississippi Canyon",
+
+    locationId:
+      "historical-query-location-b"
+  });
+
+
+const historicalQueryInvalidRecord = {
+  available:
+    false,
+
+  snapshot:
+    null
+};
+
+
+const historicalSnapshotQueryRejectsInvalid =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryInvalidRecord
+    ]
+  });
+
+assert.equal(
+  historicalSnapshotQueryRejectsInvalid.available,
+  false
+);
+
+assert.equal(
+  historicalSnapshotQueryRejectsInvalid
+    .summary
+    .inputRecordCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryRejectsInvalid
+    .summary
+    .validGovernedRecordCount,
+  0
+);
+
+assert.equal(
+  historicalSnapshotQueryRejectsInvalid
+    .summary
+    .rejectedRecordCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryRejectsInvalid
+    .summary
+    .returnedRecordCount,
+  0
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 rejects invalid storage records"
+);
+
+
+const historicalSnapshotQueryByLocation =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryOtherLocationBackfill,
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill
+    ],
+
+    location: {
+      locationId:
+        "historical-query-location-a"
+    }
+  });
+
+assert.equal(
+  historicalSnapshotQueryByLocation.available,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryByLocation
+    .query
+    .locationId,
+  "historical-query-location-a"
+);
+
+assert.equal(
+  historicalSnapshotQueryByLocation
+    .summary
+    .inputRecordCount,
+  4
+);
+
+assert.equal(
+  historicalSnapshotQueryByLocation
+    .summary
+    .locationExcludedCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryByLocation
+    .summary
+    .returnedRecordCount,
+  3
+);
+
+assert.equal(
+  historicalSnapshotQueryByLocation
+    .summary
+    .firstObservedAt,
+  "2026-06-14T11:00:00.000Z"
+);
+
+assert.equal(
+  historicalSnapshotQueryByLocation
+    .summary
+    .lastObservedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 filters governed history by location ID"
+);
+
+
+const historicalSnapshotQueryByTime =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill
+    ],
+
+    observedAfter:
+      "2026-06-15T00:00:00.000Z",
+
+    observedBefore:
+      "2026-06-15T23:59:59.999Z"
+  });
+
+assert.equal(
+  historicalSnapshotQueryByTime.available,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryByTime
+    .summary
+    .timeExcludedCount,
+  2
+);
+
+assert.equal(
+  historicalSnapshotQueryByTime
+    .summary
+    .returnedRecordCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryByTime
+    .summary
+    .firstObservedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  historicalSnapshotQueryByTime
+    .summary
+    .lastObservedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 filters governed history by observed-time window"
+);
+
+
+const historicalQuerySchemaVersion =
+  historicalQueryEarlierBackfill
+    ?.storageRecord
+    ?.identity
+    ?.snapshotSchemaVersion ??
+  historicalQueryEarlierBackfill
+    ?.storageRecord
+    ?.snapshot
+    ?.identity
+    ?.snapshotSchemaVersion ??
+  null;
+
+
+assert.equal(
+  typeof historicalQuerySchemaVersion,
+  "string"
+);
+
+
+const historicalQueryMismatchedSchemaRecord = {
+  ...historicalQueryMiddleBackfill
+    .storageRecord,
+
+  identity: {
+    ...historicalQueryMiddleBackfill
+      .storageRecord
+      .identity,
+
+    snapshotSchemaVersion:
+      "pelora-ocean-snapshot-schema-test-mismatch"
+  },
+
+  snapshot: {
+    ...historicalQueryMiddleBackfill
+      .storageRecord
+      .snapshot,
+
+    identity: {
+      ...historicalQueryMiddleBackfill
+        .storageRecord
+        .snapshot
+        .identity,
+
+      snapshotSchemaVersion:
+        "pelora-ocean-snapshot-schema-test-mismatch"
+    }
+  }
+};
+
+
+const historicalSnapshotQueryBySchema =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMismatchedSchemaRecord
+    ],
+
+    snapshotSchemaVersion:
+      historicalQuerySchemaVersion
+  });
+
+assert.equal(
+  historicalSnapshotQueryBySchema.available,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryBySchema
+    .summary
+    .schemaExcludedCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryBySchema
+    .summary
+    .returnedRecordCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryBySchema
+    .historicalSnapshots[0]
+    .identity
+    .snapshotSchemaVersion,
+  historicalQuerySchemaVersion
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 filters governed history by snapshot schema version"
+);
+
+
+const historicalSnapshotQueryDeduplicated =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill
+    ]
+  });
+
+assert.equal(
+  historicalSnapshotQueryDeduplicated.available,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryDeduplicated
+    .summary
+    .duplicateRecordCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryDeduplicated
+    .summary
+    .matchingRecordCount,
+  3
+);
+
+assert.equal(
+  historicalSnapshotQueryDeduplicated
+    .summary
+    .returnedRecordCount,
+  3
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 deduplicates repeated snapshot identifiers"
+);
+
+
+const historicalSnapshotQueryChronological =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill
+    ]
+  });
+
+assert.equal(
+  historicalSnapshotQueryChronological
+    .historicalSnapshots[0]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-14T11:00:00.000Z"
+);
+
+assert.equal(
+  historicalSnapshotQueryChronological
+    .historicalSnapshots[1]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  historicalSnapshotQueryChronological
+    .historicalSnapshots[2]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 sorts governed results chronologically"
+);
+
+
+const historicalSnapshotQueryLimited =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    maximumSnapshots:
+      2
+  });
+
+assert.equal(
+  historicalSnapshotQueryLimited.available,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryLimited
+    .summary
+    .matchingRecordCount,
+  3
+);
+
+assert.equal(
+  historicalSnapshotQueryLimited
+    .summary
+    .returnedRecordCount,
+  2
+);
+
+assert.equal(
+  historicalSnapshotQueryLimited
+    .summary
+    .resultLimitApplied,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryLimited
+    .historicalSnapshots[0]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  historicalSnapshotQueryLimited
+    .historicalSnapshots[1]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 returns the most recent requested snapshot limit"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    historicalSnapshotQueryChronological
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    historicalSnapshotQueryChronological
+      .historicalSnapshots
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    historicalSnapshotQueryChronological
+      .historicalSnapshots[0]
+  ),
+  true
+);
+
+assert.ok(
+  historicalSnapshotQueryChronological
+    .limitations
+    .includes(
+      "This contract does not compare snapshots, calculate persistence, infer trends, alter scientific contracts, perform opportunity or species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  historicalSnapshotQueryChronological
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  historicalSnapshotQueryChronological
+    .trend,
+  undefined
+);
+
+assert.equal(
+  historicalSnapshotQueryChronological
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  historicalSnapshotQueryChronological
+    .species,
+  undefined
+);
+
+console.log(
+  "PASS Historical Snapshot Query v1 remains frozen and excludes scientific reasoning"
+);
 
 const laterHistoricalBackfill =
   buildHistoricalSnapshotBackfill({
