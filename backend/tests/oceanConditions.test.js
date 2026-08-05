@@ -15,6 +15,8 @@ import {
   buildIntelligenceSnapshot,
   buildSnapshotMetadata,
   buildOceanSnapshot,
+  buildOceanMemoryStorage,
+  buildOceanSnapshotRetrieval,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -21697,4 +21699,515 @@ assert.equal(
 
 console.log(
   "PASS Ocean Snapshot Assembly excludes comparison, persistence, and guidance"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Memory Storage Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const oceanMemoryStoredAt =
+  "2026-08-02T21:05:00.000Z";
+
+const governedOceanMemoryRecord =
+  buildOceanMemoryStorage({
+    oceanSnapshot:
+      governedOceanSnapshot,
+
+    storedAt:
+      oceanMemoryStoredAt,
+
+    storageProvider:
+      "pelora-test-memory"
+  });
+
+assert.equal(
+  governedOceanMemoryRecord.available,
+  true
+);
+
+assert.equal(
+  governedOceanMemoryRecord.storageType,
+  "ocean-memory-record"
+);
+
+assert.equal(
+  governedOceanMemoryRecord.responsibility,
+  "preserve"
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .identity
+    .snapshotId,
+  governedOceanSnapshot
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .identity
+    .snapshotSchemaVersion,
+  governedOceanSnapshot
+    .identity
+    .snapshotSchemaVersion
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .storage
+    .storedAt,
+  oceanMemoryStoredAt
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .storage
+    .storageProvider,
+  "pelora-test-memory"
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .storage
+    .immutable,
+  true
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .storage
+    .externalWritePerformed,
+  false
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .governedVersions
+    .oceanSnapshot,
+  "pelora-ocean-snapshot-assembly-v1"
+);
+
+assert.equal(
+  governedOceanMemoryRecord
+    .contractVersion,
+  "pelora-ocean-memory-storage-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanMemoryRecord
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanMemoryRecord.snapshot
+  ),
+  true
+);
+
+console.log(
+  "PASS Ocean Memory Storage creates and freezes a governed storage record"
+);
+
+
+const mutableOceanSnapshotSource =
+  JSON.parse(
+    JSON.stringify(
+      governedOceanSnapshot
+    )
+  );
+
+const isolatedOceanMemoryRecord =
+  buildOceanMemoryStorage({
+    oceanSnapshot:
+      mutableOceanSnapshotSource,
+
+    storedAt:
+      oceanMemoryStoredAt,
+
+    storageProvider:
+      "pelora-test-memory"
+  });
+
+mutableOceanSnapshotSource
+  .metadata
+  .time
+  .observedAt =
+  "2099-01-01T00:00:00.000Z";
+
+assert.equal(
+  isolatedOceanMemoryRecord
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  assemblySnapshotMetadata
+    .time
+    .observedAt
+);
+
+console.log(
+  "PASS Ocean Memory Storage remains isolated from later canonical snapshot mutation"
+);
+
+
+const unavailableOceanMemoryRecord =
+  buildOceanMemoryStorage();
+
+assert.equal(
+  unavailableOceanMemoryRecord.available,
+  false
+);
+
+assert.ok(
+  unavailableOceanMemoryRecord
+    .missingRequirements
+    .includes(
+      "canonical-ocean-snapshot"
+    )
+);
+
+assert.ok(
+  unavailableOceanMemoryRecord
+    .missingRequirements
+    .includes(
+      "stored-at"
+    )
+);
+
+console.log(
+  "PASS Ocean Memory Storage discloses missing canonical storage inputs"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanMemoryRecord,
+    "retrieval"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanMemoryRecord,
+    "comparison"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanMemoryRecord,
+    "persistence"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanMemoryRecord,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanMemoryRecord,
+    "captainNarrative"
+  ),
+  false
+);
+
+console.log(
+  "PASS Ocean Memory Storage excludes retrieval, comparison, persistence, trend, and guidance"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Snapshot Retrieval Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const oceanSnapshotRetrievedAt =
+  "2026-08-02T21:10:00.000Z";
+
+const governedOceanSnapshotRetrieval =
+  buildOceanSnapshotRetrieval({
+    storageRecord:
+      governedOceanMemoryRecord,
+
+    requestedSnapshotId:
+      governedOceanMemoryRecord
+        .identity
+        .snapshotId,
+
+    retrievedAt:
+      oceanSnapshotRetrievedAt
+  });
+
+assert.equal(
+  governedOceanSnapshotRetrieval.available,
+  true
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval.retrievalType,
+  "ocean-snapshot-retrieval"
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval.responsibility,
+  "preserve"
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .request
+    .requestedSnapshotId,
+  governedOceanMemoryRecord
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .request
+    .retrievedAt,
+  oceanSnapshotRetrievedAt
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .identity
+    .snapshotId,
+  governedOceanMemoryRecord
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .provenance
+    .storageProvider,
+  "pelora-test-memory"
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .provenance
+    .storedAt,
+  oceanMemoryStoredAt
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .provenance
+    .storageContractVersion,
+  "pelora-ocean-memory-storage-v1"
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .provenance
+    .oceanSnapshotContractVersion,
+  "pelora-ocean-snapshot-assembly-v1"
+);
+
+assert.equal(
+  governedOceanSnapshotRetrieval
+    .contractVersion,
+  "pelora-ocean-snapshot-retrieval-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanSnapshotRetrieval
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanSnapshotRetrieval.snapshot
+  ),
+  true
+);
+
+console.log(
+  "PASS Ocean Snapshot Retrieval returns and freezes the requested governed snapshot"
+);
+
+
+const mutableStorageRecordSource =
+  JSON.parse(
+    JSON.stringify(
+      governedOceanMemoryRecord
+    )
+  );
+
+const isolatedOceanSnapshotRetrieval =
+  buildOceanSnapshotRetrieval({
+    storageRecord:
+      mutableStorageRecordSource,
+
+    requestedSnapshotId:
+      mutableStorageRecordSource
+        .identity
+        .snapshotId,
+
+    retrievedAt:
+      oceanSnapshotRetrievedAt
+  });
+
+mutableStorageRecordSource
+  .snapshot
+  .metadata
+  .time
+  .observedAt =
+  "2099-01-01T00:00:00.000Z";
+
+assert.equal(
+  isolatedOceanSnapshotRetrieval
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  assemblySnapshotMetadata
+    .time
+    .observedAt
+);
+
+console.log(
+  "PASS Ocean Snapshot Retrieval remains isolated from later storage-record mutation"
+);
+
+
+const mismatchedOceanSnapshotRetrieval =
+  buildOceanSnapshotRetrieval({
+    storageRecord:
+      governedOceanMemoryRecord,
+
+    requestedSnapshotId:
+      "pelora-snapshot-does-not-match",
+
+    retrievedAt:
+      oceanSnapshotRetrievedAt
+  });
+
+assert.equal(
+  mismatchedOceanSnapshotRetrieval.available,
+  false
+);
+
+assert.equal(
+  mismatchedOceanSnapshotRetrieval.snapshot,
+  null
+);
+
+assert.ok(
+  mismatchedOceanSnapshotRetrieval
+    .missingRequirements
+    .includes(
+      "snapshot-id-match"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot Retrieval rejects a mismatched snapshot identifier"
+);
+
+
+const unavailableOceanSnapshotRetrieval =
+  buildOceanSnapshotRetrieval();
+
+assert.equal(
+  unavailableOceanSnapshotRetrieval.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanSnapshotRetrieval.snapshot,
+  null
+);
+
+assert.ok(
+  unavailableOceanSnapshotRetrieval
+    .missingRequirements
+    .includes(
+      "governed-storage-record"
+    )
+);
+
+assert.ok(
+  unavailableOceanSnapshotRetrieval
+    .missingRequirements
+    .includes(
+      "requested-snapshot-id"
+    )
+);
+
+assert.ok(
+  unavailableOceanSnapshotRetrieval
+    .missingRequirements
+    .includes(
+      "retrieved-at"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot Retrieval discloses missing retrieval inputs"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshotRetrieval,
+    "comparison"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshotRetrieval,
+    "persistence"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshotRetrieval,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshotRetrieval,
+    "species"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedOceanSnapshotRetrieval,
+    "captainNarrative"
+  ),
+  false
+);
+
+console.log(
+  "PASS Ocean Snapshot Retrieval excludes comparison, persistence, trend, species reasoning, and guidance"
 );

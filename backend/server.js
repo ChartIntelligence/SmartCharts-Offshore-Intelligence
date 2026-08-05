@@ -16475,6 +16475,450 @@ export function buildOceanSnapshot({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Ocean Memory Storage Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Accept one valid canonical Ocean Snapshot and produce an
+ * immutable governed storage record and storage receipt.
+ *
+ * This contract does not write to a database, retrieve records,
+ * compare snapshots, calculate persistence, infer trends,
+ * perform species reasoning, or generate captain guidance.
+ */
+export function buildOceanMemoryStorage({
+  oceanSnapshot = null,
+  storedAt = null,
+  storageProvider = "in-memory-contract"
+} = {}) {
+  const snapshotAvailable =
+    oceanSnapshot
+      ?.available ===
+    true;
+
+  const snapshotId =
+    oceanSnapshot
+      ?.identity
+      ?.snapshotId ??
+    null;
+
+  const snapshotSchemaVersion =
+    oceanSnapshot
+      ?.identity
+      ?.snapshotSchemaVersion ??
+    null;
+
+  const snapshotContractVersion =
+    oceanSnapshot
+      ?.contractVersion ??
+    null;
+
+  const resolvedStoredAt =
+    typeof storedAt ===
+      "string" &&
+    storedAt.trim().length >
+      0
+      ? storedAt
+      : null;
+
+  const validStorageProvider =
+    typeof storageProvider ===
+      "string" &&
+    storageProvider.trim().length >
+      0;
+
+  const available =
+    snapshotAvailable &&
+    typeof snapshotId ===
+      "string" &&
+    snapshotId.trim().length >
+      0 &&
+    typeof snapshotSchemaVersion ===
+      "string" &&
+    snapshotSchemaVersion.trim().length >
+      0 &&
+    typeof snapshotContractVersion ===
+      "string" &&
+    snapshotContractVersion.trim().length >
+      0 &&
+    typeof resolvedStoredAt ===
+      "string" &&
+    validStorageProvider;
+
+  const missingRequirements = [
+    !snapshotAvailable
+      ? "canonical-ocean-snapshot"
+      : null,
+
+    typeof snapshotId !==
+      "string" ||
+    snapshotId.trim().length ===
+      0
+      ? "snapshot-id"
+      : null,
+
+    typeof snapshotSchemaVersion !==
+      "string" ||
+    snapshotSchemaVersion.trim().length ===
+      0
+      ? "snapshot-schema-version"
+      : null,
+
+    typeof snapshotContractVersion !==
+      "string" ||
+    snapshotContractVersion.trim().length ===
+      0
+      ? "snapshot-contract-version"
+      : null,
+
+    typeof resolvedStoredAt !==
+      "string"
+      ? "stored-at"
+      : null,
+
+    !validStorageProvider
+      ? "storage-provider"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          oceanSnapshot
+            ?.limitations
+        )
+          ? oceanSnapshot
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Ocean Memory Storage preserves the canonical Ocean Snapshot without modifying its scientific contents.",
+
+      "This contract produces a governed storage record but does not perform an external database write.",
+
+      "This contract does not retrieve snapshots, compare ocean states, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const storageRecord = {
+    available,
+
+    storageType:
+      "ocean-memory-record",
+
+    responsibility:
+      "preserve",
+
+    identity: {
+      snapshotId,
+
+      snapshotSchemaVersion
+    },
+
+    storage: {
+      storedAt:
+        resolvedStoredAt,
+
+      storageProvider:
+        validStorageProvider
+          ? storageProvider.trim()
+          : null,
+
+      immutable:
+        true,
+
+      externalWritePerformed:
+        false
+    },
+
+    governedVersions: {
+      oceanSnapshot:
+        snapshotContractVersion,
+
+      storageContract:
+        "pelora-ocean-memory-storage-v1"
+    },
+
+    snapshot:
+      cloneSnapshotValue(
+        oceanSnapshot
+      ),
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-memory-storage-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    storageRecord
+  );
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Snapshot Retrieval Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Retrieve one canonical Ocean Snapshot from a governed Ocean
+ * Memory storage record without modifying the stored record or
+ * the contained scientific contracts.
+ *
+ * This contract does not search external storage, compare
+ * snapshots, calculate persistence, infer trends, perform
+ * species reasoning, or generate captain guidance.
+ */
+export function buildOceanSnapshotRetrieval({
+  storageRecord = null,
+  requestedSnapshotId = null,
+  retrievedAt = null
+} = {}) {
+  const storageRecordAvailable =
+    storageRecord
+      ?.available ===
+    true;
+
+  const storedSnapshotAvailable =
+    storageRecord
+      ?.snapshot
+      ?.available ===
+    true;
+
+  const storedSnapshotId =
+    storageRecord
+      ?.identity
+      ?.snapshotId ??
+    storageRecord
+      ?.snapshot
+      ?.identity
+      ?.snapshotId ??
+    null;
+
+  const storedSnapshotSchemaVersion =
+    storageRecord
+      ?.identity
+      ?.snapshotSchemaVersion ??
+    storageRecord
+      ?.snapshot
+      ?.identity
+      ?.snapshotSchemaVersion ??
+    null;
+
+  const storageContractVersion =
+    storageRecord
+      ?.contractVersion ??
+    null;
+
+  const storedSnapshotContractVersion =
+    storageRecord
+      ?.governedVersions
+      ?.oceanSnapshot ??
+    storageRecord
+      ?.snapshot
+      ?.contractVersion ??
+    null;
+
+  const resolvedRequestedSnapshotId =
+    typeof requestedSnapshotId ===
+      "string" &&
+    requestedSnapshotId.trim().length >
+      0
+      ? requestedSnapshotId.trim()
+      : null;
+
+  const resolvedRetrievedAt =
+    typeof retrievedAt ===
+      "string" &&
+    retrievedAt.trim().length >
+      0
+      ? retrievedAt
+      : null;
+
+  const snapshotIdMatches =
+    typeof storedSnapshotId ===
+      "string" &&
+    typeof resolvedRequestedSnapshotId ===
+      "string" &&
+    storedSnapshotId ===
+      resolvedRequestedSnapshotId;
+
+  const available =
+    storageRecordAvailable &&
+    storedSnapshotAvailable &&
+    snapshotIdMatches &&
+    typeof storedSnapshotSchemaVersion ===
+      "string" &&
+    storedSnapshotSchemaVersion.trim().length >
+      0 &&
+    typeof storageContractVersion ===
+      "string" &&
+    storageContractVersion.trim().length >
+      0 &&
+    typeof storedSnapshotContractVersion ===
+      "string" &&
+    storedSnapshotContractVersion.trim().length >
+      0 &&
+    typeof resolvedRetrievedAt ===
+      "string";
+
+  const missingRequirements = [
+    !storageRecordAvailable
+      ? "governed-storage-record"
+      : null,
+
+    !storedSnapshotAvailable
+      ? "stored-ocean-snapshot"
+      : null,
+
+    typeof resolvedRequestedSnapshotId !==
+      "string"
+      ? "requested-snapshot-id"
+      : null,
+
+    typeof storedSnapshotId !==
+      "string" ||
+    storedSnapshotId.trim().length ===
+      0
+      ? "stored-snapshot-id"
+      : null,
+
+    typeof resolvedRequestedSnapshotId ===
+      "string" &&
+    typeof storedSnapshotId ===
+      "string" &&
+    !snapshotIdMatches
+      ? "snapshot-id-match"
+      : null,
+
+    typeof storedSnapshotSchemaVersion !==
+      "string" ||
+    storedSnapshotSchemaVersion.trim().length ===
+      0
+      ? "snapshot-schema-version"
+      : null,
+
+    typeof storageContractVersion !==
+      "string" ||
+    storageContractVersion.trim().length ===
+      0
+      ? "storage-contract-version"
+      : null,
+
+    typeof storedSnapshotContractVersion !==
+      "string" ||
+    storedSnapshotContractVersion.trim().length ===
+      0
+      ? "snapshot-contract-version"
+      : null,
+
+    typeof resolvedRetrievedAt !==
+      "string"
+      ? "retrieved-at"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          storageRecord
+            ?.limitations
+        )
+          ? storageRecord
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Ocean Snapshot Retrieval returns a preserved copy of the stored canonical Ocean Snapshot.",
+
+      "This contract does not search, query, or read from an external database.",
+
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const retrievalRecord = {
+    available,
+
+    retrievalType:
+      "ocean-snapshot-retrieval",
+
+    responsibility:
+      "preserve",
+
+    request: {
+      requestedSnapshotId:
+        resolvedRequestedSnapshotId,
+
+      retrievedAt:
+        resolvedRetrievedAt
+    },
+
+    identity: {
+      snapshotId:
+        storedSnapshotId,
+
+      snapshotSchemaVersion:
+        storedSnapshotSchemaVersion
+    },
+
+    provenance: {
+      storageProvider:
+        storageRecord
+          ?.storage
+          ?.storageProvider ??
+        null,
+
+      storedAt:
+        storageRecord
+          ?.storage
+          ?.storedAt ??
+        null,
+
+      storageContractVersion,
+
+      oceanSnapshotContractVersion:
+        storedSnapshotContractVersion
+    },
+
+    snapshot:
+      available
+        ? cloneSnapshotValue(
+            storageRecord.snapshot
+          )
+        : null,
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-snapshot-retrieval-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    retrievalRecord
+  );
+}
+
+
 function buildClarityEvidence(
   chlorophyll
 ) {
