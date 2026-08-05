@@ -18448,86 +18448,494 @@ export function buildEnvironmentalOpportunityEvidence({
 
 /**
  * ------------------------------------------------------------
- * Persistence Evidence Contract v1.0
+ * Persistence Evidence Contract v2.0
  * ------------------------------------------------------------
  *
- * Purpose:
- * Provide a stable, species-neutral contract for describing
- * whether an observed environmental feature has remained
- * organized through time.
+ * Responsibility:
+ * Compare.
  *
- * Persistence cannot be established from a single-time
- * observation. This contract intentionally remains unavailable
- * until verified historical or repeated observations are
- * connected and assessed.
+ * Purpose:
+ * Evaluate whether a governed environmental feature remains
+ * organized through time using chronological Ocean Memory
+ * records.
+ *
+ * The default no-history behavior remains compatible with the
+ * original Persistence Evidence v1.0 contract.
+ *
+ * This contract is species-neutral. It does not establish prey
+ * concentration, fish presence, habitat quality, fishing
+ * quality, species probability, or captain guidance.
  */
-function buildPersistenceEvidence() {
-  return {
-    available: false,
+export function buildPersistenceEvidence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const normalizedSnapshots =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const available =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        return {
+          record,
+
+          oceanSnapshot,
+
+          available,
+
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          valid:
+            available &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt
+        };
+      })
+      .filter(
+        snapshot =>
+          snapshot.valid
+      )
+      .sort(
+        (
+          firstSnapshot,
+          secondSnapshot
+        ) =>
+          firstSnapshot
+            .observedAtTimestamp -
+          secondSnapshot
+            .observedAtTimestamp
+      );
+
+  const uniqueSnapshots = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const snapshot of
+      normalizedSnapshots
+  ) {
+    if (
+      seenSnapshotIds.has(
+        snapshot.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      snapshot.snapshotId
+    );
+
+    uniqueSnapshots.push(
+      snapshot
+    );
+  }
+
+  const sampleCount =
+    uniqueSnapshots.length;
+
+  const firstSnapshot =
+    sampleCount >
+      0
+      ? uniqueSnapshots[0]
+      : null;
+
+  const lastSnapshot =
+    sampleCount >
+      0
+      ? uniqueSnapshots[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstSnapshot
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastSnapshot
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstSnapshot &&
+    lastSnapshot
+      ? (
+          lastSnapshot
+            .observedAtTimestamp -
+          firstSnapshot
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  const chronologicalHistoryAvailable =
+    sampleCount >=
+      2 &&
+    Number.isFinite(
+      durationHours
+    ) &&
+    durationHours >
+      0;
+
+  if (
+    sampleCount ===
+    0
+  ) {
+    return deepFreezeSnapshotValue({
+      available:
+        false,
+
+      classification:
+        "unavailable",
+
+      headline:
+        "Feature persistence unavailable",
+
+      detail:
+        "Repeated observations have not yet been analyzed to determine whether this environmental feature is developing, stable, persistent, or fading.",
+
+      reason:
+        "persistence-analysis-not-yet-implemented",
+
+      values: {
+        lifecycleState:
+          null,
+
+        observationWindowHours:
+          null,
+
+        sampleCount:
+          null,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        temporalAgreement:
+          null,
+
+        featureMovementNm:
+          null,
+
+        temperatureStability:
+          null,
+
+        currentStability:
+          null,
+
+        productivityConsistency:
+          null,
+
+        multiSignalPersistence:
+          false,
+
+        observedAt:
+          null,
+
+        ageHours:
+          null,
+
+        freshness:
+          "unknown"
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable",
+
+        limitations: [
+          "historical-observations-not-connected",
+          "temporal-feature-comparison-not-assessed"
+        ]
+      },
+
+      drivers:
+        [],
+
+      limitations: [
+        "historical-observations-not-connected",
+        "repeated-observations-not-assessed",
+        "feature-duration-not-established",
+        "feature-movement-not-assessed",
+        "forecast-continuity-not-assessed",
+        "single-time-observation-does-not-establish-persistence",
+        "persistence-does-not-establish-prey-or-fish-presence"
+      ],
+
+      interpretation:
+        "species-neutral-persistence-evidence",
+
+      contractVersion:
+        "pelora-persistence-evidence-v2"
+    });
+  }
+
+  if (
+    !chronologicalHistoryAvailable
+  ) {
+    return deepFreezeSnapshotValue({
+      available:
+        false,
+
+      classification:
+        "insufficient-history",
+
+      headline:
+        "More historical observations are required",
+
+      detail:
+        "At least two distinct chronological Ocean Memory snapshots are required before Pelora can evaluate environmental persistence.",
+
+      reason:
+        "insufficient-chronological-history",
+
+      values: {
+        lifecycleState:
+          null,
+
+        observationWindowHours:
+          durationHours,
+
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        temporalAgreement:
+          null,
+
+        featureMovementNm:
+          null,
+
+        temperatureStability:
+          null,
+
+        currentStability:
+          null,
+
+        productivityConsistency:
+          null,
+
+        multiSignalPersistence:
+          false,
+
+        observedAt:
+          lastObservedAt,
+
+        ageHours:
+          null,
+
+        freshness:
+          "unknown"
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable",
+
+        limitations: [
+          "minimum-two-chronological-snapshots-required",
+          "temporal-feature-comparison-not-assessed"
+        ]
+      },
+
+      drivers: [
+        "governed-historical-snapshot-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-snapshots-required",
+        "feature-duration-not-established",
+        "feature-movement-not-assessed",
+        "temporal-agreement-not-assessed",
+        "forecast-continuity-not-assessed",
+        "single-time-observation-does-not-establish-persistence",
+        "persistence-does-not-establish-prey-or-fish-presence"
+      ],
+
+      interpretation:
+        "species-neutral-persistence-evidence",
+
+      contractVersion:
+        "pelora-persistence-evidence-v2"
+    });
+  }
+
+  return deepFreezeSnapshotValue({
+    available:
+      false,
 
     classification:
-      "unavailable",
+      "temporal-analysis-pending",
 
     headline:
-      "Feature persistence unavailable",
+      "Historical observations are ready for temporal comparison",
 
     detail:
-      "Repeated observations have not yet been analyzed to determine whether this environmental feature is developing, stable, persistent, or fading.",
+      "Multiple chronological Ocean Memory snapshots are available, but governed feature-agreement and lifecycle analysis have not yet been applied.",
 
     reason:
-      "persistence-analysis-not-yet-implemented",
+      "temporal-feature-analysis-pending",
 
     values: {
-      lifecycleState: null,
-      observationWindowHours:
+      lifecycleState:
         null,
-      sampleCount: null,
-      firstObservedAt: null,
-      lastObservedAt: null,
-      durationHours: null,
-      temporalAgreement: null,
-      featureMovementNm: null,
+
+      observationWindowHours:
+        durationHours,
+
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      temporalAgreement:
+        null,
+
+      featureMovementNm:
+        null,
+
       temperatureStability:
         null,
-      currentStability: null,
+
+      currentStability:
+        null,
+
       productivityConsistency:
         null,
+
       multiSignalPersistence:
         false,
-      observedAt: null,
-      ageHours: null,
+
+      observedAt:
+        lastObservedAt,
+
+      ageHours:
+        null,
+
       freshness:
         "unknown"
     },
 
     confidence: {
-      score: 0,
+      score:
+        0,
+
       level:
         "Unavailable",
 
       limitations: [
-        "historical-observations-not-connected",
-        "temporal-feature-comparison-not-assessed"
+        "temporal-feature-comparison-not-assessed",
+        "lifecycle-classification-not-assessed"
       ]
     },
 
-    drivers: [],
+    drivers: [
+      "multiple-governed-historical-snapshots-available",
+      "chronological-observation-window-established"
+    ],
 
     limitations: [
-      "historical-observations-not-connected",
-      "repeated-observations-not-assessed",
-      "feature-duration-not-established",
+      "temporal-feature-comparison-not-assessed",
       "feature-movement-not-assessed",
+      "temperature-stability-not-assessed",
+      "current-stability-not-assessed",
+      "productivity-consistency-not-assessed",
       "forecast-continuity-not-assessed",
-      "single-time-observation-does-not-establish-persistence",
       "persistence-does-not-establish-prey-or-fish-presence"
     ],
 
     interpretation:
-      "species-neutral-persistence-evidence"
-  };
-}
+      "species-neutral-persistence-evidence",
 
+    contractVersion:
+      "pelora-persistence-evidence-v2"
+  });
+}
 
 
 /**

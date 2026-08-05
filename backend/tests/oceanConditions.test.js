@@ -18,6 +18,7 @@ import {
   buildOceanMemoryStorage,
   buildOceanSnapshotRetrieval,
   buildHistoricalSnapshotBackfill,
+  buildPersistenceEvidence,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -22549,4 +22550,353 @@ assert.equal(
 
 console.log(
   "PASS Historical Snapshot Backfill excludes comparison, persistence, trend, species reasoning, and guidance"
+);
+
+/**
+ * ------------------------------------------------------------
+ * Persistence Evidence Contract v2.0
+ * ------------------------------------------------------------
+ */
+
+const persistenceNoHistory =
+  buildPersistenceEvidence();
+
+assert.equal(
+  persistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  persistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  persistenceNoHistory.reason,
+  "persistence-analysis-not-yet-implemented"
+);
+
+assert.equal(
+  persistenceNoHistory
+    .values
+    .sampleCount,
+  null
+);
+
+assert.equal(
+  persistenceNoHistory
+    .contractVersion,
+  "pelora-persistence-evidence-v2"
+);
+
+console.log(
+  "PASS Persistence Evidence v2 preserves the original no-history fallback"
+);
+
+
+const persistenceSingleSnapshot =
+  buildPersistenceEvidence({
+    historicalSnapshots: [
+      governedHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  persistenceSingleSnapshot.available,
+  false
+);
+
+assert.equal(
+  persistenceSingleSnapshot.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  persistenceSingleSnapshot.reason,
+  "insufficient-chronological-history"
+);
+
+assert.equal(
+  persistenceSingleSnapshot
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  persistenceSingleSnapshot
+    .values
+    .firstObservedAt,
+  historicalBackfillObservationSnapshot
+    .observedAt
+);
+
+assert.equal(
+  persistenceSingleSnapshot
+    .values
+    .lastObservedAt,
+  historicalBackfillObservationSnapshot
+    .observedAt
+);
+
+assert.ok(
+  persistenceSingleSnapshot
+    .limitations
+    .includes(
+      "minimum-two-chronological-snapshots-required"
+    )
+);
+
+console.log(
+  "PASS Persistence Evidence v2 requires more than one governed historical snapshot"
+);
+
+
+const persistenceDuplicateSnapshots =
+  buildPersistenceEvidence({
+    historicalSnapshots: [
+      governedHistoricalBackfill,
+      governedHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  persistenceDuplicateSnapshots.available,
+  false
+);
+
+assert.equal(
+  persistenceDuplicateSnapshots.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  persistenceDuplicateSnapshots
+    .values
+    .sampleCount,
+  1
+);
+
+console.log(
+  "PASS Persistence Evidence v2 deduplicates repeated snapshot identifiers"
+);
+
+
+const laterHistoricalObservationSnapshot = {
+  ...historicalBackfillObservationSnapshot,
+
+  observedAt:
+    "2026-06-16T11:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T20:06:00.000Z"
+};
+
+const laterHistoricalIntelligenceSnapshot = {
+  ...historicalBackfillIntelligenceSnapshot,
+
+  observedAt:
+    "2026-06-16T11:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T20:06:00.000Z"
+};
+
+const laterHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-test-location"
+  });
+
+assert.equal(
+  laterHistoricalBackfill.available,
+  true
+);
+
+const persistenceChronologicalHistory =
+  buildPersistenceEvidence({
+    historicalSnapshots: [
+      laterHistoricalBackfill,
+      governedHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  persistenceChronologicalHistory.available,
+  false
+);
+
+assert.equal(
+  persistenceChronologicalHistory.classification,
+  "temporal-analysis-pending"
+);
+
+assert.equal(
+  persistenceChronologicalHistory.reason,
+  "temporal-feature-analysis-pending"
+);
+
+assert.equal(
+  persistenceChronologicalHistory
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  persistenceChronologicalHistory
+    .values
+    .firstObservedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  persistenceChronologicalHistory
+    .values
+    .lastObservedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+assert.equal(
+  persistenceChronologicalHistory
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  persistenceChronologicalHistory
+    .values
+    .observationWindowHours,
+  24
+);
+
+assert.ok(
+  persistenceChronologicalHistory
+    .drivers
+    .includes(
+      "multiple-governed-historical-snapshots-available"
+    )
+);
+
+assert.ok(
+  persistenceChronologicalHistory
+    .drivers
+    .includes(
+      "chronological-observation-window-established"
+    )
+);
+
+console.log(
+  "PASS Persistence Evidence v2 establishes a governed chronological observation window"
+);
+
+
+const persistenceWithInvalidRecords =
+  buildPersistenceEvidence({
+    historicalSnapshots: [
+      null,
+      {},
+      unavailableHistoricalBackfill,
+      governedHistoricalBackfill,
+      laterHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  persistenceWithInvalidRecords.classification,
+  "temporal-analysis-pending"
+);
+
+assert.equal(
+  persistenceWithInvalidRecords
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  persistenceWithInvalidRecords
+    .values
+    .durationHours,
+  24
+);
+
+console.log(
+  "PASS Persistence Evidence v2 excludes invalid historical records"
+);
+
+
+assert.equal(
+  persistenceChronologicalHistory
+    .confidence
+    .score,
+  0
+);
+
+assert.equal(
+  persistenceChronologicalHistory
+    .values
+    .lifecycleState,
+  null
+);
+
+assert.equal(
+  persistenceChronologicalHistory
+    .values
+    .multiSignalPersistence,
+  false
+);
+
+assert.ok(
+  persistenceChronologicalHistory
+    .limitations
+    .includes(
+      "persistence-does-not-establish-prey-or-fish-presence"
+    )
+);
+
+assert.equal(
+  Object.hasOwn(
+    persistenceChronologicalHistory,
+    "species"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    persistenceChronologicalHistory,
+    "captainNarrative"
+  ),
+  false
+);
+
+assert.equal(
+  Object.isFrozen(
+    persistenceChronologicalHistory
+  ),
+  true
+);
+
+console.log(
+  "PASS Persistence Evidence v2 remains species-neutral before temporal lifecycle analysis"
 );
