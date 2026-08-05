@@ -16919,6 +16919,353 @@ export function buildOceanSnapshotRetrieval({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Historical Snapshot Backfill Contract v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Assemble and preserve one historical Ocean Memory record from
+ * governed archived Observation and Intelligence Snapshots.
+ *
+ * The original observed time remains authoritative. The later
+ * generated and stored times document reconstruction provenance.
+ *
+ * This contract does not compare snapshots, calculate
+ * persistence, infer trends, perform species reasoning, or
+ * generate captain guidance.
+ */
+export function buildHistoricalSnapshotBackfill({
+  observationSnapshot = null,
+  intelligenceSnapshot = null,
+  storedAt = null,
+  storageProvider = "historical-backfill-contract",
+  region = null,
+  subregion = null,
+  locationId = null
+} = {}) {
+  const observationSnapshotAvailable =
+    observationSnapshot
+      ?.available ===
+    true;
+
+  const intelligenceSnapshotAvailable =
+    intelligenceSnapshot
+      ?.available ===
+    true;
+
+  const observedAt =
+    observationSnapshot
+      ?.observedAt ??
+    null;
+
+  const generatedAt =
+    observationSnapshot
+      ?.generatedAt ??
+    intelligenceSnapshot
+      ?.generatedAt ??
+    null;
+
+  const validObservedAt =
+    typeof observedAt ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedAt
+      )
+    );
+
+  const validGeneratedAt =
+    typeof generatedAt ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        generatedAt
+      )
+    );
+
+  const historicalTimeOrderValid =
+    validObservedAt &&
+    validGeneratedAt &&
+    Date.parse(
+      generatedAt
+    ) >=
+      Date.parse(
+        observedAt
+      );
+
+  const snapshotMetadata =
+    buildSnapshotMetadata({
+      observationSnapshot,
+
+      intelligenceSnapshot,
+
+      captureMode:
+        "historical-backfill",
+
+      sourceType:
+        "archived-observation",
+
+      lifecycleState:
+        "historical-backfill",
+
+      reconstructionStatus:
+        historicalTimeOrderValid
+          ? "completed"
+          : "invalid-time-order",
+
+      region,
+
+      subregion,
+
+      locationId
+    });
+
+  const oceanSnapshot =
+    buildOceanSnapshot({
+      snapshotMetadata,
+
+      observationSnapshot,
+
+      intelligenceSnapshot
+    });
+
+  const storageRecord =
+    buildOceanMemoryStorage({
+      oceanSnapshot:
+
+        historicalTimeOrderValid
+          ? oceanSnapshot
+          : null,
+
+      storedAt,
+
+      storageProvider
+    });
+
+  const available =
+    observationSnapshotAvailable &&
+    historicalTimeOrderValid &&
+    snapshotMetadata
+      ?.available ===
+    true &&
+    oceanSnapshot
+      ?.available ===
+    true &&
+    storageRecord
+      ?.available ===
+    true;
+
+  const missingRequirements = [
+    !observationSnapshotAvailable
+      ? "archived-observation-snapshot"
+      : null,
+
+    !intelligenceSnapshotAvailable
+      ? "historical-intelligence-snapshot"
+      : null,
+
+    !validObservedAt
+      ? "valid-historical-observed-at"
+      : null,
+
+    !validGeneratedAt
+      ? "valid-backfill-generated-at"
+      : null,
+
+    validObservedAt &&
+    validGeneratedAt &&
+    !historicalTimeOrderValid
+      ? "generated-at-not-before-observed-at"
+      : null,
+
+    snapshotMetadata
+      ?.available !==
+      true
+      ? "historical-snapshot-metadata"
+      : null,
+
+    oceanSnapshot
+      ?.available !==
+      true
+      ? "historical-ocean-snapshot"
+      : null,
+
+    storageRecord
+      ?.available !==
+      true
+      ? "historical-storage-record"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          snapshotMetadata
+            ?.limitations
+        )
+          ? snapshotMetadata
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          oceanSnapshot
+            ?.limitations
+        )
+          ? oceanSnapshot
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          storageRecord
+            ?.limitations
+        )
+          ? storageRecord
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Historical Snapshot Backfill preserves archived observations without changing their original observed time.",
+
+      "Generated and stored timestamps describe when Pelora reconstructed and preserved the historical record.",
+
+      "Historical reconstruction quality remains limited by the availability and quality of the archived source observations.",
+
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  const backfillRecord = {
+    available,
+
+    backfillType:
+      "historical-ocean-snapshot",
+
+    responsibility:
+      "preserve",
+
+    time: {
+      observedAt:
+        validObservedAt
+          ? observedAt
+          : null,
+
+      generatedAt:
+        validGeneratedAt
+          ? generatedAt
+          : null,
+
+      storedAt:
+        storageRecord
+          ?.storage
+          ?.storedAt ??
+        null,
+
+      historicalTimeOrderValid
+    },
+
+    provenance: {
+      captureMode:
+        snapshotMetadata
+          ?.provenance
+          ?.captureMode ??
+        null,
+
+      sourceType:
+        snapshotMetadata
+          ?.provenance
+          ?.sourceType ??
+        null,
+
+      historicalBackfill:
+        snapshotMetadata
+          ?.provenance
+          ?.historicalBackfill ===
+        true,
+
+      reconstructionStatus:
+        snapshotMetadata
+          ?.provenance
+          ?.reconstructionStatus ??
+        null,
+
+      storageProvider:
+        storageRecord
+          ?.storage
+          ?.storageProvider ??
+        null
+    },
+
+    identity:
+      cloneSnapshotValue(
+        oceanSnapshot
+          ?.identity ??
+        null
+      ),
+
+    snapshotMetadata:
+      cloneSnapshotValue(
+        snapshotMetadata
+      ),
+
+    oceanSnapshot:
+      available
+        ? cloneSnapshotValue(
+            oceanSnapshot
+          )
+        : null,
+
+    storageRecord:
+      available
+        ? cloneSnapshotValue(
+            storageRecord
+          )
+        : null,
+
+    governedVersions: {
+      snapshotMetadata:
+        snapshotMetadata
+          ?.contractVersion ??
+        null,
+
+      oceanSnapshot:
+        oceanSnapshot
+          ?.contractVersion ??
+        null,
+
+      oceanMemoryStorage:
+        storageRecord
+          ?.contractVersion ??
+        null,
+
+      historicalBackfill:
+        "pelora-historical-snapshot-backfill-v1"
+    },
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-historical-snapshot-backfill-v1"
+  };
+
+  return deepFreezeSnapshotValue(
+    backfillRecord
+  );
+}
+
+
 function buildClarityEvidence(
   chlorophyll
 ) {

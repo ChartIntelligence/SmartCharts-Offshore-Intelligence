@@ -17,6 +17,7 @@ import {
   buildOceanSnapshot,
   buildOceanMemoryStorage,
   buildOceanSnapshotRetrieval,
+  buildHistoricalSnapshotBackfill,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -22210,4 +22211,342 @@ assert.equal(
 
 console.log(
   "PASS Ocean Snapshot Retrieval excludes comparison, persistence, trend, species reasoning, and guidance"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Historical Snapshot Backfill Contract v1.0
+ * ------------------------------------------------------------
+ */
+
+const historicalBackfillObservationSnapshot = {
+  ...metadataObservationSnapshot,
+
+  observedAt:
+    "2026-06-15T11:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T20:05:00.000Z"
+};
+
+const historicalBackfillIntelligenceSnapshot = {
+  ...metadataIntelligenceSnapshot,
+
+  observedAt:
+    "2026-06-15T11:00:00.000Z",
+
+  generatedAt:
+    "2026-08-02T20:05:00.000Z"
+};
+
+const historicalBackfillStoredAt =
+  "2026-08-02T20:10:00.000Z";
+
+const governedHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      historicalBackfillStoredAt,
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-test-location"
+  });
+
+assert.equal(
+  governedHistoricalBackfill.available,
+  true
+);
+
+assert.equal(
+  governedHistoricalBackfill.backfillType,
+  "historical-ocean-snapshot"
+);
+
+assert.equal(
+  governedHistoricalBackfill.responsibility,
+  "preserve"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .time
+    .observedAt,
+  historicalBackfillObservationSnapshot
+    .observedAt
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .time
+    .generatedAt,
+  historicalBackfillObservationSnapshot
+    .generatedAt
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .time
+    .storedAt,
+  historicalBackfillStoredAt
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .time
+    .historicalTimeOrderValid,
+  true
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .provenance
+    .captureMode,
+  "historical-backfill"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .provenance
+    .sourceType,
+  "archived-observation"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .provenance
+    .historicalBackfill,
+  true
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .provenance
+    .reconstructionStatus,
+  "completed"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .provenance
+    .storageProvider,
+  "pelora-test-historical-memory"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .governedVersions
+    .snapshotMetadata,
+  "pelora-snapshot-metadata-v1"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .governedVersions
+    .oceanSnapshot,
+  "pelora-ocean-snapshot-assembly-v1"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .governedVersions
+    .oceanMemoryStorage,
+  "pelora-ocean-memory-storage-v1"
+);
+
+assert.equal(
+  governedHistoricalBackfill
+    .contractVersion,
+  "pelora-historical-snapshot-backfill-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedHistoricalBackfill
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedHistoricalBackfill
+      .storageRecord
+  ),
+  true
+);
+
+console.log(
+  "PASS Historical Snapshot Backfill creates and freezes a governed historical record"
+);
+
+
+const invalidTimeHistoricalObservation =
+  JSON.parse(
+    JSON.stringify(
+      historicalBackfillObservationSnapshot
+    )
+  );
+
+invalidTimeHistoricalObservation
+  .generatedAt =
+  "2025-01-01T00:00:00.000Z";
+
+const invalidTimeHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      invalidTimeHistoricalObservation,
+
+    intelligenceSnapshot:
+      metadataIntelligenceSnapshot,
+
+    storedAt:
+      historicalBackfillStoredAt,
+
+    storageProvider:
+      "pelora-test-historical-memory"
+  });
+
+assert.equal(
+  invalidTimeHistoricalBackfill.available,
+  false
+);
+
+assert.equal(
+  invalidTimeHistoricalBackfill
+    .time
+    .historicalTimeOrderValid,
+  false
+);
+
+assert.equal(
+  invalidTimeHistoricalBackfill
+    .provenance
+    .reconstructionStatus,
+  "invalid-time-order"
+);
+
+assert.equal(
+  invalidTimeHistoricalBackfill
+    .storageRecord,
+  null
+);
+
+assert.ok(
+  invalidTimeHistoricalBackfill
+    .missingRequirements
+    .includes(
+      "generated-at-not-before-observed-at"
+    )
+);
+
+console.log(
+  "PASS Historical Snapshot Backfill rejects invalid historical time order"
+);
+
+
+const unavailableHistoricalBackfill =
+  buildHistoricalSnapshotBackfill();
+
+assert.equal(
+  unavailableHistoricalBackfill.available,
+  false
+);
+
+assert.equal(
+  unavailableHistoricalBackfill
+    .oceanSnapshot,
+  null
+);
+
+assert.equal(
+  unavailableHistoricalBackfill
+    .storageRecord,
+  null
+);
+
+assert.ok(
+  unavailableHistoricalBackfill
+    .missingRequirements
+    .includes(
+      "archived-observation-snapshot"
+    )
+);
+
+assert.ok(
+  unavailableHistoricalBackfill
+    .missingRequirements
+    .includes(
+      "valid-historical-observed-at"
+    )
+);
+
+assert.ok(
+  unavailableHistoricalBackfill
+    .missingRequirements
+    .includes(
+      "valid-backfill-generated-at"
+    )
+);
+
+console.log(
+  "PASS Historical Snapshot Backfill discloses missing historical inputs"
+);
+
+
+assert.equal(
+  Object.hasOwn(
+    governedHistoricalBackfill,
+    "comparison"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedHistoricalBackfill,
+    "persistence"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedHistoricalBackfill,
+    "trend"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedHistoricalBackfill,
+    "species"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    governedHistoricalBackfill,
+    "captainNarrative"
+  ),
+  false
+);
+
+console.log(
+  "PASS Historical Snapshot Backfill excludes comparison, persistence, trend, species reasoning, and guidance"
 );
