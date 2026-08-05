@@ -19954,6 +19954,1803 @@ export function buildSeaSurfaceTemperaturePersistence({
 
 /**
  * ------------------------------------------------------------
+ * Current Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed historical current-speed and current-direction
+ * observations across Ocean Memory snapshots.
+ *
+ * This first version assesses only direct current observations.
+ * It does not assess current edges, shear, convergence, eddies,
+ * feature movement, habitat, species opportunity, or fishing
+ * quality.
+ */
+export function buildCurrentPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const normalizeDirectionDegrees =
+    directionDegrees => {
+      if (
+        !Number.isFinite(
+          directionDegrees
+        )
+      ) {
+        return null;
+      }
+
+      return (
+        (
+          directionDegrees %
+          360
+        ) +
+        360
+      ) %
+      360;
+    };
+
+  const calculateDirectionDifference =
+    (
+      firstDirection,
+      secondDirection
+    ) => {
+      if (
+        !Number.isFinite(
+          firstDirection
+        ) ||
+        !Number.isFinite(
+          secondDirection
+        )
+      ) {
+        return null;
+      }
+
+      const directDifference =
+        Math.abs(
+          secondDirection -
+          firstDirection
+        );
+
+      return Math.min(
+        directDifference,
+        360 -
+        directDifference
+      );
+    };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const speedKnots =
+          Number.isFinite(
+            oceanSnapshot
+              ?.observation
+              ?.observations
+              ?.currents
+              ?.speedKnots
+          )
+            ? oceanSnapshot
+                .observation
+                .observations
+                .currents
+                .speedKnots
+            : null;
+
+        const directionDegrees =
+          normalizeDirectionDegrees(
+            oceanSnapshot
+              ?.observation
+              ?.observations
+              ?.currents
+              ?.directionDegrees
+          );
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          speedKnots,
+
+          directionDegrees,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            speedKnots !==
+              null &&
+            directionDegrees !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount >
+      0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount >
+      0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  const firstSpeedKnots =
+    firstObservation
+      ?.speedKnots ??
+    null;
+
+  const lastSpeedKnots =
+    lastObservation
+      ?.speedKnots ??
+    null;
+
+  const speedChangeKnots =
+    firstSpeedKnots !==
+      null &&
+    lastSpeedKnots !==
+      null
+      ? lastSpeedKnots -
+        firstSpeedKnots
+      : null;
+
+  const firstDirectionDegrees =
+    firstObservation
+      ?.directionDegrees ??
+    null;
+
+  const lastDirectionDegrees =
+    lastObservation
+      ?.directionDegrees ??
+    null;
+
+  const directionChangeDegrees =
+    calculateDirectionDifference(
+      firstDirectionDegrees,
+      lastDirectionDegrees
+    );
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-current-observations-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstSpeedKnots:
+          null,
+
+        lastSpeedKnots:
+          null,
+
+        speedChangeKnots:
+          null,
+
+        firstDirectionDegrees:
+          null,
+
+        lastDirectionDegrees:
+          null,
+
+        directionChangeDegrees:
+          null,
+
+        directionalStability:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-current-observations-unavailable",
+        "current-persistence-not-assessed",
+        "current-edge-persistence-not-assessed",
+        "current-shear-persistence-not-assessed",
+        "current-convergence-persistence-not-assessed",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-current-observations-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstSpeedKnots,
+
+        lastSpeedKnots,
+
+        speedChangeKnots,
+
+        firstDirectionDegrees,
+
+        lastDirectionDegrees,
+
+        directionChangeDegrees,
+
+        directionalStability:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-current-observation-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-current-observations-required",
+        "current-persistence-not-assessed",
+        "current-edge-persistence-not-assessed",
+        "current-shear-persistence-not-assessed",
+        "current-convergence-persistence-not-assessed"
+      ]
+    });
+  }
+
+  const speedChangeThresholdKnots =
+    0.25;
+
+  const directionStabilityThresholdDegrees =
+    15;
+
+  let classification =
+    "stable-current-speed";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-current-speed-history-remained-within-stability-threshold";
+
+  if (
+    speedChangeKnots >=
+      speedChangeThresholdKnots
+  ) {
+    classification =
+      "strengthening-current-speed";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-current-speed-history-increased";
+  } else if (
+    speedChangeKnots <=
+      -speedChangeThresholdKnots
+  ) {
+    classification =
+      "weakening-current-speed";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-current-speed-history-decreased";
+  }
+
+  const directionalStability =
+    directionChangeDegrees <=
+      directionStabilityThresholdDegrees
+      ? "stable"
+      : "changing";
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "current",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstSpeedKnots,
+
+      lastSpeedKnots,
+
+      speedChangeKnots,
+
+      absoluteSpeedChangeKnots:
+        Math.abs(
+          speedChangeKnots
+        ),
+
+      firstDirectionDegrees,
+
+      lastDirectionDegrees,
+
+      directionChangeDegrees,
+
+      directionalStability,
+
+      speedChangeThresholdKnots,
+
+      directionStabilityThresholdDegrees,
+
+      thresholdVersion:
+        "pelora-current-persistence-threshold-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-current-observations-available",
+      "chronological-current-observation-window-established",
+      `current-speed-lifecycle-${lifecycleState}`,
+      `current-direction-${directionalStability}`
+    ],
+
+    limitations: [
+      "current-speed-change-does-not-establish-current-edge-persistence",
+      "current-direction-change-does-not-establish-current-shear",
+      "current-direction-change-does-not-establish-current-convergence",
+      "current-feature-movement-not-assessed",
+      "current-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Edge Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Current Edge Analysis contracts across
+ * chronological Ocean Memory snapshots.
+ *
+ * This version evaluates edge support and edge-strength evolution.
+ * It does not assess edge movement, geometry, habitat, species
+ * opportunity, prey concentration, or fishing quality.
+ */
+export function buildCurrentEdgePersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const edgeStrengthRank = {
+    none: 0,
+    localized: 1,
+    "strong-localized": 2,
+    measurable: 3,
+    pronounced: 4
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const edge =
+          oceanSnapshot
+            ?.observation
+            ?.observations
+            ?.currents
+            ?.derived
+            ?.spatialAnalysis
+            ?.edge ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          edge
+            ?.contractVersion ??
+          null;
+
+        const edgeAvailable =
+          edge
+            ?.available ===
+          true;
+
+        const currentEdgeDetected =
+          edge
+            ?.currentEdgeDetected ===
+          true;
+
+        const edgeType =
+          typeof edge
+            ?.edgeType ===
+            "string"
+            ? edge.edgeType
+            : null;
+
+        const edgeState =
+          typeof edge
+            ?.edgeState ===
+            "string"
+            ? edge.edgeState
+            : null;
+
+        const edgeStrength =
+          typeof edge
+            ?.edgeStrength ===
+            "string"
+            ? edge.edgeStrength
+            : null;
+
+        const strengthRank =
+          Object.hasOwn(
+            edgeStrengthRank,
+            edgeStrength
+          )
+            ? edgeStrengthRank[
+                edgeStrength
+              ]
+            : null;
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          edgeAvailable,
+
+          currentEdgeDetected,
+
+          edgeType,
+
+          edgeState,
+
+          edgeStrength,
+
+          strengthRank,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-current-edge-v1" &&
+            edgeAvailable &&
+            strengthRank !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current-edge",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-current-edge-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstEdgeDetected:
+          null,
+
+        lastEdgeDetected:
+          null,
+
+        firstEdgeStrength:
+          null,
+
+        lastEdgeStrength:
+          null,
+
+        edgeStrengthChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-current-edge-contracts-unavailable",
+        "current-edge-persistence-not-assessed",
+        "current-edge-movement-not-assessed",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current-edge",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-current-edge-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstEdgeDetected:
+          firstObservation
+            ?.currentEdgeDetected ??
+          null,
+
+        lastEdgeDetected:
+          lastObservation
+            ?.currentEdgeDetected ??
+          null,
+
+        firstEdgeStrength:
+          firstObservation
+            ?.edgeStrength ??
+          null,
+
+        lastEdgeStrength:
+          lastObservation
+            ?.edgeStrength ??
+          null,
+
+        edgeStrengthChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-current-edge-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-current-edge-contracts-required",
+        "current-edge-persistence-not-assessed",
+        "current-edge-movement-not-assessed"
+      ]
+    });
+  }
+
+  const firstEdgeDetected =
+    firstObservation
+      .currentEdgeDetected;
+
+  const lastEdgeDetected =
+    lastObservation
+      .currentEdgeDetected;
+
+  const firstEdgeStrength =
+    firstObservation
+      .edgeStrength;
+
+  const lastEdgeStrength =
+    lastObservation
+      .edgeStrength;
+
+  const edgeStrengthChange =
+    lastObservation
+      .strengthRank -
+    firstObservation
+      .strengthRank;
+
+  let classification =
+    "stable-current-edge";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-current-edge-strength-remained-stable";
+
+  if (
+    !firstEdgeDetected &&
+    lastEdgeDetected
+  ) {
+    classification =
+      "emerging-current-edge";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-current-edge-candidate-developed";
+  } else if (
+    firstEdgeDetected &&
+    !lastEdgeDetected
+  ) {
+    classification =
+      "fading-current-edge";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-current-edge-candidate-no-longer-supported";
+  } else if (
+    edgeStrengthChange >
+      0
+  ) {
+    classification =
+      "strengthening-current-edge";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-current-edge-strength-increased";
+  } else if (
+    edgeStrengthChange <
+      0
+  ) {
+    classification =
+      "weakening-current-edge";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-current-edge-strength-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstEdgeDetected,
+
+      lastEdgeDetected,
+
+      firstEdgeType:
+        firstObservation
+          .edgeType,
+
+      lastEdgeType:
+        lastObservation
+          .edgeType,
+
+      firstEdgeState:
+        firstObservation
+          .edgeState,
+
+      lastEdgeState:
+        lastObservation
+          .edgeState,
+
+      firstEdgeStrength,
+
+      lastEdgeStrength,
+
+      edgeStrengthChange,
+
+      sourceContractVersion:
+        "pelora-current-edge-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-current-edge-contracts-available",
+      "chronological-current-edge-observation-window-established",
+      `current-edge-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "current-edge-identity-across-space-is-not-confirmed",
+      "current-edge-movement-not-assessed",
+      "current-edge-geometry-not-preserved",
+      "current-edge-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+export function buildCurrentShearPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const shearStrengthRank = {
+    none: 0,
+    localized: 1,
+    "strong-localized": 2,
+    measurable: 3,
+    pronounced: 4
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const shear =
+          oceanSnapshot
+            ?.observation
+            ?.observations
+            ?.currents
+            ?.derived
+            ?.spatialAnalysis
+            ?.shear ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          shear
+            ?.contractVersion ??
+          null;
+
+        const shearAvailable =
+          shear
+            ?.available ===
+          true;
+
+        const currentShearDetected =
+          shear
+            ?.currentShearDetected ===
+          true;
+
+        const shearType =
+          typeof shear
+            ?.shearType ===
+            "string"
+            ? shear.shearType
+            : null;
+
+        const shearState =
+          typeof shear
+            ?.shearState ===
+            "string"
+            ? shear.shearState
+            : null;
+
+        const shearStrength =
+          typeof shear
+            ?.shearStrength ===
+            "string"
+            ? shear.shearStrength
+            : null;
+
+        const strengthRank =
+          Object.hasOwn(
+            shearStrengthRank,
+            shearStrength
+          )
+            ? shearStrengthRank[
+                shearStrength
+              ]
+            : null;
+
+        const maximumTotalVectorGradient =
+          Number.isFinite(
+            shear
+              ?.evidence
+              ?.maximumTotalVectorGradientMetersPerSecondPerNauticalMile
+          )
+            ? shear
+                .evidence
+                .maximumTotalVectorGradientMetersPerSecondPerNauticalMile
+            : null;
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          shearAvailable,
+
+          currentShearDetected,
+
+          shearType,
+
+          shearState,
+
+          shearStrength,
+
+          strengthRank,
+
+          maximumTotalVectorGradient,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-current-shear-v1" &&
+            shearAvailable &&
+            strengthRank !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current-shear",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-current-shear-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstShearDetected:
+          null,
+
+        lastShearDetected:
+          null,
+
+        firstShearStrength:
+          null,
+
+        lastShearStrength:
+          null,
+
+        shearStrengthChange:
+          null,
+
+        maximumGradientChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-current-shear-contracts-unavailable",
+        "current-shear-persistence-not-assessed",
+        "current-shear-movement-not-assessed",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "current-shear",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-current-shear-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstShearDetected:
+          firstObservation
+            ?.currentShearDetected ??
+          null,
+
+        lastShearDetected:
+          lastObservation
+            ?.currentShearDetected ??
+          null,
+
+        firstShearStrength:
+          firstObservation
+            ?.shearStrength ??
+          null,
+
+        lastShearStrength:
+          lastObservation
+            ?.shearStrength ??
+          null,
+
+        shearStrengthChange:
+          null,
+
+        maximumGradientChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-current-shear-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-current-shear-contracts-required",
+        "current-shear-persistence-not-assessed",
+        "current-shear-movement-not-assessed"
+      ]
+    });
+  }
+
+  const firstShearDetected =
+    firstObservation
+      .currentShearDetected;
+
+  const lastShearDetected =
+    lastObservation
+      .currentShearDetected;
+
+  const firstShearStrength =
+    firstObservation
+      .shearStrength;
+
+  const lastShearStrength =
+    lastObservation
+      .shearStrength;
+
+  const shearStrengthChange =
+    lastObservation
+      .strengthRank -
+    firstObservation
+      .strengthRank;
+
+  const maximumGradientChange =
+    firstObservation
+      .maximumTotalVectorGradient !==
+      null &&
+    lastObservation
+      .maximumTotalVectorGradient !==
+      null
+      ? lastObservation
+          .maximumTotalVectorGradient -
+        firstObservation
+          .maximumTotalVectorGradient
+      : null;
+
+  let classification =
+    "stable-current-shear";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-current-shear-strength-remained-stable";
+
+  if (
+    !firstShearDetected &&
+    lastShearDetected
+  ) {
+    classification =
+      "emerging-current-shear";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-current-shear-candidate-developed";
+  } else if (
+    firstShearDetected &&
+    !lastShearDetected
+  ) {
+    classification =
+      "fading-current-shear";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-current-shear-candidate-no-longer-supported";
+  } else if (
+    shearStrengthChange >
+      0
+  ) {
+    classification =
+      "strengthening-current-shear";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-current-shear-strength-increased";
+  } else if (
+    shearStrengthChange <
+      0
+  ) {
+    classification =
+      "weakening-current-shear";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-current-shear-strength-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "current-shear",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstShearDetected,
+
+      lastShearDetected,
+
+      firstShearType:
+        firstObservation
+          .shearType,
+
+      lastShearType:
+        lastObservation
+          .shearType,
+
+      firstShearState:
+        firstObservation
+          .shearState,
+
+      lastShearState:
+        lastObservation
+          .shearState,
+
+      firstShearStrength,
+
+      lastShearStrength,
+
+      shearStrengthChange,
+
+      firstMaximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+        firstObservation
+          .maximumTotalVectorGradient,
+
+      lastMaximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+        lastObservation
+          .maximumTotalVectorGradient,
+
+      maximumGradientChange,
+
+      sourceContractVersion:
+        "pelora-current-shear-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-current-shear-contracts-available",
+      "chronological-current-shear-observation-window-established",
+      `current-shear-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "current-shear-identity-across-space-is-not-confirmed",
+      "current-shear-movement-not-assessed",
+      "current-shear-geometry-not-preserved",
+      "current-shear-persistence-does-not-establish-current-edge-persistence",
+      "current-shear-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Persistence Engine Contract v1.0
  * ------------------------------------------------------------
  *
@@ -19986,6 +21783,21 @@ export function buildOceanPersistence({
 
   const seaSurfaceTemperature =
     buildSeaSurfaceTemperaturePersistence({
+      historicalSnapshots
+    });
+
+  const current =
+    buildCurrentPersistence({
+      historicalSnapshots
+    });
+
+  const currentEdge =
+    buildCurrentEdgePersistence({
+      historicalSnapshots
+    });
+
+  const currentShear =
+    buildCurrentShearPersistence({
       historicalSnapshots
     });
 
@@ -20175,32 +21987,11 @@ export function buildOceanPersistence({
           "physical-ocean"
       }),
 
-    current:
-      buildUnavailableFeature({
-        featureType:
-          "current",
+    current,
 
-        featureFamily:
-          "physical-ocean"
-      }),
+    currentEdge,
 
-    currentEdge:
-      buildUnavailableFeature({
-        featureType:
-          "current-edge",
-
-        featureFamily:
-          "physical-ocean"
-      }),
-
-    currentShear:
-      buildUnavailableFeature({
-        featureType:
-          "current-shear",
-
-        featureFamily:
-          "physical-ocean"
-      }),
+    currentShear,
 
     currentConvergence:
       buildUnavailableFeature({

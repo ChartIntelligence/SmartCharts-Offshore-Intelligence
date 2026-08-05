@@ -20,6 +20,9 @@ import {
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
   buildSeaSurfaceTemperaturePersistence,
+  buildCurrentPersistence,
+  buildCurrentEdgePersistence,
+  buildCurrentShearPersistence,
   buildOceanPersistence,
   OCEAN_PERSISTENCE_LIFECYCLE_STATES,
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
@@ -23500,4 +23503,1445 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed SST Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const currentPersistenceNoHistory =
+  buildCurrentPersistence();
+
+assert.equal(
+  currentPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  currentPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  currentPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Current Persistence v1 remains unavailable without governed current history"
+);
+
+
+const earlierCurrentObservationSnapshot = {
+  ...historicalBackfillObservationSnapshot,
+
+  observations: {
+    currents: {
+      speedKnots:
+        1.0,
+
+      directionDegrees:
+        355
+    }
+  }
+};
+
+const earlierCurrentHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierCurrentObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-test-location"
+  });
+
+const currentPersistenceSingleObservation =
+  buildCurrentPersistence({
+    historicalSnapshots: [
+      earlierCurrentHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  currentPersistenceSingleObservation.available,
+  false
+);
+
+assert.equal(
+  currentPersistenceSingleObservation.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  currentPersistenceSingleObservation
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  currentPersistenceSingleObservation
+    .values
+    .firstSpeedKnots,
+  1
+);
+
+console.log(
+  "PASS Current Persistence v1 requires two chronological current observations"
+);
+
+
+const laterCurrentObservationSnapshot = {
+  ...laterHistoricalObservationSnapshot,
+
+  observations: {
+    currents: {
+      speedKnots:
+        1.5,
+
+      directionDegrees:
+        5
+    }
+  }
+};
+
+const laterCurrentHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterCurrentObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-test-location"
+  });
+
+const strengtheningCurrentPersistence =
+  buildCurrentPersistence({
+    historicalSnapshots: [
+      laterCurrentHistoricalBackfill,
+      earlierCurrentHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningCurrentPersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningCurrentPersistence.classification,
+  "strengthening-current-speed"
+);
+
+assert.equal(
+  strengtheningCurrentPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningCurrentPersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  strengtheningCurrentPersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  strengtheningCurrentPersistence
+    .values
+    .firstSpeedKnots,
+  1
+);
+
+assert.equal(
+  strengtheningCurrentPersistence
+    .values
+    .lastSpeedKnots,
+  1.5
+);
+
+assert.equal(
+  strengtheningCurrentPersistence
+    .values
+    .speedChangeKnots,
+  0.5
+);
+
+assert.equal(
+  strengtheningCurrentPersistence
+    .values
+    .directionChangeDegrees,
+  10
+);
+
+assert.equal(
+  strengtheningCurrentPersistence
+    .values
+    .directionalStability,
+  "stable"
+);
+
+console.log(
+  "PASS Current Persistence v1 measures speed increase and circular direction stability"
+);
+
+
+const oceanPersistenceWithCurrent =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterCurrentHistoricalBackfill,
+      earlierCurrentHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithCurrent
+    .featurePersistence
+    .current
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithCurrent
+    .featurePersistence
+    .current
+    .classification,
+  "strengthening-current-speed"
+);
+
+assert.equal(
+  oceanPersistenceWithCurrent
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Current Persistence"
+);
+
+const stableLaterCurrentObservationSnapshot = {
+  ...laterHistoricalObservationSnapshot,
+
+  observations: {
+    currents: {
+      speedKnots:
+        1.1,
+
+      directionDegrees:
+        2
+    }
+  }
+};
+
+const stableLaterCurrentHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      stableLaterCurrentObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-stable-test-location"
+  });
+
+const stableCurrentPersistence =
+  buildCurrentPersistence({
+    historicalSnapshots: [
+      stableLaterCurrentHistoricalBackfill,
+      earlierCurrentHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  stableCurrentPersistence.available,
+  true
+);
+
+assert.equal(
+  stableCurrentPersistence.classification,
+  "stable-current-speed"
+);
+
+assert.equal(
+  stableCurrentPersistence.lifecycleState,
+  "stable"
+);
+
+assert.ok(
+  Math.abs(
+    stableCurrentPersistence
+      .values
+      .speedChangeKnots -
+      0.1
+  ) < 1e-9
+);
+
+assert.equal(
+  stableCurrentPersistence
+    .values
+    .directionChangeDegrees,
+  7
+);
+
+assert.equal(
+  stableCurrentPersistence
+    .values
+    .directionalStability,
+  "stable"
+);
+
+console.log(
+  "PASS Current Persistence v1 preserves stable current speed and direction"
+);
+
+
+const weakeningEarlierCurrentObservationSnapshot = {
+  ...historicalBackfillObservationSnapshot,
+
+  observations: {
+    currents: {
+      speedKnots:
+        1.5,
+
+      directionDegrees:
+        180
+    }
+  }
+};
+
+const weakeningEarlierCurrentHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      weakeningEarlierCurrentObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-weakening-test-location"
+  });
+
+const weakeningLaterCurrentObservationSnapshot = {
+  ...laterHistoricalObservationSnapshot,
+
+  observations: {
+    currents: {
+      speedKnots:
+        1.0,
+
+      directionDegrees:
+        190
+    }
+  }
+};
+
+const weakeningLaterCurrentHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      weakeningLaterCurrentObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-weakening-test-location"
+  });
+
+const weakeningCurrentPersistence =
+  buildCurrentPersistence({
+    historicalSnapshots: [
+      weakeningLaterCurrentHistoricalBackfill,
+      weakeningEarlierCurrentHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  weakeningCurrentPersistence.available,
+  true
+);
+
+assert.equal(
+  weakeningCurrentPersistence.classification,
+  "weakening-current-speed"
+);
+
+assert.equal(
+  weakeningCurrentPersistence.lifecycleState,
+  "weakening"
+);
+
+assert.equal(
+  weakeningCurrentPersistence
+    .values
+    .speedChangeKnots,
+  -0.5
+);
+
+assert.equal(
+  weakeningCurrentPersistence
+    .values
+    .directionalStability,
+  "stable"
+);
+
+console.log(
+  "PASS Current Persistence v1 identifies weakening current speed"
+);
+
+
+const changingDirectionLaterObservationSnapshot = {
+  ...laterHistoricalObservationSnapshot,
+
+  observations: {
+    currents: {
+      speedKnots:
+        1.1,
+
+      directionDegrees:
+        90
+    }
+  }
+};
+
+const changingDirectionLaterHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      changingDirectionLaterObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-direction-test-location"
+  });
+
+const changingDirectionCurrentPersistence =
+  buildCurrentPersistence({
+    historicalSnapshots: [
+      changingDirectionLaterHistoricalBackfill,
+      earlierCurrentHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  changingDirectionCurrentPersistence.available,
+  true
+);
+
+assert.equal(
+  changingDirectionCurrentPersistence.classification,
+  "stable-current-speed"
+);
+
+assert.equal(
+  changingDirectionCurrentPersistence.lifecycleState,
+  "stable"
+);
+
+assert.equal(
+  changingDirectionCurrentPersistence
+    .values
+    .directionChangeDegrees,
+  95
+);
+
+assert.equal(
+  changingDirectionCurrentPersistence
+    .values
+    .directionalStability,
+  "changing"
+);
+
+assert.ok(
+  changingDirectionCurrentPersistence
+    .drivers
+    .includes(
+      "current-direction-changing"
+    )
+);
+
+console.log(
+  "PASS Current Persistence v1 distinguishes directional change from speed lifecycle"
+);
+
+
+const partialCurrentObservationSnapshot = {
+  ...laterHistoricalObservationSnapshot,
+
+  observations: {
+    currents: {
+      speedKnots:
+        1.5
+    }
+  }
+};
+
+const partialCurrentHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      partialCurrentObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-partial-test-location"
+  });
+
+const filteredCurrentPersistence =
+  buildCurrentPersistence({
+    historicalSnapshots: [
+      null,
+      {},
+      partialCurrentHistoricalBackfill,
+      earlierCurrentHistoricalBackfill,
+      earlierCurrentHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  filteredCurrentPersistence.available,
+  false
+);
+
+assert.equal(
+  filteredCurrentPersistence.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  filteredCurrentPersistence
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  filteredCurrentPersistence
+    .values
+    .firstSpeedKnots,
+  1
+);
+
+assert.equal(
+  filteredCurrentPersistence
+    .values
+    .firstDirectionDegrees,
+  355
+);
+
+console.log(
+  "PASS Current Persistence v1 excludes partial, invalid, and duplicate history"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Edge Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const currentEdgePersistenceNoHistory =
+  buildCurrentEdgePersistence();
+
+assert.equal(
+  currentEdgePersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  currentEdgePersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  currentEdgePersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Current Edge Persistence v1 remains unavailable without governed edge history"
+);
+
+
+const buildHistoricalCurrentEdgeSnapshot = ({
+  baseObservationSnapshot,
+  currentEdge,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  observations: {
+    currents: {
+      derived: {
+        spatialAnalysis: {
+          edge:
+            currentEdge
+        }
+      }
+    }
+  }
+});
+
+
+const noEdgeContract = {
+  available:
+    true,
+
+  currentEdgeDetected:
+    false,
+
+  edgeType:
+    "no-edge-candidate",
+
+  edgeState:
+    "not-supported",
+
+  edgeStrength:
+    "none",
+
+  contractVersion:
+    "pelora-current-edge-v1"
+};
+
+
+const measurableEdgeContract = {
+  available:
+    true,
+
+  currentEdgeDetected:
+    true,
+
+  edgeType:
+    "current-edge-candidate",
+
+  edgeState:
+    "candidate",
+
+  edgeStrength:
+    "measurable",
+
+  contractVersion:
+    "pelora-current-edge-v1"
+};
+
+
+const pronouncedEdgeContract = {
+  available:
+    true,
+
+  currentEdgeDetected:
+    true,
+
+  edgeType:
+    "pronounced-current-edge-candidate",
+
+  edgeState:
+    "candidate",
+
+  edgeStrength:
+    "pronounced",
+
+  contractVersion:
+    "pelora-current-edge-v1"
+};
+
+
+const earlierNoEdgeObservationSnapshot =
+  buildHistoricalCurrentEdgeSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    currentEdge:
+      noEdgeContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterMeasurableEdgeObservationSnapshot =
+  buildHistoricalCurrentEdgeSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    currentEdge:
+      measurableEdgeContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierNoEdgeHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierNoEdgeObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-edge-test-location"
+  });
+
+
+const laterMeasurableEdgeHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterMeasurableEdgeObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-edge-test-location"
+  });
+
+
+const emergingCurrentEdgePersistence =
+  buildCurrentEdgePersistence({
+    historicalSnapshots: [
+      laterMeasurableEdgeHistoricalBackfill,
+      earlierNoEdgeHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  emergingCurrentEdgePersistence.available,
+  true
+);
+
+assert.equal(
+  emergingCurrentEdgePersistence.classification,
+  "emerging-current-edge"
+);
+
+assert.equal(
+  emergingCurrentEdgePersistence.lifecycleState,
+  "emerging"
+);
+
+assert.equal(
+  emergingCurrentEdgePersistence
+    .values
+    .firstEdgeDetected,
+  false
+);
+
+assert.equal(
+  emergingCurrentEdgePersistence
+    .values
+    .lastEdgeDetected,
+  true
+);
+
+console.log(
+  "PASS Current Edge Persistence v1 identifies an emerging current edge"
+);
+
+
+const earlierMeasurableEdgeObservationSnapshot =
+  buildHistoricalCurrentEdgeSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    currentEdge:
+      measurableEdgeContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterPronouncedEdgeObservationSnapshot =
+  buildHistoricalCurrentEdgeSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    currentEdge:
+      pronouncedEdgeContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierMeasurableEdgeHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierMeasurableEdgeObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-edge-strength-test-location"
+  });
+
+
+const laterPronouncedEdgeHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterPronouncedEdgeObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-edge-strength-test-location"
+  });
+
+
+const strengtheningCurrentEdgePersistence =
+  buildCurrentEdgePersistence({
+    historicalSnapshots: [
+      laterPronouncedEdgeHistoricalBackfill,
+      earlierMeasurableEdgeHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningCurrentEdgePersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningCurrentEdgePersistence.classification,
+  "strengthening-current-edge"
+);
+
+assert.equal(
+  strengtheningCurrentEdgePersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningCurrentEdgePersistence
+    .values
+    .edgeStrengthChange,
+  1
+);
+
+console.log(
+  "PASS Current Edge Persistence v1 identifies strengthening edge support"
+);
+
+
+const fadingCurrentEdgePersistence =
+  buildCurrentEdgePersistence({
+    historicalSnapshots: [
+      earlierNoEdgeHistoricalBackfill,
+      laterMeasurableEdgeHistoricalBackfill
+    ].reverse()
+  });
+
+assert.equal(
+  fadingCurrentEdgePersistence.available,
+  true
+);
+
+assert.equal(
+  fadingCurrentEdgePersistence.classification,
+  "emerging-current-edge"
+);
+
+console.log(
+  "PASS Current Edge Persistence v1 sorts governed edge history chronologically"
+);
+
+
+const oceanPersistenceWithCurrentEdge =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedEdgeHistoricalBackfill,
+      earlierMeasurableEdgeHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithCurrentEdge
+    .featurePersistence
+    .currentEdge
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdge
+    .featurePersistence
+    .currentEdge
+    .classification,
+  "strengthening-current-edge"
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdge
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Current Edge Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Current Shear Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const currentShearPersistenceNoHistory =
+  buildCurrentShearPersistence();
+
+assert.equal(
+  currentShearPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  currentShearPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  currentShearPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Current Shear Persistence v1 remains unavailable without governed shear history"
+);
+
+
+const buildHistoricalCurrentShearSnapshot = ({
+  baseObservationSnapshot,
+  currentShear,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  observations: {
+    currents: {
+      derived: {
+        spatialAnalysis: {
+          shear:
+            currentShear
+        }
+      }
+    }
+  }
+});
+
+
+const noShearContract = {
+  available:
+    true,
+
+  currentShearDetected:
+    false,
+
+  shearType:
+    "no-shear-candidate",
+
+  shearState:
+    "not-supported",
+
+  shearStrength:
+    "none",
+
+  evidence: {
+    maximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+      0.005
+  },
+
+  contractVersion:
+    "pelora-current-shear-v1"
+};
+
+
+const measurableShearContract = {
+  available:
+    true,
+
+  currentShearDetected:
+    true,
+
+  shearType:
+    "horizontal-shear-candidate",
+
+  shearState:
+    "candidate",
+
+  shearStrength:
+    "measurable",
+
+  evidence: {
+    maximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+      0.015
+  },
+
+  contractVersion:
+    "pelora-current-shear-v1"
+};
+
+
+const pronouncedShearContract = {
+  available:
+    true,
+
+  currentShearDetected:
+    true,
+
+  shearType:
+    "pronounced-horizontal-shear-candidate",
+
+  shearState:
+    "candidate",
+
+  shearStrength:
+    "pronounced",
+
+  evidence: {
+    maximumTotalVectorGradientMetersPerSecondPerNauticalMile:
+      0.025
+  },
+
+  contractVersion:
+    "pelora-current-shear-v1"
+};
+
+
+const earlierNoShearObservationSnapshot =
+  buildHistoricalCurrentShearSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    currentShear:
+      noShearContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterMeasurableShearObservationSnapshot =
+  buildHistoricalCurrentShearSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    currentShear:
+      measurableShearContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierNoShearHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierNoShearObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-shear-test-location"
+  });
+
+
+const laterMeasurableShearHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterMeasurableShearObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-shear-test-location"
+  });
+
+
+const emergingCurrentShearPersistence =
+  buildCurrentShearPersistence({
+    historicalSnapshots: [
+      laterMeasurableShearHistoricalBackfill,
+      earlierNoShearHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  emergingCurrentShearPersistence.available,
+  true
+);
+
+assert.equal(
+  emergingCurrentShearPersistence.classification,
+  "emerging-current-shear"
+);
+
+assert.equal(
+  emergingCurrentShearPersistence.lifecycleState,
+  "emerging"
+);
+
+assert.equal(
+  emergingCurrentShearPersistence
+    .values
+    .firstShearDetected,
+  false
+);
+
+assert.equal(
+  emergingCurrentShearPersistence
+    .values
+    .lastShearDetected,
+  true
+);
+
+console.log(
+  "PASS Current Shear Persistence v1 identifies emerging current shear"
+);
+
+
+const earlierMeasurableShearObservationSnapshot =
+  buildHistoricalCurrentShearSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    currentShear:
+      measurableShearContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterPronouncedShearObservationSnapshot =
+  buildHistoricalCurrentShearSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    currentShear:
+      pronouncedShearContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierMeasurableShearHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierMeasurableShearObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-shear-strength-test-location"
+  });
+
+
+const laterPronouncedShearHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterPronouncedShearObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-current-shear-strength-test-location"
+  });
+
+
+const strengtheningCurrentShearPersistence =
+  buildCurrentShearPersistence({
+    historicalSnapshots: [
+      laterPronouncedShearHistoricalBackfill,
+      earlierMeasurableShearHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningCurrentShearPersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningCurrentShearPersistence.classification,
+  "strengthening-current-shear"
+);
+
+assert.equal(
+  strengtheningCurrentShearPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningCurrentShearPersistence
+    .values
+    .shearStrengthChange,
+  1
+);
+
+assert.ok(
+  Math.abs(
+    strengtheningCurrentShearPersistence
+      .values
+      .maximumGradientChange -
+      0.01
+  ) < 1e-9
+);
+
+console.log(
+  "PASS Current Shear Persistence v1 identifies strengthening shear and gradient change"
+);
+
+
+const oceanPersistenceWithCurrentShear =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedShearHistoricalBackfill,
+      earlierMeasurableShearHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithCurrentShear
+    .featurePersistence
+    .currentShear
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentShear
+    .featurePersistence
+    .currentShear
+    .classification,
+  "strengthening-current-shear"
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentShear
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Current Shear Persistence"
 );
