@@ -153,7 +153,7 @@ function writeJson(
         "GET, OPTIONS",
 
       "Access-Control-Allow-Headers":
-        "Content-Type",
+        "Content-Type, Authorization",
 
       "Cache-Control":
         "no-store"
@@ -37710,8 +37710,20 @@ export function assessBlueMarlinHabitat({
 
 async function getOceanConditions(
   latitude,
-  longitude
+  longitude,
+  {
+    bearerToken = null
+  } = {}
 ) {
+
+  const normalizedBearerToken =
+    typeof bearerToken ===
+      "string" &&
+    bearerToken.trim() !==
+      ""
+      ? bearerToken.trim()
+      : null;
+
   const oceanRequestStartedAt =
     performance.now();
 
@@ -39221,6 +39233,26 @@ const server =
             longitude
           } = getCoordinates(requestUrl);
 
+                    const authorizationHeader =
+            request.headers
+              .authorization ??
+            null;
+
+          const bearerToken =
+            typeof authorizationHeader ===
+              "string" &&
+            authorizationHeader
+              .startsWith(
+                "Bearer "
+              )
+              ? authorizationHeader
+                  .slice(
+                    "Bearer ".length
+                  )
+                  .trim() ||
+                null
+              : null;
+
 
           if (
             !coordinatesAreValid(
@@ -39244,7 +39276,10 @@ const server =
           const oceanConditions =
             await getOceanConditions(
               latitude,
-              longitude
+              longitude,
+              {
+                bearerToken
+              }
             );
 
 

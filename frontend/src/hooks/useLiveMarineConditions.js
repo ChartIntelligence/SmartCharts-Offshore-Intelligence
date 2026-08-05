@@ -5,7 +5,8 @@ import {
 
 
 export function useLiveMarineConditions(
-  location
+  location,
+  accessToken = null
 ) {
   const [data, setData] =
     useState(null);
@@ -57,7 +58,19 @@ export function useLiveMarineConditions(
         signal:
           controller.signal,
 
-        cache: "no-store"
+        cache:
+          "no-store",
+
+        headers:
+          typeof accessToken ===
+            "string" &&
+          accessToken.trim() !==
+            ""
+            ? {
+                Authorization:
+                  `Bearer ${accessToken}`
+              }
+            : {}
       }
     );
 
@@ -136,7 +149,8 @@ setError(
     };
   }, [
     location?.id,
-    location?.name
+    location?.name,
+    accessToken
   ]);
 
 

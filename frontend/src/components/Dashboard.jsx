@@ -144,13 +144,21 @@ const topConfidence =
       )
     : 0;
 
+// Captain authentication
+const {
+  session,
+  user,
+  loading: authLoading
+} = useSupabaseAuth();
+
 // Selected location
 const {
   data: selectedMarineData,
   loading: selectedMarineLoading,
   error: selectedMarineError
 } = useLiveMarineConditions(
-  selectedSpot
+  selectedSpot,
+  session?.access_token ?? null
 );
 
 // Active Ocean Brief opportunity
@@ -159,16 +167,9 @@ const {
   loading: activeOpportunityMarineLoading,
   error: activeOpportunityMarineError
 } = useLiveMarineConditions(
-  activeOpportunity
+  activeOpportunity,
+  session?.access_token ?? null
 );
-
-
-// Captain authentication
-const {
-  user,
-  loading: authLoading
-} = useSupabaseAuth();
-
 
 useOceanMemoryPersistence({
   user,
