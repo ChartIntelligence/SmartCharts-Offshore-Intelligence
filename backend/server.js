@@ -19489,6 +19489,471 @@ export function buildFeaturePersistenceContract({
 
 /**
  * ------------------------------------------------------------
+ * Sea Surface Temperature Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed historical sea-surface temperature
+ * observations across Ocean Memory snapshots.
+ *
+ * This first version assesses only raw temperature continuity and
+ * change. It does not classify temperature fronts, warm tongues,
+ * cold intrusions, water masses, habitat, species opportunity, or
+ * fishing quality.
+ */
+export function buildSeaSurfaceTemperaturePersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const temperatureFahrenheit =
+          Number.isFinite(
+            oceanSnapshot
+              ?.observation
+              ?.observations
+              ?.sst
+              ?.temperatureFahrenheit
+          )
+            ? oceanSnapshot
+                .observation
+                .observations
+                .sst
+                .temperatureFahrenheit
+            : null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          temperatureFahrenheit,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            temperatureFahrenheit !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount >
+      0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount >
+      0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  const firstTemperatureFahrenheit =
+    firstObservation
+      ?.temperatureFahrenheit ??
+    null;
+
+  const lastTemperatureFahrenheit =
+    lastObservation
+      ?.temperatureFahrenheit ??
+    null;
+
+  const temperatureChangeFahrenheit =
+    firstTemperatureFahrenheit !==
+      null &&
+    lastTemperatureFahrenheit !==
+      null
+      ? lastTemperatureFahrenheit -
+        firstTemperatureFahrenheit
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "sea-surface-temperature",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-sst-observations-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstTemperatureFahrenheit:
+          null,
+
+        lastTemperatureFahrenheit:
+          null,
+
+        temperatureChangeFahrenheit:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-sst-observations-unavailable",
+        "temperature-persistence-not-assessed",
+        "temperature-front-persistence-not-assessed",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "sea-surface-temperature",
+
+      featureFamily:
+        "physical-ocean",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-sst-observations-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstTemperatureFahrenheit,
+
+        lastTemperatureFahrenheit,
+
+        temperatureChangeFahrenheit
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-sst-observation-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-sst-observations-required",
+        "temperature-persistence-not-assessed",
+        "temperature-front-persistence-not-assessed"
+      ]
+    });
+  }
+
+  const absoluteTemperatureChange =
+    Math.abs(
+      temperatureChangeFahrenheit
+    );
+
+  let classification =
+    "stable-temperature";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-sst-history-remained-within-stability-threshold";
+
+  if (
+    temperatureChangeFahrenheit >=
+      1
+  ) {
+    classification =
+      "warming";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-sst-history-shows-measurable-warming";
+  } else if (
+    temperatureChangeFahrenheit <=
+      -1
+  ) {
+    classification =
+      "cooling";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-sst-history-shows-measurable-cooling";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "sea-surface-temperature",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstTemperatureFahrenheit,
+
+      lastTemperatureFahrenheit,
+
+      temperatureChangeFahrenheit,
+
+      absoluteTemperatureChangeFahrenheit:
+        absoluteTemperatureChange,
+
+      stabilityThresholdFahrenheit:
+        1
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-sst-observations-available",
+      "chronological-sst-observation-window-established",
+      `sst-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "raw-temperature-change-does-not-establish-temperature-front-persistence",
+      "temperature-change-does-not-establish-water-mass-identity",
+      "sst-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Persistence Engine Contract v1.0
  * ------------------------------------------------------------
  *
@@ -19516,6 +19981,11 @@ export function buildOceanPersistence({
 } = {}) {
   const persistenceEvidence =
     buildPersistenceEvidence({
+      historicalSnapshots
+    });
+
+  const seaSurfaceTemperature =
+    buildSeaSurfaceTemperaturePersistence({
       historicalSnapshots
     });
 
@@ -19694,14 +20164,7 @@ export function buildOceanPersistence({
   const featurePersistence = {
     oceanOrganization,
 
-    seaSurfaceTemperature:
-      buildUnavailableFeature({
-        featureType:
-          "sea-surface-temperature",
-
-        featureFamily:
-          "physical-ocean"
-      }),
+    seaSurfaceTemperature,
 
     temperatureFront:
       buildUnavailableFeature({

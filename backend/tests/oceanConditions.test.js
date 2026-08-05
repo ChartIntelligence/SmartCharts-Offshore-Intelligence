@@ -19,6 +19,7 @@ import {
   buildOceanSnapshotRetrieval,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
+  buildSeaSurfaceTemperaturePersistence,
   buildOceanPersistence,
   OCEAN_PERSISTENCE_LIFECYCLE_STATES,
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
@@ -22974,7 +22975,7 @@ assert.equal(
     .featurePersistence
     .seaSurfaceTemperature
     .reason,
-  "feature-persistence-analyzer-not-connected"
+  "historical-sst-observations-unavailable"
 );
 
 assert.ok(
@@ -23258,4 +23259,245 @@ assert.ok(
 
 console.log(
   "PASS Feature Persistence v1 rejects ungoverned lifecycle states"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Sea Surface Temperature Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const sstPersistenceNoHistory =
+  buildSeaSurfaceTemperaturePersistence();
+
+assert.equal(
+  sstPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  sstPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  sstPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS SST Persistence v1 remains unavailable without governed SST history"
+);
+
+
+const earlierSstObservationSnapshot = {
+  ...historicalBackfillObservationSnapshot,
+
+  observations: {
+    sst: {
+      temperatureFahrenheit:
+        82
+    }
+  }
+};
+
+const earlierSstHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierSstObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-sst-test-location"
+  });
+
+const sstPersistenceSingleObservation =
+  buildSeaSurfaceTemperaturePersistence({
+    historicalSnapshots: [
+      earlierSstHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  sstPersistenceSingleObservation.available,
+  false
+);
+
+assert.equal(
+  sstPersistenceSingleObservation.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  sstPersistenceSingleObservation
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  sstPersistenceSingleObservation
+    .values
+    .firstTemperatureFahrenheit,
+  82
+);
+
+console.log(
+  "PASS SST Persistence v1 requires two chronological SST observations"
+);
+
+
+const laterSstObservationSnapshot = {
+  ...laterHistoricalObservationSnapshot,
+
+  observations: {
+    sst: {
+      temperatureFahrenheit:
+        84
+    }
+  }
+};
+
+const laterSstHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterSstObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-sst-test-location"
+  });
+
+const warmingSstPersistence =
+  buildSeaSurfaceTemperaturePersistence({
+    historicalSnapshots: [
+      laterSstHistoricalBackfill,
+      earlierSstHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  warmingSstPersistence.available,
+  true
+);
+
+assert.equal(
+  warmingSstPersistence.classification,
+  "warming"
+);
+
+assert.equal(
+  warmingSstPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  warmingSstPersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  warmingSstPersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  warmingSstPersistence
+    .values
+    .firstTemperatureFahrenheit,
+  82
+);
+
+assert.equal(
+  warmingSstPersistence
+    .values
+    .lastTemperatureFahrenheit,
+  84
+);
+
+assert.equal(
+  warmingSstPersistence
+    .values
+    .temperatureChangeFahrenheit,
+  2
+);
+
+assert.equal(
+  warmingSstPersistence.contractVersion,
+  "pelora-feature-persistence-v1"
+);
+
+console.log(
+  "PASS SST Persistence v1 measures governed warming across Ocean Memory"
+);
+
+
+const oceanPersistenceWithSst =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterSstHistoricalBackfill,
+      earlierSstHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithSst
+    .featurePersistence
+    .seaSurfaceTemperature
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithSst
+    .featurePersistence
+    .seaSurfaceTemperature
+    .classification,
+  "warming"
+);
+
+assert.equal(
+  oceanPersistenceWithSst
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed SST Persistence"
 );
