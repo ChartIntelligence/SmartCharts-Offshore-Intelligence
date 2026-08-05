@@ -28,6 +28,7 @@ import {
   buildSurfaceWaterCharacterPersistence,
   buildWaterMassPersistence,
   buildMixingZonePersistence,
+  buildOceanFrontPersistence,
   buildOceanPersistence,
   OCEAN_PERSISTENCE_LIFECYCLE_STATES,
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
@@ -22955,7 +22956,7 @@ assert.equal(
   oceanPersistenceNoHistory
     .values
     .registeredFeatureCount,
-  14
+  15
 );
 
 assert.equal(
@@ -28100,4 +28101,920 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed Mixing Zone Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Front Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ */
+
+const oceanFrontPersistenceNoHistory =
+  buildOceanFrontPersistence();
+
+assert.equal(
+  oceanFrontPersistenceNoHistory.available,
+  false
+);
+
+assert.equal(
+  oceanFrontPersistenceNoHistory.classification,
+  "unavailable"
+);
+
+assert.equal(
+  oceanFrontPersistenceNoHistory
+    .values
+    .sampleCount,
+  0
+);
+
+console.log(
+  "PASS Ocean Front Persistence v1 remains unavailable without governed history"
+);
+
+
+const buildHistoricalOceanFrontSnapshot = ({
+  baseObservationSnapshot,
+  oceanFrontAnalysis,
+  observedAt
+}) => ({
+  ...baseObservationSnapshot,
+
+  observedAt,
+
+  oceanPhysics: {
+    ...(
+      baseObservationSnapshot
+        ?.oceanPhysics ??
+      {}
+    ),
+
+    oceanFrontAnalysis
+  }
+});
+
+
+const noOceanFrontContextContract = {
+  available:
+    true,
+
+  classification:
+    "no-ocean-front-context",
+
+  frontType:
+    "none",
+
+  frontState:
+    "not-supported",
+
+  frontStrength:
+    "none",
+
+  oceanFrontReady:
+    false,
+
+  oceanFrontDetected:
+    false,
+
+  evidence: {
+    environmentalTransitionAvailable:
+      true,
+
+    environmentalTransitionClassification:
+      "uniform-environmental-context",
+
+    environmentalTransitionState:
+      "observed",
+
+    environmentalTransitionStrength:
+      "none",
+
+    thermalTransitionSupported:
+      false,
+
+    meaningfulThermalTransition:
+      false,
+
+    directionalThermalTransition:
+      false,
+
+    hydrodynamicTransitionSupported:
+      false,
+
+    hydrodynamicSignalCount:
+      0,
+
+    combinedThermalCurrentContext:
+      false,
+
+    multiSignalEnvironmentalContext:
+      false,
+
+    currentEdgeDetected:
+      false,
+
+    sufficientFrontEvidence:
+      false,
+
+    corroboratingFrontContext:
+      false,
+
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    independentSpatialCharacterVariableCount:
+      0,
+
+    crossBoundaryWaterCharacterAvailable:
+      false,
+
+    mixingZoneDetected:
+      false,
+
+    mixingZoneReady:
+      false,
+
+    mixingInteractionContext:
+      false,
+
+    persistenceAvailable:
+      false,
+
+    fullWaterColumnStructureAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "second-independent-spatial-water-character-variable",
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "mixing-zone-readiness",
+    "temporal-persistence",
+    "full-water-column-structure"
+  ],
+
+  contractVersion:
+    "pelora-ocean-front-analysis-v1"
+};
+
+
+const thermalOnlyOceanFrontContextContract = {
+  available:
+    true,
+
+  classification:
+    "thermal-boundary-without-front-support",
+
+  frontType:
+    "thermal-only",
+
+  frontState:
+    "incomplete-support",
+
+  frontStrength:
+    "measurable",
+
+  oceanFrontReady:
+    false,
+
+  oceanFrontDetected:
+    false,
+
+  evidence: {
+    environmentalTransitionAvailable:
+      true,
+
+    environmentalTransitionClassification:
+      "thermal-environmental-transition-context",
+
+    environmentalTransitionState:
+      "candidate-context",
+
+    environmentalTransitionStrength:
+      "measurable",
+
+    thermalTransitionSupported:
+      true,
+
+    meaningfulThermalTransition:
+      true,
+
+    directionalThermalTransition:
+      true,
+
+    hydrodynamicTransitionSupported:
+      false,
+
+    hydrodynamicSignalCount:
+      0,
+
+    combinedThermalCurrentContext:
+      false,
+
+    multiSignalEnvironmentalContext:
+      false,
+
+    currentEdgeDetected:
+      false,
+
+    sufficientFrontEvidence:
+      false,
+
+    corroboratingFrontContext:
+      false,
+
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    independentSpatialCharacterVariableCount:
+      1,
+
+    crossBoundaryWaterCharacterAvailable:
+      false,
+
+    mixingZoneDetected:
+      false,
+
+    mixingZoneReady:
+      false,
+
+    mixingInteractionContext:
+      false,
+
+    persistenceAvailable:
+      false,
+
+    fullWaterColumnStructureAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "second-independent-spatial-water-character-variable",
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "mixing-zone-readiness",
+    "temporal-persistence",
+    "full-water-column-structure"
+  ],
+
+  contractVersion:
+    "pelora-ocean-front-analysis-v1"
+};
+
+
+const measurableOceanFrontCandidateContract = {
+  available:
+    true,
+
+  classification:
+    "ocean-front-candidate-context",
+
+  frontType:
+    "thermal-current-boundary",
+
+  frontState:
+    "candidate-context",
+
+  frontStrength:
+    "measurable",
+
+  oceanFrontReady:
+    false,
+
+  oceanFrontDetected:
+    false,
+
+  evidence: {
+    environmentalTransitionAvailable:
+      true,
+
+    environmentalTransitionClassification:
+      "combined-environmental-transition-context",
+
+    environmentalTransitionState:
+      "candidate-context",
+
+    environmentalTransitionStrength:
+      "measurable",
+
+    thermalTransitionSupported:
+      true,
+
+    meaningfulThermalTransition:
+      true,
+
+    directionalThermalTransition:
+      true,
+
+    hydrodynamicTransitionSupported:
+      true,
+
+    hydrodynamicSignalCount:
+      1,
+
+    combinedThermalCurrentContext:
+      true,
+
+    multiSignalEnvironmentalContext:
+      false,
+
+    currentEdgeDetected:
+      true,
+
+    sufficientFrontEvidence:
+      true,
+
+    corroboratingFrontContext:
+      false,
+
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    independentSpatialCharacterVariableCount:
+      1,
+
+    crossBoundaryWaterCharacterAvailable:
+      false,
+
+    mixingZoneDetected:
+      false,
+
+    mixingZoneReady:
+      false,
+
+    mixingInteractionContext:
+      false,
+
+    persistenceAvailable:
+      false,
+
+    fullWaterColumnStructureAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "second-independent-spatial-water-character-variable",
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "mixing-zone-readiness",
+    "temporal-persistence",
+    "full-water-column-structure"
+  ],
+
+  contractVersion:
+    "pelora-ocean-front-analysis-v1"
+};
+
+
+const pronouncedMultiSignalOceanFrontContract = {
+  available:
+    true,
+
+  classification:
+    "multi-signal-ocean-front-candidate-context",
+
+  frontType:
+    "multi-signal-surface-boundary",
+
+  frontState:
+    "candidate-context",
+
+  frontStrength:
+    "pronounced",
+
+  oceanFrontReady:
+    false,
+
+  oceanFrontDetected:
+    false,
+
+  evidence: {
+    environmentalTransitionAvailable:
+      true,
+
+    environmentalTransitionClassification:
+      "multi-signal-environmental-transition-context",
+
+    environmentalTransitionState:
+      "candidate-context",
+
+    environmentalTransitionStrength:
+      "pronounced",
+
+    thermalTransitionSupported:
+      true,
+
+    meaningfulThermalTransition:
+      true,
+
+    directionalThermalTransition:
+      true,
+
+    hydrodynamicTransitionSupported:
+      true,
+
+    hydrodynamicSignalCount:
+      3,
+
+    combinedThermalCurrentContext:
+      true,
+
+    multiSignalEnvironmentalContext:
+      true,
+
+    currentEdgeDetected:
+      true,
+
+    sufficientFrontEvidence:
+      true,
+
+    corroboratingFrontContext:
+      true,
+
+    distinctAdjacentWaterMassesEstablished:
+      false,
+
+    waterMassDistinctionReady:
+      false,
+
+    independentSpatialCharacterVariableCount:
+      1,
+
+    crossBoundaryWaterCharacterAvailable:
+      false,
+
+    mixingZoneDetected:
+      false,
+
+    mixingZoneReady:
+      false,
+
+    mixingInteractionContext:
+      true,
+
+    persistenceAvailable:
+      false,
+
+    fullWaterColumnStructureAvailable:
+      false
+  },
+
+  missingRequirements: [
+    "second-independent-spatial-water-character-variable",
+    "distinct-adjacent-water-masses",
+    "water-mass-distinction-readiness",
+    "mixing-zone-readiness",
+    "temporal-persistence",
+    "full-water-column-structure"
+  ],
+
+  contractVersion:
+    "pelora-ocean-front-analysis-v1"
+};
+
+
+const earlierNoOceanFrontObservationSnapshot =
+  buildHistoricalOceanFrontSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    oceanFrontAnalysis:
+      noOceanFrontContextContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterThermalOnlyOceanFrontObservationSnapshot =
+  buildHistoricalOceanFrontSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    oceanFrontAnalysis:
+      thermalOnlyOceanFrontContextContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierNoOceanFrontHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierNoOceanFrontObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-ocean-front-test-location"
+  });
+
+
+const laterThermalOnlyOceanFrontHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterThermalOnlyOceanFrontObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-ocean-front-test-location"
+  });
+
+
+const singleOceanFrontPersistence =
+  buildOceanFrontPersistence({
+    historicalSnapshots: [
+      earlierNoOceanFrontHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  singleOceanFrontPersistence.available,
+  false
+);
+
+assert.equal(
+  singleOceanFrontPersistence.classification,
+  "insufficient-history"
+);
+
+assert.equal(
+  singleOceanFrontPersistence
+    .values
+    .sampleCount,
+  1
+);
+
+assert.equal(
+  singleOceanFrontPersistence
+    .values
+    .firstFrontStrength,
+  "none"
+);
+
+console.log(
+  "PASS Ocean Front Persistence v1 requires two chronological contracts"
+);
+
+
+const emergingOceanFrontPersistence =
+  buildOceanFrontPersistence({
+    historicalSnapshots: [
+      laterThermalOnlyOceanFrontHistoricalBackfill,
+      earlierNoOceanFrontHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  emergingOceanFrontPersistence.available,
+  true
+);
+
+assert.equal(
+  emergingOceanFrontPersistence.classification,
+  "emerging-ocean-front-context"
+);
+
+assert.equal(
+  emergingOceanFrontPersistence.lifecycleState,
+  "emerging"
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .durationHours,
+  24
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .firstFrontContextSupported,
+  false
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .lastFrontContextSupported,
+  true
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .firstFrontType,
+  "none"
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .lastFrontType,
+  "thermal-only"
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .frontStrengthChange,
+  2
+);
+
+assert.equal(
+  emergingOceanFrontPersistence
+    .values
+    .lastOceanFrontDetected,
+  false
+);
+
+console.log(
+  "PASS Ocean Front Persistence v1 identifies emerging front context"
+);
+
+
+const earlierMeasurableOceanFrontObservationSnapshot =
+  buildHistoricalOceanFrontSnapshot({
+    baseObservationSnapshot:
+      historicalBackfillObservationSnapshot,
+
+    oceanFrontAnalysis:
+      measurableOceanFrontCandidateContract,
+
+    observedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+const laterPronouncedOceanFrontObservationSnapshot =
+  buildHistoricalOceanFrontSnapshot({
+    baseObservationSnapshot:
+      laterHistoricalObservationSnapshot,
+
+    oceanFrontAnalysis:
+      pronouncedMultiSignalOceanFrontContract,
+
+    observedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+const earlierMeasurableOceanFrontHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      earlierMeasurableOceanFrontObservationSnapshot,
+
+    intelligenceSnapshot:
+      historicalBackfillIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:10:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-ocean-front-strength-test-location"
+  });
+
+
+const laterPronouncedOceanFrontHistoricalBackfill =
+  buildHistoricalSnapshotBackfill({
+    observationSnapshot:
+      laterPronouncedOceanFrontObservationSnapshot,
+
+    intelligenceSnapshot:
+      laterHistoricalIntelligenceSnapshot,
+
+    storedAt:
+      "2026-08-02T20:11:00.000Z",
+
+    storageProvider:
+      "pelora-test-historical-memory",
+
+    region:
+      "Northern Gulf of Mexico",
+
+    subregion:
+      "DeSoto Canyon",
+
+    locationId:
+      "historical-ocean-front-strength-test-location"
+  });
+
+
+const strengtheningOceanFrontPersistence =
+  buildOceanFrontPersistence({
+    historicalSnapshots: [
+      laterPronouncedOceanFrontHistoricalBackfill,
+      earlierMeasurableOceanFrontHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  strengtheningOceanFrontPersistence.available,
+  true
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence.classification,
+  "strengthening-ocean-front-context"
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence.lifecycleState,
+  "strengthening"
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .frontStrengthChange,
+  1
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .firstHydrodynamicSignalCount,
+  1
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .lastHydrodynamicSignalCount,
+  3
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .hydrodynamicSignalCountChange,
+  2
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .firstFrontType,
+  "thermal-current-boundary"
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .lastFrontType,
+  "multi-signal-surface-boundary"
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .firstCorroboratingFrontContext,
+  false
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .lastCorroboratingFrontContext,
+  true
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .firstMixingInteractionContext,
+  false
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .lastMixingInteractionContext,
+  true
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .lastOceanFrontReady,
+  false
+);
+
+assert.equal(
+  strengtheningOceanFrontPersistence
+    .values
+    .lastOceanFrontDetected,
+  false
+);
+
+console.log(
+  "PASS Ocean Front Persistence v1 identifies strengthening multi-signal front context"
+);
+
+
+const oceanPersistenceWithOceanFront =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedOceanFrontHistoricalBackfill,
+      earlierMeasurableOceanFrontHistoricalBackfill
+    ]
+  });
+
+assert.equal(
+  oceanPersistenceWithOceanFront
+    .featurePersistence
+    .oceanFront
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithOceanFront
+    .featurePersistence
+    .oceanFront
+    .classification,
+  "strengthening-ocean-front-context"
+);
+
+assert.equal(
+  oceanPersistenceWithOceanFront
+    .featurePersistence
+    .oceanFront
+    .featureType,
+  "ocean-front"
+);
+
+assert.equal(
+  oceanPersistenceWithOceanFront
+    .featurePersistence
+    .oceanFront
+    .featureFamily,
+  "integrated-ocean-physics"
+);
+
+assert.equal(
+  oceanPersistenceWithOceanFront
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence v1 connects governed Ocean Front Persistence"
 );

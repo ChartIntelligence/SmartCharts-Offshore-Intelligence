@@ -25386,6 +25386,840 @@ export function buildMixingZonePersistence({
 
 /**
  * ------------------------------------------------------------
+ * Ocean Front Persistence Analysis v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare governed Ocean Front Analysis contracts across
+ * chronological Ocean Memory snapshots.
+ *
+ * This version evaluates persistence of ocean-front candidate
+ * context. It does not establish a verified ocean front,
+ * water-mass identity, full water-column structure, habitat,
+ * prey concentration, fish presence, or fishing quality.
+ */
+export function buildOceanFrontPersistence({
+  historicalSnapshots = []
+} = {}) {
+  const snapshotsInput =
+    Array.isArray(
+      historicalSnapshots
+    )
+      ? historicalSnapshots
+      : [];
+
+  const frontStrengthRank = {
+    unknown: 0,
+    none: 0,
+    weak: 1,
+    measurable: 2,
+    pronounced: 3
+  };
+
+  const normalizedObservations =
+    snapshotsInput
+      .map(record => {
+        const oceanSnapshot =
+          record
+            ?.storageRecord
+            ?.snapshot ??
+          record
+            ?.snapshot ??
+          record
+            ?.oceanSnapshot ??
+          null;
+
+        const oceanFrontAnalysis =
+          oceanSnapshot
+            ?.observation
+            ?.oceanPhysics
+            ?.oceanFrontAnalysis ??
+          null;
+
+        const snapshotAvailable =
+          oceanSnapshot
+            ?.available ===
+          true;
+
+        const snapshotId =
+          oceanSnapshot
+            ?.identity
+            ?.snapshotId ??
+          null;
+
+        const observedAt =
+          oceanSnapshot
+            ?.metadata
+            ?.time
+            ?.observedAt ??
+          oceanSnapshot
+            ?.observation
+            ?.observedAt ??
+          null;
+
+        const observedAtTimestamp =
+          typeof observedAt ===
+            "string"
+            ? Date.parse(
+                observedAt
+              )
+            : Number.NaN;
+
+        const validObservedAt =
+          Number.isFinite(
+            observedAtTimestamp
+          );
+
+        const contractVersion =
+          oceanFrontAnalysis
+            ?.contractVersion ??
+          null;
+
+        const analysisAvailable =
+          oceanFrontAnalysis
+            ?.available ===
+          true;
+
+        const classification =
+          typeof oceanFrontAnalysis
+            ?.classification ===
+            "string"
+            ? oceanFrontAnalysis
+                .classification
+            : null;
+
+        const frontType =
+          typeof oceanFrontAnalysis
+            ?.frontType ===
+            "string"
+            ? oceanFrontAnalysis
+                .frontType
+            : null;
+
+        const frontState =
+          typeof oceanFrontAnalysis
+            ?.frontState ===
+            "string"
+            ? oceanFrontAnalysis
+                .frontState
+            : null;
+
+        const frontStrength =
+          typeof oceanFrontAnalysis
+            ?.frontStrength ===
+            "string"
+            ? oceanFrontAnalysis
+                .frontStrength
+            : null;
+
+        const strengthRank =
+          Object.hasOwn(
+            frontStrengthRank,
+            frontStrength
+          )
+            ? frontStrengthRank[
+                frontStrength
+              ]
+            : null;
+
+        const frontContextSupported =
+          [
+            "candidate-context",
+            "incomplete-support"
+          ].includes(
+            frontState
+          ) &&
+          frontType !==
+            "none" &&
+          frontType !==
+            "unavailable";
+
+        const oceanFrontReady =
+          oceanFrontAnalysis
+            ?.oceanFrontReady ===
+          true;
+
+        const oceanFrontDetected =
+          oceanFrontAnalysis
+            ?.oceanFrontDetected ===
+          true;
+
+        const sufficientFrontEvidence =
+          oceanFrontAnalysis
+            ?.evidence
+            ?.sufficientFrontEvidence ===
+          true;
+
+        const corroboratingFrontContext =
+          oceanFrontAnalysis
+            ?.evidence
+            ?.corroboratingFrontContext ===
+          true;
+
+        const hydrodynamicSignalCount =
+          Number.isFinite(
+            oceanFrontAnalysis
+              ?.evidence
+              ?.hydrodynamicSignalCount
+          )
+            ? oceanFrontAnalysis
+                .evidence
+                .hydrodynamicSignalCount
+            : null;
+
+        const mixingInteractionContext =
+          oceanFrontAnalysis
+            ?.evidence
+            ?.mixingInteractionContext ===
+          true;
+
+        const crossBoundaryWaterCharacterAvailable =
+          oceanFrontAnalysis
+            ?.evidence
+            ?.crossBoundaryWaterCharacterAvailable ===
+          true;
+
+        const distinctAdjacentWaterMassesEstablished =
+          oceanFrontAnalysis
+            ?.evidence
+            ?.distinctAdjacentWaterMassesEstablished ===
+          true;
+
+        const waterMassDistinctionReady =
+          oceanFrontAnalysis
+            ?.evidence
+            ?.waterMassDistinctionReady ===
+          true;
+
+        const mixingZoneReady =
+          oceanFrontAnalysis
+            ?.evidence
+            ?.mixingZoneReady ===
+          true;
+
+        const missingRequirements =
+          Array.isArray(
+            oceanFrontAnalysis
+              ?.missingRequirements
+          )
+            ? [
+                ...oceanFrontAnalysis
+                  .missingRequirements
+              ]
+            : [];
+
+        return {
+          snapshotId,
+
+          observedAt:
+            validObservedAt
+              ? observedAt
+              : null,
+
+          observedAtTimestamp:
+            validObservedAt
+              ? observedAtTimestamp
+              : null,
+
+          contractVersion,
+
+          analysisAvailable,
+
+          classification,
+
+          frontType,
+
+          frontState,
+
+          frontStrength,
+
+          strengthRank,
+
+          frontContextSupported,
+
+          oceanFrontReady,
+
+          oceanFrontDetected,
+
+          sufficientFrontEvidence,
+
+          corroboratingFrontContext,
+
+          hydrodynamicSignalCount,
+
+          mixingInteractionContext,
+
+          crossBoundaryWaterCharacterAvailable,
+
+          distinctAdjacentWaterMassesEstablished,
+
+          waterMassDistinctionReady,
+
+          mixingZoneReady,
+
+          missingRequirements,
+
+          valid:
+            snapshotAvailable &&
+            typeof snapshotId ===
+              "string" &&
+            snapshotId.trim().length >
+              0 &&
+            validObservedAt &&
+            contractVersion ===
+              "pelora-ocean-front-analysis-v1" &&
+            analysisAvailable &&
+            strengthRank !==
+              null
+        };
+      })
+      .filter(
+        observation =>
+          observation.valid
+      )
+      .sort(
+        (
+          firstObservation,
+          secondObservation
+        ) =>
+          firstObservation
+            .observedAtTimestamp -
+          secondObservation
+            .observedAtTimestamp
+      );
+
+  const uniqueObservations = [];
+
+  const seenSnapshotIds =
+    new Set();
+
+  for (
+    const observation of
+      normalizedObservations
+  ) {
+    if (
+      seenSnapshotIds.has(
+        observation.snapshotId
+      )
+    ) {
+      continue;
+    }
+
+    seenSnapshotIds.add(
+      observation.snapshotId
+    );
+
+    uniqueObservations.push(
+      observation
+    );
+  }
+
+  const sampleCount =
+    uniqueObservations.length;
+
+  const firstObservation =
+    sampleCount > 0
+      ? uniqueObservations[0]
+      : null;
+
+  const lastObservation =
+    sampleCount > 0
+      ? uniqueObservations[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstObservation
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastObservation
+      ?.observedAt ??
+    null;
+
+  const durationHours =
+    firstObservation &&
+    lastObservation
+      ? (
+          lastObservation
+            .observedAtTimestamp -
+          firstObservation
+            .observedAtTimestamp
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+  if (
+    sampleCount ===
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "ocean-front",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "unavailable",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "historical-ocean-front-contracts-unavailable",
+
+      values: {
+        sampleCount:
+          0,
+
+        firstObservedAt:
+          null,
+
+        lastObservedAt:
+          null,
+
+        durationHours:
+          null,
+
+        firstFrontContextSupported:
+          null,
+
+        lastFrontContextSupported:
+          null,
+
+        firstFrontStrength:
+          null,
+
+        lastFrontStrength:
+          null,
+
+        frontStrengthChange:
+          null,
+
+        firstHydrodynamicSignalCount:
+          null,
+
+        lastHydrodynamicSignalCount:
+          null,
+
+        hydrodynamicSignalCountChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      limitations: [
+        "historical-ocean-front-contracts-unavailable",
+        "ocean-front-persistence-not-assessed",
+        "ocean-front-identity-not-established",
+        "feature-absence-not-established"
+      ]
+    });
+  }
+
+  if (
+    sampleCount <
+      2 ||
+    !Number.isFinite(
+      durationHours
+    ) ||
+    durationHours <=
+      0
+  ) {
+    return buildFeaturePersistenceContract({
+      available:
+        false,
+
+      featureType:
+        "ocean-front",
+
+      featureFamily:
+        "integrated-ocean-physics",
+
+      classification:
+        "insufficient-history",
+
+      lifecycleState:
+        null,
+
+      reason:
+        "minimum-two-chronological-ocean-front-contracts-required",
+
+      values: {
+        sampleCount,
+
+        firstObservedAt,
+
+        lastObservedAt,
+
+        durationHours,
+
+        firstFrontContextSupported:
+          firstObservation
+            ?.frontContextSupported ??
+          null,
+
+        lastFrontContextSupported:
+          lastObservation
+            ?.frontContextSupported ??
+          null,
+
+        firstFrontStrength:
+          firstObservation
+            ?.frontStrength ??
+          null,
+
+        lastFrontStrength:
+          lastObservation
+            ?.frontStrength ??
+          null,
+
+        frontStrengthChange:
+          null,
+
+        firstHydrodynamicSignalCount:
+          firstObservation
+            ?.hydrodynamicSignalCount ??
+          null,
+
+        lastHydrodynamicSignalCount:
+          lastObservation
+            ?.hydrodynamicSignalCount ??
+          null,
+
+        hydrodynamicSignalCountChange:
+          null
+      },
+
+      confidence: {
+        score:
+          0,
+
+        level:
+          "Unavailable"
+      },
+
+      drivers: [
+        "governed-historical-ocean-front-contract-available"
+      ],
+
+      limitations: [
+        "minimum-two-chronological-ocean-front-contracts-required",
+        "ocean-front-persistence-not-assessed",
+        "ocean-front-identity-not-established"
+      ]
+    });
+  }
+
+  const firstFrontContextSupported =
+    firstObservation
+      .frontContextSupported;
+
+  const lastFrontContextSupported =
+    lastObservation
+      .frontContextSupported;
+
+  const frontStrengthChange =
+    lastObservation
+      .strengthRank -
+    firstObservation
+      .strengthRank;
+
+  const hydrodynamicSignalCountChange =
+    firstObservation
+      .hydrodynamicSignalCount !==
+      null &&
+    lastObservation
+      .hydrodynamicSignalCount !==
+      null
+      ? lastObservation
+          .hydrodynamicSignalCount -
+        firstObservation
+          .hydrodynamicSignalCount
+      : null;
+
+  let classification =
+    "stable-ocean-front-context";
+
+  let lifecycleState =
+    "stable";
+
+  let reason =
+    "governed-ocean-front-context-remained-stable";
+
+  if (
+    !firstFrontContextSupported &&
+    lastFrontContextSupported
+  ) {
+    classification =
+      "emerging-ocean-front-context";
+
+    lifecycleState =
+      "emerging";
+
+    reason =
+      "governed-ocean-front-context-developed";
+  } else if (
+    firstFrontContextSupported &&
+    !lastFrontContextSupported
+  ) {
+    classification =
+      "fading-ocean-front-context";
+
+    lifecycleState =
+      "fading";
+
+    reason =
+      "governed-ocean-front-context-no-longer-supported";
+  } else if (
+    frontStrengthChange >
+      0
+  ) {
+    classification =
+      "strengthening-ocean-front-context";
+
+    lifecycleState =
+      "strengthening";
+
+    reason =
+      "governed-ocean-front-strength-increased";
+  } else if (
+    frontStrengthChange <
+      0
+  ) {
+    classification =
+      "weakening-ocean-front-context";
+
+    lifecycleState =
+      "weakening";
+
+    reason =
+      "governed-ocean-front-strength-decreased";
+  }
+
+  const confidenceScore =
+    Math.min(
+      80,
+      40 +
+      (
+        sampleCount *
+        10
+      )
+    );
+
+  const confidenceLevel =
+    confidenceScore >=
+      70
+      ? "High"
+      : confidenceScore >=
+          50
+        ? "Moderate"
+        : "Low";
+
+  return buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "ocean-front",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    classification,
+
+    lifecycleState,
+
+    reason,
+
+    values: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours,
+
+      firstFrontContextSupported,
+
+      lastFrontContextSupported,
+
+      firstClassification:
+        firstObservation
+          .classification,
+
+      lastClassification:
+        lastObservation
+          .classification,
+
+      firstFrontType:
+        firstObservation
+          .frontType,
+
+      lastFrontType:
+        lastObservation
+          .frontType,
+
+      firstFrontState:
+        firstObservation
+          .frontState,
+
+      lastFrontState:
+        lastObservation
+          .frontState,
+
+      firstFrontStrength:
+        firstObservation
+          .frontStrength,
+
+      lastFrontStrength:
+        lastObservation
+          .frontStrength,
+
+      frontStrengthChange,
+
+      firstOceanFrontReady:
+        firstObservation
+          .oceanFrontReady,
+
+      lastOceanFrontReady:
+        lastObservation
+          .oceanFrontReady,
+
+      firstOceanFrontDetected:
+        firstObservation
+          .oceanFrontDetected,
+
+      lastOceanFrontDetected:
+        lastObservation
+          .oceanFrontDetected,
+
+      firstSufficientFrontEvidence:
+        firstObservation
+          .sufficientFrontEvidence,
+
+      lastSufficientFrontEvidence:
+        lastObservation
+          .sufficientFrontEvidence,
+
+      firstCorroboratingFrontContext:
+        firstObservation
+          .corroboratingFrontContext,
+
+      lastCorroboratingFrontContext:
+        lastObservation
+          .corroboratingFrontContext,
+
+      firstHydrodynamicSignalCount:
+        firstObservation
+          .hydrodynamicSignalCount,
+
+      lastHydrodynamicSignalCount:
+        lastObservation
+          .hydrodynamicSignalCount,
+
+      hydrodynamicSignalCountChange,
+
+      firstMixingInteractionContext:
+        firstObservation
+          .mixingInteractionContext,
+
+      lastMixingInteractionContext:
+        lastObservation
+          .mixingInteractionContext,
+
+      firstCrossBoundaryWaterCharacterAvailable:
+        firstObservation
+          .crossBoundaryWaterCharacterAvailable,
+
+      lastCrossBoundaryWaterCharacterAvailable:
+        lastObservation
+          .crossBoundaryWaterCharacterAvailable,
+
+      firstDistinctAdjacentWaterMassesEstablished:
+        firstObservation
+          .distinctAdjacentWaterMassesEstablished,
+
+      lastDistinctAdjacentWaterMassesEstablished:
+        lastObservation
+          .distinctAdjacentWaterMassesEstablished,
+
+      firstWaterMassDistinctionReady:
+        firstObservation
+          .waterMassDistinctionReady,
+
+      lastWaterMassDistinctionReady:
+        lastObservation
+          .waterMassDistinctionReady,
+
+      firstMixingZoneReady:
+        firstObservation
+          .mixingZoneReady,
+
+      lastMixingZoneReady:
+        lastObservation
+          .mixingZoneReady,
+
+      firstMissingRequirements:
+        firstObservation
+          .missingRequirements,
+
+      lastMissingRequirements:
+        lastObservation
+          .missingRequirements,
+
+      sourceContractVersion:
+        "pelora-ocean-front-analysis-v1"
+    },
+
+    confidence: {
+      score:
+        confidenceScore,
+
+      level:
+        confidenceLevel
+    },
+
+    drivers: [
+      "multiple-governed-historical-ocean-front-contracts-available",
+      "chronological-ocean-front-observation-window-established",
+      `ocean-front-lifecycle-${lifecycleState}`
+    ],
+
+    limitations: [
+      "ocean-front-persistence-does-not-confirm-a-verified-ocean-front",
+      "ocean-front-identity-across-space-is-not-confirmed",
+      "cross-boundary-water-mass-identity-remains-governed-by-upstream-contracts",
+      "full-water-column-structure-not-assessed",
+      "ocean-front-movement-not-assessed",
+      "ocean-front-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+    ]
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Persistence Engine Contract v1.0
  * ------------------------------------------------------------
  *
@@ -25437,29 +26271,34 @@ export function buildOceanPersistence({
     });
 
   const currentConvergence =
-  buildCurrentConvergencePersistence({
-    historicalSnapshots
-  });
+    buildCurrentConvergencePersistence({
+      historicalSnapshots
+    });
 
   const environmentalTransition =
     buildEnvironmentalTransitionPersistence({
       historicalSnapshots
     });
 
-      const surfaceWaterCharacter =
+  const surfaceWaterCharacter =
     buildSurfaceWaterCharacterPersistence({
       historicalSnapshots
     });
 
-    const waterMass =
-  buildWaterMassPersistence({
-    historicalSnapshots
-  });
+  const waterMass =
+    buildWaterMassPersistence({
+      historicalSnapshots
+    });
 
   const mixingZone =
-  buildMixingZonePersistence({
-    historicalSnapshots
-  });
+    buildMixingZonePersistence({
+      historicalSnapshots
+    });
+
+  const oceanFront =
+    buildOceanFrontPersistence({
+      historicalSnapshots
+    });
 
  const buildUnavailableFeature = ({
   featureType,
@@ -25662,6 +26501,8 @@ export function buildOceanPersistence({
     waterMass,
 
     mixingZone,
+
+    oceanFront,
 
     chlorophyll:
       buildUnavailableFeature({
