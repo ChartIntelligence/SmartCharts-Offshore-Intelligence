@@ -771,6 +771,33 @@ function nauticalMilesBetween(
 }
 
 
+export function kilometersBetween(
+  lat1,
+  lon1,
+  lat2,
+  lon2
+) {
+  const distanceNm =
+    nauticalMilesBetween(
+      lat1,
+      lon1,
+      lat2,
+      lon2
+    );
+
+  return Number.isFinite(
+    distanceNm
+  )
+    ? Number(
+        (
+          distanceNm *
+          1.852
+        ).toFixed(2)
+      )
+    : null;
+}
+
+
 function writeJson(
   response,
   statusCode,
@@ -18000,6 +18027,31 @@ export function buildHistoricalSnapshotQuery({
       ? radiusKm
       : null;
 
+       const requestedLatitude =
+    Number.isFinite(
+      location?.latitude
+    )
+      ? location.latitude
+      : null;
+
+  const requestedLongitude =
+    Number.isFinite(
+      location?.longitude
+    )
+      ? location.longitude
+      : null;
+
+  const radiusFilterRequested =
+    requestedRadiusKm !==
+      null;
+
+  const radiusFilterApplied =
+    radiusFilterRequested &&
+    requestedLatitude !==
+      null &&
+    requestedLongitude !==
+      null;
+
   const resolvedObservedAfter =
     typeof observedAfter ===
       "string" &&
@@ -18126,6 +18178,57 @@ export function buildHistoricalSnapshotQuery({
             ?.location
             ?.id ??
           null;
+
+                  const storedLatitude =
+          oceanSnapshot
+            ?.metadata
+            ?.location
+            ?.latitude ??
+          oceanSnapshot
+            ?.observation
+            ?.location
+            ?.latitude ??
+          null;
+
+        const storedLongitude =
+          oceanSnapshot
+            ?.metadata
+            ?.location
+            ?.longitude ??
+          oceanSnapshot
+            ?.observation
+            ?.location
+            ?.longitude ??
+          null;
+
+        const validStoredCoordinates =
+          Number.isFinite(
+            storedLatitude
+          ) &&
+          Number.isFinite(
+            storedLongitude
+          );
+
+        const distanceKm =
+          radiusFilterApplied &&
+          validStoredCoordinates
+            ? kilometersBetween(
+                requestedLatitude,
+                requestedLongitude,
+                storedLatitude,
+                storedLongitude
+              )
+            : null;
+
+        const radiusMatches =
+          !radiusFilterApplied ||
+          (
+            Number.isFinite(
+              distanceKm
+            ) &&
+            distanceKm <=
+              requestedRadiusKm
+          );
 
         const observedAt =
           oceanSnapshot
@@ -18271,6 +18374,16 @@ export function buildHistoricalSnapshotQuery({
 
           locationMatches,
 
+          storedLatitude,
+
+          storedLatitude,
+
+          storedLongitude,
+
+          distanceKm,
+
+          radiusMatches,
+
           afterBoundaryMatches,
 
           beforeBoundaryMatches,
@@ -18280,6 +18393,7 @@ export function buildHistoricalSnapshotQuery({
           selected:
             governedRecordValid &&
             locationMatches &&
+            radiusMatches &&
             afterBoundaryMatches &&
             beforeBoundaryMatches &&
             schemaVersionMatches
@@ -18299,11 +18413,21 @@ export function buildHistoricalSnapshotQuery({
         !record.locationMatches
     ).length;
 
-  const timeExcludedCount =
+      const radiusExcludedCount =
     normalizedRecords.filter(
       record =>
         record.governedRecordValid &&
         record.locationMatches &&
+        radiusFilterApplied &&
+        !record.radiusMatches
+    ).length;
+
+    const timeExcludedCount =
+    normalizedRecords.filter(
+      record =>
+        record.governedRecordValid &&
+        record.locationMatches &&
+        record.radiusMatches &&
         (
           !record.afterBoundaryMatches ||
           !record.beforeBoundaryMatches
@@ -18315,6 +18439,7 @@ export function buildHistoricalSnapshotQuery({
       record =>
         record.governedRecordValid &&
         record.locationMatches &&
+        record.radiusMatches &&
         record.afterBoundaryMatches &&
         record.beforeBoundaryMatches &&
         !record.schemaVersionMatches
@@ -18417,9 +18542,9 @@ export function buildHistoricalSnapshotQuery({
     ...new Set([
       ...missingRequirements,
 
-      requestedRadiusKm !==
-        null
-        ? "geographic-radius-filter-not-yet-connected"
+      radiusFilterRequested &&
+      !radiusFilterApplied
+        ? "geographic-radius-filter-requires-valid-center-coordinates"
         : null,
 
       requestedLocationId ===
@@ -18459,7 +18584,7 @@ export function buildHistoricalSnapshotQuery({
 
       "This contract does not query, search, or read from an external database.",
 
-      "This contract does not calculate distance or apply geographic-radius filtering in v1.",
+      "This contract calculates great-circle distance from the requested center and applies inclusive geographic-radius filtering when valid coordinates and radius are supplied.",
 
       "This contract does not compare snapshots, calculate persistence, infer trends, alter scientific contracts, perform opportunity or species reasoning, or generate captain guidance."
     ].filter(Boolean))
@@ -18497,8 +18622,13 @@ export function buildHistoricalSnapshotQuery({
       radiusKm:
         requestedRadiusKm,
 
-      radiusFilterApplied:
-        false,
+      radiusFilterApplied,
+
+      centerLatitude:
+        requestedLatitude,
+
+      centerLongitude:
+        requestedLongitude,
 
       observedAfter:
         resolvedObservedAfter,
@@ -18526,6 +18656,8 @@ export function buildHistoricalSnapshotQuery({
       rejectedRecordCount,
 
       locationExcludedCount,
+
+      radiusExcludedCount,
 
       timeExcludedCount,
 
@@ -18561,6 +18693,848 @@ export function buildHistoricalSnapshotQuery({
 
     contractVersion:
       "pelora-historical-snapshot-query-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Latest Ocean Snapshot Query v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Return the newest governed Ocean Memory record from a
+ * Historical Snapshot Query result.
+ *
+ * This contract does not normalize raw database rows, compare
+ * snapshots, calculate persistence, infer trends, perform
+ * species reasoning, or generate captain guidance.
+ */
+export function buildLatestOceanSnapshotQuery({
+  historicalSnapshots = [],
+  location = null,
+  observedAfter = null,
+  observedBefore = null,
+  snapshotSchemaVersion = null
+} = {}) {
+  const historicalSnapshotQuery =
+    buildHistoricalSnapshotQuery({
+      historicalSnapshots,
+      location,
+      observedAfter,
+      observedBefore,
+      maximumSnapshots:
+        1,
+      snapshotSchemaVersion
+    });
+
+  const latestRecord =
+    Array.isArray(
+      historicalSnapshotQuery
+        ?.historicalSnapshots
+    ) &&
+    historicalSnapshotQuery
+      .historicalSnapshots
+      .length >
+      0
+      ? historicalSnapshotQuery
+          .historicalSnapshots[0]
+      : null;
+
+  const available =
+    historicalSnapshotQuery
+      ?.available ===
+      true &&
+    latestRecord !==
+      null;
+
+  const missingRequirements = [
+    ...(
+      Array.isArray(
+        historicalSnapshotQuery
+          ?.missingRequirements
+      )
+        ? historicalSnapshotQuery
+            .missingRequirements
+        : []
+    ),
+
+    latestRecord ===
+      null
+      ? "latest-governed-ocean-snapshot"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          historicalSnapshotQuery
+            ?.limitations
+        )
+          ? historicalSnapshotQuery
+              .limitations
+          : []
+      ),
+
+      "Latest Ocean Snapshot Query returns only the newest governed Ocean Memory record.",
+
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    queryType:
+      "latest-ocean-snapshot",
+
+    responsibility:
+      "preserve",
+
+    latestSnapshot:
+      available
+        ? cloneSnapshotValue(
+            latestRecord
+          )
+        : null,
+
+    historicalSnapshot:
+      available
+        ? cloneSnapshotValue(
+            latestRecord
+          )
+        : null,
+
+    snapshot:
+      available
+        ? cloneSnapshotValue(
+            latestRecord
+          )
+        : null,
+
+    sourceQuery: {
+      available:
+        historicalSnapshotQuery
+          ?.available ===
+        true,
+
+      returnedRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.returnedRecordCount ??
+        0,
+
+      firstObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.firstObservedAt ??
+        null,
+
+      lastObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.lastObservedAt ??
+        null,
+
+      contractVersion:
+        historicalSnapshotQuery
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements,
+
+    limitations,
+
+    contractVersion:
+      "pelora-latest-ocean-snapshot-query-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Previous Ocean Snapshot Query v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Return the governed Ocean Memory record immediately before
+ * a supplied observation timestamp.
+ *
+ * This contract does not normalize raw database rows, compare
+ * snapshots, calculate persistence, infer trends, perform
+ * species reasoning, or generate captain guidance.
+ */
+export function buildPreviousOceanSnapshotQuery({
+  historicalSnapshots = [],
+  beforeObservedAt = null,
+  location = null,
+  snapshotSchemaVersion = null
+} = {}) {
+  const resolvedBeforeObservedAt =
+    typeof beforeObservedAt ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        beforeObservedAt
+      )
+    )
+      ? beforeObservedAt
+      : null;
+
+  const beforeObservedTimestamp =
+    resolvedBeforeObservedAt
+      ? Date.parse(
+          resolvedBeforeObservedAt
+        )
+      : null;
+
+  const historicalSnapshotQuery =
+    buildHistoricalSnapshotQuery({
+      historicalSnapshots,
+      location,
+
+      observedBefore:
+        resolvedBeforeObservedAt,
+
+      snapshotSchemaVersion
+    });
+
+  const eligibleRecords =
+    Array.isArray(
+      historicalSnapshotQuery
+        ?.historicalSnapshots
+    )
+      ? historicalSnapshotQuery
+          .historicalSnapshots
+          .filter(record => {
+            const observedAt =
+              record
+                ?.snapshot
+                ?.metadata
+                ?.time
+                ?.observedAt ??
+              null;
+
+            const observedTimestamp =
+              typeof observedAt ===
+                "string"
+                ? Date.parse(
+                    observedAt
+                  )
+                : Number.NaN;
+
+            return (
+              beforeObservedTimestamp !==
+                null &&
+              Number.isFinite(
+                observedTimestamp
+              ) &&
+              observedTimestamp <
+                beforeObservedTimestamp
+            );
+          })
+      : [];
+
+  const previousRecord =
+    eligibleRecords.length >
+      0
+      ? eligibleRecords[
+          eligibleRecords.length -
+            1
+        ]
+      : null;
+
+  const available =
+    resolvedBeforeObservedAt !==
+      null &&
+    historicalSnapshotQuery
+      ?.available ===
+      true &&
+    previousRecord !==
+      null;
+
+  const missingRequirements = [
+    resolvedBeforeObservedAt ===
+      null
+      ? "valid-before-observed-at"
+      : null,
+
+    ...(
+      Array.isArray(
+        historicalSnapshotQuery
+          ?.missingRequirements
+      )
+        ? historicalSnapshotQuery
+            .missingRequirements
+        : []
+    ),
+
+    previousRecord ===
+      null
+      ? "previous-governed-ocean-snapshot"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          historicalSnapshotQuery
+            ?.limitations
+        )
+          ? historicalSnapshotQuery
+              .limitations
+          : []
+      ),
+
+      "Previous Ocean Snapshot Query returns only the newest governed record strictly before the supplied observation timestamp.",
+
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    queryType:
+      "previous-ocean-snapshot",
+
+    responsibility:
+      "preserve",
+
+    request: {
+      beforeObservedAt:
+        resolvedBeforeObservedAt,
+
+      locationRequested:
+        location !==
+          null,
+
+      snapshotSchemaVersion:
+        typeof snapshotSchemaVersion ===
+          "string"
+          ? snapshotSchemaVersion
+              .trim() ||
+            null
+          : null
+    },
+
+    previousSnapshot:
+      available
+        ? cloneSnapshotValue(
+            previousRecord
+          )
+        : null,
+
+    historicalSnapshot:
+      available
+        ? cloneSnapshotValue(
+            previousRecord
+          )
+        : null,
+
+    snapshot:
+      available
+        ? cloneSnapshotValue(
+            previousRecord
+          )
+        : null,
+
+    sourceQuery: {
+      available:
+        historicalSnapshotQuery
+          ?.available ===
+        true,
+
+      returnedRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.returnedRecordCount ??
+        0,
+
+      eligibleRecordCount:
+        eligibleRecords.length,
+
+      firstObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.firstObservedAt ??
+        null,
+
+      lastObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.lastObservedAt ??
+        null,
+
+      contractVersion:
+        historicalSnapshotQuery
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-previous-ocean-snapshot-query-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Snapshot By ID Query v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Return one governed Ocean Memory record matching an exact
+ * supplied snapshot identifier.
+ *
+ * This contract does not normalize raw database rows, compare
+ * snapshots, calculate persistence, infer trends, perform
+ * species reasoning, or generate captain guidance.
+ */
+export function buildOceanSnapshotByIdQuery({
+  historicalSnapshots = [],
+  snapshotId = null,
+  location = null,
+  snapshotSchemaVersion = null
+} = {}) {
+  const requestedSnapshotId =
+    typeof snapshotId ===
+      "string"
+      ? snapshotId.trim() ||
+        null
+      : null;
+
+  const historicalSnapshotQuery =
+    buildHistoricalSnapshotQuery({
+      historicalSnapshots,
+      location,
+      snapshotSchemaVersion
+    });
+
+  const matchingRecord =
+    requestedSnapshotId !==
+      null &&
+    Array.isArray(
+      historicalSnapshotQuery
+        ?.historicalSnapshots
+    )
+      ? historicalSnapshotQuery
+          .historicalSnapshots
+          .find(record =>
+            record
+              ?.identity
+              ?.snapshotId ===
+            requestedSnapshotId
+          ) ??
+        null
+      : null;
+
+  const available =
+    requestedSnapshotId !==
+      null &&
+    historicalSnapshotQuery
+      ?.available ===
+      true &&
+    matchingRecord !==
+      null;
+
+  const missingRequirements = [
+    requestedSnapshotId ===
+      null
+      ? "valid-snapshot-id"
+      : null,
+
+    ...(
+      Array.isArray(
+        historicalSnapshotQuery
+          ?.missingRequirements
+      )
+        ? historicalSnapshotQuery
+            .missingRequirements
+        : []
+    ),
+
+    matchingRecord ===
+      null
+      ? "matching-governed-ocean-snapshot"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          historicalSnapshotQuery
+            ?.limitations
+        )
+          ? historicalSnapshotQuery
+              .limitations
+          : []
+      ),
+
+      "Ocean Snapshot By ID Query returns only the governed Ocean Memory record matching the supplied snapshot identifier.",
+
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    queryType:
+      "ocean-snapshot-by-id",
+
+    responsibility:
+      "preserve",
+
+    request: {
+      snapshotId:
+        requestedSnapshotId,
+
+      locationRequested:
+        location !==
+          null,
+
+      snapshotSchemaVersion:
+        typeof snapshotSchemaVersion ===
+          "string"
+          ? snapshotSchemaVersion
+              .trim() ||
+            null
+          : null
+    },
+
+    matchingSnapshot:
+      available
+        ? cloneSnapshotValue(
+            matchingRecord
+          )
+        : null,
+
+    historicalSnapshot:
+      available
+        ? cloneSnapshotValue(
+            matchingRecord
+          )
+        : null,
+
+    snapshot:
+      available
+        ? cloneSnapshotValue(
+            matchingRecord
+          )
+        : null,
+
+    sourceQuery: {
+      available:
+        historicalSnapshotQuery
+          ?.available ===
+        true,
+
+      returnedRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.returnedRecordCount ??
+        0,
+
+      contractVersion:
+        historicalSnapshotQuery
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-snapshot-by-id-query-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Historical Ocean Snapshot Window Query v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Return governed Ocean Memory records observed within a
+ * supplied chronological time window.
+ *
+ * This contract does not normalize raw database rows, compare
+ * snapshots, calculate persistence, infer trends, perform
+ * species reasoning, or generate captain guidance.
+ */
+export function buildHistoricalOceanSnapshotWindowQuery({
+  historicalSnapshots = [],
+  observedAfter = null,
+  observedBefore = null,
+  location = null,
+  maximumSnapshots = null,
+  snapshotSchemaVersion = null
+} = {}) {
+  const resolvedObservedAfter =
+    typeof observedAfter ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedAfter
+      )
+    )
+      ? observedAfter
+      : null;
+
+  const resolvedObservedBefore =
+    typeof observedBefore ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedBefore
+      )
+    )
+      ? observedBefore
+      : null;
+
+  const observedAfterTimestamp =
+    resolvedObservedAfter
+      ? Date.parse(
+          resolvedObservedAfter
+        )
+      : null;
+
+  const observedBeforeTimestamp =
+    resolvedObservedBefore
+      ? Date.parse(
+          resolvedObservedBefore
+        )
+      : null;
+
+  const validTimeWindow =
+    observedAfterTimestamp !==
+      null &&
+    observedBeforeTimestamp !==
+      null &&
+    observedAfterTimestamp <=
+      observedBeforeTimestamp;
+
+  const historicalSnapshotQuery =
+    buildHistoricalSnapshotQuery({
+      historicalSnapshots,
+
+      observedAfter:
+        validTimeWindow
+          ? resolvedObservedAfter
+          : null,
+
+      observedBefore:
+        validTimeWindow
+          ? resolvedObservedBefore
+          : null,
+
+      location,
+      maximumSnapshots,
+      snapshotSchemaVersion
+    });
+
+  const windowSnapshots =
+    validTimeWindow &&
+    Array.isArray(
+      historicalSnapshotQuery
+        ?.historicalSnapshots
+    )
+      ? historicalSnapshotQuery
+          .historicalSnapshots
+      : [];
+
+  const available =
+    validTimeWindow &&
+    historicalSnapshotQuery
+      ?.available ===
+      true &&
+    windowSnapshots.length >
+      0;
+
+  const missingRequirements = [
+    resolvedObservedAfter ===
+      null
+      ? "valid-observed-after"
+      : null,
+
+    resolvedObservedBefore ===
+      null
+      ? "valid-observed-before"
+      : null,
+
+    resolvedObservedAfter !==
+      null &&
+    resolvedObservedBefore !==
+      null &&
+    !validTimeWindow
+      ? "valid-observed-time-window"
+      : null,
+
+    ...(
+      Array.isArray(
+        historicalSnapshotQuery
+          ?.missingRequirements
+      )
+        ? historicalSnapshotQuery
+            .missingRequirements
+        : []
+    ),
+
+    windowSnapshots.length ===
+      0
+      ? "governed-ocean-snapshots-within-window"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          historicalSnapshotQuery
+            ?.limitations
+        )
+          ? historicalSnapshotQuery
+              .limitations
+          : []
+      ),
+
+      "Historical Ocean Snapshot Window Query returns only governed Ocean Memory records observed within the supplied inclusive time window.",
+
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    queryType:
+      "historical-ocean-snapshot-window",
+
+    responsibility:
+      "preserve",
+
+    request: {
+      observedAfter:
+        resolvedObservedAfter,
+
+      observedBefore:
+        resolvedObservedBefore,
+
+      validTimeWindow,
+
+      locationRequested:
+        location !==
+          null,
+
+      maximumSnapshots:
+        Number.isInteger(
+          maximumSnapshots
+        ) &&
+        maximumSnapshots >
+          0
+          ? maximumSnapshots
+          : null,
+
+      snapshotSchemaVersion:
+        typeof snapshotSchemaVersion ===
+          "string"
+          ? snapshotSchemaVersion
+              .trim() ||
+            null
+          : null
+    },
+
+    snapshots:
+      available
+        ? cloneSnapshotValue(
+            windowSnapshots
+          )
+        : [],
+
+    historicalSnapshots:
+      available
+        ? cloneSnapshotValue(
+            windowSnapshots
+          )
+        : [],
+
+    sourceQuery: {
+      available:
+        historicalSnapshotQuery
+          ?.available ===
+        true,
+
+      inputRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.inputRecordCount ??
+        0,
+
+      returnedRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.returnedRecordCount ??
+        0,
+
+      firstObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.firstObservedAt ??
+        null,
+
+      lastObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.lastObservedAt ??
+        null,
+
+      contractVersion:
+        historicalSnapshotQuery
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-historical-ocean-snapshot-window-query-v1"
   });
 }
 
@@ -39450,9 +40424,51 @@ const observationSnapshot =
   });
 
 
+    const backendSupabaseConfiguration =
+    buildBackendSupabaseConfiguration();
+
+
+  const oceanMemoryRowRetrieval =
+    await retrieveOceanMemoryRows({
+      configuration:
+        backendSupabaseConfiguration,
+
+      bearerToken:
+        normalizedBearerToken,
+
+      latitude,
+      longitude,
+
+      maximumRows:
+        48
+    });
+
+
+      const adaptedHistoricalStorageRecords =
+    Array.isArray(
+      oceanMemoryRowRetrieval
+        ?.rows
+    )
+      ? oceanMemoryRowRetrieval
+          .rows
+          .map(row =>
+            buildOceanMemoryStorageRecordFromRow({
+              row
+            })
+          )
+          .filter(
+            storageRecord =>
+              storageRecord
+                ?.available ===
+              true
+          )
+      : [];
+
+
   const historicalSnapshotQuery =
     buildHistoricalSnapshotQuery({
-      historicalSnapshots: []
+      historicalSnapshots:
+        adaptedHistoricalStorageRecords
     });
 
   const oceanPersistence =
@@ -39669,10 +40685,48 @@ const observationSnapshot =
     moon,
 
     diagnostics: {
-      timingsMilliseconds: {
-        marine:
-          marineResult
-            .durationMilliseconds,
+  oceanMemory: {
+    configured:
+      backendSupabaseConfiguration
+        .available,
+
+    authenticated:
+      normalizedBearerToken !==
+        null,
+
+    requestPerformed:
+      oceanMemoryRowRetrieval
+        .requestPerformed,
+
+    responseOk:
+      oceanMemoryRowRetrieval
+        .summary
+        .responseOk,
+
+    returnedRowCount:
+      oceanMemoryRowRetrieval
+        .summary
+        .returnedRowCount,
+
+    validStorageRecordCount:
+      adaptedHistoricalStorageRecords
+        .length,
+
+    historicalSnapshotCount:
+      historicalSnapshotQuery
+        .summary
+        .returnedRecordCount,
+
+    persistenceAvailable:
+      oceanPersistence
+        .available ===
+      true
+  },
+
+  timingsMilliseconds: {
+    marine:
+      marineResult
+        .durationMilliseconds,
 
         weatherApi:
           marine.diagnostics

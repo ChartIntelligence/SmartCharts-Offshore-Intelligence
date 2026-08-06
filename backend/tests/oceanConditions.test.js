@@ -21,6 +21,11 @@ import {
   buildOceanMemoryStorageRecordFromRow,
   buildOceanSnapshotRetrieval,
   buildHistoricalSnapshotQuery,
+  kilometersBetween,
+  buildLatestOceanSnapshotQuery,
+  buildPreviousOceanSnapshotQuery,
+  buildOceanSnapshotByIdQuery,
+  buildHistoricalOceanSnapshotWindowQuery,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
   buildSeaSurfaceTemperaturePersistence,
@@ -24479,6 +24484,36 @@ const historicalQueryMiddleObservationSnapshot = {
 };
 
 
+const historicalQueryOtherLocationObservationSnapshot = {
+  ...historicalBackfillObservationSnapshot,
+
+  observedAt:
+    "2026-06-15T12:00:00.000Z",
+
+  location: {
+    ...historicalBackfillObservationSnapshot
+      .location,
+
+    latitude:
+      28.75,
+
+    longitude:
+      -88.25,
+
+    name:
+      "Historical Query Location B"
+  }
+};
+
+
+const historicalQueryOtherLocationIntelligenceSnapshot = {
+  ...historicalBackfillIntelligenceSnapshot,
+
+  observedAt:
+    "2026-06-15T12:00:00.000Z"
+};
+
+
 const historicalQueryLaterObservationSnapshot = {
   ...laterHistoricalObservationSnapshot,
 
@@ -24565,10 +24600,10 @@ const historicalQueryLaterBackfill =
 const historicalQueryOtherLocationBackfill =
   buildHistoricalSnapshotBackfill({
     observationSnapshot:
-      historicalQueryMiddleObservationSnapshot,
+      historicalQueryOtherLocationObservationSnapshot,
 
     intelligenceSnapshot:
-      historicalBackfillIntelligenceSnapshot,
+      historicalQueryOtherLocationIntelligenceSnapshot,
 
     storedAt:
       "2026-08-02T20:13:00.000Z",
@@ -25061,6 +25096,216 @@ console.log(
   "PASS Historical Snapshot Query v1 remains frozen and excludes scientific reasoning"
 );
 
+
+/**
+ * ------------------------------------------------------------
+ * Historical Snapshot Query Radius Filtering v1.0
+ * ------------------------------------------------------------
+ */
+
+const historicalSnapshotQueryWithoutRadius =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ]
+  });
+
+
+assert.equal(
+  historicalSnapshotQueryWithoutRadius
+    .query
+    .radiusFilterApplied,
+  false
+);
+
+assert.equal(
+  historicalSnapshotQueryWithoutRadius
+    .summary
+    .radiusExcludedCount,
+  0
+);
+
+assert.equal(
+  historicalSnapshotQueryWithoutRadius
+    .summary
+    .returnedRecordCount,
+  3
+);
+
+console.log(
+  "PASS Historical Snapshot Query preserves established behavior when no radius is requested"
+);
+
+
+const historicalSnapshotQueryByRadius =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill,
+      historicalQueryOtherLocationBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      25
+  });
+
+
+assert.equal(
+  historicalSnapshotQueryByRadius.available,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryByRadius
+    .query
+    .radiusFilterApplied,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryByRadius
+    .query
+    .centerLatitude,
+  29.5
+);
+
+assert.equal(
+  historicalSnapshotQueryByRadius
+    .query
+    .centerLongitude,
+  -87.2
+);
+
+assert.equal(
+  historicalSnapshotQueryByRadius
+    .summary
+    .radiusExcludedCount,
+  1
+);
+
+assert.equal(
+  historicalSnapshotQueryByRadius
+    .summary
+    .returnedRecordCount,
+  3
+);
+
+assert.ok(
+  historicalSnapshotQueryByRadius
+    .historicalSnapshots
+    .every(record =>
+      record
+        ?.snapshot
+        ?.metadata
+        ?.location
+        ?.locationId ===
+      "historical-query-location-a"
+    )
+);
+
+console.log(
+  "PASS Historical Snapshot Query applies governed geographic-radius filtering"
+);
+
+
+const historicalSnapshotQueryRadiusWithoutCenter =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    radiusKm:
+      25
+  });
+
+
+assert.equal(
+  historicalSnapshotQueryRadiusWithoutCenter
+    .query
+    .radiusFilterApplied,
+  false
+);
+
+assert.equal(
+  historicalSnapshotQueryRadiusWithoutCenter
+    .summary
+    .radiusExcludedCount,
+  0
+);
+
+assert.ok(
+  historicalSnapshotQueryRadiusWithoutCenter
+    .limitations
+    .includes(
+      "geographic-radius-filter-requires-valid-center-coordinates"
+    )
+);
+
+console.log(
+  "PASS Historical Snapshot Query discloses an unapplied radius without valid center coordinates"
+);
+
+
+const historicalSnapshotQueryExactRadiusBoundary =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryOtherLocationBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      kilometersBetween(
+        29.5,
+        -87.2,
+        28.75,
+        -88.25
+      )
+  });
+
+
+assert.equal(
+  historicalSnapshotQueryExactRadiusBoundary.available,
+  true
+);
+
+assert.equal(
+  historicalSnapshotQueryExactRadiusBoundary
+    .summary
+    .radiusExcludedCount,
+  0
+);
+
+assert.equal(
+  historicalSnapshotQueryExactRadiusBoundary
+    .summary
+    .returnedRecordCount,
+  1
+);
+
+console.log(
+  "PASS Historical Snapshot Query includes snapshots exactly on the radius boundary"
+);
+
 const laterHistoricalBackfill =
   buildHistoricalSnapshotBackfill({
     observationSnapshot:
@@ -25084,6 +25329,1489 @@ const laterHistoricalBackfill =
     locationId:
       "historical-test-location"
   });
+
+
+  /**
+ * ------------------------------------------------------------
+ * Latest Ocean Snapshot Query v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableLatestOceanSnapshotQuery =
+  buildLatestOceanSnapshotQuery({
+    historicalSnapshots: []
+  });
+
+
+assert.equal(
+  unavailableLatestOceanSnapshotQuery.available,
+  false
+);
+
+assert.equal(
+  unavailableLatestOceanSnapshotQuery
+    .queryType,
+  "latest-ocean-snapshot"
+);
+
+assert.equal(
+  unavailableLatestOceanSnapshotQuery
+    .responsibility,
+  "preserve"
+);
+
+assert.equal(
+  unavailableLatestOceanSnapshotQuery
+    .latestSnapshot,
+  null
+);
+
+assert.equal(
+  unavailableLatestOceanSnapshotQuery
+    .historicalSnapshot,
+  null
+);
+
+assert.equal(
+  unavailableLatestOceanSnapshotQuery
+    .snapshot,
+  null
+);
+
+assert.ok(
+  unavailableLatestOceanSnapshotQuery
+    .missingRequirements
+    .includes(
+      "latest-governed-ocean-snapshot"
+    )
+);
+
+console.log(
+  "PASS Latest Ocean Snapshot Query remains unavailable without governed history"
+);
+
+
+const latestOceanSnapshotQuery =
+  buildLatestOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ]
+  });
+
+
+assert.equal(
+  latestOceanSnapshotQuery.available,
+  true
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .sourceQuery
+    .available,
+  true
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .sourceQuery
+    .returnedRecordCount,
+  1
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .latestSnapshot
+    .identity
+    .snapshotId,
+  laterHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .latestSnapshot
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+assert.deepEqual(
+  latestOceanSnapshotQuery
+    .historicalSnapshot,
+  latestOceanSnapshotQuery
+    .latestSnapshot
+);
+
+assert.deepEqual(
+  latestOceanSnapshotQuery
+    .snapshot,
+  latestOceanSnapshotQuery
+    .latestSnapshot
+);
+
+console.log(
+  "PASS Latest Ocean Snapshot Query returns the newest governed record"
+);
+
+
+const latestOceanSnapshotByLocation =
+  buildLatestOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord,
+
+      historicalQueryOtherLocationBackfill
+        .storageRecord
+    ],
+
+    location:
+      governedHistoricalBackfill
+        .provenance
+        .locationId
+  });
+
+
+assert.equal(
+  latestOceanSnapshotByLocation.available,
+  true
+);
+
+assert.equal(
+  latestOceanSnapshotByLocation
+    .latestSnapshot
+    .identity
+    .snapshotId,
+  laterHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+assert.notEqual(
+  latestOceanSnapshotByLocation
+    .latestSnapshot
+    .identity
+    .snapshotId,
+  historicalQueryOtherLocationBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+console.log(
+  "PASS Latest Ocean Snapshot Query preserves governed location filtering"
+);
+
+
+const latestOceanSnapshotByWindow =
+  buildLatestOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ],
+
+    observedAfter:
+      "2026-06-14T00:00:00.000Z",
+
+    observedBefore:
+      "2026-06-15T23:59:59.999Z"
+  });
+
+
+assert.equal(
+  latestOceanSnapshotByWindow.available,
+  true
+);
+
+assert.equal(
+  latestOceanSnapshotByWindow
+    .latestSnapshot
+    .identity
+    .snapshotId,
+  governedHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  latestOceanSnapshotByWindow
+    .sourceQuery
+    .lastObservedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Latest Ocean Snapshot Query preserves governed observation-window filtering"
+);
+
+
+const latestOceanSnapshotBySchema =
+  buildLatestOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ],
+
+    snapshotSchemaVersion:
+      governedHistoricalBackfill
+        .storageRecord
+        .identity
+        .snapshotSchemaVersion
+  });
+
+
+assert.equal(
+  latestOceanSnapshotBySchema.available,
+  true
+);
+
+assert.equal(
+  latestOceanSnapshotBySchema
+    .latestSnapshot
+    .identity
+    .snapshotSchemaVersion,
+  governedHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotSchemaVersion
+);
+
+assert.equal(
+  latestOceanSnapshotBySchema
+    .sourceQuery
+    .contractVersion,
+  "pelora-historical-snapshot-query-v1"
+);
+
+console.log(
+  "PASS Latest Ocean Snapshot Query preserves governed schema filtering and source-query provenance"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    latestOceanSnapshotQuery
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    latestOceanSnapshotQuery
+      .latestSnapshot
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    latestOceanSnapshotQuery
+      .sourceQuery
+  ),
+  true
+);
+
+assert.ok(
+  latestOceanSnapshotQuery
+    .limitations
+    .includes(
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .comparison,
+  undefined
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .trend,
+  undefined
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .species,
+  undefined
+);
+
+assert.equal(
+  latestOceanSnapshotQuery
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Latest Ocean Snapshot Query remains frozen, preservation-only, and scientifically neutral"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Previous Ocean Snapshot Query v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailablePreviousOceanSnapshotQuery =
+  buildPreviousOceanSnapshotQuery({
+    historicalSnapshots: []
+  });
+
+
+assert.equal(
+  unavailablePreviousOceanSnapshotQuery.available,
+  false
+);
+
+assert.equal(
+  unavailablePreviousOceanSnapshotQuery
+    .queryType,
+  "previous-ocean-snapshot"
+);
+
+assert.equal(
+  unavailablePreviousOceanSnapshotQuery
+    .responsibility,
+  "preserve"
+);
+
+assert.equal(
+  unavailablePreviousOceanSnapshotQuery
+    .previousSnapshot,
+  null
+);
+
+assert.ok(
+  unavailablePreviousOceanSnapshotQuery
+    .missingRequirements
+    .includes(
+      "valid-before-observed-at"
+    )
+);
+
+assert.ok(
+  unavailablePreviousOceanSnapshotQuery
+    .missingRequirements
+    .includes(
+      "previous-governed-ocean-snapshot"
+    )
+);
+
+console.log(
+  "PASS Previous Ocean Snapshot Query remains unavailable without a valid cutoff timestamp"
+);
+
+
+const noEarlierPreviousOceanSnapshotQuery =
+  buildPreviousOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ],
+
+    beforeObservedAt:
+      "2026-06-14T11:00:00.000Z"
+  });
+
+
+assert.equal(
+  noEarlierPreviousOceanSnapshotQuery.available,
+  false
+);
+
+assert.equal(
+  noEarlierPreviousOceanSnapshotQuery
+    .previousSnapshot,
+  null
+);
+
+assert.ok(
+  noEarlierPreviousOceanSnapshotQuery
+    .missingRequirements
+    .includes(
+      "previous-governed-ocean-snapshot"
+    )
+);
+
+console.log(
+  "PASS Previous Ocean Snapshot Query remains unavailable when no earlier governed record exists"
+);
+
+
+const previousOceanSnapshotQuery =
+  buildPreviousOceanSnapshotQuery({
+    historicalSnapshots: [
+      laterHistoricalBackfill
+        .storageRecord,
+
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord
+    ],
+
+    beforeObservedAt:
+      "2026-06-16T11:00:00.000Z"
+  });
+
+
+assert.equal(
+  previousOceanSnapshotQuery.available,
+  true
+);
+
+assert.equal(
+  previousOceanSnapshotQuery
+    .previousSnapshot
+    .identity
+    .snapshotId,
+  governedHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  previousOceanSnapshotQuery
+    .previousSnapshot
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.deepEqual(
+  previousOceanSnapshotQuery
+    .historicalSnapshot,
+  previousOceanSnapshotQuery
+    .previousSnapshot
+);
+
+assert.deepEqual(
+  previousOceanSnapshotQuery
+    .snapshot,
+  previousOceanSnapshotQuery
+    .previousSnapshot
+);
+
+console.log(
+  "PASS Previous Ocean Snapshot Query returns the nearest strictly earlier governed record"
+);
+
+
+const exactCutoffPreviousOceanSnapshotQuery =
+  buildPreviousOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ],
+
+    beforeObservedAt:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+assert.equal(
+  exactCutoffPreviousOceanSnapshotQuery.available,
+  true
+);
+
+assert.equal(
+  exactCutoffPreviousOceanSnapshotQuery
+    .previousSnapshot
+    .identity
+    .snapshotId,
+  historicalQueryEarlierBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+assert.notEqual(
+  exactCutoffPreviousOceanSnapshotQuery
+    .previousSnapshot
+    .identity
+    .snapshotId,
+  governedHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+console.log(
+  "PASS Previous Ocean Snapshot Query never returns the snapshot observed exactly at the cutoff"
+);
+
+
+const previousOceanSnapshotByLocation =
+  buildPreviousOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord,
+
+      historicalQueryOtherLocationBackfill
+        .storageRecord
+    ],
+
+    beforeObservedAt:
+      "2026-06-17T00:00:00.000Z",
+
+    location:
+      governedHistoricalBackfill
+        .provenance
+        .locationId
+  });
+
+
+assert.equal(
+  previousOceanSnapshotByLocation.available,
+  true
+);
+
+assert.equal(
+  previousOceanSnapshotByLocation
+    .previousSnapshot
+    .identity
+    .snapshotId,
+  laterHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+assert.notEqual(
+  previousOceanSnapshotByLocation
+    .previousSnapshot
+    .identity
+    .snapshotId,
+  historicalQueryOtherLocationBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+console.log(
+  "PASS Previous Ocean Snapshot Query preserves governed location filtering"
+);
+
+
+const previousOceanSnapshotBySchema =
+  buildPreviousOceanSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ],
+
+    beforeObservedAt:
+      "2026-06-17T00:00:00.000Z",
+
+    snapshotSchemaVersion:
+      governedHistoricalBackfill
+        .storageRecord
+        .identity
+        .snapshotSchemaVersion
+  });
+
+
+assert.equal(
+  previousOceanSnapshotBySchema.available,
+  true
+);
+
+assert.equal(
+  previousOceanSnapshotBySchema
+    .previousSnapshot
+    .identity
+    .snapshotSchemaVersion,
+  governedHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotSchemaVersion
+);
+
+assert.equal(
+  previousOceanSnapshotBySchema
+    .sourceQuery
+    .contractVersion,
+  "pelora-historical-snapshot-query-v1"
+);
+
+console.log(
+  "PASS Previous Ocean Snapshot Query preserves governed schema filtering and source-query provenance"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    previousOceanSnapshotQuery
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    previousOceanSnapshotQuery
+      .previousSnapshot
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    previousOceanSnapshotQuery
+      .sourceQuery
+  ),
+  true
+);
+
+assert.ok(
+  previousOceanSnapshotQuery
+    .limitations
+    .includes(
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  previousOceanSnapshotQuery
+    .comparison,
+  undefined
+);
+
+assert.equal(
+  previousOceanSnapshotQuery
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  previousOceanSnapshotQuery
+    .trend,
+  undefined
+);
+
+assert.equal(
+  previousOceanSnapshotQuery
+    .species,
+  undefined
+);
+
+assert.equal(
+  previousOceanSnapshotQuery
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Previous Ocean Snapshot Query remains frozen, preservation-only, and scientifically neutral"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Snapshot By ID Query v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableOceanSnapshotByIdQuery =
+  buildOceanSnapshotByIdQuery({
+    historicalSnapshots: []
+  });
+
+
+assert.equal(
+  unavailableOceanSnapshotByIdQuery.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanSnapshotByIdQuery
+    .queryType,
+  "ocean-snapshot-by-id"
+);
+
+assert.equal(
+  unavailableOceanSnapshotByIdQuery
+    .responsibility,
+  "preserve"
+);
+
+assert.equal(
+  unavailableOceanSnapshotByIdQuery
+    .matchingSnapshot,
+  null
+);
+
+assert.ok(
+  unavailableOceanSnapshotByIdQuery
+    .missingRequirements
+    .includes(
+      "valid-snapshot-id"
+    )
+);
+
+assert.ok(
+  unavailableOceanSnapshotByIdQuery
+    .missingRequirements
+    .includes(
+      "matching-governed-ocean-snapshot"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot By ID Query remains unavailable without a valid snapshot identifier"
+);
+
+
+const missingOceanSnapshotByIdQuery =
+  buildOceanSnapshotByIdQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ],
+
+    snapshotId:
+      "pelora-snapshot-does-not-exist"
+  });
+
+
+assert.equal(
+  missingOceanSnapshotByIdQuery.available,
+  false
+);
+
+assert.equal(
+  missingOceanSnapshotByIdQuery
+    .matchingSnapshot,
+  null
+);
+
+assert.ok(
+  missingOceanSnapshotByIdQuery
+    .missingRequirements
+    .includes(
+      "matching-governed-ocean-snapshot"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot By ID Query remains unavailable when no governed record matches"
+);
+
+
+const oceanSnapshotByIdQuery =
+  buildOceanSnapshotByIdQuery({
+    historicalSnapshots: [
+      laterHistoricalBackfill
+        .storageRecord,
+
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord
+    ],
+
+    snapshotId:
+      governedHistoricalBackfill
+        .storageRecord
+        .identity
+        .snapshotId
+  });
+
+
+assert.equal(
+  oceanSnapshotByIdQuery.available,
+  true
+);
+
+assert.equal(
+  oceanSnapshotByIdQuery
+    .matchingSnapshot
+    .identity
+    .snapshotId,
+  governedHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  oceanSnapshotByIdQuery
+    .matchingSnapshot
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.deepEqual(
+  oceanSnapshotByIdQuery
+    .historicalSnapshot,
+  oceanSnapshotByIdQuery
+    .matchingSnapshot
+);
+
+assert.deepEqual(
+  oceanSnapshotByIdQuery
+    .snapshot,
+  oceanSnapshotByIdQuery
+    .matchingSnapshot
+);
+
+console.log(
+  "PASS Ocean Snapshot By ID Query returns the exact governed record"
+);
+
+
+const oceanSnapshotByIdWrongLocation =
+  buildOceanSnapshotByIdQuery({
+    historicalSnapshots: [
+      historicalQueryOtherLocationBackfill,
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill
+    ],
+
+    snapshotId:
+      historicalQueryOtherLocationBackfill
+        .storageRecord
+        .identity
+        .snapshotId,
+
+    location: {
+      locationId:
+        "historical-query-location-a"
+    }
+  });
+
+
+assert.equal(
+  oceanSnapshotByIdWrongLocation.available,
+  false
+);
+
+assert.equal(
+  oceanSnapshotByIdWrongLocation
+    .matchingSnapshot,
+  null
+);
+
+assert.ok(
+  oceanSnapshotByIdWrongLocation
+    .missingRequirements
+    .includes(
+      "matching-governed-ocean-snapshot"
+    )
+);
+
+console.log(
+  "PASS Ocean Snapshot By ID Query preserves governed location filtering"
+);
+
+
+const oceanSnapshotByIdBySchema =
+  buildOceanSnapshotByIdQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+        .storageRecord,
+
+      governedHistoricalBackfill
+        .storageRecord,
+
+      laterHistoricalBackfill
+        .storageRecord
+    ],
+
+    snapshotId:
+      laterHistoricalBackfill
+        .storageRecord
+        .identity
+        .snapshotId,
+
+    snapshotSchemaVersion:
+      laterHistoricalBackfill
+        .storageRecord
+        .identity
+        .snapshotSchemaVersion
+  });
+
+
+assert.equal(
+  oceanSnapshotByIdBySchema.available,
+  true
+);
+
+assert.equal(
+  oceanSnapshotByIdBySchema
+    .matchingSnapshot
+    .identity
+    .snapshotSchemaVersion,
+  laterHistoricalBackfill
+    .storageRecord
+    .identity
+    .snapshotSchemaVersion
+);
+
+assert.equal(
+  oceanSnapshotByIdBySchema
+    .sourceQuery
+    .contractVersion,
+  "pelora-historical-snapshot-query-v1"
+);
+
+assert.equal(
+  oceanSnapshotByIdBySchema
+    .sourceQuery
+    .returnedRecordCount,
+  3
+);
+
+console.log(
+  "PASS Ocean Snapshot By ID Query preserves governed schema filtering and source-query provenance"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    oceanSnapshotByIdQuery
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanSnapshotByIdQuery
+      .matchingSnapshot
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanSnapshotByIdQuery
+      .sourceQuery
+  ),
+  true
+);
+
+assert.ok(
+  oceanSnapshotByIdQuery
+    .limitations
+    .includes(
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  oceanSnapshotByIdQuery
+    .comparison,
+  undefined
+);
+
+assert.equal(
+  oceanSnapshotByIdQuery
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  oceanSnapshotByIdQuery
+    .trend,
+  undefined
+);
+
+assert.equal(
+  oceanSnapshotByIdQuery
+    .species,
+  undefined
+);
+
+assert.equal(
+  oceanSnapshotByIdQuery
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Ocean Snapshot By ID Query remains frozen, preservation-only, and scientifically neutral"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Historical Ocean Snapshot Window Query v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableHistoricalWindowQuery =
+  buildHistoricalOceanSnapshotWindowQuery({
+    historicalSnapshots: []
+  });
+
+
+assert.equal(
+  unavailableHistoricalWindowQuery.available,
+  false
+);
+
+assert.equal(
+  unavailableHistoricalWindowQuery
+    .queryType,
+  "historical-ocean-snapshot-window"
+);
+
+assert.equal(
+  unavailableHistoricalWindowQuery
+    .responsibility,
+  "preserve"
+);
+
+assert.deepEqual(
+  unavailableHistoricalWindowQuery
+    .historicalSnapshots,
+  []
+);
+
+assert.ok(
+  unavailableHistoricalWindowQuery
+    .missingRequirements
+    .includes(
+      "valid-observed-after"
+    )
+);
+
+assert.ok(
+  unavailableHistoricalWindowQuery
+    .missingRequirements
+    .includes(
+      "valid-observed-before"
+    )
+);
+
+console.log(
+  "PASS Historical Ocean Snapshot Window Query remains unavailable without both valid boundaries"
+);
+
+
+const reversedHistoricalWindowQuery =
+  buildHistoricalOceanSnapshotWindowQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    observedAfter:
+      "2026-06-17T00:00:00.000Z",
+
+    observedBefore:
+      "2026-06-14T00:00:00.000Z"
+  });
+
+
+assert.equal(
+  reversedHistoricalWindowQuery.available,
+  false
+);
+
+assert.equal(
+  reversedHistoricalWindowQuery
+    .request
+    .validTimeWindow,
+  false
+);
+
+assert.deepEqual(
+  reversedHistoricalWindowQuery
+    .snapshots,
+  []
+);
+
+assert.ok(
+  reversedHistoricalWindowQuery
+    .missingRequirements
+    .includes(
+      "valid-observed-time-window"
+    )
+);
+
+console.log(
+  "PASS Historical Ocean Snapshot Window Query rejects a reversed observation window"
+);
+
+
+const historicalWindowQuery =
+  buildHistoricalOceanSnapshotWindowQuery({
+    historicalSnapshots: [
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill
+    ],
+
+    observedAfter:
+      "2026-06-14T11:00:00.000Z",
+
+    observedBefore:
+      "2026-06-15T11:00:00.000Z"
+  });
+
+
+assert.equal(
+  historicalWindowQuery.available,
+  true
+);
+
+assert.equal(
+  historicalWindowQuery
+    .historicalSnapshots
+    .length,
+  2
+);
+
+assert.equal(
+  historicalWindowQuery
+    .historicalSnapshots[0]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-14T11:00:00.000Z"
+);
+
+assert.equal(
+  historicalWindowQuery
+    .historicalSnapshots[1]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.deepEqual(
+  historicalWindowQuery
+    .snapshots,
+  historicalWindowQuery
+    .historicalSnapshots
+);
+
+console.log(
+  "PASS Historical Ocean Snapshot Window Query returns an inclusive chronological window"
+);
+
+
+const historicalWindowByLocation =
+  buildHistoricalOceanSnapshotWindowQuery({
+    historicalSnapshots: [
+      historicalQueryOtherLocationBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    observedAfter:
+      "2026-06-14T00:00:00.000Z",
+
+    observedBefore:
+      "2026-06-17T00:00:00.000Z",
+
+    location: {
+      locationId:
+        "historical-query-location-a"
+    }
+  });
+
+
+assert.equal(
+  historicalWindowByLocation.available,
+  true
+);
+
+assert.equal(
+  historicalWindowByLocation
+    .historicalSnapshots
+    .length,
+  3
+);
+
+assert.equal(
+  historicalWindowByLocation
+    .sourceQuery
+    .returnedRecordCount,
+  3
+);
+
+assert.ok(
+  historicalWindowByLocation
+    .historicalSnapshots
+    .every(record =>
+      record
+        ?.snapshot
+        ?.metadata
+        ?.location
+        ?.locationId ===
+      "historical-query-location-a"
+    )
+);
+
+console.log(
+  "PASS Historical Ocean Snapshot Window Query preserves governed location filtering"
+);
+
+
+const historicalWindowBySchemaAndLimit =
+  buildHistoricalOceanSnapshotWindowQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    observedAfter:
+      "2026-06-14T00:00:00.000Z",
+
+    observedBefore:
+      "2026-06-17T00:00:00.000Z",
+
+    maximumSnapshots:
+      2,
+
+    snapshotSchemaVersion:
+      historicalQueryMiddleBackfill
+        .storageRecord
+        .identity
+        .snapshotSchemaVersion
+  });
+
+
+assert.equal(
+  historicalWindowBySchemaAndLimit.available,
+  true
+);
+
+assert.equal(
+  historicalWindowBySchemaAndLimit
+    .historicalSnapshots
+    .length,
+  2
+);
+
+assert.equal(
+  historicalWindowBySchemaAndLimit
+    .request
+    .maximumSnapshots,
+  2
+);
+
+assert.equal(
+  historicalWindowBySchemaAndLimit
+    .sourceQuery
+    .returnedRecordCount,
+  2
+);
+
+assert.equal(
+  historicalWindowBySchemaAndLimit
+    .sourceQuery
+    .contractVersion,
+  "pelora-historical-snapshot-query-v1"
+);
+
+assert.ok(
+  historicalWindowBySchemaAndLimit
+    .historicalSnapshots
+    .every(record =>
+      record
+        ?.identity
+        ?.snapshotSchemaVersion ===
+      historicalQueryMiddleBackfill
+        .storageRecord
+        .identity
+        .snapshotSchemaVersion
+    )
+);
+
+console.log(
+  "PASS Historical Ocean Snapshot Window Query preserves schema filtering and record limits"
+);
+
+
+const emptyHistoricalWindowQuery =
+  buildHistoricalOceanSnapshotWindowQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    observedAfter:
+      "2026-07-01T00:00:00.000Z",
+
+    observedBefore:
+      "2026-07-02T00:00:00.000Z"
+  });
+
+
+assert.equal(
+  emptyHistoricalWindowQuery.available,
+  false
+);
+
+assert.deepEqual(
+  emptyHistoricalWindowQuery
+    .historicalSnapshots,
+  []
+);
+
+assert.ok(
+  emptyHistoricalWindowQuery
+    .missingRequirements
+    .includes(
+      "governed-ocean-snapshots-within-window"
+    )
+);
+
+console.log(
+  "PASS Historical Ocean Snapshot Window Query remains unavailable when the valid window contains no governed records"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    historicalWindowQuery
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    historicalWindowQuery
+      .historicalSnapshots
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    historicalWindowQuery
+      .sourceQuery
+  ),
+  true
+);
+
+assert.ok(
+  historicalWindowQuery
+    .limitations
+    .includes(
+      "This contract does not normalize raw database rows, compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  historicalWindowQuery
+    .comparison,
+  undefined
+);
+
+assert.equal(
+  historicalWindowQuery
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  historicalWindowQuery
+    .trend,
+  undefined
+);
+
+assert.equal(
+  historicalWindowQuery
+    .species,
+  undefined
+);
+
+assert.equal(
+  historicalWindowQuery
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Historical Ocean Snapshot Window Query remains frozen, preservation-only, and scientifically neutral"
+);
 
 assert.equal(
   laterHistoricalBackfill.available,
