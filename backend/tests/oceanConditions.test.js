@@ -26,6 +26,8 @@ import {
   buildPreviousOceanSnapshotQuery,
   buildOceanSnapshotByIdQuery,
   buildHistoricalOceanSnapshotWindowQuery,
+  buildNearbyOceanHistoryQuery,
+  buildOceanMemoryTimeSeries,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
   buildSeaSurfaceTemperaturePersistence,
@@ -26811,6 +26813,764 @@ assert.equal(
 
 console.log(
   "PASS Historical Ocean Snapshot Window Query remains frozen, preservation-only, and scientifically neutral"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Nearby Ocean History Query v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableNearbyOceanHistoryQuery =
+  buildNearbyOceanHistoryQuery({
+    historicalSnapshots: []
+  });
+
+
+assert.equal(
+  unavailableNearbyOceanHistoryQuery.available,
+  false
+);
+
+assert.equal(
+  unavailableNearbyOceanHistoryQuery
+    .queryType,
+  "nearby-ocean-history"
+);
+
+assert.equal(
+  unavailableNearbyOceanHistoryQuery
+    .responsibility,
+  "preserve"
+);
+
+assert.deepEqual(
+  unavailableNearbyOceanHistoryQuery
+    .historicalSnapshots,
+  []
+);
+
+assert.ok(
+  unavailableNearbyOceanHistoryQuery
+    .missingRequirements
+    .includes(
+      "valid-center-coordinates"
+    )
+);
+
+assert.ok(
+  unavailableNearbyOceanHistoryQuery
+    .missingRequirements
+    .includes(
+      "valid-radius-km"
+    )
+);
+
+console.log(
+  "PASS Nearby Ocean History Query remains unavailable without center coordinates and radius"
+);
+
+
+const nearbyOceanHistoryQuery =
+  buildNearbyOceanHistoryQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill,
+      historicalQueryOtherLocationBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      25
+  });
+
+
+assert.equal(
+  nearbyOceanHistoryQuery.available,
+  true
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .sourceQuery
+    .radiusFilterApplied,
+  true
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .sourceQuery
+    .radiusExcludedCount,
+  1
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .historicalSnapshots
+    .length,
+  3
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .request
+    .centerLatitude,
+  29.5
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .request
+    .centerLongitude,
+  -87.2
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .request
+    .radiusKm,
+  25
+);
+
+console.log(
+  "PASS Nearby Ocean History Query returns governed history within the requested radius"
+);
+
+
+const nearbyOceanHistoryQueryWithWindow =
+  buildNearbyOceanHistoryQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill,
+      historicalQueryOtherLocationBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      25,
+
+    observedAfter:
+      "2026-06-15T00:00:00.000Z",
+
+    observedBefore:
+      "2026-06-16T23:59:59.999Z"
+  });
+
+
+assert.equal(
+  nearbyOceanHistoryQueryWithWindow.available,
+  true
+);
+
+assert.equal(
+  nearbyOceanHistoryQueryWithWindow
+    .historicalSnapshots
+    .length,
+  2
+);
+
+assert.equal(
+  nearbyOceanHistoryQueryWithWindow
+    .historicalSnapshots[0]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  nearbyOceanHistoryQueryWithWindow
+    .historicalSnapshots[1]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Nearby Ocean History Query preserves governed observation-window filtering"
+);
+
+
+const nearbyOceanHistoryQueryWithLimit =
+  buildNearbyOceanHistoryQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      25,
+
+    maximumSnapshots:
+      2
+  });
+
+
+assert.equal(
+  nearbyOceanHistoryQueryWithLimit.available,
+  true
+);
+
+assert.equal(
+  nearbyOceanHistoryQueryWithLimit
+    .historicalSnapshots
+    .length,
+  2
+);
+
+assert.equal(
+  nearbyOceanHistoryQueryWithLimit
+    .sourceQuery
+    .returnedRecordCount,
+  2
+);
+
+console.log(
+  "PASS Nearby Ocean History Query preserves governed record limits"
+);
+
+
+const emptyNearbyOceanHistoryQuery =
+  buildNearbyOceanHistoryQuery({
+    historicalSnapshots: [
+      historicalQueryOtherLocationBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      25
+  });
+
+
+assert.equal(
+  emptyNearbyOceanHistoryQuery.available,
+  false
+);
+
+assert.deepEqual(
+  emptyNearbyOceanHistoryQuery
+    .historicalSnapshots,
+  []
+);
+
+assert.ok(
+  emptyNearbyOceanHistoryQuery
+    .missingRequirements
+    .includes(
+      "governed-ocean-snapshots-within-radius"
+    )
+);
+
+console.log(
+  "PASS Nearby Ocean History Query remains unavailable when no governed records fall within radius"
+);
+
+
+const invalidRadiusNearbyOceanHistoryQuery =
+  buildNearbyOceanHistoryQuery({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      -1
+  });
+
+
+assert.equal(
+  invalidRadiusNearbyOceanHistoryQuery.available,
+  false
+);
+
+assert.ok(
+  invalidRadiusNearbyOceanHistoryQuery
+    .missingRequirements
+    .includes(
+      "valid-radius-km"
+    )
+);
+
+assert.equal(
+  invalidRadiusNearbyOceanHistoryQuery
+    .sourceQuery
+    .radiusFilterApplied,
+  false
+);
+
+console.log(
+  "PASS Nearby Ocean History Query rejects an invalid radius"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    nearbyOceanHistoryQuery
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    nearbyOceanHistoryQuery
+      .historicalSnapshots
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    nearbyOceanHistoryQuery
+      .sourceQuery
+  ),
+  true
+);
+
+assert.ok(
+  nearbyOceanHistoryQuery
+    .limitations
+    .includes(
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .comparison,
+  undefined
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .trend,
+  undefined
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .species,
+  undefined
+);
+
+assert.equal(
+  nearbyOceanHistoryQuery
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Nearby Ocean History Query remains frozen, preservation-only, and scientifically neutral"
+);
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Memory Time-Series Retrieval v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableOceanMemoryTimeSeries =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: []
+  });
+
+
+assert.equal(
+  unavailableOceanMemoryTimeSeries.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanMemoryTimeSeries
+    .retrievalType,
+  "ocean-memory-time-series"
+);
+
+assert.equal(
+  unavailableOceanMemoryTimeSeries
+    .responsibility,
+  "preserve"
+);
+
+assert.deepEqual(
+  unavailableOceanMemoryTimeSeries
+    .timeSeries,
+  []
+);
+
+assert.equal(
+  unavailableOceanMemoryTimeSeries
+    .summary
+    .sampleCount,
+  0
+);
+
+assert.ok(
+  unavailableOceanMemoryTimeSeries
+    .missingRequirements
+    .includes(
+      "governed-ocean-memory-time-series"
+    )
+);
+
+console.log(
+  "PASS Ocean Memory Time-Series Retrieval remains unavailable without governed history"
+);
+
+
+const oceanMemoryTimeSeries =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: [
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryEarlierBackfill
+    ]
+  });
+
+
+assert.equal(
+  oceanMemoryTimeSeries.available,
+  true
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .summary
+    .sampleCount,
+  3
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .sourceQuery
+    .duplicateRecordCount,
+  1
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .timeSeries[0]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-14T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .timeSeries[1]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .timeSeries[2]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Ocean Memory Time-Series Retrieval returns deduplicated chronological governed history"
+);
+
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .summary
+    .firstObservedAt,
+  "2026-06-14T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .summary
+    .lastObservedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .summary
+    .durationHours,
+  48
+);
+
+console.log(
+  "PASS Ocean Memory Time-Series Retrieval exposes the governed chronological observation window"
+);
+
+
+const oceanMemoryTimeSeriesByWindow =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    observedAfter:
+      "2026-06-15T00:00:00.000Z",
+
+    observedBefore:
+      "2026-06-16T23:59:59.999Z"
+  });
+
+
+assert.equal(
+  oceanMemoryTimeSeriesByWindow.available,
+  true
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesByWindow
+    .summary
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesByWindow
+    .summary
+    .firstObservedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesByWindow
+    .summary
+    .lastObservedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Ocean Memory Time-Series Retrieval preserves governed time-window filtering"
+);
+
+
+const oceanMemoryTimeSeriesNearby =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill,
+      historicalQueryOtherLocationBackfill
+    ],
+
+    location: {
+      latitude:
+        29.5,
+
+      longitude:
+        -87.2
+    },
+
+    radiusKm:
+      25
+  });
+
+
+assert.equal(
+  oceanMemoryTimeSeriesNearby.available,
+  true
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesNearby
+    .summary
+    .sampleCount,
+  3
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesNearby
+    .sourceQuery
+    .radiusFilterApplied,
+  true
+);
+
+console.log(
+  "PASS Ocean Memory Time-Series Retrieval preserves governed spatial filtering"
+);
+
+
+const oceanMemoryTimeSeriesWithLimit =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ],
+
+    maximumSnapshots:
+      2
+  });
+
+
+assert.equal(
+  oceanMemoryTimeSeriesWithLimit.available,
+  true
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesWithLimit
+    .summary
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesWithLimit
+    .timeSeries[0]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-15T11:00:00.000Z"
+);
+
+assert.equal(
+  oceanMemoryTimeSeriesWithLimit
+    .timeSeries[1]
+    .snapshot
+    .metadata
+    .time
+    .observedAt,
+  "2026-06-16T11:00:00.000Z"
+);
+
+console.log(
+  "PASS Ocean Memory Time-Series Retrieval preserves governed record limits"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    oceanMemoryTimeSeries
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanMemoryTimeSeries
+      .timeSeries
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanMemoryTimeSeries
+      .summary
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanMemoryTimeSeries
+      .sourceQuery
+  ),
+  true
+);
+
+assert.ok(
+  oceanMemoryTimeSeries
+    .limitations
+    .includes(
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .comparison,
+  undefined
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .trend,
+  undefined
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .species,
+  undefined
+);
+
+assert.equal(
+  oceanMemoryTimeSeries
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Ocean Memory Time-Series Retrieval remains frozen, preservation-only, and scientifically neutral"
 );
 
 assert.equal(

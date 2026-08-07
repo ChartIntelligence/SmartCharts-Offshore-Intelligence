@@ -19541,6 +19541,543 @@ export function buildHistoricalOceanSnapshotWindowQuery({
 
 /**
  * ------------------------------------------------------------
+ * Nearby Ocean History Query v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Return governed Ocean Memory records within a supplied
+ * geographic radius of a requested center location.
+ *
+ * This contract delegates spatial filtering to the governed
+ * Historical Snapshot Query and does not duplicate distance
+ * calculations.
+ *
+ * This contract does not compare snapshots, calculate
+ * persistence, infer trends, perform species reasoning, or
+ * generate captain guidance.
+ */
+export function buildNearbyOceanHistoryQuery({
+  historicalSnapshots = [],
+  location = null,
+  radiusKm = null,
+  observedAfter = null,
+  observedBefore = null,
+  maximumSnapshots = null,
+  snapshotSchemaVersion = null
+} = {}) {
+  const validCenter =
+    Number.isFinite(
+      location?.latitude
+    ) &&
+    Number.isFinite(
+      location?.longitude
+    );
+
+  const validRadius =
+    Number.isFinite(
+      radiusKm
+    ) &&
+    radiusKm >=
+      0;
+
+  const historicalSnapshotQuery =
+    buildHistoricalSnapshotQuery({
+      historicalSnapshots,
+      location,
+      radiusKm:
+        validRadius
+          ? radiusKm
+          : null,
+      observedAfter,
+      observedBefore,
+      maximumSnapshots,
+      snapshotSchemaVersion
+    });
+
+  const nearbySnapshots =
+    validCenter &&
+    validRadius &&
+    historicalSnapshotQuery
+      ?.query
+      ?.radiusFilterApplied ===
+      true &&
+    Array.isArray(
+      historicalSnapshotQuery
+        ?.historicalSnapshots
+    )
+      ? historicalSnapshotQuery
+          .historicalSnapshots
+      : [];
+
+  const available =
+    validCenter &&
+    validRadius &&
+    historicalSnapshotQuery
+      ?.available ===
+      true &&
+    nearbySnapshots.length >
+      0;
+
+  const missingRequirements = [
+    !validCenter
+      ? "valid-center-coordinates"
+      : null,
+
+    !validRadius
+      ? "valid-radius-km"
+      : null,
+
+    ...(
+      Array.isArray(
+        historicalSnapshotQuery
+          ?.missingRequirements
+      )
+        ? historicalSnapshotQuery
+            .missingRequirements
+        : []
+    ),
+
+    nearbySnapshots.length ===
+      0
+      ? "governed-ocean-snapshots-within-radius"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          historicalSnapshotQuery
+            ?.limitations
+        )
+          ? historicalSnapshotQuery
+              .limitations
+          : []
+      ),
+
+      "Nearby Ocean History Query returns only governed Ocean Memory records within the supplied inclusive geographic radius.",
+
+      "This contract delegates geographic distance calculation and radius filtering to Historical Snapshot Query.",
+
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    queryType:
+      "nearby-ocean-history",
+
+    responsibility:
+      "preserve",
+
+    request: {
+      centerLatitude:
+        validCenter
+          ? location.latitude
+          : null,
+
+      centerLongitude:
+        validCenter
+          ? location.longitude
+          : null,
+
+      radiusKm:
+        validRadius
+          ? radiusKm
+          : null,
+
+      observedAfter:
+        typeof observedAfter ===
+          "string"
+          ? observedAfter
+          : null,
+
+      observedBefore:
+        typeof observedBefore ===
+          "string"
+          ? observedBefore
+          : null,
+
+      maximumSnapshots:
+        Number.isInteger(
+          maximumSnapshots
+        ) &&
+        maximumSnapshots >
+          0
+          ? maximumSnapshots
+          : null,
+
+      snapshotSchemaVersion:
+        typeof snapshotSchemaVersion ===
+          "string"
+          ? snapshotSchemaVersion
+              .trim() ||
+            null
+          : null
+    },
+
+    snapshots:
+      available
+        ? cloneSnapshotValue(
+            nearbySnapshots
+          )
+        : [],
+
+    historicalSnapshots:
+      available
+        ? cloneSnapshotValue(
+            nearbySnapshots
+          )
+        : [],
+
+    sourceQuery: {
+      available:
+        historicalSnapshotQuery
+          ?.available ===
+        true,
+
+      radiusFilterApplied:
+        historicalSnapshotQuery
+          ?.query
+          ?.radiusFilterApplied ===
+        true,
+
+      radiusExcludedCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.radiusExcludedCount ??
+        0,
+
+      returnedRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.returnedRecordCount ??
+        0,
+
+      firstObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.firstObservedAt ??
+        null,
+
+      lastObservedAt:
+        historicalSnapshotQuery
+          ?.summary
+          ?.lastObservedAt ??
+        null,
+
+      contractVersion:
+        historicalSnapshotQuery
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-nearby-ocean-history-query-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Memory Time-Series Retrieval v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Return a governed chronological Ocean Memory series prepared
+ * for downstream temporal analysis.
+ *
+ * This contract delegates record validation, filtering,
+ * deduplication, and chronological ordering to Historical
+ * Snapshot Query.
+ *
+ * This contract does not compare snapshots, calculate
+ * persistence, infer trends, perform species reasoning, or
+ * generate captain guidance.
+ */
+export function buildOceanMemoryTimeSeries({
+  historicalSnapshots = [],
+  location = null,
+  radiusKm = null,
+  observedAfter = null,
+  observedBefore = null,
+  maximumSnapshots = null,
+  snapshotSchemaVersion = null
+} = {}) {
+  const historicalSnapshotQuery =
+    buildHistoricalSnapshotQuery({
+      historicalSnapshots,
+      location,
+      radiusKm,
+      observedAfter,
+      observedBefore,
+      maximumSnapshots,
+      snapshotSchemaVersion
+    });
+
+  const timeSeries =
+    Array.isArray(
+      historicalSnapshotQuery
+        ?.historicalSnapshots
+    )
+      ? historicalSnapshotQuery
+          .historicalSnapshots
+      : [];
+
+  const sampleCount =
+    timeSeries.length;
+
+  const firstSnapshot =
+    sampleCount >
+      0
+      ? timeSeries[0]
+      : null;
+
+  const lastSnapshot =
+    sampleCount >
+      0
+      ? timeSeries[
+          sampleCount - 1
+        ]
+      : null;
+
+  const firstObservedAt =
+    firstSnapshot
+      ?.snapshot
+      ?.metadata
+      ?.time
+      ?.observedAt ??
+    null;
+
+  const lastObservedAt =
+    lastSnapshot
+      ?.snapshot
+      ?.metadata
+      ?.time
+      ?.observedAt ??
+    null;
+
+  const firstObservedTimestamp =
+    typeof firstObservedAt ===
+      "string"
+      ? Date.parse(
+          firstObservedAt
+        )
+      : Number.NaN;
+
+  const lastObservedTimestamp =
+    typeof lastObservedAt ===
+      "string"
+      ? Date.parse(
+          lastObservedAt
+        )
+      : Number.NaN;
+
+  const durationHours =
+    Number.isFinite(
+      firstObservedTimestamp
+    ) &&
+    Number.isFinite(
+      lastObservedTimestamp
+    )
+      ? Number(
+          (
+            (
+              lastObservedTimestamp -
+              firstObservedTimestamp
+            ) /
+            (
+              1000 *
+              60 *
+              60
+            )
+          ).toFixed(2)
+        )
+      : null;
+
+  const available =
+    historicalSnapshotQuery
+      ?.available ===
+      true &&
+    sampleCount >
+      0;
+
+  const missingRequirements = [
+    ...(
+      Array.isArray(
+        historicalSnapshotQuery
+          ?.missingRequirements
+      )
+        ? historicalSnapshotQuery
+            .missingRequirements
+        : []
+    ),
+
+    sampleCount ===
+      0
+      ? "governed-ocean-memory-time-series"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          historicalSnapshotQuery
+            ?.limitations
+        )
+          ? historicalSnapshotQuery
+              .limitations
+          : []
+      ),
+
+      "Ocean Memory Time-Series Retrieval returns governed chronological Ocean Memory records prepared for downstream temporal analysis.",
+
+      "This contract delegates validation, filtering, deduplication, and chronological ordering to Historical Snapshot Query.",
+
+      "This contract does not compare snapshots, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    retrievalType:
+      "ocean-memory-time-series",
+
+    responsibility:
+      "preserve",
+
+    request: {
+      locationRequested:
+        location !==
+          null,
+
+      radiusKm:
+        Number.isFinite(
+          radiusKm
+        ) &&
+        radiusKm >=
+          0
+          ? radiusKm
+          : null,
+
+      observedAfter:
+        typeof observedAfter ===
+          "string"
+          ? observedAfter
+          : null,
+
+      observedBefore:
+        typeof observedBefore ===
+          "string"
+          ? observedBefore
+          : null,
+
+      maximumSnapshots:
+        Number.isInteger(
+          maximumSnapshots
+        ) &&
+        maximumSnapshots >
+          0
+          ? maximumSnapshots
+          : null,
+
+      snapshotSchemaVersion:
+        typeof snapshotSchemaVersion ===
+          "string"
+          ? snapshotSchemaVersion
+              .trim() ||
+            null
+          : null
+    },
+
+    summary: {
+      sampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours
+    },
+
+    timeSeries:
+      available
+        ? cloneSnapshotValue(
+            timeSeries
+          )
+        : [],
+
+    historicalSnapshots:
+      available
+        ? cloneSnapshotValue(
+            timeSeries
+          )
+        : [],
+
+    sourceQuery: {
+      available:
+        historicalSnapshotQuery
+          ?.available ===
+        true,
+
+      returnedRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.returnedRecordCount ??
+        0,
+
+      duplicateRecordCount:
+        historicalSnapshotQuery
+          ?.summary
+          ?.duplicateRecordCount ??
+        0,
+
+      radiusFilterApplied:
+        historicalSnapshotQuery
+          ?.query
+          ?.radiusFilterApplied ===
+        true,
+
+      contractVersion:
+        historicalSnapshotQuery
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-memory-time-series-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Historical Snapshot Backfill Contract v1.0
  * ------------------------------------------------------------
  *
