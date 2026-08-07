@@ -27573,6 +27573,141 @@ console.log(
   "PASS Ocean Memory Time-Series Retrieval remains frozen, preservation-only, and scientifically neutral"
 );
 
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Persistence Time-Series Integration v1.0
+ * ------------------------------------------------------------
+ */
+
+const persistenceIntegrationHistoricalQuery =
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots: [
+      historicalQueryLaterBackfill,
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryEarlierBackfill
+    ]
+  });
+
+
+const persistenceIntegrationTimeSeries =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots:
+      persistenceIntegrationHistoricalQuery
+        .historicalSnapshots
+  });
+
+
+const persistenceFromHistoricalQuery =
+  buildOceanPersistence({
+    historicalSnapshots:
+      persistenceIntegrationHistoricalQuery
+        .historicalSnapshots
+  });
+
+
+const persistenceFromTimeSeries =
+  buildOceanPersistence({
+    historicalSnapshots:
+      persistenceIntegrationTimeSeries
+        .historicalSnapshots
+  });
+
+
+assert.equal(
+  persistenceIntegrationTimeSeries.available,
+  true
+);
+
+assert.equal(
+  persistenceIntegrationTimeSeries
+    .summary
+    .sampleCount,
+  3
+);
+
+assert.deepEqual(
+  persistenceFromTimeSeries,
+  persistenceFromHistoricalQuery
+);
+
+console.log(
+  "PASS Ocean Persistence preserves governed behavior through Ocean Memory Time-Series Retrieval"
+);
+
+const oceanPersistenceFromGovernedTimeSeries =
+  buildOceanPersistence({
+    timeSeries:
+      persistenceIntegrationTimeSeries
+  });
+
+
+assert.equal(
+  oceanPersistenceFromGovernedTimeSeries
+    .input
+    .source,
+  "ocean-memory-time-series"
+);
+
+assert.equal(
+  oceanPersistenceFromGovernedTimeSeries
+    .input
+    .timeSeriesContractVersion,
+  "pelora-ocean-memory-time-series-v1"
+);
+
+assert.deepEqual(
+  oceanPersistenceFromGovernedTimeSeries,
+  {
+    ...persistenceFromTimeSeries,
+
+    input: {
+      source:
+        "ocean-memory-time-series",
+
+      timeSeriesContractVersion:
+        "pelora-ocean-memory-time-series-v1"
+    }
+  }
+);
+
+console.log(
+  "PASS Ocean Persistence reports canonical Ocean Memory Time-Series provenance"
+);
+
+
+const oceanPersistenceFromLegacyHistory =
+  buildOceanPersistence({
+    historicalSnapshots:
+      persistenceIntegrationHistoricalQuery
+        .historicalSnapshots
+  });
+
+
+assert.equal(
+  oceanPersistenceFromLegacyHistory
+    .input
+    .source,
+  "legacy-historical-snapshots"
+);
+
+assert.equal(
+  oceanPersistenceFromLegacyHistory
+    .input
+    .timeSeriesContractVersion,
+  null
+);
+
+assert.deepEqual(
+  oceanPersistenceFromLegacyHistory,
+  persistenceFromHistoricalQuery
+);
+
+console.log(
+  "PASS Ocean Persistence preserves the legacy historicalSnapshots compatibility path"
+);
+
 assert.equal(
   laterHistoricalBackfill.available,
   true

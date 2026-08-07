@@ -30752,71 +30752,100 @@ export function buildClarityPersistence({
  * species probability, or captain guidance.
  */
 export function buildOceanPersistence({
-  historicalSnapshots = []
+  historicalSnapshots = [],
+  timeSeries = null
 } = {}) {
+  const governedTimeSeriesAvailable =
+    timeSeries
+      ?.available ===
+      true &&
+    Array.isArray(
+      timeSeries
+        ?.historicalSnapshots
+    );
+
+  const resolvedHistoricalSnapshots =
+    governedTimeSeriesAvailable
+      ? timeSeries
+          .historicalSnapshots
+      : historicalSnapshots;
+
   const persistenceEvidence =
     buildPersistenceEvidence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const seaSurfaceTemperature =
     buildSeaSurfaceTemperaturePersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const current =
     buildCurrentPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const currentEdge =
     buildCurrentEdgePersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const currentShear =
     buildCurrentShearPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const currentConvergence =
     buildCurrentConvergencePersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const environmentalTransition =
     buildEnvironmentalTransitionPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const surfaceWaterCharacter =
     buildSurfaceWaterCharacterPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const waterMass =
     buildWaterMassPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const mixingZone =
     buildMixingZonePersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const oceanFront =
     buildOceanFrontPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const productivity =
     buildProductivityPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
   const clarity =
     buildClarityPersistence({
-      historicalSnapshots
+      historicalSnapshots:
+        resolvedHistoricalSnapshots
     });
 
  const buildUnavailableFeature = ({
@@ -31186,6 +31215,20 @@ export function buildOceanPersistence({
         "ocean-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
       ])
     ],
+
+    input: {
+      source:
+        governedTimeSeriesAvailable
+          ? "ocean-memory-time-series"
+          : "legacy-historical-snapshots",
+
+      timeSeriesContractVersion:
+        governedTimeSeriesAvailable
+          ? timeSeries
+              ?.contractVersion ??
+            null
+          : null
+    },
 
     compatibility: {
       legacyContract:
@@ -41003,16 +41046,22 @@ const observationSnapshot =
 
 
   const historicalSnapshotQuery =
-    buildHistoricalSnapshotQuery({
+  buildHistoricalSnapshotQuery({
+    historicalSnapshots:
+      adaptedHistoricalStorageRecords
+  });
+
+  const oceanMemoryTimeSeries =
+    buildOceanMemoryTimeSeries({
       historicalSnapshots:
-        adaptedHistoricalStorageRecords
+        historicalSnapshotQuery
+          .historicalSnapshots
     });
 
   const oceanPersistence =
     buildOceanPersistence({
-      historicalSnapshots:
-        historicalSnapshotQuery
-          .historicalSnapshots
+      timeSeries:
+        oceanMemoryTimeSeries
     });
 
 
