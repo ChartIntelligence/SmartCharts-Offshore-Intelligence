@@ -42101,12 +42101,16 @@ const observationSnapshot =
     oceanPersistence
   });
 
+  const temporalOceanExplainability =
+    buildTemporalOceanExplainability({
+      oceanEvolution
+    });
 
   const oceanOpportunity =
-  assessOceanOpportunity({
-    oceanEvidence,
-    oceanPersistence
-  });
+    assessOceanOpportunity({
+      oceanEvidence,
+      oceanPersistence
+    });
 
   /*
    * These contracts are species-neutral even though they were
