@@ -31658,6 +31658,44 @@ export function buildOceanPersistence({
       })
   };
 
+    const featureContinuity =
+    Object.fromEntries(
+      Object.entries(
+        featurePersistence
+      ).map(
+        ([
+          featureKey,
+          feature
+        ]) => [
+          featureKey,
+          buildTemporalFeatureContinuity({
+            featurePersistence:
+              feature
+          })
+        ]
+      )
+    );
+
+  const assessedContinuityCount =
+    Object.values(
+      featureContinuity
+    ).filter(
+      continuity =>
+        continuity.available ===
+        true
+    ).length;
+
+  const supportedContinuityCount =
+    Object.values(
+      featureContinuity
+    ).filter(
+      continuity =>
+        continuity
+          ?.continuity
+          ?.supported ===
+        true
+    ).length;
+
   const assessedFeatureCount =
     Object.values(
       featurePersistence
@@ -31739,6 +31777,19 @@ export function buildOceanPersistence({
     },
 
     featurePersistence,
+
+    featureContinuity,
+
+    continuitySummary: {
+      assessedContinuityCount,
+
+      supportedContinuityCount,
+
+      registeredContinuityCount:
+        Object.keys(
+          featureContinuity
+        ).length
+    },
 
     confidence: {
       score:

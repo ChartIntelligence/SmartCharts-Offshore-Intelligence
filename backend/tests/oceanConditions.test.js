@@ -28302,6 +28302,71 @@ console.log(
   "PASS Ocean Persistence v1 establishes the canonical multi-feature contract"
 );
 
+assert.equal(
+  Object.keys(
+    oceanPersistenceNoHistory
+      .featureContinuity
+  ).length,
+  Object.keys(
+    oceanPersistenceNoHistory
+      .featurePersistence
+  ).length
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .continuitySummary
+    .registeredContinuityCount,
+  oceanPersistenceNoHistory
+    .values
+    .registeredFeatureCount
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .continuitySummary
+    .assessedContinuityCount,
+  0
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .continuitySummary
+    .supportedContinuityCount,
+  0
+);
+
+console.log(
+  "PASS Ocean Persistence mirrors the full feature registry into Temporal Feature Continuity"
+);
+
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .values
+    .assessedFeatureCount,
+  0
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .featurePersistence
+    .seaSurfaceTemperature
+    .available,
+  false
+);
+
+assert.equal(
+  oceanPersistenceNoHistory
+    .featureContinuity
+    .seaSurfaceTemperature
+    .available,
+  false
+);
+
+console.log(
+  "PASS Ocean Persistence continuity integration does not alter persistence assessment semantics"
+);
 
 assert.equal(
   oceanPersistenceNoHistory
@@ -29197,6 +29262,41 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed SST Persistence"
+);
+
+assert.equal(
+  oceanPersistenceWithSst
+    .featureContinuity
+    .seaSurfaceTemperature
+    .available,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithSst
+    .continuitySummary
+    .assessedContinuityCount,
+  1
+);
+
+assert.equal(
+  oceanPersistenceWithSst
+    .continuitySummary
+    .registeredContinuityCount,
+  oceanPersistenceWithSst
+    .values
+    .registeredFeatureCount
+);
+
+assert.equal(
+  oceanPersistenceWithSst
+    .values
+    .assessedFeatureCount,
+  1
+);
+
+console.log(
+  "PASS Ocean Persistence exposes governed SST continuity without changing assessedFeatureCount"
 );
 
 const sstEvolutionTimeSeries =
