@@ -50,6 +50,7 @@ import {
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
   buildFeaturePersistenceContract,
   buildTemporalFeatureContinuity,
+  buildGovernedFeaturePosition,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -29021,6 +29022,300 @@ assert.equal(
 
 console.log(
   "PASS Temporal Feature Continuity preserves provenance, immutability, and species-neutral boundaries"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Position v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableGovernedFeaturePosition =
+  buildGovernedFeaturePosition();
+
+
+assert.equal(
+  unavailableGovernedFeaturePosition.available,
+  false
+);
+
+assert.equal(
+  unavailableGovernedFeaturePosition
+    .responsibility,
+  "Preserve"
+);
+
+assert.ok(
+  unavailableGovernedFeaturePosition
+    .missingRequirements
+    .includes(
+      "valid-feature-latitude"
+    )
+);
+
+assert.ok(
+  unavailableGovernedFeaturePosition
+    .missingRequirements
+    .includes(
+      "valid-feature-longitude"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Position remains unavailable without explicit feature-position evidence"
+);
+
+
+const governedCurrentEdgePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      28.125,
+
+    longitude:
+      -87.45,
+
+    observedAt:
+      "2026-08-07T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1"
+  });
+
+
+assert.equal(
+  governedCurrentEdgePosition.available,
+  true
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .positionType,
+  "centroid"
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .feature
+    .featureType,
+  "current-edge"
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .feature
+    .featureFamily,
+  "physical-ocean"
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .position
+    .latitude,
+  28.125
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .position
+    .longitude,
+  -87.45
+);
+
+console.log(
+  "PASS Governed Feature Position preserves explicit governed feature coordinates"
+);
+
+
+const invalidGovernedFeaturePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      95,
+
+    longitude:
+      -190,
+
+    observedAt:
+      "2026-08-07T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1"
+  });
+
+
+assert.equal(
+  invalidGovernedFeaturePosition.available,
+  false
+);
+
+assert.equal(
+  invalidGovernedFeaturePosition
+    .position
+    .latitude,
+  null
+);
+
+assert.equal(
+  invalidGovernedFeaturePosition
+    .position
+    .longitude,
+  null
+);
+
+console.log(
+  "PASS Governed Feature Position rejects invalid feature coordinates"
+);
+
+
+const noFallbackGovernedFeaturePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    observedAt:
+      "2026-08-07T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1",
+
+    requestedLatitude:
+      28.125,
+
+    requestedLongitude:
+      -87.45
+  });
+
+
+assert.equal(
+  noFallbackGovernedFeaturePosition.available,
+  false
+);
+
+assert.equal(
+  noFallbackGovernedFeaturePosition
+    .position
+    .latitude,
+  null
+);
+
+assert.equal(
+  noFallbackGovernedFeaturePosition
+    .position
+    .longitude,
+  null
+);
+
+console.log(
+  "PASS Governed Feature Position refuses observation or request-coordinate fallback"
+);
+
+
+assert.equal(
+  governedCurrentEdgePosition
+    .source
+    .type,
+  "derived-feature-analysis"
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .source
+    .contractVersion,
+  "pelora-current-edge-v1"
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .contractVersion,
+  "pelora-governed-feature-position-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedCurrentEdgePosition
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedCurrentEdgePosition
+      .position
+  ),
+  true
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .featureMovementNm,
+  undefined
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .movementDirectionDegrees,
+  undefined
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .movementSpeedKnots,
+  undefined
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .species,
+  undefined
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  governedCurrentEdgePosition
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Governed Feature Position preserves provenance, immutability, and no-movement boundaries"
 );
 
 

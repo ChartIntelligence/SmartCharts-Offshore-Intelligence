@@ -22907,6 +22907,236 @@ export function buildFeaturePersistenceContract({
 }
 
 
+export const GOVERNED_FEATURE_POSITION_TYPES =
+  Object.freeze([
+    "point",
+    "centroid"
+  ]);
+
+export const GOVERNED_FEATURE_POSITION_SOURCES =
+  Object.freeze([
+    "derived-feature-analysis",
+    "preserved-feature-geometry"
+  ]);
+
+
+  /**
+ * ------------------------------------------------------------
+ * Governed Feature Position v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Preserve an explicit governed position for one ocean feature.
+ *
+ * Feature position must originate from governed feature-analysis
+ * evidence or preserved feature geometry. Observation, request,
+ * query-center, and snapshot coordinates must not be used as
+ * fallback feature positions.
+ *
+ * This contract preserves position only. It does not compare
+ * positions, calculate displacement, infer movement, establish
+ * spatial feature identity, calculate opportunity, perform
+ * species reasoning, or generate captain guidance.
+ */
+export function buildGovernedFeaturePosition({
+  featureType = null,
+  featureFamily = null,
+  positionType = null,
+  latitude = null,
+  longitude = null,
+  observedAt = null,
+  sourceType = null,
+  sourceContractVersion = null
+} = {}) {
+
+    const validFeatureType =
+    typeof featureType ===
+      "string" &&
+    featureType
+      .trim()
+      .length >
+      0;
+
+  const validFeatureFamily =
+    OCEAN_PERSISTENCE_FEATURE_FAMILIES
+      .includes(
+        featureFamily
+      );
+
+  const validPositionType =
+    GOVERNED_FEATURE_POSITION_TYPES
+      .includes(
+        positionType
+      );
+
+  const validLatitude =
+    Number.isFinite(
+      latitude
+    ) &&
+    latitude >=
+      -90 &&
+    latitude <=
+      90;
+
+  const validLongitude =
+    Number.isFinite(
+      longitude
+    ) &&
+    longitude >=
+      -180 &&
+    longitude <=
+      180;
+
+  const validObservedAt =
+    typeof observedAt ===
+      "string" &&
+    Number.isFinite(
+      Date.parse(
+        observedAt
+      )
+    );
+
+  const validSourceType =
+    GOVERNED_FEATURE_POSITION_SOURCES
+      .includes(
+        sourceType
+      );
+
+  const validSourceContractVersion =
+    typeof sourceContractVersion ===
+      "string" &&
+    sourceContractVersion
+      .trim()
+      .length >
+      0;
+
+  const available =
+    validFeatureType &&
+    validFeatureFamily &&
+    validPositionType &&
+    validLatitude &&
+    validLongitude &&
+    validObservedAt &&
+    validSourceType &&
+    validSourceContractVersion;
+
+  const missingRequirements = [
+    !validFeatureType
+      ? "governed-feature-type"
+      : null,
+
+    !validFeatureFamily
+      ? "governed-feature-family"
+      : null,
+
+    !validPositionType
+      ? "governed-feature-position-type"
+      : null,
+
+    !validLatitude
+      ? "valid-feature-latitude"
+      : null,
+
+    !validLongitude
+      ? "valid-feature-longitude"
+      : null,
+
+    !validObservedAt
+      ? "valid-feature-position-observed-at"
+      : null,
+
+    !validSourceType
+      ? "governed-feature-position-source"
+      : null,
+
+    !validSourceContractVersion
+      ? "feature-position-source-contract-version"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+
+      "Governed Feature Position preserves explicit feature-position evidence only.",
+
+      "Observation, request, query-center, and snapshot coordinates are not valid fallback feature positions.",
+
+      "Governed Feature Position does not establish that the same spatial feature is represented across multiple observations.",
+
+      "This contract does not calculate displacement, movement direction, movement speed, opportunity, habitat suitability, species probability, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    positionType:
+      validPositionType
+        ? positionType
+        : null,
+
+    responsibility:
+      "Preserve",
+
+    feature: {
+      featureType:
+        validFeatureType
+          ? featureType
+          : null,
+
+      featureFamily:
+        validFeatureFamily
+          ? featureFamily
+          : null
+    },
+
+    position: {
+      latitude:
+        validLatitude
+          ? latitude
+          : null,
+
+      longitude:
+        validLongitude
+          ? longitude
+          : null
+    },
+
+    observedAt:
+      validObservedAt
+        ? observedAt
+        : null,
+
+    source: {
+      type:
+        validSourceType
+          ? sourceType
+          : null,
+
+      contractVersion:
+        validSourceContractVersion
+          ? sourceContractVersion
+          : null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-feature-position-v1"
+  });
+}
+
+
 /**
  * ------------------------------------------------------------
  * Temporal Feature Continuity v1.0
