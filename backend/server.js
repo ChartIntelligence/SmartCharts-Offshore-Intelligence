@@ -23139,6 +23139,262 @@ export function buildGovernedFeaturePosition({
 
 /**
  * ------------------------------------------------------------
+ * Governed Feature Association v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Evaluate whether two chronological Governed Feature Position
+ * records are compatible for later spatial feature association.
+ *
+ * Matching feature type, family, and valid chronology establish
+ * compatibility only. They do not independently establish that
+ * both positions represent the same physical ocean feature.
+ *
+ * This contract does not calculate displacement, movement
+ * direction, movement speed, opportunity, habitat suitability,
+ * species probability, or captain guidance.
+ */
+export function buildGovernedFeatureAssociation({
+  previousFeaturePosition = null,
+  currentFeaturePosition = null
+} = {}) {
+
+    const previousAvailable =
+    previousFeaturePosition
+      ?.available ===
+      true &&
+    previousFeaturePosition
+      ?.contractVersion ===
+      "pelora-governed-feature-position-v1";
+
+  const currentAvailable =
+    currentFeaturePosition
+      ?.available ===
+      true &&
+    currentFeaturePosition
+      ?.contractVersion ===
+      "pelora-governed-feature-position-v1";
+
+  const previousObservedAt =
+    typeof previousFeaturePosition
+      ?.observedAt ===
+      "string"
+      ? previousFeaturePosition
+          .observedAt
+      : null;
+
+  const currentObservedAt =
+    typeof currentFeaturePosition
+      ?.observedAt ===
+      "string"
+      ? currentFeaturePosition
+          .observedAt
+      : null;
+
+  const previousObservedTimestamp =
+    previousObservedAt !==
+      null
+      ? Date.parse(
+          previousObservedAt
+        )
+      : Number.NaN;
+
+  const currentObservedTimestamp =
+    currentObservedAt !==
+      null
+      ? Date.parse(
+          currentObservedAt
+        )
+      : Number.NaN;
+
+  const chronological =
+    Number.isFinite(
+      previousObservedTimestamp
+    ) &&
+    Number.isFinite(
+      currentObservedTimestamp
+    ) &&
+    currentObservedTimestamp >
+      previousObservedTimestamp;
+
+  const sameFeatureType =
+    previousAvailable &&
+    currentAvailable &&
+    previousFeaturePosition
+      ?.feature
+      ?.featureType ===
+    currentFeaturePosition
+      ?.feature
+      ?.featureType;
+
+  const sameFeatureFamily =
+    previousAvailable &&
+    currentAvailable &&
+    previousFeaturePosition
+      ?.feature
+      ?.featureFamily ===
+    currentFeaturePosition
+      ?.feature
+      ?.featureFamily;
+
+  const compatible =
+    previousAvailable &&
+    currentAvailable &&
+    chronological &&
+    sameFeatureType &&
+    sameFeatureFamily;
+
+  const compatibility =
+    !previousAvailable ||
+    !currentAvailable
+      ? "unknown"
+      : sameFeatureType &&
+        sameFeatureFamily
+        ? "compatible"
+        : "incompatible";
+
+  const classification =
+    !previousAvailable ||
+    !currentAvailable
+      ? "insufficient-evidence"
+      : !chronological
+        ? "insufficient-evidence"
+        : !sameFeatureType ||
+          !sameFeatureFamily
+          ? "not-associated"
+          : "insufficient-evidence";
+
+  const available =
+    previousAvailable &&
+    currentAvailable &&
+    chronological;
+
+  const missingRequirements = [
+    !previousAvailable
+      ? "previous-governed-feature-position"
+      : null,
+
+    !currentAvailable
+      ? "current-governed-feature-position"
+      : null,
+
+    previousAvailable &&
+    currentAvailable &&
+    !chronological
+      ? "current-feature-position-must-follow-previous-feature-position"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          previousFeaturePosition
+            ?.limitations
+        )
+          ? previousFeaturePosition
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          currentFeaturePosition
+            ?.limitations
+        )
+          ? currentFeaturePosition
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Governed Feature Association evaluates compatibility between two chronological Governed Feature Position records.",
+
+      "Matching feature type and family establish compatibility only and do not independently establish same-feature identity.",
+
+      "A compatible pair remains insufficient evidence for association until explicit governed association evidence is available.",
+
+      "This contract does not calculate displacement, movement direction, movement speed, opportunity, habitat suitability, species probability, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    associationType:
+      "governed-feature-association",
+
+    responsibility:
+      "Compare",
+
+    compatibility,
+
+    classification,
+
+    associated:
+      classification ===
+      "associated",
+
+    identity: {
+      sameFeatureType,
+
+      sameFeatureFamily
+    },
+
+    chronology: {
+      chronological,
+
+      previousObservedAt,
+
+      currentObservedAt
+    },
+
+    previousFeaturePosition:
+      previousAvailable
+        ? cloneSnapshotValue(
+            previousFeaturePosition
+          )
+        : null,
+
+    currentFeaturePosition:
+      currentAvailable
+        ? cloneSnapshotValue(
+            currentFeaturePosition
+          )
+        : null,
+
+    upstreamContracts: {
+      previousFeaturePosition:
+        previousFeaturePosition
+          ?.contractVersion ??
+        null,
+
+      currentFeaturePosition:
+        currentFeaturePosition
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-feature-association-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Temporal Feature Continuity v1.0
  * ------------------------------------------------------------
  *

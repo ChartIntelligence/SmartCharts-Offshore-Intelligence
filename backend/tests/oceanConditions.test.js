@@ -51,6 +51,7 @@ import {
   buildFeaturePersistenceContract,
   buildTemporalFeatureContinuity,
   buildGovernedFeaturePosition,
+  buildGovernedFeatureAssociation,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -29316,6 +29317,325 @@ assert.equal(
 
 console.log(
   "PASS Governed Feature Position preserves provenance, immutability, and no-movement boundaries"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Association v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableGovernedFeatureAssociation =
+  buildGovernedFeatureAssociation();
+
+
+assert.equal(
+  unavailableGovernedFeatureAssociation.available,
+  false
+);
+
+assert.equal(
+  unavailableGovernedFeatureAssociation
+    .associationType,
+  "governed-feature-association"
+);
+
+assert.equal(
+  unavailableGovernedFeatureAssociation
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.ok(
+  unavailableGovernedFeatureAssociation
+    .missingRequirements
+    .includes(
+      "previous-governed-feature-position"
+    )
+);
+
+assert.ok(
+  unavailableGovernedFeatureAssociation
+    .missingRequirements
+    .includes(
+      "current-governed-feature-position"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association remains unavailable without two governed positions"
+);
+
+
+const laterGovernedCurrentEdgePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      28.225,
+
+    longitude:
+      -87.35,
+
+    observedAt:
+      "2026-08-08T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1"
+  });
+
+
+const compatibleGovernedFeatureAssociation =
+  buildGovernedFeatureAssociation({
+    previousFeaturePosition:
+      governedCurrentEdgePosition,
+
+    currentFeaturePosition:
+      laterGovernedCurrentEdgePosition
+  });
+
+
+assert.equal(
+  compatibleGovernedFeatureAssociation.available,
+  true
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .compatibility,
+  "compatible"
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .associated,
+  false
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .identity
+    .sameFeatureType,
+  true
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .identity
+    .sameFeatureFamily,
+  true
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .chronology
+    .chronological,
+  true
+);
+
+console.log(
+  "PASS Governed Feature Association recognizes compatibility without claiming same-feature identity"
+);
+
+
+const reversedGovernedFeatureAssociation =
+  buildGovernedFeatureAssociation({
+    previousFeaturePosition:
+      laterGovernedCurrentEdgePosition,
+
+    currentFeaturePosition:
+      governedCurrentEdgePosition
+  });
+
+
+assert.equal(
+  reversedGovernedFeatureAssociation.available,
+  false
+);
+
+assert.equal(
+  reversedGovernedFeatureAssociation
+    .chronology
+    .chronological,
+  false
+);
+
+assert.ok(
+  reversedGovernedFeatureAssociation
+    .missingRequirements
+    .includes(
+      "current-feature-position-must-follow-previous-feature-position"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association requires strict chronological order"
+);
+
+
+const governedOceanFrontPosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "ocean-front",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      28.225,
+
+    longitude:
+      -87.35,
+
+    observedAt:
+      "2026-08-08T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-ocean-front-v1"
+  });
+
+
+const incompatibleGovernedFeatureAssociation =
+  buildGovernedFeatureAssociation({
+    previousFeaturePosition:
+      governedCurrentEdgePosition,
+
+    currentFeaturePosition:
+      governedOceanFrontPosition
+  });
+
+
+assert.equal(
+  incompatibleGovernedFeatureAssociation.available,
+  true
+);
+
+assert.equal(
+  incompatibleGovernedFeatureAssociation
+    .compatibility,
+  "incompatible"
+);
+
+assert.equal(
+  incompatibleGovernedFeatureAssociation
+    .classification,
+  "not-associated"
+);
+
+assert.equal(
+  incompatibleGovernedFeatureAssociation
+    .associated,
+  false
+);
+
+assert.equal(
+  incompatibleGovernedFeatureAssociation
+    .identity
+    .sameFeatureType,
+  false
+);
+
+console.log(
+  "PASS Governed Feature Association rejects incompatible feature identity"
+);
+
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .upstreamContracts
+    .previousFeaturePosition,
+  "pelora-governed-feature-position-v1"
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .upstreamContracts
+    .currentFeaturePosition,
+  "pelora-governed-feature-position-v1"
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .contractVersion,
+  "pelora-governed-feature-association-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    compatibleGovernedFeatureAssociation
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    compatibleGovernedFeatureAssociation
+      .identity
+  ),
+  true
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .featureMovementNm,
+  undefined
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .movementDirectionDegrees,
+  undefined
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .movementSpeedKnots,
+  undefined
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .species,
+  undefined
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Governed Feature Association preserves provenance, immutability, and no-movement boundaries"
 );
 
 
