@@ -31949,15 +31949,32 @@ export function buildOceanEvolution({
       featurePersistence
     );
 
+  const featureContinuity =
+    oceanPersistence
+      ?.featureContinuity &&
+    typeof oceanPersistence
+      .featureContinuity ===
+      "object"
+      ? oceanPersistence
+          .featureContinuity
+      : {};
+
   const featureEvolution =
     Object.fromEntries(
       featureEntries.map(
         ([
           featureKey,
           featureContract
-        ]) => [
-          featureKey,
-          {
+        ]) => {
+          const continuityContract =
+            featureContinuity[
+              featureKey
+            ] ??
+            null;
+
+          return [
+            featureKey,
+            {
             available:
               featureContract
                 ?.available ===
@@ -31993,6 +32010,30 @@ export function buildOceanEvolution({
                 ?.reason ??
               null,
 
+            continuity: {
+              available:
+                continuityContract
+                  ?.available ===
+                true,
+
+              supported:
+                continuityContract
+                  ?.continuity
+                  ?.supported ===
+                true,
+
+              classification:
+                continuityContract
+                  ?.continuity
+                  ?.classification ??
+                "unavailable",
+
+              contractVersion:
+                continuityContract
+                  ?.contractVersion ??
+                null
+            },
+
             confidence: {
               score:
                 Number.isFinite(
@@ -32014,9 +32055,11 @@ export function buildOceanEvolution({
                       .confidence
                       .level
                   : "Unavailable"
+
+              }
             }
-          }
-        ]
+          ];
+        }
       )
     );
 

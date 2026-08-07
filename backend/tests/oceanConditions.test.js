@@ -29583,6 +29583,93 @@ console.log(
   "PASS Ocean Evolution remains frozen, species-neutral, and non-prescriptive"
 );
 
+assert.equal(
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .continuity
+    .available,
+  oceanPersistenceWithSst
+    .featureContinuity
+    .seaSurfaceTemperature
+    .available
+);
+
+assert.equal(
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .continuity
+    .supported,
+  oceanPersistenceWithSst
+    .featureContinuity
+    .seaSurfaceTemperature
+    .continuity
+    .supported
+);
+
+assert.equal(
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .continuity
+    .classification,
+  oceanPersistenceWithSst
+    .featureContinuity
+    .seaSurfaceTemperature
+    .continuity
+    .classification
+);
+
+assert.equal(
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .continuity
+    .contractVersion,
+  "pelora-temporal-feature-continuity-v1"
+);
+
+console.log(
+  "PASS Ocean Evolution preserves governed Temporal Feature Continuity context"
+);
+
+
+assert.equal(
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .lifecycleState,
+  oceanPersistenceWithSst
+    .featurePersistence
+    .seaSurfaceTemperature
+    .lifecycleState
+);
+
+assert.equal(
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .persistenceClassification,
+  oceanPersistenceWithSst
+    .featurePersistence
+    .seaSurfaceTemperature
+    .classification
+);
+
+assert.equal(
+  governedOceanEvolution
+    .lifecycleSummary
+    .assessedFeatureCount,
+  oceanPersistenceWithSst
+    .values
+    .assessedFeatureCount
+);
+
+console.log(
+  "PASS Ocean Evolution continuity context does not alter lifecycle or persistence semantics"
+);
+
 
 /**
  * ------------------------------------------------------------
