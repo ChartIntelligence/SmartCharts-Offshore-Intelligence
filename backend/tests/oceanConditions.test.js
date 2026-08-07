@@ -28,6 +28,7 @@ import {
   buildHistoricalOceanSnapshotWindowQuery,
   buildNearbyOceanHistoryQuery,
   buildOceanMemoryTimeSeries,
+  buildOceanChangeFromTimeSeries,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
   buildSeaSurfaceTemperaturePersistence,
@@ -27571,6 +27572,280 @@ assert.equal(
 
 console.log(
   "PASS Ocean Memory Time-Series Retrieval remains frozen, preservation-only, and scientifically neutral"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Ocean Change From Time-Series v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableOceanChangeFromTimeSeries =
+  buildOceanChangeFromTimeSeries({
+    timeSeries:
+      null
+  });
+
+
+assert.equal(
+  unavailableOceanChangeFromTimeSeries.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanChangeFromTimeSeries
+    .analysisType,
+  "ocean-change-from-time-series"
+);
+
+assert.equal(
+  unavailableOceanChangeFromTimeSeries
+    .responsibility,
+  "Compare"
+);
+
+assert.equal(
+  unavailableOceanChangeFromTimeSeries
+    .comparison,
+  null
+);
+
+assert.ok(
+  unavailableOceanChangeFromTimeSeries
+    .missingRequirements
+    .includes(
+      "governed-ocean-memory-time-series"
+    )
+);
+
+console.log(
+  "PASS Ocean Change From Time-Series remains unavailable without governed Time-Series input"
+);
+
+
+const oneSnapshotTimeSeries =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill
+    ]
+  });
+
+
+const insufficientOceanChangeFromTimeSeries =
+  buildOceanChangeFromTimeSeries({
+    timeSeries:
+      oneSnapshotTimeSeries
+  });
+
+
+assert.equal(
+  insufficientOceanChangeFromTimeSeries.available,
+  false
+);
+
+assert.equal(
+  insufficientOceanChangeFromTimeSeries
+    .source
+    .sampleCount,
+  1
+);
+
+assert.ok(
+  insufficientOceanChangeFromTimeSeries
+    .missingRequirements
+    .includes(
+      "two-or-more-chronological-ocean-memory-records"
+    )
+);
+
+console.log(
+  "PASS Ocean Change From Time-Series requires at least two governed chronological records"
+);
+
+
+const governedChangeTimeSeries =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: [
+      historicalQueryEarlierBackfill,
+      historicalQueryMiddleBackfill,
+      historicalQueryLaterBackfill
+    ]
+  });
+
+
+const oceanChangeFromTimeSeries =
+  buildOceanChangeFromTimeSeries({
+    timeSeries:
+      governedChangeTimeSeries
+  });
+
+
+assert.equal(
+  oceanChangeFromTimeSeries.available,
+  true
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .source
+    .sampleCount,
+  3
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .source
+    .previousSnapshotId,
+  governedChangeTimeSeries
+    .historicalSnapshots[1]
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .source
+    .currentSnapshotId,
+  governedChangeTimeSeries
+    .historicalSnapshots[2]
+    .identity
+    .snapshotId
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .comparison
+    .contractVersion,
+  "pelora-ocean-change-analysis-v1"
+);
+
+console.log(
+  "PASS Ocean Change From Time-Series delegates the latest governed pair to Ocean Change Analysis"
+);
+
+
+const directLatestPairOceanChange =
+  buildOceanChangeAnalysis({
+    previousObservationSnapshot:
+      governedChangeTimeSeries
+        .historicalSnapshots[1]
+        .snapshot
+        .observation,
+
+    currentObservationSnapshot:
+      governedChangeTimeSeries
+        .historicalSnapshots[2]
+        .snapshot
+        .observation,
+
+    previousIntelligenceSnapshot:
+      governedChangeTimeSeries
+        .historicalSnapshots[1]
+        .snapshot
+        .intelligence,
+
+    currentIntelligenceSnapshot:
+      governedChangeTimeSeries
+        .historicalSnapshots[2]
+        .snapshot
+        .intelligence
+  });
+
+
+assert.deepEqual(
+  oceanChangeFromTimeSeries
+    .comparison,
+  directLatestPairOceanChange
+);
+
+console.log(
+  "PASS Ocean Change From Time-Series preserves canonical Ocean Change Analysis behavior"
+);
+
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .source
+    .retrievalType,
+  "ocean-memory-time-series"
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .source
+    .contractVersion,
+  "pelora-ocean-memory-time-series-v1"
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .contractVersion,
+  "pelora-ocean-change-from-time-series-v1"
+);
+
+console.log(
+  "PASS Ocean Change From Time-Series preserves governed Time-Series provenance"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    oceanChangeFromTimeSeries
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanChangeFromTimeSeries
+      .source
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    oceanChangeFromTimeSeries
+      .comparison
+  ),
+  true
+);
+
+assert.ok(
+  oceanChangeFromTimeSeries
+    .limitations
+    .includes(
+      "This contract does not retrieve external data, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    )
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .persistence,
+  undefined
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .trend,
+  undefined
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .species,
+  undefined
+);
+
+assert.equal(
+  oceanChangeFromTimeSeries
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Ocean Change From Time-Series remains frozen, Compare-only, and scientifically bounded"
 );
 
 

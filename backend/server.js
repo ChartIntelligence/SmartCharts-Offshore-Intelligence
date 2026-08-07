@@ -20078,6 +20078,269 @@ export function buildOceanMemoryTimeSeries({
 
 /**
  * ------------------------------------------------------------
+ * Ocean Change From Time-Series v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Resolve the latest two governed Ocean Memory records from a
+ * supplied Time-Series contract and compare them using the
+ * canonical Ocean Change Analysis.
+ *
+ * This contract does not retrieve external data, calculate
+ * persistence, infer trends, perform species reasoning, or
+ * generate captain guidance.
+ */
+export function buildOceanChangeFromTimeSeries({
+  timeSeries = null
+} = {}) {
+  const governedTimeSeriesAvailable =
+    timeSeries
+      ?.available ===
+      true &&
+    timeSeries
+      ?.retrievalType ===
+      "ocean-memory-time-series" &&
+    Array.isArray(
+      timeSeries
+        ?.historicalSnapshots
+    );
+
+  const historicalSnapshots =
+    governedTimeSeriesAvailable
+      ? timeSeries
+          .historicalSnapshots
+      : [];
+
+  const sampleCount =
+    historicalSnapshots.length;
+
+  const previousRecord =
+    sampleCount >=
+      2
+      ? historicalSnapshots[
+          sampleCount - 2
+        ]
+      : null;
+
+  const currentRecord =
+    sampleCount >=
+      2
+      ? historicalSnapshots[
+          sampleCount - 1
+        ]
+      : null;
+
+  const previousOceanSnapshot =
+    previousRecord
+      ?.snapshot ??
+    null;
+
+  const currentOceanSnapshot =
+    currentRecord
+      ?.snapshot ??
+    null;
+
+  const previousObservationSnapshot =
+    previousOceanSnapshot
+      ?.observation ??
+    null;
+
+  const currentObservationSnapshot =
+    currentOceanSnapshot
+      ?.observation ??
+    null;
+
+  const previousIntelligenceSnapshot =
+    previousOceanSnapshot
+      ?.intelligence ??
+    null;
+
+  const currentIntelligenceSnapshot =
+    currentOceanSnapshot
+      ?.intelligence ??
+    null;
+
+  const comparisonInputsAvailable =
+    previousObservationSnapshot
+      ?.available ===
+      true &&
+    currentObservationSnapshot
+      ?.available ===
+      true &&
+    previousIntelligenceSnapshot
+      ?.available ===
+      true &&
+    currentIntelligenceSnapshot
+      ?.available ===
+      true;
+
+  const oceanChangeAnalysis =
+    comparisonInputsAvailable
+      ? buildOceanChangeAnalysis({
+          previousObservationSnapshot,
+          currentObservationSnapshot,
+          previousIntelligenceSnapshot,
+          currentIntelligenceSnapshot
+        })
+      : null;
+
+  const available =
+    governedTimeSeriesAvailable &&
+    sampleCount >=
+      2 &&
+    comparisonInputsAvailable &&
+    oceanChangeAnalysis
+      ?.available ===
+      true;
+
+  const missingRequirements = [
+    !governedTimeSeriesAvailable
+      ? "governed-ocean-memory-time-series"
+      : null,
+
+    governedTimeSeriesAvailable &&
+    sampleCount <
+      2
+      ? "two-or-more-chronological-ocean-memory-records"
+      : null,
+
+    sampleCount >=
+      2 &&
+    previousObservationSnapshot
+      ?.available !==
+      true
+      ? "previous-observation-snapshot"
+      : null,
+
+    sampleCount >=
+      2 &&
+    currentObservationSnapshot
+      ?.available !==
+      true
+      ? "current-observation-snapshot"
+      : null,
+
+    sampleCount >=
+      2 &&
+    previousIntelligenceSnapshot
+      ?.available !==
+      true
+      ? "previous-intelligence-snapshot"
+      : null,
+
+    sampleCount >=
+      2 &&
+    currentIntelligenceSnapshot
+      ?.available !==
+      true
+      ? "current-intelligence-snapshot"
+      : null,
+
+    comparisonInputsAvailable &&
+    oceanChangeAnalysis
+      ?.available !==
+      true
+      ? "available-ocean-change-analysis"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          timeSeries
+            ?.limitations
+        )
+          ? timeSeries
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          oceanChangeAnalysis
+            ?.limitations
+        )
+          ? oceanChangeAnalysis
+              .limitations
+          : []
+      ),
+
+      "Ocean Change From Time-Series compares only the latest two governed chronological Ocean Memory records.",
+
+      "Scientific comparison is delegated to Ocean Change Analysis.",
+
+      "This contract does not retrieve external data, calculate persistence, infer trends, perform species reasoning, or generate captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    analysisType:
+      "ocean-change-from-time-series",
+
+    responsibility:
+      "Compare",
+
+    source: {
+      retrievalType:
+        timeSeries
+          ?.retrievalType ??
+        null,
+
+      contractVersion:
+        timeSeries
+          ?.contractVersion ??
+        null,
+
+      sampleCount,
+
+      previousSnapshotId:
+        previousRecord
+          ?.identity
+          ?.snapshotId ??
+        previousOceanSnapshot
+          ?.identity
+          ?.snapshotId ??
+        null,
+
+      currentSnapshotId:
+        currentRecord
+          ?.identity
+          ?.snapshotId ??
+        currentOceanSnapshot
+          ?.identity
+          ?.snapshotId ??
+        null
+    },
+
+    comparison:
+      available
+        ? cloneSnapshotValue(
+            oceanChangeAnalysis
+          )
+        : null,
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-change-from-time-series-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Historical Snapshot Backfill Contract v1.0
  * ------------------------------------------------------------
  *
@@ -41056,6 +41319,12 @@ const observationSnapshot =
       historicalSnapshots:
         historicalSnapshotQuery
           .historicalSnapshots
+    });
+
+  const oceanChangeFromTimeSeries =
+    buildOceanChangeFromTimeSeries({
+      timeSeries:
+        oceanMemoryTimeSeries
     });
 
   const oceanPersistence =
