@@ -29806,6 +29806,99 @@ console.log(
   "PASS Temporal Ocean Explainability dynamically preserves governed feature evolution"
 );
 
+assert.equal(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .continuity
+    .available,
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .continuity
+    .available
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .continuity
+    .supported,
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .continuity
+    .supported
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .continuity
+    .classification,
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .continuity
+    .classification
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .continuity
+    .contractVersion,
+  "pelora-temporal-feature-continuity-v1"
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability preserves governed Temporal Feature Continuity context"
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .lifecycleState,
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .lifecycleState
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .physicalInterpretation,
+  "The governed feature has strengthened across the observed temporal window."
+);
+
+assert.ok(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .evidenceBasis
+    .includes(
+      "governed-temporal-feature-continuity"
+    )
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature
+    .featureMovementNm,
+  undefined
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability uses continuity as evidence context without changing lifecycle interpretation or claiming movement"
+);
+
 
 const explainedSst =
   temporalOceanExplainability
@@ -29845,7 +29938,8 @@ assert.deepEqual(
   [
     "governed-ocean-evolution",
     "governed-feature-lifecycle",
-    "governed-persistence-classification"
+    "governed-persistence-classification",
+    "governed-temporal-feature-continuity"
   ]
 );
 

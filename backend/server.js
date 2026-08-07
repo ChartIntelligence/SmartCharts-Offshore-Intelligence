@@ -32055,7 +32055,6 @@ export function buildOceanEvolution({
                       .confidence
                       .level
                   : "Unavailable"
-
               }
             }
           ];
@@ -32434,6 +32433,32 @@ export function buildTemporalOceanExplainability({
                   ?.persistenceClassification ??
                 "not-assessed",
 
+              continuity: {
+                available:
+                  feature
+                    ?.continuity
+                    ?.available ===
+                  true,
+
+                supported:
+                  feature
+                    ?.continuity
+                    ?.supported ===
+                  true,
+
+                classification:
+                  feature
+                    ?.continuity
+                    ?.classification ??
+                  "unavailable",
+
+                contractVersion:
+                  feature
+                    ?.continuity
+                    ?.contractVersion ??
+                  null
+              },
+
               physicalInterpretation:
                 explanationAvailable
                   ? lifecycleInterpretations[
@@ -32446,8 +32471,15 @@ export function buildTemporalOceanExplainability({
                   ? [
                       "governed-ocean-evolution",
                       "governed-feature-lifecycle",
-                      "governed-persistence-classification"
-                    ]
+                      "governed-persistence-classification",
+
+                      feature
+                        ?.continuity
+                        ?.available ===
+                      true
+                        ? "governed-temporal-feature-continuity"
+                        : null
+                    ].filter(Boolean)
                   : [],
 
               confidence: {
