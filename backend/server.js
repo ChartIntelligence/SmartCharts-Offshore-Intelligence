@@ -41725,6 +41725,14 @@ const observationSnapshot =
         oceanMemoryTimeSeries
     });
 
+  const oceanEvolution =
+    buildOceanEvolution({
+     oceanChange:
+      oceanChangeFromTimeSeries,
+
+    oceanPersistence
+  });
+
 
   const oceanOpportunity =
   assessOceanOpportunity({
