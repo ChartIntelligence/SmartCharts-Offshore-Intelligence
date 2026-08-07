@@ -31909,6 +31909,374 @@ export function buildOceanEvolution({
 
 /**
  * ------------------------------------------------------------
+ * Temporal Ocean Explainability v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Explain.
+ *
+ * Purpose:
+ * Translate governed Ocean Evolution into deterministic,
+ * species-neutral physical explanations of temporal ocean
+ * behavior.
+ *
+ * This contract explains what governed feature evolution means
+ * physically without recalculating Ocean Change, Persistence,
+ * lifecycle state, opportunity, habitat suitability, species
+ * reasoning, or captain guidance.
+ */
+export function buildTemporalOceanExplainability({
+  oceanEvolution = null
+} = {}) {
+
+    const oceanEvolutionAvailable =
+    oceanEvolution
+      ?.available ===
+      true &&
+    oceanEvolution
+      ?.contractVersion ===
+      "pelora-ocean-evolution-v1" &&
+    oceanEvolution
+      ?.featureEvolution &&
+    typeof oceanEvolution
+      .featureEvolution ===
+      "object";
+
+  const featureEvolution =
+    oceanEvolutionAvailable
+      ? oceanEvolution
+          .featureEvolution
+      : {};
+
+  const featureEntries =
+    Object.entries(
+      featureEvolution
+    );
+
+    const lifecycleInterpretations = {
+    emerging:
+      "The governed feature has newly developed within the observed temporal window.",
+
+    developing:
+      "The governed feature is developing across the observed temporal window.",
+
+    stable:
+      "The governed feature has remained comparatively stable across the observed temporal window.",
+
+    strengthening:
+      "The governed feature has strengthened across the observed temporal window.",
+
+    weakening:
+      "The governed feature has weakened across the observed temporal window.",
+
+    fading:
+      "The governed feature is no longer supported as strongly as it was earlier in the observed temporal window."
+  };
+
+  const featureExplanations =
+    Object.fromEntries(
+      featureEntries.map(
+        ([
+          featureKey,
+          feature
+        ]) => {
+          const lifecycleState =
+            OCEAN_PERSISTENCE_LIFECYCLE_STATES
+              .includes(
+                feature
+                  ?.lifecycleState
+              )
+              ? feature
+                  .lifecycleState
+              : null;
+
+          const explanationAvailable =
+            feature
+              ?.available ===
+              true &&
+            lifecycleState !==
+              null;
+
+          return [
+            featureKey,
+            {
+              available:
+                explanationAvailable,
+
+              featureType:
+                feature
+                  ?.featureType ??
+                null,
+
+              featureFamily:
+                feature
+                  ?.featureFamily ??
+                null,
+
+              lifecycleState,
+
+              persistenceClassification:
+                feature
+                  ?.persistenceClassification ??
+                "not-assessed",
+
+              physicalInterpretation:
+                explanationAvailable
+                  ? lifecycleInterpretations[
+                      lifecycleState
+                    ]
+                  : null,
+
+              evidenceBasis:
+                explanationAvailable
+                  ? [
+                      "governed-ocean-evolution",
+                      "governed-feature-lifecycle",
+                      "governed-persistence-classification"
+                    ]
+                  : [],
+
+              confidence: {
+                score:
+                  Number.isFinite(
+                    feature
+                      ?.confidence
+                      ?.score
+                  )
+                    ? feature
+                        .confidence
+                        .score
+                    : 0,
+
+                level:
+                  typeof feature
+                    ?.confidence
+                    ?.level ===
+                    "string"
+                    ? feature
+                        .confidence
+                        .level
+                    : "Unavailable"
+              }
+            }
+          ];
+        }
+      )
+    );
+
+      const explainedFeatures =
+    Object.values(
+      featureExplanations
+    ).filter(
+      feature =>
+        feature.available ===
+        true
+    );
+
+  const explainedFeatureCount =
+    explainedFeatures.length;
+
+  const temporalWindow = {
+    sampleCount:
+      oceanEvolution
+        ?.temporalWindow
+        ?.sampleCount ??
+      null,
+
+    firstObservedAt:
+      oceanEvolution
+        ?.temporalWindow
+        ?.firstObservedAt ??
+      null,
+
+    lastObservedAt:
+      oceanEvolution
+        ?.temporalWindow
+        ?.lastObservedAt ??
+      null,
+
+    durationHours:
+      oceanEvolution
+        ?.temporalWindow
+        ?.durationHours ??
+      null
+  };
+
+  const lifecycleCounts =
+    Object.fromEntries(
+      OCEAN_PERSISTENCE_LIFECYCLE_STATES
+        .map(
+          lifecycleState => [
+            lifecycleState,
+            explainedFeatures.filter(
+              feature =>
+                feature
+                  .lifecycleState ===
+                lifecycleState
+            ).length
+          ]
+        )
+    );
+
+  const available =
+    oceanEvolutionAvailable &&
+    explainedFeatureCount >
+      0;
+
+  const missingRequirements = [
+    !oceanEvolutionAvailable
+      ? "governed-ocean-evolution"
+      : null,
+
+    oceanEvolutionAvailable &&
+    explainedFeatureCount ===
+      0
+      ? "one-or-more-explainable-feature-evolution-records"
+      : null
+  ].filter(Boolean);
+
+    const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          oceanEvolution
+            ?.limitations
+        )
+          ? oceanEvolution
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Temporal Ocean Explainability translates governed lifecycle states into deterministic physical language without changing the underlying lifecycle state or persistence classification.",
+
+      "Temporal Ocean Explainability does not infer physical causation beyond the governed upstream temporal contracts.",
+
+      "Temporal Ocean Explainability does not establish prey or fish presence, habitat quality, fishing opportunity, species probability, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    explanationType:
+      "temporal-ocean-explainability",
+
+    responsibility:
+      "Explain",
+
+    interpretation:
+      "species-neutral-temporal-ocean-explainability",
+
+    temporalWindow,
+
+    featureExplanations:
+      cloneSnapshotValue(
+        featureExplanations
+      ),
+
+    summary: {
+      assessedFeatureCount:
+        oceanEvolution
+          ?.lifecycleSummary
+          ?.assessedFeatureCount ??
+        0,
+
+      explainedFeatureCount,
+
+      registeredFeatureCount:
+        oceanEvolution
+          ?.lifecycleSummary
+          ?.registeredFeatureCount ??
+        Object.keys(
+          featureExplanations
+        ).length,
+
+      lifecycleCounts: {
+        ...lifecycleCounts
+      }
+    },
+
+    changeContext:
+      oceanEvolution
+        ?.changeContext
+        ? cloneSnapshotValue(
+            oceanEvolution
+              .changeContext
+          )
+        : null,
+
+    confidence: {
+      score:
+        Number.isFinite(
+          oceanEvolution
+            ?.confidence
+            ?.score
+        )
+          ? oceanEvolution
+              .confidence
+              .score
+          : 0,
+
+      level:
+        typeof oceanEvolution
+          ?.confidence
+          ?.level ===
+          "string"
+          ? oceanEvolution
+              .confidence
+              .level
+          : "Unavailable"
+    },
+
+    upstreamContracts: {
+      oceanEvolution:
+        oceanEvolution
+          ?.contractVersion ??
+        null,
+
+      oceanPersistence:
+        oceanEvolution
+          ?.upstreamContracts
+          ?.oceanPersistence ??
+        null,
+
+      oceanChange:
+        oceanEvolution
+          ?.upstreamContracts
+          ?.oceanChange ??
+        null,
+
+      oceanChangeAnalysis:
+        oceanEvolution
+          ?.upstreamContracts
+          ?.oceanChangeAnalysis ??
+        null,
+
+      timeSeries:
+        oceanEvolution
+          ?.upstreamContracts
+          ?.timeSeries ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-temporal-ocean-explainability-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Opportunity Classification Engine v1.0
  * ------------------------------------------------------------
  *

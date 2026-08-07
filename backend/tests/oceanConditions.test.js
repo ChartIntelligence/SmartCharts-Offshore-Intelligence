@@ -30,6 +30,7 @@ import {
   buildOceanMemoryTimeSeries,
   buildOceanChangeFromTimeSeries,
   buildOceanEvolution,
+  buildTemporalOceanExplainability,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
   buildSeaSurfaceTemperaturePersistence,
@@ -29123,6 +29124,312 @@ assert.equal(
 
 console.log(
   "PASS Ocean Evolution remains frozen, species-neutral, and non-prescriptive"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Temporal Ocean Explainability v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableTemporalOceanExplainability =
+  buildTemporalOceanExplainability({
+    oceanEvolution:
+      null
+  });
+
+
+assert.equal(
+  unavailableTemporalOceanExplainability.available,
+  false
+);
+
+assert.equal(
+  unavailableTemporalOceanExplainability
+    .explanationType,
+  "temporal-ocean-explainability"
+);
+
+assert.equal(
+  unavailableTemporalOceanExplainability
+    .responsibility,
+  "Explain"
+);
+
+assert.ok(
+  unavailableTemporalOceanExplainability
+    .missingRequirements
+    .includes(
+      "governed-ocean-evolution"
+    )
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability remains unavailable without governed Ocean Evolution"
+);
+
+
+const temporalOceanExplainability =
+  buildTemporalOceanExplainability({
+    oceanEvolution:
+      governedOceanEvolution
+  });
+
+
+assert.equal(
+  temporalOceanExplainability.available,
+  true
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .interpretation,
+  "species-neutral-temporal-ocean-explainability"
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .temporalWindow
+    .sampleCount,
+  governedOceanEvolution
+    .temporalWindow
+    .sampleCount
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability preserves the governed temporal window"
+);
+
+
+assert.equal(
+  Object.keys(
+    temporalOceanExplainability
+      .featureExplanations
+  ).length,
+  Object.keys(
+    governedOceanEvolution
+      .featureEvolution
+  ).length
+);
+
+
+for (
+  const [
+    featureKey,
+    evolutionFeature
+  ] of Object.entries(
+    governedOceanEvolution
+      .featureEvolution
+  )
+) {
+  const explainedFeature =
+    temporalOceanExplainability
+      .featureExplanations[
+        featureKey
+      ];
+
+  assert.equal(
+    explainedFeature
+      .featureType,
+    evolutionFeature
+      .featureType
+  );
+
+  assert.equal(
+    explainedFeature
+      .featureFamily,
+    evolutionFeature
+      .featureFamily
+  );
+
+  assert.equal(
+    explainedFeature
+      .lifecycleState,
+    evolutionFeature
+      .lifecycleState
+  );
+
+  assert.equal(
+    explainedFeature
+      .persistenceClassification,
+    evolutionFeature
+      .persistenceClassification
+  );
+}
+
+console.log(
+  "PASS Temporal Ocean Explainability dynamically preserves governed feature evolution"
+);
+
+
+const explainedSst =
+  temporalOceanExplainability
+    .featureExplanations
+    .seaSurfaceTemperature;
+
+
+assert.equal(
+  explainedSst.available,
+  true
+);
+
+assert.equal(
+  explainedSst.lifecycleState,
+  governedOceanEvolution
+    .featureEvolution
+    .seaSurfaceTemperature
+    .lifecycleState
+);
+
+assert.equal(
+  typeof explainedSst
+    .physicalInterpretation,
+  "string"
+);
+
+assert.ok(
+  explainedSst
+    .physicalInterpretation
+    .length >
+    0
+);
+
+assert.deepEqual(
+  explainedSst
+    .evidenceBasis,
+  [
+    "governed-ocean-evolution",
+    "governed-feature-lifecycle",
+    "governed-persistence-classification"
+  ]
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability translates governed lifecycle state into deterministic physical language"
+);
+
+
+assert.equal(
+  temporalOceanExplainability
+    .summary
+    .assessedFeatureCount,
+  governedOceanEvolution
+    .lifecycleSummary
+    .assessedFeatureCount
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .summary
+    .explainedFeatureCount,
+  1
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .summary
+    .registeredFeatureCount,
+  governedOceanEvolution
+    .lifecycleSummary
+    .registeredFeatureCount
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability summarizes explainable governed feature evolution"
+);
+
+
+assert.equal(
+  temporalOceanExplainability
+    .upstreamContracts
+    .oceanEvolution,
+  "pelora-ocean-evolution-v1"
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .upstreamContracts
+    .oceanPersistence,
+  "pelora-ocean-persistence-v1"
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .upstreamContracts
+    .oceanChange,
+  "pelora-ocean-change-from-time-series-v1"
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .upstreamContracts
+    .timeSeries,
+  "pelora-ocean-memory-time-series-v1"
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .contractVersion,
+  "pelora-temporal-ocean-explainability-v1"
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability preserves governed temporal provenance"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    temporalOceanExplainability
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    temporalOceanExplainability
+      .featureExplanations
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    temporalOceanExplainability
+      .summary
+  ),
+  true
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .species,
+  undefined
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  temporalOceanExplainability
+    .guidance,
+  undefined
+);
+
+assert.ok(
+  temporalOceanExplainability
+    .limitations
+    .includes(
+      "Temporal Ocean Explainability does not infer physical causation beyond the governed upstream temporal contracts."
+    )
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability remains frozen, Explain-only, species-neutral, and non-prescriptive"
 );
 
 
