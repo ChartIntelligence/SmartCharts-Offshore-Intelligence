@@ -22909,6 +22909,326 @@ export function buildFeaturePersistenceContract({
 
 /**
  * ------------------------------------------------------------
+ * Temporal Feature Continuity v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Evaluate whether one governed feature-persistence contract
+ * supports temporal continuity of the observed feature context.
+ *
+ * Temporal continuity does not establish spatial feature
+ * identity or feature movement. Observation-location changes
+ * must not be interpreted as movement of the ocean feature.
+ *
+ * This contract does not calculate feature displacement,
+ * movement direction, opportunity, habitat suitability,
+ * species probability, or captain guidance.
+ */
+export function buildTemporalFeatureContinuity({
+  featurePersistence = null
+} = {}) {
+
+    const governedFeaturePersistenceAvailable =
+    featurePersistence
+      ?.contractVersion ===
+      "pelora-feature-persistence-v1" &&
+    typeof featurePersistence
+      ?.featureType ===
+      "string" &&
+    featurePersistence
+      .featureType
+      .trim()
+      .length >
+      0 &&
+    OCEAN_PERSISTENCE_FEATURE_FAMILIES
+      .includes(
+        featurePersistence
+          ?.featureFamily
+      );
+
+  const lifecycleState =
+    OCEAN_PERSISTENCE_LIFECYCLE_STATES
+      .includes(
+        featurePersistence
+          ?.lifecycleState
+      )
+      ? featurePersistence
+          .lifecycleState
+      : null;
+
+  const persistenceAvailable =
+    governedFeaturePersistenceAvailable &&
+    featurePersistence
+      ?.available ===
+      true;
+
+  const temporalSampleCount =
+    Number.isFinite(
+      featurePersistence
+        ?.values
+        ?.sampleCount
+    )
+      ? featurePersistence
+          .values
+          .sampleCount
+      : null;
+
+  const firstObservedAt =
+    typeof featurePersistence
+      ?.values
+      ?.firstObservedAt ===
+      "string"
+      ? featurePersistence
+          .values
+          .firstObservedAt
+      : null;
+
+  const lastObservedAt =
+    typeof featurePersistence
+      ?.values
+      ?.lastObservedAt ===
+      "string"
+      ? featurePersistence
+          .values
+          .lastObservedAt
+      : null;
+
+  const durationHours =
+    Number.isFinite(
+      featurePersistence
+        ?.values
+        ?.durationHours
+    )
+      ? featurePersistence
+          .values
+          .durationHours
+      : null;
+
+    const chronologicalWindowAvailable =
+    temporalSampleCount !==
+      null &&
+    temporalSampleCount >=
+      2 &&
+    firstObservedAt !==
+      null &&
+    lastObservedAt !==
+      null &&
+    durationHours !==
+      null &&
+    durationHours >
+      0;
+
+  const continuityAssessmentAvailable =
+    governedFeaturePersistenceAvailable &&
+    chronologicalWindowAvailable &&
+    lifecycleState !==
+      null;
+
+  const continuitySupported =
+    continuityAssessmentAvailable &&
+    persistenceAvailable &&
+    [
+      "developing",
+      "stable",
+      "strengthening"
+    ].includes(
+      lifecycleState
+    );
+
+  const continuityClassification =
+    !continuityAssessmentAvailable
+      ? "unavailable"
+      : continuitySupported
+        ? "continuity-supported"
+        : [
+            "emerging",
+            "weakening",
+            "fading"
+          ].includes(
+            lifecycleState
+          )
+          ? "continuity-not-established"
+          : "continuity-unresolved";
+
+    const spatialContext = {
+    featurePositionAvailable:
+      false,
+
+    featureMovementNm:
+      null,
+
+    movementDirectionDegrees:
+      null,
+
+    movementSpeedKnots:
+      null
+  };
+
+  const available =
+    continuityAssessmentAvailable;
+
+  const missingRequirements = [
+    !governedFeaturePersistenceAvailable
+      ? "governed-feature-persistence"
+      : null,
+
+    governedFeaturePersistenceAvailable &&
+    !chronologicalWindowAvailable
+      ? "two-or-more-chronological-feature-observations"
+      : null,
+
+    governedFeaturePersistenceAvailable &&
+    chronologicalWindowAvailable &&
+    lifecycleState ===
+      null
+      ? "governed-feature-lifecycle-state"
+      : null
+  ].filter(Boolean);
+
+  const evidenceBasis = [
+    governedFeaturePersistenceAvailable
+      ? "governed-feature-persistence"
+      : null,
+
+    chronologicalWindowAvailable
+      ? "governed-chronological-feature-window"
+      : null,
+
+    lifecycleState !==
+      null
+      ? "governed-feature-lifecycle"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          featurePersistence
+            ?.limitations
+        )
+          ? featurePersistence
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Temporal Feature Continuity evaluates temporal continuity from governed feature-persistence evidence only.",
+
+      "Temporal Feature Continuity does not establish that observations represent the same spatially tracked ocean feature.",
+
+      "Observation-location coordinates must not be interpreted as feature position or feature movement.",
+
+      "Feature movement remains unavailable until governed feature position or geometry is preserved through time.",
+
+      "This contract does not calculate displacement, movement direction, opportunity, habitat suitability, species probability, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    continuityType:
+      "temporal-feature-continuity",
+
+    responsibility:
+      "Compare",
+
+    feature: {
+      featureType:
+        governedFeaturePersistenceAvailable
+          ? featurePersistence
+              .featureType
+          : null,
+
+      featureFamily:
+        governedFeaturePersistenceAvailable
+          ? featurePersistence
+              .featureFamily
+          : null
+    },
+
+    continuity: {
+      supported:
+        continuitySupported,
+
+      classification:
+        continuityClassification,
+
+      lifecycleState,
+
+      persistenceClassification:
+        typeof featurePersistence
+          ?.classification ===
+          "string"
+          ? featurePersistence
+              .classification
+          : "not-assessed",
+
+      temporalSampleCount,
+
+      firstObservedAt,
+
+      lastObservedAt,
+
+      durationHours
+    },
+
+    spatialContext,
+
+    confidence: {
+      score:
+        Number.isFinite(
+          featurePersistence
+            ?.confidence
+            ?.score
+        )
+          ? featurePersistence
+              .confidence
+              .score
+          : 0,
+
+      level:
+        typeof featurePersistence
+          ?.confidence
+          ?.level ===
+          "string"
+          ? featurePersistence
+              .confidence
+              .level
+          : "Unavailable"
+    },
+
+    evidenceBasis,
+
+    upstreamContracts: {
+      featurePersistence:
+        featurePersistence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-temporal-feature-continuity-v1"
+  });
+}
+
+
+
+/**
+ * ------------------------------------------------------------
  * Sea Surface Temperature Persistence Analysis v1.0
  * ------------------------------------------------------------
  *

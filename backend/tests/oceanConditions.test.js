@@ -49,6 +49,7 @@ import {
   OCEAN_PERSISTENCE_LIFECYCLE_STATES,
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
   buildFeaturePersistenceContract,
+  buildTemporalFeatureContinuity,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -28599,6 +28600,362 @@ assert.ok(
 
 console.log(
   "PASS Feature Persistence v1 rejects ungoverned lifecycle states"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Temporal Feature Continuity v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableTemporalFeatureContinuity =
+  buildTemporalFeatureContinuity({
+    featurePersistence:
+      null
+  });
+
+
+assert.equal(
+  unavailableTemporalFeatureContinuity.available,
+  false
+);
+
+assert.equal(
+  unavailableTemporalFeatureContinuity
+    .continuityType,
+  "temporal-feature-continuity"
+);
+
+assert.equal(
+  unavailableTemporalFeatureContinuity
+    .responsibility,
+  "Compare"
+);
+
+assert.ok(
+  unavailableTemporalFeatureContinuity
+    .missingRequirements
+    .includes(
+      "governed-feature-persistence"
+    )
+);
+
+console.log(
+  "PASS Temporal Feature Continuity remains unavailable without governed Feature Persistence"
+);
+
+
+const insufficientTemporalFeatureContinuity =
+  buildTemporalFeatureContinuity({
+    featurePersistence:
+      buildFeaturePersistenceContract({
+        available:
+          true,
+
+        featureType:
+          "test-feature",
+
+        featureFamily:
+          "physical-ocean",
+
+        classification:
+          "test-persistence",
+
+        lifecycleState:
+          "stable",
+
+        values: {
+          sampleCount:
+            1,
+
+          firstObservedAt:
+            "2026-08-01T12:00:00.000Z",
+
+          lastObservedAt:
+            "2026-08-01T12:00:00.000Z",
+
+          durationHours:
+            0
+        },
+
+        confidence: {
+          score:
+            0.8,
+
+          level:
+            "High"
+        }
+      })
+  });
+
+
+assert.equal(
+  insufficientTemporalFeatureContinuity.available,
+  false
+);
+
+assert.ok(
+  insufficientTemporalFeatureContinuity
+    .missingRequirements
+    .includes(
+      "two-or-more-chronological-feature-observations"
+    )
+);
+
+console.log(
+  "PASS Temporal Feature Continuity requires a governed chronological feature window"
+);
+
+
+const stableFeaturePersistenceForContinuity =
+  buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "test-feature",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification:
+      "persistent-feature",
+
+    lifecycleState:
+      "stable",
+
+    values: {
+      sampleCount:
+        3,
+
+      firstObservedAt:
+        "2026-08-01T12:00:00.000Z",
+
+      lastObservedAt:
+        "2026-08-02T12:00:00.000Z",
+
+      durationHours:
+        24
+    },
+
+    confidence: {
+      score:
+        0.8,
+
+      level:
+        "High"
+    }
+  });
+
+
+const stableTemporalFeatureContinuity =
+  buildTemporalFeatureContinuity({
+    featurePersistence:
+      stableFeaturePersistenceForContinuity
+  });
+
+
+assert.equal(
+  stableTemporalFeatureContinuity.available,
+  true
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .continuity
+    .supported,
+  true
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .continuity
+    .classification,
+  "continuity-supported"
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .continuity
+    .lifecycleState,
+  "stable"
+);
+
+console.log(
+  "PASS Temporal Feature Continuity supports governed stable feature continuity"
+);
+
+
+const emergingFeaturePersistenceForContinuity =
+  buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "test-feature",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification:
+      "emerging-feature",
+
+    lifecycleState:
+      "emerging",
+
+    values: {
+      sampleCount:
+        2,
+
+      firstObservedAt:
+        "2026-08-01T12:00:00.000Z",
+
+      lastObservedAt:
+        "2026-08-02T12:00:00.000Z",
+
+      durationHours:
+        24
+    },
+
+    confidence: {
+      score:
+        0.7,
+
+      level:
+        "Moderate"
+    }
+  });
+
+
+const emergingTemporalFeatureContinuity =
+  buildTemporalFeatureContinuity({
+    featurePersistence:
+      emergingFeaturePersistenceForContinuity
+  });
+
+
+assert.equal(
+  emergingTemporalFeatureContinuity.available,
+  true
+);
+
+assert.equal(
+  emergingTemporalFeatureContinuity
+    .continuity
+    .supported,
+  false
+);
+
+assert.equal(
+  emergingTemporalFeatureContinuity
+    .continuity
+    .classification,
+  "continuity-not-established"
+);
+
+console.log(
+  "PASS Temporal Feature Continuity distinguishes assessment availability from supported continuity"
+);
+
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .featurePositionAvailable,
+  false
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .featureMovementNm,
+  null
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .movementDirectionDegrees,
+  null
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .movementSpeedKnots,
+  null
+);
+
+assert.ok(
+  stableTemporalFeatureContinuity
+    .limitations
+    .includes(
+      "Observation-location coordinates must not be interpreted as feature position or feature movement."
+    )
+);
+
+console.log(
+  "PASS Temporal Feature Continuity refuses to infer spatial feature movement from observation locations"
+);
+
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .upstreamContracts
+    .featurePersistence,
+  "pelora-feature-persistence-v1"
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .contractVersion,
+  "pelora-temporal-feature-continuity-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    stableTemporalFeatureContinuity
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    stableTemporalFeatureContinuity
+      .continuity
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    stableTemporalFeatureContinuity
+      .spatialContext
+  ),
+  true
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .species,
+  undefined
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Temporal Feature Continuity preserves provenance, immutability, and species-neutral boundaries"
 );
 
 
