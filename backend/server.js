@@ -31517,6 +31517,398 @@ export function buildOceanPersistence({
 
 /**
  * ------------------------------------------------------------
+ * Ocean Evolution v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Assemble a species-neutral temporal interpretation from
+ * governed Ocean Change and Ocean Persistence contracts.
+ *
+ * Ocean Evolution describes how governed ocean features are
+ * evolving through time without recalculating scientific
+ * observations or persistence analyses.
+ *
+ * Feature lifecycle states remain governed by the canonical
+ * Ocean Persistence lifecycle vocabulary.
+ *
+ * This contract does not retrieve external data, recalculate
+ * ocean change, calculate feature persistence, establish prey
+ * or fish presence, determine habitat quality or fishing
+ * opportunity, perform species reasoning, or generate captain
+ * guidance.
+ */
+export function buildOceanEvolution({
+  oceanChange = null,
+  oceanPersistence = null
+} = {}) {
+  const oceanChangeAvailable =
+    oceanChange
+      ?.available ===
+      true &&
+    oceanChange
+      ?.contractVersion ===
+      "pelora-ocean-change-from-time-series-v1";
+
+  const oceanPersistenceAvailable =
+    oceanPersistence
+      ?.contractVersion ===
+      "pelora-ocean-persistence-v1" &&
+    oceanPersistence
+      ?.featurePersistence &&
+    typeof oceanPersistence
+      .featurePersistence ===
+      "object";
+
+  const featurePersistence =
+    oceanPersistenceAvailable &&
+    oceanPersistence
+      ?.featurePersistence &&
+    typeof oceanPersistence
+      .featurePersistence ===
+      "object"
+      ? oceanPersistence
+          .featurePersistence
+      : {};
+
+  const featureEntries =
+    Object.entries(
+      featurePersistence
+    );
+
+  const featureEvolution =
+    Object.fromEntries(
+      featureEntries.map(
+        ([
+          featureKey,
+          featureContract
+        ]) => [
+          featureKey,
+          {
+            available:
+              featureContract
+                ?.available ===
+              true,
+
+            featureType:
+              featureContract
+                ?.featureType ??
+              null,
+
+            featureFamily:
+              featureContract
+                ?.featureFamily ??
+              null,
+
+            lifecycleState:
+              OCEAN_PERSISTENCE_LIFECYCLE_STATES
+                .includes(
+                  featureContract
+                    ?.lifecycleState
+                )
+                ? featureContract
+                    .lifecycleState
+                : null,
+
+            persistenceClassification:
+              featureContract
+                ?.classification ??
+              "not-assessed",
+
+            reason:
+              featureContract
+                ?.reason ??
+              null,
+
+            confidence: {
+              score:
+                Number.isFinite(
+                  featureContract
+                    ?.confidence
+                    ?.score
+                )
+                  ? featureContract
+                      .confidence
+                      .score
+                  : 0,
+
+              level:
+                typeof featureContract
+                  ?.confidence
+                  ?.level ===
+                  "string"
+                  ? featureContract
+                      .confidence
+                      .level
+                  : "Unavailable"
+            }
+          }
+        ]
+      )
+    );
+
+  const lifecycleSummary =
+    Object.fromEntries(
+      [
+        ...OCEAN_PERSISTENCE_LIFECYCLE_STATES,
+        "unavailable"
+      ].map(
+        lifecycleState => [
+          lifecycleState,
+          0
+        ]
+      )
+    );
+
+  for (
+    const feature of
+      Object.values(
+        featureEvolution
+      )
+  ) {
+    if (
+      feature.available &&
+      OCEAN_PERSISTENCE_LIFECYCLE_STATES
+        .includes(
+          feature.lifecycleState
+        )
+    ) {
+      lifecycleSummary[
+        feature.lifecycleState
+      ] +=
+        1;
+    } else {
+      lifecycleSummary
+        .unavailable +=
+        1;
+    }
+  }
+
+  lifecycleSummary.assessedFeatureCount =
+    Object.values(
+      featureEvolution
+    ).filter(
+      feature =>
+        feature.available
+    ).length;
+
+  lifecycleSummary.registeredFeatureCount =
+    Object.keys(
+      featureEvolution
+    ).length;
+
+  const temporalWindow = {
+    sampleCount:
+      oceanPersistence
+        ?.values
+        ?.sampleCount ??
+      null,
+
+    firstObservedAt:
+      oceanPersistence
+        ?.values
+        ?.firstObservedAt ??
+      null,
+
+    lastObservedAt:
+      oceanPersistence
+        ?.values
+        ?.lastObservedAt ??
+      null,
+
+    durationHours:
+      oceanPersistence
+        ?.values
+        ?.durationHours ??
+      null
+  };
+
+  const changeContext =
+    oceanChangeAvailable
+      ? {
+          previousSnapshotId:
+            oceanChange
+              ?.source
+              ?.previousSnapshotId ??
+            null,
+
+          currentSnapshotId:
+            oceanChange
+              ?.source
+              ?.currentSnapshotId ??
+            null,
+
+          comparisonContractVersion:
+            oceanChange
+              ?.comparison
+              ?.contractVersion ??
+            null
+        }
+      : null;
+
+  const available =
+    oceanPersistenceAvailable &&
+    lifecycleSummary
+      .assessedFeatureCount >
+      0;
+
+  const missingRequirements = [
+    !oceanPersistenceAvailable
+      ? "governed-ocean-persistence"
+      : null,
+
+    lifecycleSummary
+      .assessedFeatureCount ===
+      0
+      ? "one-or-more-assessed-persistence-features"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          oceanPersistence
+            ?.limitations
+        )
+          ? oceanPersistence
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          oceanChange
+            ?.limitations
+        )
+          ? oceanChange
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      !oceanChangeAvailable
+        ? "governed-ocean-change-context-unavailable"
+        : null,
+
+      "Ocean Evolution inherits lifecycle states from governed feature-persistence contracts and does not independently assign feature lifecycle states.",
+
+      "Ocean Evolution summarizes multiple feature trajectories and does not assign one lifecycle state to the entire ocean.",
+
+      "This contract does not retrieve external data, recalculate ocean change, calculate feature persistence, establish prey or fish presence, determine habitat quality or fishing opportunity, perform species reasoning, or generate captain guidance."
+    ].filter(Boolean))
+  ];
+  return deepFreezeSnapshotValue({
+    available,
+
+    analysisType:
+      "ocean-evolution",
+
+    responsibility:
+      "Compare",
+
+    interpretation:
+      "species-neutral-ocean-evolution",
+
+    temporalWindow,
+
+    featureEvolution:
+      cloneSnapshotValue(
+        featureEvolution
+      ),
+
+    lifecycleSummary: {
+      ...lifecycleSummary
+    },
+
+    changeContext:
+      changeContext
+        ? cloneSnapshotValue(
+            changeContext
+          )
+        : null,
+
+    confidence: {
+      score:
+        Number.isFinite(
+          oceanPersistence
+            ?.confidence
+            ?.score
+        )
+          ? oceanPersistence
+              .confidence
+              .score
+          : 0,
+
+      level:
+        typeof oceanPersistence
+          ?.confidence
+          ?.level ===
+          "string"
+          ? oceanPersistence
+              .confidence
+              .level
+          : "Unavailable"
+    },
+
+    drivers: [
+      ...(
+        Array.isArray(
+          oceanPersistence
+            ?.drivers
+        )
+          ? oceanPersistence
+              .drivers
+          : []
+      )
+    ],
+
+    upstreamContracts: {
+      oceanChange:
+        oceanChange
+          ?.contractVersion ??
+        null,
+
+      oceanChangeAnalysis:
+        oceanChange
+          ?.comparison
+          ?.contractVersion ??
+        null,
+
+      oceanPersistence:
+        oceanPersistence
+          ?.contractVersion ??
+        null,
+
+      timeSeries:
+        oceanPersistence
+          ?.input
+          ?.timeSeriesContractVersion ??
+        oceanChange
+          ?.source
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-ocean-evolution-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Opportunity Classification Engine v1.0
  * ------------------------------------------------------------
  *

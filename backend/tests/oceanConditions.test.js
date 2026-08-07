@@ -29,6 +29,7 @@ import {
   buildNearbyOceanHistoryQuery,
   buildOceanMemoryTimeSeries,
   buildOceanChangeFromTimeSeries,
+  buildOceanEvolution,
   buildHistoricalSnapshotBackfill,
   buildPersistenceEvidence,
   buildSeaSurfaceTemperaturePersistence,
@@ -27851,6 +27852,58 @@ console.log(
 
 /**
  * ------------------------------------------------------------
+ * Ocean Evolution v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableOceanEvolution =
+  buildOceanEvolution({
+    oceanChange:
+      null,
+
+    oceanPersistence:
+      null
+  });
+
+
+assert.equal(
+  unavailableOceanEvolution.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanEvolution
+    .analysisType,
+  "ocean-evolution"
+);
+
+assert.equal(
+  unavailableOceanEvolution
+    .responsibility,
+  "Compare"
+);
+
+assert.equal(
+  unavailableOceanEvolution
+    .interpretation,
+  "species-neutral-ocean-evolution"
+);
+
+assert.ok(
+  unavailableOceanEvolution
+    .missingRequirements
+    .includes(
+      "governed-ocean-persistence"
+    )
+);
+
+console.log(
+  "PASS Ocean Evolution remains unavailable without governed Ocean Persistence"
+);
+
+
+/**
+ * ------------------------------------------------------------
  * Ocean Persistence Time-Series Integration v1.0
  * ------------------------------------------------------------
  */
@@ -27981,6 +28034,40 @@ assert.deepEqual(
 
 console.log(
   "PASS Ocean Persistence preserves the legacy historicalSnapshots compatibility path"
+);
+
+const oceanEvolutionWithoutAssessedFeatures =
+  buildOceanEvolution({
+    oceanChange:
+      oceanChangeFromTimeSeries,
+
+    oceanPersistence:
+      oceanPersistenceFromGovernedTimeSeries
+  });
+
+
+assert.equal(
+  oceanEvolutionWithoutAssessedFeatures.available,
+  false
+);
+
+assert.equal(
+  oceanEvolutionWithoutAssessedFeatures
+    .lifecycleSummary
+    .assessedFeatureCount,
+  0
+);
+
+assert.ok(
+  oceanEvolutionWithoutAssessedFeatures
+    .missingRequirements
+    .includes(
+      "one-or-more-assessed-persistence-features"
+    )
+);
+
+console.log(
+  "PASS Ocean Evolution refuses to claim evolution without an assessed feature lifecycle"
 );
 
 assert.equal(
@@ -28752,6 +28839,290 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed SST Persistence"
+);
+
+const sstEvolutionTimeSeries =
+  buildOceanMemoryTimeSeries({
+    historicalSnapshots: [
+      earlierSstHistoricalBackfill,
+      laterSstHistoricalBackfill
+    ]
+  });
+
+
+const sstEvolutionChange =
+  buildOceanChangeFromTimeSeries({
+    timeSeries:
+      sstEvolutionTimeSeries
+  });
+
+
+const governedOceanEvolution =
+  buildOceanEvolution({
+    oceanChange:
+      sstEvolutionChange,
+
+    oceanPersistence:
+      oceanPersistenceWithSst
+  });
+
+  assert.equal(
+  governedOceanEvolution.available,
+  true
+);
+
+assert.equal(
+  governedOceanEvolution
+    .temporalWindow
+    .sampleCount,
+  oceanPersistenceWithSst
+    .values
+    .sampleCount
+);
+
+assert.equal(
+  governedOceanEvolution
+    .temporalWindow
+    .firstObservedAt,
+  oceanPersistenceWithSst
+    .values
+    .firstObservedAt
+);
+
+assert.equal(
+  governedOceanEvolution
+    .temporalWindow
+    .lastObservedAt,
+  oceanPersistenceWithSst
+    .values
+    .lastObservedAt
+);
+
+console.log(
+  "PASS Ocean Evolution preserves the governed persistence observation window"
+);
+
+
+assert.equal(
+  Object.keys(
+    governedOceanEvolution
+      .featureEvolution
+  ).length,
+  Object.keys(
+    oceanPersistenceWithSst
+      .featurePersistence
+  ).length
+);
+
+for (
+  const [
+    featureKey,
+    persistenceFeature
+  ] of Object.entries(
+    oceanPersistenceWithSst
+      .featurePersistence
+  )
+) {
+  const evolutionFeature =
+    governedOceanEvolution
+      .featureEvolution[
+        featureKey
+      ];
+
+  assert.equal(
+    evolutionFeature
+      .featureType,
+    persistenceFeature
+      .featureType
+  );
+
+  assert.equal(
+    evolutionFeature
+      .featureFamily,
+    persistenceFeature
+      .featureFamily
+  );
+
+  assert.equal(
+    evolutionFeature
+      .lifecycleState,
+    persistenceFeature
+      .lifecycleState
+  );
+
+  assert.equal(
+    evolutionFeature
+      .persistenceClassification,
+    persistenceFeature
+      .classification
+  );
+}
+
+console.log(
+  "PASS Ocean Evolution dynamically inherits governed feature lifecycle states without inventing new states"
+);
+
+
+const governedLifecycleTotal =
+  OCEAN_PERSISTENCE_LIFECYCLE_STATES
+    .reduce(
+      (
+        total,
+        lifecycleState
+      ) =>
+        total +
+        governedOceanEvolution
+          .lifecycleSummary[
+            lifecycleState
+          ],
+      0
+    );
+
+assert.equal(
+  governedLifecycleTotal +
+    governedOceanEvolution
+      .lifecycleSummary
+      .unavailable,
+  governedOceanEvolution
+    .lifecycleSummary
+    .registeredFeatureCount
+);
+
+assert.equal(
+  governedOceanEvolution
+    .lifecycleSummary
+    .assessedFeatureCount,
+  oceanPersistenceWithSst
+    .values
+    .assessedFeatureCount
+);
+
+console.log(
+  "PASS Ocean Evolution summarizes the canonical lifecycle vocabulary across registered features"
+);
+
+
+assert.equal(
+  governedOceanEvolution
+    .changeContext
+    .previousSnapshotId,
+  sstEvolutionChange
+    .source
+    .previousSnapshotId
+);
+
+assert.equal(
+  governedOceanEvolution
+    .changeContext
+    .currentSnapshotId,
+  sstEvolutionChange
+    .source
+    .currentSnapshotId
+);
+
+assert.equal(
+  governedOceanEvolution
+    .changeContext
+    .comparisonContractVersion,
+  "pelora-ocean-change-analysis-v1"
+);
+
+console.log(
+  "PASS Ocean Evolution preserves governed Ocean Change context"
+);
+
+
+assert.equal(
+  governedOceanEvolution
+    .upstreamContracts
+    .oceanChange,
+  "pelora-ocean-change-from-time-series-v1"
+);
+
+assert.equal(
+  governedOceanEvolution
+    .upstreamContracts
+    .oceanPersistence,
+  "pelora-ocean-persistence-v1"
+);
+
+assert.equal(
+  governedOceanEvolution
+    .upstreamContracts
+    .timeSeries,
+  "pelora-ocean-memory-time-series-v1"
+);
+
+assert.equal(
+  governedOceanEvolution
+    .contractVersion,
+  "pelora-ocean-evolution-v1"
+);
+
+console.log(
+  "PASS Ocean Evolution preserves governed temporal provenance"
+);
+
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanEvolution
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanEvolution
+      .featureEvolution
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanEvolution
+      .lifecycleSummary
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedOceanEvolution
+      .temporalWindow
+  ),
+  true
+);
+
+assert.ok(
+  governedOceanEvolution
+    .limitations
+    .includes(
+      "Ocean Evolution summarizes multiple feature trajectories and does not assign one lifecycle state to the entire ocean."
+    )
+);
+
+assert.equal(
+  governedOceanEvolution
+    .species,
+  undefined
+);
+
+assert.equal(
+  governedOceanEvolution
+    .guidance,
+  undefined
+);
+
+assert.equal(
+  governedOceanEvolution
+    .opportunity,
+  undefined
+);
+
+console.log(
+  "PASS Ocean Evolution remains frozen, species-neutral, and non-prescriptive"
 );
 
 
