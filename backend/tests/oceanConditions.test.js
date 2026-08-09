@@ -29028,6 +29028,45 @@ console.log(
   "PASS Temporal Feature Continuity preserves provenance, immutability, and species-neutral boundaries"
 );
 
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .featurePositionAvailable,
+  false
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .featureMovementNm,
+  null
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .movementDirectionDegrees,
+  null
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .spatialContext
+    .movementSpeedKnots,
+  null
+);
+
+assert.equal(
+  stableTemporalFeatureContinuity
+    .upstreamContracts
+    .featureMovement,
+  null
+);
+
+console.log(
+  "PASS Temporal Feature Continuity preserves the no-movement fallback when Governed Feature Movement is absent"
+);
+
 
 /**
  * ------------------------------------------------------------
@@ -30489,6 +30528,142 @@ assert.equal(
 
 console.log(
   "PASS Governed Feature Movement preserves provenance, immutability, and non-prescriptive boundaries"
+);
+
+const currentEdgeFeaturePersistenceForMovement =
+  buildFeaturePersistenceContract({
+    available:
+      true,
+
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    classification:
+      "persistent-feature",
+
+    lifecycleState:
+      "stable",
+
+    values: {
+      sampleCount:
+        3,
+
+      firstObservedAt:
+        "2026-08-01T12:00:00.000Z",
+
+      lastObservedAt:
+        "2026-08-02T12:00:00.000Z",
+
+      durationHours:
+        24
+    },
+
+    confidence: {
+      score:
+        0.8,
+
+      level:
+        "High"
+    }
+  });
+
+const temporalFeatureContinuityWithMovement =
+  buildTemporalFeatureContinuity({
+    featurePersistence:
+      currentEdgeFeaturePersistenceForMovement,
+
+    featureMovement:
+      governedFeatureMovement
+  });
+
+
+assert.equal(
+  temporalFeatureContinuityWithMovement.available,
+  stableTemporalFeatureContinuity.available
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .continuity
+    .supported,
+  stableTemporalFeatureContinuity
+    .continuity
+    .supported
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .continuity
+    .classification,
+  stableTemporalFeatureContinuity
+    .continuity
+    .classification
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .spatialContext
+    .featurePositionAvailable,
+  true
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .spatialContext
+    .featureMovementNm,
+  governedFeatureMovement
+    .movement
+    .featureMovementNm
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .spatialContext
+    .movementDirectionDegrees,
+  governedFeatureMovement
+    .movement
+    .movementDirectionDegrees
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .spatialContext
+    .movementSpeedKnots,
+  governedFeatureMovement
+    .movement
+    .movementSpeedKnots
+);
+
+console.log(
+  "PASS Temporal Feature Continuity exposes governed movement without changing continuity semantics"
+);
+
+assert.ok(
+  temporalFeatureContinuityWithMovement
+    .evidenceBasis
+    .includes(
+      "governed-feature-movement"
+    )
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .upstreamContracts
+    .featureMovement,
+  "pelora-governed-feature-movement-v1"
+);
+
+assert.equal(
+  temporalFeatureContinuityWithMovement
+    .contractVersion,
+  "pelora-temporal-feature-continuity-v1"
+);
+
+console.log(
+  "PASS Temporal Feature Continuity preserves Governed Feature Movement provenance"
 );
 
 

@@ -24398,7 +24398,8 @@ export function buildGovernedFeatureMovement({
  * species probability, or captain guidance.
  */
 export function buildTemporalFeatureContinuity({
-  featurePersistence = null
+  featurePersistence = null,
+  featureMovement = null
 } = {}) {
 
     const governedFeaturePersistenceAvailable =
@@ -24523,19 +24524,79 @@ export function buildTemporalFeatureContinuity({
           ? "continuity-not-established"
           : "continuity-unresolved";
 
+    const governedFeatureMovementAvailable =
+      featureMovement
+        ?.available ===
+        true &&
+      featureMovement
+        ?.contractVersion ===
+        "pelora-governed-feature-movement-v1" &&
+      featureMovement
+        ?.association
+        ?.established ===
+        true &&
+      featureMovement
+        ?.association
+        ?.classification ===
+        "associated";
+
+    const movementFeatureMatches =
+      governedFeatureMovementAvailable &&
+      featureMovement
+        ?.feature
+        ?.featureType ===
+        featurePersistence
+          ?.featureType &&
+      featureMovement
+        ?.feature
+        ?.featureFamily ===
+        featurePersistence
+          ?.featureFamily;
+
+    const governedMovementUsable =
+      governedFeatureMovementAvailable &&
+      movementFeatureMatches;
+
     const spatialContext = {
-    featurePositionAvailable:
-      false,
+      featurePositionAvailable:
+        governedMovementUsable,
 
-    featureMovementNm:
-      null,
+      featureMovementNm:
+        governedMovementUsable &&
+        Number.isFinite(
+          featureMovement
+            ?.movement
+            ?.featureMovementNm
+        )
+          ? featureMovement
+              .movement
+              .featureMovementNm
+          : null,
 
-    movementDirectionDegrees:
-      null,
+      movementDirectionDegrees:
+        governedMovementUsable &&
+        Number.isFinite(
+          featureMovement
+            ?.movement
+            ?.movementDirectionDegrees
+        )
+          ? featureMovement
+              .movement
+              .movementDirectionDegrees
+          : null,
 
-    movementSpeedKnots:
-      null
-  };
+      movementSpeedKnots:
+        governedMovementUsable &&
+        Number.isFinite(
+          featureMovement
+            ?.movement
+            ?.movementSpeedKnots
+        )
+          ? featureMovement
+              .movement
+              .movementSpeedKnots
+          : null
+    };
 
   const available =
     continuityAssessmentAvailable;
@@ -24559,19 +24620,23 @@ export function buildTemporalFeatureContinuity({
   ].filter(Boolean);
 
   const evidenceBasis = [
-    governedFeaturePersistenceAvailable
-      ? "governed-feature-persistence"
-      : null,
+  governedFeaturePersistenceAvailable
+    ? "governed-feature-persistence"
+    : null,
 
-    chronologicalWindowAvailable
-      ? "governed-chronological-feature-window"
-      : null,
+  chronologicalWindowAvailable
+    ? "governed-chronological-feature-window"
+    : null,
 
-    lifecycleState !==
-      null
-      ? "governed-feature-lifecycle"
-      : null
-  ].filter(Boolean);
+  lifecycleState !==
+    null
+    ? "governed-feature-lifecycle"
+    : null,
+
+  governedMovementUsable
+    ? "governed-feature-movement"
+    : null
+].filter(Boolean);
 
   const limitations = [
     ...new Set([
@@ -24593,7 +24658,11 @@ export function buildTemporalFeatureContinuity({
 
       "Observation-location coordinates must not be interpreted as feature position or feature movement.",
 
-      "Feature movement remains unavailable until governed feature position or geometry is preserved through time.",
+      "Feature movement is reported only when supplied through a valid Governed Feature Movement contract with resolved same-feature association.",
+
+      "Absence of Governed Feature Movement does not make Temporal Feature Continuity unavailable.",
+
+      "Temporal Feature Continuity does not independently calculate feature position, displacement, movement direction, or movement speed.",
 
       "This contract does not calculate displacement, movement direction, opportunity, habitat suitability, species probability, or captain guidance."
     ])
@@ -24678,6 +24747,11 @@ export function buildTemporalFeatureContinuity({
     upstreamContracts: {
       featurePersistence:
         featurePersistence
+          ?.contractVersion ??
+        null,
+
+      featureMovement:
+        featureMovement
           ?.contractVersion ??
         null
     },
