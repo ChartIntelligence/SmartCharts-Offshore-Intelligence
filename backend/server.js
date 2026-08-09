@@ -23663,6 +23663,237 @@ export function buildGovernedFeatureAssociationEvidence({
 }
 
 
+export const GOVERNED_FEATURE_ASSOCIATION_RESOLUTION_CLASSIFICATIONS =
+  Object.freeze([
+    "associated",
+    "not-associated",
+    "insufficient-evidence"
+  ]);
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Association Resolution v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Resolve governed feature association by combining a compatible
+ * Governed Feature Association assessment with explicit Governed
+ * Feature Association Evidence.
+ *
+ * Association is established only when the upstream association
+ * is compatible and the governed evidence contract explicitly
+ * supports same-feature identity.
+ *
+ * This contract does not calculate displacement, movement
+ * direction, movement speed, opportunity, habitat suitability,
+ * species probability, or captain guidance.
+ */
+export function buildGovernedFeatureAssociationResolution({
+  featureAssociation = null,
+  associationEvidence = null
+} = {}) {
+
+  const associationAvailable =
+    featureAssociation
+      ?.available ===
+      true &&
+    featureAssociation
+      ?.contractVersion ===
+      "pelora-governed-feature-association-v1";
+
+  const evidenceAvailable =
+    associationEvidence
+      ?.available ===
+      true &&
+    associationEvidence
+      ?.contractVersion ===
+      "pelora-governed-feature-association-evidence-v1";
+
+  const associationCompatible =
+    associationAvailable &&
+    featureAssociation
+      ?.compatibility ===
+      "compatible";
+
+  const evidenceSupportsAssociation =
+    evidenceAvailable &&
+    associationEvidence
+      ?.associationSupported ===
+      true &&
+    associationEvidence
+      ?.classification ===
+      "association-supported";
+
+  const evidenceReferencesAssociation =
+    evidenceAvailable &&
+    associationEvidence
+      ?.upstreamContracts
+      ?.featureAssociation ===
+      featureAssociation
+        ?.contractVersion;
+
+  const associated =
+    associationCompatible &&
+    evidenceSupportsAssociation &&
+    evidenceReferencesAssociation;
+
+  const classification =
+    !associationAvailable ||
+    !evidenceAvailable
+      ? "insufficient-evidence"
+      : !associationCompatible
+        ? "not-associated"
+        : associated
+          ? "associated"
+          : "insufficient-evidence";
+
+  const available =
+    associationAvailable &&
+    evidenceAvailable;
+
+  const missingRequirements = [
+    !associationAvailable
+      ? "governed-feature-association"
+      : null,
+
+    associationAvailable &&
+    !evidenceAvailable
+      ? "governed-feature-association-evidence"
+      : null,
+
+    associationAvailable &&
+    evidenceAvailable &&
+    associationCompatible &&
+    !evidenceSupportsAssociation
+      ? "association-supporting-evidence"
+      : null,
+
+    associationAvailable &&
+    evidenceAvailable &&
+    associationCompatible &&
+    evidenceSupportsAssociation &&
+    !evidenceReferencesAssociation
+      ? "association-evidence-provenance-binding"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          featureAssociation
+            ?.limitations
+        )
+          ? featureAssociation
+              .limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          associationEvidence
+            ?.limitations
+        )
+          ? associationEvidence
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Governed Feature Association Resolution combines compatibility and explicit governed association evidence into one final association state.",
+
+      "Association Resolution does not independently calculate or infer same-feature identity beyond its governed upstream contracts.",
+
+      "Association Evidence v1 currently binds to the Governed Feature Association contract version rather than a unique association-instance identifier.",
+
+      "Association Resolution does not calculate displacement, movement direction, movement speed, opportunity, habitat suitability, species probability, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    resolutionType:
+      "governed-feature-association-resolution",
+
+    responsibility:
+      "Compare",
+
+    classification,
+
+    associated,
+
+    compatibility:
+      associationAvailable
+        ? featureAssociation
+            .compatibility
+        : "unknown",
+
+    evidence: {
+      available:
+        evidenceAvailable,
+
+      associationSupported:
+        evidenceSupportsAssociation,
+
+      referencesAssociation:
+        evidenceReferencesAssociation,
+
+      classification:
+        associationEvidence
+          ?.classification ??
+        "insufficient-evidence"
+    },
+
+    featurePositions: {
+      previous:
+        associationAvailable
+          ? cloneSnapshotValue(
+              featureAssociation
+                .previousFeaturePosition
+            )
+          : null,
+
+      current:
+        associationAvailable
+          ? cloneSnapshotValue(
+              featureAssociation
+                .currentFeaturePosition
+            )
+          : null
+    },
+
+    upstreamContracts: {
+      featureAssociation:
+        featureAssociation
+          ?.contractVersion ??
+        null,
+
+      associationEvidence:
+        associationEvidence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-feature-association-resolution-v1"
+  });
+}
+
+
 /**
  * ------------------------------------------------------------
  * Temporal Feature Continuity v1.0

@@ -53,6 +53,7 @@ import {
   buildGovernedFeaturePosition,
   buildGovernedFeatureAssociation,
   buildGovernedFeatureAssociationEvidence,
+  buildGovernedFeatureAssociationResolution,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -29923,6 +29924,246 @@ assert.equal(
 
 console.log(
   "PASS Governed Feature Association Evidence preserves provenance, immutability, and no-movement boundaries"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Association Resolution v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableGovernedFeatureAssociationResolution =
+  buildGovernedFeatureAssociationResolution();
+
+
+assert.equal(
+  unavailableGovernedFeatureAssociationResolution.available,
+  false
+);
+
+assert.equal(
+  unavailableGovernedFeatureAssociationResolution
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  unavailableGovernedFeatureAssociationResolution
+    .associated,
+  false
+);
+
+assert.ok(
+  unavailableGovernedFeatureAssociationResolution
+    .missingRequirements
+    .includes(
+      "governed-feature-association"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association Resolution remains unavailable without governed inputs"
+);
+
+
+const unsupportedGovernedFeatureAssociationResolution =
+  buildGovernedFeatureAssociationResolution({
+    featureAssociation:
+      compatibleGovernedFeatureAssociation,
+
+    associationEvidence:
+      insufficientGovernedFeatureAssociationEvidence
+  });
+
+
+assert.equal(
+  unsupportedGovernedFeatureAssociationResolution.available,
+  true
+);
+
+assert.equal(
+  unsupportedGovernedFeatureAssociationResolution
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  unsupportedGovernedFeatureAssociationResolution
+    .associated,
+  false
+);
+
+assert.ok(
+  unsupportedGovernedFeatureAssociationResolution
+    .missingRequirements
+    .includes(
+      "association-supporting-evidence"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association Resolution refuses promotion without supporting evidence"
+);
+
+
+const associatedGovernedFeatureAssociationResolution =
+  buildGovernedFeatureAssociationResolution({
+    featureAssociation:
+      compatibleGovernedFeatureAssociation,
+
+    associationEvidence:
+      supportedGovernedFeatureAssociationEvidence
+  });
+
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution.available,
+  true
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .classification,
+  "associated"
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .associated,
+  true
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .compatibility,
+  "compatible"
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .evidence
+    .associationSupported,
+  true
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .evidence
+    .referencesAssociation,
+  true
+);
+
+console.log(
+  "PASS Governed Feature Association Resolution promotes supported compatible evidence to associated"
+);
+
+
+const incompatibleGovernedFeatureAssociationResolution =
+  buildGovernedFeatureAssociationResolution({
+    featureAssociation:
+      incompatibleGovernedFeatureAssociation,
+
+    associationEvidence:
+      supportedGovernedFeatureAssociationEvidence
+  });
+
+
+assert.equal(
+  incompatibleGovernedFeatureAssociationResolution.available,
+  true
+);
+
+assert.equal(
+  incompatibleGovernedFeatureAssociationResolution
+    .classification,
+  "not-associated"
+);
+
+assert.equal(
+  incompatibleGovernedFeatureAssociationResolution
+    .associated,
+  false
+);
+
+console.log(
+  "PASS Governed Feature Association Resolution preserves incompatible association as not-associated"
+);
+
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .upstreamContracts
+    .featureAssociation,
+  "pelora-governed-feature-association-v1"
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .upstreamContracts
+    .associationEvidence,
+  "pelora-governed-feature-association-evidence-v1"
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .contractVersion,
+  "pelora-governed-feature-association-resolution-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    associatedGovernedFeatureAssociationResolution
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    associatedGovernedFeatureAssociationResolution
+      .evidence
+  ),
+  true
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .featureMovementNm,
+  undefined
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .movementDirectionDegrees,
+  undefined
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .movementSpeedKnots,
+  undefined
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .species,
+  undefined
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Governed Feature Association Resolution preserves provenance, immutability, and no-movement boundaries"
 );
 
 
