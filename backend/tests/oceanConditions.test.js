@@ -33095,6 +33095,281 @@ console.log(
   "PASS Governed Feature Movement supplements Ocean Evolution without changing evolution semantics"
 );
 
+const temporalOceanExplainabilityWithCurrentEdgeMovement =
+  buildTemporalOceanExplainability({
+    oceanEvolution:
+      oceanEvolutionWithCurrentEdgeMovement
+  });
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .spatialContext
+    .featurePositionAvailable,
+  true
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .spatialContext
+    .featureMovementNm,
+  governedFeatureMovement
+    .movement
+    .featureMovementNm
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .spatialContext
+    .movementDirectionDegrees,
+  governedFeatureMovement
+    .movement
+    .movementDirectionDegrees
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .spatialContext
+    .movementSpeedKnots,
+  governedFeatureMovement
+    .movement
+    .movementSpeedKnots
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability preserves governed Current Edge movement context"
+);
+
+assert.ok(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .evidenceBasis
+    .includes(
+      "governed-feature-movement-context"
+    )
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability discloses governed movement evidence context"
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentShear
+    .spatialContext
+    .featurePositionAvailable,
+  false
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentShear
+    .spatialContext
+    .featureMovementNm,
+  null
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentShear
+    .evidenceBasis
+    .includes(
+      "governed-feature-movement-context"
+    ),
+  false
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability isolates governed movement to the matching feature"
+);
+
+const temporalOceanExplainabilityWithCurrentEdge =
+  buildTemporalOceanExplainability({
+    oceanEvolution:
+      oceanEvolutionWithCurrentEdge
+  });
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .available,
+  temporalOceanExplainabilityWithCurrentEdge
+    .available
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .lifecycleState,
+  temporalOceanExplainabilityWithCurrentEdge
+    .featureExplanations
+    .currentEdge
+    .lifecycleState
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .persistenceClassification,
+  temporalOceanExplainabilityWithCurrentEdge
+    .featureExplanations
+    .currentEdge
+    .persistenceClassification
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .physicalInterpretation,
+  temporalOceanExplainabilityWithCurrentEdge
+    .featureExplanations
+    .currentEdge
+    .physicalInterpretation
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .summary
+    .explainedFeatureCount,
+  temporalOceanExplainabilityWithCurrentEdge
+    .summary
+    .explainedFeatureCount
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .confidence
+    .score,
+  temporalOceanExplainabilityWithCurrentEdge
+    .confidence
+    .score
+);
+
+console.log(
+  "PASS Governed Feature Movement supplements Temporal Ocean Explainability without changing explanation semantics"
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .movementInterpretation,
+  `The governed feature moved ${governedFeatureMovement.movement.featureMovementNm} nautical miles toward ${governedFeatureMovement.movement.movementDirectionDegrees}° at an average movement rate of ${governedFeatureMovement.movement.movementSpeedKnots} knots across the observed temporal window.`
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability translates governed feature displacement into deterministic movement language"
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdge
+    .featureExplanations
+    .currentEdge
+    .movementInterpretation,
+  null
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability keeps movement interpretation unavailable without governed movement"
+);
+
+const oceanPersistenceWithZeroCurrentEdgeMovement =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedEdgeHistoricalBackfill,
+      earlierMeasurableEdgeHistoricalBackfill
+    ],
+
+    featureMovement: {
+      currentEdge:
+        zeroGovernedFeatureMovement
+    }
+  });
+
+
+const oceanEvolutionWithZeroCurrentEdgeMovement =
+  buildOceanEvolution({
+    oceanChange:
+      null,
+
+    oceanPersistence:
+      oceanPersistenceWithZeroCurrentEdgeMovement
+  });
+
+
+const temporalOceanExplainabilityWithZeroCurrentEdgeMovement =
+  buildTemporalOceanExplainability({
+    oceanEvolution:
+      oceanEvolutionWithZeroCurrentEdgeMovement
+  });
+
+assert.equal(
+  temporalOceanExplainabilityWithZeroCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .spatialContext
+    .featureMovementNm,
+  0
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithZeroCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .spatialContext
+    .movementDirectionDegrees,
+  null
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithZeroCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .movementInterpretation,
+  "The governed feature remained spatially stationary across the observed temporal window."
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability distinguishes zero displacement from unavailable movement"
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .featureExplanations
+    .currentEdge
+    .physicalInterpretation,
+  temporalOceanExplainabilityWithCurrentEdge
+    .featureExplanations
+    .currentEdge
+    .physicalInterpretation
+);
+
+assert.equal(
+  temporalOceanExplainabilityWithCurrentEdgeMovement
+    .confidence
+    .score,
+  temporalOceanExplainabilityWithCurrentEdge
+    .confidence
+    .score
+);
+
+console.log(
+  "PASS Temporal Ocean Explainability keeps movement language separate from lifecycle interpretation and confidence"
+);
+
 
 /**
  * ------------------------------------------------------------

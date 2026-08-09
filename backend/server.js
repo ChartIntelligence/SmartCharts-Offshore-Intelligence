@@ -34057,6 +34057,62 @@ export function buildTemporalOceanExplainability({
             lifecycleState !==
               null;
 
+          const featureMovementNm =
+            Number.isFinite(
+              feature
+                ?.spatialContext
+                ?.featureMovementNm
+            )
+              ? feature
+                  .spatialContext
+                  .featureMovementNm
+              : null;
+
+          const movementDirectionDegrees =
+            Number.isFinite(
+              feature
+                ?.spatialContext
+                ?.movementDirectionDegrees
+            )
+              ? feature
+                  .spatialContext
+                  .movementDirectionDegrees
+              : null;
+
+          const movementSpeedKnots =
+            Number.isFinite(
+              feature
+                ?.spatialContext
+                ?.movementSpeedKnots
+            )
+              ? feature
+                  .spatialContext
+                  .movementSpeedKnots
+              : null;
+
+          const movementAvailable =
+            feature
+              ?.spatialContext
+              ?.featurePositionAvailable ===
+              true &&
+            Number.isFinite(
+              featureMovementNm
+            ) &&
+            Number.isFinite(
+              movementSpeedKnots
+            );
+
+          const movementInterpretation =
+            movementAvailable
+              ? featureMovementNm === 0
+                ? "The governed feature remained spatially stationary across the observed temporal window."
+                : Number.isFinite(
+                    movementDirectionDegrees
+                  )
+                  ? `The governed feature moved ${featureMovementNm} nautical miles toward ${movementDirectionDegrees}° at an average movement rate of ${movementSpeedKnots} knots across the observed temporal window.`
+                  : `The governed feature moved ${featureMovementNm} nautical miles at an average movement rate of ${movementSpeedKnots} knots across the observed temporal window.`
+              : null;
+
           return [
             featureKey,
             {
@@ -34106,12 +34162,55 @@ export function buildTemporalOceanExplainability({
                   null
               },
 
+              spatialContext: {
+                featurePositionAvailable:
+                  feature
+                    ?.spatialContext
+                    ?.featurePositionAvailable ===
+                  true,
+
+                featureMovementNm:
+                  Number.isFinite(
+                    feature
+                      ?.spatialContext
+                      ?.featureMovementNm
+                  )
+                    ? feature
+                        .spatialContext
+                        .featureMovementNm
+                    : null,
+
+                movementDirectionDegrees:
+                  Number.isFinite(
+                    feature
+                      ?.spatialContext
+                      ?.movementDirectionDegrees
+                  )
+                    ? feature
+                        .spatialContext
+                        .movementDirectionDegrees
+                    : null,
+
+                movementSpeedKnots:
+                  Number.isFinite(
+                    feature
+                      ?.spatialContext
+                      ?.movementSpeedKnots
+                  )
+                    ? feature
+                        .spatialContext
+                        .movementSpeedKnots
+                    : null
+              },
+
               physicalInterpretation:
                 explanationAvailable
                   ? lifecycleInterpretations[
                       lifecycleState
                     ]
                   : null,
+
+              movementInterpretation,
 
               evidenceBasis:
                 explanationAvailable
@@ -34125,6 +34224,13 @@ export function buildTemporalOceanExplainability({
                         ?.available ===
                       true
                         ? "governed-temporal-feature-continuity"
+                        : null,
+
+                      feature
+                        ?.spatialContext
+                        ?.featurePositionAvailable ===
+                      true
+                        ? "governed-feature-movement-context"
                         : null
                     ].filter(Boolean)
                   : [],
@@ -34243,6 +34349,12 @@ export function buildTemporalOceanExplainability({
       ...missingRequirements,
 
       "Temporal Ocean Explainability translates governed lifecycle states into deterministic physical language without changing the underlying lifecycle state or persistence classification.",
+
+      "Temporal Ocean Explainability preserves governed feature movement as physical spatial context without changing lifecycle state, persistence classification, availability, or confidence.",
+
+      "Governed feature movement describes observed feature displacement and does not independently establish why the feature moved.",
+
+      "Movement interpretation translates governed displacement, bearing, and average movement rate only; it does not infer physical causation, biological response, habitat quality, fishing opportunity, or captain guidance.",
 
       "Temporal Ocean Explainability does not infer physical causation beyond the governed upstream temporal contracts.",
 
