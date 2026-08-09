@@ -33614,6 +33614,47 @@ export function buildOceanEvolution({
                 null
             },
 
+            spatialContext: {
+              featurePositionAvailable:
+                continuityContract
+                  ?.spatialContext
+                  ?.featurePositionAvailable ===
+                true,
+
+              featureMovementNm:
+                Number.isFinite(
+                  continuityContract
+                    ?.spatialContext
+                    ?.featureMovementNm
+                )
+                  ? continuityContract
+                      .spatialContext
+                      .featureMovementNm
+                  : null,
+
+              movementDirectionDegrees:
+                Number.isFinite(
+                  continuityContract
+                    ?.spatialContext
+                    ?.movementDirectionDegrees
+                )
+                  ? continuityContract
+                      .spatialContext
+                      .movementDirectionDegrees
+                  : null,
+
+              movementSpeedKnots:
+                Number.isFinite(
+                  continuityContract
+                    ?.spatialContext
+                    ?.movementSpeedKnots
+                )
+                  ? continuityContract
+                      .spatialContext
+                      .movementSpeedKnots
+                  : null
+            },
+
             confidence: {
               score:
                 Number.isFinite(
@@ -33691,6 +33732,24 @@ export function buildOceanEvolution({
     Object.keys(
       featureEvolution
     ).length;
+
+  const movementSummary = {
+    movementAvailableCount:
+      Object.values(
+        featureEvolution
+      ).filter(
+        feature =>
+          feature
+            ?.spatialContext
+            ?.featurePositionAvailable ===
+          true
+      ).length,
+
+    registeredFeatureCount:
+      Object.keys(
+        featureEvolution
+      ).length
+  };
 
   const temporalWindow = {
     sampleCount:
@@ -33791,6 +33850,10 @@ export function buildOceanEvolution({
 
       "Ocean Evolution summarizes multiple feature trajectories and does not assign one lifecycle state to the entire ocean.",
 
+      "Ocean Evolution preserves governed feature movement only as spatial context inherited through Temporal Feature Continuity.",
+
+      "Governed feature movement does not independently alter lifecycle state, persistence classification, Ocean Evolution availability, or confidence.",
+
       "This contract does not retrieve external data, recalculate ocean change, calculate feature persistence, establish prey or fish presence, determine habitat quality or fishing opportunity, perform species reasoning, or generate captain guidance."
     ].filter(Boolean))
   ];
@@ -33815,6 +33878,10 @@ export function buildOceanEvolution({
 
     lifecycleSummary: {
       ...lifecycleSummary
+    },
+
+    movementSummary: {
+      ...movementSummary
     },
 
     changeContext:

@@ -32924,6 +32924,177 @@ console.log(
   "PASS Governed Feature Movement supplements Ocean Persistence without changing persistence semantics"
 );
 
+const oceanEvolutionWithCurrentEdgeMovement =
+  buildOceanEvolution({
+    oceanChange:
+      null,
+
+    oceanPersistence:
+      oceanPersistenceWithCurrentEdgeMovement
+  });
+
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentEdge
+    .spatialContext
+    .featurePositionAvailable,
+  true
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentEdge
+    .spatialContext
+    .featureMovementNm,
+  governedFeatureMovement
+    .movement
+    .featureMovementNm
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentEdge
+    .spatialContext
+    .movementDirectionDegrees,
+  governedFeatureMovement
+    .movement
+    .movementDirectionDegrees
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentEdge
+    .spatialContext
+    .movementSpeedKnots,
+  governedFeatureMovement
+    .movement
+    .movementSpeedKnots
+);
+
+console.log(
+  "PASS Ocean Evolution preserves governed Current Edge movement context"
+);
+
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentShear
+    .spatialContext
+    .featurePositionAvailable,
+  false
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentShear
+    .spatialContext
+    .featureMovementNm,
+  null
+);
+
+console.log(
+  "PASS Ocean Evolution isolates governed movement to the matching feature"
+);
+
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .movementSummary
+    .movementAvailableCount,
+  1
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .movementSummary
+    .registeredFeatureCount,
+  oceanEvolutionWithCurrentEdgeMovement
+    .lifecycleSummary
+    .registeredFeatureCount
+);
+
+console.log(
+  "PASS Ocean Evolution reports governed movement availability separately from lifecycle summary"
+);
+
+const oceanEvolutionWithCurrentEdge =
+  buildOceanEvolution({
+    oceanChange:
+      null,
+
+    oceanPersistence:
+      oceanPersistenceWithCurrentEdge
+  });
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement.available,
+  oceanEvolutionWithCurrentEdge.available
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentEdge
+    .lifecycleState,
+  oceanEvolutionWithCurrentEdge
+    .featureEvolution
+    .currentEdge
+    .lifecycleState
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentEdge
+    .persistenceClassification,
+  oceanEvolutionWithCurrentEdge
+    .featureEvolution
+    .currentEdge
+    .persistenceClassification
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .featureEvolution
+    .currentEdge
+    .continuity
+    .classification,
+  oceanEvolutionWithCurrentEdge
+    .featureEvolution
+    .currentEdge
+    .continuity
+    .classification
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .lifecycleSummary
+    .assessedFeatureCount,
+  oceanEvolutionWithCurrentEdge
+    .lifecycleSummary
+    .assessedFeatureCount
+);
+
+assert.equal(
+  oceanEvolutionWithCurrentEdgeMovement
+    .confidence
+    .score,
+  oceanEvolutionWithCurrentEdge
+    .confidence
+    .score
+);
+
+console.log(
+  "PASS Governed Feature Movement supplements Ocean Evolution without changing evolution semantics"
+);
+
 
 /**
  * ------------------------------------------------------------
