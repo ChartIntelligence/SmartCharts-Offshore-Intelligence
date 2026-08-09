@@ -23137,6 +23137,21 @@ export function buildGovernedFeaturePosition({
 }
 
 
+export const GOVERNED_FEATURE_ASSOCIATION_EVIDENCE_CLASSIFICATIONS =
+  Object.freeze([
+    "association-supported",
+    "association-not-supported",
+    "insufficient-evidence"
+  ]);
+
+export const GOVERNED_FEATURE_ASSOCIATION_EVIDENCE_SIGNALS =
+  Object.freeze([
+    "temporal-continuity",
+    "spatial-plausibility",
+    "feature-state-consistency"
+  ]);
+
+
 /**
  * ------------------------------------------------------------
  * Governed Feature Association v1.0
@@ -23390,6 +23405,261 @@ export function buildGovernedFeatureAssociation({
     contractVersion:
       "pelora-governed-feature-association-v1"
   });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Association Evidence v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Evaluate.
+ *
+ * Purpose:
+ * Evaluate explicit governed evidence relevant to whether two
+ * compatible chronological feature positions may represent the
+ * same physical ocean feature.
+ *
+ * No single evidence signal independently establishes spatial
+ * feature identity. Association support requires multiple
+ * governed evidence dimensions.
+ *
+ * This contract does not calculate displacement, movement
+ * direction, movement speed, opportunity, habitat suitability,
+ * species probability, or captain guidance.
+ */
+export function buildGovernedFeatureAssociationEvidence({
+  featureAssociation = null,
+  temporalContinuity = null,
+  spatialPlausibility = null,
+  featureStateConsistency = null
+} = {}) {
+
+    const associationAvailable =
+      featureAssociation
+        ?.available ===
+        true &&
+      featureAssociation
+        ?.contractVersion ===
+        "pelora-governed-feature-association-v1" &&
+      featureAssociation
+        ?.compatibility ===
+        "compatible";
+
+    const temporalContinuityAvailable =
+      temporalContinuity
+        ?.available ===
+        true &&
+      temporalContinuity
+        ?.contractVersion ===
+        "pelora-temporal-feature-continuity-v1";
+
+    const temporalContinuitySupported =
+      temporalContinuityAvailable &&
+      temporalContinuity
+        ?.continuity
+        ?.supported ===
+        true;
+
+    const spatialPlausibilityAvailable =
+      spatialPlausibility
+        ?.available ===
+        true &&
+      spatialPlausibility
+        ?.supported ===
+        true;
+
+    const featureStateConsistencyAvailable =
+      featureStateConsistency
+        ?.available ===
+        true &&
+      featureStateConsistency
+        ?.supported ===
+        true;
+
+    const supportedSignals = [
+      temporalContinuitySupported
+        ? "temporal-continuity"
+        : null,
+
+      spatialPlausibilityAvailable
+        ? "spatial-plausibility"
+        : null,
+
+      featureStateConsistencyAvailable
+        ? "feature-state-consistency"
+        : null
+    ].filter(Boolean);
+
+    const supportedSignalCount =
+      supportedSignals.length;
+
+    const associationSupported =
+      associationAvailable &&
+      temporalContinuitySupported &&
+      supportedSignalCount >=
+        2;
+
+    const classification =
+    !associationAvailable
+      ? "insufficient-evidence"
+      : associationSupported
+        ? "association-supported"
+        : supportedSignalCount ===
+            0
+          ? "insufficient-evidence"
+          : "association-not-supported";
+
+    const available =
+      associationAvailable;
+
+    const missingRequirements = [
+      !associationAvailable
+        ? "compatible-governed-feature-association"
+        : null,
+
+      associationAvailable &&
+      !temporalContinuityAvailable
+        ? "governed-temporal-feature-continuity"
+        : null,
+
+      associationAvailable &&
+      temporalContinuityAvailable &&
+      supportedSignalCount <
+        2
+        ? "two-or-more-independent-association-evidence-signals"
+        : null
+    ].filter(Boolean);
+
+    const limitations = [
+      ...new Set([
+        ...(
+          Array.isArray(
+            featureAssociation
+              ?.limitations
+          )
+            ? featureAssociation
+                .limitations
+            : []
+        ),
+
+        ...(
+          Array.isArray(
+            temporalContinuity
+              ?.limitations
+          )
+            ? temporalContinuity
+                .limitations
+            : []
+        ),
+
+        ...missingRequirements,
+
+        "Governed Feature Association Evidence evaluates multiple independent evidence dimensions for same-feature identity.",
+
+        "No single evidence signal independently establishes spatial feature identity.",
+
+        "Association support requires governed Temporal Feature Continuity plus at least one additional independent supported evidence signal.",
+
+        "Spatial plausibility does not independently establish that two positions represent the same physical ocean feature.",
+
+        "Feature-state consistency does not independently establish that two positions represent the same physical ocean feature.",
+
+        "This contract does not calculate displacement, movement direction, movement speed, opportunity, habitat suitability, species probability, or captain guidance."
+      ])
+    ];
+
+    return deepFreezeSnapshotValue({
+      available,
+
+      evidenceType:
+        "governed-feature-association-evidence",
+
+      responsibility:
+        "Evaluate",
+
+      classification,
+
+      associationSupported,
+
+      signals: {
+        temporalContinuity: {
+          available:
+            temporalContinuityAvailable,
+
+          supported:
+            temporalContinuitySupported
+        },
+
+        spatialPlausibility: {
+          available:
+            spatialPlausibility
+              ?.available ===
+              true,
+
+          supported:
+            spatialPlausibilityAvailable
+        },
+
+        featureStateConsistency: {
+          available:
+            featureStateConsistency
+              ?.available ===
+              true,
+
+          supported:
+            featureStateConsistencyAvailable
+        }
+      },
+
+      evidenceSummary: {
+        supportedSignals: [
+          ...supportedSignals
+        ],
+
+        supportedSignalCount,
+
+        requiredSignalCount:
+          2,
+
+        temporalContinuityRequired:
+          true
+      },
+
+      upstreamContracts: {
+        featureAssociation:
+          featureAssociation
+            ?.contractVersion ??
+          null,
+
+        temporalContinuity:
+          temporalContinuity
+            ?.contractVersion ??
+          null,
+
+        spatialPlausibility:
+          spatialPlausibility
+            ?.contractVersion ??
+          null,
+
+        featureStateConsistency:
+          featureStateConsistency
+            ?.contractVersion ??
+          null
+      },
+
+      missingRequirements: [
+        ...new Set(
+          missingRequirements
+        )
+      ],
+
+      limitations,
+
+      contractVersion:
+        "pelora-governed-feature-association-evidence-v1"
+    });
 }
 
 

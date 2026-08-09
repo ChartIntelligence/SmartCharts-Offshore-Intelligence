@@ -52,6 +52,7 @@ import {
   buildTemporalFeatureContinuity,
   buildGovernedFeaturePosition,
   buildGovernedFeatureAssociation,
+  buildGovernedFeatureAssociationEvidence,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -29636,6 +29637,292 @@ assert.equal(
 
 console.log(
   "PASS Governed Feature Association preserves provenance, immutability, and no-movement boundaries"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Association Evidence v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableGovernedFeatureAssociationEvidence =
+  buildGovernedFeatureAssociationEvidence();
+
+
+assert.equal(
+  unavailableGovernedFeatureAssociationEvidence.available,
+  false
+);
+
+assert.equal(
+  unavailableGovernedFeatureAssociationEvidence
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  unavailableGovernedFeatureAssociationEvidence
+    .associationSupported,
+  false
+);
+
+assert.ok(
+  unavailableGovernedFeatureAssociationEvidence
+    .missingRequirements
+    .includes(
+      "compatible-governed-feature-association"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association Evidence remains unavailable without compatible association"
+);
+
+
+const insufficientGovernedFeatureAssociationEvidence =
+  buildGovernedFeatureAssociationEvidence({
+    featureAssociation:
+      compatibleGovernedFeatureAssociation,
+
+    temporalContinuity:
+      stableTemporalFeatureContinuity
+  });
+
+
+assert.equal(
+  insufficientGovernedFeatureAssociationEvidence.available,
+  true
+);
+
+assert.equal(
+  insufficientGovernedFeatureAssociationEvidence
+    .associationSupported,
+  false
+);
+
+assert.equal(
+  insufficientGovernedFeatureAssociationEvidence
+    .classification,
+  "association-not-supported"
+);
+
+assert.equal(
+  insufficientGovernedFeatureAssociationEvidence
+    .evidenceSummary
+    .supportedSignalCount,
+  1
+);
+
+assert.ok(
+  insufficientGovernedFeatureAssociationEvidence
+    .missingRequirements
+    .includes(
+      "two-or-more-independent-association-evidence-signals"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association Evidence rejects single-signal association support"
+);
+
+
+const supportedGovernedFeatureAssociationEvidence =
+  buildGovernedFeatureAssociationEvidence({
+    featureAssociation:
+      compatibleGovernedFeatureAssociation,
+
+    temporalContinuity:
+      stableTemporalFeatureContinuity,
+
+    spatialPlausibility: {
+      available:
+        true,
+
+      supported:
+        true,
+
+      contractVersion:
+        "pelora-test-spatial-plausibility-v1"
+    }
+  });
+
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence.available,
+  true
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .associationSupported,
+  true
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .classification,
+  "association-supported"
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .evidenceSummary
+    .supportedSignalCount,
+  2
+);
+
+assert.deepEqual(
+  supportedGovernedFeatureAssociationEvidence
+    .evidenceSummary
+    .supportedSignals,
+  [
+    "temporal-continuity",
+    "spatial-plausibility"
+  ]
+);
+
+console.log(
+  "PASS Governed Feature Association Evidence supports association with multiple governed signals"
+);
+
+
+const noContinuityGovernedFeatureAssociationEvidence =
+  buildGovernedFeatureAssociationEvidence({
+    featureAssociation:
+      compatibleGovernedFeatureAssociation,
+
+    temporalContinuity:
+      emergingTemporalFeatureContinuity,
+
+    spatialPlausibility: {
+      available:
+        true,
+
+      supported:
+        true,
+
+      contractVersion:
+        "pelora-test-spatial-plausibility-v1"
+    },
+
+    featureStateConsistency: {
+      available:
+        true,
+
+      supported:
+        true,
+
+      contractVersion:
+        "pelora-test-feature-state-consistency-v1"
+    }
+  });
+
+
+assert.equal(
+  noContinuityGovernedFeatureAssociationEvidence
+    .associationSupported,
+  false
+);
+
+assert.equal(
+  noContinuityGovernedFeatureAssociationEvidence
+    .classification,
+  "association-not-supported"
+);
+
+assert.equal(
+  noContinuityGovernedFeatureAssociationEvidence
+    .evidenceSummary
+    .supportedSignalCount,
+  2
+);
+
+assert.equal(
+  noContinuityGovernedFeatureAssociationEvidence
+    .evidenceSummary
+    .temporalContinuityRequired,
+  true
+);
+
+console.log(
+  "PASS Governed Feature Association Evidence requires Temporal Feature Continuity"
+);
+
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .upstreamContracts
+    .featureAssociation,
+  "pelora-governed-feature-association-v1"
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .upstreamContracts
+    .temporalContinuity,
+  "pelora-temporal-feature-continuity-v1"
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .contractVersion,
+  "pelora-governed-feature-association-evidence-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    supportedGovernedFeatureAssociationEvidence
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    supportedGovernedFeatureAssociationEvidence
+      .signals
+  ),
+  true
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .featureMovementNm,
+  undefined
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .movementDirectionDegrees,
+  undefined
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .movementSpeedKnots,
+  undefined
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .species,
+  undefined
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .guidance,
+  undefined
+);
+
+console.log(
+  "PASS Governed Feature Association Evidence preserves provenance, immutability, and no-movement boundaries"
 );
 
 
