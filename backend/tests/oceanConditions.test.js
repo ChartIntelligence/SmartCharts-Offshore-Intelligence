@@ -27998,6 +27998,8 @@ assert.deepEqual(
     ...persistenceFromTimeSeries,
 
     input: {
+      ...persistenceFromTimeSeries.input,
+
       source:
         "ocean-memory-time-series",
 
@@ -32747,6 +32749,179 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed Current Edge Persistence"
+);
+
+const oceanPersistenceWithCurrentEdgeMovement =
+  buildOceanPersistence({
+    historicalSnapshots: [
+      laterPronouncedEdgeHistoricalBackfill,
+      earlierMeasurableEdgeHistoricalBackfill
+    ],
+
+    featureMovement: {
+      currentEdge:
+        governedFeatureMovement
+    }
+  });
+
+  assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featureContinuity
+    .currentEdge
+    .spatialContext
+    .featurePositionAvailable,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featureContinuity
+    .currentEdge
+    .spatialContext
+    .featureMovementNm,
+  governedFeatureMovement
+    .movement
+    .featureMovementNm
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featureContinuity
+    .currentEdge
+    .spatialContext
+    .movementDirectionDegrees,
+  governedFeatureMovement
+    .movement
+    .movementDirectionDegrees
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featureContinuity
+    .currentEdge
+    .spatialContext
+    .movementSpeedKnots,
+  governedFeatureMovement
+    .movement
+    .movementSpeedKnots
+);
+
+console.log(
+  "PASS Ocean Persistence carries governed Current Edge movement into Temporal Feature Continuity"
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featureContinuity
+    .currentShear
+    .spatialContext
+    .featurePositionAvailable,
+  false
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featureContinuity
+    .currentShear
+    .spatialContext
+    .featureMovementNm,
+  null
+);
+
+console.log(
+  "PASS Ocean Persistence isolates governed movement to the matching feature registry entry"
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .continuitySummary
+    .movementAvailableCount,
+  1
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .input
+    .featureMovementSupplied,
+  true
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdge
+    .continuitySummary
+    .movementAvailableCount,
+  0
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdge
+    .input
+    .featureMovementSupplied,
+  false
+);
+
+console.log(
+  "PASS Ocean Persistence reports governed movement availability and input provenance"
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .available,
+  oceanPersistenceWithCurrentEdge
+    .available
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .classification,
+  oceanPersistenceWithCurrentEdge
+    .classification
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .values
+    .assessedFeatureCount,
+  oceanPersistenceWithCurrentEdge
+    .values
+    .assessedFeatureCount
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featurePersistence
+    .currentEdge
+    .classification,
+  oceanPersistenceWithCurrentEdge
+    .featurePersistence
+    .currentEdge
+    .classification
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .featureContinuity
+    .currentEdge
+    .continuity
+    .classification,
+  oceanPersistenceWithCurrentEdge
+    .featureContinuity
+    .currentEdge
+    .continuity
+    .classification
+);
+
+assert.equal(
+  oceanPersistenceWithCurrentEdgeMovement
+    .confidence
+    .score,
+  oceanPersistenceWithCurrentEdge
+    .confidence
+    .score
+);
+
+console.log(
+  "PASS Governed Feature Movement supplements Ocean Persistence without changing persistence semantics"
 );
 
 

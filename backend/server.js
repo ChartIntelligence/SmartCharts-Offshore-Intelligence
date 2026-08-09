@@ -32880,7 +32880,8 @@ export function buildClarityPersistence({
  */
 export function buildOceanPersistence({
   historicalSnapshots = [],
-  timeSeries = null
+  timeSeries = null,
+  featureMovement = {}
 } = {}) {
   const governedTimeSeriesAvailable =
     timeSeries
@@ -33202,6 +33203,16 @@ export function buildOceanPersistence({
       })
   };
 
+    const governedFeatureMovement =
+      featureMovement &&
+      typeof featureMovement ===
+        "object" &&
+      !Array.isArray(
+        featureMovement
+      )
+        ? featureMovement
+        : {};
+
     const featureContinuity =
     Object.fromEntries(
       Object.entries(
@@ -33214,7 +33225,13 @@ export function buildOceanPersistence({
           featureKey,
           buildTemporalFeatureContinuity({
             featurePersistence:
-              feature
+              feature,
+
+            featureMovement:
+              governedFeatureMovement[
+                featureKey
+              ] ??
+              null
           })
         ]
       )
@@ -33237,6 +33254,17 @@ export function buildOceanPersistence({
         continuity
           ?.continuity
           ?.supported ===
+        true
+    ).length;
+
+  const movementAvailableCount =
+    Object.values(
+      featureContinuity
+    ).filter(
+      continuity =>
+        continuity
+          ?.spatialContext
+          ?.featurePositionAvailable ===
         true
     ).length;
 
@@ -33329,6 +33357,8 @@ export function buildOceanPersistence({
 
       supportedContinuityCount,
 
+      movementAvailableCount,
+
       registeredContinuityCount:
         Object.keys(
           featureContinuity
@@ -33405,7 +33435,13 @@ export function buildOceanPersistence({
           ? timeSeries
               ?.contractVersion ??
             null
-          : null
+          : null,
+
+      featureMovementSupplied:
+        Object.keys(
+          governedFeatureMovement
+        ).length >
+        0
     },
 
     compatibility: {
