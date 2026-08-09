@@ -54,6 +54,7 @@ import {
   buildGovernedFeatureAssociation,
   buildGovernedFeatureAssociationEvidence,
   buildGovernedFeatureAssociationResolution,
+  buildGovernedFeatureMovement,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
   assessOceanConditions,
@@ -30164,6 +30165,330 @@ assert.equal(
 
 console.log(
   "PASS Governed Feature Association Resolution preserves provenance, immutability, and no-movement boundaries"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Movement v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableGovernedFeatureMovement =
+  buildGovernedFeatureMovement();
+
+
+assert.equal(
+  unavailableGovernedFeatureMovement.available,
+  false
+);
+
+assert.equal(
+  unavailableGovernedFeatureMovement
+    .movementType,
+  "governed-feature-movement"
+);
+
+assert.equal(
+  unavailableGovernedFeatureMovement
+    .association
+    .established,
+  false
+);
+
+assert.ok(
+  unavailableGovernedFeatureMovement
+    .missingRequirements
+    .includes(
+      "governed-feature-association-resolution"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Movement remains unavailable without resolved association"
+);
+
+
+const unresolvedGovernedFeatureMovement =
+  buildGovernedFeatureMovement({
+    associationResolution:
+      unsupportedGovernedFeatureAssociationResolution
+  });
+
+
+assert.equal(
+  unresolvedGovernedFeatureMovement.available,
+  false
+);
+
+assert.equal(
+  unresolvedGovernedFeatureMovement
+    .association
+    .established,
+  false
+);
+
+assert.ok(
+  unresolvedGovernedFeatureMovement
+    .missingRequirements
+    .includes(
+      "resolved-associated-feature"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Movement refuses calculation without associated resolution"
+);
+
+
+const governedFeatureMovement =
+  buildGovernedFeatureMovement({
+    associationResolution:
+      associatedGovernedFeatureAssociationResolution
+  });
+
+
+assert.equal(
+  governedFeatureMovement.available,
+  true
+);
+
+assert.equal(
+  governedFeatureMovement
+    .association
+    .established,
+  true
+);
+
+assert.equal(
+  governedFeatureMovement
+    .association
+    .classification,
+  "associated"
+);
+
+assert.ok(
+  governedFeatureMovement
+    .movement
+    .featureMovementNm >
+    0
+);
+
+assert.ok(
+  governedFeatureMovement
+    .movement
+    .movementDirectionDegrees >=
+    0
+);
+
+assert.ok(
+  governedFeatureMovement
+    .movement
+    .movementDirectionDegrees <
+    360
+);
+
+assert.equal(
+  governedFeatureMovement
+    .movement
+    .elapsedHours,
+  24
+);
+
+assert.ok(
+  governedFeatureMovement
+    .movement
+    .movementSpeedKnots >
+    0
+);
+
+console.log(
+  "PASS Governed Feature Movement measures displacement only after resolved same-feature association"
+);
+
+
+const zeroMovementCurrentEdgePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      28.125,
+
+    longitude:
+      -87.45,
+
+    observedAt:
+      "2026-08-08T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1"
+  });
+
+
+const zeroMovementAssociation =
+  buildGovernedFeatureAssociation({
+    previousFeaturePosition:
+      governedCurrentEdgePosition,
+
+    currentFeaturePosition:
+      zeroMovementCurrentEdgePosition
+  });
+
+
+const zeroMovementEvidence =
+  buildGovernedFeatureAssociationEvidence({
+    featureAssociation:
+      zeroMovementAssociation,
+
+    temporalContinuity:
+      stableTemporalFeatureContinuity,
+
+    spatialPlausibility: {
+      available:
+        true,
+
+      supported:
+        true,
+
+      contractVersion:
+        "pelora-test-spatial-plausibility-v1"
+    }
+  });
+
+
+const zeroMovementResolution =
+  buildGovernedFeatureAssociationResolution({
+    featureAssociation:
+      zeroMovementAssociation,
+
+    associationEvidence:
+      zeroMovementEvidence
+  });
+
+
+const zeroGovernedFeatureMovement =
+  buildGovernedFeatureMovement({
+    associationResolution:
+      zeroMovementResolution
+  });
+
+
+assert.equal(
+  zeroGovernedFeatureMovement.available,
+  true
+);
+
+assert.equal(
+  zeroGovernedFeatureMovement
+    .movement
+    .featureMovementNm,
+  0
+);
+
+assert.equal(
+  zeroGovernedFeatureMovement
+    .movement
+    .movementDirectionDegrees,
+  null
+);
+
+assert.equal(
+  zeroGovernedFeatureMovement
+    .movement
+    .movementSpeedKnots,
+  0
+);
+
+assert.equal(
+  zeroGovernedFeatureMovement
+    .movement
+    .elapsedHours,
+  24
+);
+
+console.log(
+  "PASS Governed Feature Movement distinguishes zero displacement from unavailable movement"
+);
+
+
+assert.equal(
+  governedFeatureMovement
+    .upstreamContracts
+    .associationResolution,
+  "pelora-governed-feature-association-resolution-v1"
+);
+
+assert.equal(
+  governedFeatureMovement
+    .upstreamContracts
+    .previousFeaturePosition,
+  "pelora-governed-feature-position-v1"
+);
+
+assert.equal(
+  governedFeatureMovement
+    .upstreamContracts
+    .currentFeaturePosition,
+  "pelora-governed-feature-position-v1"
+);
+
+assert.equal(
+  governedFeatureMovement
+    .contractVersion,
+  "pelora-governed-feature-movement-v1"
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedFeatureMovement
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedFeatureMovement
+      .movement
+  ),
+  true
+);
+
+assert.equal(
+  governedFeatureMovement
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  governedFeatureMovement
+    .species,
+  undefined
+);
+
+assert.equal(
+  governedFeatureMovement
+    .guidance,
+  undefined
+);
+
+assert.equal(
+  governedFeatureMovement
+    .interpretation,
+  undefined
+);
+
+console.log(
+  "PASS Governed Feature Movement preserves provenance, immutability, and non-prescriptive boundaries"
 );
 
 

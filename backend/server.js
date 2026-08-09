@@ -771,6 +771,81 @@ function nauticalMilesBetween(
 }
 
 
+function initialBearingDegrees(
+  lat1,
+  lon1,
+  lat2,
+  lon2
+) {
+  const radians =
+    degrees =>
+      degrees *
+      Math.PI /
+      180;
+
+  const degrees =
+    radiansValue =>
+      radiansValue *
+      180 /
+      Math.PI;
+
+  const phi1 =
+    radians(lat1);
+
+  const phi2 =
+    radians(lat2);
+
+  const deltaLongitude =
+    radians(
+      lon2 -
+      lon1
+    );
+
+  const y =
+    Math.sin(
+      deltaLongitude
+    ) *
+    Math.cos(
+      phi2
+    );
+
+  const x =
+    Math.cos(
+      phi1
+    ) *
+    Math.sin(
+      phi2
+    ) -
+    Math.sin(
+      phi1
+    ) *
+    Math.cos(
+      phi2
+    ) *
+    Math.cos(
+      deltaLongitude
+    );
+
+  const bearing =
+    degrees(
+      Math.atan2(
+        y,
+        x
+      )
+    );
+
+  return Number(
+    (
+      (
+        bearing +
+        360
+      ) %
+      360
+    ).toFixed(2)
+  );
+}
+
+
 export function kilometersBetween(
   lat1,
   lon1,
@@ -23890,6 +23965,414 @@ export function buildGovernedFeatureAssociationResolution({
 
     contractVersion:
       "pelora-governed-feature-association-resolution-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Feature Movement v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Measure geometric displacement between two explicit governed
+ * feature positions only after Governed Feature Association
+ * Resolution establishes that they represent the same feature.
+ *
+ * Movement is reported as measured displacement, elapsed time,
+ * initial bearing, and average movement speed.
+ *
+ * This contract does not interpret movement as advancing,
+ * retreating, strengthening, weakening, opportunity, habitat
+ * suitability, species probability, or captain guidance.
+ */
+export function buildGovernedFeatureMovement({
+  associationResolution = null
+} = {}) {
+
+  const resolutionAvailable =
+    associationResolution
+      ?.available ===
+      true &&
+    associationResolution
+      ?.contractVersion ===
+      "pelora-governed-feature-association-resolution-v1";
+
+  const associationEstablished =
+    resolutionAvailable &&
+    associationResolution
+      ?.associated ===
+      true &&
+    associationResolution
+      ?.classification ===
+      "associated";
+
+  const previousFeaturePosition =
+    associationEstablished
+      ? associationResolution
+          ?.featurePositions
+          ?.previous ??
+        null
+      : null;
+
+  const currentFeaturePosition =
+    associationEstablished
+      ? associationResolution
+          ?.featurePositions
+          ?.current ??
+        null
+      : null;
+
+  const previousPositionAvailable =
+    previousFeaturePosition
+      ?.available ===
+      true &&
+    previousFeaturePosition
+      ?.contractVersion ===
+      "pelora-governed-feature-position-v1";
+
+  const currentPositionAvailable =
+    currentFeaturePosition
+      ?.available ===
+      true &&
+    currentFeaturePosition
+      ?.contractVersion ===
+      "pelora-governed-feature-position-v1";
+
+  const previousLatitude =
+    Number.isFinite(
+      previousFeaturePosition
+        ?.position
+        ?.latitude
+    )
+      ? previousFeaturePosition
+          .position
+          .latitude
+      : null;
+
+  const previousLongitude =
+    Number.isFinite(
+      previousFeaturePosition
+        ?.position
+        ?.longitude
+    )
+      ? previousFeaturePosition
+          .position
+          .longitude
+      : null;
+
+  const currentLatitude =
+    Number.isFinite(
+      currentFeaturePosition
+        ?.position
+        ?.latitude
+    )
+      ? currentFeaturePosition
+          .position
+          .latitude
+      : null;
+
+  const currentLongitude =
+    Number.isFinite(
+      currentFeaturePosition
+        ?.position
+        ?.longitude
+    )
+      ? currentFeaturePosition
+          .position
+          .longitude
+      : null;
+
+  const previousObservedAt =
+    typeof previousFeaturePosition
+      ?.observedAt ===
+      "string"
+      ? previousFeaturePosition
+          .observedAt
+      : null;
+
+  const currentObservedAt =
+    typeof currentFeaturePosition
+      ?.observedAt ===
+      "string"
+      ? currentFeaturePosition
+          .observedAt
+      : null;
+
+  const previousObservedTimestamp =
+    previousObservedAt !==
+      null
+      ? Date.parse(
+          previousObservedAt
+        )
+      : Number.NaN;
+
+  const currentObservedTimestamp =
+    currentObservedAt !==
+      null
+      ? Date.parse(
+          currentObservedAt
+        )
+      : Number.NaN;
+
+  const chronological =
+    Number.isFinite(
+      previousObservedTimestamp
+    ) &&
+    Number.isFinite(
+      currentObservedTimestamp
+    ) &&
+    currentObservedTimestamp >
+      previousObservedTimestamp;
+
+  const movementInputsAvailable =
+    resolutionAvailable &&
+    associationEstablished &&
+    previousPositionAvailable &&
+    currentPositionAvailable &&
+    previousLatitude !==
+      null &&
+    previousLongitude !==
+      null &&
+    currentLatitude !==
+      null &&
+    currentLongitude !==
+      null &&
+    chronological;
+
+  const featureMovementNm =
+    movementInputsAvailable
+      ? nauticalMilesBetween(
+          previousLatitude,
+          previousLongitude,
+          currentLatitude,
+          currentLongitude
+        )
+      : null;
+
+  const movementDirectionDegrees =
+    movementInputsAvailable &&
+    Number.isFinite(
+      featureMovementNm
+    ) &&
+    featureMovementNm >
+      0
+      ? initialBearingDegrees(
+          previousLatitude,
+          previousLongitude,
+          currentLatitude,
+          currentLongitude
+        )
+      : null;
+
+  const elapsedHours =
+    movementInputsAvailable
+      ? Number(
+          (
+            (
+              currentObservedTimestamp -
+              previousObservedTimestamp
+            ) /
+            (
+              1000 *
+              60 *
+              60
+            )
+          ).toFixed(2)
+        )
+      : null;
+
+  const movementSpeedKnots =
+    movementInputsAvailable &&
+    Number.isFinite(
+      featureMovementNm
+    ) &&
+    Number.isFinite(
+      elapsedHours
+    ) &&
+    elapsedHours >
+      0
+      ? Number(
+          (
+            featureMovementNm /
+            elapsedHours
+          ).toFixed(2)
+        )
+      : null;
+
+  const available =
+    movementInputsAvailable &&
+    Number.isFinite(
+      featureMovementNm
+    ) &&
+    Number.isFinite(
+      elapsedHours
+    ) &&
+    Number.isFinite(
+      movementSpeedKnots
+    );
+
+  const missingRequirements = [
+    !resolutionAvailable
+      ? "governed-feature-association-resolution"
+      : null,
+
+    resolutionAvailable &&
+    !associationEstablished
+      ? "resolved-associated-feature"
+      : null,
+
+    associationEstablished &&
+    !previousPositionAvailable
+      ? "previous-governed-feature-position"
+      : null,
+
+    associationEstablished &&
+    !currentPositionAvailable
+      ? "current-governed-feature-position"
+      : null,
+
+    associationEstablished &&
+    previousPositionAvailable &&
+    currentPositionAvailable &&
+    !chronological
+      ? "current-feature-position-must-follow-previous-feature-position"
+      : null,
+
+    movementInputsAvailable &&
+    !Number.isFinite(
+      featureMovementNm
+    )
+      ? "calculable-feature-displacement"
+      : null,
+
+    movementInputsAvailable &&
+    !Number.isFinite(
+      elapsedHours
+    )
+      ? "calculable-feature-elapsed-time"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          associationResolution
+            ?.limitations
+        )
+          ? associationResolution
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Governed Feature Movement measures geometric displacement only after governed same-feature association has been resolved.",
+
+      "Feature movement is calculated from explicit governed feature positions and must not be substituted with observation, request, query-center, or snapshot coordinates.",
+
+      "Movement direction is the initial great-circle bearing from the previous governed feature position to the current governed feature position.",
+
+      "Movement speed is average displacement divided by elapsed observation time and does not represent instantaneous physical velocity.",
+
+      "This contract does not interpret movement as advancing, retreating, strengthening, weakening, opportunity, habitat suitability, species probability, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    movementType:
+      "governed-feature-movement",
+
+    responsibility:
+      "Compare",
+
+    feature: {
+      featureType:
+        previousPositionAvailable
+          ? previousFeaturePosition
+              ?.feature
+              ?.featureType ??
+            null
+          : null,
+
+      featureFamily:
+        previousPositionAvailable
+          ? previousFeaturePosition
+              ?.feature
+              ?.featureFamily ??
+            null
+          : null
+    },
+
+    movement: {
+      featureMovementNm,
+
+      movementDirectionDegrees,
+
+      elapsedHours,
+
+      movementSpeedKnots
+    },
+
+    positions: {
+      previous:
+        previousPositionAvailable
+          ? cloneSnapshotValue(
+              previousFeaturePosition
+            )
+          : null,
+
+      current:
+        currentPositionAvailable
+          ? cloneSnapshotValue(
+              currentFeaturePosition
+            )
+          : null
+    },
+
+    association: {
+      established:
+        associationEstablished,
+
+      classification:
+        associationResolution
+          ?.classification ??
+        "insufficient-evidence"
+    },
+
+    upstreamContracts: {
+      associationResolution:
+        associationResolution
+          ?.contractVersion ??
+        null,
+
+      previousFeaturePosition:
+        previousFeaturePosition
+          ?.contractVersion ??
+        null,
+
+      currentFeaturePosition:
+        currentFeaturePosition
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-feature-movement-v1"
   });
 }
 
