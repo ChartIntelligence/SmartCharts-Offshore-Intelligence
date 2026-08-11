@@ -159,20 +159,59 @@ const positionFreshness =
           <span>Current</span>
 
           <strong>
-            {selectedSpot.conditions?.current ??
-              "Waiting for live data"}
+            {formatCurrent(
+              oceanData?.currents
+            )}
           </strong>
+
+          <small>
+            {formatObservationStatus(
+              oceanData?.dataQuality?.layers?.currents
+            )}
+          </small>
         </div>
 
 
         <div>
-          <span>Chlorophyll</span>
+          <span>Current Edge</span>
 
           <strong>
-            {selectedSpot.conditions
-              ?.chlorophyll ??
-              "Waiting for live data"}
+            {formatCurrentEdge(
+              oceanData
+                ?.currents
+                ?.derived
+                ?.spatialAnalysis
+                ?.edge
+            )}
           </strong>
+
+          <small>
+            {formatCurrentEdgeDetail(
+              oceanData
+                ?.currents
+                ?.derived
+                ?.spatialAnalysis
+                ?.edge
+            )}
+          </small>
+        </div>
+
+
+        <div>
+          <span>Water Color</span>
+
+          <strong>
+            {formatWaterColor(
+              oceanData?.chlorophyll,
+              oceanData?.dataQuality?.layers?.chlorophyll
+            )}
+          </strong>
+
+          <small>
+            {formatObservationStatus(
+              oceanData?.dataQuality?.layers?.chlorophyll
+            )}
+          </small>
         </div>
 
 <div>
@@ -433,6 +472,182 @@ function formatTemperature(value) {
   return Number.isFinite(value)
     ? `${value}°F`
     : "Waiting for live data";
+}
+
+function formatCurrent(current) {
+  if (
+    !current ||
+    !Number.isFinite(
+      current.speedKnots
+    )
+  ) {
+    return "Unavailable";
+  }
+
+  const direction =
+    Number.isFinite(
+      current.directionDegrees
+    )
+      ? ` toward ${String(
+          Math.round(
+            current.directionDegrees
+          )
+        ).padStart(3, "0")}°`
+      : "";
+
+  return `${current.speedKnots} kt${direction}`;
+}
+
+
+function formatWaterColor(
+  chlorophyll,
+  layer
+) {
+  if (
+    layer?.state === "stale"
+  ) {
+    return "Current Observation Unavailable";
+  }
+
+  if (
+    !chlorophyll?.waterClassification
+  ) {
+    return "Unavailable";
+  }
+
+  return formatClassification(
+    chlorophyll.waterClassification
+  );
+}
+
+
+function formatObservationStatus(layer) {
+  if (!layer) {
+    return "Status unavailable";
+  }
+
+  if (
+    layer.state === "stale"
+  ) {
+    const age =
+      formatObservationAge(
+        layer.ageHours
+      );
+
+    return age
+      ? `Latest observation ${age} ago`
+      : "Latest observation is stale";
+  }
+
+  if (
+    layer.state === "live"
+  ) {
+    const age =
+      formatObservationAge(
+        layer.ageHours
+      );
+
+    return age
+      ? `Latest available · observed ${age} ago`
+      : "Latest available";
+  }
+
+  const labels = {
+    degraded: "Degraded",
+    unavailable: "",
+    calculated: "Calculated"
+  };
+
+  return (
+    labels[layer.state] ??
+    "Status unavailable"
+  );
+}
+
+
+function formatObservationAge(
+  ageHours
+) {
+  if (
+    !Number.isFinite(
+      ageHours
+    )
+  ) {
+    return "";
+  }
+
+  if (ageHours < 24) {
+    return `${Math.round(
+      ageHours
+    )} hr`;
+  }
+
+  const days =
+    Math.round(
+      ageHours / 24
+    );
+
+  return `${days} day${
+    days === 1
+      ? ""
+      : "s"
+  }`;
+}
+
+
+function formatClassification(
+  value
+) {
+  if (!value) {
+    return "";
+  }
+
+  return String(value)
+    .split("-")
+    .map((word) =>
+      word.charAt(0).toUpperCase() +
+      word.slice(1)
+    )
+    .join(" ");
+}
+
+
+function formatCurrentEdge(edge) {
+  if (
+    !edge?.available ||
+    edge.currentEdgeDetected !== true
+  ) {
+    return "No Edge Signal";
+  }
+
+  if (
+    edge.edgeStrength === "pronounced"
+  ) {
+    return "Strong Edge Signal";
+  }
+
+  return "Edge Signal";
+}
+
+
+function formatCurrentEdgeDetail(edge) {
+  if (!edge?.available) {
+    return "Current edge analysis unavailable";
+  }
+
+  if (
+    edge.currentEdgeDetected !== true
+  ) {
+    return "No clear current edge identified here.";
+  }
+
+  if (
+    edge.edgeStrength === "pronounced"
+  ) {
+    return "Pelora sees a strong change in current speed and direction across this area.";
+  }
+
+  return "Pelora sees a change in current conditions across this area.";
 }
 
 export default SelectedTarget;
