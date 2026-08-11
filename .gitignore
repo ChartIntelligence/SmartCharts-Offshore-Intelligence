@@ -22,3 +22,7 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Supabase CLI temporary files
+
+supabase/.temp/

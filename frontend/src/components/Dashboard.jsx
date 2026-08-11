@@ -13,7 +13,7 @@ import FishingDayReportPanel from "./FishingDayReportPanel";
 import SavedFishingDayReports from "./SavedFishingDayReports";
 
 import structures from "../data/gulfLocations";
-import { useSupabaseAuth } from "../hooks/useSupabaseAuth";
+
 import {
   useLiveMarineConditions
 } from "../hooks/useLiveMarineConditions";
@@ -26,7 +26,11 @@ import "../styles/dashboard.css";
 
 import peloraHeaderLockup from "../assets/branding/pelora-header-lockup.png";
 
-function Dashboard() {
+function Dashboard( {
+  session,
+  user,
+  authLoading
+}) {
   const [activeTab, setActiveTab] =
     useState("today");
 
@@ -144,12 +148,7 @@ const topConfidence =
       )
     : 0;
 
-// Captain authentication
-const {
-  session,
-  user,
-  loading: authLoading
-} = useSupabaseAuth();
+
 
 // Selected location
 const {

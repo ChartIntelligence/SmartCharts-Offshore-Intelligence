@@ -1,13 +1,12 @@
-import Dashboard from "./components/Dashboard";
+import FoundingCaptainAccessGate
+  from "./components/FoundingCaptainAccessGate";
+
 
 function App() {
-
   return (
-
-    <Dashboard />
-
+    <FoundingCaptainAccessGate />
   );
-
 }
+
 
 export default App;
