@@ -128,7 +128,7 @@ function MapLibreIntelligenceMap({
     <div
       ref={containerRef}
       className="map maplibre-map"
-      aria-label="Velion offshore intelligence map"
+      aria-label="Pelora offshore intelligence map"
     />
   );
 }

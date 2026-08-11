@@ -405,7 +405,7 @@ const handleReportSaved = () => {
           <section className="section-page-header">
 
             <p className="section-eyebrow">
-              SmartCharts Analysis
+              Pelora Analysis
             </p>
 
             <h2>
@@ -557,7 +557,7 @@ const handleReportSaved = () => {
             <div className="captain-dashboard-main">
 
               <p className="section-eyebrow">
-                My SmartCharts
+                My Pelora
               </p>
 
               <h2>

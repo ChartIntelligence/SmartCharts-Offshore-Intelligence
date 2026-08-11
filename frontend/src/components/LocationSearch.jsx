@@ -132,7 +132,7 @@ function LocationSearch({
         }
       >
         <span aria-hidden="true">
-          ⌕
+          🔍
         </span>
 
         {selectedSpot

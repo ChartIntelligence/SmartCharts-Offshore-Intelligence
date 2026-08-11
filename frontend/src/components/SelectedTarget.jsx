@@ -23,7 +23,7 @@ function SelectedTarget({
 
         <p>
           Select a location on the map or in the rankings
-          to view its SmartCharts Intelligence Report.
+          to view its Pelora Intelligence Report.
         </p>
 
       </div>
@@ -57,7 +57,7 @@ const positionFreshness =
         <div>
 
           <p className="selected-label">
-            SMARTCHARTS INTELLIGENCE REPORT
+            PELORA INTELLIGENCE REPORT
           </p>
 
           <h2 className="selected-target-name">

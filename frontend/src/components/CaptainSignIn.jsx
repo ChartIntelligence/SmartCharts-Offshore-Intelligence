@@ -49,7 +49,7 @@ function CaptainSignIn({
       );
     } else {
       setMessage(
-        "Check your email for the secure Velion sign-in link."
+        "Check your email for the secure Pelora sign-in link."
       );
 
       setEmail("");

@@ -183,7 +183,7 @@ function safelyRunEngine(
     };
   } catch (error) {
     console.warn(
-      `SmartCharts engine failed for ${
+      `Pelora engine failed for ${
         spot.name ||
         "unknown location"
       }:`,
