@@ -261,55 +261,75 @@ const positionFreshness =
       <div className="selected-target-grid">
 
         <div>
-          <span>Wind</span>
+          <span>Sea State</span>
 
           <strong>
-            {formatWind(oceanData.wind)}
-          </strong>
-        </div>
-
-        <div>
-          <span>Wind Gusts</span>
-
-          <strong>
-            {formatKnots(
-              oceanData.wind?.gustKnots
+            {formatSeaState(
+              oceanData?.oceanConditions
             )}
           </strong>
-        </div>
 
-        <div>
-          <span>Wave Height</span>
-
-          <strong>
-            {formatFeet(
-              oceanData.waves?.heightFeet
+          <small>
+            {formatSeaStateStatus(
+              oceanData?.oceanConditions
             )}
-          </strong>
+          </small>
         </div>
 
-        <div>
-          <span>Wave Period</span>
-
-          <strong>
-            {formatSeconds(
-              oceanData.waves?.periodSeconds
-            )}
-          </strong>
-        </div>
 
         <div>
           <span>Swell</span>
 
           <strong>
-            {formatSwell(
-              oceanData.swell
+            {formatGovernedSwell(
+              oceanData?.oceanConditions
             )}
           </strong>
+
+          <small>
+            {formatSwellContext(
+              oceanData?.oceanConditions
+            )}
+          </small>
         </div>
 
+
         <div>
-          <span>Updated</span>
+          <span>Wind</span>
+
+          <strong>
+            {formatGovernedWind(
+              oceanData?.oceanConditions
+            )}
+          </strong>
+
+          <small>
+            {formatWindSeaContext(
+              oceanData?.oceanConditions
+            )}
+          </small>
+        </div>
+
+
+        <div>
+          <span>Ride Context</span>
+
+          <strong>
+            {formatRideContext(
+              oceanData?.oceanConditions
+            )}
+          </strong>
+
+          <small>
+            {formatRideContextDetail(
+              oceanData?.oceanConditions
+            )}
+          </small>
+        </div>
+
+
+        <div>
+          <span>Conditions Updated</span>
 
           <strong>
             {formatUpdatedTime(
@@ -383,71 +403,6 @@ function formatPositionStatus(value) {
     "Verify Before Navigation"
   );
 }
-
-function formatKnots(value) {
-  return Number.isFinite(value)
-    ? `${value} kt`
-    : "Unavailable";
-}
-
-
-function formatFeet(value) {
-  return Number.isFinite(value)
-    ? `${value} ft`
-    : "Unavailable";
-}
-
-
-function formatSeconds(value) {
-  return Number.isFinite(value)
-    ? `${value} sec`
-    : "Unavailable";
-}
-
-
-function formatWind(wind) {
-  if (
-    !wind ||
-    !Number.isFinite(
-      wind.speedKnots
-    )
-  ) {
-    return "Unavailable";
-  }
-
-  const direction =
-    Number.isFinite(
-      wind.directionDegrees
-    )
-      ? ` from ${Math.round(
-          wind.directionDegrees
-        )}°`
-      : "";
-
-  return `${wind.speedKnots} kt${direction}`;
-}
-
-
-function formatSwell(swell) {
-  if (
-    !swell ||
-    !Number.isFinite(
-      swell.heightFeet
-    )
-  ) {
-    return "Unavailable";
-  }
-
-  const period =
-    Number.isFinite(
-      swell.periodSeconds
-    )
-      ? ` at ${swell.periodSeconds} sec`
-      : "";
-
-  return `${swell.heightFeet} ft${period}`;
-}
-
 
 function formatUpdatedTime(value) {
   if (!value) {
@@ -648,6 +603,153 @@ function formatCurrentEdgeDetail(edge) {
   }
 
   return "Pelora sees a change in current conditions across this area.";
+}
+
+
+function formatSeaState(conditions) {
+  const waves =
+    conditions?.assessments?.waves?.values;
+
+  if (
+    !Number.isFinite(
+      waves?.heightFeet
+    )
+  ) {
+    return "Unavailable";
+  }
+
+  const period =
+    Number.isFinite(
+      waves.periodSeconds
+    )
+      ? ` at ${waves.periodSeconds} sec`
+      : "";
+
+  return `${waves.heightFeet} ft${period}`;
+}
+
+
+function formatSeaStateStatus(conditions) {
+  const interaction =
+    conditions?.seaStateInteraction;
+
+  if (!interaction) {
+    return "Sea-state assessment unavailable";
+  }
+
+  if (
+    interaction.classification ===
+    "use-caution"
+  ) {
+    return "Use Caution · Crossing seas";
+  }
+
+  return (
+    interaction.headline ||
+    "Sea state assessed"
+  );
+}
+
+
+function formatGovernedSwell(conditions) {
+  const swell =
+    conditions?.assessments?.swell?.values;
+
+  if (
+    !Number.isFinite(
+      swell?.heightFeet
+    )
+  ) {
+    return "Unavailable";
+  }
+
+  const period =
+    Number.isFinite(
+      swell.periodSeconds
+    )
+      ? ` at ${swell.periodSeconds} sec`
+      : "";
+
+  return `${swell.heightFeet} ft${period}`;
+}
+
+
+function formatSwellContext(conditions) {
+  const swell =
+    conditions?.assessments?.swell;
+
+  return (
+    swell?.headline ||
+    "Swell assessment unavailable"
+  );
+}
+
+
+function formatGovernedWind(conditions) {
+  const wind =
+    conditions?.assessments?.wind?.values;
+
+  return Number.isFinite(
+    wind?.speedKnots
+  )
+    ? `${wind.speedKnots} kt`
+    : "Unavailable";
+}
+
+
+function formatWindSeaContext(conditions) {
+  const interaction =
+    conditions?.directionalInteraction;
+
+  if (
+    interaction?.classification ===
+    "crossing"
+  ) {
+    return "Crossing the sea direction";
+  }
+
+  return (
+    interaction?.headline ||
+    "Directional context unavailable"
+  );
+}
+
+
+function formatRideContext(conditions) {
+  const interaction =
+    conditions?.seaStateInteraction;
+
+  if (
+    interaction?.seaStateType ===
+    "confused-or-crossing-seas"
+  ) {
+    return "Directionally Confused";
+  }
+
+  return (
+    interaction?.headline ||
+    "Normal Sea Pattern"
+  );
+}
+
+
+function formatRideContextDetail(
+  conditions
+) {
+  const interaction =
+    conditions?.seaStateInteraction;
+
+  if (
+    interaction?.classification ===
+    "use-caution"
+  ) {
+    return "Crossing wind and seas may create irregular vessel motion.";
+  }
+
+  return (
+    interaction?.detail ||
+    "No additional ride concerns identified."
+  );
 }
 
 export default SelectedTarget;

@@ -765,7 +765,20 @@
 }
 
 .selected-target-grid strong {
+  display: block;
+
   color: #f5fbff;
+}
+
+.selected-target-grid small {
+  display: block;
+
+  margin-top: 8px;
+
+  color: #9ec9df;
+
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .selected-recommendation {
