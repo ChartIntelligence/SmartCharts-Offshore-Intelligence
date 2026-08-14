@@ -707,7 +707,7 @@
 }
 
 .selected-score {
-  min-width: 115px;
+  min-width: 240px;
   padding: 14px;
 
   text-align: center;
@@ -718,19 +718,27 @@
   border-radius: 12px;
 }
 
-.selected-score strong {
+.selected-score span {
   display: block;
+
+  margin-bottom: 6px;
 
   color: #ff8c42;
 
-  font-size: 34px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.selected-score span {
-  color: #c5dce8;
+.selected-score strong {
+  display: block;
 
-  font-size: 12px;
-  text-transform: uppercase;
+  color: #f5fbff;
+
+  font-size: 26px;
+  line-height: 1.15;
+  font-weight: 700;
 }
 
 .selected-target-grid {

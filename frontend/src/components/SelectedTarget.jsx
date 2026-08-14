@@ -1,5 +1,3 @@
-import { calculateBlueMarlinScore } from "../utils/scoreEngine";
-import { calculateConfidence } from "../utils/confidenceEngine";
 
 
 function SelectedTarget({
@@ -29,16 +27,6 @@ function SelectedTarget({
       </div>
     );
   }
-
-
-  const score =
-    calculateBlueMarlinScore(selectedSpot);
-
-  const confidence =
-    safelyCalculateConfidence(selectedSpot);
-
-  const hasScoringData =
-    score.dataComplete !== false;
 
     const isDrillShip =
   selectedSpot.category === "drill_ship";
@@ -79,17 +67,15 @@ const positionFreshness =
 
         <div className="selected-score">
 
-          <strong>
-            {hasScoringData
-              ? score.total
-              : "—"}
-          </strong>
-
           <span>
-            {hasScoringData
-              ? "Opportunity Score"
-              : "Collecting Data"}
+            Ocean Signal
           </span>
+
+          <strong>
+            {formatOceanSignal(
+              oceanData?.oceanOpportunity
+            )}
+          </strong>
 
         </div>
 
@@ -125,12 +111,12 @@ const positionFreshness =
   )}
 
   <div>
-    <span>Confidence</span>
+    <span>Evidence Confidence</span>
 
     <strong>
-      {hasScoringData
-        ? confidence.level
-        : "Insufficient Data"}
+      {formatEvidenceConfidence(
+        oceanData?.oceanOpportunity
+      )}
     </strong>
   </div>
 
@@ -215,22 +201,22 @@ const positionFreshness =
         </div>
 
 <div>
-  <span>Intelligence Status</span>
+  <span>Environment</span>
 
   <strong>
-    {hasScoringData
-      ? "Live Intelligence"
-      : "Reference Location"}
+    {formatEnvironment(
+      oceanData?.oceanOpportunity
+    )}
   </strong>
 </div>
 
         <div>
-          <span>Learning Status</span>
+          <span>Persistence</span>
 
           <strong>
-            {hasScoringData
-              ? "Active"
-              : "Collecting Data"}
+            {formatPersistence(
+              oceanData?.oceanOpportunity
+            )}
           </strong>
         </div>
 
@@ -347,12 +333,13 @@ const positionFreshness =
       <div className="selected-recommendation">
 
         <h3>
-          Captain&apos;s Recommendation
+          Pelora Interpretation
         </h3>
 
         <p>
-          {selectedSpot.recommendation ||
-            "Review live ocean conditions before evaluating this location."}
+          {buildPeloraInterpretation(
+            oceanData?.oceanOpportunity
+          )}
         </p>
 
       </div>
@@ -361,32 +348,6 @@ const positionFreshness =
   );
 }
 
-
-function safelyCalculateConfidence(spot) {
-  try {
-    const confidence =
-      calculateConfidence(spot);
-
-    return confidence &&
-      typeof confidence === "object"
-      ? confidence
-      : {
-          level: "Insufficient Data"
-        };
-  } catch (error) {
-    console.warn(
-      `Confidence calculation unavailable for ${
-        spot?.name ||
-        "unknown location"
-      }:`,
-      error
-    );
-
-    return {
-      level: "Insufficient Data"
-    };
-  }
-}
 
 function formatPositionStatus(value) {
   const labels = {
@@ -750,6 +711,151 @@ function formatRideContextDetail(
     interaction?.detail ||
     "No additional ride concerns identified."
   );
+}
+
+
+function formatOceanSignal(opportunity) {
+  const primary =
+    opportunity?.opportunities?.[0];
+
+  if (!primary) {
+    return "No Clear Ocean Signal";
+  }
+
+  if (
+    primary.classification ===
+    "temperature-transition-candidate"
+  ) {
+    return "Temperature Transition";
+  }
+
+  return formatClassification(
+    primary.classification
+  );
+}
+
+
+function formatEvidenceConfidence(
+  opportunity
+) {
+  return (
+    opportunity?.confidence?.level ||
+    "Unavailable"
+  );
+}
+
+
+function formatEnvironment(opportunity) {
+  const pathway =
+    opportunity
+      ?.pathwayClassification
+      ?.classification;
+
+  if (
+    pathway === "structure-associated"
+  ) {
+    return "Structure Associated";
+  }
+
+  if (
+    pathway === "open-water"
+  ) {
+    return "Open Water";
+  }
+
+  if (
+    pathway ===
+    "combined-structure-and-open-water"
+  ) {
+    return "Structure + Open Water";
+  }
+
+  return pathway
+    ? formatClassification(pathway)
+    : "Unresolved";
+}
+
+
+function formatPersistence(opportunity) {
+  const persistence =
+    opportunity?.persistenceContext;
+
+  if (
+    !persistence ||
+    persistence.available !== true
+  ) {
+    return "Not Yet Established";
+  }
+
+  if (persistence.lifecycleState) {
+    return formatClassification(
+      persistence.lifecycleState
+    );
+  }
+
+  return "Available";
+}
+
+function buildPeloraInterpretation(
+  opportunity
+) {
+  const primary =
+    opportunity?.opportunities?.[0];
+
+  const pathway =
+    opportunity
+      ?.pathwayClassification
+      ?.classification;
+
+  const persistence =
+    opportunity?.persistenceContext;
+
+  if (!primary) {
+    return (
+      "Pelora does not currently see a clear " +
+      "ocean feature signal at this location."
+    );
+  }
+
+  const parts = [];
+
+  if (
+    primary.classification ===
+    "temperature-transition-candidate"
+  ) {
+    parts.push(
+      "Pelora sees a temperature transition in this area."
+    );
+  } else {
+    parts.push(
+      "Pelora sees an environmental feature signal in this area."
+    );
+  }
+
+  if (
+    pathway === "structure-associated"
+  ) {
+    parts.push(
+      "The signal is occurring near verified offshore structure."
+    );
+  } else if (
+    pathway === "open-water"
+  ) {
+    parts.push(
+      "The signal is occurring in an open-water setting."
+    );
+  }
+
+  if (
+    !persistence ||
+    persistence.available !== true
+  ) {
+    parts.push(
+      "Persistence has not yet been established."
+    );
+  }
+
+  return parts.join(" ");
 }
 
 export default SelectedTarget;
