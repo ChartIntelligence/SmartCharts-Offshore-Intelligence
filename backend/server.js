@@ -1075,6 +1075,9 @@ const CHLOROPHYLL_DATASET =
 const CHLOROPHYLL_MAX_LIVE_AGE_HOURS =
   72;
 
+const CHLOROPHYLL_GAP_FILLED_DATASET =
+  "nesdisVHNnoaaSNPPnoaa20NRTchlaGapfilledDaily";
+
 
 const CURRENTS_DATASET =
   "noaacwBLENDEDNRTcurrentsDaily";
@@ -2005,6 +2008,174 @@ async function getChlorophyllConditions(
 
       classification:
         "satellite-observation",
+
+      availability:
+        concentration === null
+          ? "no-valid-pixel"
+          : "available"
+    }
+  };
+}
+
+
+async function getGapFilledChlorophyllConditions(
+  latitude,
+  longitude
+) {
+  const query =
+    `chlor_a[(last)][(0.0)][(${latitude})][(${longitude})]`;
+
+  const url =
+    new URL(
+      `https://coastwatch.pfeg.noaa.gov/erddap/griddap/${CHLOROPHYLL_GAP_FILLED_DATASET}.json`
+    );
+
+  url.search =
+    `?${encodeURIComponent(query)}`;
+
+  const payload =
+    await fetchJson(url);
+
+  const columns =
+    payload?.table?.columnNames;
+
+  const rows =
+    payload?.table?.rows;
+
+  if (
+    !Array.isArray(columns) ||
+    !Array.isArray(rows) ||
+    rows.length === 0
+  ) {
+    return {
+      concentrationMgM3: null,
+
+      waterClassification:
+        null,
+
+      observedAt:
+        null,
+
+      ageHours:
+        null,
+
+      source: {
+        provider:
+          "NOAA NESDIS CoastWatch",
+
+        platform:
+          "S-NPP + NOAA-20 VIIRS",
+
+        dataset:
+          CHLOROPHYLL_GAP_FILLED_DATASET,
+
+        variable:
+          "chlor_a",
+
+        units:
+          "mg m^-3",
+
+        observationType:
+          "gap-filled-reconstruction",
+
+        algorithm:
+          "DINEOF",
+
+        resolutionKilometers:
+          9,
+
+        experimental:
+          true,
+
+        classification:
+          "satellite-derived-reconstruction",
+
+        availability:
+          "no-valid-pixel"
+      }
+    };
+  }
+
+
+  const row =
+    rows[0];
+
+
+  const valueAt =
+    name => {
+      const index =
+        columns.indexOf(name);
+
+      return index >= 0
+        ? row[index]
+        : null;
+    };
+
+
+  const concentration =
+    safeNumber(
+      valueAt("chlor_a")
+    );
+
+
+  const observedAt =
+    valueAt("time") ??
+    null;
+
+
+  const ageHours =
+    getAgeHours(
+      observedAt
+    );
+
+
+  return {
+    concentrationMgM3:
+      concentration === null
+        ? null
+        : Number(
+            concentration.toFixed(4)
+          ),
+
+    waterClassification:
+      classifyChlorophyll(
+        concentration
+      ),
+
+    observedAt,
+
+    ageHours,
+
+    source: {
+      provider:
+        "NOAA NESDIS CoastWatch",
+
+      platform:
+        "S-NPP + NOAA-20 VIIRS",
+
+      dataset:
+        CHLOROPHYLL_GAP_FILLED_DATASET,
+
+      variable:
+        "chlor_a",
+
+      units:
+        "mg m^-3",
+
+      observationType:
+        "gap-filled-reconstruction",
+
+      algorithm:
+        "DINEOF",
+
+      resolutionKilometers:
+        9,
+
+      experimental:
+        true,
+
+      classification:
+        "satellite-derived-reconstruction",
 
       availability:
         concentration === null
@@ -10900,6 +11071,16 @@ function buildProductivityEvidence(
       ? chlorophyll.ageHours
       : null;
 
+  const sourceProvider =
+    chlorophyll?.source
+      ?.provider ??
+    null;
+
+  const observationType =
+    chlorophyll?.source
+      ?.observationType ??
+    "direct-satellite";
+
   const available =
     concentrationMgM3 !== null;
 
@@ -10907,7 +11088,10 @@ function buildProductivityEvidence(
 
   const limitations = [
     "surface-productivity-only",
-    "satellite-observation",
+    observationType ===
+      "gap-filled-reconstruction"
+      ? "gap-filled-satellite-derived-reconstruction"
+      : "satellite-observation",
     "single-time-snapshot",
     "does-not-confirm-water-column-productivity",
     "does-not-confirm-bait",
@@ -10981,6 +11165,8 @@ function buildProductivityEvidence(
         observedAt,
         ageHours,
         freshness,
+        sourceProvider,
+        observationType,
         sourceAvailability:
           chlorophyll?.source
             ?.availability ??
@@ -11081,6 +11267,8 @@ function buildProductivityEvidence(
       observedAt,
       ageHours,
       freshness,
+      sourceProvider,
+      observationType,
       units:
         chlorophyll?.source
           ?.units ??
@@ -20972,6 +21160,16 @@ function buildClarityEvidence(
       ? chlorophyll.ageHours
       : null;
 
+  const sourceProvider =
+    chlorophyll?.source
+      ?.provider ??
+    null;
+
+  const observationType =
+    chlorophyll?.source
+      ?.observationType ??
+    "direct-satellite";
+
   const available =
     concentrationMgM3 !== null;
 
@@ -20979,7 +21177,10 @@ function buildClarityEvidence(
 
   const limitations = [
     "clarity-inferred-from-surface-chlorophyll",
-    "satellite-observation",
+    observationType ===
+      "gap-filled-reconstruction"
+      ? "gap-filled-satellite-derived-reconstruction"
+      : "satellite-observation",
     "single-time-snapshot",
     "does-not-directly-measure-visibility",
     "does-not-measure-suspended-sediment",
@@ -21052,6 +21253,8 @@ function buildClarityEvidence(
         observedAt,
         ageHours,
         freshness,
+        sourceProvider,
+        observationType,
         sourceAvailability:
           chlorophyll?.source
             ?.availability ??
@@ -21169,6 +21372,8 @@ function buildClarityEvidence(
       observedAt,
       ageHours,
       freshness,
+      sourceProvider,
+      observationType,
       units:
         chlorophyll?.source
           ?.units ??
@@ -43832,11 +44037,20 @@ async function getOceanConditions(
 
   const [
     chlorophyllResult,
+    gapFilledChlorophyllResult,
     currentsResult
   ] = await Promise.all([
     settleWithTiming(
       () =>
         getChlorophyllConditions(
+          latitude,
+          longitude
+        )
+    ),
+
+    settleWithTiming(
+      () =>
+        getGapFilledChlorophyllConditions(
           latitude,
           longitude
         )
@@ -43851,6 +44065,7 @@ async function getOceanConditions(
     )
   ]);
 
+
   const initialProviderPhaseMilliseconds =
     Number(
       (
@@ -43858,6 +44073,8 @@ async function getOceanConditions(
           .durationMilliseconds +
         Math.max(
           chlorophyllResult
+            .durationMilliseconds,
+          gapFilledChlorophyllResult
             .durationMilliseconds,
           currentsResult
             .durationMilliseconds
@@ -44009,21 +44226,40 @@ async function getOceanConditions(
     );
   }
 
-  const chlorophyll =
+  const directChlorophyllObservation =
     chlorophyllResult.status ===
     "fulfilled"
       ? chlorophyllResult.value
       : {
           concentrationMgM3: null,
-          waterClassification: null,
-          observedAt: null,
-          ageHours: null,
+
+          waterClassification:
+            null,
+
+          observedAt:
+            null,
+
+          ageHours:
+            null,
+
           source: {
             provider:
               "NOAA CoastWatch",
 
+            platform:
+              "Suomi-NPP VIIRS",
+
             dataset:
               CHLOROPHYLL_DATASET,
+
+            variable:
+              "chlor_a",
+
+            units:
+              "mg m^-3",
+
+            observationType:
+              "direct-satellite",
 
             classification:
               "satellite-observation",
@@ -44032,6 +44268,96 @@ async function getOceanConditions(
               "provider-unavailable"
           }
         };
+
+
+  const gapFilledChlorophyllObservation =
+    gapFilledChlorophyllResult.status ===
+    "fulfilled"
+      ? gapFilledChlorophyllResult.value
+      : {
+          concentrationMgM3: null,
+
+          waterClassification:
+            null,
+
+          observedAt:
+            null,
+
+          ageHours:
+            null,
+
+          source: {
+            provider:
+              "NOAA NESDIS CoastWatch",
+
+            platform:
+              "S-NPP + NOAA-20 VIIRS",
+
+            dataset:
+              CHLOROPHYLL_GAP_FILLED_DATASET,
+
+            variable:
+              "chlor_a",
+
+            units:
+              "mg m^-3",
+
+            observationType:
+              "gap-filled-reconstruction",
+
+            algorithm:
+              "DINEOF",
+
+            resolutionKilometers:
+              9,
+
+            experimental:
+              true,
+
+            classification:
+              "satellite-derived-reconstruction",
+
+            availability:
+              "provider-unavailable"
+          }
+        };
+
+
+  const chlorophyllResolution =
+    resolveChlorophyllObservation({
+      observations: [
+        directChlorophyllObservation,
+        gapFilledChlorophyllObservation
+      ]
+    });
+
+
+  const chlorophyll =
+    chlorophyllResolution
+      .selectedObservation ??
+    {
+      concentrationMgM3: null,
+
+      waterClassification:
+        null,
+
+      observedAt:
+        null,
+
+      ageHours:
+        null,
+
+      source: {
+        provider:
+          null,
+
+        classification:
+          "chlorophyll-unavailable",
+
+        availability:
+          "unavailable"
+      }
+    };
 
 
   const currents =
@@ -44356,19 +44682,31 @@ currents.derived = {
           ? "live"
           : chlorophyllHasValue
             ? "stale"
-            : chlorophyllResult.status ===
-              "rejected"
+            : (
+                chlorophyllResult.status ===
+                  "rejected" &&
+                gapFilledChlorophyllResult.status ===
+                  "rejected"
+              )
               ? "degraded"
               : "unavailable",
 
       reason:
         chlorophyllIsCurrent
-          ? "current-satellite-observation"
+          ? chlorophyll.source
+              ?.observationType ===
+            "gap-filled-reconstruction"
+            ? "current-gap-filled-reconstruction"
+            : "current-satellite-observation"
           : chlorophyllHasValue
             ? "observation-exceeds-live-age-limit"
-            : chlorophyllResult.status ===
-              "rejected"
-              ? "chlorophyll-provider-request-failed"
+            : (
+                chlorophyllResult.status ===
+                  "rejected" &&
+                gapFilledChlorophyllResult.status ===
+                  "rejected"
+              )
+              ? "chlorophyll-providers-request-failed"
               : chlorophyll.source
                   ?.availability ??
                 "no-valid-chlorophyll-pixel",
@@ -44382,7 +44720,14 @@ currents.derived = {
         null,
 
       source:
-        "NOAA CoastWatch"
+        chlorophyll.source
+          ?.provider ??
+        null,
+
+      observationType:
+        chlorophyll.source
+          ?.observationType ??
+        null
     },
 
     currents: {
