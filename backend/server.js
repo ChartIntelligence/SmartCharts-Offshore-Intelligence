@@ -35759,6 +35759,497 @@ export function assessOceanOpportunity({
 
 /**
  * ------------------------------------------------------------
+ * Ocean Signal Selection Lineage v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Document how Pelora selected the primary
+ * species-neutral Ocean Signal from governed
+ * Ocean Opportunity candidates.
+ *
+ * Ocean Opportunity is the primary direct parent.
+ *
+ * This lineage is documentary only. It does not:
+ *
+ * - create ocean features
+ * - change opportunity confidence
+ * - change signal confidence
+ * - change candidate ordering
+ * - change primary-signal selection
+ * - establish biological significance
+ * - indicate fishing quality
+ * - confirm species presence
+ */
+export function buildOceanSignalSelectionLineage({
+  oceanOpportunity = null,
+  available = false,
+  classification = "unavailable",
+  primarySignal = null,
+  supportingSignals = [],
+  limitations = []
+} = {}) {
+  return propagateEvidenceLineage({
+    primaryUpstreamLineage:
+      oceanOpportunity?.lineage ??
+      null,
+
+    producedBy:
+      "ocean-signal-selection",
+
+    methodVersion:
+      "pelora-ocean-signal-selection-lineage-v1.0",
+
+    evidenceProduced: [
+      "species-neutral-ocean-signal-selection"
+    ],
+
+    inheritedLimitations:
+      Array.isArray(limitations)
+        ? limitations
+        : [],
+
+    inheritedWarnings:
+      oceanOpportunity?.lineage
+        ? []
+        : [
+            "primary-upstream-lineage-unavailable"
+          ],
+
+    components: {
+      available:
+        available === true,
+
+      classification,
+
+      primarySignalType:
+        primarySignal?.signalType ??
+        null,
+
+      supportingSignalTypes:
+        Array.isArray(
+          supportingSignals
+        )
+          ? supportingSignals
+              .map(
+                signal =>
+                  signal?.signalType
+              )
+              .filter(Boolean)
+          : [],
+
+      supportingSignalCount:
+        Array.isArray(
+          supportingSignals
+        )
+          ? supportingSignals.length
+          : 0
+    }
+  });
+}
+
+
+export function resolveOceanSignals({
+  oceanOpportunity = null
+} = {}) {
+  if (
+    !oceanOpportunity ||
+    typeof oceanOpportunity !== "object"
+  ) {
+      const limitations = [
+        "ocean-opportunity-unavailable",
+        "does-not-establish-biological-significance",
+        "does-not-indicate-fishing-quality",
+        "does-not-confirm-species-presence"
+      ];
+
+
+      const lineage =
+        buildOceanSignalSelectionLineage({
+          oceanOpportunity,
+
+          available: false,
+
+          classification:
+            "unavailable",
+
+          primarySignal: null,
+
+          supportingSignals: [],
+
+          limitations
+        });
+
+
+      return {
+        available: false,
+
+        classification:
+          "unavailable",
+
+        primarySignal: null,
+
+        supportingSignals: [],
+
+        confidence: {
+          score: 0,
+          level: "Unavailable"
+        },
+
+        limitations,
+
+        lineage,
+
+        interpretation:
+          "species-neutral-ocean-signal-selection",
+
+        methodVersion:
+          "pelora-ocean-signal-selection-v1.0"
+      };
+   }
+
+
+  const opportunities =
+    Array.isArray(
+      oceanOpportunity.opportunities
+    )
+      ? oceanOpportunity.opportunities
+      : [];
+
+
+  function buildSignal(
+    opportunity
+  ) {
+    if (
+      !opportunity ||
+      typeof opportunity !== "object"
+    ) {
+      return null;
+    }
+
+
+    let signalType = null;
+    let label = null;
+
+
+    if (
+      opportunity.type ===
+      "environmental-transition-zone"
+    ) {
+      signalType =
+        "temperature-transition";
+
+      label =
+        opportunity.classification ===
+        "strong-temperature-transition-candidate"
+          ? "Strong Temperature Transition"
+          : "Temperature Transition";
+    }
+
+
+    if (
+      opportunity.type ===
+      "current-supported-transition-candidate"
+    ) {
+      signalType =
+        "current-supported-transition";
+
+      label =
+        "Current-Supported Transition";
+    }
+
+
+    if (
+      opportunity.type ===
+      "surface-water-boundary-candidate"
+    ) {
+      signalType =
+        "surface-water-transition";
+
+      label =
+        "Surface-Water Transition";
+    }
+
+
+    if (
+      opportunity.type ===
+      "multi-signal-feature-candidate"
+    ) {
+      signalType =
+        "multi-signal-support";
+
+      label =
+        "Multiple Signals Reinforce This Feature";
+    }
+
+
+    if (!signalType) {
+      return null;
+    }
+
+
+    return {
+      signalType,
+
+      label,
+
+      sourceOpportunityType:
+        opportunity.type,
+
+      sourceClassification:
+        opportunity.classification ??
+        null,
+
+      supportingEvidence:
+        Array.isArray(
+          opportunity.supportingEvidence
+        )
+          ? [
+              ...opportunity
+                .supportingEvidence
+            ]
+          : [],
+
+      sourceFamilies:
+        Array.isArray(
+          opportunity.sourceFamilies
+        )
+          ? [
+              ...opportunity
+                .sourceFamilies
+            ]
+          : [],
+
+      confidence: {
+        score:
+          Number.isFinite(
+            opportunity
+              ?.confidence
+              ?.score
+          )
+            ? opportunity
+                .confidence
+                .score
+            : 0,
+
+        level:
+          opportunity
+            ?.confidence
+            ?.level ??
+          "Unavailable"
+      },
+
+      limitations:
+        Array.isArray(
+          opportunity.limitations
+        )
+          ? [
+              ...opportunity.limitations
+            ]
+          : []
+    };
+  }
+
+
+  const signals =
+    opportunities
+      .map(
+        opportunity =>
+          buildSignal(
+            opportunity
+          )
+      )
+      .filter(Boolean);
+
+
+  /*
+   * Composite reinforcement is supporting
+   * context only. It cannot replace a
+   * concrete physical ocean feature as the
+   * primary Ocean Signal.
+   */
+  const featureSignals =
+    signals.filter(
+      signal =>
+        signal.signalType !==
+        "multi-signal-support"
+    );
+
+
+  const rankedFeatureSignals =
+    [...featureSignals]
+      .sort(
+        (a, b) =>
+          (
+            Number.isFinite(
+              b?.confidence?.score
+            )
+              ? b.confidence.score
+              : 0
+          ) -
+          (
+            Number.isFinite(
+              a?.confidence?.score
+            )
+              ? a.confidence.score
+              : 0
+          )
+      );
+
+
+  const primarySignal =
+    rankedFeatureSignals[0] ??
+    null;
+
+
+  const supportingSignals =
+    signals.filter(
+      signal =>
+        signal !== primarySignal
+    );
+
+
+  if (!primarySignal) {
+    const classification =
+      supportingSignals.length > 0
+        ? "supporting-signals-only"
+        : "no-supported-signal";
+
+
+    const limitations = [
+      "primary-ocean-signal-not-established",
+      "does-not-establish-biological-significance",
+      "does-not-indicate-fishing-quality",
+      "does-not-confirm-species-presence"
+    ];
+
+
+    const lineage =
+      buildOceanSignalSelectionLineage({
+        oceanOpportunity,
+
+        available: false,
+
+        classification,
+
+        primarySignal: null,
+
+        supportingSignals,
+
+        limitations
+      });
+
+
+    return {
+      available: false,
+
+      classification,
+
+      primarySignal: null,
+
+      supportingSignals,
+
+      confidence: {
+        score:
+          oceanOpportunity
+            ?.confidence
+            ?.score ??
+          0,
+
+        level:
+          oceanOpportunity
+            ?.confidence
+            ?.level ??
+          "Unavailable"
+      },
+
+      persistenceContext:
+        oceanOpportunity
+          ?.persistenceContext ??
+        null,
+
+      limitations,
+
+      lineage,
+
+      interpretation:
+        "species-neutral-ocean-signal-selection",
+
+      methodVersion:
+        "pelora-ocean-signal-selection-v1.0"
+    };
+  }
+
+
+   const limitations = [
+    "species-neutral-signal-selection",
+    "signal-selection-does-not-establish-biological-significance",
+    "signal-selection-does-not-indicate-fishing-quality",
+    "signal-selection-does-not-confirm-species-presence",
+    "persistence-context-does-not-change-signal-selection"
+  ];
+
+
+  const lineage =
+    buildOceanSignalSelectionLineage({
+      oceanOpportunity,
+
+      available: true,
+
+      classification:
+        "primary-signal-selected",
+
+      primarySignal,
+
+      supportingSignals,
+
+      limitations
+    });
+
+
+  return {
+    available: true,
+
+    classification:
+      "primary-signal-selected",
+
+    primarySignal,
+
+    supportingSignals,
+
+    confidence: {
+      score:
+        primarySignal
+          ?.confidence
+          ?.score ??
+        0,
+
+      level:
+        primarySignal
+          ?.confidence
+          ?.level ??
+        "Unavailable"
+    },
+
+    persistenceContext:
+      oceanOpportunity
+        ?.persistenceContext ??
+      null,
+
+    limitations,
+
+    lineage,
+
+    interpretation:
+      "species-neutral-ocean-signal-selection",
+
+    methodVersion:
+      "pelora-ocean-signal-selection-v1.0"
+  };
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Blue Marlin Habitat Suitability Model
  * ------------------------------------------------------------
  *
@@ -38384,6 +38875,7 @@ export const LINEAGE_ENGINE_TYPES = [
   "ocean-evidence",
   "environmental-opportunity",
   "ocean-opportunity",
+  "ocean-signal-selection",
   "relationship-context",
   "relationship-assessment",
   "species-pathway",

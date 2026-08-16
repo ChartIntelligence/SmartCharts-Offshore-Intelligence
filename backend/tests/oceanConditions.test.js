@@ -60,6 +60,8 @@ import {
   assessOceanConditions,
   assessOceanEvidence,
   assessOceanOpportunity,
+  resolveOceanSignals,
+  buildOceanSignalSelectionLineage,
   assessBlueMarlinHabitat,
   buildBlueMarlinHabitatLineage,
   buildOpenWaterEvidence,
@@ -11131,6 +11133,7 @@ assert.deepEqual(
     "ocean-evidence",
     "environmental-opportunity",
     "ocean-opportunity",
+    "ocean-signal-selection",
     "relationship-context",
     "relationship-assessment",
     "species-pathway",
@@ -39326,4 +39329,602 @@ assert.equal(
 
 console.log(
   "PASS Ocean Persistence v1 connects governed Clarity Persistence"
+);
+
+const unavailableOceanSignals =
+  resolveOceanSignals({
+    oceanOpportunity: null
+  });
+
+assert.equal(
+  unavailableOceanSignals.available,
+  false
+);
+
+assert.equal(
+  unavailableOceanSignals.primarySignal,
+  null
+);
+
+assert.deepEqual(
+  unavailableOceanSignals.supportingSignals,
+  []
+);
+
+assert.equal(
+  unavailableOceanSignals.classification,
+  "unavailable"
+);
+
+assert.ok(
+  unavailableOceanSignals.limitations.includes(
+    "ocean-opportunity-unavailable"
+  )
+);
+
+assert.equal(
+  unavailableOceanSignals.interpretation,
+  "species-neutral-ocean-signal-selection"
+);
+
+console.log(
+  "PASS Governed Ocean Signal Selection v1 remains unavailable without Ocean Opportunity"
+);
+
+const temperatureSignalOpportunity = {
+  opportunities: [
+    {
+      type:
+        "environmental-transition-zone",
+
+      classification:
+        "temperature-transition-candidate",
+
+      headline:
+        "An environmental transition candidate is present.",
+
+      supportingEvidence: [
+        "temperature"
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature"
+      ],
+
+      confidence: {
+        score: 68,
+        level: "Moderate"
+      },
+
+      limitations: [
+        "does-not-confirm-persistence"
+      ]
+    }
+  ],
+
+  persistenceContext: {
+    available: false,
+    classification: "unavailable"
+  },
+
+  confidence: {
+    score: 68,
+    level: "Moderate"
+  }
+};
+
+
+const temperatureOceanSignals =
+  resolveOceanSignals({
+    oceanOpportunity:
+      temperatureSignalOpportunity
+  });
+
+assert.equal(
+  temperatureOceanSignals.available,
+  true
+);
+
+assert.equal(
+  temperatureOceanSignals.classification,
+  "primary-signal-selected"
+);
+
+assert.equal(
+  temperatureOceanSignals
+    .primarySignal
+    .signalType,
+  "temperature-transition"
+);
+
+assert.equal(
+  temperatureOceanSignals
+    .primarySignal
+    .label,
+  "Temperature Transition"
+);
+
+assert.equal(
+  temperatureOceanSignals
+    .primarySignal
+    .sourceOpportunityType,
+  "environmental-transition-zone"
+);
+
+assert.equal(
+  temperatureOceanSignals
+    .primarySignal
+    .confidence
+    .score,
+  68
+);
+
+assert.deepEqual(
+  temperatureOceanSignals
+    .supportingSignals,
+  []
+);
+
+console.log(
+  "PASS Governed Ocean Signal Selection v1 selects a temperature transition as the primary signal"
+);
+
+const compositeSignalOpportunity = {
+  opportunities: [
+    {
+      type:
+        "environmental-transition-zone",
+
+      classification:
+        "temperature-transition-candidate",
+
+      supportingEvidence: [
+        "temperature"
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature"
+      ],
+
+      confidence: {
+        score: 68,
+        level: "Moderate"
+      },
+
+      limitations: []
+    },
+
+    {
+      type:
+        "multi-signal-feature-candidate",
+
+      classification:
+        "reinforcing-environmental-signals",
+
+      supportingEvidence: [
+        "temperature",
+        "current",
+        "productivity"
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature",
+        "single-point-current",
+        "surface-chlorophyll"
+      ],
+
+      confidence: {
+        score: 78,
+        level: "Moderate"
+      },
+
+      limitations: [
+        "does-not-confirm-boundary-persistence"
+      ]
+    }
+  ],
+
+  persistenceContext: {
+    available: false,
+    classification: "unavailable"
+  },
+
+  confidence: {
+    score: 78,
+    level: "Moderate"
+  }
+};
+
+
+const compositeOceanSignals =
+  resolveOceanSignals({
+    oceanOpportunity:
+      compositeSignalOpportunity
+  });
+
+assert.equal(
+  compositeOceanSignals
+    .primarySignal
+    .signalType,
+  "temperature-transition"
+);
+
+assert.ok(
+  compositeOceanSignals
+    .supportingSignals
+    .some(
+      signal =>
+        signal.signalType ===
+        "multi-signal-support"
+    )
+);
+
+assert.notEqual(
+  compositeOceanSignals
+    .primarySignal
+    .signalType,
+  "multi-signal-support"
+);
+
+console.log(
+  "PASS Governed Ocean Signal Selection v1 keeps composite reinforcement as supporting context"
+);
+
+const competingPhysicalSignalOpportunity = {
+  opportunities: [
+    {
+      type:
+        "surface-water-boundary-candidate",
+
+      classification:
+        "chlorophyll-derived-surface-transition",
+
+      supportingEvidence: [
+        "productivity",
+        "clarity"
+      ],
+
+      sourceFamilies: [
+        "surface-chlorophyll"
+      ],
+
+      confidence: {
+        score: 60,
+        level: "Moderate"
+      },
+
+      limitations: []
+    },
+
+    {
+      type:
+        "environmental-transition-zone",
+
+      classification:
+        "strong-temperature-transition-candidate",
+
+      supportingEvidence: [
+        "temperature"
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature"
+      ],
+
+      confidence: {
+        score: 78,
+        level: "High"
+      },
+
+      limitations: []
+    }
+  ],
+
+  persistenceContext: {
+    available: false,
+    classification: "unavailable"
+  },
+
+  confidence: {
+    score: 78,
+    level: "High"
+  }
+};
+
+
+const competingPhysicalSignals =
+  resolveOceanSignals({
+    oceanOpportunity:
+      competingPhysicalSignalOpportunity
+  });
+
+assert.equal(
+  competingPhysicalSignals
+    .primarySignal
+    .signalType,
+  "temperature-transition"
+);
+
+assert.equal(
+  competingPhysicalSignals
+    .primarySignal
+    .confidence
+    .score,
+  78
+);
+
+assert.ok(
+  competingPhysicalSignals
+    .supportingSignals
+    .some(
+      signal =>
+        signal.signalType ===
+        "surface-water-transition"
+    )
+);
+
+console.log(
+  "PASS Governed Ocean Signal Selection v1 selects the strongest supported physical feature independent of candidate order"
+);
+
+const equalConfidenceOceanSignal =
+  resolveOceanSignals({
+    oceanOpportunity: {
+      opportunities: [
+        {
+          type:
+            "surface-water-boundary-candidate",
+
+          classification:
+            "chlorophyll-derived-surface-transition",
+
+          supportingEvidence: [
+            "productivity",
+            "clarity"
+          ],
+
+          sourceFamilies: [
+            "surface-chlorophyll"
+          ],
+
+          confidence: {
+            score: 68,
+            level: "Moderate"
+          },
+
+          limitations: []
+        },
+
+        {
+          type:
+            "environmental-transition-zone",
+
+          classification:
+            "temperature-transition-candidate",
+
+          supportingEvidence: [
+            "temperature"
+          ],
+
+          sourceFamilies: [
+            "spatial-temperature"
+          ],
+
+          confidence: {
+            score: 68,
+            level: "Moderate"
+          },
+
+          limitations: []
+        }
+      ],
+
+      persistenceContext: {
+        available: false,
+        classification: "unavailable"
+      },
+
+      confidence: {
+        score: 68,
+        level: "Moderate"
+      }
+    }
+  });
+
+
+assert.equal(
+  equalConfidenceOceanSignal
+    .primarySignal
+    .signalType,
+  "surface-water-transition"
+);
+
+
+assert.equal(
+  equalConfidenceOceanSignal
+    .primarySignal
+    .confidence
+    .score,
+  68
+);
+
+
+assert.ok(
+  equalConfidenceOceanSignal
+    .supportingSignals
+    .some(
+      signal =>
+        signal.signalType ===
+        "temperature-transition"
+    )
+);
+
+
+console.log(
+  "PASS Governed Ocean Signal Selection v1 preserves upstream order when physical features have equal confidence"
+);
+
+
+
+const oceanSignalSelectionLineage =
+  buildOceanSignalSelectionLineage({
+    oceanOpportunity: null,
+
+    available: true,
+
+    classification:
+      "primary-signal-selected",
+
+    primarySignal: {
+      signalType:
+        "temperature-transition"
+    },
+
+    supportingSignals: [
+      {
+        signalType:
+          "surface-water-transition"
+      }
+    ],
+
+    limitations: [
+      "species-neutral-signal-selection"
+    ]
+  });
+
+
+const oceanSignalSelectionLineageValidation =
+  validateEvidenceLineage(
+    oceanSignalSelectionLineage
+  );
+
+
+assert.equal(
+  oceanSignalSelectionLineageValidation.valid,
+  true
+);
+
+
+assert.equal(
+  oceanSignalSelectionLineage.producedBy,
+  "ocean-signal-selection"
+);
+
+
+assert.equal(
+  oceanSignalSelectionLineage.methodVersion,
+  "pelora-ocean-signal-selection-lineage-v1.0"
+);
+
+
+assert.equal(
+  oceanSignalSelectionLineage
+    .components
+    .primarySignalType,
+  "temperature-transition"
+);
+
+
+assert.deepEqual(
+  oceanSignalSelectionLineage
+    .components
+    .supportingSignalTypes,
+  [
+    "surface-water-transition"
+  ]
+);
+
+
+assert.ok(
+  oceanSignalSelectionLineage
+    .inheritedWarnings
+    .includes(
+      "primary-upstream-lineage-unavailable"
+    )
+);
+
+
+console.log(
+  "PASS Governed Ocean Signal Selection Lineage v1 validates the species-neutral signal-selection trace"
+);
+
+const immutableOceanSignalOpportunity =
+  structuredClone(
+    temperatureSignalOpportunity
+  );
+
+
+const immutableOceanSignalOpportunityBefore =
+  structuredClone(
+    immutableOceanSignalOpportunity
+  );
+
+
+const integratedOceanSignals =
+  resolveOceanSignals({
+    oceanOpportunity:
+      immutableOceanSignalOpportunity
+  });
+
+
+assert.deepEqual(
+  immutableOceanSignalOpportunity,
+  immutableOceanSignalOpportunityBefore
+);
+
+
+assert.ok(
+  integratedOceanSignals.lineage
+);
+
+
+assert.equal(
+  integratedOceanSignals
+    .lineage
+    .producedBy,
+  "ocean-signal-selection"
+);
+
+
+assert.equal(
+  integratedOceanSignals
+    .lineage
+    .components
+    .primarySignalType,
+  "temperature-transition"
+);
+
+
+assert.equal(
+  integratedOceanSignals
+    .lineage
+    .components
+    .available,
+  true
+);
+
+
+assert.equal(
+  integratedOceanSignals
+    .lineage
+    .components
+    .classification,
+  "primary-signal-selected"
+);
+
+
+const integratedOceanSignalLineageValidation =
+  validateEvidenceLineage(
+    integratedOceanSignals.lineage
+  );
+
+
+assert.equal(
+  integratedOceanSignalLineageValidation.valid,
+  true
+);
+
+
+console.log(
+  "PASS Governed Ocean Signal Selection v1 preserves upstream immutability and exposes valid integrated lineage"
 );
