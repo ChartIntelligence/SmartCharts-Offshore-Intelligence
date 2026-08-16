@@ -44809,6 +44809,11 @@ const observationSnapshot =
       oceanPersistence
     });
 
+  const oceanSignals =
+    resolveOceanSignals({
+      oceanOpportunity
+    });
+
   /*
    * These contracts are species-neutral even though they were
    * first consumed by the Blue Marlin HSM. Assemble them once
@@ -44984,6 +44989,8 @@ const observationSnapshot =
     oceanSnapshot,
 
     oceanOpportunity,
+
+    oceanSignals,
 
     relationshipContext,
 
