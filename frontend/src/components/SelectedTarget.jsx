@@ -73,7 +73,7 @@ const positionFreshness =
 
           <strong>
             {formatOceanSignal(
-              oceanData?.oceanOpportunity
+              oceanData?.oceanSignals
             )}
           </strong>
 
@@ -115,7 +115,7 @@ const positionFreshness =
 
     <strong>
       {formatEvidenceConfidence(
-        oceanData?.oceanOpportunity
+        oceanData?.oceanSignals
       )}
     </strong>
   </div>
@@ -338,6 +338,7 @@ const positionFreshness =
 
         <p>
           {buildPeloraInterpretation(
+            oceanData?.oceanSignals,
             oceanData?.oceanOpportunity
           )}
         </p>
@@ -714,32 +715,26 @@ function formatRideContextDetail(
 }
 
 
-function formatOceanSignal(opportunity) {
-  const primary =
-    opportunity?.opportunities?.[0];
-
-  if (!primary) {
+function formatOceanSignal(oceanSignals) {
+  if (
+    oceanSignals?.available !== true ||
+    !oceanSignals?.primarySignal
+  ) {
     return "No Clear Ocean Signal";
   }
 
-  if (
-    primary.classification ===
-    "temperature-transition-candidate"
-  ) {
-    return "Temperature Transition";
-  }
-
-  return formatClassification(
-    primary.classification
+  return (
+    oceanSignals.primarySignal.label ||
+    "Ocean Signal"
   );
 }
 
 
 function formatEvidenceConfidence(
-  opportunity
+  oceanSignals
 ) {
   return (
-    opportunity?.confidence?.level ||
+    oceanSignals?.confidence?.level ||
     "Unavailable"
   );
 }
@@ -797,10 +792,11 @@ function formatPersistence(opportunity) {
 }
 
 function buildPeloraInterpretation(
+  oceanSignals,
   opportunity
 ) {
   const primary =
-    opportunity?.opportunities?.[0];
+    oceanSignals?.primarySignal;
 
   const pathway =
     opportunity
@@ -810,7 +806,10 @@ function buildPeloraInterpretation(
   const persistence =
     opportunity?.persistenceContext;
 
-  if (!primary) {
+  if (
+    oceanSignals?.available !== true ||
+    !primary
+  ) {
     return (
       "Pelora does not currently see a clear " +
       "ocean feature signal at this location."
@@ -820,11 +819,25 @@ function buildPeloraInterpretation(
   const parts = [];
 
   if (
-    primary.classification ===
-    "temperature-transition-candidate"
+    primary.signalType ===
+    "temperature-transition"
   ) {
     parts.push(
       "Pelora sees a temperature transition in this area."
+    );
+  } else if (
+    primary.signalType ===
+    "current-supported-transition"
+  ) {
+    parts.push(
+      "Pelora sees a transition in this area with current support."
+    );
+  } else if (
+    primary.signalType ===
+    "surface-water-transition"
+  ) {
+    parts.push(
+      "Pelora sees a change in surface-water conditions in this area."
     );
   } else {
     parts.push(
@@ -843,6 +856,13 @@ function buildPeloraInterpretation(
   ) {
     parts.push(
       "The signal is occurring in an open-water setting."
+    );
+  } else if (
+    pathway ===
+    "combined-structure-and-open-water"
+  ) {
+    parts.push(
+      "The signal is occurring where offshore structure and open-water conditions overlap."
     );
   }
 
