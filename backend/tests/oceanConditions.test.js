@@ -40258,3 +40258,138 @@ assert.equal(
 console.log(
   "PASS Governed Chlorophyll Resolution v1 preserves upstream provider order when valid observations have equal age"
 );
+
+const directVsGapFilledChlorophyllResolution =
+  resolveChlorophyllObservation({
+    observations: [
+      {
+        concentrationMgM3: 0.18,
+        observedAt:
+          "2026-08-14T00:00:00.000Z",
+        ageHours: 60,
+
+        source: {
+          provider:
+            "NOAA CoastWatch",
+          observationType:
+            "direct-satellite",
+          availability:
+            "available"
+        }
+      },
+
+      {
+        concentrationMgM3: 0.44,
+        observedAt:
+          "2026-08-16T02:00:00.000Z",
+        ageHours: 10,
+
+        source: {
+          provider:
+            "NOAA NESDIS CoastWatch",
+          observationType:
+            "gap-filled-reconstruction",
+          algorithm:
+            "DINEOF",
+          experimental: true,
+          availability:
+            "available"
+        }
+      }
+    ]
+  });
+
+
+assert.equal(
+  directVsGapFilledChlorophyllResolution
+    .selectedObservation
+    .source
+    .observationType,
+  "direct-satellite"
+);
+
+
+assert.equal(
+  directVsGapFilledChlorophyllResolution
+    .selectedObservation
+    .ageHours,
+  60
+);
+
+
+console.log(
+  "PASS Governed Chlorophyll Resolution v1 prefers a current direct satellite observation over a fresher gap-filled reconstruction"
+);
+
+
+const staleDirectVsCurrentGapFilledResolution =
+  resolveChlorophyllObservation({
+    observations: [
+      {
+        concentrationMgM3: 0.18,
+        observedAt:
+          "2026-08-12T12:00:00.000Z",
+        ageHours: 96,
+
+        source: {
+          provider:
+            "NOAA CoastWatch",
+          observationType:
+            "direct-satellite",
+          availability:
+            "available"
+        }
+      },
+
+      {
+        concentrationMgM3: 0.44,
+        observedAt:
+          "2026-08-14T12:00:00.000Z",
+        ageHours: 48,
+
+        source: {
+          provider:
+            "NOAA NESDIS CoastWatch",
+          observationType:
+            "gap-filled-reconstruction",
+          algorithm:
+            "DINEOF",
+          experimental: true,
+          availability:
+            "available"
+        }
+      }
+    ]
+  });
+
+
+assert.equal(
+  staleDirectVsCurrentGapFilledResolution
+    .selectedObservation
+    .source
+    .observationType,
+  "gap-filled-reconstruction"
+);
+
+
+assert.equal(
+  staleDirectVsCurrentGapFilledResolution
+    .selectedObservation
+    .source
+    .experimental,
+  true
+);
+
+
+assert.equal(
+  staleDirectVsCurrentGapFilledResolution
+    .selectedObservation
+    .source
+    .algorithm,
+  "DINEOF"
+);
+
+
+console.log(
+  "PASS Governed Chlorophyll Resolution v1 allows a current gap-filled reconstruction to replace a stale direct observation"
+);

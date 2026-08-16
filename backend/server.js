@@ -1774,10 +1774,76 @@ export function resolveChlorophyllObservation({
   }
 
 
-  const rankedObservations =
-    [...validObservations]
-      .sort(
-        (a, b) =>
+  const observationQualityRank =
+  observation => {
+    const ageHours =
+      Number.isFinite(
+        observation?.ageHours
+      )
+        ? observation.ageHours
+        : Number.POSITIVE_INFINITY;
+
+    const observationType =
+      observation
+        ?.source
+        ?.observationType ??
+      "direct-satellite";
+
+    const isCurrent =
+      ageHours <=
+      CHLOROPHYLL_MAX_LIVE_AGE_HOURS;
+
+    if (
+      isCurrent &&
+      observationType ===
+        "direct-satellite"
+    ) {
+      return 0;
+    }
+
+    if (
+      isCurrent &&
+      observationType ===
+        "gap-filled-reconstruction"
+    ) {
+      return 1;
+    }
+
+    if (
+      !isCurrent &&
+      observationType ===
+        "direct-satellite"
+    ) {
+      return 2;
+    }
+
+    if (
+      !isCurrent &&
+      observationType ===
+        "gap-filled-reconstruction"
+    ) {
+      return 3;
+    }
+
+    return 4;
+  };
+
+
+const rankedObservations =
+  [...validObservations]
+    .sort(
+      (a, b) => {
+        const qualityDifference =
+          observationQualityRank(a) -
+          observationQualityRank(b);
+
+        if (
+          qualityDifference !== 0
+        ) {
+          return qualityDifference;
+        }
+
+        return (
           (
             Number.isFinite(
               a?.ageHours
@@ -1792,7 +1858,9 @@ export function resolveChlorophyllObservation({
               ? b.ageHours
               : Number.POSITIVE_INFINITY
           )
-      );
+        );
+      }
+    );
 
 
   const selectedObservation =
