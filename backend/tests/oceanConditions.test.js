@@ -57,6 +57,7 @@ import {
   buildGovernedFeatureMovement,
   buildOceanChangeAnalysis,
   buildCurrentEdgeAnalysis,
+  resolveChlorophyllObservation,
   assessOceanConditions,
   assessOceanEvidence,
   assessOceanOpportunity,
@@ -39927,4 +39928,333 @@ assert.equal(
 
 console.log(
   "PASS Governed Ocean Signal Selection v1 preserves upstream immutability and exposes valid integrated lineage"
+);
+
+const unavailableChlorophyllResolution =
+  resolveChlorophyllObservation({
+    observations: []
+  });
+
+
+assert.equal(
+  unavailableChlorophyllResolution.available,
+  false
+);
+
+
+assert.equal(
+  unavailableChlorophyllResolution
+    .selectedObservation,
+  null
+);
+
+
+assert.equal(
+  unavailableChlorophyllResolution
+    .classification,
+  "unavailable"
+);
+
+
+assert.deepEqual(
+  unavailableChlorophyllResolution
+    .providersConsidered,
+  []
+);
+
+
+console.log(
+  "PASS Governed Chlorophyll Resolution v1 remains unavailable without provider observations"
+);
+
+
+const singleProviderChlorophyllResolution =
+  resolveChlorophyllObservation({
+    observations: [
+      {
+        concentrationMgM3: 0.24,
+
+        waterClassification:
+          "productive-blue-green-transition",
+
+        observedAt:
+          "2026-08-16T12:00:00.000Z",
+
+        ageHours: 4,
+
+        source: {
+          provider:
+            "NOAA CoastWatch",
+
+          platform:
+            "Suomi-NPP VIIRS",
+
+          availability:
+            "available"
+        }
+      }
+    ]
+  });
+
+
+assert.equal(
+  singleProviderChlorophyllResolution.available,
+  true
+);
+
+
+assert.equal(
+  singleProviderChlorophyllResolution
+    .selectedObservation
+    .concentrationMgM3,
+  0.24
+);
+
+
+assert.equal(
+  singleProviderChlorophyllResolution
+    .selectedObservation
+    .source
+    .provider,
+  "NOAA CoastWatch"
+);
+
+
+assert.equal(
+  singleProviderChlorophyllResolution
+    .selectionReason,
+  "freshest-valid-observation"
+);
+
+
+console.log(
+  "PASS Governed Chlorophyll Resolution v1 selects a single valid provider observation"
+);
+
+
+const fallbackChlorophyllResolution =
+  resolveChlorophyllObservation({
+    observations: [
+      {
+        concentrationMgM3: 0.18,
+
+        observedAt:
+          "2026-08-09T12:00:00.000Z",
+
+        ageHours: 168,
+
+        source: {
+          provider:
+            "NOAA CoastWatch",
+
+          platform:
+            "Suomi-NPP VIIRS",
+
+          availability:
+            "available"
+        }
+      },
+
+      {
+        concentrationMgM3: 0.31,
+
+        observedAt:
+          "2026-08-16T09:00:00.000Z",
+
+        ageHours: 7,
+
+        source: {
+          provider:
+            "Secondary Chlorophyll Provider",
+
+          availability:
+            "available"
+        }
+      }
+    ]
+  });
+
+
+assert.equal(
+  fallbackChlorophyllResolution.available,
+  true
+);
+
+
+assert.equal(
+  fallbackChlorophyllResolution
+    .selectedObservation
+    .source
+    .provider,
+  "Secondary Chlorophyll Provider"
+);
+
+
+assert.equal(
+  fallbackChlorophyllResolution
+    .selectedObservation
+    .ageHours,
+  7
+);
+
+
+assert.deepEqual(
+  fallbackChlorophyllResolution
+    .providersConsidered,
+  [
+    "NOAA CoastWatch",
+    "Secondary Chlorophyll Provider"
+  ]
+);
+
+
+console.log(
+  "PASS Governed Chlorophyll Resolution v1 prefers a fresher valid fallback over stale primary data"
+);
+
+const invalidFreshFallbackChlorophyllResolution =
+  resolveChlorophyllObservation({
+    observations: [
+      {
+        concentrationMgM3: 0.22,
+
+        observedAt:
+          "2026-08-13T12:00:00.000Z",
+
+        ageHours: 76,
+
+        source: {
+          provider:
+            "NOAA CoastWatch",
+
+          availability:
+            "available"
+        }
+      },
+
+      {
+        concentrationMgM3: null,
+
+        observedAt:
+          "2026-08-16T12:00:00.000Z",
+
+        ageHours: 4,
+
+        source: {
+          provider:
+            "Secondary Chlorophyll Provider",
+
+          availability:
+            "no-valid-pixel"
+        }
+      }
+    ]
+  });
+
+
+assert.equal(
+  invalidFreshFallbackChlorophyllResolution
+    .available,
+  true
+);
+
+
+assert.equal(
+  invalidFreshFallbackChlorophyllResolution
+    .selectedObservation
+    .source
+    .provider,
+  "NOAA CoastWatch"
+);
+
+
+assert.equal(
+  invalidFreshFallbackChlorophyllResolution
+    .selectedObservation
+    .concentrationMgM3,
+  0.22
+);
+
+
+assert.deepEqual(
+  invalidFreshFallbackChlorophyllResolution
+    .providersConsidered,
+  [
+    "NOAA CoastWatch",
+    "Secondary Chlorophyll Provider"
+  ]
+);
+
+
+console.log(
+  "PASS Governed Chlorophyll Resolution v1 ignores a fresher provider without a valid chlorophyll observation"
+);
+
+
+const equalAgeChlorophyllResolution =
+  resolveChlorophyllObservation({
+    observations: [
+      {
+        concentrationMgM3: 0.19,
+
+        observedAt:
+          "2026-08-16T08:00:00.000Z",
+
+        ageHours: 8,
+
+        source: {
+          provider:
+            "NOAA CoastWatch",
+
+          availability:
+            "available"
+        }
+      },
+
+      {
+        concentrationMgM3: 0.27,
+
+        observedAt:
+          "2026-08-16T08:00:00.000Z",
+
+        ageHours: 8,
+
+        source: {
+          provider:
+            "Secondary Chlorophyll Provider",
+
+          availability:
+            "available"
+        }
+      }
+    ]
+  });
+
+
+assert.equal(
+  equalAgeChlorophyllResolution
+    .available,
+  true
+);
+
+
+assert.equal(
+  equalAgeChlorophyllResolution
+    .selectedObservation
+    .source
+    .provider,
+  "NOAA CoastWatch"
+);
+
+
+assert.equal(
+  equalAgeChlorophyllResolution
+    .selectedObservation
+    .concentrationMgM3,
+  0.19
+);
+
+
+console.log(
+  "PASS Governed Chlorophyll Resolution v1 preserves upstream provider order when valid observations have equal age"
 );

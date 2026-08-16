@@ -1717,6 +1717,122 @@ function getAgeHours(timestamp) {
 }
 
 
+export function resolveChlorophyllObservation({
+  observations = []
+} = {}) {
+  const providersConsidered =
+    Array.isArray(observations)
+      ? observations
+          .map(
+            observation =>
+              observation?.source?.provider
+          )
+          .filter(Boolean)
+      : [];
+
+
+  const validObservations =
+    Array.isArray(observations)
+      ? observations
+          .filter(
+            observation =>
+              observation &&
+              typeof observation ===
+                "object" &&
+              Number.isFinite(
+                observation
+                  .concentrationMgM3
+              )
+          )
+      : [];
+
+
+  if (
+    validObservations.length === 0
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "unavailable",
+
+      selectedObservation: null,
+
+      providersConsidered,
+
+      selectionReason:
+        "no-valid-provider-observation",
+
+      limitations: [
+        "no-valid-chlorophyll-observation",
+        "multi-source-resolution-does-not-average-provider-values"
+      ],
+
+      methodVersion:
+        "pelora-chlorophyll-resolution-v1.0"
+    };
+  }
+
+
+  const rankedObservations =
+    [...validObservations]
+      .sort(
+        (a, b) =>
+          (
+            Number.isFinite(
+              a?.ageHours
+            )
+              ? a.ageHours
+              : Number.POSITIVE_INFINITY
+          ) -
+          (
+            Number.isFinite(
+              b?.ageHours
+            )
+              ? b.ageHours
+              : Number.POSITIVE_INFINITY
+          )
+      );
+
+
+  const selectedObservation =
+    rankedObservations[0];
+
+
+  return {
+    available: true,
+
+    classification:
+      "valid-observation-selected",
+
+    selectedObservation: {
+      ...selectedObservation,
+
+      source: {
+        ...(
+          selectedObservation
+            ?.source ??
+          {}
+        )
+      }
+    },
+
+    providersConsidered,
+
+    selectionReason:
+      "freshest-valid-observation",
+
+    limitations: [
+      "multi-source-resolution-does-not-average-provider-values",
+      "selection-is-based-on-validity-and-observation-freshness"
+    ],
+
+    methodVersion:
+      "pelora-chlorophyll-resolution-v1.0"
+  };
+}
+
+
 async function getChlorophyllConditions(
   latitude,
   longitude
