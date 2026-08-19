@@ -6585,6 +6585,12 @@ function assessSstTransitionConfidence(
     )
   ) {
     if (
+      ageHours < 0
+    ) {
+      reasons.push(
+        "future-dated-sample-time"
+      );
+    } else if (
       ageHours <= 3
     ) {
       score += 10;
@@ -6692,6 +6698,18 @@ function assessSstTransitionConfidence(
       "four-point-spatial-sampling",
       "forecast-model-samples",
       "single-time-snapshot",
+
+      ...(
+        Number.isFinite(
+          ageHours
+        ) &&
+        ageHours < 0
+          ? [
+              "future-dated-sample-time"
+            ]
+          : []
+      ),
+
       "does-not-confirm-persistence",
       "does-not-confirm-ocean-front",
       "does-not-indicate-species-suitability"
@@ -10630,6 +10648,208 @@ function buildTemperatureEvidence(
 
     interpretation:
       "species-neutral-temperature-structure-evidence"
+  };
+}
+
+
+export function buildTemperatureTransitionMapFeature({
+  latitude = null,
+  longitude = null,
+  temperatureEvidence = null,
+  spatialStructure = null
+} = {}) {
+  const validCenter =
+    Number.isFinite(latitude) &&
+    Number.isFinite(longitude);
+
+  const temperatureAvailable =
+    temperatureEvidence
+      ?.available ===
+    true;
+
+  const spatialClassification =
+    temperatureEvidence
+      ?.values
+      ?.spatialClassification ??
+    null;
+
+  const transitionSupported =
+    [
+      "weak-temperature-transition",
+      "moderate-temperature-transition",
+      "strong-temperature-break-candidate"
+    ].includes(
+      spatialClassification
+    );
+
+  const sufficientCoverage =
+    temperatureEvidence
+      ?.values
+      ?.coverage ===
+    "sufficient";
+
+  const samples =
+    Array.isArray(
+      spatialStructure?.samples
+    )
+      ? spatialStructure.samples
+          .filter(
+            sample =>
+              Number.isFinite(
+                sample?.requestedLatitude
+              ) &&
+              Number.isFinite(
+                sample?.requestedLongitude
+              )
+          )
+          .map(
+            sample => ({
+              direction:
+                sample.direction ??
+                null,
+
+              latitude:
+                sample.requestedLatitude,
+
+              longitude:
+                sample.requestedLongitude,
+
+              resolvedLatitude:
+                Number.isFinite(
+                  sample?.resolvedLatitude
+                )
+                  ? sample.resolvedLatitude
+                  : null,
+
+              resolvedLongitude:
+                Number.isFinite(
+                  sample?.resolvedLongitude
+                )
+                  ? sample.resolvedLongitude
+                  : null,
+
+              temperatureFahrenheit:
+                Number.isFinite(
+                  sample
+                    ?.temperatureFahrenheit
+                )
+                  ? sample
+                      .temperatureFahrenheit
+                  : null,
+
+              observedAt:
+                sample.observedAt ??
+                null
+            })
+          )
+      : [];
+
+  const available =
+    validCenter &&
+    temperatureAvailable &&
+    transitionSupported &&
+    sufficientCoverage &&
+    samples.length >= 3;
+
+  const limitations = [
+    "local-sampling-evidence-footprint-only",
+    "does-not-resolve-exact-temperature-boundary",
+    "does-not-confirm-ocean-front",
+    "does-not-confirm-persistence",
+    "does-not-establish-biological-significance",
+    "map-visualization-must-not-exceed-evidence-certainty"
+  ];
+
+  if (!validCenter) {
+    limitations.push(
+      "valid-center-coordinate-unavailable"
+    );
+  }
+
+  if (!transitionSupported) {
+    limitations.push(
+      "temperature-transition-not-supported"
+    );
+  }
+
+  if (!sufficientCoverage) {
+    limitations.push(
+      "sufficient-spatial-temperature-coverage-unavailable"
+    );
+  }
+
+  if (samples.length < 3) {
+    limitations.push(
+      "insufficient-geographic-sample-footprint"
+    );
+  }
+
+  return {
+    available,
+
+    featureType:
+      "temperature-transition",
+
+    classification:
+      available
+        ? "local-temperature-transition-evidence-footprint"
+        : "unavailable",
+
+    center:
+      validCenter
+        ? {
+            latitude,
+            longitude
+          }
+        : null,
+
+    samplingFootprint: {
+      radiusNauticalMiles:
+        Number.isFinite(
+          temperatureEvidence
+            ?.values
+            ?.sampleRadiusNauticalMiles
+        )
+          ? temperatureEvidence
+              .values
+              .sampleRadiusNauticalMiles
+          : null,
+
+      sampleCount:
+        samples.length,
+
+      samples
+    },
+
+    orientation:
+      temperatureEvidence
+        ?.orientation ??
+      null,
+
+    confidence:
+      temperatureEvidence
+        ?.confidence ??
+      null,
+
+    geometry:
+      null,
+
+    geometryStatus:
+      available
+        ? "evidence-footprint-only"
+        : "unavailable",
+
+    limitations: [
+      ...new Set(
+        limitations
+      )
+    ],
+
+    interpretation:
+      "governed-map-safe-temperature-transition-feature",
+
+    contractVersion:
+      "pelora-temperature-transition-map-feature-v1"
   };
 }
 
@@ -45217,6 +45437,24 @@ const oceanEvidence =
     dataQuality
   });
 
+const temperatureTransitionMapFeature =
+  buildTemperatureTransitionMapFeature({
+    latitude:
+      marine.location.latitude,
+
+    longitude:
+      marine.location.longitude,
+
+    temperatureEvidence:
+      oceanEvidence
+        ?.groups
+        ?.temperature ??
+      null,
+
+    spatialStructure:
+      sstSpatial
+  });
+
 const observationSnapshot =
   buildObservationSnapshot({
     location:
@@ -45490,6 +45728,11 @@ const observationSnapshot =
     oceanConditions,
 
     oceanEvidence,
+
+    mapIntelligence: {
+      temperatureTransition:
+        temperatureTransitionMapFeature
+    },
 
     /*
      * Observation Snapshot preserves the governed state of the

@@ -8,6 +8,7 @@ import {
   buildMixingZoneAnalysis,
   buildEnvironmentalTransitionAnalysis,
   buildOceanFrontAnalysis,
+  buildTemperatureTransitionMapFeature,
   buildOceanPhysicsExplainabilitySummary,
   buildOceanPhysicsExplainabilityLineage,
   buildOceanOrganizationAnalysis,
@@ -40392,4 +40393,454 @@ assert.equal(
 
 console.log(
   "PASS Governed Chlorophyll Resolution v1 allows a current gap-filled reconstruction to replace a stale direct observation"
+);
+
+
+const temperatureTransitionMapFeature =
+  buildTemperatureTransitionMapFeature({
+    latitude:
+      29.0,
+
+    longitude:
+      -86.0,
+
+    temperatureEvidence: {
+      available:
+        true,
+
+      values: {
+        spatialClassification:
+          "moderate-temperature-transition",
+
+        coverage:
+          "sufficient",
+
+        sampleRadiusNauticalMiles:
+          12
+      },
+
+      orientation: {
+        classification:
+          "directional-temperature-transition",
+
+        dominantAxis:
+          "east-west",
+
+        warmSide:
+          "east",
+
+        coolSide:
+          "west",
+
+        dominantDifferenceFahrenheit:
+          1.3
+      },
+
+      confidence: {
+        score:
+          82,
+
+        level:
+          "High"
+      }
+    },
+
+    spatialStructure: {
+      samples: [
+        {
+          direction:
+            "north",
+
+          requestedLatitude:
+            29.2,
+
+          requestedLongitude:
+            -86.0,
+
+          resolvedLatitude:
+            29.2,
+
+          resolvedLongitude:
+            -86.0,
+
+          temperatureFahrenheit:
+            82.1,
+
+          observedAt:
+            "2026-08-19T12:00:00.000Z"
+        },
+
+        {
+          direction:
+            "east",
+
+          requestedLatitude:
+            29.0,
+
+          requestedLongitude:
+            -85.8,
+
+          resolvedLatitude:
+            29.0,
+
+          resolvedLongitude:
+            -85.8,
+
+          temperatureFahrenheit:
+            82.4,
+
+          observedAt:
+            "2026-08-19T12:00:00.000Z"
+        },
+
+        {
+          direction:
+            "south",
+
+          requestedLatitude:
+            28.8,
+
+          requestedLongitude:
+            -86.0,
+
+          resolvedLatitude:
+            28.8,
+
+          resolvedLongitude:
+            -86.0,
+
+          temperatureFahrenheit:
+            81.7,
+
+          observedAt:
+            "2026-08-19T12:00:00.000Z"
+        },
+
+        {
+          direction:
+            "west",
+
+          requestedLatitude:
+            29.0,
+
+          requestedLongitude:
+            -86.2,
+
+          resolvedLatitude:
+            29.0,
+
+          resolvedLongitude:
+            -86.2,
+
+          temperatureFahrenheit:
+            81.1,
+
+          observedAt:
+            "2026-08-19T12:00:00.000Z"
+        }
+      ]
+    }
+  });
+
+
+assert.equal(
+  temperatureTransitionMapFeature.available,
+  true
+);
+
+assert.equal(
+  temperatureTransitionMapFeature.featureType,
+  "temperature-transition"
+);
+
+assert.equal(
+  temperatureTransitionMapFeature.classification,
+  "local-temperature-transition-evidence-footprint"
+);
+
+assert.equal(
+  temperatureTransitionMapFeature.geometry,
+  null
+);
+
+assert.equal(
+  temperatureTransitionMapFeature.geometryStatus,
+  "evidence-footprint-only"
+);
+
+assert.equal(
+  temperatureTransitionMapFeature
+    .samplingFootprint
+    .sampleCount,
+  4
+);
+
+assert.equal(
+  temperatureTransitionMapFeature
+    .orientation
+    .dominantAxis,
+  "east-west"
+);
+
+assert.ok(
+  temperatureTransitionMapFeature
+    .limitations
+    .includes(
+      "does-not-resolve-exact-temperature-boundary"
+    )
+);
+
+console.log(
+  "PASS Temperature Transition Map Feature v1 exposes a governed local evidence footprint without inventing boundary geometry"
+);
+
+
+const uniformTemperatureMapFeature =
+  buildTemperatureTransitionMapFeature({
+    latitude:
+      29.0,
+
+    longitude:
+      -86.0,
+
+    temperatureEvidence: {
+      available:
+        true,
+
+      values: {
+        spatialClassification:
+          "uniform-water",
+
+        coverage:
+          "sufficient",
+
+        sampleRadiusNauticalMiles:
+          12
+      },
+
+      orientation: {
+        classification:
+          "no-clear-directional-transition"
+      },
+
+      confidence: {
+        score:
+          70,
+
+        level:
+          "Moderate"
+      }
+    },
+
+    spatialStructure: {
+      samples: [
+        {
+          direction:
+            "north",
+
+          requestedLatitude:
+            29.2,
+
+          requestedLongitude:
+            -86.0,
+
+          temperatureFahrenheit:
+            82
+        },
+
+        {
+          direction:
+            "east",
+
+          requestedLatitude:
+            29.0,
+
+          requestedLongitude:
+            -85.8,
+
+          temperatureFahrenheit:
+            82
+        },
+
+        {
+          direction:
+            "south",
+
+          requestedLatitude:
+            28.8,
+
+          requestedLongitude:
+            -86.0,
+
+          temperatureFahrenheit:
+            82
+        },
+
+        {
+          direction:
+            "west",
+
+          requestedLatitude:
+            29.0,
+
+          requestedLongitude:
+            -86.2,
+
+          temperatureFahrenheit:
+            82
+        }
+      ]
+    }
+  });
+
+
+assert.equal(
+  uniformTemperatureMapFeature.available,
+  false
+);
+
+assert.equal(
+  uniformTemperatureMapFeature.classification,
+  "unavailable"
+);
+
+assert.equal(
+  uniformTemperatureMapFeature.geometry,
+  null
+);
+
+assert.ok(
+  uniformTemperatureMapFeature
+    .limitations
+    .includes(
+      "temperature-transition-not-supported"
+    )
+);
+
+console.log(
+  "PASS Temperature Transition Map Feature v1 does not create a map feature for uniform water"
+);
+
+
+const insufficientGeometryMapFeature =
+  buildTemperatureTransitionMapFeature({
+    latitude:
+      29.0,
+
+    longitude:
+      -86.0,
+
+    temperatureEvidence: {
+      available:
+        true,
+
+      values: {
+        spatialClassification:
+          "strong-temperature-break-candidate",
+
+        coverage:
+          "sufficient",
+
+        sampleRadiusNauticalMiles:
+          12
+      },
+
+      orientation: {
+        classification:
+          "directional-temperature-transition",
+
+        dominantAxis:
+          "north-south",
+
+        warmSide:
+          "south",
+
+        coolSide:
+          "north",
+
+        dominantDifferenceFahrenheit:
+          2.4
+      },
+
+      confidence: {
+        score:
+          94,
+
+        level:
+          "High"
+      }
+    },
+
+    spatialStructure: {
+      samples: [
+        {
+          direction:
+            "north",
+
+          requestedLatitude:
+            29.2,
+
+          requestedLongitude:
+            -86.0,
+
+          temperatureFahrenheit:
+            80.4
+        },
+
+        {
+          direction:
+            "south",
+
+          requestedLatitude:
+            28.8,
+
+          requestedLongitude:
+            -86.0,
+
+          temperatureFahrenheit:
+            82.8
+        },
+
+        {
+          direction:
+            "east",
+
+          requestedLatitude:
+            29.0,
+
+          requestedLongitude:
+            -85.8,
+
+          temperatureFahrenheit:
+            81.5
+        }
+      ]
+    }
+  });
+
+
+assert.equal(
+  insufficientGeometryMapFeature.available,
+  true
+);
+
+assert.equal(
+  insufficientGeometryMapFeature.geometry,
+  null
+);
+
+assert.equal(
+  insufficientGeometryMapFeature.geometryStatus,
+  "evidence-footprint-only"
+);
+
+assert.equal(
+  insufficientGeometryMapFeature
+    .confidence
+    .score,
+  94
+);
+
+console.log(
+  "PASS Temperature Transition Map Feature v1 keeps exact geometry unresolved even under high-confidence directional evidence"
 );
