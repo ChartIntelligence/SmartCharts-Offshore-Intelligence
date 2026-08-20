@@ -13,12 +13,16 @@ import { useMapLibreSetup } from "../hooks/useMapLibreSetup";
 import { useMapLibreLayers } from "../hooks/useMapLibreLayers";
 import { useMapLibreMarkers } from "../hooks/useMapLibreMarkers";
 import { useMapLibreSelection } from "../hooks/useMapLibreSelection";
+import {
+  useMapLibreOceanFeatures
+} from "../hooks/useMapLibreOceanFeatures";
 
 
 function MapLibreIntelligenceMap({
   layers,
   selectedSpot,
-  setSelectedSpot
+  setSelectedSpot,
+  mapIntelligence
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -103,6 +107,11 @@ function MapLibreIntelligenceMap({
   useMapLibreLayers({
     mapRef,
     layers
+  });
+
+  useMapLibreOceanFeatures({
+    mapRef,
+    mapIntelligence
   });
 
   useMapLibreMarkers({

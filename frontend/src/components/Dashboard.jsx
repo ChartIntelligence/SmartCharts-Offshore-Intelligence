@@ -364,6 +364,11 @@ const handleReportSaved = () => {
                 setSelectedSpot={
                   setSelectedSpot
                 }
+                mapIntelligence={
+                  selectedMarineData
+                    ?.mapIntelligence ??
+                  null
+                }
               />
 
 
