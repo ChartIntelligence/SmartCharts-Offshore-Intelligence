@@ -44226,6 +44226,394 @@ export function assessBlueMarlinHabitat({
   };
 }
 
+const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [
+  {
+    id:
+      "madison-swanson",
+
+    name:
+      "Madison Swanson",
+
+    category:
+      "intelligence_zone",
+
+    type:
+      "Seamount",
+
+    region:
+      "West Florida",
+
+    coordinates: [
+      29.1917,
+      -85.7333
+    ]
+  },
+
+  {
+    id:
+      "green-canyon",
+
+    name:
+      "Green Canyon",
+
+    category:
+      "intelligence_zone",
+
+    type:
+      "Deepwater Structure",
+
+    region:
+      "Northern Gulf",
+
+    coordinates: [
+      27.65,
+      -91.35
+    ]
+  },
+
+  {
+    id:
+      "thunder-horse",
+
+    name:
+      "Thunder Horse",
+
+    category:
+      "oil_platform",
+
+    type:
+      "Deepwater Platform",
+
+    region:
+      "Mississippi Canyon",
+
+    coordinates: [
+      28.19,
+      -88.49
+    ]
+  },
+
+  {
+    id:
+      "desoto-canyon",
+
+    name:
+      "DeSoto Canyon",
+
+    category:
+      "intelligence_zone",
+
+    type:
+      "Canyon System",
+
+    region:
+      "Eastern Gulf",
+
+    coordinates: [
+      29.0,
+      -87.5
+    ]
+  }
+];
+
+
+export function buildDynamicBlueMarlinOpportunity({
+  location = null,
+  oceanConditions = null
+} = {}) {
+  const score =
+    oceanConditions
+      ?.blueMarlinHabitat
+      ?.confidence
+      ?.components
+      ?.confidenceAdjustedSuitability
+      ?.score;
+
+  const confidenceScore =
+    oceanConditions
+      ?.blueMarlinHabitat
+      ?.confidence
+      ?.score;
+
+  const confidenceLevel =
+    oceanConditions
+      ?.blueMarlinHabitat
+      ?.confidence
+      ?.level ??
+    null;
+
+  const pathway =
+    oceanConditions
+      ?.oceanOpportunity
+      ?.pathwayClassification
+      ?.classification ??
+    null;
+
+  const primarySignal =
+    oceanConditions
+      ?.oceanSignals
+      ?.primarySignal ??
+    null;
+
+
+  const available =
+    Number.isFinite(score);
+
+
+  return {
+    available,
+
+    species:
+      "blue-marlin",
+
+    location: {
+      id:
+        location?.id ??
+        null,
+
+      name:
+        location?.name ??
+        null,
+
+      region:
+        location?.region ??
+        null,
+
+      type:
+        location?.type ??
+        null,
+
+      coordinates:
+        Array.isArray(
+          location?.coordinates
+        )
+          ? [
+              ...location.coordinates
+            ]
+          : null
+    },
+
+    score:
+      available
+        ? score
+        : null,
+
+    confidence: {
+      score:
+        Number.isFinite(
+          confidenceScore
+        )
+          ? confidenceScore
+          : null,
+
+      level:
+        confidenceLevel
+    },
+
+    pathway,
+
+    primarySignal: {
+      type:
+        primarySignal
+          ?.signalType ??
+        null,
+
+      label:
+        primarySignal
+          ?.label ??
+        null
+    },
+
+    observedAt:
+      oceanConditions
+        ?.observedAt ??
+      null,
+
+    limitations: [
+      ...new Set(
+        Array.isArray(
+          oceanConditions
+            ?.blueMarlinHabitat
+            ?.limitations
+        )
+          ? oceanConditions
+              .blueMarlinHabitat
+              .limitations
+          : []
+      )
+    ],
+
+    interpretation:
+      "governed-blue-marlin-location-opportunity",
+
+    contractVersion:
+      "pelora-dynamic-blue-marlin-opportunity-v1"
+  };
+}
+
+
+export function rankDynamicBlueMarlinOpportunities(
+  opportunities = []
+) {
+  return (
+    Array.isArray(opportunities)
+      ? opportunities
+      : []
+  )
+    .filter(
+      opportunity =>
+        opportunity?.available ===
+          true &&
+        Number.isFinite(
+          opportunity?.score
+        )
+    )
+    .sort(
+      (a, b) => {
+        const scoreDifference =
+          b.score -
+          a.score;
+
+        if (
+          scoreDifference !== 0
+        ) {
+          return scoreDifference;
+        }
+
+
+        const confidenceA =
+          Number.isFinite(
+            a?.confidence?.score
+          )
+            ? a.confidence.score
+            : -1;
+
+        const confidenceB =
+          Number.isFinite(
+            b?.confidence?.score
+          )
+            ? b.confidence.score
+            : -1;
+
+
+        return (
+          confidenceB -
+          confidenceA
+        );
+      }
+    )
+    .map(
+      (opportunity, index) => ({
+        ...opportunity,
+
+        rank:
+          index + 1
+      })
+    );
+}
+
+
+async function getDynamicBlueMarlinOpportunities({
+  bearerToken = null
+} = {}) {
+  const evaluations =
+    await Promise.allSettled(
+      DYNAMIC_OPPORTUNITY_CANDIDATES_V1
+        .map(
+          async location => {
+            const [
+              latitude,
+              longitude
+            ] =
+              location.coordinates;
+
+
+            const oceanConditions =
+              await getOceanConditions(
+                latitude,
+                longitude,
+                {
+                  bearerToken
+                }
+              );
+
+
+            return (
+              buildDynamicBlueMarlinOpportunity({
+                location,
+                oceanConditions
+              })
+            );
+          }
+        )
+    );
+
+
+  const opportunities =
+    evaluations
+      .filter(
+        result =>
+          result.status ===
+          "fulfilled"
+      )
+      .map(
+        result =>
+          result.value
+      );
+
+
+  const rankedOpportunities =
+    rankDynamicBlueMarlinOpportunities(
+      opportunities
+    );
+
+
+  const failedCandidateCount =
+    evaluations.filter(
+      result =>
+        result.status ===
+        "rejected"
+    ).length;
+
+
+  return {
+    available:
+      rankedOpportunities.length >
+      0,
+
+    species:
+      "blue-marlin",
+
+    generatedAt:
+      new Date().toISOString(),
+
+    candidateCount:
+      DYNAMIC_OPPORTUNITY_CANDIDATES_V1
+        .length,
+
+    evaluatedCandidateCount:
+      opportunities.length,
+
+    failedCandidateCount,
+
+    opportunities:
+      rankedOpportunities,
+
+    limitations: [
+      "candidate-set-limited-to-curated-v1-locations",
+      "does-not-scan-continuous-open-water-grid",
+      "does-not-confirm-blue-marlin-presence",
+      "does-not-estimate-catch-probability"
+    ],
+
+    interpretation:
+      "dynamic-governed-blue-marlin-opportunity-ranking",
+
+    contractVersion:
+      "pelora-dynamic-blue-marlin-opportunities-v1"
+  };
+}
+
 
 async function getOceanConditions(
   latitude,
@@ -46010,6 +46398,76 @@ const server =
             response,
             200,
             conditions
+          );
+
+          return;
+        }
+
+
+        if (
+          request.method === "GET" &&
+          requestUrl.pathname ===
+            "/api/opportunities"
+        ) {
+          const species =
+            requestUrl
+              .searchParams
+              .get("species");
+
+
+          if (
+            species !==
+            "blue-marlin"
+          ) {
+            writeJson(
+              response,
+              400,
+              {
+                error:
+                  "Dynamic opportunity ranking currently supports species=blue-marlin only.",
+
+                supportedSpecies: [
+                  "blue-marlin"
+                ]
+              }
+            );
+
+            return;
+          }
+
+
+          const authorizationHeader =
+            request.headers
+              .authorization ??
+            null;
+
+
+          const bearerToken =
+            typeof authorizationHeader ===
+              "string" &&
+            authorizationHeader
+              .startsWith(
+                "Bearer "
+              )
+              ? authorizationHeader
+                  .slice(
+                    "Bearer ".length
+                  )
+                  .trim() ||
+                null
+              : null;
+
+
+          const opportunities =
+            await getDynamicBlueMarlinOpportunities({
+              bearerToken
+            });
+
+
+          writeJson(
+            response,
+            200,
+            opportunities
           );
 
           return;

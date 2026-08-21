@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 
 import {
+  buildDynamicBlueMarlinOpportunity,
+  rankDynamicBlueMarlinOpportunities,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -40843,4 +40845,236 @@ assert.equal(
 
 console.log(
   "PASS Temperature Transition Map Feature v1 keeps exact geometry unresolved even under high-confidence directional evidence"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Dynamic Blue Marlin Opportunities v1
+ * ------------------------------------------------------------
+ */
+
+const dynamicBlueMarlinOpportunity =
+  buildDynamicBlueMarlinOpportunity({
+    location: {
+      id:
+        "madison-swanson",
+
+      name:
+        "Madison Swanson",
+
+      region:
+        "West Florida",
+
+      type:
+        "Seamount",
+
+      coordinates: [
+        29.1917,
+        -85.7333
+      ]
+    },
+
+    oceanConditions: {
+      observedAt:
+        "2026-08-21T12:00:00Z",
+
+      blueMarlinHabitat: {
+        confidence: {
+          score:
+            65,
+
+          level:
+            "Moderate",
+
+          components: {
+            confidenceAdjustedSuitability: {
+              score:
+                42
+            }
+          }
+        },
+
+        limitations: [
+          "does-not-confirm-blue-marlin-presence"
+        ]
+      },
+
+      oceanOpportunity: {
+        pathwayClassification: {
+          classification:
+            "structure-associated"
+        }
+      },
+
+      oceanSignals: {
+        primarySignal: {
+          signalType:
+            "surface-water-transition",
+
+          label:
+            "Surface-Water Transition"
+        }
+      }
+    }
+  });
+
+
+assert.equal(
+  dynamicBlueMarlinOpportunity.available,
+  true
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity.score,
+  42
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity
+    .confidence
+    .score,
+  65
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity
+    .confidence
+    .level,
+  "Moderate"
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity.pathway,
+  "structure-associated"
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity
+    .primarySignal
+    .type,
+  "surface-water-transition"
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity
+    .contractVersion,
+  "pelora-dynamic-blue-marlin-opportunity-v1"
+);
+
+console.log(
+  "PASS Dynamic Blue Marlin Opportunity v1 extracts governed suitability and confidence"
+);
+
+
+const rankedDynamicBlueMarlinOpportunities =
+  rankDynamicBlueMarlinOpportunities([
+    {
+      available:
+        true,
+
+      score:
+        42,
+
+      confidence: {
+        score:
+          65
+      },
+
+      location: {
+        name:
+          "Madison Swanson"
+      }
+    },
+
+    {
+      available:
+        true,
+
+      score:
+        55,
+
+      confidence: {
+        score:
+          60
+      },
+
+      location: {
+        name:
+          "Green Canyon"
+      }
+    },
+
+    {
+      available:
+        true,
+
+      score:
+        42,
+
+      confidence: {
+        score:
+          72
+      },
+
+      location: {
+        name:
+          "Thunder Horse"
+      }
+    },
+
+    {
+      available:
+        false,
+
+      score:
+        null,
+
+      confidence: {
+        score:
+          null
+      },
+
+      location: {
+        name:
+          "Unavailable Candidate"
+      }
+    }
+  ]);
+
+
+assert.equal(
+  rankedDynamicBlueMarlinOpportunities.length,
+  3
+);
+
+assert.equal(
+  rankedDynamicBlueMarlinOpportunities[0]
+    .location
+    .name,
+  "Green Canyon"
+);
+
+assert.equal(
+  rankedDynamicBlueMarlinOpportunities[0]
+    .rank,
+  1
+);
+
+assert.equal(
+  rankedDynamicBlueMarlinOpportunities[1]
+    .location
+    .name,
+  "Thunder Horse"
+);
+
+assert.equal(
+  rankedDynamicBlueMarlinOpportunities[2]
+    .location
+    .name,
+  "Madison Swanson"
+);
+
+console.log(
+  "PASS Dynamic Blue Marlin Opportunity v1 ranks by governed suitability and uses confidence as tie-breaker"
 );

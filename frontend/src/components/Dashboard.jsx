@@ -22,6 +22,10 @@ import {
   useOceanMemoryPersistence
 } from "../hooks/useOceanMemoryPersistence";
 
+import {
+  useDynamicOpportunities
+} from "../hooks/useDynamicOpportunities";
+
 import "../styles/dashboard.css";
 
 import peloraHeaderLockup from "../assets/branding/pelora-header-lockup.png";
@@ -183,6 +187,111 @@ useOceanMemoryPersistence({
 });
 
 
+const {
+  data: dynamicOpportunityData,
+  loading: dynamicOpportunityLoading,
+  error: dynamicOpportunityError
+} = useDynamicOpportunities(
+  "blue-marlin",
+  session?.access_token ?? null
+);
+
+const dynamicTopOpportunities =
+  Array.isArray(
+    dynamicOpportunityData
+      ?.opportunities
+  )
+    ? dynamicOpportunityData
+        .opportunities
+        .map((opportunity) => {
+          const location =
+            opportunity?.location ?? {};
+
+          const matchingLocation =
+            structures.find(
+              (spot) =>
+                spot?.id ===
+                location?.id
+            ) ??
+            null;
+
+          return {
+            ...(matchingLocation ?? {}),
+
+            id:
+              location?.id ??
+              matchingLocation?.id ??
+              null,
+
+            name:
+              location?.name ??
+              matchingLocation?.name ??
+              "Unknown Location",
+
+            region:
+              location?.region ??
+              matchingLocation?.region ??
+              null,
+
+            type:
+              location?.type ??
+              matchingLocation?.type ??
+              null,
+
+            coordinates:
+              Array.isArray(
+                location?.coordinates
+              )
+                ? [
+                    ...location.coordinates
+                  ]
+                : matchingLocation
+                    ?.coordinates ??
+                  null,
+
+            dynamicOpportunity: {
+              rank:
+                opportunity?.rank ??
+                null,
+
+              score:
+                Number.isFinite(
+                  opportunity?.score
+                )
+                  ? opportunity.score
+                  : null,
+
+              confidence:
+                opportunity?.confidence ??
+                null,
+
+              pathway:
+                opportunity?.pathway ??
+                null,
+
+              primarySignal:
+                opportunity?.primarySignal ??
+                null,
+
+              observedAt:
+                opportunity?.observedAt ??
+                null,
+
+              contractVersion:
+                opportunity?.contractVersion ??
+                null
+            }
+          };
+        })
+    : [];
+
+
+const displayedTopOpportunities =
+  dynamicTopOpportunities.length > 0
+    ? dynamicTopOpportunities
+    : topOpportunities;
+
+
 const handleReportSaved = () => {
   setReportsRefreshToken(
     (currentToken) =>
@@ -283,7 +392,7 @@ const handleReportSaved = () => {
       {activeTab === "today" && (
   <TodayDashboard
     topOpportunities={
-      topOpportunities
+      displayedTopOpportunities
     }
     activeOpportunity={
       activeOpportunity
