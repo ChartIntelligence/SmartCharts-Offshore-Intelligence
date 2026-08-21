@@ -83,7 +83,7 @@ function MapLegend({ layers }) {
     layers.sst ||
     layers.chlorophyll ||
     layers.currents ||
-    layers.temperatureBreaks ||
+    layers.temperatureTransition ||
     layers.baitProbability;
 
 
@@ -235,13 +235,15 @@ function MapLegend({ layers }) {
           )}
 
 
-          {layers.temperatureBreaks && (
+          {layers.temperatureTransition && (
             <div className="legend-row">
 
-              <span className="legend-temperature-break" />
+              <span
+                className="legend-temperature-break"
+              />
 
               <span>
-                Temperature Break
+                Temperature Transition Evidence
               </span>
 
             </div>

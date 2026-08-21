@@ -111,7 +111,11 @@ function MapLibreIntelligenceMap({
 
   useMapLibreOceanFeatures({
     mapRef,
-    mapIntelligence
+    mapIntelligence,
+
+    temperatureTransitionVisible:
+      layers.temperatureTransition ===
+      true
   });
 
   useMapLibreMarkers({

@@ -144,7 +144,8 @@ function buildOceanFeatureGeoJson(
 
 export function useMapLibreOceanFeatures({
   mapRef,
-  mapIntelligence
+  mapIntelligence,
+  temperatureTransitionVisible = false
 }) {
   useEffect(() => {
     const map =
@@ -229,6 +230,13 @@ export function useMapLibreOceanFeatures({
               ]
             ],
 
+            layout: {
+              visibility:
+                temperatureTransitionVisible
+                  ? "visible"
+                  : "none"
+            },
+
             paint: {
               "circle-radius": [
                 "interpolate",
@@ -256,6 +264,21 @@ export function useMapLibreOceanFeatures({
             }
           });
         }
+
+
+        if (
+          map.getLayer(
+            "pelora-temperature-transition-samples"
+          )
+        ) {
+          map.setLayoutProperty(
+            "pelora-temperature-transition-samples",
+            "visibility",
+            temperatureTransitionVisible
+              ? "visible"
+              : "none"
+          );
+        }
       };
 
 
@@ -279,6 +302,7 @@ export function useMapLibreOceanFeatures({
     };
   }, [
     mapRef,
-    mapIntelligence
+    mapIntelligence,
+    temperatureTransitionVisible
   ]);
 }

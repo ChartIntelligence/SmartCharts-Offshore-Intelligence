@@ -24,7 +24,7 @@ function LayerControls({ layers, setLayers }) {
   "sst",
   "chlorophyll",
   "currents",
-  "temperatureBreaks",
+  "temperatureTransition",
   "baitProbability"
 ];
 
@@ -289,13 +289,17 @@ const activeLayerCount =
 
               <input
                 type="checkbox"
-                checked={layers.temperatureBreaks}
+                checked={
+                  layers.temperatureTransition
+                }
                 onChange={() =>
-                  toggleLayer("temperatureBreaks")
+                  toggleLayer(
+                    "temperatureTransition"
+                  )
                 }
               />
 
-              Temperature Breaks
+              Temperature Transition
 
             </label>
 

@@ -46,7 +46,7 @@ function Dashboard( {
     chlorophyll: false,
     chlorophyllOpacity: 0.7,
     currents: false,
-    temperatureBreaks: false,
+    temperatureTransition: false,
     baitProbability: false
   });
 
