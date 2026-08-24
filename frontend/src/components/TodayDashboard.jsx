@@ -69,12 +69,20 @@ function TodayDashboard({
     activeConfidence?.level ??
     "Unavailable";
 
-    const oceanBriefSummary =
-  buildOceanBriefSummary({
-    opportunity: activeOpportunity,
-    conditions,
-    score: opportunityScore,
-    confidence: opportunityConfidence
+  const oceanBriefSummary =
+    buildOceanBriefSummary({
+      opportunity:
+        activeOpportunity,
+
+      dynamicOpportunity,
+
+      liveMarineData,
+
+      score:
+        opportunityScore,
+
+      confidence:
+        opportunityConfidence
   });
 
 const wind =
@@ -114,6 +122,163 @@ const windAndWaveValue =
         )
         ? `${wind.speedKnots} kt ${windDirection} · ${waves.heightFeet} ft`
         : "Live data unavailable";
+
+const evidenceGroups =
+  liveMarineData
+    ?.oceanEvidence
+    ?.groups ??
+  {};
+
+
+const temperatureEvidence =
+  evidenceGroups
+    ?.temperature ??
+  {};
+
+
+const currentEvidence =
+  evidenceGroups
+    ?.current ??
+  {};
+
+
+const productivityEvidence =
+  evidenceGroups
+    ?.productivity ??
+  {};
+
+
+const structureEvidence =
+  evidenceGroups
+    ?.structure ??
+  {};
+
+
+const temperatureValue =
+  Number.isFinite(
+    temperatureEvidence
+      ?.values
+      ?.temperatureFahrenheit
+  )
+    ? `${temperatureEvidence.values.temperatureFahrenheit.toFixed(1)}°F`
+    : "Unavailable";
+
+
+const temperatureDetail =
+  temperatureEvidence
+    ?.headline ??
+  "Temperature evidence unavailable";
+
+
+const currentSpeed =
+  currentEvidence
+    ?.values
+    ?.speedKnots;
+
+
+const currentDirection =
+  currentEvidence
+    ?.values
+    ?.compassDirection;
+
+
+const currentFreshness =
+  currentEvidence
+    ?.values
+    ?.freshness ??
+  null;
+
+
+const currentValue =
+  Number.isFinite(currentSpeed)
+    ? `${currentSpeed} kt${
+        currentDirection
+          ? ` toward ${currentDirection}`
+          : ""
+      }`
+    : "Unavailable";
+
+
+const currentDetail =
+  currentFreshness === "aging"
+    ? `Latest available · Aging · ${
+        currentEvidence?.headline ??
+        "Current evidence available"
+      }`
+    : currentEvidence
+        ?.headline ??
+      "Current evidence unavailable";
+
+
+const productivityFreshness =
+  productivityEvidence
+    ?.values
+    ?.freshness ??
+  null;
+
+
+const productivityConcentration =
+  productivityEvidence
+    ?.values
+    ?.concentrationMgM3;
+
+
+const productivityValue =
+  productivityFreshness === "stale"
+    ? "Stale satellite context"
+    : Number.isFinite(
+        productivityConcentration
+      )
+      ? `${productivityConcentration.toFixed(3)} mg/m³`
+      : "Unavailable";
+
+
+const productivityDetail =
+  productivityFreshness === "stale"
+    ? Number.isFinite(
+        productivityConcentration
+      )
+      ? `${productivityConcentration.toFixed(3)} mg/m³ · ${
+          Math.round(
+            productivityEvidence
+              ?.values
+              ?.ageHours ??
+            0
+          )
+        } h old · Not treated as current prey evidence`
+      : "Stale observation · Not treated as current prey evidence"
+    : productivityEvidence
+        ?.headline ??
+      "Productivity evidence unavailable";
+
+
+const structureName =
+  structureEvidence
+    ?.values
+    ?.featureName ??
+  null;
+
+
+const structureDistance =
+  structureEvidence
+    ?.values
+    ?.nearestStructureDistanceNm;
+
+
+const structureValue =
+  structureName
+    ? Number.isFinite(
+        structureDistance
+      )
+      ? `${structureName} · ${structureDistance} nm`
+      : structureName
+    : "Unavailable";
+
+
+const structureDetail =
+  structureEvidence
+    ?.headline ??
+  "Verified structure evidence unavailable";
 
   return (
     <main className="dashboard-tab-content velion-home">
@@ -469,50 +634,40 @@ const windAndWaveValue =
             <div className="velion-reason-grid">
 
               <ReasonCard
-                label="Temperature Stability"
-                value={
-                  conditions.sst ??
-                  "Awaiting live data"
-                }
+                label="Temperature Pattern"
+                value={temperatureValue}
                 available={
-                  Boolean(conditions.sst)
+                  temperatureEvidence
+                    ?.available === true
                 }
               />
 
               <ReasonCard
-                label="Current Organization"
-                value={
-                  conditions.current ??
-                  "Awaiting live data"
-                }
+                label="Current Evidence"
+                value={currentValue}
                 available={
-                  Boolean(
-                    conditions.current
-                  )
+                  currentEvidence
+                    ?.available === true
                 }
               />
 
               <ReasonCard
-                label="Biological Productivity"
-                value={
-                  conditions.chlorophyll ??
-                  "Awaiting live data"
-                }
+                label="Productivity Context"
+                value={productivityValue}
                 available={
-                  Boolean(
-                    conditions.chlorophyll
-                  )
+                  productivityEvidence
+                    ?.available === true &&
+                  productivityFreshness !==
+                    "stale"
                 }
               />
 
               <ReasonCard
-                label="Structure Interaction"
-                value={
-                  activeOpportunity?.type ??
-                  "Structure analyzed"
-                }
+                label="Verified Structure Context"
+                value={structureValue}
                 available={
-                  Boolean(activeOpportunity)
+                  structureEvidence
+                    ?.available === true
                 }
               />
 
@@ -579,43 +734,35 @@ const windAndWaveValue =
             <ConditionCard
               accent="temperature"
               label="Sea Surface Temperature"
-              value={
-                conditions.sst ??
-                "Connecting"
-              }
-              detail="Temperature and break analysis"
+              value={temperatureValue}
+              detail={temperatureDetail}
               available={
-                Boolean(conditions.sst)
+                temperatureEvidence
+                  ?.available === true
               }
             />
 
             <ConditionCard
               accent="chlorophyll"
               label="Chlorophyll"
-              value={
-                conditions.chlorophyll ??
-                "Connecting"
-              }
-              detail="Productive water and edge detection"
+              value={productivityValue}
+              detail={productivityDetail}
               available={
-                Boolean(
-                  conditions.chlorophyll
-                )
+                productivityEvidence
+                  ?.available === true &&
+                productivityFreshness !==
+                  "stale"
               }
             />
 
             <ConditionCard
               accent="current"
               label="Ocean Current"
-              value={
-                conditions.current ??
-                "Connecting"
-              }
-              detail="Speed, direction and structure interaction"
+              value={currentValue}
+              detail={currentDetail}
               available={
-                Boolean(
-                  conditions.current
-                )
+                currentEvidence
+                  ?.available === true
               }
             />
 
@@ -834,53 +981,274 @@ function ConditionCard({
 
 function buildOceanBriefSummary({
   opportunity,
-  conditions,
+  dynamicOpportunity,
+  liveMarineData,
   score,
   confidence
 }) {
   if (!opportunity) {
     return (
-      "Pelora is reviewing current ocean conditions " +
-      "and waiting for a leading offshore opportunity."
+      "Pelora is still reading the water. " +
+      "No clear leading opportunity has separated itself yet."
     );
   }
 
-  const evidence = [];
 
-  if (conditions.sst) {
-    evidence.push("temperature support");
+  const evidenceGroups =
+    liveMarineData
+      ?.oceanEvidence
+      ?.groups ??
+    {};
+
+
+  const temperatureEvidence =
+    evidenceGroups
+      ?.temperature ??
+    {};
+
+
+  const currentEvidence =
+    evidenceGroups
+      ?.current ??
+    {};
+
+
+  const productivityEvidence =
+    evidenceGroups
+      ?.productivity ??
+    {};
+
+
+  const structureEvidence =
+    evidenceGroups
+      ?.structure ??
+    {};
+
+
+  const pathway =
+    dynamicOpportunity
+      ?.pathway ??
+    null;
+
+
+  const primarySignal =
+    dynamicOpportunity
+      ?.primarySignal
+      ?.type ??
+    null;
+
+
+  const limitations =
+    Array.isArray(
+      dynamicOpportunity
+        ?.limitations
+    )
+      ? dynamicOpportunity.limitations
+      : [];
+
+
+  const temperatureAvailable =
+    temperatureEvidence
+      ?.available ===
+    true;
+
+
+  const currentAvailable =
+    currentEvidence
+      ?.available ===
+    true;
+
+
+  const currentFreshness =
+    currentEvidence
+      ?.values
+      ?.freshness ??
+    null;
+
+
+  const productivityFreshness =
+    productivityEvidence
+      ?.values
+      ?.freshness ??
+    null;
+
+
+  const structureAvailable =
+    structureEvidence
+      ?.available ===
+    true;
+
+
+  const persistenceNotEstablished =
+    limitations.some(
+      limitation =>
+        String(limitation)
+          .includes(
+            "persistence"
+          )
+    );
+
+
+  const isStructureAssociated =
+    pathway ===
+      "structure-associated";
+
+
+  const isOpenWater =
+    pathway ===
+      "open-water" ||
+    pathway ===
+      "open-water-associated";
+
+
+  let opening =
+    `${opportunity.name} is standing apart today.`;
+
+
+  let oceanStory =
+    "The surrounding water is beginning to show a more defined setup.";
+
+
+  if (
+    primarySignal ===
+      "current-supported-transition" &&
+    temperatureAvailable &&
+    currentAvailable
+  ) {
+    oceanStory =
+      isStructureAssociated
+        ? (
+            "A temperature transition is developing around the structure, " +
+            "with the current helping shape the water around it."
+          )
+        : (
+            "A temperature transition is beginning to separate itself from " +
+            "the surrounding water, with the current helping define the feature."
+          );
+  } else if (
+    primarySignal ===
+      "temperature-transition" &&
+    temperatureAvailable
+  ) {
+    oceanStory =
+      isStructureAssociated
+        ? (
+            "A temperature transition is developing around the structure " +
+            "and beginning to separate this area from the surrounding water."
+          )
+        : (
+            "A temperature transition is beginning to stand apart from " +
+            "the surrounding water."
+          );
+  } else if (
+    currentAvailable
+  ) {
+    oceanStory =
+      isStructureAssociated
+        ? (
+            "The current is beginning to shape a more distinct piece of water " +
+            "around the structure."
+          )
+        : (
+            "The current is beginning to shape a more distinct piece of open water."
+          );
   }
 
-  if (conditions.current) {
-    evidence.push("organized current flow");
+
+  let structureStory = "";
+
+
+  if (
+    isOpenWater &&
+    !structureAvailable
+  ) {
+    structureStory =
+      " The signal is being created by the water itself rather than nearby structure.";
   }
 
-  if (conditions.chlorophyll) {
-    evidence.push("biological productivity");
+
+  let cautionStory = "";
+
+
+  const cautionSignals = [];
+
+
+  if (
+    currentFreshness ===
+      "aging"
+  ) {
+    cautionSignals.push(
+      "some of the supporting evidence is getting older"
+    );
   }
 
-  if (opportunity.type) {
-    evidence.push("structure interaction");
+
+  if (
+    productivityFreshness ===
+      "stale"
+  ) {
+    cautionSignals.push(
+      "the biological side of the picture needs a fresher look"
+    );
   }
 
-  const evidenceText =
-    evidence.length > 0
-      ? evidence.join(", ")
-      : "the available ocean evidence";
 
-  const confidenceText =
+  if (
+    persistenceNotEstablished
+  ) {
+    cautionSignals.push(
+      "the feature has not shown enough persistence yet"
+    );
+  }
+
+
+  if (
+    cautionSignals.length > 0
+  ) {
+    cautionStory =
+      ` ${formatNaturalList(cautionSignals)}.`;
+  }
+
+
+  const confidenceStory =
     confidence >= 80
-      ? "high"
+      ? "Pelora has strong confidence in the setup."
       : confidence >= 60
-        ? "moderate"
-        : "developing";
+        ? "The signal is still developing, but it is worth a closer look."
+        : "The picture is still developing, so this area is worth watching rather than drawing a strong conclusion from it.";
+
 
   return (
-    `${opportunity.name} is currently Pelora's leading ` +
-    `offshore opportunity with a score of ${score}. ` +
-    `The zone is supported by ${evidenceText}. ` +
-    `Forecast confidence is ${confidenceText} at ` +
-    `${confidence}%.`
+    opening +
+    " " +
+    oceanStory +
+    structureStory +
+    cautionStory +
+    " " +
+    confidenceStory
+  );
+}
+
+
+function formatNaturalList(items = []) {
+  if (items.length === 0) {
+    return "";
+  }
+
+
+  if (items.length === 1) {
+    return items[0];
+  }
+
+
+  if (items.length === 2) {
+    return `${items[0]} and ${items[1]}`;
+  }
+
+
+  return (
+    `${items.slice(0, -1).join(", ")}, and ` +
+    items[items.length - 1]
   );
 }
 
