@@ -20,12 +20,19 @@ function TodayDashboard({
   const conditions =
     activeOpportunity?.conditions ?? {};
 
+  const dynamicOpportunity =
+    activeOpportunity
+      ?.dynamicOpportunity ??
+    null;
+
+
   const activeScore =
     activeOpportunity
       ? calculateBlueMarlinScore(
           activeOpportunity
         )
       : null;
+
 
   const activeConfidence =
     activeOpportunity
@@ -34,11 +41,33 @@ function TodayDashboard({
         )
       : null;
 
+
   const opportunityScore =
-    activeScore?.total ?? 0;
+    Number.isFinite(
+      dynamicOpportunity?.score
+    )
+      ? dynamicOpportunity.score
+      : activeScore?.total ?? 0;
+
 
   const opportunityConfidence =
-    activeConfidence?.score ?? 0;
+    Number.isFinite(
+      dynamicOpportunity
+        ?.confidence
+        ?.score
+    )
+      ? dynamicOpportunity
+          .confidence
+          .score
+      : activeConfidence?.score ?? 0;
+
+
+  const opportunityConfidenceLevel =
+    dynamicOpportunity
+      ?.confidence
+      ?.level ??
+    activeConfidence?.level ??
+    "Unavailable";
 
     const oceanBriefSummary =
   buildOceanBriefSummary({
@@ -172,6 +201,10 @@ const windAndWaveValue =
         {opportunityConfidence}%
       </strong>
 
+      <small>
+        {opportunityConfidenceLevel}
+      </small>
+
     </div>
 
 
@@ -227,15 +260,39 @@ const windAndWaveValue =
       {topOpportunities.map(
         (opportunity, index) => {
 
-          const score =
+          const dynamicOpportunity =
+            opportunity
+              ?.dynamicOpportunity ??
+            null;
+
+
+          const fallbackScore =
             calculateBlueMarlinScore(
               opportunity
             );
 
-          const confidence =
+
+          const fallbackConfidence =
             calculateConfidence(
               opportunity
             );
+
+
+          const displayedScore =
+            Number.isFinite(
+              dynamicOpportunity
+                ?.score
+            )
+              ? dynamicOpportunity.score
+              : fallbackScore?.total ?? 0;
+
+
+          const displayedConfidenceLevel =
+            dynamicOpportunity
+              ?.confidence
+              ?.level ??
+            fallbackConfidence?.level ??
+            "Unavailable";
 
           const isActive =
             activeOpportunity?.id ===
@@ -288,11 +345,11 @@ const windAndWaveValue =
               <span className="ocean-brief-trend">
 
                 <small>
-                  {confidence.level}
+                  {displayedConfidenceLevel}
                 </small>
 
                 <strong>
-                  {score.total}
+                  {displayedScore}
                 </strong>
 
               </span>

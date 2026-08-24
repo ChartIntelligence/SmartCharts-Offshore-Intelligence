@@ -124,11 +124,8 @@ const topSpot =
   rankedLocations[0] ?? null;
 
 
-  const topOpportunities =
+const topOpportunities =
   rankedLocations.slice(0, 5);
-
-const activeOpportunity =
-  selectedOpportunity ?? topSpot;
 
 
 const topScore =
@@ -164,29 +161,6 @@ const {
   session?.access_token ?? null
 );
 
-// Active Ocean Brief opportunity
-const {
-  data: activeOpportunityMarineData,
-  loading: activeOpportunityMarineLoading,
-  error: activeOpportunityMarineError
-} = useLiveMarineConditions(
-  activeOpportunity,
-  session?.access_token ?? null
-);
-
-useOceanMemoryPersistence({
-  user,
-
-  selectedLocation:
-    selectedSpot,
-
-  oceanSnapshot:
-    selectedMarineData
-      ?.oceanSnapshot ??
-    null
-});
-
-
 const {
   data: dynamicOpportunityData,
   loading: dynamicOpportunityLoading,
@@ -195,6 +169,7 @@ const {
   "blue-marlin",
   session?.access_token ?? null
 );
+
 
 const dynamicTopOpportunities =
   Array.isArray(
@@ -290,6 +265,41 @@ const displayedTopOpportunities =
   dynamicTopOpportunities.length > 0
     ? dynamicTopOpportunities
     : topOpportunities;
+
+
+const dynamicTopSpot =
+  displayedTopOpportunities[0] ??
+  null;
+
+
+const activeOpportunity =
+  selectedOpportunity ??
+  dynamicTopSpot ??
+  topSpot;
+
+
+// Active Ocean Brief opportunity
+const {
+  data: activeOpportunityMarineData,
+  loading: activeOpportunityMarineLoading,
+  error: activeOpportunityMarineError
+} = useLiveMarineConditions(
+  activeOpportunity,
+  session?.access_token ?? null
+);
+
+
+useOceanMemoryPersistence({
+  user,
+
+  selectedLocation:
+    selectedSpot,
+
+  oceanSnapshot:
+    selectedMarineData
+      ?.oceanSnapshot ??
+    null
+});
 
 
 const handleReportSaved = () => {
