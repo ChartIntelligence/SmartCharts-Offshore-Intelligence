@@ -13,6 +13,10 @@ import fads
   from "./data/fads.json"
   with { type: "json" };
 
+import gulfWaterMaskV1
+  from "./data/gulf-water-mask-v1.json"
+  with { type: "json" };
+
 
   /* -----------------------------
    Verified Structure Catalog
@@ -44224,6 +44228,496 @@ export function assessBlueMarlinHabitat({
     methodVersion:
       "pelora-blue-marlin-hsm-v1.7"
   };
+}
+
+export const GULF_SEARCH_GRID_V1 = {
+  latitude: {
+    minimum: 18,
+    maximum: 31,
+    step: 1
+  },
+
+  longitude: {
+    minimum: -98,
+    maximum: -80,
+    step: 1
+  },
+
+  contractVersion:
+    "pelora-gulf-search-grid-v1"
+};
+
+
+export const GULF_SEARCH_DOMAIN_V1 = {
+  polygon: [
+    [31.0, -88.0],
+    [30.5, -83.0],
+    [27.0, -82.0],
+    [24.5, -81.0],
+    [21.5, -86.0],
+    [18.5, -87.5],
+    [18.0, -92.0],
+    [20.5, -97.0],
+    [25.5, -98.0],
+    [29.5, -95.5],
+    [31.0, -88.0]
+  ],
+
+  interpretation:
+    "conservative-gulf-search-domain",
+
+  contractVersion:
+    "pelora-gulf-search-domain-v1"
+};
+
+
+export function coordinateIsWithinGulfSearchDomainV1(
+  latitude,
+  longitude
+) {
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude)
+  ) {
+    return false;
+  }
+
+
+  const polygon =
+    GULF_SEARCH_DOMAIN_V1
+      .polygon;
+
+
+  let inside = false;
+
+
+  for (
+    let i = 0,
+      j = polygon.length - 1;
+
+    i < polygon.length;
+
+    j = i,
+      i += 1
+  ) {
+    const [
+      latitudeI,
+      longitudeI
+    ] =
+      polygon[i];
+
+    const [
+      latitudeJ,
+      longitudeJ
+    ] =
+      polygon[j];
+
+
+    const intersects =
+      (
+        longitudeI > longitude
+      ) !==
+      (
+        longitudeJ > longitude
+      ) &&
+      latitude <
+        (
+          (
+            latitudeJ -
+            latitudeI
+          ) *
+          (
+            longitude -
+            longitudeI
+          )
+        ) /
+          (
+            longitudeJ -
+            longitudeI
+          ) +
+        latitudeI;
+
+
+    if (intersects) {
+      inside = !inside;
+    }
+  }
+
+
+  return inside;
+}
+
+
+export function resolveGulfWaterMaskV1(
+  latitude,
+  longitude
+) {
+  const requestedLatitude =
+    Number(latitude);
+
+  const requestedLongitude =
+    Number(longitude);
+
+
+  if (
+    !Number.isFinite(
+      requestedLatitude
+    ) ||
+    !Number.isFinite(
+      requestedLongitude
+    )
+  ) {
+    return {
+      available: false,
+      water: null,
+      elevationMeters: null,
+      sampleCoordinates: null,
+      reason:
+        "invalid-coordinates",
+      contractVersion:
+        "pelora-gulf-water-mask-v1"
+    };
+  }
+
+
+  const candidates =
+    Array.isArray(
+      gulfWaterMaskV1
+        ?.candidates
+    )
+      ? gulfWaterMaskV1
+          .candidates
+      : [];
+
+
+  if (!candidates.length) {
+    return {
+      available: false,
+      water: null,
+      elevationMeters: null,
+      sampleCoordinates: null,
+      reason:
+        "water-mask-unavailable",
+      contractVersion:
+        "pelora-gulf-water-mask-v1"
+    };
+  }
+
+
+  let nearestSample =
+    null;
+
+  let nearestDistance =
+    Infinity;
+
+
+  for (
+    const candidate
+    of candidates
+  ) {
+    const coordinates =
+      candidate
+        ?.coordinates;
+
+
+    if (
+      !Array.isArray(
+        coordinates
+      ) ||
+      coordinates.length < 2
+    ) {
+      continue;
+    }
+
+
+    const sampleLatitude =
+      Number(
+        coordinates[0]
+      );
+
+    const sampleLongitude =
+      Number(
+        coordinates[1]
+      );
+
+
+    if (
+      !Number.isFinite(
+        sampleLatitude
+      ) ||
+      !Number.isFinite(
+        sampleLongitude
+      )
+    ) {
+      continue;
+    }
+
+
+    const latitudeDifference =
+      sampleLatitude -
+      requestedLatitude;
+
+    const longitudeDifference =
+      sampleLongitude -
+      requestedLongitude;
+
+
+    const distanceDegrees =
+      Math.sqrt(
+        latitudeDifference ** 2 +
+        longitudeDifference ** 2
+      );
+
+
+    if (
+      distanceDegrees <
+      nearestDistance
+    ) {
+      nearestDistance =
+        distanceDegrees;
+
+      nearestSample =
+        candidate;
+    }
+  }
+
+
+  /*
+   * ETOPO 60 arc-second cells are
+   * center-referenced. Our 1-degree
+   * Pelora search grid therefore
+   * differs from the corresponding
+   * sampled ETOPO cell center by
+   * approximately 0.0083 degrees.
+   *
+   * The 0.05-degree tolerance is
+   * intentionally conservative:
+   * large enough for cell-center
+   * offset, but far smaller than
+   * the 1-degree search spacing.
+   */
+  const MATCH_TOLERANCE_DEGREES =
+    0.05;
+
+
+  if (
+    !nearestSample ||
+    nearestDistance >
+      MATCH_TOLERANCE_DEGREES
+  ) {
+    return {
+      available: false,
+      water: null,
+      elevationMeters: null,
+      sampleCoordinates: null,
+      reason:
+        "water-mask-sample-not-found",
+      contractVersion:
+        "pelora-gulf-water-mask-v1"
+    };
+  }
+
+
+  const elevationMeters =
+    Number(
+      nearestSample
+        .elevationMeters
+    );
+
+
+  const water =
+    nearestSample
+      .water === true;
+
+
+  return {
+    available: true,
+
+    water,
+
+    elevationMeters:
+      Number.isFinite(
+        elevationMeters
+      )
+        ? elevationMeters
+        : null,
+
+    sampleCoordinates: [
+      Number(
+        nearestSample
+          .coordinates[0]
+      ),
+
+      Number(
+        nearestSample
+          .coordinates[1]
+      )
+    ],
+
+    sampleOffsetDegrees:
+      Number(
+        nearestDistance
+          .toFixed(4)
+      ),
+
+    reason:
+      water
+        ? "etopo-water"
+        : "etopo-land",
+
+    source: {
+      provider:
+        gulfWaterMaskV1
+          ?.source
+          ?.provider ??
+        "NOAA/NCEI",
+
+      dataset:
+        gulfWaterMaskV1
+          ?.source
+          ?.dataset ??
+        "ETOPO 2022"
+    },
+
+    contractVersion:
+      "pelora-gulf-water-mask-v1"
+  };
+}
+
+
+export function buildGulfSearchGridV1() {
+  const candidates = [];
+
+  const {
+    latitude,
+    longitude
+  } =
+    GULF_SEARCH_GRID_V1;
+
+
+  let candidateIndex = 0;
+
+
+  for (
+    let currentLatitude =
+      latitude.minimum;
+
+    currentLatitude <=
+      latitude.maximum;
+
+    currentLatitude +=
+      latitude.step
+  ) {
+    for (
+      let currentLongitude =
+        longitude.minimum;
+
+      currentLongitude <=
+        longitude.maximum;
+
+      currentLongitude +=
+        longitude.step
+    ) {
+      if (
+        !coordinatesAreValid(
+          currentLatitude,
+          currentLongitude
+        ) ||
+        !coordinateIsWithinGulfSearchDomainV1(
+          currentLatitude,
+          currentLongitude
+        )
+      ) {
+        continue;
+      }
+
+
+      const waterMask =
+        resolveGulfWaterMaskV1(
+          currentLatitude,
+          currentLongitude
+        );
+
+
+      if (
+        !waterMask.available ||
+        waterMask.water !== true
+      ) {
+        continue;
+      }
+
+
+      candidateIndex += 1;
+
+
+      candidates.push({
+        id:
+          `gulf-grid-v1-${candidateIndex}`,
+
+        name:
+          `Gulf Grid ${candidateIndex}`,
+
+        category:
+          "open_water_grid",
+
+        type:
+          "Open Water",
+
+        region:
+          "Gulf",
+
+        coordinates: [
+          Number(
+            currentLatitude.toFixed(4)
+          ),
+
+          Number(
+            currentLongitude.toFixed(4)
+          )
+        ],
+
+        grid: {
+          rowLatitude:
+            Number(
+              currentLatitude.toFixed(4)
+            ),
+
+          columnLongitude:
+            Number(
+              currentLongitude.toFixed(4)
+            ),
+
+          spacingDegrees: {
+            latitude:
+              latitude.step,
+
+            longitude:
+              longitude.step
+          }
+        },
+
+        waterMask: {
+          elevationMeters:
+            waterMask.elevationMeters,
+
+          sampleCoordinates:
+            waterMask.sampleCoordinates,
+
+          sampleOffsetDegrees:
+            waterMask.sampleOffsetDegrees,
+
+          source:
+            waterMask.source,
+
+          contractVersion:
+            waterMask.contractVersion
+        }
+      });
+    }
+  }
+
+
+  return candidates;
 }
 
 const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [

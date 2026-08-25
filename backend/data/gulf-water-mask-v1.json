@@ -1,0 +1,2154 @@
+{
+  "source": {
+    "provider": "NOAA/NCEI",
+    "dataset": "ETOPO 2022",
+    "purpose": "Gulf search water-land discrimination"
+  },
+  "classification": {
+    "water": "elevationMeters < 0",
+    "land": "elevationMeters >= 0"
+  },
+  "sampling": {
+    "latitudeMinimum": 18,
+    "latitudeMaximum": 31,
+    "longitudeMinimum": -98,
+    "longitudeMaximum": -80,
+    "spacingDegrees": 1
+  },
+  "counts": {
+    "total": 266,
+    "water": 189,
+    "land": 77
+  },
+  "candidates": [
+    {
+      "coordinates": [
+        18.0083,
+        -97.9917
+      ],
+      "elevationMeters": 1536.8,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -96.9917
+      ],
+      "elevationMeters": 1311.13,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -95.9917
+      ],
+      "elevationMeters": 21.88,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -94.9917
+      ],
+      "elevationMeters": 71.54,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -93.9917
+      ],
+      "elevationMeters": 2.41,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -92.9917
+      ],
+      "elevationMeters": 7.46,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -91.9917
+      ],
+      "elevationMeters": 5.45,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -90.9917
+      ],
+      "elevationMeters": 54.2,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -89.9917
+      ],
+      "elevationMeters": 229.53,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -88.9917
+      ],
+      "elevationMeters": 49.15,
+      "water": false
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -87.9917
+      ],
+      "elevationMeters": -192.13,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -86.9917
+      ],
+      "elevationMeters": -3967.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -85.9917
+      ],
+      "elevationMeters": -3484.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -84.9917
+      ],
+      "elevationMeters": -4779.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -83.9917
+      ],
+      "elevationMeters": -5273.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -82.9917
+      ],
+      "elevationMeters": -5691.13,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -81.9917
+      ],
+      "elevationMeters": -3750.5,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -80.9917
+      ],
+      "elevationMeters": -4619.5,
+      "water": true
+    },
+    {
+      "coordinates": [
+        18.0083,
+        -79.9917
+      ],
+      "elevationMeters": -4866.07,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -97.9917
+      ],
+      "elevationMeters": 2385.31,
+      "water": false
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -96.9917
+      ],
+      "elevationMeters": 1231.13,
+      "water": false
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -95.9917
+      ],
+      "elevationMeters": 16.24,
+      "water": false
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -94.9917
+      ],
+      "elevationMeters": -1250.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -93.9917
+      ],
+      "elevationMeters": -647.13,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -92.9917
+      ],
+      "elevationMeters": -117.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -91.9917
+      ],
+      "elevationMeters": -15,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -90.9917
+      ],
+      "elevationMeters": 3.17,
+      "water": false
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -89.9917
+      ],
+      "elevationMeters": 98.7,
+      "water": false
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -88.9917
+      ],
+      "elevationMeters": 84.1,
+      "water": false
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -87.9917
+      ],
+      "elevationMeters": 4.08,
+      "water": false
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -86.9917
+      ],
+      "elevationMeters": -1210.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -85.9917
+      ],
+      "elevationMeters": -4580.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -84.9917
+      ],
+      "elevationMeters": -4528.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -83.9917
+      ],
+      "elevationMeters": -2463.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -82.9917
+      ],
+      "elevationMeters": -2582.93,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -81.9917
+      ],
+      "elevationMeters": -4293.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -80.9917
+      ],
+      "elevationMeters": -6604.15,
+      "water": true
+    },
+    {
+      "coordinates": [
+        19.0083,
+        -79.9917
+      ],
+      "elevationMeters": -6022.24,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -97.9917
+      ],
+      "elevationMeters": 2244.54,
+      "water": false
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -96.9917
+      ],
+      "elevationMeters": 147.74,
+      "water": false
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -95.9917
+      ],
+      "elevationMeters": -1796.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -94.9917
+      ],
+      "elevationMeters": -2765.25,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -93.9917
+      ],
+      "elevationMeters": -1350.55,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -92.9917
+      ],
+      "elevationMeters": -1221.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -91.9917
+      ],
+      "elevationMeters": -64.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -90.9917
+      ],
+      "elevationMeters": -13.5,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -89.9917
+      ],
+      "elevationMeters": 80.17,
+      "water": false
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -88.9917
+      ],
+      "elevationMeters": 35.68,
+      "water": false
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -87.9917
+      ],
+      "elevationMeters": 20.31,
+      "water": false
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -86.9917
+      ],
+      "elevationMeters": -1101.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -85.9917
+      ],
+      "elevationMeters": -4562.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -84.9917
+      ],
+      "elevationMeters": -4567.25,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -83.9917
+      ],
+      "elevationMeters": -4524.31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -82.9917
+      ],
+      "elevationMeters": -3820.31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -81.9917
+      ],
+      "elevationMeters": -2843.11,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -80.9917
+      ],
+      "elevationMeters": -2342.31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        20.0083,
+        -79.9917
+      ],
+      "elevationMeters": -2725.63,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -97.9917
+      ],
+      "elevationMeters": 173.6,
+      "water": false
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -96.9917
+      ],
+      "elevationMeters": -79.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -95.9917
+      ],
+      "elevationMeters": -2137.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -94.9917
+      ],
+      "elevationMeters": -3224.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -93.9917
+      ],
+      "elevationMeters": -2892.25,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -92.9917
+      ],
+      "elevationMeters": -2533.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -91.9917
+      ],
+      "elevationMeters": -46.75,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -90.9917
+      ],
+      "elevationMeters": -23.75,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -89.9917
+      ],
+      "elevationMeters": 4.85,
+      "water": false
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -88.9917
+      ],
+      "elevationMeters": 13.33,
+      "water": false
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -87.9917
+      ],
+      "elevationMeters": 22.76,
+      "water": false
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -86.9917
+      ],
+      "elevationMeters": 10.83,
+      "water": false
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -85.9917
+      ],
+      "elevationMeters": -1459.44,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -84.9917
+      ],
+      "elevationMeters": -4497,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -83.9917
+      ],
+      "elevationMeters": -4508.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -82.9917
+      ],
+      "elevationMeters": -4386.63,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -81.9917
+      ],
+      "elevationMeters": -4388.44,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -80.9917
+      ],
+      "elevationMeters": -4122.75,
+      "water": true
+    },
+    {
+      "coordinates": [
+        21.0083,
+        -79.9917
+      ],
+      "elevationMeters": -3735.75,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -97.9917
+      ],
+      "elevationMeters": 5.48,
+      "water": false
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -96.9917
+      ],
+      "elevationMeters": -1425.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -95.9917
+      ],
+      "elevationMeters": -2674.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -94.9917
+      ],
+      "elevationMeters": -3365.87,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -93.9917
+      ],
+      "elevationMeters": -3561.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -92.9917
+      ],
+      "elevationMeters": -3294.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -91.9917
+      ],
+      "elevationMeters": -81.13,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -90.9917
+      ],
+      "elevationMeters": -49.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -89.9917
+      ],
+      "elevationMeters": -39.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -88.9917
+      ],
+      "elevationMeters": -39.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -87.9917
+      ],
+      "elevationMeters": -31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -86.9917
+      ],
+      "elevationMeters": -31.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -85.9917
+      ],
+      "elevationMeters": -1399.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -84.9917
+      ],
+      "elevationMeters": -220.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -83.9917
+      ],
+      "elevationMeters": 2.36,
+      "water": false
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -82.9917
+      ],
+      "elevationMeters": -9.31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -81.9917
+      ],
+      "elevationMeters": -4.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -80.9917
+      ],
+      "elevationMeters": -694.63,
+      "water": true
+    },
+    {
+      "coordinates": [
+        22.0083,
+        -79.9917
+      ],
+      "elevationMeters": 459.59,
+      "water": false
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -97.9917
+      ],
+      "elevationMeters": 423.4,
+      "water": false
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -96.9917
+      ],
+      "elevationMeters": -1565.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -95.9917
+      ],
+      "elevationMeters": -2482.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -94.9917
+      ],
+      "elevationMeters": -3546,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -93.9917
+      ],
+      "elevationMeters": -3746.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -92.9917
+      ],
+      "elevationMeters": -3768.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -91.9917
+      ],
+      "elevationMeters": -3757.63,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -90.9917
+      ],
+      "elevationMeters": -3679.23,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -89.9917
+      ],
+      "elevationMeters": -215.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -88.9917
+      ],
+      "elevationMeters": -82.75,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -87.9917
+      ],
+      "elevationMeters": -57.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -86.9917
+      ],
+      "elevationMeters": -394.75,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -85.9917
+      ],
+      "elevationMeters": -1215.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -84.9917
+      ],
+      "elevationMeters": -2010.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -83.9917
+      ],
+      "elevationMeters": -2235.9,
+      "water": true
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -82.9917
+      ],
+      "elevationMeters": 2.82,
+      "water": false
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -81.9917
+      ],
+      "elevationMeters": 114.8,
+      "water": false
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -80.9917
+      ],
+      "elevationMeters": 2.72,
+      "water": false
+    },
+    {
+      "coordinates": [
+        23.0083,
+        -79.9917
+      ],
+      "elevationMeters": -0.21,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -97.9917
+      ],
+      "elevationMeters": 83.26,
+      "water": false
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -96.9917
+      ],
+      "elevationMeters": -931.25,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -95.9917
+      ],
+      "elevationMeters": -2357.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -94.9917
+      ],
+      "elevationMeters": -3566.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -93.9917
+      ],
+      "elevationMeters": -3754.63,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -92.9917
+      ],
+      "elevationMeters": -3747.31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -91.9917
+      ],
+      "elevationMeters": -3731.63,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -90.9917
+      ],
+      "elevationMeters": -3717.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -89.9917
+      ],
+      "elevationMeters": -3619.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -88.9917
+      ],
+      "elevationMeters": -2856.31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -87.9917
+      ],
+      "elevationMeters": -300.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -86.9917
+      ],
+      "elevationMeters": -1008.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -85.9917
+      ],
+      "elevationMeters": -3428.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -84.9917
+      ],
+      "elevationMeters": -3469.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -83.9917
+      ],
+      "elevationMeters": -2198.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -82.9917
+      ],
+      "elevationMeters": -947.25,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -81.9917
+      ],
+      "elevationMeters": -983,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -80.9917
+      ],
+      "elevationMeters": -1050.84,
+      "water": true
+    },
+    {
+      "coordinates": [
+        24.0083,
+        -79.9917
+      ],
+      "elevationMeters": -41.72,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -97.9917
+      ],
+      "elevationMeters": 7.68,
+      "water": false
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -96.9917
+      ],
+      "elevationMeters": -68.43,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -95.9917
+      ],
+      "elevationMeters": -1591.08,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -94.9917
+      ],
+      "elevationMeters": -3581.59,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -93.9917
+      ],
+      "elevationMeters": -3678.08,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -92.9917
+      ],
+      "elevationMeters": -3633.92,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -91.9917
+      ],
+      "elevationMeters": -3530.22,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -90.9917
+      ],
+      "elevationMeters": -3529.45,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -89.9917
+      ],
+      "elevationMeters": -3531.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -88.9917
+      ],
+      "elevationMeters": -3486,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -87.9917
+      ],
+      "elevationMeters": -3421.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -86.9917
+      ],
+      "elevationMeters": -3368.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -85.9917
+      ],
+      "elevationMeters": -3290,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -84.9917
+      ],
+      "elevationMeters": -3367.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -83.9917
+      ],
+      "elevationMeters": -126.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -82.9917
+      ],
+      "elevationMeters": -51.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -81.9917
+      ],
+      "elevationMeters": -19.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -80.9917
+      ],
+      "elevationMeters": -1.89,
+      "water": true
+    },
+    {
+      "coordinates": [
+        25.0083,
+        -79.9917
+      ],
+      "elevationMeters": -616.82,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -97.9917
+      ],
+      "elevationMeters": 25.93,
+      "water": false
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -96.9917
+      ],
+      "elevationMeters": -28.16,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -95.9917
+      ],
+      "elevationMeters": -1019.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -94.9917
+      ],
+      "elevationMeters": -2444.65,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -93.9917
+      ],
+      "elevationMeters": -3146.01,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -92.9917
+      ],
+      "elevationMeters": -2687.79,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -91.9917
+      ],
+      "elevationMeters": -2379.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -90.9917
+      ],
+      "elevationMeters": -3347.39,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -89.9917
+      ],
+      "elevationMeters": -3210.45,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -88.9917
+      ],
+      "elevationMeters": -3063.22,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -87.9917
+      ],
+      "elevationMeters": -3013.42,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -86.9917
+      ],
+      "elevationMeters": -3203.13,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -85.9917
+      ],
+      "elevationMeters": -3247.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -84.9917
+      ],
+      "elevationMeters": -3321.38,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -83.9917
+      ],
+      "elevationMeters": -134.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -82.9917
+      ],
+      "elevationMeters": -42.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -81.9917
+      ],
+      "elevationMeters": -13.45,
+      "water": true
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -80.9917
+      ],
+      "elevationMeters": 3.85,
+      "water": false
+    },
+    {
+      "coordinates": [
+        26.0083,
+        -79.9917
+      ],
+      "elevationMeters": -262.17,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -97.9917
+      ],
+      "elevationMeters": 19.68,
+      "water": false
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -96.9917
+      ],
+      "elevationMeters": -42.06,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -95.9917
+      ],
+      "elevationMeters": -811.11,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -94.9917
+      ],
+      "elevationMeters": -1444.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -93.9917
+      ],
+      "elevationMeters": -988.28,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -92.9917
+      ],
+      "elevationMeters": -1277.26,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -91.9917
+      ],
+      "elevationMeters": -1441.35,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -90.9917
+      ],
+      "elevationMeters": -1651.49,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -89.9917
+      ],
+      "elevationMeters": -2374.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -88.9917
+      ],
+      "elevationMeters": -2345.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -87.9917
+      ],
+      "elevationMeters": -2751.69,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -86.9917
+      ],
+      "elevationMeters": -2962,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -85.9917
+      ],
+      "elevationMeters": -3214.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -84.9917
+      ],
+      "elevationMeters": -817.31,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -83.9917
+      ],
+      "elevationMeters": -80.44,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -82.9917
+      ],
+      "elevationMeters": -30.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -81.9917
+      ],
+      "elevationMeters": 1.63,
+      "water": false
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -80.9917
+      ],
+      "elevationMeters": 4.26,
+      "water": false
+    },
+    {
+      "coordinates": [
+        27.0083,
+        -79.9917
+      ],
+      "elevationMeters": -56.72,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -97.9917
+      ],
+      "elevationMeters": 64.53,
+      "water": false
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -96.9917
+      ],
+      "elevationMeters": -3.26,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -95.9917
+      ],
+      "elevationMeters": -45.34,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -94.9917
+      ],
+      "elevationMeters": -80.01,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -93.9917
+      ],
+      "elevationMeters": -77.26,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -92.9917
+      ],
+      "elevationMeters": -106.09,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -91.9917
+      ],
+      "elevationMeters": -117.35,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -90.9917
+      ],
+      "elevationMeters": -160.55,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -89.9917
+      ],
+      "elevationMeters": -552.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -88.9917
+      ],
+      "elevationMeters": -1310.91,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -87.9917
+      ],
+      "elevationMeters": -2402.61,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -86.9917
+      ],
+      "elevationMeters": -2844.27,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -85.9917
+      ],
+      "elevationMeters": -966.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -84.9917
+      ],
+      "elevationMeters": -247.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -83.9917
+      ],
+      "elevationMeters": -44.44,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -82.9917
+      ],
+      "elevationMeters": -13.32,
+      "water": true
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -81.9917
+      ],
+      "elevationMeters": 44.65,
+      "water": false
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -80.9917
+      ],
+      "elevationMeters": 17.27,
+      "water": false
+    },
+    {
+      "coordinates": [
+        28.0083,
+        -79.9917
+      ],
+      "elevationMeters": -76.99,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -97.9917
+      ],
+      "elevationMeters": 105.37,
+      "water": false
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -96.9917
+      ],
+      "elevationMeters": 52.55,
+      "water": false
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -95.9917
+      ],
+      "elevationMeters": 16.51,
+      "water": false
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -94.9917
+      ],
+      "elevationMeters": -16.62,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -93.9917
+      ],
+      "elevationMeters": -20.1,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -92.9917
+      ],
+      "elevationMeters": -23.93,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -91.9917
+      ],
+      "elevationMeters": -18.27,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -90.9917
+      ],
+      "elevationMeters": -6.64,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -89.9917
+      ],
+      "elevationMeters": -24.52,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -88.9917
+      ],
+      "elevationMeters": -70.3,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -87.9917
+      ],
+      "elevationMeters": -1399.91,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -86.9917
+      ],
+      "elevationMeters": -682.25,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -85.9917
+      ],
+      "elevationMeters": -243.01,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -84.9917
+      ],
+      "elevationMeters": -38.81,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -83.9917
+      ],
+      "elevationMeters": -25.88,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -82.9917
+      ],
+      "elevationMeters": -5.26,
+      "water": true
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -81.9917
+      ],
+      "elevationMeters": 25.19,
+      "water": false
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -80.9917
+      ],
+      "elevationMeters": 8.68,
+      "water": false
+    },
+    {
+      "coordinates": [
+        29.0083,
+        -79.9917
+      ],
+      "elevationMeters": -280.94,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -97.9917
+      ],
+      "elevationMeters": 274.3,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -96.9917
+      ],
+      "elevationMeters": 106,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -95.9917
+      ],
+      "elevationMeters": 68.13,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -94.9917
+      ],
+      "elevationMeters": 19.68,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -93.9917
+      ],
+      "elevationMeters": -0.43,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -92.9917
+      ],
+      "elevationMeters": 0.34,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -91.9917
+      ],
+      "elevationMeters": 3.85,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -90.9917
+      ],
+      "elevationMeters": 1.13,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -89.9917
+      ],
+      "elevationMeters": 0.35,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -88.9917
+      ],
+      "elevationMeters": -6.02,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -87.9917
+      ],
+      "elevationMeters": -21.98,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -86.9917
+      ],
+      "elevationMeters": -74.56,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -85.9917
+      ],
+      "elevationMeters": -32.58,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -84.9917
+      ],
+      "elevationMeters": 5.85,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -83.9917
+      ],
+      "elevationMeters": -2.61,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -82.9917
+      ],
+      "elevationMeters": 10.71,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -81.9917
+      ],
+      "elevationMeters": 45.72,
+      "water": false
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -80.9917
+      ],
+      "elevationMeters": -21.19,
+      "water": true
+    },
+    {
+      "coordinates": [
+        30.0083,
+        -79.9917
+      ],
+      "elevationMeters": -507.57,
+      "water": true
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -97.9917
+      ],
+      "elevationMeters": 274.6,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -96.9917
+      ],
+      "elevationMeters": 131.35,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -95.9917
+      ],
+      "elevationMeters": 84.97,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -94.9917
+      ],
+      "elevationMeters": 93.63,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -93.9917
+      ],
+      "elevationMeters": 115.64,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -92.9917
+      ],
+      "elevationMeters": 66.87,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -91.9917
+      ],
+      "elevationMeters": 13.92,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -90.9917
+      ],
+      "elevationMeters": 97.69,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -89.9917
+      ],
+      "elevationMeters": 78.43,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -88.9917
+      ],
+      "elevationMeters": 62.56,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -87.9917
+      ],
+      "elevationMeters": 1.82,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -86.9917
+      ],
+      "elevationMeters": 65.01,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -85.9917
+      ],
+      "elevationMeters": 32.78,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -84.9917
+      ],
+      "elevationMeters": 34.13,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -83.9917
+      ],
+      "elevationMeters": 78.64,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -82.9917
+      ],
+      "elevationMeters": 56.41,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -81.9917
+      ],
+      "elevationMeters": 22.85,
+      "water": false
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -80.9917
+      ],
+      "elevationMeters": -17.76,
+      "water": true
+    },
+    {
+      "coordinates": [
+        31.0083,
+        -79.9917
+      ],
+      "elevationMeters": -49.95,
+      "water": true
+    }
+  ],
+  "contractVersion": "pelora-gulf-water-mask-v1"
+}

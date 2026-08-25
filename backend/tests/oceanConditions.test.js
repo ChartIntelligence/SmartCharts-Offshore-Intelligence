@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 
 import {
+  GULF_SEARCH_GRID_V1,
+  GULF_SEARCH_DOMAIN_V1,
+  coordinateIsWithinGulfSearchDomainV1,
+  resolveGulfWaterMaskV1,
+  buildGulfSearchGridV1,
   buildDynamicBlueMarlinOpportunity,
   rankDynamicBlueMarlinOpportunities,
   buildCurrentGradientAnalysis,
@@ -41078,3 +41083,187 @@ assert.equal(
 console.log(
   "PASS Dynamic Blue Marlin Opportunity v1 ranks by governed suitability and uses confidence as tie-breaker"
 );
+
+{
+  const grid =
+    buildGulfSearchGridV1();
+
+
+  assert.equal(
+    GULF_SEARCH_GRID_V1
+      .contractVersion,
+    "pelora-gulf-search-grid-v1"
+  );
+
+
+  assert.equal(
+    GULF_SEARCH_DOMAIN_V1
+      .contractVersion,
+    "pelora-gulf-search-domain-v1"
+  );
+
+
+  assert.equal(
+    GULF_SEARCH_DOMAIN_V1
+      .interpretation,
+    "conservative-gulf-search-domain"
+  );
+
+
+  assert.equal(
+    grid.length,
+    138
+  );
+
+
+  assert.deepEqual(
+    grid[0].coordinates,
+    [
+      19,
+      -94
+    ]
+  );
+
+
+  assert.deepEqual(
+    grid[
+      grid.length - 1
+    ].coordinates,
+    [
+      30,
+      -84
+    ]
+  );
+
+
+  assert.equal(
+    grid[0].id,
+    "gulf-grid-v1-1"
+  );
+
+
+  assert.equal(
+    grid[
+      grid.length - 1
+    ].id,
+    "gulf-grid-v1-138"
+  );
+
+
+  assert.equal(
+    grid.every(
+      candidate =>
+        candidate.category ===
+          "open_water_grid" &&
+        candidate.type ===
+          "Open Water" &&
+        candidate.region ===
+          "Gulf"
+    ),
+    true
+  );
+
+
+  assert.equal(
+    grid.every(
+      candidate => {
+        const [
+          latitude,
+          longitude
+        ] =
+          candidate.coordinates;
+
+
+        return (
+          coordinateIsWithinGulfSearchDomainV1(
+            latitude,
+            longitude
+          ) &&
+          candidate
+            ?.waterMask
+            ?.elevationMeters < 0
+        );
+      }
+    ),
+    true
+  );
+
+
+  const centralGulfWater =
+    resolveGulfWaterMaskV1(
+      25,
+      -90
+    );
+
+
+  assert.equal(
+    centralGulfWater.available,
+    true
+  );
+
+
+  assert.equal(
+    centralGulfWater.water,
+    true
+  );
+
+
+  assert.equal(
+    centralGulfWater.reason,
+    "etopo-water"
+  );
+
+
+  const texasLand =
+    resolveGulfWaterMaskV1(
+      30,
+      -98
+    );
+
+
+  assert.equal(
+    texasLand.available,
+    true
+  );
+
+
+  assert.equal(
+    texasLand.water,
+    false
+  );
+
+
+  assert.equal(
+    texasLand.reason,
+    "etopo-land"
+  );
+
+
+  const outsideMask =
+    resolveGulfWaterMaskV1(
+      15,
+      -75
+    );
+
+
+  assert.equal(
+    outsideMask.available,
+    false
+  );
+
+
+  assert.equal(
+    outsideMask.water,
+    null
+  );
+
+
+  const secondGrid =
+    buildGulfSearchGridV1();
+
+
+  assert.deepEqual(
+    secondGrid,
+    grid
+  );
+}
