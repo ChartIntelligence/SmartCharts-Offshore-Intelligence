@@ -26,8 +26,23 @@ function TodayDashboard({
     null;
 
 
+  const hasGovernedScore =
+    Number.isFinite(
+      dynamicOpportunity?.score
+    );
+
+
+  const hasGovernedConfidence =
+    Number.isFinite(
+      dynamicOpportunity
+        ?.confidence
+        ?.score
+    );
+
+
   const activeScore =
-    activeOpportunity
+    activeOpportunity &&
+    !hasGovernedScore
       ? calculateBlueMarlinScore(
           activeOpportunity
         )
@@ -35,7 +50,8 @@ function TodayDashboard({
 
 
   const activeConfidence =
-    activeOpportunity
+    activeOpportunity &&
+    !hasGovernedConfidence
       ? calculateConfidence(
           activeOpportunity
         )
@@ -431,16 +447,34 @@ const structureDetail =
             null;
 
 
-          const fallbackScore =
-            calculateBlueMarlinScore(
-              opportunity
+          const hasGovernedScore =
+            Number.isFinite(
+              dynamicOpportunity?.score
             );
+
+
+          const hasGovernedConfidence =
+            Number.isFinite(
+              dynamicOpportunity
+                ?.confidence
+                ?.score
+            );
+
+
+          const fallbackScore =
+            !hasGovernedScore
+              ? calculateBlueMarlinScore(
+                  opportunity
+                )
+              : null;
 
 
           const fallbackConfidence =
-            calculateConfidence(
-              opportunity
-            );
+            !hasGovernedConfidence
+              ? calculateConfidence(
+                  opportunity
+                )
+              : null;
 
 
           const displayedScore =
