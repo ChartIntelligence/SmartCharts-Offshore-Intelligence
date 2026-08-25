@@ -5298,6 +5298,59 @@ color:#ffffff;
 }
 
 
+.pelora-startup-screen::after {
+  content: "";
+
+  position: absolute;
+  inset: -4%;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  opacity: 0.32;
+
+  background-image:
+    url("../assets/branding/pelora-bathymetry-real.svg");
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  -webkit-mask-image:
+  radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.18) 0%,
+    rgba(0, 0, 0, 0.35) 23%,
+    rgba(0, 0, 0, 0.72) 43%,
+    black 68%
+  );
+
+mask-image:
+  radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.18) 0%,
+    rgba(0, 0, 0, 0.35) 23%,
+    rgba(0, 0, 0, 0.72) 43%,
+    black 68%
+  );
+
+  transform:
+    translate3d(
+      -3%,
+      1%,
+      0
+    )
+    scale(1.55);
+
+  animation:
+    peloraBathymetryDrift
+    20s
+    ease-in-out
+    infinite alternate;
+}
+
+
 .pelora-startup-splash {
   position: relative;
   z-index: 1;
@@ -5949,6 +6002,31 @@ animation:
 }
 
 
+@keyframes peloraBathymetryDrift {
+
+  from {
+    transform:
+      translate3d(
+        -3%,
+        1%,
+        0
+      )
+      scale(1.55);
+  }
+
+  to {
+    transform:
+      translate3d(
+        -2.5%,
+        0.7%,
+        0
+      )
+      scale(1.565);
+  }
+
+}
+
+
 @keyframes peloraLockupResolve {
 
   from {
@@ -6009,6 +6087,7 @@ animation:
   reduce
 ) {
 
+  .pelora-startup-screen::after,
   .pelora-startup-splash::before,
   .pelora-startup-splash::after,
   .pelora-startup-wordmark,
