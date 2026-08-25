@@ -10,7 +10,8 @@ const OPPORTUNITY_API_URL =
 
 export function useDynamicOpportunities(
   species = "blue-marlin",
-  accessToken = null
+  accessToken = null,
+  captainSpatialContext = null
 ) {
   const [data, setData] =
     useState(null);
@@ -50,11 +51,103 @@ export function useDynamicOpportunities(
         }
 
 
+        const searchParams =
+          new URLSearchParams();
+
+
+        searchParams.set(
+          "species",
+          species
+        );
+
+
+        const explorationMode =
+          captainSpatialContext
+            ?.explorationMode ===
+            "within-range"
+            ? "within-range"
+            : "entire-gulf";
+
+
+        searchParams.set(
+          "explorationMode",
+          explorationMode
+        );
+
+
+        if (
+          explorationMode ===
+            "within-range"
+        ) {
+          const originCoordinates =
+            captainSpatialContext
+              ?.origin
+              ?.coordinates;
+
+          const operatingRangeNm =
+            captainSpatialContext
+              ?.operatingRangeNm;
+
+
+          if (
+            Array.isArray(
+              originCoordinates
+            ) &&
+            originCoordinates.length >= 2 &&
+            Number.isFinite(
+              Number(
+                originCoordinates[0]
+              )
+            ) &&
+            Number.isFinite(
+              Number(
+                originCoordinates[1]
+              )
+            ) &&
+            Number.isFinite(
+              Number(
+                operatingRangeNm
+              )
+            ) &&
+            Number(
+              operatingRangeNm
+            ) > 0
+          ) {
+            searchParams.set(
+              "originLatitude",
+              String(
+                originCoordinates[0]
+              )
+            );
+
+            searchParams.set(
+              "originLongitude",
+              String(
+                originCoordinates[1]
+              )
+            );
+
+            searchParams.set(
+              "operatingRangeNm",
+              String(
+                operatingRangeNm
+              )
+            );
+          }
+        }
+
+
+        searchParams.set(
+          "t",
+          String(
+            Date.now()
+          )
+        );
+
+
         const response =
           await fetch(
-            `${OPPORTUNITY_API_URL}?species=${encodeURIComponent(
-              species
-            )}&t=${Date.now()}`,
+            `${OPPORTUNITY_API_URL}?${searchParams.toString()}`,
             {
               signal:
                 controller.signal,
@@ -130,7 +223,8 @@ export function useDynamicOpportunities(
     };
   }, [
     species,
-    accessToken
+    accessToken,
+    captainSpatialContext
   ]);
 
 

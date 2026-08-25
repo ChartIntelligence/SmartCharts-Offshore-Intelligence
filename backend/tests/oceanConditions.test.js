@@ -8,6 +8,7 @@ import {
   buildGulfSearchGridV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
+  filterGulfCandidatesByCaptainRangeV1,
   evaluateGulfCandidatesV1,
   evaluateControlledGulfBlueMarlinV1,
   buildDynamicBlueMarlinOpportunity,
@@ -41656,5 +41657,125 @@ console.log(
         gulfGrid.length / 2
       )
     ]
+  );
+}
+
+{
+  const gulfGrid =
+    buildGulfSearchGridV1();
+
+
+  const entireGulfCandidates =
+    filterGulfCandidatesByCaptainRangeV1({
+      candidates:
+        gulfGrid,
+
+      explorationMode:
+        "entire-gulf"
+    });
+
+
+  assert.equal(
+    entireGulfCandidates.length,
+    gulfGrid.length
+  );
+
+
+  const portStJoeOrigin = [
+    29.8119,
+    -85.3029
+  ];
+
+
+  const seventyFiveNmCandidates =
+    filterGulfCandidatesByCaptainRangeV1({
+      candidates:
+        gulfGrid,
+
+      originCoordinates:
+        portStJoeOrigin,
+
+      operatingRangeNm: 75,
+
+      explorationMode:
+        "within-range"
+    });
+
+
+  const oneHundredFiftyNmCandidates =
+    filterGulfCandidatesByCaptainRangeV1({
+      candidates:
+        gulfGrid,
+
+      originCoordinates:
+        portStJoeOrigin,
+
+      operatingRangeNm: 150,
+
+      explorationMode:
+        "within-range"
+    });
+
+
+  assert.equal(
+    seventyFiveNmCandidates.length >
+      0,
+    true
+  );
+
+
+  assert.equal(
+    oneHundredFiftyNmCandidates.length >=
+      seventyFiveNmCandidates.length,
+    true
+  );
+
+
+  assert.equal(
+    oneHundredFiftyNmCandidates.length <
+      gulfGrid.length,
+    true
+  );
+
+
+  for (
+    const candidate
+    of seventyFiveNmCandidates
+  ) {
+    const distanceNm =
+      kilometersBetween(
+        portStJoeOrigin[0],
+        portStJoeOrigin[1],
+        candidate.coordinates[0],
+        candidate.coordinates[1]
+      ) /
+      1.852;
+
+
+    assert.equal(
+      distanceNm <= 75,
+      true
+    );
+  }
+
+
+  const invalidContextCandidates =
+    filterGulfCandidatesByCaptainRangeV1({
+      candidates:
+        gulfGrid,
+
+      originCoordinates:
+        null,
+
+      operatingRangeNm: 150,
+
+      explorationMode:
+        "within-range"
+    });
+
+
+  assert.deepEqual(
+    invalidContextCandidates,
+    []
   );
 }

@@ -30,10 +30,12 @@ import "../styles/dashboard.css";
 
 import peloraHeaderLockup from "../assets/branding/pelora-header-lockup.png";
 
-function Dashboard( {
+function Dashboard({
   session,
   user,
-  authLoading
+  authLoading,
+  tripMission,
+  captainSpatialContext
 }) {
   const [activeTab, setActiveTab] =
     useState("today");
@@ -166,8 +168,12 @@ const {
   loading: dynamicOpportunityLoading,
   error: dynamicOpportunityError
 } = useDynamicOpportunities(
-  "blue-marlin",
-  session?.access_token ?? null
+  tripMission?.selectedSpecies ??
+    "blue-marlin",
+
+  session?.access_token ?? null,
+
+  captainSpatialContext
 );
 
 

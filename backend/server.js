@@ -45377,11 +45377,119 @@ export function selectDistributedGulfCandidatesV1({
 }
 
 
+export function filterGulfCandidatesByCaptainRangeV1({
+  candidates = [],
+  originCoordinates = null,
+  operatingRangeNm = null,
+  explorationMode = "within-range"
+} = {}) {
+  const sourceCandidates =
+    Array.isArray(candidates)
+      ? candidates
+      : [];
+
+
+  if (
+    explorationMode ===
+    "entire-gulf"
+  ) {
+    return [
+      ...sourceCandidates
+    ];
+  }
+
+
+  const originLatitude =
+    Number(
+      originCoordinates?.[0]
+    );
+
+  const originLongitude =
+    Number(
+      originCoordinates?.[1]
+    );
+
+  const normalizedRangeNm =
+    Number(
+      operatingRangeNm
+    );
+
+
+  if (
+    !coordinatesAreValid(
+      originLatitude,
+      originLongitude
+    ) ||
+    !Number.isFinite(
+      normalizedRangeNm
+    ) ||
+    normalizedRangeNm <= 0
+  ) {
+    return [];
+  }
+
+
+  return sourceCandidates.filter(
+    candidate => {
+      const latitude =
+        Number(
+          candidate
+            ?.coordinates?.[0]
+        );
+
+      const longitude =
+        Number(
+          candidate
+            ?.coordinates?.[1]
+        );
+
+
+      if (
+        !coordinatesAreValid(
+          latitude,
+          longitude
+        )
+      ) {
+        return false;
+      }
+
+
+      const distanceNm =
+        kilometersBetween(
+          originLatitude,
+          originLongitude,
+          latitude,
+          longitude
+        ) /
+        1.852;
+
+
+      return (
+        Number.isFinite(
+          distanceNm
+        ) &&
+        distanceNm <=
+          normalizedRangeNm
+      );
+    }
+  );
+}
+
+
 export async function evaluateControlledGulfBlueMarlinV1({
   bearerToken = null,
+
+  originCoordinates = null,
+
+  operatingRangeNm = null,
+
+  explorationMode =
+    "entire-gulf",
+
   maximumCandidates =
     GULF_EVALUATION_CONTROL_V1
       .maximumCandidates,
+
   concurrency =
     GULF_EVALUATION_CONTROL_V1
       .concurrency
@@ -45390,10 +45498,23 @@ export async function evaluateControlledGulfBlueMarlinV1({
     buildGulfSearchGridV1();
 
 
+  const eligibleCandidates =
+    filterGulfCandidatesByCaptainRangeV1({
+      candidates:
+        gulfCandidates,
+
+      originCoordinates,
+
+      operatingRangeNm,
+
+      explorationMode
+    });
+
+
   const selectedCandidates =
     selectDistributedGulfCandidatesV1({
       candidates:
-        gulfCandidates,
+        eligibleCandidates,
 
       maximumCandidates
     });
@@ -45465,8 +45586,42 @@ export async function evaluateControlledGulfBlueMarlinV1({
       totalMarineCandidateCount:
         gulfCandidates.length,
 
+      eligibleCandidateCount:
+        eligibleCandidates.length,
+
       selectedCandidateCount:
         selectedCandidates.length,
+
+      explorationMode:
+        explorationMode ===
+          "entire-gulf"
+          ? "entire-gulf"
+          : "within-range",
+
+      originCoordinates:
+        Array.isArray(
+          originCoordinates
+        )
+          ? [
+              Number(
+                originCoordinates[0]
+              ),
+              Number(
+                originCoordinates[1]
+              )
+            ]
+          : null,
+
+      operatingRangeNm:
+        Number.isFinite(
+          Number(
+            operatingRangeNm
+          )
+        )
+          ? Number(
+              operatingRangeNm
+            )
+          : null,
 
       selection:
         "deterministic-distributed-gulf-v1"
@@ -45508,12 +45663,25 @@ export async function evaluateControlledGulfBlueMarlinV1({
 
 
 async function getDynamicBlueMarlinOpportunities({
-  bearerToken = null
+  bearerToken = null,
+
+  originCoordinates = null,
+
+  operatingRangeNm = null,
+
+  explorationMode =
+    "entire-gulf"
 } = {}) {
   try {
     const gulfResult =
       await evaluateControlledGulfBlueMarlinV1({
         bearerToken,
+
+        originCoordinates,
+
+        operatingRangeNm,
+
+        explorationMode,
 
         maximumCandidates:
           GULF_EVALUATION_CONTROL_V1
@@ -47499,6 +47667,95 @@ const server =
           }
 
 
+          const requestedExplorationMode =
+            requestUrl
+              .searchParams
+              .get(
+                "explorationMode"
+              );
+
+
+          const explorationMode =
+            requestedExplorationMode ===
+              "within-range"
+              ? "within-range"
+              : "entire-gulf";
+
+
+          const originLatitude =
+            Number(
+              requestUrl
+                .searchParams
+                .get(
+                  "originLatitude"
+                )
+            );
+
+
+          const originLongitude =
+            Number(
+              requestUrl
+                .searchParams
+                .get(
+                  "originLongitude"
+                )
+            );
+
+
+          const operatingRangeNm =
+            Number(
+              requestUrl
+                .searchParams
+                .get(
+                  "operatingRangeNm"
+                )
+            );
+
+
+          let originCoordinates =
+            null;
+
+
+          if (
+            explorationMode ===
+              "within-range"
+          ) {
+            if (
+              !coordinatesAreValid(
+                originLatitude,
+                originLongitude
+              ) ||
+              !Number.isFinite(
+                operatingRangeNm
+              ) ||
+              operatingRangeNm <= 0
+            ) {
+              writeJson(
+                response,
+                400,
+                {
+                  error:
+                    "Within-range opportunity search requires valid Gulf origin coordinates and a positive operatingRangeNm.",
+
+                  requiredParameters: [
+                    "originLatitude",
+                    "originLongitude",
+                    "operatingRangeNm"
+                  ]
+                }
+              );
+
+              return;
+            }
+
+
+            originCoordinates = [
+              originLatitude,
+              originLongitude
+            ];
+          }
+
+
           const authorizationHeader =
             request.headers
               .authorization ??
@@ -47523,7 +47780,17 @@ const server =
 
           const opportunities =
             await getDynamicBlueMarlinOpportunities({
-              bearerToken
+              bearerToken,
+
+              originCoordinates,
+
+              operatingRangeNm:
+                explorationMode ===
+                  "within-range"
+                  ? operatingRangeNm
+                  : null,
+
+              explorationMode
             });
 
 
@@ -47547,7 +47814,7 @@ const server =
             longitude
           } = getCoordinates(requestUrl);
 
-                    const authorizationHeader =
+          const authorizationHeader =
             request.headers
               .authorization ??
             null;
