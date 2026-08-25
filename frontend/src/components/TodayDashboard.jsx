@@ -125,19 +125,22 @@ const marineUpdatedLabel =
     liveMarineData?.observedAt
   );
 
+const windAndWavesAvailable =
+  !liveMarineLoading &&
+  !liveMarineError &&
+  Number.isFinite(
+    wind.speedKnots
+  ) &&
+  Number.isFinite(
+    waves.heightFeet
+  );
+
 const windAndWaveValue =
   liveMarineLoading
     ? "Loading live data..."
-    : liveMarineError
-      ? "Live data unavailable"
-      : Number.isFinite(
-          wind.speedKnots
-        ) &&
-        Number.isFinite(
-          waves.heightFeet
-        )
-        ? `${wind.speedKnots} kt ${windDirection} · ${waves.heightFeet} ft`
-        : "Live data unavailable";
+    : windAndWavesAvailable
+      ? `${wind.speedKnots} kt ${windDirection} · ${waves.heightFeet} ft`
+      : "Live data unavailable";
 
 const evidenceGroups =
   liveMarineData
@@ -834,11 +837,8 @@ const structureDetail =
                         : "Marine forecast and sea state"
                 }
                 available={
-                    Boolean(
-                    liveMarineData &&
-                    !liveMarineError
-                )
-             }
+                  windAndWavesAvailable
+                }
          />
 
           </div>
