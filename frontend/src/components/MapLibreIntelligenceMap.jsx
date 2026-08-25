@@ -16,13 +16,18 @@ import { useMapLibreSelection } from "../hooks/useMapLibreSelection";
 import {
   useMapLibreOceanFeatures
 } from "../hooks/useMapLibreOceanFeatures";
-
+import {
+  useMapLibreOpenWaterOpportunities
+} from "../hooks/useMapLibreOpenWaterOpportunities";
 
 function MapLibreIntelligenceMap({
   layers,
   selectedSpot,
   setSelectedSpot,
-  mapIntelligence
+  mapIntelligence,
+  openWaterOpportunities = [],
+  selectedOpportunity = null,
+  setSelectedOpportunity
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -116,6 +121,17 @@ function MapLibreIntelligenceMap({
     temperatureTransitionVisible:
       layers.temperatureTransition ===
       true
+  });
+
+  useMapLibreOpenWaterOpportunities({
+    mapRef,
+
+    opportunities:
+      openWaterOpportunities,
+
+    selectedOpportunity,
+
+    setSelectedOpportunity
   });
 
   useMapLibreMarkers({

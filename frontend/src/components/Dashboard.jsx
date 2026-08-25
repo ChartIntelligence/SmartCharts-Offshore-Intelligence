@@ -205,9 +205,11 @@ const dynamicTopOpportunities =
               null,
 
             name:
-              location?.name ??
-              matchingLocation?.name ??
-              "Unknown Location",
+              Number.isFinite(
+                opportunity?.rank
+              )
+                ? `Open Water Opportunity ${opportunity.rank}`
+                : "Open Water Opportunity",
 
             region:
               location?.region ??
@@ -493,6 +495,17 @@ const handleReportSaved = () => {
                   selectedMarineData
                     ?.mapIntelligence ??
                   null
+                }
+                openWaterOpportunities={
+                  dynamicTopOpportunities
+                }
+
+                selectedOpportunity={
+                  selectedOpportunity
+                }
+
+                setSelectedOpportunity={
+                  setSelectedOpportunity
                 }
               />
 
