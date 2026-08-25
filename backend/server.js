@@ -45510,6 +45510,75 @@ export async function evaluateControlledGulfBlueMarlinV1({
 async function getDynamicBlueMarlinOpportunities({
   bearerToken = null
 } = {}) {
+  try {
+    const gulfResult =
+      await evaluateControlledGulfBlueMarlinV1({
+        bearerToken,
+
+        maximumCandidates:
+          GULF_EVALUATION_CONTROL_V1
+            .maximumCandidates,
+
+        concurrency:
+          GULF_EVALUATION_CONTROL_V1
+            .concurrency
+      });
+
+
+    if (
+      gulfResult.available === true &&
+      Array.isArray(
+        gulfResult.opportunities
+      ) &&
+      gulfResult.opportunities.length >
+        0
+    ) {
+      return {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        generatedAt:
+          new Date().toISOString(),
+
+        candidateCount:
+          gulfResult.search
+            .totalMarineCandidateCount,
+
+        evaluatedCandidateCount:
+          gulfResult.evaluation
+            .evaluatedCandidateCount,
+
+        failedCandidateCount:
+          gulfResult.evaluation
+            .failedCandidateCount,
+
+        opportunities:
+          gulfResult.opportunities,
+
+        limitations: [
+          "gulf-search-uses-distributed-v1-sampling",
+          "does-not-yet-evaluate-every-marine-grid-cell",
+          "does-not-confirm-blue-marlin-presence",
+          "does-not-estimate-catch-probability"
+        ],
+
+        interpretation:
+          "dynamic-governed-blue-marlin-opportunity-ranking",
+
+        contractVersion:
+          "pelora-dynamic-blue-marlin-opportunities-v1"
+      };
+    }
+  } catch (error) {
+    console.warn(
+      "Controlled Gulf Blue Marlin evaluation failed; using curated fallback:",
+      error
+    );
+  }
+
+
   const evaluations =
     await Promise.allSettled(
       DYNAMIC_OPPORTUNITY_CANDIDATES_V1
@@ -45594,8 +45663,8 @@ async function getDynamicBlueMarlinOpportunities({
       rankedOpportunities,
 
     limitations: [
+      "controlled-gulf-evaluation-unavailable-curated-fallback-used",
       "candidate-set-limited-to-curated-v1-locations",
-      "does-not-scan-continuous-open-water-grid",
       "does-not-confirm-blue-marlin-presence",
       "does-not-estimate-catch-probability"
     ],
