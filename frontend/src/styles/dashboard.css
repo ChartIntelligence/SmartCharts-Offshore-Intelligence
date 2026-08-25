@@ -6002,6 +6002,262 @@ animation:
 }
 
 
+/* =========================================
+   PELORA TRIP MISSION UX v1
+   ========================================= */
+
+.pelora-mission-origin-actions {
+  margin-top: 24px;
+}
+
+
+.pelora-mission-primary-action {
+  width: 100%;
+  min-height: 78px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 16px 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(12, 56, 78, 0.98),
+      rgba(7, 35, 52, 0.98)
+    );
+
+  color: #eefbff;
+
+  border:
+    1px solid
+    rgba(63, 190, 221, 0.42);
+
+  border-radius: 12px;
+
+  cursor: pointer;
+}
+
+
+.pelora-mission-primary-action strong {
+  font-size: 1rem;
+}
+
+
+.pelora-mission-primary-action small {
+  color:
+    rgba(166, 211, 225, 0.72);
+
+  font-size: 0.72rem;
+}
+
+
+.pelora-mission-primary-action:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+
+.pelora-mission-error {
+  margin: 12px 0 0 !important;
+
+  padding: 10px 12px;
+
+  background:
+    rgba(122, 54, 42, 0.18);
+
+  color:
+    rgba(255, 190, 171, 0.92);
+
+  border:
+    1px solid
+    rgba(255, 139, 98, 0.28);
+
+  border-radius: 8px;
+
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+
+.pelora-mission-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 24px 0 8px;
+
+  color:
+    rgba(137, 187, 203, 0.58);
+
+  font-size: 0.66rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.pelora-mission-divider::before,
+.pelora-mission-divider::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  background:
+    rgba(76, 160, 190, 0.18);
+}
+
+
+.pelora-startup-panel select {
+  width: 100%;
+
+  padding: 14px 15px;
+
+  background:
+    rgba(2, 17, 27, 0.86);
+
+  color: #f3f8fa;
+
+  border:
+    1px solid
+    rgba(68, 160, 192, 0.3);
+
+  border-radius: 10px;
+
+  outline: none;
+
+  font: inherit;
+  font-size: 0.95rem;
+
+  cursor: pointer;
+}
+
+
+.pelora-startup-panel select:focus {
+  border-color:
+    rgba(62, 194, 229, 0.72);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(48, 174, 211, 0.08);
+}
+
+
+.pelora-mission-range {
+  margin-top: 28px;
+}
+
+
+.pelora-mission-range-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+}
+
+
+.pelora-mission-range-header span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color:
+    rgba(137, 187, 203, 0.7);
+
+  font-size: 0.66rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.pelora-mission-range-header strong {
+  color: #f3f8fa;
+
+  font-size: 0.95rem;
+}
+
+
+.pelora-range-options {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+
+.pelora-range-options button {
+  min-height: 44px;
+
+  padding: 10px 8px;
+
+  background:
+    rgba(3, 24, 37, 0.86);
+
+  color:
+    rgba(190, 221, 231, 0.78);
+
+  border:
+    1px solid
+    rgba(58, 148, 180, 0.24);
+
+  border-radius: 9px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    background 150ms ease,
+    color 150ms ease;
+}
+
+
+.pelora-range-options button:hover {
+  transform: translateY(-1px);
+
+  border-color:
+    rgba(70, 194, 229, 0.5);
+}
+
+
+.pelora-range-options button.active {
+  background:
+    rgba(15, 73, 98, 0.96);
+
+  color: #ffffff;
+
+  border-color:
+    rgba(72, 210, 241, 0.78);
+
+  box-shadow:
+    inset 0 -2px 0
+    rgba(255, 140, 66, 0.72);
+}
+
+
+@media (max-width: 650px) {
+
+  .pelora-range-options {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
 @keyframes peloraBathymetryDrift {
 
   from {
