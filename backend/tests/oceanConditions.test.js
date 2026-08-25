@@ -6,6 +6,10 @@ import {
   coordinateIsWithinGulfSearchDomainV1,
   resolveGulfWaterMaskV1,
   buildGulfSearchGridV1,
+  GULF_EVALUATION_CONTROL_V1,
+  selectDistributedGulfCandidatesV1,
+  evaluateGulfCandidatesV1,
+  evaluateControlledGulfBlueMarlinV1,
   buildDynamicBlueMarlinOpportunity,
   rankDynamicBlueMarlinOpportunities,
   buildCurrentGradientAnalysis,
@@ -6122,6 +6126,97 @@ assert.ok(
 
 console.log(
   "PASS Structure Evidence v2.0 identifies verified Okaloosa FAD proximity without biological inference"
+);
+
+
+/*
+ * Structure Evidence v2.1 outside analysis radius
+ *
+ * A valid open-water location may still have a nearest
+ * verified structure, but that structure must not become
+ * relationship evidence when it lies outside its governed
+ * analysis radius.
+ */
+const outsideStructureRadiusResult =
+  assessOceanEvidence({
+    latitude: 25,
+    longitude: -87,
+    sst: null,
+    chlorophyll: null,
+    currents: null,
+    dataQuality: {}
+  });
+
+
+const outsideStructureRadiusEvidence =
+  outsideStructureRadiusResult
+    .groups
+    .structure;
+
+
+assert.equal(
+  outsideStructureRadiusEvidence
+    .available,
+  false
+);
+
+
+assert.equal(
+  outsideStructureRadiusEvidence
+    .classification,
+  "structure-location-known"
+);
+
+
+assert.equal(
+  outsideStructureRadiusEvidence
+    .reason,
+  "nearest-structure-outside-analysis-radius"
+);
+
+
+assert.equal(
+  Number.isFinite(
+    outsideStructureRadiusEvidence
+      .values
+      .nearestStructureDistanceNm
+  ),
+  true
+);
+
+
+assert.equal(
+  Number.isFinite(
+    outsideStructureRadiusEvidence
+      .values
+      .analysisRadiusNm
+  ),
+  true
+);
+
+
+assert.equal(
+  outsideStructureRadiusEvidence
+    .values
+    .nearestStructureDistanceNm >
+  outsideStructureRadiusEvidence
+    .values
+    .analysisRadiusNm,
+  true
+);
+
+
+assert.ok(
+  outsideStructureRadiusEvidence
+    .limitations
+    .includes(
+      "structure-proximity-not-established"
+    )
+);
+
+
+console.log(
+  "PASS Structure Evidence v2.1 keeps distant nearest structure contextual without establishing proximity"
 );
 
 
@@ -41265,5 +41360,301 @@ console.log(
   assert.deepEqual(
     secondGrid,
     grid
+  );
+}
+
+{
+  const candidates =
+    Array.from(
+      {
+        length: 20
+      },
+      (_, index) => ({
+        id:
+          `candidate-${index + 1}`,
+
+        coordinates: [
+          25,
+          -90 + index * 0.01
+        ]
+      })
+    );
+
+
+  let activeEvaluations = 0;
+
+  let maximumObservedConcurrency = 0;
+
+
+  const evaluation =
+    await evaluateGulfCandidatesV1({
+      candidates,
+
+      evaluator:
+        async (
+          candidate,
+          index
+        ) => {
+          activeEvaluations += 1;
+
+
+          maximumObservedConcurrency =
+            Math.max(
+              maximumObservedConcurrency,
+              activeEvaluations
+            );
+
+
+          await new Promise(
+            resolve =>
+              setTimeout(
+                resolve,
+                index % 3 === 0
+                  ? 18
+                  : index % 3 === 1
+                    ? 6
+                    : 1
+              )
+          );
+
+
+          activeEvaluations -= 1;
+
+
+          if (index === 4) {
+            throw new Error(
+              "intentional-test-failure"
+            );
+          }
+
+
+          return {
+            id:
+              candidate.id,
+
+            index
+          };
+        }
+    });
+
+
+  assert.equal(
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates,
+    12
+  );
+
+
+  assert.equal(
+    GULF_EVALUATION_CONTROL_V1
+      .concurrency,
+    3
+  );
+
+
+  assert.equal(
+    evaluation
+      .candidateCount,
+    20
+  );
+
+
+  assert.equal(
+    evaluation
+      .selectedCandidateCount,
+    12
+  );
+
+
+  assert.equal(
+    evaluation
+      .evaluatedCandidateCount,
+    12
+  );
+
+
+  assert.equal(
+    evaluation
+      .successfulCandidateCount,
+    11
+  );
+
+
+  assert.equal(
+    evaluation
+      .failedCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    maximumObservedConcurrency <= 3,
+    true
+  );
+
+
+  assert.deepEqual(
+    evaluation
+      .results
+      .map(
+        result =>
+          result
+            ?.candidate
+            ?.id
+      ),
+    candidates
+      .slice(0, 12)
+      .map(
+        candidate =>
+          candidate.id
+      )
+  );
+
+
+  assert.equal(
+    evaluation
+      .results[4]
+      .status,
+    "rejected"
+  );
+
+
+  assert.equal(
+    evaluation
+      .results[4]
+      .reason,
+    "intentional-test-failure"
+  );
+
+
+  assert.equal(
+    evaluation
+      .results[0]
+      .status,
+    "fulfilled"
+  );
+
+
+  assert.equal(
+    evaluation
+      .results[0]
+      .value
+      .id,
+    "candidate-1"
+  );
+
+
+  const unavailableEvaluation =
+    await evaluateGulfCandidatesV1({
+      candidates
+    });
+
+
+  assert.equal(
+    unavailableEvaluation
+      .available,
+    false
+  );
+
+
+  assert.equal(
+    unavailableEvaluation
+      .reason,
+    "evaluator-unavailable"
+  );
+
+
+  assert.equal(
+    unavailableEvaluation
+      .evaluatedCandidateCount,
+    0
+  );
+}
+
+{
+  const gulfGrid =
+    buildGulfSearchGridV1();
+
+
+  const distributedCandidates =
+    selectDistributedGulfCandidatesV1({
+      candidates:
+        gulfGrid
+    });
+
+
+  assert.equal(
+    gulfGrid.length,
+    138
+  );
+
+
+  assert.equal(
+    distributedCandidates.length,
+    12
+  );
+
+
+  assert.deepEqual(
+    distributedCandidates[0],
+    gulfGrid[0]
+  );
+
+
+  assert.deepEqual(
+    distributedCandidates[
+      distributedCandidates.length - 1
+    ],
+    gulfGrid[
+      gulfGrid.length - 1
+    ]
+  );
+
+
+  assert.equal(
+    new Set(
+      distributedCandidates.map(
+        candidate =>
+          candidate.id
+      )
+    ).size,
+    12
+  );
+
+
+  const secondSelection =
+    selectDistributedGulfCandidatesV1({
+      candidates:
+        gulfGrid
+    });
+
+
+  assert.deepEqual(
+    secondSelection,
+    distributedCandidates
+  );
+
+  const singleCandidateSelection =
+    selectDistributedGulfCandidatesV1({
+      candidates:
+        gulfGrid,
+
+      maximumCandidates: 1
+    });
+
+
+  assert.equal(
+    singleCandidateSelection.length,
+    1
+  );
+
+
+  assert.deepEqual(
+    singleCandidateSelection[0],
+    gulfGrid[
+      Math.floor(
+        gulfGrid.length / 2
+      )
+    ]
   );
 }

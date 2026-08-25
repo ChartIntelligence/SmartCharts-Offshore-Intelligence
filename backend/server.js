@@ -22043,6 +22043,64 @@ current
       distanceNm
     });
 
+
+  const structureWithinAnalysisRadius =
+    Number.isFinite(
+      metadata.analysisRadiusNm
+    ) &&
+    Number.isFinite(
+      distanceNm
+    ) &&
+    distanceNm <=
+      metadata.analysisRadiusNm;
+
+
+  if (
+    !structureWithinAnalysisRadius
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "structure-location-known",
+
+      headline:
+        "Verified offshore structure identified outside analysis radius",
+
+      detail:
+        `${metadata.featureName} is the nearest verified structure, approximately ${distanceNm} nautical miles from the analysis location, but it is outside the structure's ${metadata.analysisRadiusNm ?? "unavailable"} nautical mile analysis radius.`,
+
+      reason:
+        "nearest-structure-outside-analysis-radius",
+
+      interpretation:
+        "species-neutral-structure-evidence",
+
+      values: {
+        ...unavailableValues,
+        ...metadata
+      },
+
+      confidence: {
+        score: 0,
+        level:
+          "Unavailable",
+        limitations: [
+          "nearest-structure-outside-analysis-radius"
+        ]
+      },
+
+      limitations: [
+        "nearest-structure-outside-analysis-radius",
+        "structure-proximity-not-established",
+        "does-not-establish-environmental-interaction",
+        "does-not-establish-fish-presence",
+        "does-not-indicate-species-suitability"
+      ]
+    };
+  }
+
+
   const currentInteraction =
     evaluateCurrentInteraction(
       current
@@ -45004,6 +45062,448 @@ export function rankDynamicBlueMarlinOpportunities(
           index + 1
       })
     );
+}
+
+
+export const GULF_EVALUATION_CONTROL_V1 = {
+  maximumCandidates: 12,
+
+  concurrency: 3,
+
+  contractVersion:
+    "pelora-gulf-evaluation-control-v1"
+};
+
+
+export async function evaluateGulfCandidatesV1({
+  candidates = [],
+  evaluator = null,
+  maximumCandidates =
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates,
+  concurrency =
+    GULF_EVALUATION_CONTROL_V1
+      .concurrency
+} = {}) {
+  const sourceCandidates =
+    Array.isArray(candidates)
+      ? candidates
+      : [];
+
+
+  const normalizedMaximumCandidates =
+    Number.isInteger(
+      maximumCandidates
+    ) &&
+    maximumCandidates > 0
+      ? maximumCandidates
+      : GULF_EVALUATION_CONTROL_V1
+          .maximumCandidates;
+
+
+  const normalizedConcurrency =
+    Number.isInteger(
+      concurrency
+    ) &&
+    concurrency > 0
+      ? concurrency
+      : GULF_EVALUATION_CONTROL_V1
+          .concurrency;
+
+
+  const selectedCandidates =
+    sourceCandidates.slice(
+      0,
+      normalizedMaximumCandidates
+    );
+
+
+  if (
+    typeof evaluator !==
+    "function"
+  ) {
+    return {
+      available: false,
+
+      candidateCount:
+        sourceCandidates.length,
+
+      selectedCandidateCount:
+        selectedCandidates.length,
+
+      evaluatedCandidateCount: 0,
+
+      successfulCandidateCount: 0,
+
+      failedCandidateCount: 0,
+
+      results: [],
+
+      reason:
+        "evaluator-unavailable",
+
+      control: {
+        maximumCandidates:
+          normalizedMaximumCandidates,
+
+        concurrency:
+          normalizedConcurrency
+      },
+
+      contractVersion:
+        "pelora-gulf-candidate-evaluation-v1"
+    };
+  }
+
+
+  const results =
+    new Array(
+      selectedCandidates.length
+    );
+
+
+  let nextIndex = 0;
+
+
+  async function worker() {
+    while (true) {
+      const currentIndex =
+        nextIndex;
+
+
+      nextIndex += 1;
+
+
+      if (
+        currentIndex >=
+        selectedCandidates.length
+      ) {
+        return;
+      }
+
+
+      const candidate =
+        selectedCandidates[
+          currentIndex
+        ];
+
+
+      try {
+        const value =
+          await evaluator(
+            candidate,
+            currentIndex
+          );
+
+
+        results[
+          currentIndex
+        ] = {
+          status:
+            "fulfilled",
+
+          candidate,
+
+          value
+        };
+      } catch (error) {
+        results[
+          currentIndex
+        ] = {
+          status:
+            "rejected",
+
+          candidate,
+
+          reason:
+            error instanceof Error
+              ? error.message
+              : String(error)
+        };
+      }
+    }
+  }
+
+
+  const workerCount =
+    Math.min(
+      normalizedConcurrency,
+      selectedCandidates.length
+    );
+
+
+  await Promise.all(
+    Array.from(
+      {
+        length:
+          workerCount
+      },
+      () => worker()
+    )
+  );
+
+
+  const successfulCandidateCount =
+    results.filter(
+      result =>
+        result?.status ===
+        "fulfilled"
+    ).length;
+
+
+  const failedCandidateCount =
+    results.filter(
+      result =>
+        result?.status ===
+        "rejected"
+    ).length;
+
+
+  return {
+    available:
+      results.length > 0,
+
+    candidateCount:
+      sourceCandidates.length,
+
+    selectedCandidateCount:
+      selectedCandidates.length,
+
+    evaluatedCandidateCount:
+      results.length,
+
+    successfulCandidateCount,
+
+    failedCandidateCount,
+
+    results,
+
+    reason:
+      results.length > 0
+        ? "controlled-evaluation-complete"
+        : "no-candidates",
+
+    control: {
+      maximumCandidates:
+        normalizedMaximumCandidates,
+
+      concurrency:
+        normalizedConcurrency
+    },
+
+    contractVersion:
+      "pelora-gulf-candidate-evaluation-v1"
+  };
+}
+
+
+export function selectDistributedGulfCandidatesV1({
+  candidates = [],
+  maximumCandidates =
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates
+} = {}) {
+  const sourceCandidates =
+    Array.isArray(candidates)
+      ? candidates
+      : [];
+
+
+  const normalizedMaximum =
+    Number.isInteger(
+      maximumCandidates
+    ) &&
+    maximumCandidates > 0
+      ? maximumCandidates
+      : GULF_EVALUATION_CONTROL_V1
+          .maximumCandidates;
+
+
+  if (
+    sourceCandidates.length <=
+    normalizedMaximum
+  ) {
+    return [
+      ...sourceCandidates
+    ];
+  }
+
+
+  if (
+    normalizedMaximum === 1
+  ) {
+    return [
+      sourceCandidates[
+        Math.floor(
+          sourceCandidates.length / 2
+        )
+      ]
+    ];
+  }
+
+
+  const selected = [];
+
+  const lastIndex =
+    sourceCandidates.length - 1;
+
+
+  for (
+    let index = 0;
+    index < normalizedMaximum;
+    index += 1
+  ) {
+    const sourceIndex =
+      Math.round(
+        (
+          index /
+          (
+            normalizedMaximum - 1
+          )
+        ) *
+        lastIndex
+      );
+
+
+    selected.push(
+      sourceCandidates[
+        sourceIndex
+      ]
+    );
+  }
+
+
+  return selected;
+}
+
+
+export async function evaluateControlledGulfBlueMarlinV1({
+  bearerToken = null,
+  maximumCandidates =
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates,
+  concurrency =
+    GULF_EVALUATION_CONTROL_V1
+      .concurrency
+} = {}) {
+  const gulfCandidates =
+    buildGulfSearchGridV1();
+
+
+  const selectedCandidates =
+    selectDistributedGulfCandidatesV1({
+      candidates:
+        gulfCandidates,
+
+      maximumCandidates
+    });
+
+
+  const evaluation =
+    await evaluateGulfCandidatesV1({
+      candidates:
+        selectedCandidates,
+
+      maximumCandidates:
+        selectedCandidates.length,
+
+      concurrency,
+
+      evaluator:
+        async location => {
+          const [
+            latitude,
+            longitude
+          ] =
+            location.coordinates;
+
+
+          const oceanConditions =
+            await getOceanConditions(
+              latitude,
+              longitude,
+              {
+                bearerToken
+              }
+            );
+
+
+          return (
+            buildDynamicBlueMarlinOpportunity({
+              location,
+              oceanConditions
+            })
+          );
+        }
+    });
+
+
+  const opportunities =
+    evaluation.results
+      .filter(
+        result =>
+          result?.status ===
+          "fulfilled"
+      )
+      .map(
+        result =>
+          result.value
+      );
+
+
+  const ranked =
+    rankDynamicBlueMarlinOpportunities(
+      opportunities
+    );
+
+
+  return {
+    available:
+      ranked.length > 0,
+
+    search: {
+      totalMarineCandidateCount:
+        gulfCandidates.length,
+
+      selectedCandidateCount:
+        selectedCandidates.length,
+
+      selection:
+        "deterministic-distributed-gulf-v1"
+    },
+
+    evaluation: {
+      evaluatedCandidateCount:
+        evaluation
+          .evaluatedCandidateCount,
+
+      successfulCandidateCount:
+        evaluation
+          .successfulCandidateCount,
+
+      failedCandidateCount:
+        evaluation
+          .failedCandidateCount,
+
+      control:
+        evaluation.control,
+
+      contractVersion:
+        evaluation
+          .contractVersion
+    },
+
+    opportunities:
+      ranked,
+
+    reason:
+      ranked.length > 0
+        ? "controlled-gulf-evaluation-complete"
+        : "controlled-gulf-evaluation-produced-no-ranked-opportunities",
+
+    contractVersion:
+      "pelora-controlled-gulf-blue-marlin-v1"
+  };
 }
 
 
