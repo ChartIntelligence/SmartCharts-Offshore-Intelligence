@@ -3,7 +3,10 @@ import {
   useState
 } from "react";
 
-import Dashboard from "./Dashboard";
+import PeloraStartupFlow from "./PeloraStartupFlow";
+
+import peloraWordmark
+  from "../assets/branding/pelora-wordmark-web-cropped.png";
 
 import {
   useSupabaseAuth
@@ -12,6 +15,8 @@ import {
 import {
   supabase
 } from "../lib/supabase";
+
+import "../styles/dashboard.css";
 
 
 function FoundingCaptainAccessGate() {
@@ -41,6 +46,11 @@ function FoundingCaptainAccessGate() {
 
   const [signInError, setSignInError] =
     useState("");
+
+  const [
+    openingComplete,
+    setOpeningComplete
+  ] = useState(false);
 
 
   const isAnonymous =
@@ -127,6 +137,24 @@ function FoundingCaptainAccessGate() {
   ]);
 
 
+  useEffect(() => {
+    const timer =
+      window.setTimeout(
+        () => {
+          setOpeningComplete(true);
+        },
+        4000
+      );
+
+
+    return () => {
+      window.clearTimeout(
+        timer
+      );
+    };
+  }, []);
+
+
   const sendMagicLink = async (
     event
   ) => {
@@ -169,18 +197,39 @@ function FoundingCaptainAccessGate() {
 
 
   if (
+    !openingComplete ||
     authLoading ||
     accessLoading
   ) {
     return (
-      <main>
-        <h1>
-          Pelora
-        </h1>
+      <main className="pelora-startup-screen">
 
-        <p>
-          Verifying private captain access...
-        </p>
+        <section className="pelora-startup-splash">
+
+          <img
+            src={peloraWordmark}
+            alt="Pelora"
+            className="pelora-startup-wordmark"
+          />
+
+          <div
+            className="pelora-startup-horizon"
+            aria-hidden="true"
+          >
+            <span />
+          </div>
+
+          <p>
+            OCEAN INTELLIGENCE
+          </p>
+
+          <p>
+            The ocean is talking.
+            Pelora helps you listen.
+          </p>
+
+        </section>
+
       </main>
     );
   }
@@ -198,7 +247,7 @@ function FoundingCaptainAccessGate() {
     approved
   ) {
     return (
-      <Dashboard
+      <PeloraStartupFlow
         session={session}
         user={user}
         authLoading={authLoading}

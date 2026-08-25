@@ -5243,3 +5243,793 @@ color:#ffffff;
   }
 
 }
+
+
+/* =========================================
+   PELORA STARTUP EXPERIENCE v1
+   ========================================= */
+
+.pelora-startup-screen {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+  width: 100%;
+
+  padding: 32px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(33, 113, 148, 0.18),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #04111b 0%,
+      #071d2c 46%,
+      #051521 100%
+    );
+
+  color: #f4f8fa;
+}
+
+
+.pelora-startup-screen::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(38, 158, 194, 0.035) 45%,
+      transparent 70%
+    );
+}
+
+
+.pelora-startup-splash {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: min(680px, 100%);
+
+  text-align: center;
+}
+
+
+.pelora-startup-wordmark {
+  display: block;
+
+  width: min(390px, 72vw);
+  height: auto;
+
+  margin-bottom: 4px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 18px 34px
+      rgba(0, 0, 0, 0.28)
+    );
+}
+
+
+.pelora-startup-splash > p:first-of-type {
+  margin: 0 0 12px;
+
+  color: #ff8c42;
+
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+
+.pelora-startup-splash > p:last-child {
+  max-width: 520px;
+
+  margin: 22px 0 0;
+
+  font-size:
+    clamp(0.95rem, 2vw, 1.1rem);
+
+  line-height: 1.7;
+
+  color:
+    rgba(207, 229, 238, 0.76);
+}
+
+
+.pelora-startup-panel {
+  position: relative;
+  z-index: 1;
+
+  width: min(760px, 100%);
+
+  padding:
+    clamp(26px, 5vw, 48px);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(10, 35, 52, 0.96),
+      rgba(5, 24, 38, 0.97)
+    );
+
+  border:
+    1px solid
+    rgba(71, 173, 205, 0.24);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 30px 70px
+    rgba(0, 0, 0, 0.34);
+}
+
+
+.pelora-startup-panel > h1 {
+  max-width: 650px;
+
+  margin:
+    8px 0 12px;
+
+  font-size:
+    clamp(2rem, 5vw, 3.4rem);
+
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+
+  color: #ffffff;
+}
+
+
+.pelora-startup-panel > p:not(.section-eyebrow) {
+  max-width: 600px;
+
+  margin: 0 0 28px;
+
+  line-height: 1.65;
+
+  color:
+    rgba(195, 221, 231, 0.72);
+}
+
+
+.pelora-startup-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  margin-top: 18px;
+
+  color:
+    rgba(190, 219, 230, 0.82);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.pelora-startup-panel input {
+  width: 100%;
+
+  padding: 14px 15px;
+
+  background:
+    rgba(2, 17, 27, 0.86);
+
+  color: #f3f8fa;
+
+  border:
+    1px solid
+    rgba(68, 160, 192, 0.3);
+
+  border-radius: 10px;
+
+  outline: none;
+
+  font: inherit;
+  font-size: 0.95rem;
+
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+
+.pelora-startup-panel input:focus {
+  border-color:
+    rgba(62, 194, 229, 0.72);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(48, 174, 211, 0.08);
+}
+
+
+.pelora-startup-panel label small {
+  color:
+    rgba(130, 183, 201, 0.65);
+
+  font-size: 0.68rem;
+
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+
+.pelora-startup-panel > button {
+  min-height: 48px;
+
+  margin-top: 22px;
+  margin-right: 10px;
+
+  padding: 12px 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(27, 105, 137, 0.94),
+      rgba(13, 69, 94, 0.96)
+    );
+
+  color: #effbff;
+
+  border:
+    1px solid
+    rgba(66, 193, 226, 0.46);
+
+  border-radius: 10px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+
+.pelora-startup-panel > button:hover {
+  transform: translateY(-1px);
+
+  border-color:
+    rgba(78, 210, 241, 0.8);
+}
+
+
+.pelora-species-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+
+.pelora-species-grid button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 92px;
+
+  padding: 18px;
+
+  text-align: left;
+
+  background:
+    rgba(4, 26, 40, 0.9);
+
+  color: #eef7fa;
+
+  border:
+    1px solid
+    rgba(61, 153, 185, 0.26);
+
+  border-radius: 13px;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+
+.pelora-species-grid button:not(:disabled):hover {
+  transform: translateY(-2px);
+
+  background:
+    rgba(9, 47, 67, 0.96);
+
+  border-color:
+    rgba(66, 199, 234, 0.64);
+}
+
+
+.pelora-species-grid button:not(:disabled) {
+  border-left:
+    3px solid #ff8c42;
+}
+
+
+.pelora-species-grid button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+
+.pelora-species-grid strong {
+  font-size: 1rem;
+}
+
+
+.pelora-species-grid small {
+  color:
+    rgba(147, 191, 207, 0.68);
+
+  font-size: 0.68rem;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+@media (max-width: 650px) {
+
+  .pelora-startup-screen {
+    align-items: flex-start;
+
+    padding: 22px 16px;
+  }
+
+
+  .pelora-startup-splash {
+    margin: auto 0;
+  }
+
+
+  .pelora-startup-panel {
+    padding: 26px 20px;
+
+    border-radius: 16px;
+  }
+
+
+  .pelora-species-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .pelora-startup-panel > button {
+    width: 100%;
+
+    margin-right: 0;
+  }
+
+}
+
+
+/* =========================================
+   PELORA OPENING MOTION v1
+   ========================================= */
+
+.pelora-startup-screen {
+  isolation: isolate;
+}
+
+
+/*
+ * Subtle bathymetric contour field.
+ * These are visual atmosphere only —
+ * they do not represent measured bathymetry.
+ */
+
+
+
+/*
+ * Sonar field behind the Pelora mark.
+ */
+.pelora-startup-splash::before,
+.pelora-startup-splash::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 43%;
+
+  width: min(52vw, 430px);
+  aspect-ratio: 1;
+
+  z-index: -1;
+
+  border:
+    1px solid
+    rgba(63, 190, 221, 0.22);
+
+  border-radius: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.4);
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+.pelora-startup-splash::before {
+  animation:
+    peloraSonarPing
+    2.6s
+    ease-out
+    infinite;
+}
+
+
+.pelora-startup-splash::after {
+  animation:
+    peloraSonarPing
+    2.6s
+    ease-out
+    1.3s
+    infinite;
+}
+
+
+/*
+ * Give the brand a restrained "system coming online"
+ * entrance rather than simply appearing.
+ */
+.pelora-startup-wordmark {
+  opacity: 0;
+
+  clip-path:
+    inset(
+      0 50% 0 50%
+    );
+
+  animation:
+    peloraWordmarkReveal
+    800ms
+    cubic-bezier(
+      0.2,
+      0.8,
+      0.2,
+      1
+    )
+    420ms
+    forwards;
+}
+
+
+.pelora-startup-splash > p:first-of-type {
+  opacity: 0;
+
+  animation:
+    peloraStartupCopyResolve
+    700ms
+    ease
+    720ms
+    forwards;
+}
+
+
+.pelora-startup-splash > p:last-child {
+  opacity: 0;
+
+  animation:
+    peloraStartupCopyResolve
+    750ms
+    ease
+    1050ms
+    forwards;
+}
+
+
+/*
+ * Soft intelligence sweep across the screen.
+ */
+.pelora-startup-splash {
+  position: relative;
+}
+
+
+.pelora-startup-splash .pelora-startup-wordmark {
+  position: relative;
+}
+
+
+.pelora-startup-horizon {
+  position: relative;
+
+  width: min(390px, 72vw);
+  height: 10px;
+
+  margin:
+    0px 0 14px;
+
+opacity: 0;
+
+transform:
+  scaleX(0);
+
+animation:
+  peloraHorizonResolve
+  800ms
+  cubic-bezier(
+    0.2,
+    0.8,
+    0.2,
+    1
+  )
+  420ms
+  forwards;
+
+  overflow: visible;
+}
+
+
+.pelora-startup-horizon::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 50%;
+
+  height: 2px;
+
+  transform:
+    translateY(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      #23c7eb 0%,
+      #23c7eb 42%,
+      #ff8c42 58%,
+      #ff8c42 100%
+    );
+
+  opacity: 0.9;
+
+  box-shadow:
+    0 0 14px
+    rgba(46, 184, 218, 0.16);
+}
+
+
+.pelora-startup-horizon span {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 8px;
+  height: 8px;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(45deg);
+
+  background:
+    #48ddff;
+
+  box-shadow:
+    0 0 12px
+    rgba(72, 221, 255, 0.8);
+
+  animation:
+    peloraHorizonPulse
+    1.8s
+    ease-in-out
+    infinite;
+}
+
+
+@keyframes peloraHorizonResolve {
+
+  from {
+    opacity: 0;
+
+    transform:
+      scaleX(0);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      scaleX(1);
+  }
+
+}
+
+
+@keyframes peloraWordmarkReveal {
+
+  from {
+    opacity: 0;
+
+    clip-path:
+      inset(
+        0 50% 0 50%
+      );
+  }
+
+  to {
+    opacity: 1;
+
+    clip-path:
+      inset(
+        0 0 0 0
+      );
+  }
+
+}
+
+
+@keyframes peloraHorizonPulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+
+    transform:
+      translate(-50%, -50%)
+      rotate(45deg)
+      scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      rotate(45deg)
+      scale(1.15);
+  }
+
+}
+
+
+@keyframes peloraSonarPing {
+
+  0% {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      scale(0.34);
+  }
+
+  18% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      scale(1.28);
+  }
+
+}
+
+
+@keyframes peloraLockupResolve {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(8px)
+      scale(0.985);
+
+    filter:
+      blur(3px)
+      drop-shadow(
+        0 18px 34px
+        rgba(0, 0, 0, 0.22)
+      );
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    filter:
+      blur(0)
+      drop-shadow(
+        0 18px 34px
+        rgba(0, 0, 0, 0.28)
+      );
+  }
+
+}
+
+
+@keyframes peloraStartupCopyResolve {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+/*
+ * Honor reduced-motion preferences.
+ */
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+
+  .pelora-startup-splash::before,
+  .pelora-startup-splash::after,
+  .pelora-startup-wordmark,
+  .pelora-startup-horizon,
+  .pelora-startup-splash
+    > p:first-of-type,
+  .pelora-startup-splash
+    > p:last-child {
+    animation: none;
+  }
+
+
+  .pelora-startup-wordmark,
+  .pelora-startup-horizon,
+  .pelora-startup-splash
+    > p:first-of-type,
+  .pelora-startup-splash
+    > p:last-child {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+
+}
