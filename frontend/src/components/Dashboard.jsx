@@ -59,10 +59,25 @@ function Dashboard({
   const [selectedSpot, setSelectedSpot] =
     useState(null);
 
-    const [
-  selectedOpportunity,
-  setSelectedOpportunity
-] = useState(null);
+  const [
+    selectedOpportunity,
+    setSelectedOpportunity
+  ] = useState(null);
+
+  const handleSelectSpot = spot => {
+    setSelectedSpot(spot);
+    setSelectedOpportunity(null);
+  };
+
+
+  const handleSelectOpportunity =
+    opportunity => {
+      setSelectedOpportunity(
+        opportunity
+      );
+
+      setSelectedSpot(null);
+    };
 
   const [
     reportPanelOpen,
@@ -297,6 +312,29 @@ const {
 );
 
 
+const mapSelectedTarget =
+  selectedOpportunity ??
+  selectedSpot;
+
+
+const mapSelectedMarineData =
+  selectedOpportunity
+    ? activeOpportunityMarineData
+    : selectedMarineData;
+
+
+const mapSelectedMarineLoading =
+  selectedOpportunity
+    ? activeOpportunityMarineLoading
+    : selectedMarineLoading;
+
+
+const mapSelectedMarineError =
+  selectedOpportunity
+    ? activeOpportunityMarineError
+    : selectedMarineError;
+
+
 useOceanMemoryPersistence({
   user,
 
@@ -489,7 +527,7 @@ const handleReportSaved = () => {
                   selectedSpot
                 }
                 setSelectedSpot={
-                  setSelectedSpot
+                  handleSelectSpot
                 }
                 mapIntelligence={
                   selectedMarineData
@@ -505,7 +543,7 @@ const handleReportSaved = () => {
                 }
 
                 setSelectedOpportunity={
-                  setSelectedOpportunity
+                  handleSelectOpportunity
                 }
               />
 
@@ -516,7 +554,7 @@ const handleReportSaved = () => {
                   selectedSpot
                 }
                 setSelectedSpot={
-                  setSelectedSpot
+                  handleSelectSpot
                 }
               />
 
@@ -531,11 +569,19 @@ const handleReportSaved = () => {
 
 
           <SelectedTarget
-  selectedSpot={selectedSpot}
-  oceanData={selectedMarineData}
-  oceanLoading={selectedMarineLoading}
-  oceanError={selectedMarineError}
-/>
+            selectedSpot={
+              mapSelectedTarget
+            }
+            oceanData={
+              mapSelectedMarineData
+            }
+            oceanLoading={
+              mapSelectedMarineLoading
+            }
+            oceanError={
+              mapSelectedMarineError
+            }
+          />
 
         </main>
       )}

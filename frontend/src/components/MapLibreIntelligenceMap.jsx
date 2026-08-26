@@ -19,6 +19,9 @@ import {
 import {
   useMapLibreOpenWaterOpportunities
 } from "../hooks/useMapLibreOpenWaterOpportunities";
+import {
+  useMapLibreOpportunitySelection
+} from "../hooks/useMapLibreOpportunitySelection";
 
 function MapLibreIntelligenceMap({
   layers,
@@ -132,6 +135,11 @@ function MapLibreIntelligenceMap({
     selectedOpportunity,
 
     setSelectedOpportunity
+  });
+
+  useMapLibreOpportunitySelection({
+    mapRef,
+    selectedOpportunity
   });
 
   useMapLibreMarkers({

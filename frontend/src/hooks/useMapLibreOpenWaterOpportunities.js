@@ -235,23 +235,11 @@ export function useMapLibreOpenWaterOpportunities({
     };
 
 
-    if (map.loaded()) {
-      createMarkers();
-    } else {
-      map.once(
-        "load",
-        createMarkers
-      );
-    }
+    createMarkers();
 
 
     return () => {
-      map.off(
-        "load",
-        createMarkers
-      );
-
-      removeMarkers();
+     removeMarkers();
     };
   }, [
     mapRef,

@@ -720,7 +720,23 @@ const structureDetail =
               className="velion-view-zone-button"
               disabled={!activeOpportunity}
               onClick={() => {
-                setSelectedSpot(activeOpportunity);
+                if (
+                  activeOpportunity
+                    ?.dynamicOpportunity
+                ) {
+                  setSelectedOpportunity(
+                    activeOpportunity
+                  );
+
+                  setSelectedSpot(null);
+                } else {
+                  setSelectedSpot(
+                    activeOpportunity
+                  );
+
+                  setSelectedOpportunity(null);
+                }
+
                 setActiveTab("map");
               }}
             >
