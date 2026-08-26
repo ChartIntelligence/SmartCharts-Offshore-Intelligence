@@ -9,6 +9,7 @@ import {
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
+  evaluateSpeciesCandidateHabitatEligibilityV1,
   evaluateGulfCandidatesV1,
   evaluateControlledGulfBlueMarlinV1,
   buildDynamicBlueMarlinOpportunity,
@@ -9813,7 +9814,7 @@ assert.equal(
   genericBlueMarlinResolution
     .knowledgeProfile
     .methodVersion,
-  "pelora-blue-marlin-species-knowledge-profile-v1.1"
+  "pelora-blue-marlin-species-knowledge-profile-v1.2"
 );
 
 assert.equal(
@@ -41777,5 +41778,357 @@ console.log(
   assert.deepEqual(
     invalidContextCandidates,
     []
+  );
+}
+
+/*
+ * ------------------------------------------------------------
+ * Species Candidate Habitat Eligibility v1
+ * ------------------------------------------------------------
+ */
+{
+  const shallowCandidate = {
+    waterMask: {
+      elevationMeters: -38.81
+    }
+  };
+
+
+  const ungovernedResult =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate:
+        shallowCandidate,
+
+      speciesProfile: {
+        species:
+          "future-shallow-species"
+      }
+    });
+
+
+  assert.equal(
+    ungovernedResult.eligible,
+    true
+  );
+
+  assert.equal(
+    ungovernedResult.classification,
+    "eligibility-not-governed"
+  );
+
+  assert.equal(
+    ungovernedResult.bathymetry.governed,
+    false
+  );
+
+
+  const governedSpeciesProfile = {
+    species:
+      "test-deepwater-species",
+
+    habitatEligibility: {
+      bathymetry: {
+        enabled:
+          true,
+
+        minimumDepthMeters:
+          100
+      }
+    }
+  };
+
+
+  const deepResult =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate: {
+        waterMask: {
+          elevationMeters:
+            -243.01
+        }
+      },
+
+      speciesProfile:
+        governedSpeciesProfile
+    });
+
+
+  assert.equal(
+    deepResult.eligible,
+    true
+  );
+
+  assert.equal(
+    deepResult.classification,
+    "species-habitat-eligible"
+  );
+
+  assert.equal(
+    deepResult.bathymetry.depthMeters,
+    243.01
+  );
+
+  assert.equal(
+    deepResult.bathymetry.minimumDepthMeters,
+    100
+  );
+
+
+  const tooShallowResult =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate: {
+        waterMask: {
+          elevationMeters:
+            -38.81
+        }
+      },
+
+      speciesProfile:
+        governedSpeciesProfile
+    });
+
+
+  assert.equal(
+    tooShallowResult.eligible,
+    false
+  );
+
+  assert.equal(
+    tooShallowResult.classification,
+    "species-habitat-ineligible"
+  );
+
+  assert.equal(
+    tooShallowResult.bathymetry.depthMeters,
+    38.81
+  );
+
+
+  const unavailableBathymetryResult =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate: {
+        waterMask: {}
+      },
+
+      speciesProfile:
+        governedSpeciesProfile
+    });
+
+
+  assert.equal(
+    unavailableBathymetryResult.eligible,
+    false
+  );
+
+  assert.equal(
+    unavailableBathymetryResult.classification,
+    "bathymetry-unavailable"
+  );
+
+  assert.equal(
+    unavailableBathymetryResult.bathymetry.governed,
+    true
+  );
+
+  assert.equal(
+    unavailableBathymetryResult.bathymetry.depthMeters,
+    null
+  );
+
+  const blueMarlinVeryShallowResult =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate: {
+        waterMask: {
+          elevationMeters:
+            -2.61
+        }
+      },
+
+      speciesProfile:
+        BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    });
+
+
+  assert.equal(
+    blueMarlinVeryShallowResult.eligible,
+    false
+  );
+
+  assert.equal(
+    blueMarlinVeryShallowResult.classification,
+    "species-habitat-ineligible"
+  );
+
+
+  const blueMarlinShallowResult =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate: {
+        waterMask: {
+          elevationMeters:
+            -38.81
+        }
+      },
+
+      speciesProfile:
+        BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    });
+
+
+  assert.equal(
+    blueMarlinShallowResult.eligible,
+    false
+  );
+
+  assert.equal(
+    blueMarlinShallowResult.bathymetry.depthMeters,
+    38.81
+  );
+
+
+  const blueMarlinDeepResult =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate: {
+        waterMask: {
+          elevationMeters:
+            -243.01
+        }
+      },
+
+      speciesProfile:
+        BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+    });
+
+
+  assert.equal(
+    blueMarlinDeepResult.eligible,
+    true
+  );
+
+  assert.equal(
+    blueMarlinDeepResult.classification,
+    "species-habitat-eligible"
+  );
+
+  assert.equal(
+    blueMarlinDeepResult.bathymetry.depthMeters,
+    243.01
+  );
+}
+
+/*
+ * ------------------------------------------------------------
+ * Blue Marlin Candidate Filtering Pipeline v1
+ * ------------------------------------------------------------
+ */
+{
+  const gulfGrid =
+    buildGulfSearchGridV1();
+
+
+  const rangeEligibleCandidates =
+    filterGulfCandidatesByCaptainRangeV1({
+      candidates:
+        gulfGrid,
+
+      originCoordinates: [
+        29.815,
+        -85.303
+      ],
+
+      operatingRangeNm:
+        75,
+
+      explorationMode:
+        "within-range"
+    });
+
+
+  const speciesEligibleCandidates =
+    rangeEligibleCandidates.filter(
+      candidate =>
+        evaluateSpeciesCandidateHabitatEligibilityV1({
+          candidate,
+
+          speciesProfile:
+            BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+        }).eligible === true
+    );
+
+
+  const selectedCandidates =
+    selectDistributedGulfCandidatesV1({
+      candidates:
+        speciesEligibleCandidates,
+
+      maximumCandidates:
+        12
+    });
+
+
+  assert.equal(
+    gulfGrid.length,
+    138
+  );
+
+  assert.equal(
+    rangeEligibleCandidates.length,
+    4
+  );
+
+  assert.equal(
+    speciesEligibleCandidates.length,
+    1
+  );
+
+  assert.equal(
+    selectedCandidates.length,
+    1
+  );
+
+
+  assert.deepEqual(
+    speciesEligibleCandidates[0]
+      .coordinates,
+    [
+      29,
+      -86
+    ]
+  );
+
+  assert.equal(
+    Math.abs(
+      speciesEligibleCandidates[0]
+        .waterMask
+        .elevationMeters
+    ),
+    243.01
+  );
+
+
+  /*
+   * Critical architecture regression:
+   * shallow marine candidates remain in the species-neutral
+   * range search and are removed only by Blue Marlin's
+   * governed habitat-eligibility rule.
+   */
+  assert.equal(
+    rangeEligibleCandidates.some(
+      candidate =>
+        candidate.coordinates[0] ===
+          29 &&
+        candidate.coordinates[1] ===
+          -85
+    ),
+    true
+  );
+
+  assert.equal(
+    speciesEligibleCandidates.some(
+      candidate =>
+        candidate.coordinates[0] ===
+          29 &&
+        candidate.coordinates[1] ===
+          -85
+    ),
+    false
   );
 }

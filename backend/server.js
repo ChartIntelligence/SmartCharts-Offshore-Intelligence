@@ -38912,6 +38912,311 @@ export const SPECIES_KNOWLEDGE_FRAMEWORK = {
 };
 
 
+/**
+ * ------------------------------------------------------------
+ * Species Habitat Eligibility Framework v1.0
+ * ------------------------------------------------------------
+ *
+ * Purpose:
+ * Apply governed species-specific physical habitat constraints
+ * to otherwise species-neutral marine search candidates.
+ *
+ * Habitat eligibility determines whether a candidate may enter
+ * species-specific environmental evaluation.
+ *
+ * It does not:
+ * - alter the species-neutral Gulf marine grid
+ * - confirm species presence
+ * - confirm feeding
+ * - estimate catch probability
+ * - modify habitat suitability scores
+ * - modify model confidence
+ *
+ * Species profiles define their own eligibility rules.
+ * A species without a governed rule remains unfiltered by that
+ * rule rather than inheriting another species' constraints.
+ */
+export const SPECIES_HABITAT_ELIGIBILITY_FRAMEWORK_V1 = {
+  supportedConstraints: [
+    "bathymetry"
+  ],
+
+  bathymetrySourceField:
+    "waterMask.elevationMeters",
+
+  rules: {
+    speciesSpecific:
+      true,
+
+    changesMarineGrid:
+      false,
+
+    changesHabitatScores:
+      false,
+
+    changesConfidence:
+      false,
+
+    confirmsSpeciesPresence:
+      false,
+
+    missingRuleRejectsCandidate:
+      false
+  },
+
+  contractVersion:
+    "pelora-species-habitat-eligibility-framework-v1"
+};
+
+
+/**
+ * Evaluate a species-neutral marine candidate against a
+ * species profile's governed habitat-eligibility rules.
+ */
+export function evaluateSpeciesCandidateHabitatEligibilityV1({
+  candidate = null,
+  speciesProfile = null
+} = {}) {
+  const species =
+    typeof speciesProfile?.species ===
+      "string"
+      ? speciesProfile.species
+      : "unknown-species";
+
+
+  const bathymetryRule =
+    speciesProfile
+      ?.habitatEligibility
+      ?.bathymetry ??
+    null;
+
+
+  /*
+   * Missing species rule is intentionally permissive.
+   *
+   * Pelora must not borrow another species' habitat limits or
+   * invent an ungoverned restriction.
+   */
+  if (
+    !bathymetryRule ||
+    bathymetryRule.enabled !== true
+  ) {
+    return {
+      eligible: true,
+
+      species,
+
+      classification:
+        "eligibility-not-governed",
+
+      bathymetry: {
+        governed:
+          false,
+
+        eligible:
+          null,
+
+        elevationMeters:
+          Number.isFinite(
+            Number(
+              candidate
+                ?.waterMask
+                ?.elevationMeters
+            )
+          )
+            ? Number(
+                candidate
+                  .waterMask
+                  .elevationMeters
+              )
+            : null,
+
+        depthMeters:
+          null,
+
+        minimumDepthMeters:
+          null
+      },
+
+      reasons: [
+        "species-bathymetry-eligibility-not-governed"
+      ],
+
+      limitations: [
+        "candidate-preserved-because-no-governed-species-bathymetry-rule-exists"
+      ],
+
+      contractVersion:
+        "pelora-species-candidate-habitat-eligibility-v1"
+    };
+  }
+
+
+  const elevationMeters =
+    Number(
+      candidate
+        ?.waterMask
+        ?.elevationMeters
+    );
+
+  const minimumDepthMeters =
+    Number(
+      bathymetryRule
+        ?.minimumDepthMeters
+    );
+
+
+  if (
+    !Number.isFinite(
+      elevationMeters
+    )
+  ) {
+    return {
+      eligible: false,
+
+      species,
+
+      classification:
+        "bathymetry-unavailable",
+
+      bathymetry: {
+        governed:
+          true,
+
+        eligible:
+          false,
+
+        elevationMeters:
+          null,
+
+        depthMeters:
+          null,
+
+        minimumDepthMeters:
+          Number.isFinite(
+            minimumDepthMeters
+          )
+            ? minimumDepthMeters
+            : null
+      },
+
+      reasons: [
+        "candidate-bathymetry-unavailable"
+      ],
+
+      limitations: [
+        "governed-species-bathymetry-rule-cannot-be-evaluated"
+      ],
+
+      contractVersion:
+        "pelora-species-candidate-habitat-eligibility-v1"
+    };
+  }
+
+
+  if (
+    !Number.isFinite(
+      minimumDepthMeters
+    ) ||
+    minimumDepthMeters < 0
+  ) {
+    return {
+      eligible: false,
+
+      species,
+
+      classification:
+        "species-bathymetry-rule-invalid",
+
+      bathymetry: {
+        governed:
+          true,
+
+        eligible:
+          false,
+
+        elevationMeters,
+
+        depthMeters:
+          elevationMeters < 0
+            ? Math.abs(
+                elevationMeters
+              )
+            : 0,
+
+        minimumDepthMeters:
+          null
+      },
+
+      reasons: [
+        "invalid-minimum-depth-rule"
+      ],
+
+      limitations: [
+        "species-bathymetry-eligibility-rule-invalid"
+      ],
+
+      contractVersion:
+        "pelora-species-candidate-habitat-eligibility-v1"
+    };
+  }
+
+
+  const depthMeters =
+    elevationMeters < 0
+      ? Math.abs(
+          elevationMeters
+        )
+      : 0;
+
+
+  const bathymetryEligible =
+    depthMeters >=
+    minimumDepthMeters;
+
+
+  return {
+    eligible:
+      bathymetryEligible,
+
+    species,
+
+    classification:
+      bathymetryEligible
+        ? "species-habitat-eligible"
+        : "species-habitat-ineligible",
+
+    bathymetry: {
+      governed:
+        true,
+
+      eligible:
+        bathymetryEligible,
+
+      elevationMeters,
+
+      depthMeters,
+
+      minimumDepthMeters
+    },
+
+    reasons: [
+      bathymetryEligible
+        ? "minimum-species-depth-requirement-satisfied"
+        : "candidate-shallower-than-governed-species-minimum"
+    ],
+
+    limitations: [
+      "bathymetry-only-v1",
+      "does-not-confirm-species-presence",
+      "does-not-estimate-catch-probability"
+    ],
+
+    contractVersion:
+      "pelora-species-candidate-habitat-eligibility-v1"
+  };
+}
+
 
 /**
  * ------------------------------------------------------------
@@ -41485,6 +41790,55 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
     }
   },
 
+  habitatEligibility: {
+    bathymetry: {
+      enabled:
+        true,
+
+      minimumDepthMeters:
+        200,
+
+      interpretation:
+        "gulf-blue-marlin-open-water-candidate-depth-eligibility",
+
+      provenance: {
+        rationale:
+          "For Gulf of Mexico Blue Marlin open-water opportunity discovery, Pelora uses the 200-meter bathymetric contour as a conservative candidate-search eligibility boundary consistent with Atlantic Highly Migratory Species Essential Fish Habitat guidance. This boundary governs candidate inclusion only and does not assert that Blue Marlin cannot occur in shallower water.",
+
+        evidenceStatus:
+          "reviewed",
+
+        sourceType:
+          "government-dataset",
+
+        references: [
+          "NOAA Atlantic Highly Migratory Species Essential Fish Habitat guidance for Gulf of Mexico Blue Marlin habitat"
+        ],
+
+        reviewedBy: [
+          "Pelora scientific governance review"
+        ],
+
+        lastReviewedAt:
+          "2026-08-25",
+
+        regionalScope:
+          "regional",
+
+        seasonalScope:
+          "year-round",
+
+        limitations: [
+          "candidate-search-boundary-not-biological-absolute",
+          "regional-rule-specific-to-gulf-of-mexico-open-water-discovery",
+          "does-not-confirm-blue-marlin-presence",
+          "does-not-confirm-feeding",
+          "does-not-estimate-catch-probability"
+        ]
+      }
+    }
+  },
+
   confidencePolicy: {
     leadingCandidateRequiresDifferentiation:
       true,
@@ -41520,7 +41874,7 @@ export const BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE = {
   },
 
   methodVersion:
-    "pelora-blue-marlin-species-knowledge-profile-v1.1"
+    "pelora-blue-marlin-species-knowledge-profile-v1.2"
 };
 
 
@@ -45511,10 +45865,30 @@ export async function evaluateControlledGulfBlueMarlinV1({
     });
 
 
+  const speciesEligibleCandidates =
+    eligibleCandidates.filter(
+      candidate => {
+        const eligibility =
+          evaluateSpeciesCandidateHabitatEligibilityV1({
+            candidate,
+
+            speciesProfile:
+              BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+          });
+
+
+        return (
+          eligibility?.eligible ===
+          true
+        );
+      }
+    );
+
+
   const selectedCandidates =
     selectDistributedGulfCandidatesV1({
       candidates:
-        eligibleCandidates,
+        speciesEligibleCandidates,
 
       maximumCandidates
     });
@@ -45588,6 +45962,12 @@ export async function evaluateControlledGulfBlueMarlinV1({
 
       eligibleCandidateCount:
         eligibleCandidates.length,
+
+      rangeEligibleCandidateCount:
+        eligibleCandidates.length,
+
+      speciesEligibleCandidateCount:
+        speciesEligibleCandidates.length,
 
       selectedCandidateCount:
         selectedCandidates.length,
