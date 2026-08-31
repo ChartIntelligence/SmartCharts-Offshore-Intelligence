@@ -46702,6 +46702,121 @@ export function buildDynamicBlueMarlinOpportunity({
 }
 
 
+export function buildUnifiedSpeciesOpportunityInterpretationV1({
+  candidate = null,
+  oceanConditions = null,
+  species = null
+} = {}) {
+  const normalizedSpecies =
+    typeof species === "string"
+      ? species
+          .trim()
+          .toLowerCase()
+      : null;
+
+
+  if (
+    normalizedSpecies !==
+    "blue-marlin"
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      species:
+        normalizedSpecies,
+
+      speciesOpportunity:
+        null,
+
+      interpretation:
+        "species-opportunity-interpretation-unavailable",
+
+      reason:
+        "species-opportunity-pathway-not-governed",
+
+      limitations: [
+        "v1-species-opportunity-interpretation-supports-blue-marlin-only",
+        "unsupported-species-does-not-establish-opportunity",
+        "unsupported-species-does-not-establish-ranking-eligibility",
+        "unsupported-species-does-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-species-opportunity-interpretation-v1"
+    };
+  }
+
+
+  if (
+    !candidate ||
+    !oceanConditions
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      species:
+        normalizedSpecies,
+
+      speciesOpportunity:
+        null,
+
+      interpretation:
+        "species-opportunity-interpretation-unavailable",
+
+      reason:
+        "required-species-interpretation-input-unavailable",
+
+      limitations: [
+        "species-opportunity-requires-candidate-and-ocean-conditions",
+        "missing-input-does-not-establish-ranking-eligibility",
+        "missing-input-does-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-species-opportunity-interpretation-v1"
+    };
+  }
+
+
+  const speciesOpportunity =
+    buildDynamicBlueMarlinOpportunity({
+      location:
+        candidate,
+
+      oceanConditions
+    });
+
+
+  return {
+    available:
+      speciesOpportunity
+        ?.available === true,
+
+    candidate,
+
+    species:
+      normalizedSpecies,
+
+    speciesOpportunity,
+
+    interpretation:
+      "governed-unified-species-opportunity-interpretation",
+
+    limitations: [
+      "species-opportunity-does-not-itself-establish-rank",
+      "ranking-requires-separate-governed-ranking-stage"
+    ],
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {

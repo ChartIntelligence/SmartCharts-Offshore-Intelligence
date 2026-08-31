@@ -23,6 +23,7 @@ import {
   evaluateGulfCandidatesV1,
   assessDynamicBlueMarlinOpportunityEligibilityV1,
   buildDynamicBlueMarlinOpportunity,
+  buildUnifiedSpeciesOpportunityInterpretationV1,
   rankDynamicBlueMarlinOpportunities,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
@@ -46153,5 +46154,282 @@ for (
   assert.equal(
     result.contractVersion,
     "pelora-unified-live-ocean-conditions-composition-v1"
+  );
+}
+
+{
+  const candidate = {
+    id:
+      "unified-species-unsupported-1",
+
+    candidateClass:
+      "open-water",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ]
+  };
+
+
+  const result =
+    buildUnifiedSpeciesOpportunityInterpretationV1({
+      candidate,
+
+      oceanConditions: {
+        blueMarlinHabitat: {
+          available: true
+        }
+      },
+
+      species:
+        "sailfish"
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.species,
+    "sailfish"
+  );
+
+
+  assert.equal(
+    result.speciesOpportunity,
+    null
+  );
+
+
+  assert.equal(
+    result.reason,
+    "species-opportunity-pathway-not-governed"
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.equal(
+    result.rank,
+    undefined
+  );
+
+
+  assert.equal(
+    result.eligibleForRanking,
+    undefined
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-species-opportunity-interpretation-v1"
+  );
+}
+
+
+{
+  const result =
+    buildUnifiedSpeciesOpportunityInterpretationV1({
+      candidate: null,
+
+      oceanConditions: null,
+
+      species:
+        "blue-marlin"
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+
+  assert.equal(
+    result.speciesOpportunity,
+    null
+  );
+
+
+  assert.equal(
+    result.reason,
+    "required-species-interpretation-input-unavailable"
+  );
+
+
+  assert.equal(
+    result.rank,
+    undefined
+  );
+
+
+  assert.equal(
+    result.eligibleForRanking,
+    undefined
+  );
+
+
+  assert.equal(
+    result.score,
+    undefined
+  );
+}
+
+
+{
+  const candidate = {
+    id:
+      "unified-species-blue-marlin-1",
+
+    name:
+      "Unified Open Water Test",
+
+    region:
+      "Northern Gulf",
+
+    type:
+      "open_water_grid",
+
+    candidateClass:
+      "open-water",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ]
+  };
+
+
+  const oceanConditions = {
+    observedAt:
+      "2026-08-31T00:00:00.000Z",
+
+    blueMarlinHabitat: {
+      confidence: {
+        score: 64,
+
+        level:
+          "Moderate",
+
+        components: {
+          confidenceAdjustedSuitability: {
+            score: 41
+          }
+        }
+      },
+
+      limitations: [
+        "test-blue-marlin-limitation"
+      ]
+    },
+
+    oceanOpportunity: {
+      pathwayClassification: {
+        classification:
+          "open-water"
+      }
+    },
+
+    oceanSignals: {
+      primarySignal: {
+        signalType:
+          "temperature-transition",
+
+        label:
+          "Temperature Transition"
+      }
+    }
+  };
+
+
+  const expectedOpportunity =
+    buildDynamicBlueMarlinOpportunity({
+      location:
+        candidate,
+
+      oceanConditions
+    });
+
+
+  const result =
+    buildUnifiedSpeciesOpportunityInterpretationV1({
+      candidate,
+
+      oceanConditions,
+
+      species:
+        "  BLUE-MARLIN  "
+    });
+
+
+  assert.equal(
+    result.available,
+    expectedOpportunity.available
+  );
+
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.deepEqual(
+    result.speciesOpportunity,
+    expectedOpportunity
+  );
+
+
+  assert.deepEqual(
+    result.speciesOpportunity
+      .eligibility,
+    expectedOpportunity
+      .eligibility
+  );
+
+
+  assert.equal(
+    result.speciesOpportunity
+      .score,
+    expectedOpportunity.score
+  );
+
+
+  assert.equal(
+    result.rank,
+    undefined
+  );
+
+
+  assert.equal(
+    result.eligibleForRanking,
+    undefined
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-species-opportunity-interpretation-v1"
   );
 }
