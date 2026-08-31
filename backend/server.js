@@ -46991,6 +46991,144 @@ export function rankDynamicBlueMarlinOpportunities(
 }
 
 
+export function rankUnifiedSpeciesOpportunitiesV1({
+  speciesInterpretations = [],
+  species = null
+} = {}) {
+  const normalizedSpecies =
+    typeof species === "string"
+      ? species.trim().toLowerCase()
+      : null;
+
+
+  const interpretations =
+    Array.isArray(
+      speciesInterpretations
+    )
+      ? speciesInterpretations
+      : [];
+
+
+  const rankingResolutions =
+    interpretations.map(
+      speciesInterpretation =>
+        resolveUnifiedOpportunityRankingInputV1({
+          speciesInterpretation
+        })
+    );
+
+
+  const rankingInputs =
+    rankingResolutions
+      .map(
+        resolution =>
+          resolution.rankingInput
+      )
+      .filter(Boolean);
+
+
+  if (
+    normalizedSpecies !==
+      "blue-marlin"
+  ) {
+    return {
+      available: false,
+
+      species:
+        normalizedSpecies,
+
+      rankedOpportunities: [],
+
+      rankingResolutions,
+
+      summary: {
+        interpretationCount:
+          interpretations.length,
+
+        eligibleRankingInputCount:
+          rankingInputs.length,
+
+        excludedRankingInputCount:
+          rankingResolutions.length -
+          rankingInputs.length,
+
+        rankedOpportunityCount: 0
+      },
+
+      interpretation:
+        "unified-species-opportunity-ranking-unavailable",
+
+      reason:
+        "species-ranking-pathway-not-governed",
+
+      limitations: [
+        "v1-unified-ranking-supports-blue-marlin-only",
+        "unsupported-species-does-not-establish-rank",
+        "ranking-does-not-create-opportunity-evidence",
+        "ranking-does-not-create-ranking-eligibility"
+      ],
+
+      contractVersion:
+        "pelora-unified-species-opportunity-ranking-v1"
+    };
+  }
+
+
+  const rankedOpportunities =
+    rankDynamicBlueMarlinOpportunities(
+      rankingInputs
+    );
+
+
+  return {
+    available:
+      rankedOpportunities.length > 0,
+
+    species:
+      normalizedSpecies,
+
+    rankedOpportunities,
+
+    rankingResolutions,
+
+    summary: {
+      interpretationCount:
+        interpretations.length,
+
+      eligibleRankingInputCount:
+        rankingInputs.length,
+
+      excludedRankingInputCount:
+        rankingResolutions.length -
+        rankingInputs.length,
+
+      rankedOpportunityCount:
+        rankedOpportunities.length
+    },
+
+    interpretation:
+      rankedOpportunities.length > 0
+        ? "governed-unified-species-opportunity-ranking"
+        : "no-governed-species-opportunities-eligible-for-ranking",
+
+    reason:
+      rankedOpportunities.length > 0
+        ? null
+        : "no-opportunities-passed-governed-ranking-input",
+
+    limitations: [
+      "ranking-orders-only-opportunities-that-pass-the-existing-minimum-opportunity-evidence-gate",
+      "ranking-does-not-create-opportunity-evidence",
+      "ranking-does-not-create-ranking-eligibility",
+      "v1-unified-ranking-supports-blue-marlin-only"
+    ],
+
+    contractVersion:
+      "pelora-unified-species-opportunity-ranking-v1"
+  };
+}
+
+
 export const GULF_EVALUATION_CONTROL_V1 = {
   maximumCandidates: 12,
 

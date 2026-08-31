@@ -26,6 +26,7 @@ import {
   buildUnifiedSpeciesOpportunityInterpretationV1,
   resolveUnifiedOpportunityRankingInputV1,
   rankDynamicBlueMarlinOpportunities,
+  rankUnifiedSpeciesOpportunitiesV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -46812,5 +46813,474 @@ for (
   assert.equal(
     ranked[0].rank,
     1
+  );
+}
+
+{
+  const result =
+    rankUnifiedSpeciesOpportunitiesV1({
+      speciesInterpretations: [],
+      species: "sailfish"
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.species,
+    "sailfish"
+  );
+
+  assert.deepEqual(
+    result.rankedOpportunities,
+    []
+  );
+
+  assert.equal(
+    result.reason,
+    "species-ranking-pathway-not-governed"
+  );
+
+  assert.equal(
+    result.summary.rankedOpportunityCount,
+    0
+  );
+}
+
+
+{
+  const result =
+    rankUnifiedSpeciesOpportunitiesV1({
+      species: "blue-marlin",
+
+      speciesInterpretations: [
+        {
+          available: true,
+
+          candidate: {
+            id:
+              "unified-ranking-ineligible-1"
+          },
+
+          species:
+            "blue-marlin",
+
+          speciesOpportunity: {
+            available: true,
+
+            score: 91,
+
+            confidence: {
+              score: 80
+            },
+
+            eligibility: {
+              eligibleForRanking: false
+            }
+          }
+        }
+      ]
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.summary.interpretationCount,
+    1
+  );
+
+  assert.equal(
+    result.summary.eligibleRankingInputCount,
+    0
+  );
+
+  assert.equal(
+    result.summary.excludedRankingInputCount,
+    1
+  );
+
+  assert.equal(
+    result.summary.rankedOpportunityCount,
+    0
+  );
+
+  assert.deepEqual(
+    result.rankedOpportunities,
+    []
+  );
+
+  assert.equal(
+    result.reason,
+    "no-opportunities-passed-governed-ranking-input"
+  );
+}
+
+
+{
+  const interpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "unified-ranking-lower-score"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        location: {
+          id:
+            "unified-ranking-lower-score"
+        },
+
+        score: 44,
+
+        confidence: {
+          score: 75
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    },
+
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "unified-ranking-higher-score"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        location: {
+          id:
+            "unified-ranking-higher-score"
+        },
+
+        score: 58,
+
+        confidence: {
+          score: 60
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+
+  const result =
+    rankUnifiedSpeciesOpportunitiesV1({
+      speciesInterpretations:
+        interpretations,
+
+      species:
+        "  BLUE-MARLIN  "
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    result.rankedOpportunities.length,
+    2
+  );
+
+  assert.equal(
+    result.rankedOpportunities[0]
+      ?.location
+      ?.id,
+    "unified-ranking-higher-score"
+  );
+
+  assert.equal(
+    result.rankedOpportunities[0].rank,
+    1
+  );
+
+  assert.equal(
+    result.rankedOpportunities[1]
+      ?.location
+      ?.id,
+    "unified-ranking-lower-score"
+  );
+
+  assert.equal(
+    result.rankedOpportunities[1].rank,
+    2
+  );
+
+  assert.equal(
+    result.summary.eligibleRankingInputCount,
+    2
+  );
+
+  assert.equal(
+    result.summary.excludedRankingInputCount,
+    0
+  );
+}
+
+
+{
+  const result =
+    rankUnifiedSpeciesOpportunitiesV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations: [
+        {
+          available: true,
+
+          candidate: {
+            id:
+              "unified-ranking-high-score-excluded"
+          },
+
+          species:
+            "blue-marlin",
+
+          speciesOpportunity: {
+            available: true,
+
+            location: {
+              id:
+                "unified-ranking-high-score-excluded"
+            },
+
+            score: 95,
+
+            confidence: {
+              score: 90
+            },
+
+            eligibility: {
+              eligibleForRanking: false
+            }
+          }
+        },
+
+        {
+          available: true,
+
+          candidate: {
+            id:
+              "unified-ranking-lower-score-eligible"
+          },
+
+          species:
+            "blue-marlin",
+
+          speciesOpportunity: {
+            available: true,
+
+            location: {
+              id:
+                "unified-ranking-lower-score-eligible"
+            },
+
+            score: 38,
+
+            confidence: {
+              score: 55
+            },
+
+            eligibility: {
+              eligibleForRanking: true
+            }
+          }
+        }
+      ]
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.rankingResolutions.length,
+    2
+  );
+
+  assert.equal(
+    result.rankingResolutions[0]
+      .eligibleForRanking,
+    false
+  );
+
+  assert.equal(
+    result.rankingResolutions[0]
+      .rankingInput,
+    null
+  );
+
+  assert.equal(
+    result.summary.excludedRankingInputCount,
+    1
+  );
+
+  assert.equal(
+    result.summary.eligibleRankingInputCount,
+    1
+  );
+
+  assert.equal(
+    result.rankedOpportunities.length,
+    1
+  );
+
+  assert.equal(
+    result.rankedOpportunities[0]
+      ?.location
+      ?.id,
+    "unified-ranking-lower-score-eligible"
+  );
+
+  assert.equal(
+    result.rankedOpportunities[0].score,
+    38
+  );
+
+  assert.equal(
+    result.rankedOpportunities[0].rank,
+    1
+  );
+}
+
+
+{
+  const result =
+    rankUnifiedSpeciesOpportunitiesV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations: [
+        {
+          available: true,
+
+          candidate: {
+            id:
+              "unified-ranking-confidence-a"
+          },
+
+          species:
+            "blue-marlin",
+
+          speciesOpportunity: {
+            available: true,
+
+            location: {
+              id:
+                "unified-ranking-confidence-a"
+            },
+
+            score: 50,
+
+            confidence: {
+              score: 61
+            },
+
+            eligibility: {
+              eligibleForRanking: true
+            }
+          }
+        },
+
+        {
+          available: true,
+
+          candidate: {
+            id:
+              "unified-ranking-confidence-b"
+          },
+
+          species:
+            "blue-marlin",
+
+          speciesOpportunity: {
+            available: true,
+
+            location: {
+              id:
+                "unified-ranking-confidence-b"
+            },
+
+            score: 50,
+
+            confidence: {
+              score: 79
+            },
+
+            eligibility: {
+              eligibleForRanking: true
+            }
+          }
+        }
+      ]
+    });
+
+
+  assert.equal(
+    result.rankedOpportunities.length,
+    2
+  );
+
+  assert.equal(
+    result.rankedOpportunities[0]
+      ?.location
+      ?.id,
+    "unified-ranking-confidence-b"
+  );
+
+  assert.equal(
+    result.rankedOpportunities[0].rank,
+    1
+  );
+
+  assert.equal(
+    result.rankedOpportunities[1]
+      ?.location
+      ?.id,
+    "unified-ranking-confidence-a"
+  );
+
+  assert.equal(
+    result.rankedOpportunities[1].rank,
+    2
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-species-opportunity-ranking-v1"
   );
 }
