@@ -47186,6 +47186,105 @@ export function selectUnifiedOpportunityCandidatesForEvaluationV1({
 }
 
 
+export async function evaluateSelectedUnifiedOpportunityCandidatesV1({
+  candidates = [],
+
+  evaluator = null,
+
+  maximumCandidates =
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates,
+
+  concurrency =
+    GULF_EVALUATION_CONTROL_V1
+      .concurrency
+} = {}) {
+  const selection =
+    selectUnifiedOpportunityCandidatesForEvaluationV1({
+      candidates,
+
+      maximumCandidates
+    });
+
+
+  const pathwayEligibleCandidates =
+    selection.selectedCandidates.filter(
+      candidate =>
+        candidate?.candidateClass ===
+        "open-water"
+    );
+
+
+  const pathwayDeferredCandidates =
+    selection.selectedCandidates.filter(
+      candidate =>
+        candidate?.candidateClass !==
+        "open-water"
+    );
+
+
+  const evaluation =
+    await evaluateGulfCandidatesV1({
+      candidates:
+        pathwayEligibleCandidates,
+
+      evaluator,
+
+      maximumCandidates:
+        pathwayEligibleCandidates.length,
+
+      concurrency
+    });
+
+
+  return {
+    available:
+      evaluation.available === true,
+
+    selection,
+
+    pathwayEligibleCandidates,
+
+    pathwayDeferredCandidates,
+
+    evaluation,
+
+    summary: {
+      pathwayEligibleCandidateCount:
+        pathwayEligibleCandidates.length,
+
+      pathwayDeferredCandidateCount:
+        pathwayDeferredCandidates.length,
+
+      evaluatedCandidateCount:
+        evaluation
+          .evaluatedCandidateCount,
+
+      successfulCandidateCount:
+        evaluation
+          .successfulCandidateCount,
+
+      failedCandidateCount:
+        evaluation
+          .failedCandidateCount
+    },
+
+    limitations: [
+      "v1-evaluation-pathway-supports-open-water-candidates-only",
+      "physical-structure-candidates-remain-deferred",
+      "bathymetric-location-candidates-remain-deferred",
+      "evaluation-does-not-establish-opportunity-eligibility-or-rank"
+    ],
+
+    interpretation:
+      "controlled-unified-candidate-evaluation",
+
+    contractVersion:
+      "pelora-unified-opportunity-controlled-evaluation-v1"
+  };
+}
+
+
 export function filterGulfCandidatesByCaptainRangeV1({
   candidates = [],
   originCoordinates = null,

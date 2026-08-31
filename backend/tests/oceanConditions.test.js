@@ -12,6 +12,7 @@ import {
   buildUnifiedOpportunityCandidateSourceUniverseV1,
   filterUnifiedOpportunityCandidatesByCaptainContextV1,
   selectUnifiedOpportunityCandidatesForEvaluationV1,
+  evaluateSelectedUnifiedOpportunityCandidatesV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
@@ -44348,5 +44349,605 @@ for (
   assert.equal(
     selection.contractVersion,
     "pelora-unified-opportunity-evaluation-selection-v1"
+  );
+}
+
+
+{
+  const evaluatorCalls = [];
+
+
+  const candidates = [
+    {
+      id: "open-water-1",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [27, -90],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    },
+    {
+      id: "platform-1",
+      candidateClass:
+        "physical-structure",
+      candidateSubtype: "platform",
+      coordinates: [27.5, -89.5],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    },
+    {
+      id: "open-water-unresolved",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [28, -89],
+      eligibility: {
+        available: false,
+        eligible: null,
+        classification:
+          "species-habitat-unresolved"
+      }
+    },
+    {
+      id: "open-water-ineligible",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [29, -88],
+      eligibility: {
+        available: true,
+        eligible: false,
+        classification:
+          "species-habitat-ineligible"
+      }
+    },
+    {
+      id: "open-water-2",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [26, -91],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    }
+  ];
+
+
+  const result =
+    await evaluateSelectedUnifiedOpportunityCandidatesV1({
+      candidates,
+
+      maximumCandidates: 12,
+
+      concurrency: 2,
+
+      evaluator:
+        async candidate => {
+          evaluatorCalls.push(
+            candidate.id
+          );
+
+          return {
+            candidateId:
+              candidate.id,
+
+            evaluated: true
+          };
+        }
+    });
+
+
+  assert.deepEqual(
+    evaluatorCalls.sort(),
+    [
+      "open-water-1",
+      "open-water-2"
+    ]
+  );
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .sourceCandidateCount,
+    5
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .eligibleCandidateCount,
+    3
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .unresolvedCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .ineligibleCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    result.summary
+      .pathwayEligibleCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    result.summary
+      .pathwayDeferredCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .evaluatedCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .successfulCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .failedCandidateCount,
+    0
+  );
+
+
+  assert.deepEqual(
+    result.pathwayDeferredCandidates
+      .map(candidate => candidate.id),
+    [
+      "platform-1"
+    ]
+  );
+
+
+  assert.equal(
+    result.pathwayDeferredCandidates[0]
+      ?.candidateClass,
+    "physical-structure"
+  );
+
+
+  assert.equal(
+    result.pathwayDeferredCandidates[0]
+      ?.eligibility
+      ?.eligible,
+    true
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-opportunity-controlled-evaluation-v1"
+  );
+}
+
+{
+  const candidates = [
+    {
+      id: "open-water-no-evaluator",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [27, -90],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    }
+  ];
+
+
+  const result =
+    await evaluateSelectedUnifiedOpportunityCandidatesV1({
+      candidates,
+      evaluator: null,
+      maximumCandidates: 12
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.summary
+      .pathwayEligibleCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    result.summary
+      .pathwayDeferredCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .evaluatedCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .successfulCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .failedCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    result.evaluation.reason,
+    "evaluator-unavailable"
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-opportunity-controlled-evaluation-v1"
+  );
+}
+
+{
+  const evaluatorCalls = [];
+
+
+  const candidates = [
+    {
+      id: "open-water-success-1",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [27, -90],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    },
+    {
+      id: "open-water-failure",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [28, -89],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    },
+    {
+      id: "open-water-success-2",
+      candidateClass: "open-water",
+      candidateSubtype: "gulf-grid",
+      coordinates: [29, -88],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    }
+  ];
+
+
+  const result =
+    await evaluateSelectedUnifiedOpportunityCandidatesV1({
+      candidates,
+
+      maximumCandidates: 12,
+
+      concurrency: 2,
+
+      evaluator:
+        async candidate => {
+          evaluatorCalls.push(
+            candidate.id
+          );
+
+          if (
+            candidate.id ===
+            "open-water-failure"
+          ) {
+            throw new Error(
+              "synthetic-evaluator-failure"
+            );
+          }
+
+          return {
+            candidateId:
+              candidate.id,
+            evaluated: true
+          };
+        }
+    });
+
+
+  assert.deepEqual(
+    evaluatorCalls.sort(),
+    [
+      "open-water-failure",
+      "open-water-success-1",
+      "open-water-success-2"
+    ]
+  );
+
+
+  assert.equal(
+    result.summary
+      .pathwayEligibleCandidateCount,
+    3
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .evaluatedCandidateCount,
+    3
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .successfulCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .failedCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    result.evaluation.results
+      .filter(
+        evaluationResult =>
+          evaluationResult?.status ===
+          "fulfilled"
+      )
+      .length,
+    2
+  );
+
+
+  assert.equal(
+    result.evaluation.results
+      .filter(
+        evaluationResult =>
+          evaluationResult?.status ===
+          "rejected"
+      )
+      .length,
+    1
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-opportunity-controlled-evaluation-v1"
+  );
+}
+
+{
+  const universe =
+    buildUnifiedOpportunityCandidateSourceUniverseV1();
+
+
+  const candidatesWithEligibility =
+    universe.candidates.map(
+      candidate => ({
+        ...candidate,
+
+        eligibility:
+          evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
+            candidate,
+
+            speciesProfile:
+              BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+          })
+      })
+    );
+
+
+  const evaluatorCalls = [];
+
+
+  const result =
+    await evaluateSelectedUnifiedOpportunityCandidatesV1({
+      candidates:
+        candidatesWithEligibility,
+
+      maximumCandidates: 12,
+
+      concurrency: 3,
+
+      evaluator:
+        async candidate => {
+          evaluatorCalls.push(
+            candidate.id
+          );
+
+          return {
+            candidateId:
+              candidate.id,
+
+            candidateClass:
+              candidate.candidateClass,
+
+            evaluated: true
+          };
+        }
+    });
+
+
+  assert.equal(
+    result.selection.summary
+      .sourceCandidateCount,
+    295
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .eligibleCandidateCount,
+    89
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .ineligibleCandidateCount,
+    49
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .unresolvedCandidateCount,
+    157
+  );
+
+
+  assert.equal(
+    result.selection.summary
+      .selectedCandidateCount,
+    12
+  );
+
+
+  assert.equal(
+    result.summary
+      .pathwayEligibleCandidateCount,
+    12
+  );
+
+
+  assert.equal(
+    result.summary
+      .pathwayDeferredCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    evaluatorCalls.length,
+    12
+  );
+
+
+  assert.equal(
+    new Set(
+      evaluatorCalls
+    ).size,
+    12
+  );
+
+
+  assert.equal(
+    result.pathwayEligibleCandidates
+      .every(
+        candidate =>
+          candidate?.candidateClass ===
+          "open-water"
+      ),
+    true
+  );
+
+
+  assert.equal(
+    result.pathwayEligibleCandidates
+      .every(
+        candidate =>
+          candidate
+            ?.eligibility
+            ?.eligible === true
+      ),
+    true
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .evaluatedCandidateCount,
+    12
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .successfulCandidateCount,
+    12
+  );
+
+
+  assert.equal(
+    result.evaluation
+      .failedCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    result.evaluation.results
+      .every(
+        evaluationResult =>
+          evaluationResult?.status ===
+          "fulfilled"
+      ),
+    true
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-opportunity-controlled-evaluation-v1"
   );
 }
