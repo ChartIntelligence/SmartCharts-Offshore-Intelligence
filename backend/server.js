@@ -46817,6 +46817,117 @@ export function buildUnifiedSpeciesOpportunityInterpretationV1({
 }
 
 
+export function resolveUnifiedOpportunityRankingInputV1({
+  speciesInterpretation = null
+} = {}) {
+  const speciesOpportunity =
+    speciesInterpretation
+      ?.speciesOpportunity ??
+    null;
+
+
+  const reasons = [];
+
+
+  if (
+    speciesInterpretation
+      ?.available !== true
+  ) {
+    reasons.push(
+      "species-interpretation-unavailable"
+    );
+  }
+
+
+  if (
+    !speciesOpportunity
+  ) {
+    reasons.push(
+      "species-opportunity-unavailable"
+    );
+  }
+
+
+  if (
+    speciesOpportunity &&
+    speciesOpportunity
+      ?.available !== true
+  ) {
+    reasons.push(
+      "species-opportunity-not-available"
+    );
+  }
+
+
+  if (
+    speciesOpportunity &&
+    speciesOpportunity
+      ?.eligibility
+      ?.eligibleForRanking !== true
+  ) {
+    reasons.push(
+      "minimum-opportunity-evidence-gate-not-satisfied"
+    );
+  }
+
+
+  if (
+    speciesOpportunity &&
+    !Number.isFinite(
+      speciesOpportunity?.score
+    )
+  ) {
+    reasons.push(
+      "governed-opportunity-score-unavailable"
+    );
+  }
+
+
+  const eligibleForRanking =
+    reasons.length === 0;
+
+
+  return {
+    available:
+      speciesInterpretation != null,
+
+    eligibleForRanking,
+
+    candidate:
+      speciesInterpretation
+        ?.candidate ??
+      null,
+
+    species:
+      speciesInterpretation
+        ?.species ??
+      null,
+
+    rankingInput:
+      eligibleForRanking
+        ? speciesOpportunity
+        : null,
+
+    reasons,
+
+    interpretation:
+      eligibleForRanking
+        ? "governed-species-opportunity-ranking-input"
+        : "species-opportunity-excluded-from-ranking",
+
+    limitations: [
+      "ranking-input-resolution-does-not-assign-rank",
+      "ranking-input-resolution-does-not-create-opportunity-evidence",
+      "ranking-input-resolution-does-not-recalculate-species-suitability",
+      "ranking-input-resolution-preserves-the-existing-minimum-opportunity-evidence-gate"
+    ],
+
+    contractVersion:
+      "pelora-unified-opportunity-ranking-input-v1"
+  };
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {
