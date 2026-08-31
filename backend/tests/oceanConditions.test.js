@@ -8,6 +8,7 @@ import {
   buildGulfSearchGridV1,
   normalizeOpportunityCandidateV1,
   buildUnifiedOpportunityCandidateUniverseV1,
+  buildUnifiedOpportunityCandidateSourceUniverseV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
@@ -42996,3 +42997,146 @@ assert.equal(
     .totalCandidates,
   0
 );
+
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Source Integration v1
+ * ------------------------------------------------------------
+ */
+
+const unifiedSourceUniverse =
+  buildUnifiedOpportunityCandidateSourceUniverseV1({
+    includeOpenWater: true,
+    includeVerifiedStructures: true
+  });
+
+assert.equal(
+  unifiedSourceUniverse.available,
+  true
+);
+
+assert.equal(
+  unifiedSourceUniverse
+    .candidates
+    .length > 0,
+  true
+);
+
+assert.equal(
+  unifiedSourceUniverse
+    .summary
+    .openWaterCandidates > 0,
+  true
+);
+
+assert.equal(
+  unifiedSourceUniverse
+    .summary
+    .physicalStructureCandidates > 0,
+  true
+);
+
+
+/*
+ * Real source integration must preserve
+ * candidate-specific provenance.
+ */
+const sourceOpenWaterCandidate =
+  unifiedSourceUniverse
+    .candidates
+    .find(
+      candidate =>
+        candidate.candidateClass ===
+        "open-water"
+    );
+
+assert.equal(
+  Boolean(
+    sourceOpenWaterCandidate
+      ?.waterMask
+      ?.source
+  ),
+  true
+);
+
+
+const sourcePlatformCandidate =
+  unifiedSourceUniverse
+    .candidates
+    .find(
+      candidate =>
+        candidate.candidateSubtype ===
+        "platform"
+    );
+
+assert.equal(
+  sourcePlatformCandidate
+    ?.source
+    ?.agency,
+  "BOEM"
+);
+
+
+const sourceFadCandidate =
+  unifiedSourceUniverse
+    .candidates
+    .find(
+      candidate =>
+        candidate.candidateSubtype ===
+        "fad"
+    );
+
+assert.equal(
+  Boolean(
+    sourceFadCandidate
+      ?.source
+  ),
+  true
+);
+
+
+/*
+ * Source integration must not manufacture
+ * bathymetric candidates from the legacy
+ * dynamic opportunity catalog.
+ */
+assert.equal(
+  unifiedSourceUniverse
+    .summary
+    .bathymetricLocationCandidates,
+  0
+);
+
+
+/*
+ * Source integration remains identity-only.
+ */
+for (
+  const candidate
+  of unifiedSourceUniverse.candidates
+) {
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "structureInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "bathymetricInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "openWaterOrganization"
+    ),
+    false
+  );
+}

@@ -45442,6 +45442,51 @@ export function buildUnifiedOpportunityCandidateUniverseV1({
   };
 }
 
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Source Integration v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Assemble Pelora's governed real candidate sources before
+ * downstream species eligibility, environmental evaluation,
+ * evidence gating, or ranking.
+ *
+ * Current governed source families:
+ *
+ * - Gulf open-water search grid
+ * - verified BOEM platforms
+ * - verified FADs
+ *
+ * Legacy dynamic opportunity candidates are intentionally
+ * excluded from this source integration contract.
+ *
+ * Source inclusion establishes candidate identity only.
+ * It does not establish environmental organization,
+ * bathymetric interaction, physical-structure interaction,
+ * persistence, species opportunity, or ranking eligibility.
+ */
+export function buildUnifiedOpportunityCandidateSourceUniverseV1({
+  includeOpenWater = true,
+  includeVerifiedStructures = true
+} = {}) {
+  const openWaterCandidates =
+    includeOpenWater
+      ? buildGulfSearchGridV1()
+      : [];
+
+  const structureCandidates =
+    includeVerifiedStructures
+      ? VERIFIED_STRUCTURES
+      : [];
+
+  return buildUnifiedOpportunityCandidateUniverseV1({
+    openWaterCandidates,
+    structureCandidates
+  });
+}
+
 const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [
   {
     id:
