@@ -45223,6 +45223,127 @@ const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [
 ];
 
 
+export function assessDynamicBlueMarlinOpportunityEligibilityV1({
+  blueMarlinHabitat = null
+} = {}) {
+  const classification =
+    blueMarlinHabitat
+      ?.summary
+      ?.classification ??
+    null;
+
+  const confidenceLevel =
+    blueMarlinHabitat
+      ?.confidence
+      ?.level ??
+    null;
+
+  const opportunityTypes =
+    Array.isArray(
+      blueMarlinHabitat
+        ?.opportunityTypes
+    )
+      ? blueMarlinHabitat
+          .opportunityTypes
+      : [];
+
+  const relationshipGroups =
+    blueMarlinHabitat
+      ?.relationshipGroups ??
+    {};
+
+  const operationalGroupNames = [
+    "oceanMovement",
+    "thermalStructure",
+    "productivityAndPreySupport",
+    "structureInteraction",
+    "waterCharacter"
+  ];
+
+  const supportedRelationshipGroups =
+    operationalGroupNames.filter(
+      groupName => {
+        const group =
+          relationshipGroups[
+            groupName
+          ];
+
+        return (
+          Number.isFinite(
+            group?.score
+          ) &&
+          group.score > 0
+        );
+      }
+    );
+
+  const reasons = [];
+
+  if (
+    opportunityTypes.length === 0
+  ) {
+    reasons.push(
+      "organized-environmental-feature-required"
+    );
+  }
+
+  if (
+    ![
+      "limited-preliminary-habitat-support",
+      "moderate-preliminary-habitat-support"
+    ].includes(classification)
+  ) {
+    reasons.push(
+      "habitat-support-below-ranking-threshold"
+    );
+  }
+
+  if (
+    confidenceLevel ===
+      "Very Low" ||
+    confidenceLevel ===
+      "Unavailable" ||
+    confidenceLevel ===
+      null
+  ) {
+    reasons.push(
+      "confidence-insufficient-for-ranking"
+    );
+  }
+
+  if (
+    supportedRelationshipGroups.length <
+      2
+  ) {
+    reasons.push(
+      "insufficient-independent-relationship-support"
+    );
+  }
+
+  const eligibleForRanking =
+    reasons.length === 0;
+
+  return {
+    eligibleForRanking,
+
+    classification:
+      eligibleForRanking
+        ? "eligible-species-opportunity"
+        : "insufficient-species-opportunity-evidence",
+
+    supportedRelationshipGroupCount:
+      supportedRelationshipGroups.length,
+
+    supportedRelationshipGroups,
+
+    reasons,
+
+    methodVersion:
+      "pelora-dynamic-blue-marlin-opportunity-eligibility-v1"
+  };
+}
+
+
 export function buildDynamicBlueMarlinOpportunity({
   location = null,
   oceanConditions = null
@@ -45261,6 +45382,13 @@ export function buildDynamicBlueMarlinOpportunity({
       ?.primarySignal ??
     null;
 
+  const eligibility =
+    assessDynamicBlueMarlinOpportunityEligibilityV1({
+      blueMarlinHabitat:
+        oceanConditions
+          ?.blueMarlinHabitat ??
+        null
+    });
 
   const available =
     Number.isFinite(score);
@@ -45316,6 +45444,8 @@ export function buildDynamicBlueMarlinOpportunity({
         confidenceLevel
     },
 
+    eligibility,
+
     pathway,
 
     primarySignal: {
@@ -45368,8 +45498,10 @@ export function rankDynamicBlueMarlinOpportunities(
   )
     .filter(
       opportunity =>
-        opportunity?.available ===
-          true &&
+        opportunity?.available === true &&
+        opportunity
+          ?.eligibility
+          ?.eligibleForRanking === true &&
         Number.isFinite(
           opportunity?.score
         )

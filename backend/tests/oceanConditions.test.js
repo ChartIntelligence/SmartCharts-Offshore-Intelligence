@@ -11,7 +11,7 @@ import {
   filterGulfCandidatesByCaptainRangeV1,
   evaluateSpeciesCandidateHabitatEligibilityV1,
   evaluateGulfCandidatesV1,
-  evaluateControlledGulfBlueMarlinV1,
+  assessDynamicBlueMarlinOpportunityEligibilityV1,
   buildDynamicBlueMarlinOpportunity,
   rankDynamicBlueMarlinOpportunities,
   buildCurrentGradientAnalysis,
@@ -40956,6 +40956,164 @@ console.log(
  * ------------------------------------------------------------
  */
 
+
+const eligibleDynamicBlueMarlinOpportunity =
+  assessDynamicBlueMarlinOpportunityEligibilityV1({
+    blueMarlinHabitat: {
+      summary: {
+        classification:
+          "limited-preliminary-habitat-support"
+      },
+
+      confidence: {
+        level:
+          "Moderate"
+      },
+
+      opportunityTypes: [
+        "current-supported-transition-candidate"
+      ],
+
+      relationshipGroups: {
+        oceanMovement: {
+          score: 12
+        },
+
+        thermalStructure: {
+          score: 18
+        },
+
+        productivityAndPreySupport: {
+          score: 0
+        },
+
+        structureInteraction: {
+          score: 0
+        },
+
+        waterCharacter: {
+          score: 0
+        }
+      }
+    }
+  });
+
+assert.equal(
+  eligibleDynamicBlueMarlinOpportunity
+    .eligibleForRanking,
+  true
+);
+
+assert.equal(
+  eligibleDynamicBlueMarlinOpportunity
+    .supportedRelationshipGroupCount,
+  2
+);
+
+
+const weakDynamicBlueMarlinOpportunity =
+  assessDynamicBlueMarlinOpportunityEligibilityV1({
+    blueMarlinHabitat: {
+      summary: {
+        classification:
+          "weak-preliminary-habitat-support"
+      },
+
+      confidence: {
+        level:
+          "Very Low"
+      },
+
+      opportunityTypes: [
+        "current-supported-transition-candidate"
+      ],
+
+      relationshipGroups: {
+        oceanMovement: {
+          score: 14
+        },
+
+        thermalStructure: {
+          score: 0
+        },
+
+        productivityAndPreySupport: {
+          score: 0
+        },
+
+        structureInteraction: {
+          score: 0
+        },
+
+        waterCharacter: {
+          score: 0
+        }
+      }
+    }
+  });
+
+assert.equal(
+  weakDynamicBlueMarlinOpportunity
+    .eligibleForRanking,
+  false
+);
+
+assert.deepEqual(
+  weakDynamicBlueMarlinOpportunity
+    .reasons,
+  [
+    "habitat-support-below-ranking-threshold",
+    "confidence-insufficient-for-ranking",
+    "insufficient-independent-relationship-support"
+  ]
+);
+
+
+const noFeatureDynamicBlueMarlinOpportunity =
+  assessDynamicBlueMarlinOpportunityEligibilityV1({
+    blueMarlinHabitat: {
+      summary: {
+        classification:
+          "limited-preliminary-habitat-support"
+      },
+
+      confidence: {
+        level:
+          "Moderate"
+      },
+
+      opportunityTypes: [],
+
+      relationshipGroups: {
+        oceanMovement: {
+          score: 12
+        },
+
+        thermalStructure: {
+          score: 18
+        }
+      }
+    }
+  });
+
+assert.equal(
+  noFeatureDynamicBlueMarlinOpportunity
+    .eligibleForRanking,
+  false
+);
+
+assert.ok(
+  noFeatureDynamicBlueMarlinOpportunity
+    .reasons.includes(
+      "organized-environmental-feature-required"
+    )
+);
+
+console.log(
+  "PASS Dynamic Blue Marlin Opportunity Eligibility v1 governs minimum ranking evidence"
+);
+
+
 const dynamicBlueMarlinOpportunity =
   buildDynamicBlueMarlinOpportunity({
     location: {
@@ -40982,6 +41140,38 @@ const dynamicBlueMarlinOpportunity =
         "2026-08-21T12:00:00Z",
 
       blueMarlinHabitat: {
+        summary: {
+          classification:
+            "limited-preliminary-habitat-support"
+        },
+
+        opportunityTypes: [
+          "current-supported-transition-candidate"
+        ],
+
+        relationshipGroups: {
+          oceanMovement: {
+            score: 12
+          },
+
+          thermalStructure: {
+            score: 18
+          },
+
+          productivityAndPreySupport: {
+            score: 0
+          },
+
+          structureInteraction: {
+            score: 0
+          },
+
+          waterCharacter: {
+            score: 0
+          }
+        },
+
+
         confidence: {
           score:
             65,
@@ -41047,6 +41237,37 @@ assert.equal(
 );
 
 assert.equal(
+  dynamicBlueMarlinOpportunity
+    .eligibility
+    .eligibleForRanking,
+  true
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity
+    .eligibility
+    .classification,
+  "eligible-species-opportunity"
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity
+    .eligibility
+    .supportedRelationshipGroupCount,
+  2
+);
+
+assert.deepEqual(
+  dynamicBlueMarlinOpportunity
+    .eligibility
+    .supportedRelationshipGroups,
+  [
+    "oceanMovement",
+    "thermalStructure"
+  ]
+);
+
+assert.equal(
   dynamicBlueMarlinOpportunity.pathway,
   "structure-associated"
 );
@@ -41075,6 +41296,11 @@ const rankedDynamicBlueMarlinOpportunities =
       available:
         true,
 
+      eligibility: {
+        eligibleForRanking:
+          true
+      },
+
       score:
         42,
 
@@ -41092,6 +41318,11 @@ const rankedDynamicBlueMarlinOpportunities =
     {
       available:
         true,
+
+      eligibility: {
+        eligibleForRanking:
+          true
+      },
 
       score:
         55,
@@ -41111,6 +41342,11 @@ const rankedDynamicBlueMarlinOpportunities =
       available:
         true,
 
+      eligibility: {
+        eligibleForRanking:
+          true
+      },
+
       score:
         42,
 
@@ -41122,6 +41358,29 @@ const rankedDynamicBlueMarlinOpportunities =
       location: {
         name:
           "Thunder Horse"
+      }
+    },
+
+    {
+      available:
+        true,
+
+      eligibility: {
+        eligibleForRanking:
+          false
+      },
+
+      score:
+        95,
+
+      confidence: {
+        score:
+          95
+      },
+
+      location: {
+        name:
+          "Unsupported High Score"
       }
     },
 
@@ -41148,6 +41407,17 @@ const rankedDynamicBlueMarlinOpportunities =
 assert.equal(
   rankedDynamicBlueMarlinOpportunities.length,
   3
+);
+
+assert.equal(
+  rankedDynamicBlueMarlinOpportunities.some(
+    opportunity =>
+      opportunity
+        ?.location
+        ?.name ===
+      "Unsupported High Score"
+  ),
+  false
 );
 
 assert.equal(
@@ -41178,7 +41448,7 @@ assert.equal(
 );
 
 console.log(
-  "PASS Dynamic Blue Marlin Opportunity v1 ranks by governed suitability and uses confidence as tie-breaker"
+"PASS Dynamic Blue Marlin Opportunity v1 ranks only eligible opportunities by governed suitability and confidence"
 );
 
 {
