@@ -41093,6 +41093,84 @@ assert.ok(
 );
 
 
+const structureContextOnlyOpportunity =
+  assessDynamicBlueMarlinOpportunityEligibilityV1({
+    blueMarlinHabitat: {
+      summary: {
+        classification:
+          "limited-preliminary-habitat-support"
+      },
+
+      confidence: {
+        level: "Moderate"
+      },
+
+      opportunityTypes: [
+        "bathymetric-interaction-zone"
+      ],
+
+      relationshipGroups: {
+        oceanMovement: {
+          classification:
+            "weak-current-observation",
+          score: 4
+        },
+
+        thermalStructure: {
+          classification:
+            "moderate-temperature-transition-supported",
+          score: 18
+        },
+
+        productivityAndPreySupport: {
+          classification:
+            "unavailable",
+          score: 0
+        },
+
+        structureInteraction: {
+          classification:
+            "structure-context-present",
+          score: 8
+        },
+
+        waterCharacter: {
+          classification:
+            "unsupported",
+          score: 0
+        }
+      }
+    }
+  });
+
+assert.equal(
+  structureContextOnlyOpportunity
+    .eligibleForRanking,
+  false
+);
+
+assert.equal(
+  structureContextOnlyOpportunity
+    .independentSupportFamilyCount,
+  1
+);
+
+assert.deepEqual(
+  structureContextOnlyOpportunity
+    .independentSupportFamilies,
+  [
+    "thermalStructure"
+  ]
+);
+
+assert.ok(
+  structureContextOnlyOpportunity
+    .reasons.includes(
+      "insufficient-independent-relationship-support"
+    )
+);
+
+
 const weakDynamicBlueMarlinOpportunity =
   assessDynamicBlueMarlinOpportunityEligibilityV1({
     blueMarlinHabitat: {

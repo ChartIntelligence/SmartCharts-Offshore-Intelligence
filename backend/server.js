@@ -45270,9 +45270,7 @@ export function assessDynamicBlueMarlinOpportunityEligibilityV1({
       "surface-productivity-associated-with-water-boundary"
     ]),
 
-    structureInteraction: new Set([
-      "structure-context-present"
-    ]),
+    structureInteraction: new Set([]),
 
     waterCharacter: new Set([
       "very-clear-surface-water-observed",
