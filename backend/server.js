@@ -45252,30 +45252,97 @@ export function assessDynamicBlueMarlinOpportunityEligibilityV1({
       ?.relationshipGroups ??
     {};
 
-  const operationalGroupNames = [
-    "oceanMovement",
-    "thermalStructure",
-    "productivityAndPreySupport",
-    "structureInteraction",
-    "waterCharacter"
-  ];
+  const supportiveRelationshipClassifications = {
+    oceanMovement: new Set([
+      "current-associated-with-environmental-transition"
+    ]),
+
+    thermalStructure: new Set([
+      "strong-directional-or-spatial-temperature-break-candidate",
+      "moderate-temperature-transition-supported",
+      "weak-temperature-transition-supported"
+    ]),
+
+    productivityAndPreySupport: new Set([
+      "clear-blue-water-productivity-context",
+      "productive-blue-green-transition-observed",
+      "productive-green-water-observed",
+      "surface-productivity-associated-with-water-boundary"
+    ]),
+
+    structureInteraction: new Set([
+      "structure-context-present"
+    ]),
+
+    waterCharacter: new Set([
+      "very-clear-surface-water-observed",
+      "clear-blue-surface-water-observed",
+      "transitional-surface-water-observed",
+      "surface-water-character-transition-supported"
+    ])
+  };
 
   const supportedRelationshipGroups =
-    operationalGroupNames.filter(
-      groupName => {
-        const group =
-          relationshipGroups[
-            groupName
-          ];
+    Object.entries(
+      supportiveRelationshipClassifications
+    )
+      .filter(
+        ([
+          groupName,
+          supportiveClassifications
+        ]) => {
+          const group =
+            relationshipGroups[
+              groupName
+            ];
 
-        return (
-          Number.isFinite(
-            group?.score
-          ) &&
-          group.score > 0
-        );
-      }
-    );
+          return (
+            Number.isFinite(
+              group?.score
+            ) &&
+            group.score > 0 &&
+            supportiveClassifications.has(
+              group?.classification
+            )
+          );
+        }
+      )
+      .map(
+        ([groupName]) =>
+          groupName
+      );
+
+  const independentSupportFamilies =
+    [
+      supportedRelationshipGroups.includes(
+        "oceanMovement"
+      )
+        ? "oceanMovement"
+        : null,
+
+      supportedRelationshipGroups.includes(
+        "thermalStructure"
+      )
+        ? "thermalStructure"
+        : null,
+
+      (
+        supportedRelationshipGroups.includes(
+          "productivityAndPreySupport"
+        ) ||
+        supportedRelationshipGroups.includes(
+          "waterCharacter"
+        )
+      )
+        ? "surfaceWater"
+        : null,
+
+      supportedRelationshipGroups.includes(
+        "structureInteraction"
+      )
+        ? "structureInteraction"
+        : null
+    ].filter(Boolean);
 
   const reasons = [];
 
@@ -45312,7 +45379,7 @@ export function assessDynamicBlueMarlinOpportunityEligibilityV1({
   }
 
   if (
-    supportedRelationshipGroups.length <
+    independentSupportFamilies.length <
       2
   ) {
     reasons.push(
@@ -45336,10 +45403,15 @@ export function assessDynamicBlueMarlinOpportunityEligibilityV1({
 
     supportedRelationshipGroups,
 
+    independentSupportFamilyCount:
+      independentSupportFamilies.length,
+
+    independentSupportFamilies,
+
     reasons,
 
     methodVersion:
-      "pelora-dynamic-blue-marlin-opportunity-eligibility-v1"
+      "pelora-dynamic-blue-marlin-opportunity-eligibility-v1.1"
   };
 }
 

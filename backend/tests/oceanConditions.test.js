@@ -40976,10 +40976,14 @@ const eligibleDynamicBlueMarlinOpportunity =
 
       relationshipGroups: {
         oceanMovement: {
+          classification:
+            "current-associated-with-environmental-transition",
           score: 12
         },
 
         thermalStructure: {
+          classification:
+            "moderate-temperature-transition-supported",
           score: 18
         },
 
@@ -41011,6 +41015,84 @@ assert.equal(
 );
 
 
+const sharedChlorophyllOnlyOpportunity =
+  assessDynamicBlueMarlinOpportunityEligibilityV1({
+    blueMarlinHabitat: {
+      summary: {
+        classification:
+          "limited-preliminary-habitat-support"
+      },
+
+      confidence: {
+        level: "Moderate"
+      },
+
+      opportunityTypes: [
+        "surface-water-transition-candidate"
+      ],
+
+      relationshipGroups: {
+        oceanMovement: {
+          classification:
+            "weak-current-observation",
+          score: 4
+        },
+
+        thermalStructure: {
+          classification:
+            "uniform-local-temperature-field",
+          score: 3
+        },
+
+        productivityAndPreySupport: {
+          classification:
+            "productive-blue-green-transition-observed",
+          score: 10
+        },
+
+        structureInteraction: {
+          classification:
+            "unavailable",
+          score: 0
+        },
+
+        waterCharacter: {
+          classification:
+            "transitional-surface-water-observed",
+          score: 6
+        }
+      }
+    }
+  });
+
+assert.equal(
+  sharedChlorophyllOnlyOpportunity
+    .eligibleForRanking,
+  false
+);
+
+assert.equal(
+  sharedChlorophyllOnlyOpportunity
+    .independentSupportFamilyCount,
+  1
+);
+
+assert.deepEqual(
+  sharedChlorophyllOnlyOpportunity
+    .independentSupportFamilies,
+  [
+    "surfaceWater"
+  ]
+);
+
+assert.ok(
+  sharedChlorophyllOnlyOpportunity
+    .reasons.includes(
+      "insufficient-independent-relationship-support"
+    )
+);
+
+
 const weakDynamicBlueMarlinOpportunity =
   assessDynamicBlueMarlinOpportunityEligibilityV1({
     blueMarlinHabitat: {
@@ -41030,6 +41112,8 @@ const weakDynamicBlueMarlinOpportunity =
 
       relationshipGroups: {
         oceanMovement: {
+          classification:
+            "current-associated-with-environmental-transition",
           score: 14
         },
 
@@ -41151,10 +41235,14 @@ const dynamicBlueMarlinOpportunity =
 
         relationshipGroups: {
           oceanMovement: {
+            classification:
+              "current-associated-with-environmental-transition",
             score: 12
           },
 
           thermalStructure: {
+            classification:
+              "moderate-temperature-transition-supported",
             score: 18
           },
 
@@ -41261,6 +41349,23 @@ assert.deepEqual(
   dynamicBlueMarlinOpportunity
     .eligibility
     .supportedRelationshipGroups,
+  [
+    "oceanMovement",
+    "thermalStructure"
+  ]
+);
+
+assert.equal(
+  dynamicBlueMarlinOpportunity
+    .eligibility
+    .independentSupportFamilyCount,
+  2
+);
+
+assert.deepEqual(
+  dynamicBlueMarlinOpportunity
+    .eligibility
+    .independentSupportFamilies,
   [
     "oceanMovement",
     "thermalStructure"
