@@ -47430,44 +47430,14 @@ export async function evaluateUnifiedOpenWaterOceanConditionsV1({
   }
 
 
-let oceanConditions = null;
-
-
-try {
-    oceanConditions =
-      await oceanConditionsProvider(
-        latitude,
-        longitude,
-        {
-          bearerToken
-        }
-      );
-} catch {
-    return {
-      available: false,
-
-      candidate,
-
-      oceanConditions: null,
-
-      reason:
-        "ocean-conditions-provider-failed",
-
-      interpretation:
-        "open-water-ocean-conditions-evaluation",
-
-      limitations: [
-        "ocean-conditions-provider-failure-prevented-live-observation",
-        "provider-failure-is-missing-observation-evidence-not-negative-ocean-evidence",
-        "live-ocean-conditions-do-not-establish-species-opportunity",
-        "live-ocean-conditions-do-not-establish-ranking-eligibility",
-        "live-ocean-conditions-do-not-establish-rank"
-      ],
-
-      contractVersion:
-         "pelora-unified-open-water-ocean-conditions-evaluation-v1"
-    };
-  }
+  const oceanConditions =
+    await oceanConditionsProvider(
+      latitude,
+      longitude,
+      {
+        bearerToken
+      }
+    );
 
 
   return {
