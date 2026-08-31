@@ -15,6 +15,7 @@ import {
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
   evaluateSpeciesCandidateHabitatEligibilityV1,
+  evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1,
   evaluateGulfCandidatesV1,
   assessDynamicBlueMarlinOpportunityEligibilityV1,
   buildDynamicBlueMarlinOpportunity,
@@ -43594,6 +43595,270 @@ for (
   assert.equal(
     Object.hasOwn(
       bathymetryResolution,
+      "rank"
+    ),
+    false
+  );
+}
+
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Species Eligibility v1
+ * ------------------------------------------------------------
+ *
+ * Species habitat eligibility composes governed candidate
+ * bathymetry with the established species eligibility engine.
+ *
+ * Missing required bathymetry remains unresolved evidence.
+ * It must not be converted into habitat ineligibility.
+ */
+
+
+/*
+ * Governed deep-water bathymetry may establish species habitat
+ * eligibility through the existing species evaluator.
+ */
+const unifiedSpeciesEligible =
+  evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
+    candidate: {
+      id:
+        "unified-species-eligible-test",
+
+      coordinates: [
+        25,
+        -90
+      ],
+
+      waterMask: {
+        available: true,
+
+        water: true,
+
+        elevationMeters:
+          -243.01,
+
+        sampleCoordinates: [
+          25.008333,
+          -89.991667
+        ],
+
+        source: {
+          agency:
+            "NOAA NCEI",
+
+          dataset:
+            "ETOPO 2022"
+        }
+      }
+    },
+
+    speciesProfile:
+      BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+  });
+
+
+assert.equal(
+  unifiedSpeciesEligible.available,
+  true
+);
+
+assert.equal(
+  unifiedSpeciesEligible.eligible,
+  true
+);
+
+assert.equal(
+  unifiedSpeciesEligible.classification,
+  "species-habitat-eligible"
+);
+
+assert.equal(
+  unifiedSpeciesEligible
+    .bathymetry
+    .depthMeters,
+  243.01
+);
+
+
+/*
+ * Governed shallow-water bathymetry may establish habitat
+ * ineligibility.
+ */
+const unifiedSpeciesIneligible =
+  evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
+    candidate: {
+      id:
+        "unified-species-ineligible-test",
+
+      coordinates: [
+        30,
+        -98
+      ],
+
+      waterMask: {
+        available: true,
+
+        water: true,
+
+        elevationMeters:
+          -38.81
+      }
+    },
+
+    speciesProfile:
+      BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+  });
+
+
+assert.equal(
+  unifiedSpeciesIneligible.available,
+  true
+);
+
+assert.equal(
+  unifiedSpeciesIneligible.eligible,
+  false
+);
+
+assert.equal(
+  unifiedSpeciesIneligible.classification,
+  "species-habitat-ineligible"
+);
+
+
+/*
+ * A heterogeneous candidate without governed local bathymetry
+ * remains unresolved.
+ *
+ * Missing bathymetry is not species habitat ineligibility.
+ */
+const unifiedSpeciesUnresolved =
+  evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
+    candidate: {
+      id:
+        "unified-species-unresolved-test",
+
+      category:
+        "oil_platform",
+
+      coordinates: [
+        25.5,
+        -90.5
+      ]
+    },
+
+    speciesProfile:
+      BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+  });
+
+
+assert.equal(
+  unifiedSpeciesUnresolved.available,
+  false
+);
+
+assert.equal(
+  unifiedSpeciesUnresolved.eligible,
+  null
+);
+
+assert.equal(
+  unifiedSpeciesUnresolved.classification,
+  "species-habitat-unresolved"
+);
+
+assert.equal(
+  unifiedSpeciesUnresolved
+    .bathymetry
+    .available,
+  false
+);
+
+
+/*
+ * Species without a governed bathymetry eligibility rule remain
+ * unrestricted by bathymetry.
+ *
+ * Pelora must not borrow Blue Marlin's depth rule.
+ */
+const unifiedUngovernedSpecies =
+  evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
+    candidate: {
+      id:
+        "unified-species-ungoverned-test",
+
+      coordinates: [
+        25.5,
+        -90.5
+      ]
+    },
+
+    speciesProfile: {
+      species:
+        "test-ungoverned-species"
+    }
+  });
+
+
+assert.equal(
+  unifiedUngovernedSpecies.available,
+  true
+);
+
+assert.equal(
+  unifiedUngovernedSpecies.eligible,
+  true
+);
+
+assert.equal(
+  unifiedUngovernedSpecies.classification,
+  "eligibility-not-governed"
+);
+
+
+/*
+ * Unified species eligibility remains an evaluation gate only.
+ *
+ * It must not establish ocean evidence, interaction evidence,
+ * opportunity eligibility, or ranking.
+ */
+for (
+  const speciesEligibility
+  of [
+    unifiedSpeciesEligible,
+    unifiedSpeciesIneligible,
+    unifiedSpeciesUnresolved,
+    unifiedUngovernedSpecies
+  ]
+) {
+  assert.equal(
+    Object.hasOwn(
+      speciesEligibility,
+      "bathymetricInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      speciesEligibility,
+      "oceanEvidence"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      speciesEligibility,
+      "eligibleForRanking"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      speciesEligibility,
       "rank"
     ),
     false

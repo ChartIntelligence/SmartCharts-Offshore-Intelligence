@@ -39218,6 +39218,333 @@ export function evaluateSpeciesCandidateHabitatEligibilityV1({
 }
 
 
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Species Eligibility v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compose governed candidate bathymetry with the established
+ * species habitat eligibility evaluator.
+ *
+ * This wrapper preserves three scientifically distinct states:
+ *
+ * 1. Eligible:
+ *    The governed species rule was evaluated and satisfied.
+ *
+ * 2. Ineligible:
+ *    The governed species rule was evaluated and failed.
+ *
+ * 3. Unresolved:
+ *    A governed species rule exists, but the required candidate
+ *    bathymetry is unavailable.
+ *
+ * Missing required bathymetry is missing evidence.
+ * It must not be converted into species habitat ineligibility.
+ */
+export function evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
+  candidate = null,
+  speciesProfile = null
+} = {}) {
+  const species =
+    typeof speciesProfile?.species ===
+      "string"
+      ? speciesProfile.species
+      : "unknown-species";
+
+  const bathymetryRule =
+    speciesProfile
+      ?.habitatEligibility
+      ?.bathymetry ??
+    null;
+
+
+  /*
+   * If the species has no governed bathymetry rule, preserve the
+   * established evaluator behavior.
+   *
+   * Pelora must not borrow another species' habitat restriction.
+   */
+  if (
+    !bathymetryRule ||
+    bathymetryRule.enabled !== true
+  ) {
+    const establishedEligibility =
+      evaluateSpeciesCandidateHabitatEligibilityV1({
+        candidate,
+        speciesProfile
+      });
+
+    return {
+      available: true,
+
+      eligible:
+        establishedEligibility
+          .eligible,
+
+      species,
+
+      classification:
+        establishedEligibility
+          .classification,
+
+      bathymetry: {
+        available:
+          false,
+
+        governed:
+          false,
+
+        eligible:
+          establishedEligibility
+            ?.bathymetry
+            ?.eligible ??
+          null,
+
+        elevationMeters:
+          establishedEligibility
+            ?.bathymetry
+            ?.elevationMeters ??
+          null,
+
+        depthMeters:
+          establishedEligibility
+            ?.bathymetry
+            ?.depthMeters ??
+          null,
+
+        minimumDepthMeters:
+          establishedEligibility
+            ?.bathymetry
+            ?.minimumDepthMeters ??
+          null
+      },
+
+      reasons: [
+        ...(
+          establishedEligibility
+            ?.reasons ??
+          []
+        )
+      ],
+
+      limitations: [
+        ...(
+          establishedEligibility
+            ?.limitations ??
+          []
+        )
+      ],
+
+      contractVersion:
+        "pelora-unified-opportunity-candidate-species-eligibility-v1"
+    };
+  }
+
+
+  const candidateBathymetry =
+    resolveOpportunityCandidateBathymetryV1(
+      candidate
+    );
+
+
+  /*
+   * A governed species rule exists, but Pelora cannot evaluate
+   * it without governed candidate bathymetry.
+   *
+   * This is unresolved evidence, not habitat ineligibility.
+   */
+  if (
+    candidateBathymetry
+      ?.available !== true ||
+    !Number.isFinite(
+      Number(
+        candidateBathymetry
+          ?.elevationMeters
+      )
+    )
+  ) {
+    return {
+      available: false,
+
+      eligible: null,
+
+      species,
+
+      classification:
+        "species-habitat-unresolved",
+
+      bathymetry: {
+        available: false,
+
+        governed: true,
+
+        eligible: null,
+
+        elevationMeters:
+          null,
+
+        depthMeters:
+          null,
+
+        minimumDepthMeters:
+          Number.isFinite(
+            Number(
+              bathymetryRule
+                ?.minimumDepthMeters
+            )
+          )
+            ? Number(
+                bathymetryRule
+                  .minimumDepthMeters
+              )
+            : null,
+
+        resolution:
+          candidateBathymetry
+      },
+
+      reasons: [
+        "required-candidate-bathymetry-unavailable"
+      ],
+
+      limitations: [
+        "governed-species-bathymetry-rule-cannot-be-evaluated",
+        "missing-bathymetry-is-not-species-ineligibility"
+      ],
+
+      contractVersion:
+        "pelora-unified-opportunity-candidate-species-eligibility-v1"
+    };
+  }
+
+
+  /*
+   * Present the resolved governed bathymetry to the established
+   * species evaluator using the input shape it already governs.
+   *
+   * This keeps the scientific species rule centralized in the
+   * existing evaluator rather than duplicating it here.
+   */
+  const candidateWithResolvedBathymetry = {
+    ...candidate,
+
+    waterMask: {
+      ...(
+        candidate
+          ?.waterMask ??
+        {}
+      ),
+
+      available: true,
+
+      water:
+        candidateBathymetry
+          .water,
+
+      elevationMeters:
+        candidateBathymetry
+          .elevationMeters,
+
+      sampleCoordinates:
+        candidateBathymetry
+          .sampleCoordinates,
+
+      sampleOffsetDegrees:
+        candidateBathymetry
+          .sampleOffsetDegrees,
+
+      source:
+        candidateBathymetry
+          .source,
+
+      contractVersion:
+        candidateBathymetry
+          .contractVersion
+    }
+  };
+
+
+  const establishedEligibility =
+    evaluateSpeciesCandidateHabitatEligibilityV1({
+      candidate:
+        candidateWithResolvedBathymetry,
+
+      speciesProfile
+    });
+
+
+  return {
+    available: true,
+
+    eligible:
+      establishedEligibility
+        .eligible,
+
+    species,
+
+    classification:
+      establishedEligibility
+        .classification,
+
+    bathymetry: {
+      available: true,
+
+      governed:
+        establishedEligibility
+          ?.bathymetry
+          ?.governed === true,
+
+      eligible:
+        establishedEligibility
+          ?.bathymetry
+          ?.eligible ??
+        null,
+
+      elevationMeters:
+        establishedEligibility
+          ?.bathymetry
+          ?.elevationMeters ??
+        null,
+
+      depthMeters:
+        establishedEligibility
+          ?.bathymetry
+          ?.depthMeters ??
+        null,
+
+      minimumDepthMeters:
+        establishedEligibility
+          ?.bathymetry
+          ?.minimumDepthMeters ??
+        null,
+
+      resolution:
+        candidateBathymetry
+    },
+
+    reasons: [
+      ...(
+        establishedEligibility
+          ?.reasons ??
+        []
+      )
+    ],
+
+    limitations: [
+      ...(
+        establishedEligibility
+          ?.limitations ??
+        []
+      )
+    ],
+
+    contractVersion:
+      "pelora-unified-opportunity-candidate-species-eligibility-v1"
+  };
+}
+
+
 /**
  * ------------------------------------------------------------
  * Confidence Governance Framework v1.0
