@@ -45287,6 +45287,161 @@ export function normalizeOpportunityCandidateV1(
   };
 }
 
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Universe v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Assemble normalized opportunity candidates into one governed
+ * discovery universe.
+ *
+ * Universe membership establishes only that a location may be
+ * evaluated by later Pelora intelligence stages.
+ *
+ * It does not establish:
+ *
+ * - ocean-feature organization
+ * - bathymetric interaction
+ * - physical-structure interaction
+ * - persistence or retention
+ * - prey concentration
+ * - species presence
+ * - habitat quality
+ * - fishing quality
+ * - opportunity eligibility
+ * - ranking
+ *
+ * Those conclusions require their own governed evidence.
+ */
+export function buildUnifiedOpportunityCandidateUniverseV1({
+  openWaterCandidates = [],
+  locationCandidates = [],
+  structureCandidates = []
+} = {}) {
+  const sourceCandidates = [
+    ...(Array.isArray(openWaterCandidates)
+      ? openWaterCandidates
+      : []),
+
+    ...(Array.isArray(locationCandidates)
+      ? locationCandidates
+      : []),
+
+    ...(Array.isArray(structureCandidates)
+      ? structureCandidates
+      : [])
+  ];
+
+  const candidates = [];
+  const candidateIds = new Set();
+
+  for (const sourceCandidate of sourceCandidates) {
+    const candidate =
+      normalizeOpportunityCandidateV1(
+        sourceCandidate
+      );
+
+    if (!candidate) {
+      continue;
+    }
+
+    const candidateId =
+      typeof candidate.id === "string"
+        ? candidate.id.trim()
+        : "";
+
+    const coordinates =
+      Array.isArray(candidate.coordinates)
+        ? candidate.coordinates
+        : null;
+
+    const latitude =
+      Number(coordinates?.[0]);
+
+    const longitude =
+      Number(coordinates?.[1]);
+
+    const hasValidIdentity =
+      candidateId.length > 0;
+
+    const hasValidCoordinates =
+      coordinates?.length === 2 &&
+      Number.isFinite(latitude) &&
+      Number.isFinite(longitude) &&
+      latitude >= -90 &&
+      latitude <= 90 &&
+      longitude >= -180 &&
+      longitude <= 180;
+
+    if (
+      !hasValidIdentity ||
+      !hasValidCoordinates
+    ) {
+      continue;
+    }
+
+    if (
+      candidateId &&
+      candidateIds.has(candidateId)
+    ) {
+      continue;
+    }
+
+    if (candidateId) {
+      candidateIds.add(candidateId);
+    }
+
+    candidates.push(candidate);
+  }
+
+  const summary = {
+    totalCandidates:
+      candidates.length,
+
+    openWaterCandidates:
+      candidates.filter(
+        candidate =>
+          candidate.candidateClass ===
+          "open-water"
+      ).length,
+
+    bathymetricLocationCandidates:
+      candidates.filter(
+        candidate =>
+          candidate.candidateClass ===
+          "bathymetric-location"
+      ).length,
+
+    physicalStructureCandidates:
+      candidates.filter(
+        candidate =>
+          candidate.candidateClass ===
+          "physical-structure"
+      ).length,
+
+    otherLocationCandidates:
+      candidates.filter(
+        candidate =>
+          candidate.candidateClass ===
+          "location"
+      ).length
+  };
+
+  return {
+    available:
+      candidates.length > 0,
+
+    candidates,
+
+    summary,
+
+    contractVersion:
+      "pelora-unified-opportunity-candidate-universe-v1"
+  };
+}
+
 const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [
   {
     id:

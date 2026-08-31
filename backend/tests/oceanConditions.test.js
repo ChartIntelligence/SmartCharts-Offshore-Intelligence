@@ -7,6 +7,7 @@ import {
   resolveGulfWaterMaskV1,
   buildGulfSearchGridV1,
   normalizeOpportunityCandidateV1,
+  buildUnifiedOpportunityCandidateUniverseV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
@@ -42764,4 +42765,234 @@ assert.equal(
   normalizedAmbiguousStructureCandidate
     .candidateSubtype,
   "other"
+);
+
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Universe v1
+ * ------------------------------------------------------------
+ */
+
+const unifiedCandidateUniverse =
+  buildUnifiedOpportunityCandidateUniverseV1({
+    openWaterCandidates: [
+      {
+        id: "test-open-water",
+        name: "Test Open Water",
+        category: "open_water_grid",
+        type: "Open Water",
+        region: "Gulf",
+        coordinates: [
+          28,
+          -87
+        ]
+      }
+    ],
+
+    locationCandidates: [
+      {
+        id: "test-canyon-universe",
+        name: "Test Canyon",
+        category: "intelligence_zone",
+        type: "Canyon System",
+        region: "Eastern Gulf",
+        coordinates: [
+          29,
+          -87.5
+        ]
+      }
+    ],
+
+    structureCandidates: [
+      {
+        id: "test-platform-universe",
+        name: "Test Platform",
+        category: "oil_platform",
+        type: "Offshore Platform",
+        region: "Northern Gulf",
+        coordinates: [
+          28.2,
+          -88.5
+        ]
+      },
+
+      {
+        id: "test-fad-universe",
+        name: "Test FAD",
+        category: "fad",
+        type: "Fish Aggregating Device",
+        region: "Northern Gulf",
+        coordinates: [
+          29,
+          -86
+        ]
+      }
+    ]
+  });
+
+
+assert.equal(
+  unifiedCandidateUniverse
+    .available,
+  true
+);
+
+assert.equal(
+  unifiedCandidateUniverse
+    .candidates
+    .length,
+  4
+);
+
+assert.deepEqual(
+  unifiedCandidateUniverse
+    .summary,
+  {
+    totalCandidates: 4,
+    openWaterCandidates: 1,
+    bathymetricLocationCandidates: 1,
+    physicalStructureCandidates: 2,
+    otherLocationCandidates: 0
+  }
+);
+
+
+const unifiedCandidateClasses =
+  unifiedCandidateUniverse
+    .candidates
+    .map(
+      candidate =>
+        candidate.candidateClass
+    );
+
+assert.deepEqual(
+  unifiedCandidateClasses,
+  [
+    "open-water",
+    "bathymetric-location",
+    "physical-structure",
+    "physical-structure"
+  ]
+);
+
+
+/*
+ * Universe membership must not manufacture
+ * environmental or interaction evidence.
+ */
+for (
+  const candidate
+  of unifiedCandidateUniverse.candidates
+) {
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "structureInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "bathymetricInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "openWaterOrganization"
+    ),
+    false
+  );
+}
+
+
+/*
+ * Duplicate candidate identity must collapse
+ * before later evaluation and ranking.
+ */
+const deduplicatedCandidateUniverse =
+  buildUnifiedOpportunityCandidateUniverseV1({
+    openWaterCandidates: [
+      {
+        id: "duplicate-candidate",
+        name: "Original Candidate",
+        category: "open_water_grid",
+        type: "Open Water",
+        coordinates: [
+          28,
+          -87
+        ]
+      },
+
+      {
+        id: "duplicate-candidate",
+        name: "Duplicate Candidate",
+        category: "open_water_grid",
+        type: "Open Water",
+        coordinates: [
+          28,
+          -87
+        ]
+      }
+    ]
+  });
+
+assert.equal(
+  deduplicatedCandidateUniverse
+    .candidates
+    .length,
+  1
+);
+
+/*
+ * Malformed candidates must not become
+ * members of the governed discovery universe.
+ */
+const malformedCandidateUniverse =
+  buildUnifiedOpportunityCandidateUniverseV1({
+    locationCandidates: [
+      null,
+
+      {
+        name: "Missing Coordinates",
+        category: "intelligence_zone",
+        type: "Unknown"
+      },
+
+      {
+        id: "invalid-coordinates",
+        name: "Invalid Coordinates",
+        category: "intelligence_zone",
+        type: "Unknown",
+        coordinates: [
+          "not-a-latitude",
+          -87
+        ]
+      }
+    ]
+  });
+
+assert.equal(
+  malformedCandidateUniverse
+    .available,
+  false
+);
+
+assert.equal(
+  malformedCandidateUniverse
+    .candidates
+    .length,
+  0
+);
+
+assert.equal(
+  malformedCandidateUniverse
+    .summary
+    .totalCandidates,
+  0
 );
