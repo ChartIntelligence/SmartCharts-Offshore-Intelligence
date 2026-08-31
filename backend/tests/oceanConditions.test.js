@@ -9,6 +9,7 @@ import {
   normalizeOpportunityCandidateV1,
   buildUnifiedOpportunityCandidateUniverseV1,
   buildUnifiedOpportunityCandidateSourceUniverseV1,
+  filterUnifiedOpportunityCandidatesByCaptainContextV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
@@ -43140,3 +43141,213 @@ for (
     false
   );
 }
+
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Captain Context Filter v1
+ * ------------------------------------------------------------
+ */
+
+const unifiedCaptainContextSource =
+  buildUnifiedOpportunityCandidateSourceUniverseV1({
+    includeOpenWater: true,
+    includeVerifiedStructures: true
+  });
+
+
+const unifiedWithinRangeContext =
+  filterUnifiedOpportunityCandidatesByCaptainContextV1({
+    candidates:
+      unifiedCaptainContextSource.candidates,
+
+    originCoordinates: [
+      29.8119,
+      -85.3029
+    ],
+
+    operatingRangeNm: 75,
+
+    explorationMode:
+      "within-range"
+  });
+
+
+assert.equal(
+  unifiedWithinRangeContext.available,
+  true
+);
+
+assert.equal(
+  unifiedWithinRangeContext
+    .summary
+    .inputCandidateCount,
+  unifiedCaptainContextSource
+    .candidates
+    .length
+);
+
+assert.equal(
+  unifiedWithinRangeContext
+    .summary
+    .eligibleCandidateCount <
+    unifiedWithinRangeContext
+      .summary
+      .inputCandidateCount,
+  true
+);
+
+assert.equal(
+  unifiedWithinRangeContext
+    .captainContext
+    .explorationMode,
+  "within-range"
+);
+
+assert.deepEqual(
+  unifiedWithinRangeContext
+    .captainContext
+    .originCoordinates,
+  [
+    29.8119,
+    -85.3029
+  ]
+);
+
+assert.equal(
+  unifiedWithinRangeContext
+    .captainContext
+    .operatingRangeNm,
+  75
+);
+
+
+/*
+ * Captain Context filtering must work across
+ * candidate identity classes rather than only
+ * open-water grid candidates.
+ */
+assert.equal(
+  unifiedWithinRangeContext
+    .candidates
+    .every(
+      candidate =>
+        Boolean(
+          candidate
+            ?.candidateIdentity
+        )
+    ),
+  true
+);
+
+
+/*
+ * Captain Context establishes geographic
+ * relevance only. It must not manufacture
+ * species, environmental, interaction, or
+ * ranking evidence.
+ */
+for (
+  const candidate
+  of unifiedWithinRangeContext.candidates
+) {
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "speciesEligibility"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "structureInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "bathymetricInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      candidate,
+      "eligibleForRanking"
+    ),
+    false
+  );
+}
+
+
+/*
+ * Entire-Gulf exploration preserves the
+ * governed source universe without requiring
+ * an origin or operating range.
+ */
+const unifiedEntireGulfContext =
+  filterUnifiedOpportunityCandidatesByCaptainContextV1({
+    candidates:
+      unifiedCaptainContextSource.candidates,
+
+    explorationMode:
+      "entire-gulf"
+  });
+
+
+assert.equal(
+  unifiedEntireGulfContext.available,
+  true
+);
+
+assert.equal(
+  unifiedEntireGulfContext
+    .candidates
+    .length,
+  unifiedCaptainContextSource
+    .candidates
+    .length
+);
+
+
+/*
+ * Invalid within-range Captain Context must
+ * fail closed rather than silently becoming
+ * Entire-Gulf exploration.
+ */
+const invalidUnifiedCaptainContext =
+  filterUnifiedOpportunityCandidatesByCaptainContextV1({
+    candidates:
+      unifiedCaptainContextSource.candidates,
+
+    originCoordinates: null,
+
+    operatingRangeNm: 75,
+
+    explorationMode:
+      "within-range"
+  });
+
+
+assert.equal(
+  invalidUnifiedCaptainContext.available,
+  false
+);
+
+assert.equal(
+  invalidUnifiedCaptainContext
+    .candidates
+    .length,
+  0
+);
+
+assert.equal(
+  invalidUnifiedCaptainContext
+    .classification,
+  "invalid-captain-context"
+);

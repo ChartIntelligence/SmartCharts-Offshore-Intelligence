@@ -45487,6 +45487,160 @@ export function buildUnifiedOpportunityCandidateSourceUniverseV1({
   });
 }
 
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Captain Context Filter v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Apply captain geographic context to an already-governed
+ * opportunity candidate universe.
+ *
+ * Captain Context establishes geographic relevance only.
+ * It does not establish species eligibility, environmental
+ * evidence, bathymetric interaction, physical-structure
+ * interaction, opportunity eligibility, or ranking.
+ *
+ * Invalid within-range context fails closed.
+ */
+export function filterUnifiedOpportunityCandidatesByCaptainContextV1({
+  candidates = [],
+  originCoordinates = null,
+  operatingRangeNm = null,
+  explorationMode = "within-range"
+} = {}) {
+  const sourceCandidates =
+    Array.isArray(candidates)
+      ? candidates
+      : [];
+
+  const normalizedExplorationMode =
+    explorationMode === "entire-gulf"
+      ? "entire-gulf"
+      : "within-range";
+
+  const originLatitude =
+    Number(
+      originCoordinates?.[0]
+    );
+
+  const originLongitude =
+    Number(
+      originCoordinates?.[1]
+    );
+
+  const normalizedRangeNm =
+    Number(
+      operatingRangeNm
+    );
+
+  const withinRangeContextIsValid =
+    coordinatesAreValid(
+      originLatitude,
+      originLongitude
+    ) &&
+    Number.isFinite(
+      normalizedRangeNm
+    ) &&
+    normalizedRangeNm > 0;
+
+  if (
+    normalizedExplorationMode ===
+      "within-range" &&
+    !withinRangeContextIsValid
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "invalid-captain-context",
+
+      candidates: [],
+
+      captainContext: {
+        explorationMode:
+          normalizedExplorationMode,
+
+        originCoordinates:
+          originCoordinates,
+
+        operatingRangeNm:
+          operatingRangeNm
+      },
+
+      summary: {
+        inputCandidateCount:
+          sourceCandidates.length,
+
+        eligibleCandidateCount:
+          0
+      },
+
+      contractVersion:
+        "pelora-unified-opportunity-captain-context-filter-v1"
+    };
+  }
+
+  const eligibleCandidates =
+    filterGulfCandidatesByCaptainRangeV1({
+      candidates:
+        sourceCandidates,
+
+      originCoordinates,
+
+      operatingRangeNm,
+
+      explorationMode:
+        normalizedExplorationMode
+    });
+
+  return {
+    available:
+      eligibleCandidates.length > 0,
+
+    classification:
+      normalizedExplorationMode ===
+        "entire-gulf"
+        ? "entire-gulf-context"
+        : "within-range-context",
+
+    candidates:
+      eligibleCandidates,
+
+    captainContext: {
+      explorationMode:
+        normalizedExplorationMode,
+
+      originCoordinates:
+        normalizedExplorationMode ===
+          "within-range"
+          ? [
+              originLatitude,
+              originLongitude
+            ]
+          : null,
+
+      operatingRangeNm:
+        normalizedExplorationMode ===
+          "within-range"
+          ? normalizedRangeNm
+          : null
+    },
+
+    summary: {
+      inputCandidateCount:
+        sourceCandidates.length,
+
+      eligibleCandidateCount:
+        eligibleCandidates.length
+    },
+
+    contractVersion:
+      "pelora-unified-opportunity-captain-context-filter-v1"
+  };
+}
+
 const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [
   {
     id:
