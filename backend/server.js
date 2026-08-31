@@ -47077,6 +47077,115 @@ export function selectDistributedGulfCandidatesV1({
 }
 
 
+export function selectUnifiedOpportunityCandidatesForEvaluationV1({
+  candidates = [],
+  maximumCandidates =
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates
+} = {}) {
+  const sourceCandidates =
+    Array.isArray(candidates)
+      ? candidates
+      : [];
+
+
+  const normalizedMaximumCandidates =
+    Number.isInteger(
+      maximumCandidates
+    ) &&
+    maximumCandidates > 0
+      ? maximumCandidates
+      : GULF_EVALUATION_CONTROL_V1
+          .maximumCandidates;
+
+
+  const eligibleCandidates =
+    sourceCandidates.filter(
+      candidate =>
+        candidate
+          ?.eligibility
+          ?.eligible === true
+    );
+
+
+  const unresolvedCandidates =
+    sourceCandidates.filter(
+      candidate =>
+        candidate
+          ?.eligibility
+          ?.eligible === null
+    );
+
+
+  const ineligibleCandidates =
+    sourceCandidates.filter(
+      candidate =>
+        candidate
+          ?.eligibility
+          ?.eligible === false
+    );
+
+
+  const selectedCandidates =
+    selectDistributedGulfCandidatesV1({
+      candidates:
+        eligibleCandidates,
+
+      maximumCandidates:
+        normalizedMaximumCandidates
+    });
+
+
+  return {
+    available:
+      selectedCandidates.length > 0,
+
+    selectedCandidates,
+
+    eligibleCandidates,
+
+    unresolvedCandidates,
+
+    ineligibleCandidates,
+
+    summary: {
+      sourceCandidateCount:
+        sourceCandidates.length,
+
+      eligibleCandidateCount:
+        eligibleCandidates.length,
+
+      unresolvedCandidateCount:
+        unresolvedCandidates.length,
+
+      ineligibleCandidateCount:
+        ineligibleCandidates.length,
+
+      selectedCandidateCount:
+        selectedCandidates.length
+    },
+
+    control: {
+      maximumCandidates:
+        normalizedMaximumCandidates,
+
+      selection:
+        "deterministic-distributed-eligible-v1"
+    },
+
+    reason:
+      selectedCandidates.length > 0
+        ? "eligible-candidates-selected-for-controlled-evaluation"
+        : eligibleCandidates.length > 0
+          ? "eligible-candidates-not-selected"
+          : "no-species-habitat-eligible-candidates",
+
+    contractVersion:
+      "pelora-unified-opportunity-evaluation-selection-v1"
+  };
+}
+
+
 export function filterGulfCandidatesByCaptainRangeV1({
   candidates = [],
   originCoordinates = null,

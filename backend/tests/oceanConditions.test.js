@@ -11,6 +11,7 @@ import {
   buildUnifiedOpportunityCandidateUniverseV1,
   buildUnifiedOpportunityCandidateSourceUniverseV1,
   filterUnifiedOpportunityCandidatesByCaptainContextV1,
+  selectUnifiedOpportunityCandidatesForEvaluationV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
@@ -43862,5 +43863,490 @@ for (
       "rank"
     ),
     false
+  );
+}
+
+
+{
+  const candidates = [
+    {
+      id: "eligible-1",
+      coordinates: [28, -88],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    },
+    {
+      id: "unresolved-1",
+      coordinates: [28.5, -88.5],
+      eligibility: {
+        available: false,
+        eligible: null,
+        classification:
+          "species-habitat-unresolved"
+      }
+    },
+    {
+      id: "ineligible-1",
+      coordinates: [29, -87],
+      eligibility: {
+        available: true,
+        eligible: false,
+        classification:
+          "species-habitat-ineligible"
+      }
+    },
+    {
+      id: "eligible-2",
+      coordinates: [27, -89],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    },
+    {
+      id: "eligible-3",
+      coordinates: [26, -90],
+      eligibility: {
+        available: true,
+        eligible: true,
+        classification:
+          "species-habitat-eligible"
+      }
+    }
+  ];
+
+
+  const selection =
+    selectUnifiedOpportunityCandidatesForEvaluationV1({
+      candidates,
+
+      maximumCandidates: 2
+    });
+
+
+  assert.equal(
+    selection.available,
+    true
+  );
+
+
+  assert.equal(
+    selection.summary
+      .sourceCandidateCount,
+    5
+  );
+
+
+  assert.equal(
+    selection.summary
+      .eligibleCandidateCount,
+    3
+  );
+
+
+  assert.equal(
+    selection.summary
+      .unresolvedCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    selection.summary
+      .ineligibleCandidateCount,
+    1
+  );
+
+
+  assert.equal(
+    selection.summary
+      .selectedCandidateCount,
+    2
+  );
+
+
+  assert.deepEqual(
+    selection
+      .eligibleCandidates
+      .map(candidate => candidate.id),
+    [
+      "eligible-1",
+      "eligible-2",
+      "eligible-3"
+    ]
+  );
+
+
+  assert.deepEqual(
+    selection
+      .unresolvedCandidates
+      .map(candidate => candidate.id),
+    [
+      "unresolved-1"
+    ]
+  );
+
+
+  assert.deepEqual(
+    selection
+      .ineligibleCandidates
+      .map(candidate => candidate.id),
+    [
+      "ineligible-1"
+    ]
+  );
+
+
+  assert.deepEqual(
+    selection
+      .selectedCandidates
+      .map(candidate => candidate.id),
+    [
+      "eligible-1",
+      "eligible-3"
+    ]
+  );
+
+
+  assert.equal(
+    selection.control
+      .maximumCandidates,
+    2
+  );
+
+
+  assert.equal(
+    selection.control.selection,
+    "deterministic-distributed-eligible-v1"
+  );
+
+
+  assert.equal(
+    selection.contractVersion,
+    "pelora-unified-opportunity-evaluation-selection-v1"
+  );
+
+
+  for (
+    const candidate of
+      selection.selectedCandidates
+  ) {
+    assert.equal(
+      candidate
+        ?.eligibility
+        ?.eligible,
+      true
+    );
+  }
+
+
+  assert.equal(
+    "oceanEvidence" in selection,
+    false
+  );
+
+
+  assert.equal(
+    "eligibleForRanking" in selection,
+    false
+  );
+
+
+  assert.equal(
+    "rank" in selection,
+    false
+  );
+}
+
+{
+  const candidates = [
+    {
+      id: "unresolved-platform",
+      candidateClass:
+        "physical-structure",
+      candidateSubtype:
+        "platform",
+      coordinates: [27.5, -89.5],
+      eligibility: {
+        available: false,
+        eligible: null,
+        classification:
+          "species-habitat-unresolved"
+      }
+    },
+    {
+      id: "unresolved-fad",
+      candidateClass:
+        "physical-structure",
+      candidateSubtype:
+        "fad",
+      coordinates: [29, -86.5],
+      eligibility: {
+        available: false,
+        eligible: null,
+        classification:
+          "species-habitat-unresolved"
+      }
+    }
+  ];
+
+
+  const selection =
+    selectUnifiedOpportunityCandidatesForEvaluationV1({
+      candidates,
+
+      maximumCandidates: 12
+    });
+
+
+  assert.equal(
+    selection.available,
+    false
+  );
+
+
+  assert.equal(
+    selection.summary
+      .sourceCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    selection.summary
+      .eligibleCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    selection.summary
+      .unresolvedCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    selection.summary
+      .ineligibleCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    selection.summary
+      .selectedCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    selection.selectedCandidates.length,
+    0
+  );
+
+
+  assert.deepEqual(
+    selection
+      .unresolvedCandidates
+      .map(candidate => candidate.id),
+    [
+      "unresolved-platform",
+      "unresolved-fad"
+    ]
+  );
+
+
+  assert.equal(
+    selection.reason,
+    "no-species-habitat-eligible-candidates"
+  );
+
+
+  assert.equal(
+    selection.contractVersion,
+    "pelora-unified-opportunity-evaluation-selection-v1"
+  );
+}
+
+{
+  const universe =
+    buildUnifiedOpportunityCandidateSourceUniverseV1();
+
+
+  const candidatesWithEligibility =
+    universe.candidates.map(
+      candidate => ({
+        ...candidate,
+
+        eligibility:
+          evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
+            candidate,
+
+            speciesProfile:
+              BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+          })
+      })
+    );
+
+
+  const selection =
+    selectUnifiedOpportunityCandidatesForEvaluationV1({
+      candidates:
+        candidatesWithEligibility,
+
+      maximumCandidates: 12
+    });
+
+
+  assert.equal(
+    selection.summary
+      .sourceCandidateCount,
+    295
+  );
+
+
+  assert.equal(
+    selection.summary
+      .eligibleCandidateCount,
+    89
+  );
+
+
+  assert.equal(
+    selection.summary
+      .ineligibleCandidateCount,
+    49
+  );
+
+
+  assert.equal(
+    selection.summary
+      .unresolvedCandidateCount,
+    157
+  );
+
+
+  assert.equal(
+    selection.summary
+      .selectedCandidateCount,
+    12
+  );
+
+
+  assert.equal(
+    selection.selectedCandidates.length,
+    12
+  );
+
+
+  assert.equal(
+    selection.available,
+    true
+  );
+
+
+  assert.equal(
+    selection
+      .selectedCandidates
+      .every(
+        candidate =>
+          candidate
+            ?.eligibility
+            ?.eligible === true
+      ),
+    true
+  );
+
+
+  assert.equal(
+    selection
+      .selectedCandidates
+      .some(
+        candidate =>
+          candidate
+            ?.eligibility
+            ?.eligible === null
+      ),
+    false
+  );
+
+
+  assert.equal(
+    selection
+      .selectedCandidates
+      .some(
+        candidate =>
+          candidate
+            ?.eligibility
+            ?.eligible === false
+      ),
+    false
+  );
+
+
+  assert.equal(
+    selection
+      .selectedCandidates
+      .some(
+        candidate =>
+          candidate
+            ?.candidateSubtype ===
+            "platform"
+      ),
+    false
+  );
+
+
+  assert.equal(
+    selection
+      .selectedCandidates
+      .some(
+        candidate =>
+          candidate
+            ?.candidateSubtype ===
+            "fad"
+      ),
+    false
+  );
+
+
+  assert.equal(
+    selection
+      .unresolvedCandidates
+      .filter(
+        candidate =>
+          candidate
+            ?.candidateSubtype ===
+            "platform"
+      )
+      .length,
+    149
+  );
+
+
+  assert.equal(
+    selection
+      .unresolvedCandidates
+      .filter(
+        candidate =>
+          candidate
+            ?.candidateSubtype ===
+            "fad"
+      )
+      .length,
+    8
+  );
+
+
+  assert.equal(
+    selection.contractVersion,
+    "pelora-unified-opportunity-evaluation-selection-v1"
   );
 }
