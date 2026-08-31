@@ -6,6 +6,7 @@ import {
   coordinateIsWithinGulfSearchDomainV1,
   resolveGulfWaterMaskV1,
   buildGulfSearchGridV1,
+  normalizeOpportunityCandidateV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
@@ -42585,3 +42586,182 @@ console.log(
     false
   );
 }
+
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Identity v1
+ * ------------------------------------------------------------
+ */
+
+const normalizedOpenWaterCandidate =
+  normalizeOpportunityCandidateV1({
+    id: "gulf-grid-v1-1",
+    name: "Gulf Grid 1",
+    category: "open_water_grid",
+    type: "Open Water",
+    region: "Gulf",
+    coordinates: [
+      28,
+      -87
+    ],
+    grid: {
+      spacingDegrees: {
+        latitude: 1,
+        longitude: 1
+      }
+    }
+  });
+
+assert.equal(
+  normalizedOpenWaterCandidate
+    .candidateClass,
+  "open-water"
+);
+
+assert.equal(
+  normalizedOpenWaterCandidate
+    .candidateSubtype,
+  "gulf-grid"
+);
+
+assert.deepEqual(
+  normalizedOpenWaterCandidate
+    .coordinates,
+  [
+    28,
+    -87
+  ]
+);
+
+
+const normalizedPlatformCandidate =
+  normalizeOpportunityCandidateV1({
+    id: "test-platform",
+    name: "Test Platform",
+    category: "oil_platform",
+    type: "Deepwater Platform",
+    region: "Northern Gulf",
+    coordinates: [
+      28.2,
+      -88.5
+    ]
+  });
+
+assert.equal(
+  normalizedPlatformCandidate
+    .candidateClass,
+  "physical-structure"
+);
+
+assert.equal(
+  normalizedPlatformCandidate
+    .candidateSubtype,
+  "platform"
+);
+
+
+const normalizedFadCandidate =
+  normalizeOpportunityCandidateV1({
+    id: "test-fad",
+    name: "Test FAD",
+    category: "fad",
+    type: "FAD",
+    region: "Northern Gulf",
+    coordinates: [
+      29,
+      -86
+    ]
+  });
+
+assert.equal(
+  normalizedFadCandidate
+    .candidateClass,
+  "physical-structure"
+);
+
+assert.equal(
+  normalizedFadCandidate
+    .candidateSubtype,
+  "fad"
+);
+
+
+const normalizedBathymetricCandidate =
+  normalizeOpportunityCandidateV1({
+    id: "test-canyon",
+    name: "Test Canyon",
+    category: "intelligence_zone",
+    type: "Canyon System",
+    region: "Eastern Gulf",
+    coordinates: [
+      29,
+      -87.5
+    ]
+  });
+
+assert.equal(
+  normalizedBathymetricCandidate
+    .candidateClass,
+  "bathymetric-location"
+);
+
+assert.equal(
+  normalizedBathymetricCandidate
+    .candidateSubtype,
+  "canyon"
+);
+
+
+/*
+ * Candidate identity must not manufacture
+ * environmental or interaction evidence.
+ */
+assert.equal(
+  Object.hasOwn(
+    normalizedPlatformCandidate,
+    "structureInteraction"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    normalizedBathymetricCandidate,
+    "bathymetricInteraction"
+  ),
+  false
+);
+
+assert.equal(
+  Object.hasOwn(
+    normalizedOpenWaterCandidate,
+    "openWaterOrganization"
+  ),
+  false
+);
+
+const normalizedAmbiguousStructureCandidate =
+  normalizeOpportunityCandidateV1({
+    id: "test-deepwater-structure",
+    name: "Test Deepwater Structure",
+    category: "intelligence_zone",
+    type: "Deepwater Structure",
+    region: "Northern Gulf",
+    coordinates: [
+      27.65,
+      -91.35
+    ]
+  });
+
+assert.equal(
+  normalizedAmbiguousStructureCandidate
+    .candidateClass,
+  "location"
+);
+
+assert.equal(
+  normalizedAmbiguousStructureCandidate
+    .candidateSubtype,
+  "other"
+);

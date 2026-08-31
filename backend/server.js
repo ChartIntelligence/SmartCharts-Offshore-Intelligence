@@ -45132,6 +45132,161 @@ export function buildGulfSearchGridV1() {
   return candidates;
 }
 
+
+/*
+ * ------------------------------------------------------------
+ * Unified Opportunity Candidate Identity v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Normalize candidate identity only.
+ *
+ * This contract describes what a candidate location is.
+ * It does not establish:
+ *
+ * - ocean-feature organization
+ * - bathymetric interaction
+ * - physical-structure interaction
+ * - persistence or retention
+ * - prey concentration
+ * - species presence
+ * - habitat quality
+ * - fishing quality
+ * - opportunity eligibility
+ *
+ * Those conclusions require their own governed evidence.
+ */
+export function normalizeOpportunityCandidateV1(
+  candidate = null
+) {
+  if (
+    !candidate ||
+    typeof candidate !== "object"
+  ) {
+    return null;
+  }
+
+
+  const category =
+    typeof candidate.category === "string"
+      ? candidate.category
+          .trim()
+          .toLowerCase()
+      : "";
+
+  const type =
+    typeof candidate.type === "string"
+      ? candidate.type
+          .trim()
+          .toLowerCase()
+      : "";
+
+
+  let candidateClass =
+    "location";
+
+  let candidateSubtype =
+    "other";
+
+
+  if (
+    category === "open_water_grid"
+  ) {
+    candidateClass =
+      "open-water";
+
+    candidateSubtype =
+      "gulf-grid";
+  } else if (
+    category === "fad" ||
+    type === "fad" ||
+    type.includes(
+      "fish aggregation device"
+    )
+  ) {
+    candidateClass =
+      "physical-structure";
+
+    candidateSubtype =
+      "fad";
+  } else if (
+    category === "oil_platform" ||
+    type.includes("platform")
+  ) {
+    candidateClass =
+      "physical-structure";
+
+    candidateSubtype =
+      "platform";
+  } else if (
+    category === "drill_ship" ||
+    category === "drillship" ||
+    type.includes("drill ship") ||
+    type.includes("drillship")
+  ) {
+    candidateClass =
+      "physical-structure";
+
+    candidateSubtype =
+      "drillship";
+  } else if (
+    type.includes("canyon")
+  ) {
+    candidateClass =
+      "bathymetric-location";
+
+    candidateSubtype =
+      "canyon";
+  } else if (
+    type.includes("seamount")
+  ) {
+    candidateClass =
+      "bathymetric-location";
+
+    candidateSubtype =
+      "seamount";
+  } else if (
+    type.includes("bank")
+  ) {
+    candidateClass =
+      "bathymetric-location";
+
+    candidateSubtype =
+      "bank";
+  } else if (
+    type.includes("ridge")
+  ) {
+    candidateClass =
+      "bathymetric-location";
+
+    candidateSubtype =
+      "ridge";
+  }
+
+
+  return {
+    ...candidate,
+
+    candidateClass,
+
+    candidateSubtype,
+
+    candidateIdentity: {
+      classification:
+        candidateClass,
+
+      subtype:
+        candidateSubtype,
+
+      interpretation:
+        "candidate-location-identity-only",
+
+      contractVersion:
+        "pelora-opportunity-candidate-identity-v1"
+    }
+  };
+}
+
 const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [
   {
     id:
