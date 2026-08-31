@@ -47285,6 +47285,214 @@ export async function evaluateSelectedUnifiedOpportunityCandidatesV1({
 }
 
 
+export async function evaluateUnifiedOpenWaterOceanConditionsV1({
+  candidate = null,
+
+  bearerToken = null,
+
+  oceanConditionsProvider = null
+} = {}) {
+  if (
+    candidate?.candidateClass !==
+    "open-water"
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      oceanConditions: null,
+
+      reason:
+        "candidate-evaluation-pathway-not-governed",
+
+      interpretation:
+        "open-water-ocean-conditions-evaluation",
+
+      limitations: [
+        "candidate-class-not-supported-by-open-water-evaluation-pathway",
+        "live-ocean-conditions-do-not-establish-species-opportunity",
+        "live-ocean-conditions-do-not-establish-ranking-eligibility",
+        "live-ocean-conditions-do-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+    };
+  }
+
+
+  const rawLatitude =
+    candidate
+      ?.coordinates?.[0];
+
+  const rawLongitude =
+    candidate
+      ?.coordinates?.[1];
+
+
+  const latitudeProvided =
+    rawLatitude !== null &&
+    rawLatitude !== undefined &&
+    (
+      typeof rawLatitude !== "string" ||
+      rawLatitude.trim() !== ""
+    );
+
+
+  const longitudeProvided =
+    rawLongitude !== null &&
+    rawLongitude !== undefined &&
+    (
+      typeof rawLongitude !== "string" ||
+      rawLongitude.trim() !== ""
+    );
+
+
+  const coordinatesProvided =
+    latitudeProvided &&
+    longitudeProvided;
+
+
+  const latitude =
+    Number(
+      rawLatitude
+    );
+
+  const longitude =
+    Number(
+      rawLongitude
+    );
+
+
+  if (
+    !coordinatesProvided ||
+    !coordinatesAreValid(
+      latitude,
+      longitude
+    )
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      oceanConditions: null,
+
+      reason:
+        "candidate-coordinates-invalid",
+
+      interpretation:
+        "open-water-ocean-conditions-evaluation",
+
+      limitations: [
+        "valid-candidate-coordinates-required-for-live-ocean-evaluation",
+        "missing-or-invalid-coordinates-do-not-establish-ocean-conditions",
+        "live-ocean-conditions-do-not-establish-species-opportunity",
+        "live-ocean-conditions-do-not-establish-ranking-eligibility",
+        "live-ocean-conditions-do-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+    };
+  }
+
+
+  if (
+    typeof oceanConditionsProvider !==
+    "function"
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      oceanConditions: null,
+
+      reason:
+        "ocean-conditions-provider-unavailable",
+
+      interpretation:
+        "open-water-ocean-conditions-evaluation",
+
+      limitations: [
+        "ocean-conditions-provider-required-for-live-evaluation",
+        "provider-unavailability-is-missing-observation-capability-not-negative-ocean-evidence",
+        "live-ocean-conditions-do-not-establish-species-opportunity",
+        "live-ocean-conditions-do-not-establish-ranking-eligibility",
+        "live-ocean-conditions-do-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+    };
+  }
+
+
+let oceanConditions = null;
+
+
+try {
+    oceanConditions =
+      await oceanConditionsProvider(
+        latitude,
+        longitude,
+        {
+          bearerToken
+        }
+      );
+} catch {
+    return {
+      available: false,
+
+      candidate,
+
+      oceanConditions: null,
+
+      reason:
+        "ocean-conditions-provider-failed",
+
+      interpretation:
+        "open-water-ocean-conditions-evaluation",
+
+      limitations: [
+        "ocean-conditions-provider-failure-prevented-live-observation",
+        "provider-failure-is-missing-observation-evidence-not-negative-ocean-evidence",
+        "live-ocean-conditions-do-not-establish-species-opportunity",
+        "live-ocean-conditions-do-not-establish-ranking-eligibility",
+        "live-ocean-conditions-do-not-establish-rank"
+      ],
+
+      contractVersion:
+         "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+    };
+  }
+
+
+  return {
+    available:
+      oceanConditions != null,
+
+    candidate,
+
+    oceanConditions,
+
+    interpretation:
+      "open-water-ocean-conditions-evaluation",
+
+    limitations: [
+      "live-ocean-conditions-do-not-establish-species-opportunity",
+      "live-ocean-conditions-do-not-establish-ranking-eligibility",
+      "live-ocean-conditions-do-not-establish-rank"
+    ],
+
+    contractVersion:
+      "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  };
+}
+
+
 export function filterGulfCandidatesByCaptainRangeV1({
   candidates = [],
   originCoordinates = null,

@@ -13,6 +13,7 @@ import {
   filterUnifiedOpportunityCandidatesByCaptainContextV1,
   selectUnifiedOpportunityCandidatesForEvaluationV1,
   evaluateSelectedUnifiedOpportunityCandidatesV1,
+  evaluateUnifiedOpenWaterOceanConditionsV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
@@ -44949,5 +44950,588 @@ for (
   assert.equal(
     result.contractVersion,
     "pelora-unified-opportunity-controlled-evaluation-v1"
+  );
+}
+
+
+{
+  const providerCalls = [];
+
+
+  const candidate = {
+    id: "open-water-live-foundation-1",
+
+    name:
+      "Open Water Opportunity",
+
+    candidateClass:
+      "open-water",
+
+    candidateSubtype:
+      "gulf-grid",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    },
+
+    candidateIdentity: {
+      classification:
+        "open-water",
+
+      subtype:
+        "gulf-grid",
+
+      interpretation:
+        "candidate-location-identity-only",
+
+      contractVersion:
+        "pelora-opportunity-candidate-identity-v1"
+    }
+  };
+
+
+  const fakeOceanConditions = {
+    location: {
+      latitude: 27.5,
+      longitude: -89.5
+    },
+
+    observedAt:
+      "2026-08-31T00:00:00.000Z",
+
+    oceanEvidence: {
+      available: true
+    },
+
+    oceanOpportunity: {
+      available: true
+    },
+
+    oceanSignals: {
+      available: true
+    },
+
+    blueMarlinHabitat: {
+      available: true
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedOpenWaterOceanConditionsV1({
+      candidate,
+
+      bearerToken:
+        "test-bearer-token",
+
+      oceanConditionsProvider:
+        async (
+          latitude,
+          longitude,
+          options
+        ) => {
+          providerCalls.push({
+            latitude,
+            longitude,
+            options
+          });
+
+
+          return fakeOceanConditions;
+        }
+    });
+
+
+  assert.equal(
+    providerCalls.length,
+    1
+  );
+
+
+  assert.deepEqual(
+    providerCalls[0],
+    {
+      latitude: 27.5,
+      longitude: -89.5,
+      options: {
+        bearerToken:
+          "test-bearer-token"
+      }
+    }
+  );
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.candidate.id,
+    "open-water-live-foundation-1"
+  );
+
+
+  assert.equal(
+    result.candidate
+      .candidateClass,
+    "open-water"
+  );
+
+
+  assert.deepEqual(
+    result.candidate
+      .candidateIdentity,
+    candidate.candidateIdentity
+  );
+
+
+  assert.equal(
+    result.oceanConditions,
+    fakeOceanConditions
+  );
+
+
+  assert.equal(
+    result.speciesOpportunity,
+    undefined
+  );
+
+
+  assert.equal(
+    result.eligibleForRanking,
+    undefined
+  );
+
+
+  assert.equal(
+    result.rank,
+    undefined
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  );
+}
+
+{
+  let providerCallCount = 0;
+
+
+  const candidate = {
+    id: "platform-live-boundary-1",
+
+    candidateClass:
+      "physical-structure",
+
+    candidateSubtype:
+      "platform",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedOpenWaterOceanConditionsV1({
+      candidate,
+
+      oceanConditionsProvider:
+        async () => {
+          providerCallCount += 1;
+
+          return {
+            available: true
+          };
+        }
+    });
+
+
+  assert.equal(
+    providerCallCount,
+    0
+  );
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.equal(
+    result.oceanConditions,
+    null
+  );
+
+
+  assert.equal(
+    result.reason,
+    "candidate-evaluation-pathway-not-governed"
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  );
+}
+
+{
+  let providerCallCount = 0;
+
+
+  const candidate = {
+    id: "open-water-invalid-coordinates-1",
+
+    candidateClass:
+      "open-water",
+
+    candidateSubtype:
+      "gulf-grid",
+
+    coordinates: [
+      null,
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedOpenWaterOceanConditionsV1({
+      candidate,
+
+      oceanConditionsProvider:
+        async () => {
+          providerCallCount += 1;
+
+          return {
+            available: true
+          };
+        }
+    });
+
+
+  assert.equal(
+    providerCallCount,
+    0
+  );
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.equal(
+    result.oceanConditions,
+    null
+  );
+
+
+  assert.equal(
+    result.reason,
+    "candidate-coordinates-invalid"
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  );
+}
+
+{
+  let providerCallCount = 0;
+
+
+  const candidate = {
+    id: "open-water-whitespace-coordinates-1",
+
+    candidateClass:
+      "open-water",
+
+    candidateSubtype:
+      "gulf-grid",
+
+    coordinates: [
+      "   ",
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedOpenWaterOceanConditionsV1({
+      candidate,
+
+      oceanConditionsProvider:
+        async () => {
+          providerCallCount += 1;
+
+          return {
+            available: true
+          };
+        }
+    });
+
+
+  assert.equal(
+    providerCallCount,
+    0
+  );
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.equal(
+    result.oceanConditions,
+    null
+  );
+
+
+  assert.equal(
+    result.reason,
+    "candidate-coordinates-invalid"
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  );
+}
+
+{
+  const candidate = {
+    id: "open-water-provider-unavailable-1",
+
+    candidateClass:
+      "open-water",
+
+    candidateSubtype:
+      "gulf-grid",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedOpenWaterOceanConditionsV1({
+      candidate,
+
+      oceanConditionsProvider:
+        null
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.equal(
+    result.oceanConditions,
+    null
+  );
+
+
+  assert.equal(
+    result.reason,
+    "ocean-conditions-provider-unavailable"
+  );
+
+
+  assert.equal(
+    result.speciesOpportunity,
+    undefined
+  );
+
+
+  assert.equal(
+    result.eligibleForRanking,
+    undefined
+  );
+
+
+  assert.equal(
+    result.rank,
+    undefined
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  );
+}
+
+{
+  let providerCallCount = 0;
+
+
+  const candidate = {
+    id: "open-water-provider-failure-1",
+
+    candidateClass:
+      "open-water",
+
+    candidateSubtype:
+      "gulf-grid",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedOpenWaterOceanConditionsV1({
+      candidate,
+
+      oceanConditionsProvider:
+        async () => {
+          providerCallCount += 1;
+
+          throw new Error(
+            "simulated-provider-failure"
+          );
+        }
+    });
+
+
+  assert.equal(
+    providerCallCount,
+    1
+  );
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.equal(
+    result.oceanConditions,
+    null
+  );
+
+
+  assert.equal(
+    result.reason,
+    "ocean-conditions-provider-failed"
+  );
+
+
+  assert.equal(
+    result.speciesOpportunity,
+    undefined
+  );
+
+
+  assert.equal(
+    result.eligibleForRanking,
+    undefined
+  );
+
+
+  assert.equal(
+    result.rank,
+    undefined
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-open-water-ocean-conditions-evaluation-v1"
   );
 }
