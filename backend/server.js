@@ -44997,6 +44997,314 @@ export function resolveGulfWaterMaskV1(
 }
 
 
+/*
+ * ------------------------------------------------------------
+ * Opportunity Candidate Bathymetry Resolution v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Resolve governed local bathymetry for an opportunity
+ * candidate without establishing species eligibility or
+ * bathymetric interaction.
+ *
+ * Resolution hierarchy:
+ *
+ * 1. Preserve existing governed candidate waterMask evidence.
+ * 2. Otherwise attempt the existing governed Gulf water-mask
+ *    coordinate resolver.
+ * 3. If no governed sample exists within that resolver's
+ *    tolerance, preserve bathymetry as unavailable.
+ *
+ * Missing bathymetry is missing evidence.
+ * It is not evidence of shallow water, deep water, species
+ * eligibility, or species ineligibility.
+ */
+export function resolveOpportunityCandidateBathymetryV1(
+  candidate = null
+) {
+  const embeddedElevationMeters =
+    Number(
+      candidate
+        ?.waterMask
+        ?.elevationMeters
+    );
+
+  const embeddedBathymetryAvailable =
+    Number.isFinite(
+      embeddedElevationMeters
+    );
+
+  if (embeddedBathymetryAvailable) {
+    const embeddedWater =
+      candidate
+        ?.waterMask
+        ?.water;
+
+    return {
+      available: true,
+
+      classification:
+        "candidate-bathymetry-resolved",
+
+      water:
+        typeof embeddedWater ===
+          "boolean"
+          ? embeddedWater
+          : embeddedElevationMeters < 0,
+
+      elevationMeters:
+        embeddedElevationMeters,
+
+      depthMeters:
+        embeddedElevationMeters < 0
+          ? Math.abs(
+              embeddedElevationMeters
+            )
+          : 0,
+
+      sampleCoordinates:
+        Array.isArray(
+          candidate
+            ?.waterMask
+            ?.sampleCoordinates
+        )
+          ? [
+              Number(
+                candidate
+                  .waterMask
+                  .sampleCoordinates[0]
+              ),
+              Number(
+                candidate
+                  .waterMask
+                  .sampleCoordinates[1]
+              )
+            ]
+          : null,
+
+      sampleOffsetDegrees:
+        Number.isFinite(
+          Number(
+            candidate
+              ?.waterMask
+              ?.sampleOffsetDegrees
+          )
+        )
+          ? Number(
+              candidate
+                .waterMask
+                .sampleOffsetDegrees
+            )
+          : null,
+
+      source:
+        candidate
+          ?.waterMask
+          ?.source ??
+        null,
+
+      resolutionMethod:
+        "candidate-water-mask",
+
+      limitations: [
+        "bathymetry-context-only",
+        "does-not-establish-bathymetric-interaction",
+        "does-not-establish-species-eligibility"
+      ],
+
+      contractVersion:
+        "pelora-opportunity-candidate-bathymetry-resolution-v1"
+    };
+  }
+
+
+  const latitude =
+    Number(
+      candidate
+        ?.coordinates?.[0]
+    );
+
+  const longitude =
+    Number(
+      candidate
+        ?.coordinates?.[1]
+    );
+
+  if (
+    !coordinatesAreValid(
+      latitude,
+      longitude
+    )
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "invalid-candidate-coordinates",
+
+      water: null,
+
+      elevationMeters:
+        null,
+
+      depthMeters:
+        null,
+
+      sampleCoordinates:
+        null,
+
+      sampleOffsetDegrees:
+        null,
+
+      source:
+        null,
+
+      resolutionMethod:
+        null,
+
+      limitations: [
+        "candidate-coordinates-invalid",
+        "bathymetry-not-resolved"
+      ],
+
+      contractVersion:
+        "pelora-opportunity-candidate-bathymetry-resolution-v1"
+    };
+  }
+
+
+  const resolvedWaterMask =
+    resolveGulfWaterMaskV1(
+      latitude,
+      longitude
+    );
+
+  if (
+    resolvedWaterMask
+      ?.available !== true ||
+    !Number.isFinite(
+      Number(
+        resolvedWaterMask
+          ?.elevationMeters
+      )
+    )
+  ) {
+    return {
+      available: false,
+
+      classification:
+        "bathymetry-unavailable",
+
+      water: null,
+
+      elevationMeters:
+        null,
+
+      depthMeters:
+        null,
+
+      sampleCoordinates:
+        null,
+
+      sampleOffsetDegrees:
+        null,
+
+      source:
+        null,
+
+      resolutionMethod:
+        "gulf-water-mask-coordinate-match",
+
+      limitations: [
+        resolvedWaterMask
+          ?.reason ??
+          "governed-bathymetry-unavailable",
+
+        "missing-bathymetry-is-not-species-ineligibility",
+        "does-not-establish-bathymetric-interaction"
+      ],
+
+      contractVersion:
+        "pelora-opportunity-candidate-bathymetry-resolution-v1"
+    };
+  }
+
+
+  const elevationMeters =
+    Number(
+      resolvedWaterMask
+        .elevationMeters
+    );
+
+  return {
+    available: true,
+
+    classification:
+      "candidate-bathymetry-resolved",
+
+    water:
+      resolvedWaterMask
+        .water === true,
+
+    elevationMeters,
+
+    depthMeters:
+      elevationMeters < 0
+        ? Math.abs(
+            elevationMeters
+          )
+        : 0,
+
+    sampleCoordinates:
+      Array.isArray(
+        resolvedWaterMask
+          .sampleCoordinates
+      )
+        ? [
+            Number(
+              resolvedWaterMask
+                .sampleCoordinates[0]
+            ),
+            Number(
+              resolvedWaterMask
+                .sampleCoordinates[1]
+            )
+          ]
+        : null,
+
+    sampleOffsetDegrees:
+      Number.isFinite(
+        Number(
+          resolvedWaterMask
+            .sampleOffsetDegrees
+        )
+      )
+        ? Number(
+            resolvedWaterMask
+              .sampleOffsetDegrees
+          )
+        : null,
+
+    source:
+      resolvedWaterMask
+        .source ??
+      null,
+
+    resolutionMethod:
+      "gulf-water-mask-coordinate-match",
+
+    limitations: [
+      "bathymetry-context-only",
+      "does-not-establish-bathymetric-interaction",
+      "does-not-establish-species-eligibility"
+    ],
+
+    contractVersion:
+      "pelora-opportunity-candidate-bathymetry-resolution-v1"
+  };
+}
+
+
 export function buildGulfSearchGridV1() {
   const candidates = [];
 

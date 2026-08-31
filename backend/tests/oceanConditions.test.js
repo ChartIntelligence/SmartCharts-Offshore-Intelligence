@@ -5,6 +5,7 @@ import {
   GULF_SEARCH_DOMAIN_V1,
   coordinateIsWithinGulfSearchDomainV1,
   resolveGulfWaterMaskV1,
+  resolveOpportunityCandidateBathymetryV1,
   buildGulfSearchGridV1,
   normalizeOpportunityCandidateV1,
   buildUnifiedOpportunityCandidateUniverseV1,
@@ -43351,3 +43352,250 @@ assert.equal(
     .classification,
   "invalid-captain-context"
 );
+
+
+/*
+ * ------------------------------------------------------------
+ * Opportunity Candidate Bathymetry Resolution v1
+ * ------------------------------------------------------------
+ *
+ * Candidate bathymetry establishes governed bottom-depth
+ * context only.
+ *
+ * It does not establish species eligibility, environmental
+ * evidence, bathymetric interaction, opportunity eligibility,
+ * or ranking.
+ */
+
+
+/*
+ * Existing governed candidate bathymetry must be preserved.
+ *
+ * Open-water Gulf grid candidates already carry ETOPO-derived
+ * waterMask evidence. Resolution must not replace or reinterpret
+ * that governed source.
+ */
+const bathymetrySourceGrid =
+  buildGulfSearchGridV1();
+
+const bathymetrySourceCandidate =
+  bathymetrySourceGrid[0];
+
+const preservedCandidateBathymetry =
+  resolveOpportunityCandidateBathymetryV1(
+    bathymetrySourceCandidate
+  );
+
+
+assert.equal(
+  preservedCandidateBathymetry.available,
+  true
+);
+
+assert.equal(
+  preservedCandidateBathymetry.classification,
+  "candidate-bathymetry-resolved"
+);
+
+assert.equal(
+  preservedCandidateBathymetry
+    .elevationMeters,
+  bathymetrySourceCandidate
+    .waterMask
+    .elevationMeters
+);
+
+assert.deepEqual(
+  preservedCandidateBathymetry
+    .sampleCoordinates,
+  bathymetrySourceCandidate
+    .waterMask
+    .sampleCoordinates
+);
+
+assert.deepEqual(
+  preservedCandidateBathymetry.source,
+  bathymetrySourceCandidate
+    .waterMask
+    .source
+);
+
+assert.equal(
+  preservedCandidateBathymetry
+    .resolutionMethod,
+  "candidate-water-mask"
+);
+
+
+/*
+ * A candidate without embedded bathymetry may use the existing
+ * governed Gulf water-mask resolver when its coordinates match
+ * a known ETOPO sample within the existing tolerance.
+ */
+const resolvedCoordinateBathymetry =
+  resolveOpportunityCandidateBathymetryV1({
+    id:
+      "candidate-bathymetry-coordinate-test",
+
+    coordinates: [
+      25,
+      -90
+    ]
+  });
+
+
+assert.equal(
+  resolvedCoordinateBathymetry.available,
+  true
+);
+
+assert.equal(
+  resolvedCoordinateBathymetry.water,
+  true
+);
+
+assert.equal(
+  Number.isFinite(
+    resolvedCoordinateBathymetry
+      .elevationMeters
+  ),
+  true
+);
+
+assert.equal(
+  resolvedCoordinateBathymetry
+    .resolutionMethod,
+  "gulf-water-mask-coordinate-match"
+);
+
+
+/*
+ * Arbitrary physical-structure coordinates must not inherit
+ * bathymetry from a distant search-grid sample.
+ *
+ * Missing governed bathymetry is unavailable evidence.
+ * It is not evidence of shallow or deep water.
+ */
+const unavailableStructureBathymetry =
+  resolveOpportunityCandidateBathymetryV1({
+    id:
+      "candidate-bathymetry-unavailable-test",
+
+    category:
+      "oil_platform",
+
+    type:
+      "Platform",
+
+    coordinates: [
+      25.5,
+      -90.5
+    ]
+  });
+
+
+assert.equal(
+  unavailableStructureBathymetry.available,
+  false
+);
+
+assert.equal(
+  unavailableStructureBathymetry
+    .classification,
+  "bathymetry-unavailable"
+);
+
+assert.equal(
+  unavailableStructureBathymetry
+    .elevationMeters,
+  null
+);
+
+assert.equal(
+  unavailableStructureBathymetry
+    .depthMeters,
+  null
+);
+
+
+/*
+ * Invalid candidate coordinates fail closed.
+ */
+const invalidCandidateBathymetry =
+  resolveOpportunityCandidateBathymetryV1({
+    id:
+      "candidate-bathymetry-invalid-test",
+
+    coordinates:
+      null
+  });
+
+
+assert.equal(
+  invalidCandidateBathymetry.available,
+  false
+);
+
+assert.equal(
+  invalidCandidateBathymetry
+    .classification,
+  "invalid-candidate-coordinates"
+);
+
+
+/*
+ * Bathymetry resolution must remain scientifically neutral.
+ *
+ * Resolving bottom depth does not itself establish species
+ * eligibility, bathymetric interaction, environmental evidence,
+ * opportunity eligibility, or ranking.
+ */
+for (
+  const bathymetryResolution
+  of [
+    preservedCandidateBathymetry,
+    resolvedCoordinateBathymetry,
+    unavailableStructureBathymetry,
+    invalidCandidateBathymetry
+  ]
+) {
+  assert.equal(
+    Object.hasOwn(
+      bathymetryResolution,
+      "speciesEligibility"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      bathymetryResolution,
+      "bathymetricInteraction"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      bathymetryResolution,
+      "environmentalEvidence"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      bathymetryResolution,
+      "eligibleForRanking"
+    ),
+    false
+  );
+
+  assert.equal(
+    Object.hasOwn(
+      bathymetryResolution,
+      "rank"
+    ),
+    false
+  );
+}
