@@ -47463,6 +47463,65 @@ export async function evaluateUnifiedOpenWaterOceanConditionsV1({
 }
 
 
+export async function evaluateUnifiedOpportunityOceanConditionsV1({
+  candidates = [],
+
+  bearerToken = null,
+
+  maximumCandidates =
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates,
+
+  concurrency =
+    GULF_EVALUATION_CONTROL_V1
+      .concurrency,
+
+  oceanConditionsProvider =
+    getOceanConditions
+} = {}) {
+  const controlledEvaluation =
+    await evaluateSelectedUnifiedOpportunityCandidatesV1({
+      candidates,
+
+      maximumCandidates,
+
+      concurrency,
+
+      evaluator:
+        candidate =>
+          evaluateUnifiedOpenWaterOceanConditionsV1({
+            candidate,
+
+            bearerToken,
+
+            oceanConditionsProvider
+          })
+    });
+
+
+  return {
+    available:
+      controlledEvaluation
+        .available === true,
+
+    controlledEvaluation,
+
+    interpretation:
+      "controlled-unified-live-ocean-conditions-evaluation",
+
+    limitations: [
+      "live-ocean-conditions-do-not-establish-species-opportunity",
+      "live-ocean-conditions-do-not-establish-ranking-eligibility",
+      "live-ocean-conditions-do-not-establish-rank",
+      "v1-live-evaluation-pathway-supports-open-water-candidates-only"
+    ],
+
+    contractVersion:
+      "pelora-unified-live-ocean-conditions-composition-v1"
+  };
+}
+
+
 export function filterGulfCandidatesByCaptainRangeV1({
   candidates = [],
   originCoordinates = null,
