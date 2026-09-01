@@ -40,6 +40,7 @@ export function useDynamicOpportunities(
     async function loadOpportunities() {
       setLoading(true);
       setError(null);
+      setData(null);
 
 
       try {
@@ -172,7 +173,6 @@ export function useDynamicOpportunities(
 
 
         if (
-          result?.available !== true ||
           !Array.isArray(
             result?.opportunities
           )

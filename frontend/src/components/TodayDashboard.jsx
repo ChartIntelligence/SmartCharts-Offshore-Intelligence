@@ -1,11 +1,3 @@
-import {
-  calculateBlueMarlinScore
-} from "../utils/scoreEngine";
-
-import {
-  calculateConfidence
-} from "../utils/confidenceEngine";
-
 function TodayDashboard({
   topOpportunities,
   activeOpportunity,
@@ -26,64 +18,31 @@ function TodayDashboard({
     null;
 
 
-  const hasGovernedScore =
-    Number.isFinite(
-      dynamicOpportunity?.score
-    );
+const opportunityScore =
+  Number.isFinite(
+    dynamicOpportunity?.score
+  )
+    ? dynamicOpportunity.score
+    : null;
 
 
-  const hasGovernedConfidence =
-    Number.isFinite(
-      dynamicOpportunity
-        ?.confidence
-        ?.score
-    );
-
-
-  const activeScore =
-    activeOpportunity &&
-    !hasGovernedScore
-      ? calculateBlueMarlinScore(
-          activeOpportunity
-        )
-      : null;
-
-
-  const activeConfidence =
-    activeOpportunity &&
-    !hasGovernedConfidence
-      ? calculateConfidence(
-          activeOpportunity
-        )
-      : null;
-
-
-  const opportunityScore =
-    Number.isFinite(
-      dynamicOpportunity?.score
-    )
-      ? dynamicOpportunity.score
-      : activeScore?.total ?? 0;
-
-
-  const opportunityConfidence =
-    Number.isFinite(
-      dynamicOpportunity
-        ?.confidence
-        ?.score
-    )
-      ? dynamicOpportunity
-          .confidence
-          .score
-      : activeConfidence?.score ?? 0;
-
-
-  const opportunityConfidenceLevel =
+const opportunityConfidence =
+  Number.isFinite(
     dynamicOpportunity
       ?.confidence
-      ?.level ??
-    activeConfidence?.level ??
-    "Unavailable";
+      ?.score
+  )
+    ? dynamicOpportunity
+        .confidence
+        .score
+    : null;
+
+
+const opportunityConfidenceLevel =
+  dynamicOpportunity
+    ?.confidence
+    ?.level ??
+  "Unavailable";
 
   const oceanBriefSummary =
     buildOceanBriefSummary({
@@ -369,7 +328,9 @@ const structureDetail =
       </span>
 
       <strong>
-        {opportunityScore}
+        {Number.isFinite(opportunityScore)
+          ? opportunityScore
+          : "Unavailable"}
       </strong>
 
     </div>
@@ -382,7 +343,9 @@ const structureDetail =
       </span>
 
       <strong>
-        {opportunityConfidence}%
+        {Number.isFinite(opportunityConfidence)
+          ? `${opportunityConfidence}%`
+          : "Unavailable"}
       </strong>
 
       <small>
@@ -450,50 +413,18 @@ const structureDetail =
             null;
 
 
-          const hasGovernedScore =
-            Number.isFinite(
-              dynamicOpportunity?.score
-            );
-
-
-          const hasGovernedConfidence =
-            Number.isFinite(
-              dynamicOpportunity
-                ?.confidence
-                ?.score
-            );
-
-
-          const fallbackScore =
-            !hasGovernedScore
-              ? calculateBlueMarlinScore(
-                  opportunity
-                )
-              : null;
-
-
-          const fallbackConfidence =
-            !hasGovernedConfidence
-              ? calculateConfidence(
-                  opportunity
-                )
-              : null;
-
-
           const displayedScore =
             Number.isFinite(
-              dynamicOpportunity
-                ?.score
+              dynamicOpportunity?.score
             )
               ? dynamicOpportunity.score
-              : fallbackScore?.total ?? 0;
+              : null;
 
 
           const displayedConfidenceLevel =
             dynamicOpportunity
               ?.confidence
               ?.level ??
-            fallbackConfidence?.level ??
             "Unavailable";
 
           const isActive =
@@ -551,7 +482,9 @@ const structureDetail =
                 </small>
 
                 <strong>
-                  {displayedScore}
+                  {Number.isFinite(displayedScore)
+                    ? displayedScore
+                    : "Unavailable"}
                 </strong>
 
               </span>
@@ -605,7 +538,9 @@ const structureDetail =
               </span>
 
               <strong>
-                {opportunityScore}
+                {Number.isFinite(opportunityScore)
+                  ? opportunityScore
+                  : "Unavailable"}
               </strong>
 
               <small>
@@ -626,7 +561,9 @@ const structureDetail =
               </span>
 
               <strong>
-                {opportunityConfidence}%
+                {Number.isFinite(opportunityConfidence)
+                  ? `${opportunityConfidence}%`
+                  : "Unavailable"}
               </strong>
 
             </div>
@@ -636,7 +573,11 @@ const structureDetail =
               <span
                 style={{
                   width:
-                    `${opportunityConfidence}%`
+                    `${Number.isFinite(
+                      opportunityConfidence
+                    )
+                      ? opportunityConfidence
+                      : 0}%`
                 }}
               />
 

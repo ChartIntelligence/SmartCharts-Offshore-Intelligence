@@ -1,5 +1,8 @@
 import TodayDashboard from "./TodayDashboard";
-import { useState } from "react";
+import {
+  useEffect,
+  useState
+} from "react";
 
 import LayerControls from "./LayerControls";
 import MapLibreIntelligenceMap from "./MapLibreIntelligenceMap";
@@ -88,84 +91,6 @@ function Dashboard({
     reportsRefreshToken,
     setReportsRefreshToken
   ] = useState(0);
-
-  const rankedLocations = [...structures]
-  .filter((spot) => {
-    const score = Number(
-      spot?.scores?.blueMarlin ??
-      spot?.blueMarlinScore
-    );
-
-    const conditions =
-      spot?.conditions ?? {};
-
-    const evidenceValues = [
-      conditions.sst,
-      conditions.current,
-      conditions.chlorophyll
-    ];
-
-    const evidenceCount =
-      evidenceValues.filter((value) => {
-        if (value === null || value === undefined) {
-          return false;
-        }
-
-        return String(value).trim() !== "";
-      }).length;
-
-    return (
-      Number.isFinite(score) &&
-      score > 0 &&
-      evidenceCount >= 2
-    );
-  })
-  .sort((first, second) => {
-    const firstScore = Number(
-      first?.scores?.blueMarlin ??
-      first?.blueMarlinScore ??
-      0
-    );
-
-    const secondScore = Number(
-      second?.scores?.blueMarlin ??
-      second?.blueMarlinScore ??
-      0
-    );
-
-    return secondScore - firstScore;
-  });
-
-
-const topSpot =
-  rankedLocations[0] ?? null;
-
-
-const topOpportunities =
-  rankedLocations.slice(0, 5);
-
-
-const topScore =
-  Number(
-    topSpot?.scores?.blueMarlin ??
-    topSpot?.blueMarlinScore ??
-    0
-  );
-
-
-const topConfidence =
-  topSpot
-    ? Math.min(
-        96,
-        Math.max(
-          55,
-          Math.round(
-            topScore * 0.96
-          )
-        )
-      )
-    : 0;
-
 
 
 // Selected location
@@ -285,9 +210,7 @@ const dynamicTopOpportunities =
 
 
 const displayedTopOpportunities =
-  dynamicTopOpportunities.length > 0
-    ? dynamicTopOpportunities
-    : topOpportunities;
+  dynamicTopOpportunities;
 
 
 const dynamicTopSpot =
@@ -295,10 +218,35 @@ const dynamicTopSpot =
   null;
 
 
+const selectedGovernedOpportunity =
+  selectedOpportunity &&
+  displayedTopOpportunities.some(
+    opportunity =>
+      opportunity?.id ===
+      selectedOpportunity?.id
+  )
+    ? selectedOpportunity
+    : null;
+
+
+useEffect(() => {
+  if (
+    selectedOpportunity &&
+    dynamicOpportunityData &&
+    !selectedGovernedOpportunity
+  ) {
+    setSelectedOpportunity(null);
+  }
+}, [
+  dynamicOpportunityData,
+  selectedOpportunity,
+  selectedGovernedOpportunity
+]);
+
+
 const activeOpportunity =
-  selectedOpportunity ??
-  dynamicTopSpot ??
-  topSpot;
+  selectedGovernedOpportunity ??
+  dynamicTopSpot;
 
 
 // Active Ocean Brief opportunity
@@ -313,24 +261,24 @@ const {
 
 
 const mapSelectedTarget =
-  selectedOpportunity ??
+  selectedGovernedOpportunity ??
   selectedSpot;
 
 
 const mapSelectedMarineData =
-  selectedOpportunity
+  selectedGovernedOpportunity
     ? activeOpportunityMarineData
     : selectedMarineData;
 
 
 const mapSelectedMarineLoading =
-  selectedOpportunity
+  selectedGovernedOpportunity
     ? activeOpportunityMarineLoading
     : selectedMarineLoading;
 
 
 const mapSelectedMarineError =
-  selectedOpportunity
+  selectedGovernedOpportunity
     ? activeOpportunityMarineError
     : selectedMarineError;
 
@@ -539,7 +487,7 @@ const handleReportSaved = () => {
                 }
 
                 selectedOpportunity={
-                  selectedOpportunity
+                  selectedGovernedOpportunity
                 }
 
                 setSelectedOpportunity={
@@ -613,7 +561,9 @@ const handleReportSaved = () => {
           <section className="top-section">
 
             <TopOpportunity
-              structures={structures}
+              opportunities={
+                displayedTopOpportunities
+              }
             />
 
           </section>
@@ -622,11 +572,15 @@ const handleReportSaved = () => {
           <section className="ranking-section">
 
             <OpportunityRanking
-              structures={structures}
-              setSelectedSpot={(spot) => {
-                setSelectedSpot(spot);
-                setActiveTab("map");
-              }}
+              opportunities={
+                displayedTopOpportunities
+              }
+              setSelectedOpportunity={
+                handleSelectOpportunity
+              }
+              setActiveTab={
+                setActiveTab
+              }
             />
 
           </section>
@@ -641,7 +595,7 @@ const handleReportSaved = () => {
 
             <div className="cards">
 
-              {rankedLocations
+              {structures
                 .filter((spot) => {
                   return (
                     spot.category ===

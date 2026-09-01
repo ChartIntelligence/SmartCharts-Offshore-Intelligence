@@ -1,202 +1,87 @@
-import { useState } from "react";
-import { calculateBlueMarlinScore } from "../utils/scoreEngine";
-import { calculateConfidence } from "../utils/confidenceEngine";
+function TopOpportunity({
+  opportunities = []
+}) {
+  const best =
+    Array.isArray(opportunities)
+      ? opportunities[0] ?? null
+      : null;
 
+  const dynamicOpportunity =
+    best?.dynamicOpportunity ?? null;
 
-function TopOpportunity({ structures }) {
+  if (!best || !dynamicOpportunity) {
+    return (
+      <div className="top-opportunity">
+        <h2>
+          Today's Best Opportunity
+        </h2>
 
-  const [showBreakdown, setShowBreakdown] = useState(false);
+        <p>
+          No governed opportunity currently
+          meets Pelora&apos;s minimum evidence
+          requirements.
+        </p>
+      </div>
+    );
+  }
 
-
-  const ranked = [...structures].sort(
-    (a, b) =>
-      calculateBlueMarlinScore(b).total -
-      calculateBlueMarlinScore(a).total
-  );
-
-
-  const best = ranked[0];
-
-  const score = calculateBlueMarlinScore(best);
-
-  const confidence = calculateConfidence(best);
-
-
+  const confidence =
+    dynamicOpportunity?.confidence ?? null;
 
   return (
-
     <div className="top-opportunity">
 
-
       <h2>
-        🎯 Today's Best Opportunity
+        Today's Best Opportunity
       </h2>
-
 
       <h1>
         {best.name}
       </h1>
 
-
       <p>
-        <strong>Blue Marlin Score:</strong> {score.total}
+        <strong>
+          Blue Marlin Score:
+        </strong>{" "}
+        {Number.isFinite(
+          dynamicOpportunity?.score
+        )
+          ? dynamicOpportunity.score
+          : "Unavailable"}
       </p>
 
-
       <p>
-        <strong>Yellowfin:</strong> {best.scores.yellowfin}
-      </p>
-
-
-      <p>
-        <strong>Blackfin:</strong> {best.scores.blackfin}
-      </p>
-
-
-      <p>
-        <strong>SST:</strong> {best.conditions.sst}
-      </p>
-
-
-      <p>
-        <strong>Current:</strong> {best.conditions.current}
-      </p>
-
-
-      <p>
-        <strong>Chlorophyll:</strong> {best.conditions.chlorophyll}
-      </p>
-
-
-      <p>
-        {best.recommendation}
-      </p>
-
-
-
-      <hr />
-
-
-
-      <div className="confidence-badge">
-
         <strong>
           Confidence:
-        </strong>
+        </strong>{" "}
+        {confidence?.level ??
+          "Unavailable"}
+      </p>
 
-        <span>
-          {confidence.level}
-        </span>
-
-      </div>
-
-
-
-      <hr />
-
-
-
-      <button
-
-        className="breakdown-button"
-
-        onClick={() =>
-          setShowBreakdown(!showBreakdown)
-        }
-
-      >
-
-        {showBreakdown
-          ? "Hide Intelligence Details"
-          : "View Intelligence Details"}
-
-      </button>
-
-
-
-
-
-      {showBreakdown && (
-
-        <div className="intelligence-details">
-
-
-          <h3>
-            Confidence Details
-          </h3>
-
-
-          <p>
-            <strong>
-              Confidence Score:
-            </strong>{" "}
-            {confidence.score}%
-          </p>
-
-
-
-          <ul>
-
-            {confidence.reasons.map((reason)=>(
-
-              <li key={reason}>
-                {reason}
-              </li>
-
-            ))}
-
-          </ul>
-
-
-
-
-
-          <div className="score-breakdown">
-
-
-            <h3>
-              Score Breakdown
-            </h3>
-
-
-            <p>
-              🌡 Ocean Conditions: +{score.ocean}
-            </p>
-
-
-            <p>
-              🐟 Prey Activity: +{score.prey}
-            </p>
-
-
-            <p>
-              🏗 Structure Quality: +{score.structure}
-            </p>
-
-
-            <p>
-              🌊 Current Position: +{score.current}
-            </p>
-
-
-            <p>
-              📅 Seasonality: +{score.seasonal}
-            </p>
-
-
-          </div>
-
-
-        </div>
-
+      {Number.isFinite(
+        confidence?.score
+      ) && (
+        <p>
+          <strong>
+            Confidence Score:
+          </strong>{" "}
+          {confidence.score}%
+        </p>
       )}
 
+      {dynamicOpportunity
+        ?.primarySignal && (
+        <p>
+          <strong>
+            Primary Signal:
+          </strong>{" "}
+          {dynamicOpportunity
+            .primarySignal}
+        </p>
+      )}
 
     </div>
-
   );
-
 }
-
 
 export default TopOpportunity;
