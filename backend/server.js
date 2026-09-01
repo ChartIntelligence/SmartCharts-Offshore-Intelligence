@@ -48423,6 +48423,9 @@ async function getDynamicBlueMarlinOpportunities({
         opportunities:
           gulfResult.opportunities,
 
+        delivery:
+          gulfResult.delivery,
+
         limitations: [
           "gulf-search-uses-distributed-v1-sampling",
           "does-not-yet-evaluate-every-marine-grid-cell",
