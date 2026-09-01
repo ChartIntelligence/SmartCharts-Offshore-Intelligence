@@ -47129,6 +47129,107 @@ export function rankUnifiedSpeciesOpportunitiesV1({
 }
 
 
+export function presentUnifiedRankedOpportunitiesV1({
+  rankingResult = null
+} = {}) {
+  const species =
+    typeof rankingResult?.species ===
+      "string"
+      ? rankingResult.species
+      : null;
+
+
+  const rankedOpportunities =
+    Array.isArray(
+      rankingResult?.rankedOpportunities
+    )
+      ? rankingResult.rankedOpportunities
+      : [];
+
+
+  if (
+    rankingResult?.available !== true
+  ) {
+    return {
+      available: false,
+
+      species,
+
+      presentedOpportunities: [],
+
+      summary: {
+        rankedOpportunityCount:
+          rankedOpportunities.length,
+
+        presentedOpportunityCount: 0
+      },
+
+      interpretation:
+        "unified-ranked-opportunity-presentation-unavailable",
+
+      reason:
+        rankingResult?.reason ??
+        "governed-ranking-result-unavailable",
+
+      limitations: [
+        "presentation-does-not-create-opportunity-evidence",
+        "presentation-does-not-create-ranking-eligibility",
+        "presentation-does-not-restore-excluded-opportunities"
+      ],
+
+      contractVersion:
+        "pelora-unified-ranked-opportunity-presentation-v1"
+    };
+  }
+
+
+  const presentedOpportunities =
+    rankedOpportunities.map(
+      opportunity => ({
+        ...opportunity
+      })
+    );
+
+
+  return {
+    available:
+      presentedOpportunities.length > 0,
+
+    species,
+
+    presentedOpportunities,
+
+    summary: {
+      rankedOpportunityCount:
+        rankedOpportunities.length,
+
+      presentedOpportunityCount:
+        presentedOpportunities.length
+    },
+
+    interpretation:
+      presentedOpportunities.length > 0
+        ? "governed-unified-ranked-opportunity-presentation"
+        : "no-governed-ranked-opportunities-to-present",
+
+    reason:
+      presentedOpportunities.length > 0
+        ? null
+        : "no-governed-ranked-opportunities-to-present",
+
+    limitations: [
+      "presentation-does-not-create-opportunity-evidence",
+      "presentation-does-not-create-ranking-eligibility",
+      "presentation-does-not-restore-excluded-opportunities",
+      "presentation-preserves-governed-rank-score-confidence-and-identity"
+    ],
+
+    contractVersion:
+      "pelora-unified-ranked-opportunity-presentation-v1"
+  };
+}
+
+
 export const GULF_EVALUATION_CONTROL_V1 = {
   maximumCandidates: 12,
 

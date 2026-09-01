@@ -27,6 +27,7 @@ import {
   resolveUnifiedOpportunityRankingInputV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
+  presentUnifiedRankedOpportunitiesV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -47282,5 +47283,308 @@ for (
   assert.equal(
     result.contractVersion,
     "pelora-unified-species-opportunity-ranking-v1"
+  );
+}
+
+{
+  const rankingResult =
+    rankUnifiedSpeciesOpportunitiesV1({
+      species: "sailfish",
+      speciesInterpretations: []
+    });
+
+
+  const result =
+    presentUnifiedRankedOpportunitiesV1({
+      rankingResult
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.species,
+    "sailfish"
+  );
+
+  assert.deepEqual(
+    result.presentedOpportunities,
+    []
+  );
+
+  assert.equal(
+    result.reason,
+    "species-ranking-pathway-not-governed"
+  );
+
+  assert.equal(
+    result.summary.presentedOpportunityCount,
+    0
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-ranked-opportunity-presentation-v1"
+  );
+}
+
+{
+  const rankingResult =
+    rankUnifiedSpeciesOpportunitiesV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations: [
+        {
+          available: true,
+
+          candidate: {
+            id:
+              "presentation-preservation-1"
+          },
+
+          species:
+            "blue-marlin",
+
+          speciesOpportunity: {
+            available: true,
+
+            species:
+              "blue-marlin",
+
+            location: {
+              id:
+                "presentation-preservation-1"
+            },
+
+            score: 63,
+
+            confidence: {
+              score: 72
+            },
+
+            eligibility: {
+              eligibleForRanking: true
+            }
+          }
+        }
+      ]
+    });
+
+
+  const result =
+    presentUnifiedRankedOpportunitiesV1({
+      rankingResult
+    });
+
+
+  assert.equal(
+    rankingResult.available,
+    true
+  );
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    result.presentedOpportunities.length,
+    1
+  );
+
+  assert.equal(
+    result.presentedOpportunities[0]
+      ?.location
+      ?.id,
+    "presentation-preservation-1"
+  );
+
+  assert.equal(
+    result.presentedOpportunities[0].score,
+    63
+  );
+
+  assert.equal(
+    result.presentedOpportunities[0]
+      ?.confidence
+      ?.score,
+    72
+  );
+
+  assert.equal(
+    result.presentedOpportunities[0].rank,
+    1
+  );
+
+  assert.equal(
+    result.summary.rankedOpportunityCount,
+    1
+  );
+
+  assert.equal(
+    result.summary.presentedOpportunityCount,
+    1
+  );
+
+  assert.equal(
+    result.reason,
+    null
+  );
+}
+
+{
+  const rankingResult =
+    rankUnifiedSpeciesOpportunitiesV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations: [
+        {
+          available: true,
+          candidate: {
+            id:
+              "presentation-order-lower"
+          },
+          species:
+            "blue-marlin",
+          speciesOpportunity: {
+            available: true,
+            species:
+              "blue-marlin",
+            location: {
+              id:
+                "presentation-order-lower"
+            },
+            score: 41,
+            confidence: {
+              score: 70
+            },
+            eligibility: {
+              eligibleForRanking: true
+            }
+          }
+        },
+
+        {
+          available: true,
+          candidate: {
+            id:
+              "presentation-order-higher"
+          },
+          species:
+            "blue-marlin",
+          speciesOpportunity: {
+            available: true,
+            species:
+              "blue-marlin",
+            location: {
+              id:
+                "presentation-order-higher"
+            },
+            score: 67,
+            confidence: {
+              score: 62
+            },
+            eligibility: {
+              eligibleForRanking: true
+            }
+          }
+        }
+      ]
+    });
+
+
+  const result =
+    presentUnifiedRankedOpportunitiesV1({
+      rankingResult
+    });
+
+
+  assert.equal(
+    result.presentedOpportunities.length,
+    2
+  );
+
+  assert.equal(
+    result.presentedOpportunities[0]
+      ?.location
+      ?.id,
+    "presentation-order-higher"
+  );
+
+  assert.equal(
+    result.presentedOpportunities[0].rank,
+    1
+  );
+
+  assert.equal(
+    result.presentedOpportunities[1]
+      ?.location
+      ?.id,
+    "presentation-order-lower"
+  );
+
+  assert.equal(
+    result.presentedOpportunities[1].rank,
+    2
+  );
+}
+
+{
+  const rankingResult = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    rankedOpportunities: [],
+
+    reason: null
+  };
+
+
+  const result =
+    presentUnifiedRankedOpportunitiesV1({
+      rankingResult
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.deepEqual(
+    result.presentedOpportunities,
+    []
+  );
+
+  assert.equal(
+    result.summary.rankedOpportunityCount,
+    0
+  );
+
+  assert.equal(
+    result.summary.presentedOpportunityCount,
+    0
+  );
+
+  assert.equal(
+    result.reason,
+    "no-governed-ranked-opportunities-to-present"
+  );
+
+  assert.equal(
+    result.interpretation,
+    "no-governed-ranked-opportunities-to-present"
   );
 }
