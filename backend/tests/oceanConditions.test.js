@@ -28,6 +28,7 @@ import {
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
+  buildUnifiedCaptainOpportunityDeliveryV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -47586,5 +47587,236 @@ for (
   assert.equal(
     result.interpretation,
     "no-governed-ranked-opportunities-to-present"
+  );
+}
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "delivery-excluded-high-score"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        location: {
+          id:
+            "delivery-excluded-high-score"
+        },
+
+        score: 95,
+
+        confidence: {
+          score: 88
+        },
+
+        eligibility: {
+          eligibleForRanking: false
+        }
+      }
+    },
+
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "delivery-governed-opportunity"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        location: {
+          id:
+            "delivery-governed-opportunity"
+        },
+
+        score: 38,
+
+        confidence: {
+          score: 64
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+
+  const result =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+
+  assert.equal(
+    result.opportunities.length,
+    1
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      .location
+      .id,
+    "delivery-governed-opportunity"
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      .score,
+    38
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      .rank,
+    1
+  );
+
+
+  assert.equal(
+    result.ranking
+      .summary
+      .eligibleRankingInputCount,
+    1
+  );
+
+
+  assert.equal(
+    result.ranking
+      .summary
+      .excludedRankingInputCount,
+    1
+  );
+
+
+  assert.equal(
+    result.presentation
+      .summary
+      .presentedOpportunityCount,
+    1
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-captain-opportunity-delivery-v1"
+  );
+}
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "delivery-no-eligible-opportunity"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        location: {
+          id:
+            "delivery-no-eligible-opportunity"
+        },
+
+        score: 92,
+
+        confidence: {
+          score: 90
+        },
+
+        eligibility: {
+          eligibleForRanking: false
+        }
+      }
+    }
+  ];
+
+
+  const result =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.deepEqual(
+    result.opportunities,
+    []
+  );
+
+
+  assert.equal(
+    result.ranking
+      .summary
+      .eligibleRankingInputCount,
+    0
+  );
+
+
+  assert.equal(
+    result.ranking
+      .summary
+      .excludedRankingInputCount,
+    1
+  );
+
+
+  assert.equal(
+    result.presentation
+      .summary
+      .presentedOpportunityCount,
+    0
+  );
+
+
+  assert.equal(
+    result.reason,
+    "no-opportunities-passed-governed-ranking-input"
   );
 }

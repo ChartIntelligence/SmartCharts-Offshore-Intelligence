@@ -47230,6 +47230,56 @@ export function presentUnifiedRankedOpportunitiesV1({
 }
 
 
+export function buildUnifiedCaptainOpportunityDeliveryV1({
+  speciesInterpretations = [],
+  species = null
+} = {}) {
+  const ranking =
+    rankUnifiedSpeciesOpportunitiesV1({
+      speciesInterpretations,
+      species
+    });
+
+
+  const presentation =
+    presentUnifiedRankedOpportunitiesV1({
+      rankingResult:
+        ranking
+    });
+
+
+  return {
+    available:
+      presentation.available ===
+      true,
+
+    species:
+      presentation.species,
+
+    opportunities:
+      presentation
+        .presentedOpportunities,
+
+    ranking,
+
+    presentation,
+
+    reason:
+      presentation.reason,
+
+    limitations: [
+      "delivery-does-not-create-opportunity-evidence",
+      "delivery-does-not-create-ranking-eligibility",
+      "delivery-does-not-restore-excluded-opportunities",
+      "delivery-preserves-governed-ranking-and-presentation"
+    ],
+
+    contractVersion:
+      "pelora-unified-captain-opportunity-delivery-v1"
+  };
+}
+
+
 export const GULF_EVALUATION_CONTROL_V1 = {
   maximumCandidates: 12,
 
@@ -48180,16 +48230,21 @@ export async function evaluateControlledGulfBlueMarlinV1({
 
 
           return (
-            buildDynamicBlueMarlinOpportunity({
-              location,
-              oceanConditions
+            buildUnifiedSpeciesOpportunityInterpretationV1({
+              candidate:
+                location,
+
+              oceanConditions,
+
+              species:
+                "blue-marlin"
             })
           );
         }
     });
 
 
-  const opportunities =
+  const speciesInterpretations =
     evaluation.results
       .filter(
         result =>
@@ -48202,15 +48257,19 @@ export async function evaluateControlledGulfBlueMarlinV1({
       );
 
 
-  const ranked =
-    rankDynamicBlueMarlinOpportunities(
-      opportunities
-    );
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations
+    });
 
 
   return {
     available:
-      ranked.length > 0,
+      delivery.available ===
+      true,
 
     search: {
       totalMarineCandidateCount:
@@ -48285,12 +48344,15 @@ export async function evaluateControlledGulfBlueMarlinV1({
     },
 
     opportunities:
-      ranked,
+      delivery.opportunities,
+
+    delivery,
 
     reason:
-      ranked.length > 0
+      delivery.available ===
+      true
         ? "controlled-gulf-evaluation-complete"
-        : "controlled-gulf-evaluation-produced-no-ranked-opportunities",
+        : "controlled-gulf-evaluation-produced-no-governed-opportunities",
 
     contractVersion:
       "pelora-controlled-gulf-blue-marlin-v1"
@@ -48406,9 +48468,14 @@ async function getDynamicBlueMarlinOpportunities({
 
 
             return (
-              buildDynamicBlueMarlinOpportunity({
-                location,
-                oceanConditions
+              buildUnifiedSpeciesOpportunityInterpretationV1({
+                candidate:
+                  location,
+
+                oceanConditions,
+
+                species:
+                  "blue-marlin"
               })
             );
           }
@@ -48416,7 +48483,7 @@ async function getDynamicBlueMarlinOpportunities({
     );
 
 
-  const opportunities =
+  const speciesInterpretations =
     evaluations
       .filter(
         result =>
@@ -48429,10 +48496,13 @@ async function getDynamicBlueMarlinOpportunities({
       );
 
 
-  const rankedOpportunities =
-    rankDynamicBlueMarlinOpportunities(
-      opportunities
-    );
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations
+    });
 
 
   const failedCandidateCount =
@@ -48445,8 +48515,8 @@ async function getDynamicBlueMarlinOpportunities({
 
   return {
     available:
-      rankedOpportunities.length >
-      0,
+      delivery.available ===
+      true,
 
     species:
       "blue-marlin",
@@ -48459,12 +48529,14 @@ async function getDynamicBlueMarlinOpportunities({
         .length,
 
     evaluatedCandidateCount:
-      opportunities.length,
+      speciesInterpretations.length,
 
     failedCandidateCount,
 
     opportunities:
-      rankedOpportunities,
+      delivery.opportunities,
+
+    delivery,
 
     limitations: [
       "controlled-gulf-evaluation-unavailable-curated-fallback-used",
