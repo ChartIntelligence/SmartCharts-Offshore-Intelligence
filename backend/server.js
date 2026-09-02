@@ -48494,6 +48494,124 @@ function translateCaptainPersistenceNarrativeV1({
 }
 
 
+function translateCaptainSpeciesHabitatFitNarrativeV1({
+  section = null
+} = {}) {
+  const summary =
+    section
+      ?.summary ??
+    null;
+
+  const classification =
+    summary
+      ?.classification ??
+    null;
+
+  if (
+    section == null ||
+    section?.available !== true ||
+    summary == null
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason:
+        "species-habitat-fit-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Blue Marlin habitat fit could not be evaluated from the available governed evidence."
+    };
+  }
+
+  if (
+    classification ===
+      "insufficient-habitat-evidence"
+  ) {
+    return {
+      available: false,
+      state: "not-supported",
+      reason:
+        "insufficient-habitat-evidence",
+      observed: null,
+      interpreted:
+        "The available evidence does not currently support a Blue Marlin habitat relationship at this location.",
+      supported:
+        "The governed habitat assessment was completed, but the environmental relationships were not sufficient to establish preliminary habitat support.",
+      limited:
+        "This does not establish that Blue Marlin are absent. It means the available evidence does not support a Blue Marlin habitat interpretation."
+    };
+  }
+
+  if (
+    classification ===
+      "weak-preliminary-habitat-support"
+  ) {
+    return {
+      available: true,
+      state: "available",
+      reason: null,
+      observed: null,
+      interpreted:
+        "The available evidence provides weak preliminary Blue Marlin habitat support.",
+      supported:
+        "One or more governed environmental relationships are relevant to Blue Marlin habitat, but the evidence remains incomplete.",
+      limited:
+        "Weak habitat support does not establish Blue Marlin presence, feeding activity, prey concentration, catch probability, or fishing success."
+    };
+  }
+
+  if (
+    classification ===
+      "limited-preliminary-habitat-support"
+  ) {
+    return {
+      available: true,
+      state: "available",
+      reason: null,
+      observed: null,
+      interpreted:
+        "The available evidence provides limited preliminary Blue Marlin habitat support.",
+      supported:
+        "Multiple governed environmental relationships support the habitat interpretation, while important evidence remains limited or unavailable.",
+      limited:
+        "Preliminary habitat support does not establish Blue Marlin presence, feeding activity, prey concentration, catch probability, or fishing success."
+    };
+  }
+
+  if (
+    classification ===
+      "moderate-preliminary-habitat-support"
+  ) {
+    return {
+      available: true,
+      state: "available",
+      reason: null,
+      observed: null,
+      interpreted:
+        "Multiple governed environmental relationships provide moderate preliminary Blue Marlin habitat support.",
+      supported:
+        "The habitat interpretation is supported by multiple governed environmental relationships rather than a single signal.",
+      limited:
+        "Moderate habitat support does not establish Blue Marlin presence, feeding activity, prey concentration, catch probability, or fishing success."
+    };
+  }
+
+  return {
+    available: false,
+    state: "unresolved",
+    reason:
+      "species-habitat-fit-classification-not-translated",
+    observed: null,
+    interpreted: null,
+    supported: null,
+    limited:
+      "The governed Blue Marlin habitat assessment contains a classification that has not yet been translated for captain-facing interpretation."
+  };
+}
+
+
 export function translateCaptainOpportunityNarrativeV1({
   intelligenceTranslation = null
 } = {}) {
@@ -48748,7 +48866,13 @@ export function translateCaptainOpportunityNarrativeV1({
         }),
 
       speciesHabitatFit:
-        null,
+        translateCaptainSpeciesHabitatFitNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.speciesHabitatFit ??
+            null
+        }),
 
       evidenceAndConfidence:
         null

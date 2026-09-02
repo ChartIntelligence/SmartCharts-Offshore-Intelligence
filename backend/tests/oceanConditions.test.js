@@ -48624,6 +48624,56 @@ assert.equal(
   );
 
   assert.equal(
+  result.sections
+    .speciesHabitatFit
+    ?.available,
+  false
+);
+
+assert.equal(
+  result.sections
+    .speciesHabitatFit
+    ?.state,
+  "unavailable"
+);
+
+assert.equal(
+  result.sections
+    .speciesHabitatFit
+    ?.reason,
+  "species-habitat-fit-unavailable"
+);
+
+assert.equal(
+  result.sections
+    .speciesHabitatFit
+    ?.observed,
+  null
+);
+
+assert.equal(
+  result.sections
+    .speciesHabitatFit
+    ?.interpreted,
+  null
+);
+
+assert.equal(
+  result.sections
+    .speciesHabitatFit
+    ?.supported,
+  null
+);
+
+assert.match(
+  result.sections
+    .speciesHabitatFit
+    ?.limited ??
+    "",
+  /could not be evaluated/i
+);
+
+  assert.equal(
     Object.entries(
       result.sections
     )
@@ -48635,7 +48685,8 @@ assert.equal(
             "waterColorAndWaterCharacter",
             "productivityAndPreyContext",
             "structureInteraction",
-            "persistence"
+            "persistence",
+            "speciesHabitatFit"
           ].includes(
             key
           )
@@ -50312,6 +50363,362 @@ assert.equal(
   assert.equal(
     result.sections.structureInteraction.observed,
     null
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          speciesHabitatFit: {
+            available: true,
+
+            summary: {
+              classification:
+                "insufficient-habitat-evidence"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .state,
+    "not-supported"
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .reason,
+    "insufficient-habitat-evidence"
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .observed,
+    null
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .interpreted,
+    /does not currently support a Blue Marlin habitat relationship/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .supported,
+    /governed habitat assessment was completed/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .limited,
+    /does not establish that Blue Marlin are absent/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          speciesHabitatFit: {
+            available: true,
+
+            summary: {
+              classification:
+                "weak-preliminary-habitat-support"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .state,
+    "available"
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .reason,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .observed,
+    null
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .interpreted,
+    /weak preliminary Blue Marlin habitat support/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .supported,
+    /evidence remains incomplete/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .limited,
+    /does not establish Blue Marlin presence/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          speciesHabitatFit: {
+            available: true,
+
+            summary: {
+              classification:
+                "limited-preliminary-habitat-support"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .state,
+    "available"
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .interpreted,
+    /limited preliminary Blue Marlin habitat support/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .supported,
+    /multiple governed environmental relationships/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .limited,
+    /does not establish Blue Marlin presence/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          speciesHabitatFit: {
+            available: true,
+
+            summary: {
+              classification:
+                "moderate-preliminary-habitat-support"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .state,
+    "available"
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .interpreted,
+    /moderate preliminary Blue Marlin habitat support/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .supported,
+    /multiple governed environmental relationships rather than a single signal/i
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .limited,
+    /does not establish Blue Marlin presence/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          speciesHabitatFit: {
+            available: true,
+
+            summary: {
+              classification:
+                "future-governed-habitat-classification"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .reason,
+    "species-habitat-fit-classification-not-translated"
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .observed,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .interpreted,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .speciesHabitatFit
+      .supported,
+    null
+  );
+
+  assert.match(
+    result.sections
+      .speciesHabitatFit
+      .limited,
+    /has not yet been translated/i
   );
 }
 
