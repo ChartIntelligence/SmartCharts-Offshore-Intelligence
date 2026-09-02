@@ -48328,6 +48328,84 @@ function translateCaptainProductivityAndPreyNarrativeV1({
 }
 
 
+function translateCaptainStructureInteractionNarrativeV1({
+  section = null
+} = {}) {
+  const evidence =
+    section
+      ?.evidence ??
+    null;
+
+  const classification =
+    evidence
+      ?.classification ??
+    null;
+
+  if (
+    section?.available !== true ||
+    evidence == null
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason: "structure-context-evidence-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Physical or bathymetric structure context could not be evaluated from the available evidence."
+    };
+  }
+
+  if (
+    classification ===
+    "structure-context-present"
+  ) {
+    return {
+      available: true,
+      state: "available",
+      reason: null,
+      classification,
+      observed:
+        "Physical or bathymetric structure context is available for this location.",
+      interpreted:
+        "The available evidence places this opportunity in relation to known structure, but does not establish how the surrounding ocean is interacting with that structure.",
+      supported:
+        "This provides geographic and structural context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Structure proximity alone does not establish current interaction, prey retention, Blue Marlin use, or fishing success."
+    };
+  }
+
+  if (
+    classification ===
+    "unavailable"
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason: "structure-context-evidence-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Physical or bathymetric structure context could not be established from the available evidence."
+    };
+  }
+
+  return {
+    available: false,
+    state: "unresolved",
+    reason: "structure-context-classification-not-translated",
+    observed: null,
+    interpreted: null,
+    supported: null,
+    limited:
+      "The available structure evidence is not sufficiently resolved for captain-facing interpretation."
+  };
+}
+
+
 export function translateCaptainOpportunityNarrativeV1({
   intelligenceTranslation = null
 } = {}) {
@@ -48564,8 +48642,13 @@ export function translateCaptainOpportunityNarrativeV1({
         }),
 
       structureInteraction:
-        null,
-
+        translateCaptainStructureInteractionNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.structureInteraction ??
+            null
+        }),
       persistence:
         null,
 

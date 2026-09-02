@@ -48582,6 +48582,27 @@ assert.equal(
   );
 
   assert.equal(
+    result.sections
+      .structureInteraction
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .structureInteraction
+      ?.state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .structureInteraction
+      ?.reason,
+    "structure-context-evidence-unavailable"
+  );
+
+  assert.equal(
     Object.entries(
       result.sections
     )
@@ -48591,7 +48612,8 @@ assert.equal(
             "thermalStructure",
             "oceanMovement",
             "waterColorAndWaterCharacter",
-            "productivityAndPreyContext"
+            "productivityAndPreyContext",
+            "structureInteraction"
           ].includes(
             key
           )
@@ -49821,6 +49843,206 @@ assert.equal(
       .productivityAndPreyContext
       .reason,
     "productivity-and-prey-evidence-unavailable"
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure:
+            null,
+
+          oceanMovement:
+            null,
+
+          waterColorAndWaterCharacter:
+            null,
+
+          productivityAndPreyContext:
+            null,
+
+          structureInteraction: {
+            available: true,
+
+            evidence: {
+              classification:
+                "structure-context-present"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .structureInteraction
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .structureInteraction
+      .state,
+    "available"
+  );
+
+  assert.equal(
+    result.sections
+      .structureInteraction
+      .classification,
+    "structure-context-present"
+  );
+
+  assert.match(
+    result.sections
+      .structureInteraction
+      .observed,
+    /structure context is available/i
+  );
+
+  assert.match(
+    result.sections
+      .structureInteraction
+      .interpreted,
+    /does not establish how the surrounding ocean is interacting/i
+  );
+
+  assert.match(
+    result.sections
+      .structureInteraction
+      .supported,
+    /geographic and structural context/i
+  );
+
+  assert.match(
+    result.sections
+      .structureInteraction
+      .limited,
+    /proximity alone does not establish current interaction/i
+  );
+
+  assert.match(
+    result.sections
+      .structureInteraction
+      .limited,
+    /prey retention/i
+  );
+
+  assert.match(
+    result.sections
+      .structureInteraction
+      .limited,
+    /Blue Marlin use/i
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        species: "blue-marlin",
+        state: "available",
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          structureInteraction: {
+            available: true,
+            evidence: {
+              classification:
+                "future-structure-classification"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections.structureInteraction.available,
+    false
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.reason,
+    "structure-context-classification-not-translated"
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.observed,
+    null
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.interpreted,
+    null
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.supported,
+    null
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        species: "blue-marlin",
+        state: "available",
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          structureInteraction: {
+            available: true,
+            evidence: {
+              classification:
+                "unavailable"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections.structureInteraction.available,
+    false
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.reason,
+    "structure-context-evidence-unavailable"
+  );
+
+  assert.equal(
+    result.sections.structureInteraction.observed,
+    null
   );
 }
 
