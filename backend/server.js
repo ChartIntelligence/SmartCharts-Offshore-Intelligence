@@ -47488,7 +47488,28 @@ export function translateUnifiedOpportunityIntelligenceV1({
     persistence: {
       available:
         relationshipGroups
-          ?.persistence != null,
+          ?.persistence
+          ?.available === true,
+
+      state:
+        relationshipGroups
+          ?.persistence
+          ?.available === true
+            ? "available"
+            : relationshipGroups
+                ?.persistence != null
+              ? "not-established"
+              : "unavailable",
+
+      reason:
+        relationshipGroups
+          ?.persistence
+          ?.available === true
+            ? null
+            : relationshipGroups
+                ?.persistence != null
+              ? "feature-persistence-not-established"
+              : "persistence-evidence-unavailable",
 
       evidence:
         relationshipGroups
@@ -47641,6 +47662,457 @@ export function translateUnifiedOpportunityIntelligenceV1({
 
     contractVersion:
       "pelora-unified-opportunity-intelligence-translation-v1"
+  };
+}
+
+
+function translateCaptainThermalStructureNarrativeV1({
+  section = null
+} = {}) {
+  const evidence =
+    section
+      ?.evidence ??
+    null;
+
+  const classification =
+    evidence
+      ?.classification ??
+    null;
+
+
+  if (
+    section?.available !== true ||
+    evidence == null
+  ) {
+    return {
+      available: false,
+
+      state:
+        "unavailable",
+
+      reason:
+        "thermal-structure-evidence-unavailable",
+
+      observed:
+        null,
+
+      interpreted:
+        null,
+
+      supported:
+        null,
+
+      limited:
+        "Thermal structure could not be evaluated from the available evidence."
+    };
+  }
+
+
+  const narratives = {
+    "strong-directional-or-spatial-temperature-break-candidate": {
+      observed:
+        "A strong temperature change is present across the local water.",
+
+      interpreted:
+        "The temperature field shows organized thermal structure rather than uniform surface conditions.",
+
+      supported:
+        "This provides strong thermal context for evaluating the surrounding Blue Marlin habitat.",
+
+      limited:
+        "Thermal structure alone does not establish Blue Marlin presence or fishing success."
+    },
+
+    "moderate-temperature-transition-supported": {
+      observed:
+        "A moderate temperature transition is present across the local water.",
+
+      interpreted:
+        "The temperature field shows a measurable change in thermal conditions.",
+
+      supported:
+        "This supports thermal structure as part of the Blue Marlin habitat interpretation.",
+
+      limited:
+        "The temperature transition is one part of the environmental picture and does not establish Blue Marlin presence."
+    },
+
+    "weak-temperature-transition-supported": {
+      observed:
+        "A weak temperature transition is present across the local water.",
+
+      interpreted:
+        "Some thermal organization is visible, but the temperature change is limited.",
+
+      supported:
+        "This provides limited thermal support for the Blue Marlin habitat interpretation.",
+
+      limited:
+        "The thermal signal is weak and should be considered alongside stronger ocean evidence."
+    },
+
+    "uniform-local-temperature-field": {
+      observed:
+        "Local surface temperatures are relatively uniform.",
+
+      interpreted:
+        "An organized temperature transition has not been established here.",
+
+      supported:
+        "The available temperature evidence provides context, but not a distinct thermal boundary.",
+
+      limited:
+        "Other ocean signals may still be relevant even when local temperature structure is weak."
+    },
+
+    "temperature-observation-without-spatial-structure": {
+      observed:
+        "Surface temperature is available for this location.",
+
+      interpreted:
+        "The available observation does not establish organized spatial temperature structure.",
+
+      supported:
+        "Temperature provides local environmental context.",
+
+      limited:
+        "Spatial thermal structure cannot be evaluated from the available temperature evidence."
+    },
+
+    "temperature-transition-indicated-by-upstream-opportunity": {
+      observed:
+        "The governed upstream evidence indicates a temperature-transition candidate.",
+
+      interpreted:
+        "Thermal organization may be present in the surrounding water.",
+
+      supported:
+        "This provides preliminary thermal context for the Blue Marlin habitat interpretation.",
+
+      limited:
+        "Detailed temperature-transition evidence is not available, so the thermal interpretation remains limited."
+    },
+
+    "temperature-observation-without-transition": {
+      observed:
+        "Surface temperature is available for this location.",
+
+      interpreted:
+        "A distinct temperature transition has not been established.",
+
+      supported:
+        "The temperature observation still provides local environmental context.",
+
+      limited:
+        "The available evidence does not support an organized thermal transition."
+    }
+  };
+
+
+  const narrative =
+    narratives[
+      classification
+    ] ??
+    null;
+
+
+  if (
+    narrative == null
+  ) {
+    return {
+      available: false,
+
+      state:
+        classification ===
+        "unsupported"
+          ? "not-established"
+          : "unresolved",
+
+      reason:
+        classification ===
+        "unsupported"
+          ? "thermal-structure-not-established"
+          : "thermal-structure-classification-not-translated",
+
+      observed:
+        null,
+
+      interpreted:
+        null,
+
+      supported:
+        null,
+
+      limited:
+        "Thermal structure is not sufficiently resolved for captain-facing interpretation."
+    };
+  }
+
+
+  return {
+    available: true,
+
+    state:
+      "available",
+
+    reason:
+      null,
+
+    classification,
+
+    ...narrative
+  };
+}
+
+
+export function translateCaptainOpportunityNarrativeV1({
+  intelligenceTranslation = null
+} = {}) {
+  const species =
+    intelligenceTranslation
+      ?.species ??
+    null;
+
+
+  const baseRules = {
+    readOnlyNarrative: true,
+
+    createsOpportunityEvidence: false,
+
+    createsRankingEligibility: false,
+
+    changesOpportunityScore: false,
+
+    changesOpportunityConfidence: false,
+
+    changesOpportunityRank: false,
+
+    confirmsSpeciesPresence: false,
+
+    estimatesCatchProbability: false,
+
+    fabricatesMissingEvidence: false,
+
+    exposesInternalOpportunityTypeLabels: false
+  };
+
+
+  if (
+    intelligenceTranslation == null
+  ) {
+    return {
+      available: false,
+
+      species,
+
+      state:
+        "unresolved",
+
+      reason:
+        "governed-opportunity-intelligence-translation-not-resolved",
+
+      sections:
+        null,
+
+      limitations: [
+        "captain-narrative-is-read-only",
+        "captain-narrative-does-not-create-evidence",
+        "captain-narrative-requires-governed-opportunity-intelligence"
+      ],
+
+      rules:
+        baseRules,
+
+      sourceContractVersion:
+        null,
+
+      contractVersion:
+        "pelora-captain-opportunity-narrative-v1"
+    };
+  }
+
+
+  if (
+    intelligenceTranslation
+      ?.state ===
+    "not-supported"
+  ) {
+    return {
+      available: false,
+
+      species,
+
+      state:
+        "not-supported",
+
+      reason:
+        "captain-narrative-species-not-supported",
+
+      sections:
+        null,
+
+      limitations: [
+        "captain-narrative-is-read-only",
+        "captain-narrative-does-not-create-evidence",
+        "captain-narrative-species-not-supported"
+      ],
+
+      rules:
+        baseRules,
+
+      sourceContractVersion:
+        intelligenceTranslation
+          ?.contractVersion ??
+        null,
+
+      contractVersion:
+        "pelora-captain-opportunity-narrative-v1"
+    };
+  }
+
+
+  if (
+    intelligenceTranslation
+      ?.available !== true
+  ) {
+    return {
+      available: false,
+
+      species,
+
+      state:
+        intelligenceTranslation
+          ?.state === "unavailable"
+          ? "unavailable"
+          : "unresolved",
+
+      reason:
+        intelligenceTranslation
+          ?.reason ??
+        "governed-opportunity-intelligence-unavailable",
+
+      sections:
+        null,
+
+      limitations: [
+        "captain-narrative-is-read-only",
+        "captain-narrative-does-not-create-evidence",
+        "governed-opportunity-intelligence-unavailable"
+      ],
+
+      rules:
+        baseRules,
+
+      sourceContractVersion:
+        intelligenceTranslation
+          ?.contractVersion ??
+        null,
+
+      contractVersion:
+        "pelora-captain-opportunity-narrative-v1"
+    };
+  }
+
+
+  if (
+    species !==
+    "blue-marlin"
+  ) {
+    return {
+      available: false,
+
+      species,
+
+      state:
+        "not-supported",
+
+      reason:
+        "captain-narrative-species-not-supported",
+
+      sections:
+        null,
+
+      limitations: [
+        "captain-narrative-is-read-only",
+        "captain-narrative-does-not-create-evidence",
+        "captain-narrative-species-not-supported"
+      ],
+
+      rules:
+        baseRules,
+
+      sourceContractVersion:
+        intelligenceTranslation
+          ?.contractVersion ??
+        null,
+
+      contractVersion:
+        "pelora-captain-opportunity-narrative-v1"
+    };
+  }
+
+
+  return {
+    available: true,
+
+    species,
+
+    state:
+      "available",
+
+    reason:
+      null,
+
+    sections: {
+      thermalStructure:
+        translateCaptainThermalStructureNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.thermalStructure ??
+            null
+        }),
+
+      oceanMovement:
+        null,
+
+      waterColorAndWaterCharacter:
+        null,
+
+      productivityAndPreyContext:
+        null,
+
+      structureInteraction:
+        null,
+
+      persistence:
+        null,
+
+      speciesHabitatFit:
+        null,
+
+      evidenceAndConfidence:
+        null
+    },
+
+    limitations: [
+      "captain-narrative-is-read-only",
+      "captain-narrative-does-not-create-evidence",
+      "captain-narrative-does-not-confirm-species-presence",
+      "captain-narrative-does-not-estimate-catch-probability",
+      "captain-narrative-sections-not-yet-translated"
+    ],
+
+    rules:
+      baseRules,
+
+    sourceContractVersion:
+      intelligenceTranslation
+        ?.contractVersion ??
+      null,
+
+    contractVersion:
+      "pelora-captain-opportunity-narrative-v1"
   };
 }
 

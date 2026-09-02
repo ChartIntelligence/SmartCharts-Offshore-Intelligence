@@ -29,6 +29,7 @@ import {
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
   translateUnifiedOpportunityIntelligenceV1,
+  translateCaptainOpportunityNarrativeV1,
   buildUnifiedOpportunityIntelligenceV1,
   buildUnifiedCaptainOpportunityDeliveryV1,
   buildCurrentGradientAnalysis,
@@ -47930,6 +47931,37 @@ assert.equal(
 
   assert.equal(
     result.sections
+      .persistence
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .state,
+    "not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .reason,
+    "feature-persistence-not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .evidence,
+    speciesHabitat
+      .relationshipGroups
+      .persistence
+  );
+
+
+  assert.equal(
+    result.sections
       .oceanSetting
       .relationshipAssessment,
     relationshipAssessment
@@ -48003,6 +48035,129 @@ assert.equal(
   assert.equal(
     result.contractVersion,
     "pelora-unified-opportunity-intelligence-translation-v1"
+  );
+}
+
+
+{
+  const result =
+    translateUnifiedOpportunityIntelligenceV1({
+      species:
+        "blue-marlin",
+
+      intelligenceSource: {
+        available: true,
+
+        speciesHabitat: {
+          relationshipGroups: {},
+
+          limitations: []
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .reason,
+    "persistence-evidence-unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .evidence,
+    null
+  );
+}
+
+
+{
+  const persistenceEvidence = {
+    available: true,
+
+    classification:
+      "test-governed-persistence",
+
+    score:
+      4,
+
+    maximumScore:
+      5
+  };
+
+
+  const result =
+    translateUnifiedOpportunityIntelligenceV1({
+      species:
+        "blue-marlin",
+
+      intelligenceSource: {
+        available: true,
+
+        speciesHabitat: {
+          relationshipGroups: {
+            persistence:
+              persistenceEvidence
+          },
+
+          limitations: []
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .state,
+    "available"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .reason,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      .evidence,
+    persistenceEvidence
   );
 }
 
@@ -48119,6 +48274,599 @@ assert.equal(
 
   assert.equal(
     result.sections,
+    null
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1();
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-opportunity-intelligence-translation-not-resolved"
+  );
+
+  assert.equal(
+    result.sections,
+    null
+  );
+
+  assert.equal(
+    result.rules
+      .createsOpportunityEvidence,
+    false
+  );
+
+  assert.equal(
+    result.rules
+      .createsRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    result.rules
+      .confirmsSpeciesPresence,
+    false
+  );
+
+  assert.equal(
+    result.rules
+      .estimatesCatchProbability,
+    false
+  );
+
+  assert.equal(
+    result.rules
+      .fabricatesMissingEvidence,
+    false
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-captain-opportunity-narrative-v1"
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: false,
+
+        species:
+          "yellowfin-tuna",
+
+        state:
+          "not-supported",
+
+        reason:
+          "species-opportunity-intelligence-translation-not-supported",
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1"
+      }
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.species,
+    "yellowfin-tuna"
+  );
+
+  assert.equal(
+    result.state,
+    "not-supported"
+  );
+
+  assert.equal(
+    result.reason,
+    "captain-narrative-species-not-supported"
+  );
+
+  assert.equal(
+    result.sections,
+    null
+  );
+
+  assert.equal(
+    result.sourceContractVersion,
+    "pelora-unified-opportunity-intelligence-translation-v1"
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: false,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "unavailable",
+
+        reason:
+          "governed-species-habitat-unavailable",
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1"
+      }
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    result.state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-species-habitat-unavailable"
+  );
+
+  assert.equal(
+    result.sections,
+    null
+  );
+
+  assert.equal(
+    result.sourceContractVersion,
+    "pelora-unified-opportunity-intelligence-translation-v1"
+  );
+}
+
+
+{
+  const intelligenceTranslation = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    state:
+      "available",
+
+    reason:
+      null,
+
+    sections: {},
+
+    contractVersion:
+      "pelora-unified-opportunity-intelligence-translation-v1"
+  };
+
+
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    result.state,
+    "available"
+  );
+
+  assert.equal(
+    result.reason,
+    null
+  );
+
+  assert.deepEqual(
+    Object.keys(
+      result.sections
+    ),
+    [
+      "thermalStructure",
+      "oceanMovement",
+      "waterColorAndWaterCharacter",
+      "productivityAndPreyContext",
+      "structureInteraction",
+      "persistence",
+      "speciesHabitatFit",
+      "evidenceAndConfidence"
+    ]
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      ?.state,
+    "unavailable"
+  );
+
+  assert.equal(
+    Object.entries(
+      result.sections
+    )
+      .filter(
+        ([key]) =>
+          key !==
+          "thermalStructure"
+      )
+      .every(
+        ([, section]) =>
+          section === null
+      ),
+    true
+  );
+
+  assert.equal(
+    result.rules
+      .readOnlyNarrative,
+    true
+  );
+
+  assert.equal(
+    result.rules
+      .changesOpportunityScore,
+    false
+  );
+
+  assert.equal(
+    result.rules
+      .changesOpportunityConfidence,
+    false
+  );
+
+  assert.equal(
+    result.rules
+      .changesOpportunityRank,
+    false
+  );
+
+  assert.equal(
+    result.rules
+      .exposesInternalOpportunityTypeLabels,
+    false
+  );
+
+  assert.equal(
+    result.sourceContractVersion,
+    "pelora-unified-opportunity-intelligence-translation-v1"
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-captain-opportunity-narrative-v1"
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          thermalStructure: {
+            available: true,
+
+            evidence: {
+              classification:
+                "strong-directional-or-spatial-temperature-break-candidate"
+            }
+          }
+        },
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1"
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .state,
+    "available"
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .classification,
+    "strong-directional-or-spatial-temperature-break-candidate"
+  );
+
+  assert.match(
+    result.sections
+      .thermalStructure
+      .observed,
+    /strong temperature change/i
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .supported,
+    "This provides strong thermal context for evaluating the surrounding Blue Marlin habitat."
+  );
+
+  assert.match(
+    result.sections
+      .thermalStructure
+      .limited,
+    /does not establish Blue Marlin presence or fishing success/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          thermalStructure: {
+            available: true,
+
+            evidence: {
+              classification:
+                "moderate-temperature-transition-supported"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .available,
+    true
+  );
+
+  assert.match(
+    result.sections
+      .thermalStructure
+      .observed,
+    /moderate temperature transition/i
+  );
+
+  assert.match(
+    result.sections
+      .thermalStructure
+      .supported,
+    /supports thermal structure/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          thermalStructure: {
+            available: true,
+
+            evidence: {
+              classification:
+                "uniform-local-temperature-field"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .available,
+    true
+  );
+
+  assert.match(
+    result.sections
+      .thermalStructure
+      .observed,
+    /relatively uniform/i
+  );
+
+  assert.match(
+    result.sections
+      .thermalStructure
+      .interpreted,
+    /has not been established/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          thermalStructure: {
+            available: true,
+
+            evidence: {
+              classification:
+                "unsupported"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .state,
+    "not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .reason,
+    "thermal-structure-not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .observed,
+    null
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          thermalStructure: {
+            available: true,
+
+            evidence: {
+              classification:
+                "future-thermal-classification"
+            }
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .reason,
+    "thermal-structure-classification-not-translated"
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .observed,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .interpreted,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .thermalStructure
+      .supported,
     null
   );
 }
