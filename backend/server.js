@@ -47865,6 +47865,153 @@ function translateCaptainThermalStructureNarrativeV1({
 }
 
 
+function translateCaptainOceanMovementNarrativeV1({
+  section = null
+} = {}) {
+  const evidence =
+    section
+      ?.evidence ??
+    null;
+
+  const classification =
+    evidence
+      ?.classification ??
+    null;
+
+  if (
+    section?.available !== true ||
+    evidence == null
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason: "ocean-movement-evidence-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Ocean movement could not be evaluated from the available evidence."
+    };
+  }
+
+  const narratives = {
+    "weak-current-observation": {
+      observed:
+        "Weak surface current movement is present at this location.",
+      interpreted:
+        "The observed current provides limited evidence of organized ocean movement.",
+      supported:
+        "This provides limited movement context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Weak current movement alone does not establish an organized ocean feature or Blue Marlin presence."
+    },
+
+    "moderate-current-observation": {
+      observed:
+        "Moderate surface current movement is present at this location.",
+      interpreted:
+        "The current provides measurable ocean-movement context in the surrounding water.",
+      supported:
+        "This supports ocean movement as part of the Blue Marlin habitat interpretation.",
+      limited:
+        "Current strength alone does not establish a current edge, convergence, or Blue Marlin presence."
+    },
+
+    "strong-current-observation": {
+      observed:
+        "Strong surface current movement is present at this location.",
+      interpreted:
+        "The observed current provides substantial ocean-movement context.",
+      supported:
+        "This provides strong movement context for evaluating the surrounding Blue Marlin habitat.",
+      limited:
+        "Strong current alone does not establish an organized current feature or fishing success."
+    },
+
+    "very-strong-current-observation": {
+      observed:
+        "Very strong surface current movement is present at this location.",
+      interpreted:
+        "The observed water movement is a prominent part of the local ocean setting.",
+      supported:
+        "This provides strong ocean-movement context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Current strength alone does not establish convergence, an edge, Blue Marlin presence, or fishing success."
+    },
+
+    "current-observation-with-strength-uncertainty": {
+      observed:
+        "Surface current movement is present, but its strength is not sufficiently resolved.",
+      interpreted:
+        "Ocean movement is evident, although the magnitude of the current remains uncertain.",
+      supported:
+        "The current observation provides limited environmental context.",
+      limited:
+        "Current strength and organized current structure cannot be established from the available evidence."
+    },
+
+    "current-associated-with-environmental-transition": {
+      observed:
+        "Current movement is present alongside governed environmental-transition evidence.",
+      interpreted:
+        "The current is associated with a broader change in the surrounding ocean environment.",
+      supported:
+        "This supports ocean movement as part of an organized environmental setting relevant to the Blue Marlin habitat interpretation.",
+      limited:
+        "The association does not by itself establish a current edge, convergence, Blue Marlin presence, or fishing success."
+    },
+
+    "current-influenced-feature-candidate": {
+      observed:
+        "Governed evidence indicates that current movement contributes to an organized ocean feature candidate.",
+      interpreted:
+        "Ocean movement appears to be part of the physical organization of the surrounding water.",
+      supported:
+        "This provides meaningful movement context for the Blue Marlin habitat interpretation.",
+      limited:
+        "The available evidence supports a feature candidate, not confirmation of a specific current feature or Blue Marlin presence."
+    }
+  };
+
+  const narrative =
+    narratives[
+      classification
+    ] ??
+    null;
+
+  if (
+    narrative == null
+  ) {
+    return {
+      available: false,
+      state:
+        classification ===
+        "unsupported"
+          ? "not-established"
+          : "unresolved",
+      reason:
+        classification ===
+        "unsupported"
+          ? "ocean-movement-not-established"
+          : "ocean-movement-classification-not-translated",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Ocean movement is not sufficiently resolved for captain-facing interpretation."
+    };
+  }
+
+  return {
+    available: true,
+    state: "available",
+    reason: null,
+    classification,
+    ...narrative
+  };
+}
+
+
 export function translateCaptainOpportunityNarrativeV1({
   intelligenceTranslation = null
 } = {}) {
@@ -48074,7 +48221,13 @@ export function translateCaptainOpportunityNarrativeV1({
         }),
 
       oceanMovement:
-        null,
+        translateCaptainOceanMovementNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.oceanMovement ??
+            null
+        }),
 
       waterColorAndWaterCharacter:
         null,

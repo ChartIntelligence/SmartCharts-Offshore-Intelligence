@@ -48519,13 +48519,38 @@ assert.equal(
   );
 
   assert.equal(
+    result.sections
+      .oceanMovement
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      ?.state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      ?.reason,
+    "ocean-movement-evidence-unavailable"
+  );
+
+  assert.equal(
     Object.entries(
       result.sections
     )
       .filter(
         ([key]) =>
-          key !==
-          "thermalStructure"
+          ![
+            "thermalStructure",
+            "oceanMovement"
+          ].includes(
+            key
+          )
       )
       .every(
         ([, section]) =>
@@ -48868,6 +48893,269 @@ assert.equal(
       .thermalStructure
       .supported,
     null
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        species: "blue-marlin",
+        state: "available",
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure: null,
+
+          oceanMovement: {
+            available: true,
+
+            evidence: {
+              classification:
+                "strong-current-observation"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .state,
+    "available"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .classification,
+    "strong-current-observation"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .supported,
+    "This provides strong movement context for evaluating the surrounding Blue Marlin habitat."
+  );
+
+  assert.ok(
+    result.sections
+      .oceanMovement
+      .limited
+      .includes(
+        "does not establish"
+      )
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        species: "blue-marlin",
+        state: "available",
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure: null,
+
+          oceanMovement: {
+            available: true,
+
+            evidence: {
+              classification:
+                "current-associated-with-environmental-transition"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .classification,
+    "current-associated-with-environmental-transition"
+  );
+
+  assert.ok(
+    result.sections
+      .oceanMovement
+      .interpreted
+      .includes(
+        "broader change"
+      )
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        species: "blue-marlin",
+        state: "available",
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure: null,
+
+          oceanMovement: {
+            available: true,
+
+            evidence: {
+              classification:
+                "unsupported"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .state,
+    "not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .reason,
+    "ocean-movement-not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .observed,
+    null
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        species: "blue-marlin",
+        state: "available",
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure: null,
+
+          oceanMovement: {
+            available: true,
+
+            evidence: {
+              classification:
+                "future-current-classification"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .reason,
+    "ocean-movement-classification-not-translated"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .interpreted,
+    null
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        species: "blue-marlin",
+        state: "available",
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure: null,
+          oceanMovement: null
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .oceanMovement
+      .reason,
+    "ocean-movement-evidence-unavailable"
   );
 }
 
