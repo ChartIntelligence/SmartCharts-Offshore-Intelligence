@@ -46791,6 +46791,53 @@ export function buildUnifiedSpeciesOpportunityInterpretationV1({
     });
 
 
+  const speciesHabitat =
+    oceanConditions
+      ?.blueMarlinHabitat ??
+    null;
+
+
+  const intelligenceSource = {
+    available:
+      speciesHabitat != null,
+
+    speciesHabitat,
+
+    interpretation:
+      speciesHabitat != null
+        ? "governed-species-opportunity-intelligence-source"
+        : "species-opportunity-intelligence-source-unavailable",
+
+    reason:
+      speciesHabitat != null
+        ? null
+        : "governed-species-habitat-unavailable",
+
+    rules: {
+      readOnlyExplainability:
+        true,
+
+      createsOpportunityEvidence:
+        false,
+
+      createsRankingEligibility:
+        false,
+
+      changesOpportunityScore:
+        false,
+
+      changesOpportunityConfidence:
+        false,
+
+      changesOpportunityRank:
+        false
+    },
+
+    contractVersion:
+      "pelora-species-opportunity-intelligence-source-v1"
+  };
+
+
   return {
     available:
       speciesOpportunity
@@ -46802,6 +46849,8 @@ export function buildUnifiedSpeciesOpportunityInterpretationV1({
       normalizedSpecies,
 
     speciesOpportunity,
+
+    intelligenceSource,
 
     interpretation:
       "governed-unified-species-opportunity-interpretation",
@@ -47231,7 +47280,8 @@ export function presentUnifiedRankedOpportunitiesV1({
 
 
 export function buildUnifiedOpportunityIntelligenceV1({
-  presentationResult = null
+  presentationResult = null,
+  speciesInterpretations = []
 } = {}) {
   const presentedOpportunities =
     Array.isArray(
@@ -47249,23 +47299,75 @@ export function buildUnifiedOpportunityIntelligenceV1({
     null;
 
 
+  const interpretations =
+    Array.isArray(
+      speciesInterpretations
+    )
+      ? speciesInterpretations
+      : [];
+
+
   const opportunities =
     presentedOpportunities.map(
-      opportunity => ({
-        opportunity: {
-          ...opportunity
-        },
+      opportunity => {
+        const candidateId =
+          opportunity
+            ?.location
+            ?.id ??
+          null;
 
-        intelligence: {
-          available: false,
 
-          state:
-            "not-established",
+        const speciesInterpretation =
+          interpretations.find(
+            interpretation =>
+              candidateId != null &&
+              interpretation
+                ?.candidate
+                ?.id ===
+                candidateId
+          ) ??
+          null;
 
-          reason:
-            "unified-opportunity-intelligence-evidence-not-yet-connected"
-        }
-      })
+
+        const intelligenceSource =
+          speciesInterpretation
+            ?.intelligenceSource ??
+          null;
+
+
+        const intelligenceAvailable =
+          intelligenceSource
+            ?.available === true;
+
+
+        return {
+          opportunity: {
+            ...opportunity
+          },
+
+          intelligence: {
+            available:
+              intelligenceAvailable,
+
+            state:
+              intelligenceAvailable
+                ? "available"
+                : intelligenceSource != null
+                  ? "unavailable"
+                  : "unresolved",
+
+            reason:
+              intelligenceAvailable
+                ? null
+                : intelligenceSource
+                    ?.reason ??
+                  "governed-intelligence-source-not-resolved-for-presented-opportunity",
+
+            source:
+              intelligenceSource
+          }
+        };
+      }
     );
 
 
@@ -47282,7 +47384,12 @@ export function buildUnifiedOpportunityIntelligenceV1({
         presentedOpportunities.length,
 
       intelligenceAvailableCount:
-        0
+        opportunities.filter(
+          item =>
+            item
+              ?.intelligence
+              ?.available === true
+        ).length
     },
 
     rules: {

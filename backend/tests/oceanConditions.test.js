@@ -46406,6 +46406,98 @@ for (
   );
 
 
+  assert.equal(
+  result.intelligenceSource
+    ?.available,
+  true
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.speciesHabitat,
+  oceanConditions
+    .blueMarlinHabitat
+);
+
+
+assert.deepEqual(
+  result.intelligenceSource
+    ?.speciesHabitat,
+  oceanConditions
+    .blueMarlinHabitat
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.interpretation,
+  "governed-species-opportunity-intelligence-source"
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.reason,
+  null
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.rules
+    ?.readOnlyExplainability,
+  true
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.rules
+    ?.createsOpportunityEvidence,
+  false
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.rules
+    ?.createsRankingEligibility,
+  false
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.rules
+    ?.changesOpportunityScore,
+  false
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.rules
+    ?.changesOpportunityConfidence,
+  false
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.rules
+    ?.changesOpportunityRank,
+  false
+);
+
+
+assert.equal(
+  result.intelligenceSource
+    ?.contractVersion,
+  "pelora-species-opportunity-intelligence-source-v1"
+);
+
+
   assert.deepEqual(
     result.speciesOpportunity
       .eligibility,
@@ -46575,7 +46667,21 @@ for (
       "blue-marlin",
 
     speciesOpportunity:
-      highScoreOpportunity
+      highScoreOpportunity,
+
+    intelligenceSource: {
+      available: true,
+
+      speciesHabitat: {
+        summary: {
+          classification:
+            "strong-test-intelligence"
+        }
+      },
+
+      contractVersion:
+        "pelora-species-opportunity-intelligence-source-v1"
+    }
   };
 
 
@@ -47621,9 +47727,60 @@ for (
   };
 
 
+  const intelligenceSource = {
+    available: true,
+
+    speciesHabitat: {
+      summary: {
+        classification:
+          "moderate-preliminary-support"
+      },
+
+      relationshipGroups: {
+        thermalStructure: {
+          classification:
+            "moderate-temperature-transition"
+        },
+
+        waterCharacter: {
+          classification:
+            "clear-blue-surface-water-observed"
+        }
+      }
+    },
+
+    interpretation:
+      "governed-species-opportunity-intelligence-source",
+
+    reason:
+      null,
+
+    contractVersion:
+      "pelora-species-opportunity-intelligence-source-v1"
+  };
+
+
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "unified-opportunity-intelligence-foundation-1"
+      },
+
+      species:
+        "blue-marlin",
+
+      intelligenceSource
+    }
+  ];
+
+
   const result =
     buildUnifiedOpportunityIntelligenceV1({
-      presentationResult
+      presentationResult,
+      speciesInterpretations
     });
 
 
@@ -47687,11 +47844,11 @@ for (
   );
 
 
-  assert.equal(
+    assert.equal(
     result.opportunities[0]
       ?.intelligence
       ?.available,
-    false
+    true
   );
 
 
@@ -47699,7 +47856,7 @@ for (
     result.opportunities[0]
       ?.intelligence
       ?.state,
-    "not-established"
+    "available"
   );
 
 
@@ -47707,7 +47864,25 @@ for (
     result.opportunities[0]
       ?.intelligence
       ?.reason,
-    "unified-opportunity-intelligence-evidence-not-yet-connected"
+    null
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.source,
+    intelligenceSource
+  );
+
+
+  assert.deepEqual(
+    result.opportunities[0]
+      ?.intelligence
+      ?.source
+      ?.speciesHabitat,
+    intelligenceSource
+      .speciesHabitat
   );
 
 
@@ -47721,7 +47896,7 @@ for (
   assert.equal(
     result.summary
       .intelligenceAvailableCount,
-    0
+    1
   );
 
 
@@ -47784,6 +47959,230 @@ for (
   assert.equal(
     result.contractVersion,
     "pelora-unified-opportunity-intelligence-v1"
+  );
+}
+
+{
+  const presentationResult = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    presentedOpportunities: [
+      {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id:
+            "unified-opportunity-intelligence-unavailable-1"
+        },
+
+        score: 41,
+
+        confidence: {
+          score: 66
+        },
+
+        rank: 1
+      }
+    ]
+  };
+
+
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "unified-opportunity-intelligence-unavailable-1"
+      },
+
+      species:
+        "blue-marlin",
+
+      intelligenceSource: {
+        available: false,
+
+        speciesHabitat:
+          null,
+
+        interpretation:
+          "species-opportunity-intelligence-source-unavailable",
+
+        reason:
+          "governed-species-habitat-unavailable",
+
+        contractVersion:
+          "pelora-species-opportunity-intelligence-source-v1"
+      }
+    }
+  ];
+
+
+  const result =
+    buildUnifiedOpportunityIntelligenceV1({
+      presentationResult,
+      speciesInterpretations
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.available,
+    false
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.state,
+    "unavailable"
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.reason,
+    "governed-species-habitat-unavailable"
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.source,
+    speciesInterpretations[0]
+      .intelligenceSource
+  );
+
+
+  assert.equal(
+    result.summary
+      .intelligenceAvailableCount,
+    0
+  );
+}
+
+{
+  const presentationResult = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    presentedOpportunities: [
+      {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id:
+            "unified-opportunity-intelligence-unresolved-1"
+        },
+
+        score: 39,
+
+        confidence: {
+          score: 63
+        },
+
+        rank: 1
+      }
+    ]
+  };
+
+
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "different-governed-candidate"
+      },
+
+      species:
+        "blue-marlin",
+
+      intelligenceSource: {
+        available: true,
+
+        speciesHabitat: {
+          summary: {
+            classification:
+              "test-habitat"
+          }
+        }
+      }
+    }
+  ];
+
+
+  const result =
+    buildUnifiedOpportunityIntelligenceV1({
+      presentationResult,
+      speciesInterpretations
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.available,
+    false
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.state,
+    "unresolved"
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.reason,
+    "governed-intelligence-source-not-resolved-for-presented-opportunity"
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.source,
+    null
+  );
+
+
+  assert.equal(
+    result.summary
+      .intelligenceAvailableCount,
+    0
   );
 }
 
