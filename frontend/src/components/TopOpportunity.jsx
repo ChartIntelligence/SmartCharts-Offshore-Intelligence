@@ -76,7 +76,12 @@ function TopOpportunity({
             Primary Signal:
           </strong>{" "}
           {dynamicOpportunity
-            .primarySignal}
+            .primarySignal
+            ?.label ??
+            dynamicOpportunity
+              .primarySignal
+              ?.type ??
+            "Unavailable"}
         </p>
       )}
 

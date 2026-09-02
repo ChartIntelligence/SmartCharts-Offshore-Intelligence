@@ -6,7 +6,6 @@ import {
 
 import LayerControls from "./LayerControls";
 import MapLibreIntelligenceMap from "./MapLibreIntelligenceMap";
-import HotspotCard from "./HotspotCard";
 import MapLegend from "./MapLegend";
 import TopOpportunity from "./TopOpportunity";
 import OpportunityRanking from "./OpportunityRanking";
@@ -582,43 +581,6 @@ const handleReportSaved = () => {
                 setActiveTab
               }
             />
-
-          </section>
-
-
-          <section className="intel-section">
-
-            <h2>
-              Location Intelligence
-            </h2>
-
-
-            <div className="cards">
-
-              {structures
-                .filter((spot) => {
-                  return (
-                    spot.category ===
-                      "intelligence_zone" ||
-                    Boolean(
-                      spot?.scores?.blueMarlin
-                    )
-                  );
-                })
-                .slice(0, 12)
-                .map((spot) => (
-
-                  <HotspotCard
-                    key={
-                      spot.id ||
-                      spot.name
-                    }
-                    spot={spot}
-                  />
-
-                ))}
-
-            </div>
 
           </section>
 
