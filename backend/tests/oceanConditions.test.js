@@ -48603,6 +48603,27 @@ assert.equal(
   );
 
   assert.equal(
+    result.sections
+      .persistence
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.reason,
+    "persistence-evidence-unavailable"
+  );
+
+  assert.equal(
     Object.entries(
       result.sections
     )
@@ -48613,7 +48634,8 @@ assert.equal(
             "oceanMovement",
             "waterColorAndWaterCharacter",
             "productivityAndPreyContext",
-            "structureInteraction"
+            "structureInteraction",
+            "persistence"
           ].includes(
             key
           )
@@ -50000,6 +50022,253 @@ assert.equal(
   assert.equal(
     result.sections.structureInteraction.supported,
     null
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+        intelligenceTranslation: {
+          available: true,
+          state: "available",
+          reason: null,
+          species: "blue-marlin",
+          sections: {
+            persistence: {
+              available: false,
+              state: "not-established",
+              reason:
+                "feature-persistence-not-established",
+              evidence: {
+                available: false,
+                classification:
+                  "unavailable"
+              }
+            }
+          },
+          limitations: [],
+          rules: {},
+          contractVersion:
+            "pelora-unified-opportunity-intelligence-translation-v1"
+        }
+      });
+
+    assert.equal(
+      result.sections
+        .persistence
+        ?.available,
+      false
+    );
+
+    assert.equal(
+      result.sections
+        .persistence
+        ?.state,
+      "not-established"
+    );
+
+    assert.equal(
+      result.sections
+        .persistence
+        ?.reason,
+      "feature-persistence-not-established"
+    );
+
+    assert.equal(
+      result.sections
+        .persistence
+        ?.observed,
+      null
+    );
+
+    assert.match(
+      result.sections
+        .persistence
+        ?.interpreted ??
+        "",
+      /not yet been established/i
+    );
+
+    assert.match(
+      result.sections
+        .persistence
+        ?.supported ??
+        "",
+      /present assessment/i
+    );
+
+    assert.match(
+      result.sections
+        .persistence
+        ?.limited ??
+        "",
+      /single-time environmental assessment/i
+    );
+
+    assert.doesNotMatch(
+      result.sections
+        .persistence
+        ?.interpreted ??
+        "",
+      /not persistent|non-persistent|temporary|unstable/i
+    );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        state: "available",
+        reason: null,
+        species: "blue-marlin",
+        sections: {
+          persistence: {
+            available: true,
+            state: "available",
+            reason: null,
+            evidence: {
+              available: true,
+              classification:
+                "future-governed-persistence-state"
+            }
+          }
+        },
+        limitations: [],
+        rules: {},
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1"
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.reason,
+    "persistence-evidence-not-yet-translated"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.observed,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.interpreted,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.supported,
+    null
+  );
+
+  assert.match(
+    result.sections
+      .persistence
+      ?.limited ??
+      "",
+    /not yet been translated/i
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+        state: "available",
+        reason: null,
+        species: "blue-marlin",
+        sections: {
+          persistence: {
+            available: false,
+            state:
+              "future-unknown-persistence-state",
+            reason:
+              "future-unknown-persistence-reason",
+            evidence: {
+              available: false,
+              classification:
+                "future-unknown-persistence-classification"
+            }
+          }
+        },
+        limitations: [],
+        rules: {},
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1"
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.reason,
+    "persistence-state-not-translated"
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.observed,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.interpreted,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .persistence
+      ?.supported,
+    null
+  );
+
+  assert.match(
+    result.sections
+      .persistence
+      ?.limited ??
+      "",
+    /not sufficiently resolved/i
   );
 }
 

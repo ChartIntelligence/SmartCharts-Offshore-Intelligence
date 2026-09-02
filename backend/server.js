@@ -48406,6 +48406,94 @@ function translateCaptainStructureInteractionNarrativeV1({
 }
 
 
+function translateCaptainPersistenceNarrativeV1({
+  section = null
+} = {}) {
+  const state =
+    section
+      ?.state ??
+    null;
+
+  const reason =
+    section
+      ?.reason ??
+    null;
+
+  const evidence =
+    section
+      ?.evidence ??
+    null;
+
+  if (
+    state ===
+      "not-established" ||
+    reason ===
+      "feature-persistence-not-established"
+  ) {
+    return {
+      available: false,
+      state: "not-established",
+      reason:
+        "feature-persistence-not-established",
+      observed: null,
+      interpreted:
+        "Persistence has not yet been established for this ocean feature.",
+      supported:
+        "The available evidence describes the present assessment, but does not establish that the feature has remained organized through time.",
+      limited:
+        "A single-time environmental assessment does not establish how long this feature has remained organized, whether it is moving, or whether it will continue."
+    };
+  }
+
+  if (
+    section == null ||
+    state === "unavailable" ||
+    evidence == null
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason:
+        "persistence-evidence-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Persistence could not be evaluated from the available evidence."
+    };
+  }
+
+  if (
+    section?.available === true ||
+    state === "available"
+  ) {
+    return {
+      available: false,
+      state: "unresolved",
+      reason:
+        "persistence-evidence-not-yet-translated",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Governed persistence evidence is available, but its temporal meaning has not yet been translated for captain-facing interpretation."
+    };
+  }
+
+  return {
+    available: false,
+    state: "unresolved",
+    reason:
+      "persistence-state-not-translated",
+    observed: null,
+    interpreted: null,
+    supported: null,
+    limited:
+      "Persistence evidence is not sufficiently resolved for captain-facing interpretation."
+  };
+}
+
+
 export function translateCaptainOpportunityNarrativeV1({
   intelligenceTranslation = null
 } = {}) {
@@ -48649,8 +48737,15 @@ export function translateCaptainOpportunityNarrativeV1({
               ?.structureInteraction ??
             null
         }),
+
       persistence:
-        null,
+        translateCaptainPersistenceNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.persistence ??
+            null
+        }),
 
       speciesHabitatFit:
         null,
