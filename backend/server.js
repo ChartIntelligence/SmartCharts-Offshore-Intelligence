@@ -47230,6 +47230,105 @@ export function presentUnifiedRankedOpportunitiesV1({
 }
 
 
+export function buildUnifiedOpportunityIntelligenceV1({
+  presentationResult = null
+} = {}) {
+  const presentedOpportunities =
+    Array.isArray(
+      presentationResult
+        ?.presentedOpportunities
+    )
+      ? presentationResult
+          .presentedOpportunities
+      : [];
+
+
+  const species =
+    presentationResult
+      ?.species ??
+    null;
+
+
+  const opportunities =
+    presentedOpportunities.map(
+      opportunity => ({
+        opportunity: {
+          ...opportunity
+        },
+
+        intelligence: {
+          available: false,
+
+          state:
+            "not-established",
+
+          reason:
+            "unified-opportunity-intelligence-evidence-not-yet-connected"
+        }
+      })
+    );
+
+
+  return {
+    available:
+      opportunities.length > 0,
+
+    species,
+
+    opportunities,
+
+    summary: {
+      presentedOpportunityCount:
+        presentedOpportunities.length,
+
+      intelligenceAvailableCount:
+        0
+    },
+
+    rules: {
+      readOnlyExplainability:
+        true,
+
+      createsOpportunityEvidence:
+        false,
+
+      createsRankingEligibility:
+        false,
+
+      changesOpportunityScore:
+        false,
+
+      changesOpportunityConfidence:
+        false,
+
+      changesOpportunityRank:
+        false,
+
+      restoresExcludedOpportunities:
+        false,
+
+      fabricatesMissingEvidence:
+        false
+    },
+
+    limitations: [
+      "opportunity-intelligence-is-read-only-explainability",
+      "opportunity-intelligence-does-not-create-opportunity-evidence",
+      "opportunity-intelligence-does-not-create-ranking-eligibility",
+      "opportunity-intelligence-does-not-change-opportunity-score",
+      "opportunity-intelligence-does-not-change-opportunity-confidence",
+      "opportunity-intelligence-does-not-change-opportunity-rank",
+      "opportunity-intelligence-does-not-restore-excluded-opportunities",
+      "opportunity-intelligence-does-not-fabricate-missing-evidence",
+      "detailed-opportunity-intelligence-evidence-not-yet-connected"
+    ],
+
+    contractVersion:
+      "pelora-unified-opportunity-intelligence-v1"
+  };
+}
+
+
 export function buildUnifiedCaptainOpportunityDeliveryV1({
   speciesInterpretations = [],
   species = null

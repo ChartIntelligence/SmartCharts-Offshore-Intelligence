@@ -28,6 +28,7 @@ import {
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
+  buildUnifiedOpportunityIntelligenceV1,
   buildUnifiedCaptainOpportunityDeliveryV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
@@ -47587,6 +47588,275 @@ for (
   assert.equal(
     result.interpretation,
     "no-governed-ranked-opportunities-to-present"
+  );
+}
+
+{
+  const presentationResult = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    presentedOpportunities: [
+      {
+        rank: 1,
+
+        score: 43,
+
+        confidence: {
+          score: 68,
+          level: "moderate"
+        },
+
+        location: {
+          id:
+            "unified-opportunity-intelligence-foundation-1",
+
+          name:
+            "Open Water Opportunity 1"
+        }
+      }
+    ]
+  };
+
+
+  const result =
+    buildUnifiedOpportunityIntelligenceV1({
+      presentationResult
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+
+  assert.equal(
+    result.opportunities.length,
+    1
+  );
+
+
+  assert.deepEqual(
+    result.opportunities[0]
+      ?.opportunity,
+    presentationResult
+      .presentedOpportunities[0]
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.opportunity
+      ?.rank,
+    1
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.opportunity
+      ?.score,
+    43
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.opportunity
+      ?.confidence
+      ?.score,
+    68
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.opportunity
+      ?.location
+      ?.id,
+    "unified-opportunity-intelligence-foundation-1"
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.available,
+    false
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.state,
+    "not-established"
+  );
+
+
+  assert.equal(
+    result.opportunities[0]
+      ?.intelligence
+      ?.reason,
+    "unified-opportunity-intelligence-evidence-not-yet-connected"
+  );
+
+
+  assert.equal(
+    result.summary
+      .presentedOpportunityCount,
+    1
+  );
+
+
+  assert.equal(
+    result.summary
+      .intelligenceAvailableCount,
+    0
+  );
+
+
+  assert.equal(
+    result.rules
+      .readOnlyExplainability,
+    true
+  );
+
+
+  assert.equal(
+    result.rules
+      .createsOpportunityEvidence,
+    false
+  );
+
+
+  assert.equal(
+    result.rules
+      .createsRankingEligibility,
+    false
+  );
+
+
+  assert.equal(
+    result.rules
+      .changesOpportunityScore,
+    false
+  );
+
+
+  assert.equal(
+    result.rules
+      .changesOpportunityConfidence,
+    false
+  );
+
+
+  assert.equal(
+    result.rules
+      .changesOpportunityRank,
+    false
+  );
+
+
+  assert.equal(
+    result.rules
+      .restoresExcludedOpportunities,
+    false
+  );
+
+
+  assert.equal(
+    result.rules
+      .fabricatesMissingEvidence,
+    false
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-opportunity-intelligence-v1"
+  );
+}
+
+{
+  const presentationResult = {
+    available: false,
+
+    species:
+      "blue-marlin",
+
+    presentedOpportunities: [],
+
+    summary: {
+      rankedOpportunityCount: 0,
+      presentedOpportunityCount: 0
+    },
+
+    interpretation:
+      "no-governed-ranked-opportunities-to-present",
+
+    reason:
+      "no-governed-ranked-opportunities-to-present"
+  };
+
+
+  const result =
+    buildUnifiedOpportunityIntelligenceV1({
+      presentationResult
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+
+  assert.deepEqual(
+    result.opportunities,
+    []
+  );
+
+
+  assert.equal(
+    result.summary
+      .presentedOpportunityCount,
+    0
+  );
+
+
+  assert.equal(
+    result.summary
+      .intelligenceAvailableCount,
+    0
+  );
+
+
+  assert.equal(
+    result.rules
+      .fabricatesMissingEvidence,
+    false
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-opportunity-intelligence-v1"
   );
 }
 
