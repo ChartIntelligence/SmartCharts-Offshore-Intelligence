@@ -48561,6 +48561,27 @@ assert.equal(
   );
 
   assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      ?.state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      ?.reason,
+    "productivity-and-prey-evidence-unavailable"
+  );
+
+  assert.equal(
     Object.entries(
       result.sections
     )
@@ -48569,7 +48590,8 @@ assert.equal(
           ![
             "thermalStructure",
             "oceanMovement",
-            "waterColorAndWaterCharacter"
+            "waterColorAndWaterCharacter",
+            "productivityAndPreyContext"
           ].includes(
             key
           )
@@ -49518,6 +49540,287 @@ assert.equal(
       .waterColorAndWaterCharacter
       .reason,
     "water-character-evidence-unavailable"
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure:
+            null,
+
+          oceanMovement:
+            null,
+
+          waterColorAndWaterCharacter:
+            null,
+
+          productivityAndPreyContext: {
+            available: true,
+
+            evidence: {
+              classification:
+                "productive-blue-green-transition-observed"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .available,
+    true
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .state,
+    "available"
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .classification,
+    "productive-blue-green-transition-observed"
+  );
+
+  assert.match(
+    result.sections
+      .productivityAndPreyContext
+      .observed,
+    /productive blue-green surface-water transition/i
+  );
+
+  assert.match(
+    result.sections
+      .productivityAndPreyContext
+      .supported,
+    /Blue Marlin habitat interpretation/i
+  );
+
+  assert.match(
+    result.sections
+      .productivityAndPreyContext
+      .limited,
+    /does not directly establish prey concentration/i
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure:
+            null,
+
+          oceanMovement:
+            null,
+
+          waterColorAndWaterCharacter:
+            null,
+
+          productivityAndPreyContext: {
+            available: true,
+
+            evidence: {
+              classification:
+                "unsupported"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .state,
+    "not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .reason,
+    "productivity-and-prey-not-established"
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .observed,
+    null
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure:
+            null,
+
+          oceanMovement:
+            null,
+
+          waterColorAndWaterCharacter:
+            null,
+
+          productivityAndPreyContext: {
+            available: true,
+
+            evidence: {
+              classification:
+                "future-productivity-classification"
+            }
+          }
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .state,
+    "unresolved"
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .reason,
+    "productivity-and-prey-classification-not-translated"
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .observed,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .interpreted,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .supported,
+    null
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        contractVersion:
+          "pelora-unified-opportunity-intelligence-translation-v1",
+
+        sections: {
+          thermalStructure:
+            null,
+
+          oceanMovement:
+            null,
+
+          waterColorAndWaterCharacter:
+            null,
+
+          productivityAndPreyContext:
+            null
+        }
+      }
+    });
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .productivityAndPreyContext
+      .reason,
+    "productivity-and-prey-evidence-unavailable"
   );
 }
 

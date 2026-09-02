@@ -48170,6 +48170,164 @@ function translateCaptainWaterCharacterNarrativeV1({
 }
 
 
+function translateCaptainProductivityAndPreyNarrativeV1({
+  section = null
+} = {}) {
+  const evidence =
+    section
+      ?.evidence ??
+    null;
+
+  const classification =
+    evidence
+      ?.classification ??
+    null;
+
+  if (
+    section?.available !== true ||
+    evidence == null
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason: "productivity-and-prey-evidence-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Surface-productivity and prey-context evidence could not be evaluated from the available evidence."
+    };
+  }
+
+  const narratives = {
+    "very-clear-low-surface-productivity": {
+      observed:
+        "Very clear surface water with low observed surface productivity is indicated at this location.",
+      interpreted:
+        "The available evidence suggests limited surface-productivity support in the observed water.",
+      supported:
+        "This provides environmental productivity context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Low observed surface productivity does not establish prey absence or determine Blue Marlin presence."
+    },
+
+    "clear-blue-water-productivity-context": {
+      observed:
+        "Clear-blue surface water with surface-productivity context is indicated at this location.",
+      interpreted:
+        "The available evidence provides limited surface-productivity context within clear-blue water.",
+      supported:
+        "This contributes environmental context relevant to the Blue Marlin habitat interpretation.",
+      limited:
+        "Surface productivity does not directly confirm bait, prey concentration, feeding activity, or Blue Marlin presence."
+    },
+
+    "productive-blue-green-transition-observed": {
+      observed:
+        "A productive blue-green surface-water transition is indicated at this location.",
+      interpreted:
+        "The available evidence is consistent with increased surface productivity associated with changing water character.",
+      supported:
+        "This provides meaningful productivity context for the Blue Marlin habitat interpretation.",
+      limited:
+        "The observed productivity does not directly establish prey concentration, feeding activity, Blue Marlin presence, or fishing success."
+    },
+
+    "productive-green-water-observed": {
+      observed:
+        "Elevated surface productivity is indicated in greener surface water at this location.",
+      interpreted:
+        "The available evidence is consistent with productive surface-water conditions.",
+      supported:
+        "This provides surface-productivity context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Productive surface water does not by itself establish prey concentration, suitable Blue Marlin habitat, or Blue Marlin presence."
+    },
+
+    "high-chlorophyll-water-with-context-uncertainty": {
+      observed:
+        "High chlorophyll influence is indicated in the surface-water observation.",
+      interpreted:
+        "The elevated chlorophyll may reflect increased surface productivity, while the broader environmental context remains uncertain.",
+      supported:
+        "This provides cautious productivity context for the Blue Marlin habitat interpretation.",
+      limited:
+        "High chlorophyll may reflect coastal, bloom, sediment, or other influence and does not directly establish prey support or Blue Marlin habitat."
+    },
+
+    "surface-productivity-observation-without-classification": {
+      observed:
+        "Surface-productivity evidence is present at this location.",
+      interpreted:
+        "The available observation is not sufficiently resolved for a more specific productivity classification.",
+      supported:
+        "The observation provides limited environmental productivity context.",
+      limited:
+        "A specific productivity pattern, prey relationship, or feeding context cannot be established from the available evidence."
+    },
+
+    "surface-productivity-associated-with-water-boundary": {
+      observed:
+        "Governed evidence indicates surface productivity associated with a water-character boundary.",
+      interpreted:
+        "The available evidence suggests productivity is organized near a change in surrounding surface-water character.",
+      supported:
+        "This provides meaningful productivity-and-boundary context for the Blue Marlin habitat interpretation.",
+      limited:
+        "The association does not by itself establish prey concentration, feeding activity, Blue Marlin presence, or fishing success."
+    },
+
+    "surface-productivity-context-present": {
+      observed:
+        "Surface-productivity context is indicated at this location.",
+      interpreted:
+        "The available evidence supports a general productivity signal, although detailed productivity classification is limited.",
+      supported:
+        "This provides preliminary productivity context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Detailed productivity evidence is unavailable, and the signal does not establish prey concentration or Blue Marlin presence."
+    }
+  };
+
+  const narrative =
+    narratives[
+      classification
+    ] ??
+    null;
+
+  if (
+    narrative == null
+  ) {
+    return {
+      available: false,
+      state:
+        classification ===
+        "unsupported"
+          ? "not-established"
+          : "unresolved",
+      reason:
+        classification ===
+        "unsupported"
+          ? "productivity-and-prey-not-established"
+          : "productivity-and-prey-classification-not-translated",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Surface productivity and prey context are not sufficiently resolved for captain-facing interpretation."
+    };
+  }
+
+  return {
+    available: true,
+    state: "available",
+    reason: null,
+    classification,
+    ...narrative
+  };
+}
+
+
 export function translateCaptainOpportunityNarrativeV1({
   intelligenceTranslation = null
 } = {}) {
@@ -48397,7 +48555,13 @@ export function translateCaptainOpportunityNarrativeV1({
         }),
 
       productivityAndPreyContext:
-        null,
+        translateCaptainProductivityAndPreyNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.productivityAndPreyContext ??
+            null
+        }),
 
       structureInteraction:
         null,
