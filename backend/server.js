@@ -48012,6 +48012,164 @@ function translateCaptainOceanMovementNarrativeV1({
 }
 
 
+function translateCaptainWaterCharacterNarrativeV1({
+  section = null
+} = {}) {
+  const evidence =
+    section
+      ?.evidence ??
+    null;
+
+  const classification =
+    evidence
+      ?.classification ??
+    null;
+
+  if (
+    section?.available !== true ||
+    evidence == null
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason: "water-character-evidence-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Water color and surface-water character could not be evaluated from the available evidence."
+    };
+  }
+
+  const narratives = {
+    "very-clear-surface-water-observed": {
+      observed:
+        "Very clear surface-water character is indicated at this location.",
+      interpreted:
+        "The available evidence is consistent with very clear surface water.",
+      supported:
+        "This provides water-character context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Surface-water character does not directly measure visibility or establish Blue Marlin presence."
+    },
+
+    "clear-blue-surface-water-observed": {
+      observed:
+        "Clear-blue surface-water character is indicated at this location.",
+      interpreted:
+        "The available evidence is consistent with clear-blue surface water.",
+      supported:
+        "This provides water-character context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Clear-blue water alone does not establish Blue Marlin presence, prey concentration, or fishing success."
+    },
+
+    "transitional-surface-water-observed": {
+      observed:
+        "Transitional surface-water character is indicated at this location.",
+      interpreted:
+        "The available evidence suggests a change in local surface-water character.",
+      supported:
+        "This provides transition context for the Blue Marlin habitat interpretation.",
+      limited:
+        "The observation does not by itself establish a persistent boundary, prey concentration, or Blue Marlin presence."
+    },
+
+    "chlorophyll-influenced-surface-water-observed": {
+      observed:
+        "Chlorophyll-influenced surface-water character is indicated at this location.",
+      interpreted:
+        "The available evidence is consistent with surface water influenced by elevated chlorophyll.",
+      supported:
+        "This provides water-character context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Chlorophyll influence does not by itself establish prey concentration, habitat quality, or Blue Marlin presence."
+    },
+
+    "strongly-chlorophyll-influenced-water-with-context-uncertainty": {
+      observed:
+        "Strong chlorophyll influence is indicated in the surface-water observation.",
+      interpreted:
+        "The water character may reflect elevated chlorophyll, while the broader environmental context remains uncertain.",
+      supported:
+        "This provides cautious water-character context for the Blue Marlin habitat interpretation.",
+      limited:
+        "The observed signal may reflect coastal, bloom, sediment, or other influence and does not establish Blue Marlin habitat."
+    },
+
+    "surface-water-character-observed-without-classification": {
+      observed:
+        "Surface-water character evidence is present at this location.",
+      interpreted:
+        "The available observation is not sufficiently resolved for a more specific water-character classification.",
+      supported:
+        "The observation provides limited water-character context.",
+      limited:
+        "A specific surface-water character or transition cannot be established from the available evidence."
+    },
+
+    "surface-water-character-transition-supported": {
+      observed:
+        "Governed evidence supports a transition in surface-water character at this location.",
+      interpreted:
+        "The surrounding surface water shows evidence of changing water character.",
+      supported:
+        "This provides meaningful water-character transition context for the Blue Marlin habitat interpretation.",
+      limited:
+        "The transition does not by itself establish distinct water masses, prey concentration, Blue Marlin presence, or fishing success."
+    },
+
+    "surface-water-transition-supported": {
+      observed:
+        "Governed evidence supports a surface-water transition at this location.",
+      interpreted:
+        "A change in surface-water character is indicated, although detailed water-character evidence is limited.",
+      supported:
+        "This provides preliminary water-transition context for the Blue Marlin habitat interpretation.",
+      limited:
+        "Detailed water-character evidence is unavailable, and the transition does not establish prey concentration or Blue Marlin presence."
+    }
+  };
+
+  const narrative =
+    narratives[
+      classification
+    ] ??
+    null;
+
+  if (
+    narrative == null
+  ) {
+    return {
+      available: false,
+      state:
+        classification ===
+        "unsupported"
+          ? "not-established"
+          : "unresolved",
+      reason:
+        classification ===
+        "unsupported"
+          ? "water-character-not-established"
+          : "water-character-classification-not-translated",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Water color and surface-water character are not sufficiently resolved for captain-facing interpretation."
+    };
+  }
+
+  return {
+    available: true,
+    state: "available",
+    reason: null,
+    classification,
+    ...narrative
+  };
+}
+
+
 export function translateCaptainOpportunityNarrativeV1({
   intelligenceTranslation = null
 } = {}) {
@@ -48230,7 +48388,13 @@ export function translateCaptainOpportunityNarrativeV1({
         }),
 
       waterColorAndWaterCharacter:
-        null,
+        translateCaptainWaterCharacterNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.waterColorAndWaterCharacter ??
+            null
+        }),
 
       productivityAndPreyContext:
         null,
