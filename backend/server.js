@@ -47279,6 +47279,372 @@ export function presentUnifiedRankedOpportunitiesV1({
 }
 
 
+export function translateUnifiedOpportunityIntelligenceV1({
+  species = null,
+  intelligenceSource = null
+} = {}) {
+  const normalizedSpecies =
+    typeof species === "string"
+      ? species
+          .trim()
+          .toLowerCase()
+      : null;
+
+
+  if (
+    normalizedSpecies !==
+    "blue-marlin"
+  ) {
+    return {
+      available: false,
+
+      species:
+        normalizedSpecies,
+
+      state:
+        "not-supported",
+
+      reason:
+        "species-opportunity-intelligence-translation-not-supported",
+
+      sections:
+        null,
+
+      lineage:
+        null,
+
+      limitations: [
+        "opportunity-intelligence-translation-is-read-only",
+        "opportunity-intelligence-translation-does-not-create-evidence",
+        "opportunity-intelligence-translation-does-not-change-ranking",
+        "species-opportunity-intelligence-translation-not-supported"
+      ],
+
+      contractVersion:
+        "pelora-unified-opportunity-intelligence-translation-v1"
+    };
+  }
+
+
+  if (
+    intelligenceSource
+      ?.available !== true
+  ) {
+    return {
+      available: false,
+
+      species:
+        normalizedSpecies,
+
+      state:
+        "unavailable",
+
+      reason:
+        intelligenceSource
+          ?.reason ??
+        "governed-species-opportunity-intelligence-source-unavailable",
+
+      sections:
+        null,
+
+      lineage:
+        intelligenceSource
+          ?.speciesHabitat
+          ?.lineage ??
+        null,
+
+      limitations: [
+        "opportunity-intelligence-translation-is-read-only",
+        "opportunity-intelligence-translation-does-not-create-evidence",
+        "opportunity-intelligence-translation-does-not-change-ranking",
+        "governed-species-opportunity-intelligence-source-unavailable"
+      ],
+
+      contractVersion:
+        "pelora-unified-opportunity-intelligence-translation-v1"
+    };
+  }
+
+
+  const speciesHabitat =
+    intelligenceSource
+      ?.speciesHabitat ??
+    null;
+
+
+  if (
+    speciesHabitat == null
+  ) {
+    return {
+      available: false,
+
+      species:
+        normalizedSpecies,
+
+      state:
+        "unresolved",
+
+      reason:
+        "governed-species-habitat-not-resolved",
+
+      sections:
+        null,
+
+      lineage:
+        null,
+
+      limitations: [
+        "opportunity-intelligence-translation-is-read-only",
+        "opportunity-intelligence-translation-does-not-create-evidence",
+        "opportunity-intelligence-translation-does-not-change-ranking",
+        "governed-species-habitat-not-resolved"
+      ],
+
+      contractVersion:
+        "pelora-unified-opportunity-intelligence-translation-v1"
+    };
+  }
+
+
+  const relationshipGroups =
+    speciesHabitat
+      ?.relationshipGroups ??
+    {};
+
+
+  const sections = {
+    oceanSetting: {
+      available:
+        speciesHabitat
+          ?.relationshipAssessment != null,
+
+      relationshipAssessment:
+        speciesHabitat
+          ?.relationshipAssessment ??
+        null
+    },
+
+
+    thermalStructure: {
+      available:
+        relationshipGroups
+          ?.thermalStructure != null,
+
+      evidence:
+        relationshipGroups
+          ?.thermalStructure ??
+        null
+    },
+
+
+    oceanMovement: {
+      available:
+        relationshipGroups
+          ?.oceanMovement != null,
+
+      evidence:
+        relationshipGroups
+          ?.oceanMovement ??
+        null
+    },
+
+
+    waterColorAndWaterCharacter: {
+      available:
+        relationshipGroups
+          ?.waterCharacter != null,
+
+      evidence:
+        relationshipGroups
+          ?.waterCharacter ??
+        null
+    },
+
+
+    productivityAndPreyContext: {
+      available:
+        relationshipGroups
+          ?.productivityAndPreySupport != null,
+
+      evidence:
+        relationshipGroups
+          ?.productivityAndPreySupport ??
+        null
+    },
+
+
+    structureInteraction: {
+      available:
+        relationshipGroups
+          ?.structureInteraction != null,
+
+      evidence:
+        relationshipGroups
+          ?.structureInteraction ??
+        null
+    },
+
+
+    persistence: {
+      available:
+        relationshipGroups
+          ?.persistence != null,
+
+      evidence:
+        relationshipGroups
+          ?.persistence ??
+        null
+    },
+
+
+    speciesHabitatFit: {
+      available:
+        speciesHabitat
+          ?.summary != null,
+
+      summary:
+        speciesHabitat
+          ?.summary ??
+        null,
+
+      positiveDrivers:
+        Array.isArray(
+          speciesHabitat
+            ?.positiveDrivers
+        )
+          ? [
+              ...speciesHabitat
+                .positiveDrivers
+            ]
+          : [],
+
+      negativeDrivers:
+        Array.isArray(
+          speciesHabitat
+            ?.negativeDrivers
+        )
+          ? [
+              ...speciesHabitat
+                .negativeDrivers
+            ]
+          : []
+    },
+
+
+    evidenceAndConfidence: {
+      available:
+        speciesHabitat
+          ?.confidence != null ||
+        speciesHabitat
+          ?.dataQualityContext != null,
+
+      confidence:
+        speciesHabitat
+          ?.confidence ??
+        null,
+
+      dataQuality:
+        speciesHabitat
+          ?.dataQualityContext ??
+        null
+    }
+  };
+
+
+  return {
+    available: true,
+
+    species:
+      normalizedSpecies,
+
+    state:
+      "available",
+
+    reason:
+      null,
+
+    sections,
+
+    sourceContext: {
+      relationshipAssessment:
+        speciesHabitat
+          ?.relationshipAssessment ??
+        null,
+
+      speciesPathwayInterpretation:
+        speciesHabitat
+          ?.speciesPathwayInterpretation ??
+        null,
+
+      opportunityTypeResolution:
+        speciesHabitat
+          ?.opportunityTypeResolution ??
+        null,
+
+      habitatInterpretation:
+        speciesHabitat
+          ?.interpretation ??
+        null,
+
+      habitatMethodVersion:
+        speciesHabitat
+          ?.methodVersion ??
+        null,
+
+      sourceContractVersion:
+        intelligenceSource
+          ?.contractVersion ??
+        null
+    },
+
+    lineage:
+      speciesHabitat
+        ?.lineage ??
+      null,
+
+    limitations:
+      Array.isArray(
+        speciesHabitat
+          ?.limitations
+      )
+        ? [
+            ...speciesHabitat
+              .limitations
+          ]
+        : [],
+
+    rules: {
+      readOnlyExplainability:
+        true,
+
+      createsOpportunityEvidence:
+        false,
+
+      createsRankingEligibility:
+        false,
+
+      changesOpportunityScore:
+        false,
+
+      changesOpportunityConfidence:
+        false,
+
+      changesOpportunityRank:
+        false,
+
+      confirmsSpeciesPresence:
+        false,
+
+      estimatesCatchProbability:
+        false
+    },
+
+    contractVersion:
+      "pelora-unified-opportunity-intelligence-translation-v1"
+  };
+}
+
+
 export function buildUnifiedOpportunityIntelligenceV1({
   presentationResult = null,
   speciesInterpretations = []
@@ -47335,9 +47701,13 @@ export function buildUnifiedOpportunityIntelligenceV1({
           null;
 
 
-        const intelligenceAvailable =
-          intelligenceSource
-            ?.available === true;
+        const translation =
+          intelligenceSource != null
+            ? translateUnifiedOpportunityIntelligenceV1({
+                species,
+                intelligenceSource
+              })
+            : null;
 
 
         return {
@@ -47347,21 +47717,24 @@ export function buildUnifiedOpportunityIntelligenceV1({
 
           intelligence: {
             available:
-              intelligenceAvailable,
+              translation
+                ?.available === true,
 
             state:
-              intelligenceAvailable
-                ? "available"
-                : intelligenceSource != null
+              translation
+                ?.state ??
+              (
+                intelligenceSource != null
                   ? "unavailable"
-                  : "unresolved",
+                  : "unresolved"
+              ),
 
             reason:
-              intelligenceAvailable
-                ? null
-                : intelligenceSource
-                    ?.reason ??
-                  "governed-intelligence-source-not-resolved-for-presented-opportunity",
+              translation != null
+                ? translation.reason
+                : "governed-intelligence-source-not-resolved-for-presented-opportunity",
+
+            translation,
 
             source:
               intelligenceSource
