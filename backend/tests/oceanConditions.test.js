@@ -51839,6 +51839,26 @@ for (
         eligibility: {
           eligibleForRanking: true
         }
+      },
+
+      intelligenceSource: {
+        available: true,
+
+        speciesHabitat: {
+          relationshipGroups: {},
+
+          summary: {
+            classification:
+              "limited-preliminary-habitat-support"
+          },
+
+          positiveDrivers: [],
+          negativeDrivers: [],
+          limitations: []
+        },
+
+        contractVersion:
+          "pelora-species-opportunity-intelligence-source-v1"
       }
     }
   ];
@@ -51918,6 +51938,82 @@ for (
 
 
   assert.equal(
+    result.captainNarratives.length,
+    1
+  );
+
+
+  assert.equal(
+    result.captainNarratives[0]
+      .opportunityId,
+    "delivery-governed-opportunity"
+  );
+
+
+  assert.equal(
+    result.captainNarratives[0]
+      .narrative
+      .available,
+    true
+  );
+
+
+  assert.equal(
+    result.captainNarratives[0]
+      .narrative
+      .species,
+    "blue-marlin"
+  );
+
+
+  assert.equal(
+    result.captainNarratives[0]
+      .narrative
+      .contractVersion,
+    "pelora-captain-opportunity-narrative-v1"
+  );
+
+
+  assert.equal(
+    result.captainNarratives[0]
+      .narrative
+      .rules
+      .createsRankingEligibility,
+    false
+  );
+
+
+  assert.equal(
+    result.captainNarratives[0]
+      .narrative
+      .rules
+      .changesOpportunityRank,
+    false
+  );
+
+
+  assert.equal(
+    result.captainNarratives[0]
+      .narrative
+      .rules
+      .exposesInternalOpportunityTypeLabels,
+    false
+  );
+
+
+  const deliveredCaptainNarrative =
+    JSON.stringify(
+      result.captainNarratives[0]
+    );
+
+
+  assert.doesNotMatch(
+    deliveredCaptainNarrative,
+    /feeding-corridor|feeding-pocket|prey-aggregation/i
+  );
+
+
+  assert.equal(
     result.contractVersion,
     "pelora-unified-captain-opportunity-delivery-v1"
   );
@@ -51975,6 +52071,12 @@ for (
 
   assert.deepEqual(
     result.opportunities,
+    []
+  );
+
+
+  assert.deepEqual(
+    result.captainNarratives,
     []
   );
 

@@ -49261,6 +49261,44 @@ export function buildUnifiedCaptainOpportunityDeliveryV1({
     });
 
 
+  const intelligence =
+    buildUnifiedOpportunityIntelligenceV1({
+      presentationResult:
+        presentation,
+
+      speciesInterpretations
+    });
+
+
+  const captainNarratives =
+    intelligence
+      .opportunities
+      .map(
+        item => {
+          const narrative =
+            translateCaptainOpportunityNarrativeV1({
+              intelligenceTranslation:
+                item
+                  ?.intelligence
+                  ?.translation ??
+                null
+            });
+
+
+          return {
+            opportunityId:
+              item
+                ?.opportunity
+                ?.location
+                ?.id ??
+              null,
+
+            narrative
+          };
+        }
+      );
+
+
   return {
     available:
       presentation.available ===
@@ -49277,6 +49315,8 @@ export function buildUnifiedCaptainOpportunityDeliveryV1({
 
     presentation,
 
+    captainNarratives,
+
     reason:
       presentation.reason,
 
@@ -49284,7 +49324,8 @@ export function buildUnifiedCaptainOpportunityDeliveryV1({
       "delivery-does-not-create-opportunity-evidence",
       "delivery-does-not-create-ranking-eligibility",
       "delivery-does-not-restore-excluded-opportunities",
-      "delivery-preserves-governed-ranking-and-presentation"
+      "delivery-preserves-governed-ranking-and-presentation",
+      "delivery-captain-narrative-derived-only-from-governed-intelligence"
     ],
 
     contractVersion:
