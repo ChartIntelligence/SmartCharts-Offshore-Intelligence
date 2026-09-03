@@ -48612,6 +48612,180 @@ function translateCaptainSpeciesHabitatFitNarrativeV1({
 }
 
 
+function translateCaptainEvidenceAndConfidenceNarrativeV1({
+  section = null
+} = {}) {
+  const confidence =
+    section
+      ?.confidence ??
+    null;
+
+  const dataQuality =
+    section
+      ?.dataQuality ??
+    null;
+
+  const confidenceLevel =
+    typeof confidence?.level ===
+      "string"
+      ? confidence.level.trim()
+      : null;
+
+  if (
+    section == null ||
+    section?.available !== true ||
+    confidence == null
+  ) {
+    return {
+      available: false,
+      state: "unavailable",
+      reason:
+        "evidence-confidence-unavailable",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "Confidence in the environmental evidence could not be evaluated from the available governed assessment."
+    };
+  }
+
+  let narrative =
+    null;
+
+  if (
+    confidenceLevel ===
+      "Very Low"
+  ) {
+    narrative = {
+      observed: null,
+      interpreted:
+        "Confidence in the environmental evidence supporting this assessment is very low.",
+      supported:
+        "The available evidence provides limited support for interpreting the environmental conditions at this location.",
+      limited:
+        "Very low evidence confidence reflects limitations in the available environmental assessment. It does not describe the probability of Blue Marlin presence, catch probability, or fishing success."
+    };
+  } else if (
+    confidenceLevel ===
+      "Low"
+  ) {
+    narrative = {
+      observed: null,
+      interpreted:
+        "Confidence in the environmental evidence supporting this assessment is low.",
+      supported:
+        "The available evidence supports a preliminary interpretation of the environmental conditions, but important uncertainty remains.",
+      limited:
+        "Low evidence confidence does not describe biological certainty, Blue Marlin presence, catch probability, or fishing success."
+    };
+  } else if (
+    confidenceLevel ===
+      "Moderate"
+  ) {
+    narrative = {
+      observed: null,
+      interpreted:
+        "Confidence in the environmental evidence supporting this assessment is moderate.",
+      supported:
+        "The environmental interpretation is supported by a meaningful evidence base, while some uncertainty or evidence limitations remain.",
+      limited:
+        "Moderate evidence confidence does not confirm Blue Marlin presence and does not represent catch probability or fishing success."
+    };
+  } else if (
+    confidenceLevel ===
+      "High"
+  ) {
+    narrative = {
+      observed: null,
+      interpreted:
+        "Confidence in the environmental evidence supporting this assessment is high.",
+      supported:
+        "The environmental interpretation is supported by a comparatively strong evidence base within the governed assessment.",
+      limited:
+        "High evidence confidence describes the strength of the environmental evidence, not biological certainty, Blue Marlin presence, catch probability, or fishing success."
+    };
+  }
+
+  if (
+    narrative == null
+  ) {
+    return {
+      available: false,
+      state: "unresolved",
+      reason:
+        "evidence-confidence-level-not-translated",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "The governed assessment contains a confidence level that has not yet been translated for captain-facing interpretation."
+    };
+  }
+
+  const dataQualityClassification =
+    typeof dataQuality
+      ?.classification ===
+      "string" &&
+    dataQuality.classification
+      .trim()
+      .length > 0
+      ? dataQuality.classification.trim()
+      : null;
+
+  const knownDataQualityClassifications =
+    new Set([
+      "complete",
+      "usable-with-gaps",
+      "degraded",
+      "insufficient"
+    ]);
+
+  if (
+    dataQuality?.available === true &&
+    dataQualityClassification != null &&
+    !knownDataQualityClassifications.has(
+      dataQualityClassification
+    )
+  ) {
+    return {
+      available: false,
+      state: "unresolved",
+      reason:
+        "data-quality-classification-not-translated",
+      observed: null,
+      interpreted: null,
+      supported: null,
+      limited:
+        "The governed assessment contains a data-quality classification that has not yet been translated for captain-facing interpretation."
+    };
+  }
+
+  const dataQualityAvailable =
+    dataQuality?.available === true &&
+    dataQualityClassification != null;
+
+  return {
+    available: true,
+    state: "available",
+    reason: null,
+    confidenceLevel,
+    dataQuality: {
+      available:
+        dataQualityAvailable,
+      classification:
+        dataQualityAvailable
+          ? dataQualityClassification
+          : null,
+      reason:
+        dataQualityAvailable
+          ? null
+          : "detailed-data-quality-classification-unavailable"
+    },
+    ...narrative
+  };
+}
+
+
 export function translateCaptainOpportunityNarrativeV1({
   intelligenceTranslation = null
 } = {}) {
@@ -48875,7 +49049,13 @@ export function translateCaptainOpportunityNarrativeV1({
         }),
 
       evidenceAndConfidence:
-        null
+        translateCaptainEvidenceAndConfidenceNarrativeV1({
+          section:
+            intelligenceTranslation
+              ?.sections
+              ?.evidenceAndConfidence ??
+            null
+        })
     },
 
     limitations: [
@@ -48883,7 +49063,6 @@ export function translateCaptainOpportunityNarrativeV1({
       "captain-narrative-does-not-create-evidence",
       "captain-narrative-does-not-confirm-species-presence",
       "captain-narrative-does-not-estimate-catch-probability",
-      "captain-narrative-sections-not-yet-translated"
     ],
 
     rules:

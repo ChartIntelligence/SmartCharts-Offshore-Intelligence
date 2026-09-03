@@ -48686,7 +48686,8 @@ assert.match(
             "productivityAndPreyContext",
             "structureInteraction",
             "persistence",
-            "speciesHabitatFit"
+            "speciesHabitatFit",
+            "evidenceAndConfidence"
           ].includes(
             key
           )
@@ -50719,6 +50720,435 @@ assert.match(
       .speciesHabitatFit
       .limited,
     /has not yet been translated/i
+  );
+}
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          evidenceAndConfidence: {
+            available: false,
+            confidence: null,
+            dataQuality: null
+          }
+        }
+      }
+    });
+
+
+  assert.equal(
+    result.sections
+      .evidenceAndConfidence
+      .available,
+    false
+  );
+
+  assert.equal(
+    result.sections
+      .evidenceAndConfidence
+      .state,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .evidenceAndConfidence
+      .reason,
+    "evidence-confidence-unavailable"
+  );
+
+  assert.equal(
+    result.sections
+      .evidenceAndConfidence
+      .observed,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .evidenceAndConfidence
+      .interpreted,
+    null
+  );
+
+  assert.equal(
+    result.sections
+      .evidenceAndConfidence
+      .supported,
+    null
+  );
+
+  assert.match(
+    result.sections
+      .evidenceAndConfidence
+      .limited,
+    /could not be evaluated/i
+  );
+}
+
+
+for (
+  const {
+    level,
+    expected
+  } of [
+    {
+      level: "Very Low",
+      expected: /very low/i
+    },
+    {
+      level: "Low",
+      expected: /is low/i
+    },
+    {
+      level: "Moderate",
+      expected: /is moderate/i
+    },
+    {
+      level: "High",
+      expected: /is high/i
+    }
+  ]
+) {
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          evidenceAndConfidence: {
+            available: true,
+
+            confidence: {
+              score: 91,
+              level,
+
+              components: {
+                rawHabitatAssessment: {
+                  score: 88
+                },
+
+                confidenceAdjustedSuitability: {
+                  score: 77
+                }
+              }
+            },
+
+            dataQuality: {
+              available: true,
+              score: null,
+              classification: null
+            }
+          }
+        }
+      }
+    });
+
+  const section =
+    result.sections
+      .evidenceAndConfidence;
+
+  assert.equal(
+    section.available,
+    true
+  );
+
+  assert.equal(
+    section.state,
+    "available"
+  );
+
+  assert.equal(
+    section.reason,
+    null
+  );
+
+  assert.equal(
+    section.observed,
+    null
+  );
+
+  assert.equal(
+    section.confidenceLevel,
+    level
+  );
+
+  assert.match(
+    section.interpreted,
+    expected
+  );
+
+  assert.equal(
+    section.dataQuality
+      .available,
+    false
+  );
+
+  assert.equal(
+    section.dataQuality
+      .classification,
+    null
+  );
+
+  assert.equal(
+    section.dataQuality
+      .reason,
+    "detailed-data-quality-classification-unavailable"
+  );
+
+  const captainNarrativeText =
+    JSON.stringify(
+      section
+    );
+
+  assert.doesNotMatch(
+    captainNarrativeText,
+    /"score":91/
+  );
+
+  assert.doesNotMatch(
+    captainNarrativeText,
+    /rawHabitatAssessment/
+  );
+
+  assert.doesNotMatch(
+    captainNarrativeText,
+    /confidenceAdjustedSuitability/
+  );
+
+  assert.match(
+    section.limited,
+    /catch probability|fishing success/i
+  );
+}
+
+
+for (
+  const classification of [
+    "complete",
+    "usable-with-gaps",
+    "degraded",
+    "insufficient"
+  ]
+) {
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          evidenceAndConfidence: {
+            available: true,
+
+            confidence: {
+              level:
+                "Moderate"
+            },
+
+            dataQuality: {
+              available: true,
+              classification
+            }
+          }
+        }
+      }
+    });
+
+  const section =
+    result.sections
+      .evidenceAndConfidence;
+
+  assert.equal(
+    section.available,
+    true
+  );
+
+  assert.equal(
+    section.state,
+    "available"
+  );
+
+  assert.equal(
+    section.dataQuality
+      .available,
+    true
+  );
+
+  assert.equal(
+    section.dataQuality
+      .classification,
+    classification
+  );
+
+  assert.equal(
+    section.dataQuality
+      .reason,
+    null
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          evidenceAndConfidence: {
+            available: true,
+
+            confidence: {
+              level:
+                "Future Confidence"
+            },
+
+            dataQuality: {
+              available: false,
+              classification: null
+            }
+          }
+        }
+      }
+    });
+
+  const section =
+    result.sections
+      .evidenceAndConfidence;
+
+  assert.equal(
+    section.available,
+    false
+  );
+
+  assert.equal(
+    section.state,
+    "unresolved"
+  );
+
+  assert.equal(
+    section.reason,
+    "evidence-confidence-level-not-translated"
+  );
+
+  assert.equal(
+    section.observed,
+    null
+  );
+
+  assert.equal(
+    section.interpreted,
+    null
+  );
+
+  assert.equal(
+    section.supported,
+    null
+  );
+
+  assert.match(
+    section.limited,
+    /has not yet been translated/i
+  );
+}
+
+
+{
+  const result =
+    translateCaptainOpportunityNarrativeV1({
+      intelligenceTranslation: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        state:
+          "available",
+
+        sections: {
+          evidenceAndConfidence: {
+            available: true,
+
+            confidence: {
+              level:
+                "Moderate"
+            },
+
+            dataQuality: {
+              available: true,
+              classification:
+                "future-data-quality-state"
+            }
+          }
+        }
+      }
+    });
+
+  const section =
+    result.sections
+      .evidenceAndConfidence;
+
+  assert.equal(
+    section.available,
+    false
+  );
+
+  assert.equal(
+    section.state,
+    "unresolved"
+  );
+
+  assert.equal(
+    section.reason,
+    "data-quality-classification-not-translated"
+  );
+
+  assert.equal(
+    section.observed,
+    null
+  );
+
+  assert.equal(
+    section.interpreted,
+    null
+  );
+
+  assert.equal(
+    section.supported,
+    null
+  );
+
+  assert.match(
+    section.limited,
+    /data-quality classification/i
   );
 }
 
