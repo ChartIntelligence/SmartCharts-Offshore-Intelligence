@@ -53,29 +53,24 @@ export function useMapLibreLayers({
       );
 
       setVisibility(
-        "blue-marlin-heatmap",
-        layers.marlin
+        "structure-clusters",
+        layers.locations !== false
       );
 
       setVisibility(
-        "yellowfin-activity",
-        layers.yellowfin
+        "structure-cluster-count",
+        layers.locations !== false
       );
 
       setVisibility(
-        "blackfin-activity",
-        layers.blackfin
+        "fad-clusters",
+        layers.locations !== false
       );
 
       setVisibility(
-  "structure-clusters",
-  layers.locations !== false
-);
-
-setVisibility(
-  "structure-cluster-count",
-  layers.locations !== false
-);
+        "fad-cluster-count",
+        layers.locations !== false
+      );
 
       /*
        * SST styling
@@ -87,75 +82,70 @@ setVisibility(
         layers.sstOpacity ?? 0.28
       );
 
-
       /*
-       * Blue marlin heatmap styling
-       */
-
-      setPaintProperty(
-        "blue-marlin-heatmap",
-        "heatmap-opacity",
-        layers.marlinOpacity ?? 0.62
-      );
-
-      /*
-       * Keep the intelligence layers in the correct order.
-       *
-       * SST remains underneath.
-       * Marlin probability remains above SST.
-       * Tuna activity remains above both.
+       * Keep ocean evidence beneath
+       * location and cluster context.
        */
 
       if (
-  map.getLayer(
-    "chlorophyll-raster"
-  )
-) {
-  map.moveLayer(
-    "chlorophyll-raster"
-  );
-}
-
-      if (
-        map.getLayer("sst-overlay") &&
-        map.getLayer("blue-marlin-heatmap")
+        map.getLayer(
+          "chlorophyll-raster"
+        )
       ) {
         map.moveLayer(
-          "blue-marlin-heatmap"
+          "chlorophyll-raster"
         );
       }
 
       if (
-        map.getLayer("yellowfin-activity")
+        map.getLayer(
+          "sst-overlay"
+        )
       ) {
         map.moveLayer(
-          "yellowfin-activity"
+          "sst-overlay"
         );
       }
 
       if (
-        map.getLayer("blackfin-activity")
+        map.getLayer(
+          "structure-clusters"
+        )
       ) {
         map.moveLayer(
-          "blackfin-activity"
+          "structure-clusters"
         );
       }
 
       if (
-  map.getLayer("structure-clusters")
-) {
-  map.moveLayer(
-    "structure-clusters"
-  );
-}
+        map.getLayer(
+          "structure-cluster-count"
+        )
+      ) {
+        map.moveLayer(
+          "structure-cluster-count"
+        );
+      }
 
-if (
-  map.getLayer("structure-cluster-count")
-) {
-  map.moveLayer(
-    "structure-cluster-count"
-  );
-}
+      if (
+        map.getLayer(
+          "fad-clusters"
+        )
+      ) {
+        map.moveLayer(
+          "fad-clusters"
+        );
+      }
+
+      if (
+        map.getLayer(
+          "fad-cluster-count"
+        )
+      ) {
+        map.moveLayer(
+          "fad-cluster-count"
+        );
+      }
     };
 
     if (map.isStyleLoaded()) {
@@ -177,10 +167,6 @@ if (
     mapRef,
     layers.sst,
     layers.sstOpacity,
-    layers.marlin,
-    layers.marlinOpacity,
-    layers.yellowfin,
-    layers.blackfin,
     layers.locations,
   ]);
 }

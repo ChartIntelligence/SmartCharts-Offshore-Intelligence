@@ -18,9 +18,6 @@ function LayerControls({ layers, setLayers }) {
 
   const toggleableLayerNames = [
   "locations",
-  "marlin",
-  "yellowfin",
-  "blackfin",
   "sst",
   "chlorophyll",
   "currents",
@@ -141,57 +138,6 @@ const activeLayerCount =
   </div>
 
 )}
-
-          </div>
-
-
-          <div className="layer-group">
-
-            <h4>Species Intelligence</h4>
-
-            <label>
-
-              <input
-                type="checkbox"
-                checked={layers.marlin}
-                onChange={() =>
-                  toggleLayer("marlin")
-                }
-              />
-
-              Blue Marlin Probability
-
-            </label>
-
-
-            <label>
-
-              <input
-                type="checkbox"
-                checked={layers.yellowfin}
-                onChange={() =>
-                  toggleLayer("yellowfin")
-                }
-              />
-
-              Yellowfin Activity
-
-            </label>
-
-
-            <label>
-
-              <input
-                type="checkbox"
-                checked={layers.blackfin}
-                onChange={() =>
-                  toggleLayer("blackfin")
-                }
-              />
-
-              Blackfin Activity
-
-            </label>
 
           </div>
 

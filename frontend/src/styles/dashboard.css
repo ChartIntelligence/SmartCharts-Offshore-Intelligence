@@ -1229,29 +1229,6 @@
   box-sizing: border-box;
 }
 
-.legend-swatch.legend-marlin {
-  background-color: #ff4d4d !important;
-
-  box-shadow:
-    0 0 7px rgba(255, 77, 77, 0.8);
-}
-
-.legend-swatch.legend-yellowfin {
-  background-color: #ffd700 !important;
-
-  box-shadow:
-    0 0 7px rgba(255, 215, 0, 0.75);
-}
-
-.legend-swatch.legend-blackfin {
-  background-color: #111111 !important;
-
-  border: 1px solid #9aa7af;
-
-  box-shadow:
-    0 0 6px rgba(255, 255, 255, 0.25);
-}
-
 .legend-swatch.legend-sst {
   background:
     linear-gradient(
@@ -1276,6 +1253,105 @@
 
   box-shadow:
     0 0 7px rgba(184, 108, 255, 0.7);
+}
+
+/* =========================
+   MAP LEGEND GRAMMAR
+========================= */
+
+.fad-legend {
+  color: #e8bd70;
+}
+
+.drillship-legend {
+  color: #d7e8f2;
+}
+
+.legend-cluster-glyph {
+  position: relative;
+
+  width: 24px;
+  height: 22px;
+
+  display: inline-block;
+  flex: 0 0 24px;
+}
+
+.legend-cluster-tile {
+  position: absolute;
+
+  width: 11px;
+  height: 11px;
+
+  box-sizing: border-box;
+
+  background: #294f61;
+  border: 1px solid #d3e9f1;
+}
+
+.legend-cluster-tile-back {
+  left: 2px;
+  top: 2px;
+}
+
+.legend-cluster-tile-middle {
+  left: 6px;
+  top: 5px;
+}
+
+.legend-cluster-tile-front {
+  left: 10px;
+  top: 8px;
+}
+
+.legend-opportunity-marker {
+  position: relative;
+
+  width: 24px;
+  height: 24px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 24px;
+}
+
+.legend-opportunity-marker::before {
+  content: "";
+
+  position: absolute;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 140, 66, 0.5);
+
+  box-shadow:
+    0 0 8px rgba(255, 140, 66, 0.35);
+}
+
+.legend-opportunity-core {
+  position: relative;
+
+  width: 16px;
+  height: 16px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ff8c42;
+
+  color: #071923;
+
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 /* =========================

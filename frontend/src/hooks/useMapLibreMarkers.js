@@ -10,6 +10,7 @@ export function useMapLibreMarkers({
   showScores = false,
 }) {
   const markersRef = useRef([]);
+  const visibleRef = useRef(visible);
 
   useEffect(() => {
     const map = mapRef?.current;
@@ -26,7 +27,7 @@ export function useMapLibreMarkers({
     const createMarkers = () => {
       removeMarkers();
 
-      if (!visible || !Array.isArray(structures)) {
+      if (!Array.isArray(structures)) {
         return;
       }
 
@@ -189,15 +190,23 @@ const refreshMarkerVisibility = () => {
     const element =
       marker.getElement();
 
+    if (!element) {
+      return;
+    }
+
     const isClusterable =
-      element?.dataset.clusterable ===
+      element.dataset.clusterable ===
       "true";
 
-    if (!isClusterable) {
+    if (!visibleRef.current) {
+      element.style.display =
+        "none";
+
       return;
     }
 
     element.style.display =
+      isClusterable &&
       currentZoom < 8
         ? "none"
         : "";
@@ -239,9 +248,52 @@ return () => {
   }, [
     mapRef,
     structures,
-    visible,
     setSelectedSpot,
     showScores,
+  ]);
+
+  useEffect(() => {
+    visibleRef.current =
+      visible;
+
+    const map =
+      mapRef?.current;
+
+    if (!map) {
+      return;
+    }
+
+    const currentZoom =
+      map.getZoom();
+
+    markersRef.current.forEach((marker) => {
+      const element =
+        marker.getElement();
+
+      if (!element) {
+        return;
+      }
+
+      const isClusterable =
+        element.dataset.clusterable ===
+        "true";
+
+      if (!visible) {
+        element.style.display =
+          "none";
+
+        return;
+      }
+
+      element.style.display =
+        isClusterable &&
+        currentZoom < 8
+          ? "none"
+          : "";
+    });
+  }, [
+    mapRef,
+    visible,
   ]);
 
   useEffect(() => {

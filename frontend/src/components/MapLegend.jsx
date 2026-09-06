@@ -71,15 +71,127 @@ function FishingGroundLegendIcon() {
 }
 
 
+function FadLegendIcon() {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      className="legend-location-svg"
+      aria-hidden="true"
+    >
+      <circle
+        cx="32"
+        cy="16"
+        r="9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+      />
+
+      <path
+        d="M32 25v24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M23 49h18l-4 9H27l-4-9Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M17 31c4-4 8-4 12 0M35 34c4-4 8-4 12 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+
+function DrillShipLegendIcon() {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      className="legend-location-svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M10 40h44l-7 12H18L10 40Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M20 40V24h24v16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M27 24V12h10v12M32 12V4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M15 56c5 3 9 3 14 0 5 3 9 3 14 0 5 3 9 3 14 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+
+function ClusterLegendIcon() {
+  return (
+    <span
+      className="legend-cluster-glyph"
+      aria-hidden="true"
+    >
+      <span className="legend-cluster-tile legend-cluster-tile-back" />
+      <span className="legend-cluster-tile legend-cluster-tile-middle" />
+      <span className="legend-cluster-tile legend-cluster-tile-front" />
+    </span>
+  );
+}
+
+
+function OpportunityLegendIcon() {
+  return (
+    <span
+      className="legend-opportunity-marker"
+      aria-hidden="true"
+    >
+      <span className="legend-opportunity-core">
+        1
+      </span>
+    </span>
+  );
+}
+
+
 function MapLegend({ layers }) {
 
   const [isOpen, setIsOpen] = useState(false);
 
 
   const hasIntelligenceLayers =
-    layers.marlin ||
-    layers.yellowfin ||
-    layers.blackfin ||
     layers.sst ||
     layers.chlorophyll ||
     layers.currents ||
@@ -153,46 +265,44 @@ function MapLegend({ layers }) {
                 </span>
 
               </div>
+
+
+              <div className="legend-row">
+
+                <span className="legend-location fad-legend">
+                  <FadLegendIcon />
+                </span>
+
+                <span>
+                  FAD
+                </span>
+
+              </div>
+
+
+              <div className="legend-row">
+
+                <span className="legend-location drillship-legend">
+                  <DrillShipLegendIcon />
+                </span>
+
+                <span>
+                  Drill Ship
+                </span>
+
+              </div>
+
+
+              <div className="legend-row">
+
+                <ClusterLegendIcon />
+
+                <span>
+                  Location Cluster
+                </span>
+
+              </div>
             </>
-          )}
-
-
-          {layers.marlin && (
-            <div className="legend-row">
-
-              <span className="legend-swatch legend-marlin" />
-
-              <span>
-                Blue Marlin Heatmap
-              </span>
-
-            </div>
-          )}
-
-
-          {layers.yellowfin && (
-            <div className="legend-row">
-
-              <span className="legend-swatch legend-yellowfin" />
-
-              <span>
-                Yellowfin
-              </span>
-
-            </div>
-          )}
-
-
-          {layers.blackfin && (
-            <div className="legend-row">
-
-              <span className="legend-swatch legend-blackfin" />
-
-              <span>
-                Blackfin
-              </span>
-
-            </div>
           )}
 
 
@@ -263,11 +373,16 @@ function MapLegend({ layers }) {
           )}
 
 
-          {!layers.locations && !hasIntelligenceLayers && (
-            <p className="legend-empty">
-              No active map layers
-            </p>
-          )}
+          <div className="legend-row">
+
+            <OpportunityLegendIcon />
+
+            <span>
+              Open Water Opportunity
+            </span>
+
+          </div>
+
 
         </div>
       )}
