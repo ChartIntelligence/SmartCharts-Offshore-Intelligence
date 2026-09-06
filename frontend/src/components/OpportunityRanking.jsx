@@ -1,5 +1,6 @@
 function OpportunityRanking({
   opportunities = [],
+  opportunityState = "loading",
   setSelectedOpportunity,
   setActiveTab
 }) {
@@ -8,6 +9,26 @@ function OpportunityRanking({
       ? opportunities
       : [];
 
+
+  let emptyMessage = null;
+
+
+  if (opportunityState === "loading") {
+    emptyMessage =
+      "Evaluating governed opportunities…";
+  } else if (
+    opportunityState === "unavailable"
+  ) {
+    emptyMessage =
+      "Opportunity ranking is temporarily unavailable.";
+  } else if (
+    opportunityState === "governed-zero"
+  ) {
+    emptyMessage =
+      "No governed opportunities currently meet Pelora's minimum evidence requirements.";
+  }
+
+
   return (
     <div className="opportunity-ranking">
 
@@ -15,12 +36,11 @@ function OpportunityRanking({
         Top Blue Marlin Opportunities
       </h2>
 
-      {governedOpportunities.length ===
-      0 ? (
+      {opportunityState !== "available" ||
+      governedOpportunities.length === 0 ? (
         <p>
-          No governed opportunities currently
-          meet Pelora&apos;s minimum evidence
-          requirements.
+          {emptyMessage ??
+            "No governed opportunities are currently available."}
         </p>
       ) : (
         governedOpportunities.map(
@@ -99,5 +119,6 @@ function OpportunityRanking({
     </div>
   );
 }
+
 
 export default OpportunityRanking;

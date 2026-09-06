@@ -80,11 +80,89 @@ function NarrativeStatement({
 
 
 function OpportunityIntelligence({
-  opportunity = null
+  opportunity = null,
+  opportunityState = "loading"
 }) {
   const narrative =
     opportunity?.captainNarrative ??
     null;
+
+
+    if (opportunityState === "loading") {
+        return (
+            <section className="opportunity-intelligence">
+            <p className="section-eyebrow">
+                Governed Analysis
+            </p>
+
+            <h2>
+                Opportunity Intelligence
+            </h2>
+
+            <p>
+                Reading the ocean…
+            </p>
+
+            <p>
+                Detailed analysis will appear after
+                Pelora completes the current governed
+                evaluation.
+            </p>
+            </section>
+        );
+    }
+
+
+    if (opportunityState === "unavailable") {
+        return (
+            <section className="opportunity-intelligence">
+            <p className="section-eyebrow">
+                Governed Analysis
+            </p>
+
+            <h2>
+                Opportunity Intelligence
+            </h2>
+
+            <p>
+                Opportunity intelligence is temporarily
+                unavailable.
+            </p>
+
+            <p>
+                Pelora could not complete the current
+                evaluation.
+            </p>
+            </section>
+        );
+    }
+
+
+    if (opportunityState === "governed-zero") {
+        return (
+            <section className="opportunity-intelligence">
+            <p className="section-eyebrow">
+                Governed Analysis
+            </p>
+
+            <h2>
+                Opportunity Intelligence
+            </h2>
+
+            <p>
+                No governed opportunity currently meets
+                Pelora&apos;s minimum evidence
+                requirements.
+            </p>
+
+            <p>
+                Detailed opportunity analysis is only
+                shown for locations that pass the
+                governed evidence requirements.
+            </p>
+            </section>
+        );
+    }
 
 
   if (!opportunity) {

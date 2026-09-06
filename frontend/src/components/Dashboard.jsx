@@ -244,6 +244,19 @@ const dynamicTopOpportunities =
     : [];
 
 
+const opportunityState =
+  dynamicOpportunityLoading
+    ? "loading"
+    : dynamicOpportunityError
+      ? "unavailable"
+      : dynamicOpportunityData &&
+          dynamicTopOpportunities.length > 0
+        ? "available"
+        : dynamicOpportunityData
+          ? "governed-zero"
+          : "loading";
+
+
 const displayedTopOpportunities =
   dynamicTopOpportunities;
 
@@ -280,8 +293,10 @@ useEffect(() => {
 
 
 const activeOpportunity =
-  selectedGovernedOpportunity ??
-  dynamicTopSpot;
+  opportunityState === "available"
+    ? selectedGovernedOpportunity ??
+      dynamicTopSpot
+    : null;
 
 
 // Active Ocean Brief opportunity
@@ -435,6 +450,9 @@ const handleReportSaved = () => {
     }
     activeOpportunity={
       activeOpportunity
+    }
+    opportunityState={
+      opportunityState
     }
     setSelectedOpportunity={
       setSelectedOpportunity
@@ -599,6 +617,9 @@ const handleReportSaved = () => {
               opportunities={
                 displayedTopOpportunities
               }
+              opportunityState={
+                opportunityState
+              }
             />
 
           </section>
@@ -610,6 +631,9 @@ const handleReportSaved = () => {
               opportunity={
                 activeOpportunity
               }
+              opportunityState={
+                opportunityState
+              }
             />
 
           </section>
@@ -620,6 +644,9 @@ const handleReportSaved = () => {
             <OpportunityRanking
               opportunities={
                 displayedTopOpportunities
+              }
+              opportunityState={
+                opportunityState
               }
               setSelectedOpportunity={
                 handleSelectOpportunity

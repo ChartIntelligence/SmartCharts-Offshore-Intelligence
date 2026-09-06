@@ -1,6 +1,7 @@
 function TodayDashboard({
   topOpportunities,
   activeOpportunity,
+  opportunityState = "loading",
   setSelectedOpportunity,
   liveMarineData,
   liveMarineLoading,
@@ -44,20 +45,76 @@ const opportunityConfidenceLevel =
     ?.level ??
   "Unavailable";
 
-  const oceanBriefSummary =
-    buildOceanBriefSummary({
-      opportunity:
-        activeOpportunity,
+const opportunityStateLabel =
+  opportunityState === "loading"
+    ? "Evaluating"
+    : opportunityState === "governed-zero"
+      ? "No Qualifying Opportunity"
+      : opportunityState === "unavailable"
+        ? "Unavailable"
+        : activeOpportunity?.name ??
+          "Available";
 
-      dynamicOpportunity,
 
-      liveMarineData,
+const opportunityScoreLabel =
+  opportunityState === "loading"
+    ? "Evaluating"
+    : opportunityState === "governed-zero"
+      ? "Not Ranked"
+      : opportunityState === "unavailable"
+        ? "Unavailable"
+        : Number.isFinite(
+            opportunityScore
+          )
+          ? opportunityScore
+          : "Unavailable";
 
-      score:
-        opportunityScore,
 
-      confidence:
-        opportunityConfidence
+const opportunityScoreTileLabel =
+  opportunityState === "available"
+    ? opportunityScoreLabel
+    : "—";
+
+
+const opportunityConfidenceLabel =
+  opportunityState === "loading"
+    ? "Evaluating"
+    : opportunityState === "governed-zero"
+      ? "Not Established"
+      : opportunityState === "unavailable"
+        ? "Unavailable"
+        : Number.isFinite(
+            opportunityConfidence
+          )
+          ? `${opportunityConfidence}%`
+          : "Unavailable";
+
+
+const opportunityConfidenceStateLabel =
+  opportunityState === "loading"
+    ? "Reading the ocean"
+    : opportunityState === "governed-zero"
+      ? "No governed ranking"
+      : opportunityState === "unavailable"
+        ? "Evaluation unavailable"
+        : opportunityConfidenceLevel;
+
+const oceanBriefSummary =
+  buildOceanBriefSummary({
+    opportunity:
+      activeOpportunity,
+
+    opportunityState,
+
+    dynamicOpportunity,
+
+    liveMarineData,
+
+    score:
+      opportunityScore,
+
+    confidence:
+      opportunityConfidence
   });
 
 const wind =
@@ -314,8 +371,7 @@ const structureDetail =
       </span>
 
       <strong>
-        {activeOpportunity?.name ??
-          "Unavailable"}
+        {opportunityStateLabel}
       </strong>
 
     </div>
@@ -328,9 +384,7 @@ const structureDetail =
       </span>
 
       <strong>
-        {Number.isFinite(opportunityScore)
-          ? opportunityScore
-          : "Unavailable"}
+        {opportunityScoreLabel}
       </strong>
 
     </div>
@@ -343,13 +397,11 @@ const structureDetail =
       </span>
 
       <strong>
-        {Number.isFinite(opportunityConfidence)
-          ? `${opportunityConfidence}%`
-          : "Unavailable"}
+        {opportunityConfidenceLabel}
       </strong>
 
       <small>
-        {opportunityConfidenceLevel}
+        {opportunityConfidenceStateLabel}
       </small>
 
     </div>
@@ -404,96 +456,125 @@ const structureDetail =
 
     <div className="ocean-brief-opportunity-list">
 
-      {topOpportunities.map(
-        (opportunity, index) => {
-
-          const dynamicOpportunity =
-            opportunity
-              ?.dynamicOpportunity ??
-            null;
-
-
-          const displayedScore =
-            Number.isFinite(
-              dynamicOpportunity?.score
-            )
-              ? dynamicOpportunity.score
-              : null;
-
-
-          const displayedConfidenceLevel =
-            dynamicOpportunity
-              ?.confidence
-              ?.level ??
-            "Unavailable";
-
-          const isActive =
-            activeOpportunity?.id ===
-              opportunity.id ||
-            activeOpportunity?.name ===
-              opportunity.name;
-
-          return (
-
-            <button
-              type="button"
-              key={
-                opportunity.id ??
-                opportunity.name
-              }
-              className={[
-                "ocean-brief-opportunity",
-                isActive
-                  ? "active-ocean-opportunity"
-                  : ""
-              ]
-                .filter(Boolean)
-                .join(" ")}
-              onClick={() =>
-                setSelectedOpportunity(
-                  opportunity
-                )
-              }
-            >
-
-              <span className="ocean-brief-rank">
-                {index + 1}
-              </span>
-
-
-              <span className="ocean-brief-location">
-
-                <strong>
-                  {opportunity.name}
-                </strong>
-
-                <small>
-                  {opportunity.region ??
-                    "Gulf of Mexico"}
-                </small>
-
-              </span>
-
-
-              <span className="ocean-brief-trend">
-
-                <small>
-                  {displayedConfidenceLevel}
-                </small>
-
-                <strong>
-                  {Number.isFinite(displayedScore)
-                    ? displayedScore
-                    : "Unavailable"}
-                </strong>
-
-              </span>
-
-            </button>
-
-          );
-        }
+      {opportunityState === "loading" && (
+        <p>
+          Evaluating governed opportunities…
+        </p>
       )}
+
+
+      {opportunityState ===
+        "governed-zero" && (
+        <p>
+          No governed opportunities currently meet
+          Pelora&apos;s minimum evidence
+          requirements.
+        </p>
+      )}
+
+
+      {opportunityState ===
+        "unavailable" && (
+        <p>
+          Opportunity ranking is temporarily
+          unavailable.
+        </p>
+      )}
+
+
+      {opportunityState === "available" &&
+        topOpportunities.map(
+          (opportunity, index) => {
+
+            const dynamicOpportunity =
+              opportunity
+                ?.dynamicOpportunity ??
+              null;
+
+
+            const displayedScore =
+              Number.isFinite(
+                dynamicOpportunity?.score
+              )
+                ? dynamicOpportunity.score
+                : null;
+
+
+            const displayedConfidenceLevel =
+              dynamicOpportunity
+                ?.confidence
+                ?.level ??
+              "Unavailable";
+
+
+            const isActive =
+              activeOpportunity?.id ===
+                opportunity.id ||
+              activeOpportunity?.name ===
+                opportunity.name;
+
+
+            return (
+
+              <button
+                type="button"
+                key={
+                  opportunity.id ??
+                  opportunity.name
+                }
+                className={[
+                  "ocean-brief-opportunity",
+                  isActive
+                    ? "active-ocean-opportunity"
+                    : ""
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                onClick={() =>
+                  setSelectedOpportunity(
+                    opportunity
+                  )
+                }
+              >
+
+                <span className="ocean-brief-rank">
+                  {index + 1}
+                </span>
+
+
+                <span className="ocean-brief-location">
+
+                  <strong>
+                    {opportunity.name}
+                  </strong>
+
+                  <small>
+                    {opportunity.region ??
+                      "Gulf of Mexico"}
+                  </small>
+
+                </span>
+
+
+                <span className="ocean-brief-trend">
+
+                  <small>
+                    {displayedConfidenceLevel}
+                  </small>
+
+                  <strong>
+                    {Number.isFinite(displayedScore)
+                      ? displayedScore
+                      : "Unavailable"}
+                  </strong>
+
+                </span>
+
+              </button>
+
+            );
+          }
+        )}
 
     </div>
 
@@ -515,8 +596,16 @@ const structureDetail =
               </p>
 
               <h3>
-                {activeOpportunity?.name ??
-                  "Opportunity unavailable"}
+                {opportunityState === "loading"
+                  ? "Evaluating opportunities"
+                  : opportunityState ===
+                      "governed-zero"
+                    ? "No qualifying opportunity"
+                    : opportunityState ===
+                        "unavailable"
+                      ? "Opportunity unavailable"
+                      : activeOpportunity?.name ??
+                        "Opportunity unavailable"}
               </h3>
 
               <p className="velion-location-meta">
@@ -538,13 +627,17 @@ const structureDetail =
               </span>
 
               <strong>
-                {Number.isFinite(opportunityScore)
-                  ? opportunityScore
-                  : "Unavailable"}
+                {opportunityScoreTileLabel}
               </strong>
 
               <small>
-                out of 100
+                {opportunityState === "available"
+                  ? "out of 100"
+                  : opportunityState === "loading"
+                    ? "evaluating"
+                    : opportunityState === "governed-zero"
+                      ? "not ranked"
+                      : "unavailable"}
               </small>
 
             </div>
@@ -561,9 +654,7 @@ const structureDetail =
               </span>
 
               <strong>
-                {Number.isFinite(opportunityConfidence)
-                  ? `${opportunityConfidence}%`
-                  : "Unavailable"}
+                {opportunityConfidenceLabel}
               </strong>
 
             </div>
@@ -972,15 +1063,39 @@ function ConditionCard({
 
 function buildOceanBriefSummary({
   opportunity,
+  opportunityState,
   dynamicOpportunity,
   liveMarineData,
   score,
   confidence
 }) {
+  if (opportunityState === "loading") {
+    return (
+      "Pelora is reading the ocean and evaluating governed " +
+      "opportunities for the current trip mission."
+    );
+  }
+
+
+  if (opportunityState === "governed-zero") {
+    return (
+      "Pelora completed the current evaluation. No opportunity " +
+      "currently meets the governed evidence requirements."
+    );
+  }
+
+
+  if (opportunityState === "unavailable") {
+    return (
+      "Pelora could not complete the current opportunity evaluation. " +
+      "Opportunity intelligence is temporarily unavailable."
+    );
+  }
+
+
   if (!opportunity) {
     return (
-      "Pelora is still reading the water. " +
-      "No clear leading opportunity has separated itself yet."
+      "No governed opportunity is currently available for analysis."
     );
   }
 

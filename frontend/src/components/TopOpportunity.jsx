@@ -1,5 +1,6 @@
 function TopOpportunity({
-  opportunities = []
+  opportunities = [],
+  opportunityState = "loading"
 }) {
   const best =
     Array.isArray(opportunities)
@@ -9,11 +10,58 @@ function TopOpportunity({
   const dynamicOpportunity =
     best?.dynamicOpportunity ?? null;
 
-  if (!best || !dynamicOpportunity) {
+
+  if (opportunityState === "loading") {
     return (
       <div className="top-opportunity">
         <h2>
-          Today's Best Opportunity
+          Today&apos;s Best Opportunity
+        </h2>
+
+        <p>
+          Reading the ocean…
+        </p>
+
+        <p>
+          Pelora is evaluating governed
+          opportunities for the current trip
+          mission.
+        </p>
+      </div>
+    );
+  }
+
+
+  if (opportunityState === "unavailable") {
+    return (
+      <div className="top-opportunity">
+        <h2>
+          Today&apos;s Best Opportunity
+        </h2>
+
+        <p>
+          Opportunity intelligence is
+          temporarily unavailable.
+        </p>
+
+        <p>
+          Pelora could not complete the current
+          evaluation.
+        </p>
+      </div>
+    );
+  }
+
+
+  if (
+    opportunityState === "governed-zero" ||
+    !best ||
+    !dynamicOpportunity
+  ) {
+    return (
+      <div className="top-opportunity">
+        <h2>
+          Today&apos;s Best Opportunity
         </h2>
 
         <p>
@@ -25,14 +73,16 @@ function TopOpportunity({
     );
   }
 
+
   const confidence =
     dynamicOpportunity?.confidence ?? null;
+
 
   return (
     <div className="top-opportunity">
 
       <h2>
-        Today's Best Opportunity
+        Today&apos;s Best Opportunity
       </h2>
 
       <h1>
@@ -88,5 +138,6 @@ function TopOpportunity({
     </div>
   );
 }
+
 
 export default TopOpportunity;
