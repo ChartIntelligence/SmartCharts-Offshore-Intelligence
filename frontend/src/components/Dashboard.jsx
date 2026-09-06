@@ -9,6 +9,7 @@ import MapLibreIntelligenceMap from "./MapLibreIntelligenceMap";
 import MapLegend from "./MapLegend";
 import TopOpportunity from "./TopOpportunity";
 import OpportunityRanking from "./OpportunityRanking";
+import OpportunityIntelligence from "./OpportunityIntelligence";
 import SelectedTarget from "./SelectedTarget";
 import LocationSearch from "./LocationSearch";
 import FishingDayReportPanel from "./FishingDayReportPanel";
@@ -116,6 +117,34 @@ const {
 );
 
 
+const captainNarratives =
+  Array.isArray(
+    dynamicOpportunityData
+      ?.delivery
+      ?.captainNarratives
+  )
+    ? dynamicOpportunityData
+        .delivery
+        .captainNarratives
+    : [];
+
+
+const captainNarrativeByOpportunityId =
+  new Map(
+    captainNarratives
+      .filter(
+        item =>
+          item?.opportunityId != null
+      )
+      .map(
+        item => [
+          item.opportunityId,
+          item?.narrative ?? null
+        ]
+      )
+  );
+
+
 const dynamicTopOpportunities =
   Array.isArray(
     dynamicOpportunityData
@@ -170,6 +199,13 @@ const dynamicTopOpportunities =
                 : matchingLocation
                     ?.coordinates ??
                   null,
+
+            captainNarrative:
+              location?.id != null
+                ? captainNarrativeByOpportunityId
+                    .get(location.id) ??
+                  null
+                : null,
 
             dynamicOpportunity: {
               rank:
@@ -562,6 +598,17 @@ const handleReportSaved = () => {
             <TopOpportunity
               opportunities={
                 displayedTopOpportunities
+              }
+            />
+
+          </section>
+
+
+          <section className="intelligence-analysis-section">
+
+            <OpportunityIntelligence
+              opportunity={
+                activeOpportunity
               }
             />
 

@@ -6682,3 +6682,167 @@ animation:
   }
 
 }
+
+
+/* =========================
+   GOVERNED OPPORTUNITY INTELLIGENCE
+========================= */
+
+.intelligence-analysis-section {
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+
+
+.opportunity-intelligence {
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #102b42,
+      #081f30
+    );
+
+  border: 1px solid #1f506e;
+  border-radius: 14px;
+
+  box-shadow:
+    0 0 20px rgba(0, 170, 255, 0.1);
+}
+
+
+.opportunity-intelligence-header {
+  margin-bottom: 20px;
+}
+
+
+.opportunity-intelligence-header h2 {
+  margin: 4px 0 8px;
+
+  color: #f5fbff;
+
+  font-size: 25px;
+}
+
+
+.opportunity-intelligence-header p:not(.section-eyebrow) {
+  margin: 0;
+
+  color: #9ec9df;
+
+  line-height: 1.5;
+}
+
+
+.opportunity-intelligence-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 14px;
+}
+
+
+.opportunity-intelligence-card {
+  padding: 17px;
+
+  background: #081f30;
+
+  border: 1px solid #1f506e;
+  border-radius: 10px;
+}
+
+
+.opportunity-intelligence-card-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+
+.opportunity-intelligence-card-header h3 {
+  margin: 0;
+
+  color: #f5fbff;
+
+  font-size: 17px;
+}
+
+
+.opportunity-intelligence-state {
+  flex-shrink: 0;
+
+  padding: 4px 8px;
+
+  border: 1px solid #1f506e;
+  border-radius: 999px;
+
+  color: #9ec9df;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+
+.opportunity-intelligence-statement {
+  margin-top: 12px;
+}
+
+
+.opportunity-intelligence-statement strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #ff9f61;
+
+  font-size: 12px;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+
+.opportunity-intelligence-statement p,
+.opportunity-intelligence-card > p {
+  margin: 0;
+
+  color: #c5dce8;
+
+  line-height: 1.55;
+}
+
+
+@media (max-width: 760px) {
+  .opportunity-intelligence {
+    padding: 16px;
+  }
+
+
+  .opportunity-intelligence-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .opportunity-intelligence-card {
+    padding: 15px;
+  }
+
+
+  .opportunity-intelligence-card-header {
+    align-items: flex-start;
+  }
+}
