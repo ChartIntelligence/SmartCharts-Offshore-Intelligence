@@ -70,18 +70,6 @@ const isDrillShip =
     .toLowerCase()
     .includes("fish aggregating device");
 
-const currentZoom =
-  map.getZoom();
-
-if (
-  (
-    isPlatform ||
-    isFad
-  ) &&
-  currentZoom < 8
-) {
-  return;
-}
 
 const isSelected =
   selectedSpot?.name === spot.name;
@@ -92,10 +80,18 @@ const markerAnchor =
 markerAnchor.className =
   "smartcharts-marker-anchor";
 
+markerAnchor.dataset.clusterable =
+  isPlatform || isFad
+    ? "true"
+    : "false";
+
 const markerButton =
   document.createElement("button");
 
 markerButton.type = "button";
+
+markerButton.dataset.spotName =
+  spot.name ?? "";
 
 const markerClass = isDrillShip
   ? "drill-ship-marker"
@@ -185,33 +181,57 @@ markerButton.innerHTML = isDrillShip
       });
     };
 
-    const refreshMarkers = () => {
+const refreshMarkerVisibility = () => {
+  const currentZoom =
+    map.getZoom();
+
+  markersRef.current.forEach((marker) => {
+    const element =
+      marker.getElement();
+
+    const isClusterable =
+      element?.dataset.clusterable ===
+      "true";
+
+    if (!isClusterable) {
+      return;
+    }
+
+    element.style.display =
+      currentZoom < 8
+        ? "none"
+        : "";
+  });
+};
+
+const initializeMarkers = () => {
   createMarkers();
+  refreshMarkerVisibility();
 };
 
 if (map.loaded()) {
-  createMarkers();
+  initializeMarkers();
 } else {
   map.once(
     "load",
-    createMarkers
+    initializeMarkers
   );
 }
 
 map.on(
-  "zoomend",
-  refreshMarkers
+  "zoom",
+  refreshMarkerVisibility
 );
 
-    return () => {
+return () => {
   map.off(
     "load",
-    createMarkers
+    initializeMarkers
   );
 
   map.off(
-    "zoomend",
-    refreshMarkers
+    "zoom",
+    refreshMarkerVisibility
   );
 
   removeMarkers();
@@ -220,11 +240,35 @@ map.on(
     mapRef,
     structures,
     visible,
-    selectedSpot?.name,
     setSelectedSpot,
     showScores,
   ]);
+
+  useEffect(() => {
+    markersRef.current.forEach((marker) => {
+      const element = marker.getElement();
+
+      const button =
+        element?.querySelector(
+          ".maplibre-location-marker"
+        );
+
+      if (!button) {
+        return;
+      }
+
+      const markerName =
+        button.dataset.spotName ?? "";
+
+      button.classList.toggle(
+        "selected-maplibre-marker",
+        markerName ===
+          (selectedSpot?.name ?? "")
+      );
+    });
+  }, [selectedSpot?.name]);
 }
+
 
 function normalizeCoordinates(
   coordinates,

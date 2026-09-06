@@ -15,15 +15,13 @@ export function useMapLibreSelection({
     }
 
 
-    map.flyTo({
+    map.easeTo({
       center: [
         selectedSpot.coordinates[1],
         selectedSpot.coordinates[0]
       ],
 
-      zoom: 10,
-
-      duration: 1400,
+      duration: 450,
 
       essential: true
     });

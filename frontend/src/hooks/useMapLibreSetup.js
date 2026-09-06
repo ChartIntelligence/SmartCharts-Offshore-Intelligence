@@ -422,6 +422,111 @@ export function useMapLibreSetup({
       }
 
 
+      const ensureClusterIcon = (
+        name,
+        fillColor,
+        strokeColor
+      ) => {
+        if (map.hasImage(name)) {
+          return;
+        }
+
+        const canvas =
+          document.createElement("canvas");
+
+        canvas.width = 28;
+        canvas.height = 24;
+
+        const context =
+          canvas.getContext("2d");
+
+        if (!context) {
+          return;
+        }
+
+        context.clearRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        context.lineWidth = 1.5;
+        context.strokeStyle =
+          strokeColor;
+        context.fillStyle =
+          fillColor;
+
+        /*
+         * Three offset tiles create a
+         * clear "grouped locations" symbol.
+         */
+        context.fillRect(
+          9,
+          3,
+          13,
+          13
+        );
+        context.strokeRect(
+          9,
+          3,
+          13,
+          13
+        );
+
+        context.fillRect(
+          6,
+          6,
+          13,
+          13
+        );
+        context.strokeRect(
+          6,
+          6,
+          13,
+          13
+        );
+
+        context.fillRect(
+          3,
+          9,
+          13,
+          13
+        );
+        context.strokeRect(
+          3,
+          9,
+          13,
+          13
+        );
+
+        map.addImage(
+          name,
+          context.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          ),
+          {
+            pixelRatio: 1,
+          }
+        );
+      };
+
+      ensureClusterIcon(
+        "pelora-structure-cluster",
+        "#294f61",
+        "#d3e9f1"
+      );
+
+      ensureClusterIcon(
+        "pelora-fad-cluster",
+        "#365665",
+        "#e8bd70"
+      );
+
+
       if (
         !map.getLayer(
           "structure-clusters"
@@ -430,7 +535,9 @@ export function useMapLibreSetup({
         map.addLayer({
           id: "structure-clusters",
 
-          type: "circle",
+          type: "symbol",
+
+          maxzoom: 8,
 
           source:
             "velion-structure-clusters",
@@ -445,47 +552,15 @@ export function useMapLibreSetup({
               layers.locations !== false
                 ? "visible"
                 : "none",
-          },
 
-          paint: {
-            "circle-color": [
-              "step",
-              ["get", "point_count"],
+            "icon-image":
+              "pelora-structure-cluster",
 
-              "#183f59",
+            "icon-size":
+              0.98,
 
-              10,
-              "#175c78",
-
-              30,
-              "#137b91",
-
-              75,
-              "#0d9aaa",
-            ],
-
-            "circle-radius": [
-              "step",
-              ["get", "point_count"],
-
-              17,
-
-              10,
-              21,
-
-              30,
-              26,
-
-              75,
-              32,
-            ],
-
-            "circle-stroke-color":
-              "rgba(255, 255, 255, 0.85)",
-
-            "circle-stroke-width": 2,
-
-            "circle-opacity": 0.92,
+            "icon-allow-overlap":
+              true,
           },
         });
       }
@@ -497,9 +572,12 @@ export function useMapLibreSetup({
         )
       ) {
         map.addLayer({
-          id: "structure-cluster-count",
+          id:
+            "structure-cluster-count",
 
           type: "symbol",
+
+          maxzoom: 8,
 
           source:
             "velion-structure-clusters",
@@ -520,23 +598,35 @@ export function useMapLibreSetup({
               "point_count_abbreviated",
             ],
 
-            "text-size": 13,
+            "text-size":
+              12,
 
-            /*
-             * Do not specify a custom font.
-             * The demo style will use its
-             * available default font.
-             */
-            "text-allow-overlap": true,
+            "text-anchor":
+              "left",
+
+            "text-offset": [
+              1.1,
+              0,
+            ],
+
+            "text-allow-overlap":
+              true,
           },
 
           paint: {
-            "text-color": "#ffffff",
+            "text-color":
+              "#e8f6fb",
+
+            "text-halo-color":
+              "rgba(4, 20, 29, 0.92)",
+
+            "text-halo-width":
+              1.5,
           },
         });
       }
 
-            if (
+      if (
         !map.getLayer(
           "fad-clusters"
         )
@@ -544,7 +634,9 @@ export function useMapLibreSetup({
         map.addLayer({
           id: "fad-clusters",
 
-          type: "circle",
+          type: "symbol",
+
+          maxzoom: 8,
 
           source:
             "pelora-fad-clusters",
@@ -559,33 +651,15 @@ export function useMapLibreSetup({
               layers.locations !== false
                 ? "visible"
                 : "none",
-          },
 
-          paint: {
-            "circle-color":
-              "#f28c45",
+            "icon-image":
+              "pelora-fad-cluster",
 
-            "circle-radius": [
-              "step",
-              ["get", "point_count"],
+            "icon-size":
+              0.98,
 
-              19,
-
-              4,
-              23,
-
-              8,
-              27,
-            ],
-
-            "circle-stroke-color":
-              "rgba(255, 255, 255, 0.9)",
-
-            "circle-stroke-width":
-              2,
-
-            "circle-opacity":
-              0.95,
+            "icon-allow-overlap":
+              true,
           },
         });
       }
@@ -603,6 +677,8 @@ export function useMapLibreSetup({
           type:
             "symbol",
 
+          maxzoom: 8,
+
           source:
             "pelora-fad-clusters",
 
@@ -618,16 +694,20 @@ export function useMapLibreSetup({
                 : "none",
 
             "text-field": [
-              "concat",
-              [
-                "get",
-                "point_count_abbreviated",
-              ],
-              " FADs",
+              "get",
+              "point_count_abbreviated",
             ],
 
             "text-size":
               12,
+
+            "text-anchor":
+              "left",
+
+            "text-offset": [
+              1.1,
+              0,
+            ],
 
             "text-allow-overlap":
               true,
@@ -635,13 +715,13 @@ export function useMapLibreSetup({
 
           paint: {
             "text-color":
-              "#ffffff",
+              "#f6e5bd",
 
             "text-halo-color":
-              "rgba(0, 0, 0, 0.35)",
+              "rgba(4, 20, 29, 0.92)",
 
             "text-halo-width":
-              1,
+              1.5,
           },
         });
       }
@@ -886,5 +966,6 @@ export function useMapLibreSetup({
     mapRef,
     geoJson,
     structureClusterGeoJson,
+    fadClusterGeoJson,
   ]);
 }

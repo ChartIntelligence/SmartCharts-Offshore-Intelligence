@@ -1,5 +1,6 @@
 import TodayDashboard from "./TodayDashboard";
 import {
+  useCallback,
   useEffect,
   useState
 } from "react";
@@ -67,20 +68,20 @@ function Dashboard({
     setSelectedOpportunity
   ] = useState(null);
 
-  const handleSelectSpot = spot => {
-    setSelectedSpot(spot);
-    setSelectedOpportunity(null);
-  };
-
+  const handleSelectSpot =
+    useCallback((spot) => {
+      setSelectedSpot(spot);
+      setSelectedOpportunity(null);
+    }, []);
 
   const handleSelectOpportunity =
-    opportunity => {
+    useCallback((opportunity) => {
       setSelectedOpportunity(
         opportunity
       );
 
       setSelectedSpot(null);
-    };
+    }, []);
 
   const [
     reportPanelOpen,
