@@ -174,7 +174,7 @@ function FoundingCaptainAccessGate() {
 
           options: {
             emailRedirectTo:
-              window.location.origin
+              `${window.location.origin}/?app=1`
           }
         });
 
