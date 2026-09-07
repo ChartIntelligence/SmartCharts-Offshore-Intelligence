@@ -5,8 +5,9 @@ import {
 
 
 const OPPORTUNITY_API_URL =
-  "https://velion-ocean-engine.onrender.com/api/opportunities";
-
+  import.meta.env.DEV
+    ? "/api/opportunities"
+    : "https://velion-ocean-engine.onrender.com/api/opportunities";
 
 export function useDynamicOpportunities(
   species = "blue-marlin",

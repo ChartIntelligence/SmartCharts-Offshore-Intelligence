@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState
 } from "react";
 
@@ -154,18 +155,28 @@ export function useTripMission() {
 
 
   const captainSpatialContext =
-    buildCaptainSpatialContext({
-      origin:
-        tripMission.origin,
+    useMemo(
+      () =>
+        buildCaptainSpatialContext({
+          origin:
+            tripMission.origin,
 
-      operatingRangeNm:
+          operatingRangeNm:
+            tripMission
+              .operatingRangeNm,
+
+          explorationMode:
+            tripMission
+              .explorationMode
+        }),
+      [
+        tripMission.origin,
         tripMission
           .operatingRangeNm,
-
-      explorationMode:
         tripMission
           .explorationMode
-    });
+      ]
+    );
 
 
   const missionReady =
