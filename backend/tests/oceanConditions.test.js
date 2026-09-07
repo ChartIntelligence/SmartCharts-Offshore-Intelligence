@@ -42289,6 +42289,52 @@ console.log(
     ),
     false
   );
+
+  assert.equal(
+    governedZero.historicalFallback
+      ?.available,
+    false
+  );
+
+  assert.equal(
+    governedZero.historicalFallback
+      ?.reason,
+    "governed-opportunity-history-retrieval-unavailable"
+  );
+
+  assert.equal(
+    governedZero.historicalFallback
+      ?.opportunities ??
+      null,
+    null
+  );
+
+  assert.equal(
+    governedZero.delivery
+      ?.available,
+    false
+  );
+
+  assert.deepEqual(
+    governedZero.opportunities,
+    []
+  );
+
+  assert.equal(
+    governedZero.historicalFallback
+      ?.historicalState
+      ?.establishesCurrentOpportunity ??
+      null,
+    null
+  );
+
+  assert.equal(
+    governedZero.historicalFallback
+      ?.historicalState
+      ?.establishesCurrentRank ??
+      null,
+    null
+  );
 }
 
 {
@@ -54110,12 +54156,15 @@ for (
         species:
           "blue-marlin",
 
+        explorationMode:
+          "within-range",
+
         origin: {
           latitude: 29.8,
           longitude: -85.3
         },
 
-        rangeNm: 200
+        operatingRangeNm: 200
       },
 
       persistImplementation:

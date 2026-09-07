@@ -53339,6 +53339,57 @@ export async function getDynamicBlueMarlinOpportunities({
             .concurrency
       });
 
+    const captainContext = {
+      species:
+        "blue-marlin",
+
+      explorationMode:
+        gulfResult
+          ?.search
+          ?.explorationMode ??
+        null,
+
+      origin:
+        Array.isArray(
+          gulfResult
+            ?.search
+            ?.originCoordinates
+        )
+          ? {
+              latitude:
+                gulfResult
+                  .search
+                  .originCoordinates[0],
+
+              longitude:
+                gulfResult
+                  .search
+                  .originCoordinates[1]
+            }
+          : null,
+
+      operatingRangeNm:
+        Number.isFinite(
+          Number(
+            gulfResult
+              ?.search
+              ?.operatingRangeNm
+          )
+        )
+          ? Number(
+              gulfResult
+                .search
+                .operatingRangeNm
+            )
+          : null,
+
+      selection:
+        gulfResult
+          ?.search
+          ?.selection ??
+        null
+    };
+
     try {
       if (
         gulfResult?.delivery?.available ===
@@ -53366,56 +53417,6 @@ export async function getDynamicBlueMarlinOpportunities({
             ?.userId ===
             "string"
         ) {
-          const captainContext = {
-            species:
-              "blue-marlin",
-
-            explorationMode:
-              gulfResult
-                ?.search
-                ?.explorationMode ??
-              null,
-
-            origin:
-              Array.isArray(
-                gulfResult
-                  ?.search
-                  ?.originCoordinates
-              )
-                ? {
-                    latitude:
-                      gulfResult
-                        .search
-                        .originCoordinates[0],
-
-                    longitude:
-                      gulfResult
-                        .search
-                        .originCoordinates[1]
-                  }
-                : null,
-
-            rangeNm:
-              Number.isFinite(
-                Number(
-                  gulfResult
-                    ?.search
-                    ?.operatingRangeNm
-                )
-              )
-                ? Number(
-                    gulfResult
-                      .search
-                      .operatingRangeNm
-                  )
-                : null,
-
-            selection:
-              gulfResult
-                ?.search
-                ?.selection ??
-              null
-          };
 
           await captureGovernedOpportunityHistoryV1({
             configuration,
@@ -53440,6 +53441,99 @@ export async function getDynamicBlueMarlinOpportunities({
         "Governed Opportunity History capture failed without affecting current opportunity delivery:",
         historyError
       );
+    }
+
+    let historicalFallback =
+      null;
+
+    if (
+      gulfResult?.delivery?.available ===
+        false &&
+      gulfResult?.reason ===
+        "controlled-gulf-evaluation-produced-no-governed-opportunities" &&
+      Number.isFinite(
+        Date.parse(
+          gulfResult?.evaluatedAt
+        )
+      )
+    ) {
+      try {
+        const configuration =
+          buildBackendSupabaseConfiguration();
+
+        historicalFallback =
+          await resolveAuthenticatedGovernedOpportunityFallbackV1({
+            configuration,
+
+            bearerToken,
+
+            species:
+              "blue-marlin",
+
+            currentEvaluationTime:
+              gulfResult.evaluatedAt,
+
+            currentCaptainContext:
+              captainContext,
+
+            maximumRows:
+              250
+          });
+      } catch (historyFallbackError) {
+        console.warn(
+          "Governed Opportunity History fallback failed without affecting current governed zero:",
+          historyFallbackError
+        );
+
+        historicalFallback = {
+          available:
+            false,
+
+          species:
+            "blue-marlin",
+
+          evaluatedAt:
+            null,
+
+          ageMilliseconds:
+            null,
+
+          opportunities:
+            [],
+
+          historicalState: {
+            historicalOnly:
+              true,
+
+            preservesOriginalDecision:
+              false,
+
+            recalculationPerformed:
+              false,
+
+            establishesCurrentOpportunity:
+              false,
+
+            establishesCurrentRankingEligibility:
+              false,
+
+            establishesCurrentRank:
+              false
+          },
+
+          reason:
+            "governed-opportunity-history-fallback-failed",
+
+          limitations: [
+            "historical-fallback-failure-does-not-alter-current-governed-zero",
+            "historical-opportunities-are-not-current-opportunities",
+            "historical-rank-is-not-current-rank"
+          ],
+
+          contractVersion:
+            "pelora-authenticated-governed-opportunity-fallback-resolution-v1"
+        };
+      }
     }
 
 
@@ -53470,6 +53564,8 @@ export async function getDynamicBlueMarlinOpportunities({
 
       delivery:
         gulfResult.delivery,
+
+      historicalFallback,
 
       search:
         gulfResult.search,
