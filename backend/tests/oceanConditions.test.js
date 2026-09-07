@@ -55967,7 +55967,14 @@ for (
         "authenticated-history-fallback-1",
 
       evaluatedAt:
-        "2026-09-07T20:00:00.000Z"
+        "2026-09-07T20:00:00.000Z",
+
+      captainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf",
+        origin: null,
+        operatingRangeNm: null
+      }
     });
 
 
@@ -55999,6 +56006,11 @@ for (
 
       currentEvaluationTime:
         "2026-09-07T21:00:00.000Z",
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf"
+      },
 
       fetchImplementation:
         async () => ({
@@ -56148,6 +56160,11 @@ for (
 
       currentEvaluationTime:
         "2026-09-07T21:00:00.000Z",
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf"
+      },
 
       fetchImplementation:
         async () => ({
@@ -56338,6 +56355,341 @@ for (
 
   console.log(
     "PASS authenticated governed opportunity fallback fails closed without captain authentication"
+  );
+}
+
+/*
+ * Authenticated Governed Opportunity Fallback Resolution v1
+ *
+ * A newer incompatible mission must not hide an older compatible
+ * governed historical evaluation.
+ */
+{
+  const buildHistoryRow = ({
+    opportunityId,
+    evaluatedAt,
+    operatingRangeNm,
+    score
+  }) => {
+    const speciesInterpretations = [
+      {
+        available: true,
+
+        candidate: {
+          id: opportunityId
+        },
+
+        species: "blue-marlin",
+
+        speciesOpportunity: {
+          available: true,
+
+          species: "blue-marlin",
+
+          location: {
+            id: opportunityId
+          },
+
+          score,
+
+          confidence: {
+            score: 70
+          },
+
+          eligibility: {
+            eligibleForRanking: true
+          }
+        }
+      }
+    ];
+
+
+    const delivery =
+      buildUnifiedCaptainOpportunityDeliveryV1({
+        species: "blue-marlin",
+        speciesInterpretations
+      });
+
+
+    const historyRecord =
+      buildGovernedOpportunityHistoryRecordV1({
+        delivery,
+
+        opportunityId,
+
+        evaluatedAt,
+
+        captainContext: {
+          species: "blue-marlin",
+
+          explorationMode:
+            "within-range",
+
+          origin: {
+            latitude: 29.8,
+            longitude: -85.3
+          },
+
+          operatingRangeNm,
+
+          selection:
+            "captain-range-stable-nearest-v1"
+        }
+      });
+
+
+    const identity =
+      buildGovernedOpportunityHistoryIdentityV1({
+        historyRecord
+      });
+
+
+    return {
+      history_id:
+        identity.historyId,
+
+      user_id:
+        "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+      species:
+        identity.species,
+
+      opportunity_id:
+        identity.opportunityId,
+
+      evaluated_at:
+        identity.evaluatedAt,
+
+      history_schema_version:
+        identity.schemaVersion,
+
+      history_payload:
+        historyRecord,
+
+      created_at:
+        evaluatedAt
+    };
+  };
+
+
+  const newerIncompatibleRow =
+    buildHistoryRow({
+      opportunityId:
+        "newer-75nm-history",
+
+      evaluatedAt:
+        "2026-09-07T20:30:00.000Z",
+
+      operatingRangeNm: 75,
+
+      score: 80
+    });
+
+
+  const olderCompatibleRow =
+    buildHistoryRow({
+      opportunityId:
+        "older-200nm-history",
+
+      evaluatedAt:
+        "2026-09-07T20:00:00.000Z",
+
+      operatingRangeNm: 200,
+
+      score: 60
+    });
+
+
+  const result =
+    await resolveAuthenticatedGovernedOpportunityFallbackV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:00:00.000Z",
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+
+        explorationMode:
+          "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 200
+      },
+
+      fetchImplementation:
+        async () => ({
+          ok: true,
+          status: 200,
+
+          async json() {
+            return [
+              newerIncompatibleRow,
+              olderCompatibleRow
+            ];
+          }
+        })
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.evaluatedAt,
+    "2026-09-07T20:00:00.000Z"
+  );
+
+  assert.equal(
+    result.opportunities.length,
+    1
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .location
+      .id,
+    "older-200nm-history"
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .score,
+    60
+  );
+
+  assert.equal(
+    result.contextCompatibilitySummary
+      .retrievedRowCount,
+    2
+  );
+
+  assert.equal(
+    result.contextCompatibilitySummary
+      .validHistoryRowCount,
+    2
+  );
+
+  assert.equal(
+    result.contextCompatibilitySummary
+      .compatibleHistoryRowCount,
+    1
+  );
+
+  assert.equal(
+    result.contextCompatibilitySummary
+      .incompatibleHistoryRowCount,
+    1
+  );
+
+  assert.equal(
+    result.contextCompatibilitySummary
+      .invalidHistoryRowCount,
+    0
+  );
+
+  console.log(
+    "PASS authenticated governed opportunity fallback selects latest compatible mission before historical cohort resolution"
+  );
+}
+
+/*
+ * Authenticated Governed Opportunity Fallback Resolution v1
+ *
+ * Valid captain-owned history must not surface when the current
+ * mission context is unavailable.
+ */
+{
+  let requestCount = 0;
+
+  const result =
+    await resolveAuthenticatedGovernedOpportunityFallbackV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:00:00.000Z",
+
+      currentCaptainContext: null,
+
+      fetchImplementation:
+        async () => {
+          requestCount += 1;
+
+          return {
+            ok: true,
+            status: 200,
+
+            async json() {
+              return [];
+            }
+          };
+        }
+    });
+
+
+  assert.equal(
+    requestCount,
+    1
+  );
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.reason,
+    "no-valid-governed-opportunity-history"
+  );
+
+  assert.equal(
+    result.contextCompatibilitySummary
+      .compatibleHistoryRowCount,
+    0
+  );
+
+  console.log(
+    "PASS authenticated governed opportunity fallback cannot surface history without current mission context"
   );
 }
 

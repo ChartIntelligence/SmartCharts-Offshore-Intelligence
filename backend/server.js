@@ -51296,6 +51296,7 @@ export async function resolveAuthenticatedGovernedOpportunityFallbackV1({
   bearerToken = null,
   species = null,
   currentEvaluationTime = null,
+  currentCaptainContext = null,
   evaluatedAfter = null,
   maximumRows = 24,
   fetchImplementation = fetch
@@ -51316,7 +51317,8 @@ export async function resolveAuthenticatedGovernedOpportunityFallbackV1({
   const unavailable = ({
     reason,
     retrieval = null,
-    fallback = null
+    fallback = null,
+    contextCompatibilitySummary = null
   }) =>
     deepFreezeSnapshotValue({
       available: false,
@@ -51336,6 +51338,8 @@ export async function resolveAuthenticatedGovernedOpportunityFallbackV1({
       retrieval,
 
       fallback,
+
+      contextCompatibilitySummary,
 
       historicalState: {
         historicalOnly: true,
@@ -51424,12 +51428,89 @@ export async function resolveAuthenticatedGovernedOpportunityFallbackV1({
   }
 
 
+  const retrievedRows =
+    Array.isArray(retrieval.rows)
+      ? retrieval.rows
+      : [];
+
+
+  const compatibleRows = [];
+
+  let validHistoryRowCount = 0;
+  let compatibleHistoryRowCount = 0;
+  let incompatibleHistoryRowCount = 0;
+  let invalidHistoryRowCount = 0;
+
+
+  for (const row of retrievedRows) {
+    const storageRecord =
+      buildGovernedOpportunityHistoryStorageRecordFromRowV1({
+        row
+      });
+
+
+    if (
+      storageRecord?.available !== true ||
+      storageRecord?.historyRecord
+        ?.available !== true
+    ) {
+      invalidHistoryRowCount += 1;
+      continue;
+    }
+
+
+    validHistoryRowCount += 1;
+
+
+    const compatibility =
+      evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+        historicalCaptainContext:
+          storageRecord
+            .historyRecord
+            .captainContext,
+
+        currentCaptainContext
+      });
+
+
+    if (
+      compatibility?.available === true &&
+      compatibility?.compatible === true
+    ) {
+      compatibleRows.push(row);
+      compatibleHistoryRowCount += 1;
+      continue;
+    }
+
+
+    incompatibleHistoryRowCount += 1;
+  }
+
+
+  const contextCompatibilitySummary =
+    deepFreezeSnapshotValue({
+      retrievedRowCount:
+        retrievedRows.length,
+
+      validHistoryRowCount,
+
+      compatibleHistoryRowCount,
+
+      incompatibleHistoryRowCount,
+
+      invalidHistoryRowCount,
+
+      filteringApplied: true,
+
+      compatibilityContractVersion:
+        "pelora-governed-historical-captain-context-compatibility-v1"
+    });
+
+
   const fallback =
     buildLatestGovernedOpportunityFallbackV1({
       rows:
-        Array.isArray(retrieval.rows)
-          ? retrieval.rows
-          : [],
+        compatibleRows,
 
       species:
         normalizedSpecies,
@@ -51449,7 +51530,9 @@ export async function resolveAuthenticatedGovernedOpportunityFallbackV1({
 
       retrieval,
 
-      fallback
+      fallback,
+
+      contextCompatibilitySummary
     });
   }
 
@@ -51483,6 +51566,8 @@ export async function resolveAuthenticatedGovernedOpportunityFallbackV1({
     retrieval,
 
     fallback,
+
+    contextCompatibilitySummary,
 
     historicalState: {
       historicalOnly: true,
