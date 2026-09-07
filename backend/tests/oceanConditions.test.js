@@ -36,6 +36,9 @@ import {
   buildUnifiedOpportunityIntelligenceV1,
   buildUnifiedCaptainOpportunityDeliveryV1,
   buildGovernedOpportunityHistoryRecordV1,
+  buildGovernedOpportunityHistoryIdentityV1,
+  buildGovernedOpportunityHistoryStorageV1,
+  buildGovernedOpportunityHistoryStorageRecordFromRowV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -53180,5 +53183,690 @@ for (
   assert.equal(
     result.opportunity.rank,
     1
+  );
+}
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-storage-governed-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-storage-governed-1",
+          name: "History Storage Governed"
+        },
+
+        score: 66,
+
+        confidence: {
+          score: 74
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-storage-governed-1",
+      evaluatedAt:
+        "2026-09-07T19:00:00.000Z"
+    });
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+  assert.equal(
+    identity.available,
+    true
+  );
+
+  assert.equal(
+    identity.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    identity.opportunityId,
+    "history-storage-governed-1"
+  );
+
+  assert.equal(
+    identity.evaluatedAt,
+    "2026-09-07T19:00:00.000Z"
+  );
+
+  assert.equal(
+    identity.schemaVersion,
+    "pelora-governed-opportunity-history-schema-v1"
+  );
+
+  assert.equal(
+    identity.historyId.startsWith(
+      "pelora-opportunity-history-"
+    ),
+    true
+  );
+
+  assert.equal(
+    identity.contractVersion,
+    "pelora-governed-opportunity-history-identity-v1"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-storage-retry-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-storage-retry-1"
+        },
+
+        score: 59,
+
+        confidence: {
+          score: 68
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-storage-retry-1",
+      evaluatedAt:
+        "2026-09-07T19:05:00.000Z"
+    });
+
+  const firstIdentity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+  const secondIdentity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+  assert.equal(
+    firstIdentity.historyId,
+    secondIdentity.historyId
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-storage-distinct-time-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-storage-distinct-time-1"
+        },
+
+        score: 57,
+
+        confidence: {
+          score: 64
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const firstHistoryRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-storage-distinct-time-1",
+      evaluatedAt:
+        "2026-09-07T19:10:00.000Z"
+    });
+
+  const secondHistoryRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-storage-distinct-time-1",
+      evaluatedAt:
+        "2026-09-07T20:10:00.000Z"
+    });
+
+  const firstIdentity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord:
+        firstHistoryRecord
+    });
+
+  const secondIdentity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord:
+        secondHistoryRecord
+    });
+
+  assert.notEqual(
+    firstIdentity.historyId,
+    secondIdentity.historyId
+  );
+}
+
+
+{
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord: {
+        available: true,
+        species: "blue-marlin",
+        evaluatedAt: "not-a-date",
+        opportunity: {
+          location: {
+            id: "history-invalid-time-1"
+          }
+        },
+        contractVersion:
+          "pelora-governed-opportunity-history-record-v1"
+      }
+    });
+
+  assert.equal(
+    identity.available,
+    false
+  );
+
+  assert.equal(
+    identity.historyId,
+    null
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-storage-contract-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-storage-contract-1"
+        },
+
+        score: 62,
+
+        confidence: {
+          score: 71
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-storage-contract-1",
+      evaluatedAt:
+        "2026-09-07T19:15:00.000Z"
+    });
+
+  const storage =
+    buildGovernedOpportunityHistoryStorageV1({
+      historyRecord,
+      storedAt:
+        "2026-09-07T19:16:00.000Z"
+    });
+
+  assert.equal(
+    storage.available,
+    true
+  );
+
+  assert.equal(
+    storage.storageType,
+    "governed-opportunity-history-storage"
+  );
+
+  assert.equal(
+    storage.identity.available,
+    true
+  );
+
+  assert.equal(
+    storage.historyRecord
+      .opportunity
+      .rank,
+    1
+  );
+
+  assert.equal(
+    storage.historyRecord
+      .opportunity
+      .score,
+    62
+  );
+
+  assert.equal(
+    storage.contractVersion,
+    "pelora-governed-opportunity-history-storage-v1"
+  );
+}
+
+
+{
+  const storage =
+    buildGovernedOpportunityHistoryStorageV1({
+      historyRecord: null,
+      storedAt:
+        "2026-09-07T19:20:00.000Z"
+    });
+
+  assert.equal(
+    storage.available,
+    false
+  );
+
+  assert.equal(
+    storage.historyRecord,
+    null
+  );
+
+  assert.equal(
+    storage.missingRequirements.includes(
+      "available-governed-opportunity-history-record"
+    ),
+    true
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-row-valid-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-row-valid-1"
+        },
+
+        score: 60,
+
+        confidence: {
+          score: 70
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-row-valid-1",
+      evaluatedAt:
+        "2026-09-07T19:25:00.000Z"
+    });
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+  const rowAdapter =
+    buildGovernedOpportunityHistoryStorageRecordFromRowV1({
+      row: {
+        history_id:
+          identity.historyId,
+
+        user_id:
+          "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+        species:
+          identity.species,
+
+        opportunity_id:
+          identity.opportunityId,
+
+        evaluated_at:
+          identity.evaluatedAt,
+
+        history_schema_version:
+          identity.schemaVersion,
+
+        history_payload:
+          historyRecord,
+
+        created_at:
+          "2026-09-07T19:26:00.000Z"
+      }
+    });
+
+  assert.equal(
+    rowAdapter.available,
+    true
+  );
+
+  assert.equal(
+    rowAdapter.historyId,
+    identity.historyId
+  );
+
+  assert.equal(
+    rowAdapter.historyRecord
+      .opportunity
+      .location
+      .id,
+    "history-row-valid-1"
+  );
+
+  assert.equal(
+    rowAdapter.contractVersion,
+    "pelora-governed-opportunity-history-storage-row-v1"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-row-equivalent-time-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-row-equivalent-time-1"
+        },
+
+        score: 61,
+
+        confidence: {
+          score: 69
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-row-equivalent-time-1",
+      evaluatedAt:
+        "2026-09-07T19:27:00.000Z"
+    });
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+  const rowAdapter =
+    buildGovernedOpportunityHistoryStorageRecordFromRowV1({
+      row: {
+        history_id:
+          identity.historyId,
+
+        user_id:
+          "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+        species:
+          identity.species,
+
+        opportunity_id:
+          identity.opportunityId,
+
+        evaluated_at:
+          "2026-09-07T19:27:00+00:00",
+
+        history_schema_version:
+          identity.schemaVersion,
+
+        history_payload:
+          historyRecord,
+
+        created_at:
+          "2026-09-07T19:28:00.000Z"
+      }
+    });
+
+  assert.equal(
+    rowAdapter.available,
+    true
+  );
+
+  assert.equal(
+    rowAdapter.historyRecord
+      .opportunity
+      .location
+      .id,
+    "history-row-equivalent-time-1"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-row-tamper-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-row-tamper-1"
+        },
+
+        score: 63,
+
+        confidence: {
+          score: 72
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-row-tamper-1",
+      evaluatedAt:
+        "2026-09-07T19:30:00.000Z"
+    });
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+  const rowAdapter =
+    buildGovernedOpportunityHistoryStorageRecordFromRowV1({
+      row: {
+        history_id:
+          identity.historyId,
+
+        user_id:
+          "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+        species:
+          identity.species,
+
+        opportunity_id:
+          "tampered-opportunity-id",
+
+        evaluated_at:
+          identity.evaluatedAt,
+
+        history_schema_version:
+          identity.schemaVersion,
+
+        history_payload:
+          historyRecord,
+
+        created_at:
+          "2026-09-07T19:31:00.000Z"
+      }
+    });
+
+  assert.equal(
+    rowAdapter.available,
+    false
+  );
+
+  assert.equal(
+    rowAdapter.historyRecord,
+    null
+  );
+
+  assert.equal(
+    rowAdapter.missingRequirements.includes(
+      "history-opportunity-id-consistency"
+    ),
+    true
   );
 }

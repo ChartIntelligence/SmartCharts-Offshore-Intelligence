@@ -49589,6 +49589,404 @@ export function buildGovernedOpportunityHistoryRecordV1({
 }
 
 
+export function buildGovernedOpportunityHistoryIdentityV1({
+  historyRecord = null
+} = {}) {
+  const schemaVersion =
+    "pelora-governed-opportunity-history-schema-v1";
+
+  const species =
+    typeof historyRecord?.species === "string"
+      ? historyRecord.species.trim().toLowerCase()
+      : null;
+
+  const opportunityId =
+    typeof historyRecord
+      ?.opportunity
+      ?.location
+      ?.id === "string"
+      ? historyRecord
+          .opportunity
+          .location
+          .id
+          .trim()
+      : null;
+
+  const evaluatedAt =
+    typeof historyRecord?.evaluatedAt === "string" &&
+    Number.isFinite(
+      Date.parse(historyRecord.evaluatedAt)
+    )
+      ? historyRecord.evaluatedAt
+      : null;
+
+  const historyRecordAvailable =
+    historyRecord?.available === true &&
+    historyRecord?.contractVersion ===
+      "pelora-governed-opportunity-history-record-v1";
+
+  const available =
+    historyRecordAvailable &&
+    species !== null &&
+    species.length > 0 &&
+    opportunityId !== null &&
+    opportunityId.length > 0 &&
+    evaluatedAt !== null;
+
+  const identityBasis =
+    available
+      ? [
+          schemaVersion,
+          normalizeSnapshotIdentityPart(
+            species
+          ),
+          normalizeSnapshotIdentityPart(
+            opportunityId
+          ),
+          normalizeSnapshotIdentityPart(
+            evaluatedAt
+          )
+        ].join("|")
+      : null;
+
+  const historyId =
+    identityBasis !== null
+      ? "pelora-opportunity-history-" +
+        deterministicSnapshotHash(
+          identityBasis
+        )
+      : null;
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    historyId,
+
+    schemaVersion,
+
+    identityStrategy:
+      "deterministic-species-opportunity-evaluation-schema-v1",
+
+    species,
+
+    opportunityId,
+
+    evaluatedAt,
+
+    reason:
+      available
+        ? null
+        : "governed-opportunity-history-identity-unavailable",
+
+    limitations: [
+      "History identity identifies one preserved governed species opportunity decision.",
+      "History identity does not create opportunity evidence, eligibility, score, confidence, or rank.",
+      "A later evaluation time creates a distinct historical decision even when species and opportunity identity are unchanged.",
+      "Captain ownership is not encoded into history identity and remains the responsibility of the storage boundary."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-history-identity-v1"
+  });
+}
+
+
+export function buildGovernedOpportunityHistoryStorageV1({
+  historyRecord = null,
+  storedAt = null,
+  storageProvider = "supabase-postgres"
+} = {}) {
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+  const validStoredAt =
+    typeof storedAt === "string" &&
+    Number.isFinite(
+      Date.parse(storedAt)
+    );
+
+  const validStorageProvider =
+    storageProvider ===
+    "supabase-postgres";
+
+  const available =
+    historyRecord?.available === true &&
+    identity.available === true &&
+    validStoredAt &&
+    validStorageProvider;
+
+  const missingRequirements = [
+    historyRecord?.available !== true
+      ? "available-governed-opportunity-history-record"
+      : null,
+
+    identity.available !== true
+      ? "governed-opportunity-history-identity"
+      : null,
+
+    !validStoredAt
+      ? "valid-stored-at"
+      : null,
+
+    !validStorageProvider
+      ? "supported-storage-provider"
+      : null
+  ].filter(Boolean);
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    storageType:
+      "governed-opportunity-history-storage",
+
+    responsibility:
+      "preserve",
+
+    identity,
+
+    storedAt:
+      validStoredAt
+        ? storedAt
+        : null,
+
+    storageProvider:
+      validStorageProvider
+        ? storageProvider
+        : null,
+
+    historyRecord:
+      available
+        ? cloneSnapshotValue(
+            historyRecord
+          )
+        : null,
+
+    missingRequirements,
+
+    limitations: [
+      ...missingRequirements,
+
+      "Governed Opportunity History Storage preserves an already governed historical species opportunity decision.",
+      "Storage does not create or recalculate evidence, eligibility, score, confidence, rank, intelligence, or captain narrative.",
+      "Storage does not convert Ocean Memory into a historical species opportunity.",
+      "This contract performs no database write and does not authorize captain access."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-history-storage-v1"
+  });
+}
+
+
+export function buildGovernedOpportunityHistoryStorageRecordFromRowV1({
+  row = null
+} = {}) {
+  const historyId =
+    typeof row?.history_id === "string"
+      ? row.history_id
+      : null;
+
+  const userId =
+    typeof row?.user_id === "string"
+      ? row.user_id
+      : null;
+
+  const species =
+    typeof row?.species === "string"
+      ? row.species
+      : null;
+
+  const opportunityId =
+    typeof row?.opportunity_id === "string"
+      ? row.opportunity_id
+      : null;
+
+  const evaluatedAt =
+    typeof row?.evaluated_at === "string"
+      ? row.evaluated_at
+      : null;
+
+  const storedAt =
+    typeof row?.created_at === "string"
+      ? row.created_at
+      : null;
+
+  const schemaVersion =
+    typeof row?.history_schema_version ===
+    "string"
+      ? row.history_schema_version
+      : null;
+
+  const historyPayload =
+    row?.history_payload &&
+    typeof row.history_payload === "object"
+      ? row.history_payload
+      : null;
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord:
+        historyPayload
+    });
+
+  const historyIdConsistent =
+    identity.available === true &&
+    identity.historyId ===
+      historyId;
+
+  const speciesConsistent =
+    identity.available === true &&
+    identity.species ===
+      species;
+
+  const opportunityIdConsistent =
+    identity.available === true &&
+    identity.opportunityId ===
+      opportunityId;
+
+  const evaluatedAtConsistent =
+    identity.available === true &&
+    typeof identity.evaluatedAt === "string" &&
+    typeof evaluatedAt === "string" &&
+    Number.isFinite(
+      Date.parse(identity.evaluatedAt)
+    ) &&
+    Number.isFinite(
+      Date.parse(evaluatedAt)
+    ) &&
+    Date.parse(
+      identity.evaluatedAt
+    ) ===
+      Date.parse(
+        evaluatedAt
+      );
+
+  const schemaVersionConsistent =
+    identity.available === true &&
+    identity.schemaVersion ===
+      schemaVersion;
+
+  const available =
+    typeof userId === "string" &&
+    userId.trim().length > 0 &&
+    typeof storedAt === "string" &&
+    Number.isFinite(
+      Date.parse(storedAt)
+    ) &&
+    historyIdConsistent &&
+    speciesConsistent &&
+    opportunityIdConsistent &&
+    evaluatedAtConsistent &&
+    schemaVersionConsistent;
+
+  const missingRequirements = [
+    typeof historyId !== "string"
+      ? "database-history-id"
+      : null,
+
+    typeof userId !== "string"
+      ? "database-user-id"
+      : null,
+
+    typeof species !== "string"
+      ? "database-species"
+      : null,
+
+    typeof opportunityId !== "string"
+      ? "database-opportunity-id"
+      : null,
+
+    typeof evaluatedAt !== "string"
+      ? "database-evaluated-at"
+      : null,
+
+    typeof storedAt !== "string"
+      ? "database-created-at"
+      : null,
+
+    typeof schemaVersion !== "string"
+      ? "database-history-schema-version"
+      : null,
+
+    historyPayload === null
+      ? "database-history-payload"
+      : null,
+
+    historyPayload &&
+    !historyIdConsistent
+      ? "history-id-consistency"
+      : null,
+
+    historyPayload &&
+    !speciesConsistent
+      ? "history-species-consistency"
+      : null,
+
+    historyPayload &&
+    !opportunityIdConsistent
+      ? "history-opportunity-id-consistency"
+      : null,
+
+    historyPayload &&
+    !evaluatedAtConsistent
+      ? "history-evaluated-at-consistency"
+      : null,
+
+    historyPayload &&
+    !schemaVersionConsistent
+      ? "history-schema-version-consistency"
+      : null
+  ].filter(Boolean);
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    storageRecordType:
+      "governed-opportunity-history-storage-record",
+
+    responsibility:
+      "preserve",
+
+    historyId,
+
+    userId,
+
+    species,
+
+    opportunityId,
+
+    evaluatedAt,
+
+    storedAt,
+
+    schemaVersion,
+
+    historyRecord:
+      available
+        ? cloneSnapshotValue(
+            historyPayload
+          )
+        : null,
+
+    missingRequirements,
+
+    limitations: [
+      ...missingRequirements,
+
+      "Governed Opportunity History Storage Row Adapter preserves one externally stored governed opportunity decision.",
+      "The database row remains authoritative for captain ownership and external storage provenance.",
+      "The immutable history payload remains authoritative for the original governed opportunity decision.",
+      "The row adapter does not recalculate historical opportunity status, score, confidence, rank, or species reasoning."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-history-storage-row-v1"
+  });
+}
+
+
 export const GULF_EVALUATION_CONTROL_V1 = {
   maximumCandidates: 12,
 
