@@ -50545,7 +50545,7 @@ export async function evaluateControlledGulfBlueMarlinV1({
 }
 
 
-async function getDynamicBlueMarlinOpportunities({
+export async function getDynamicBlueMarlinOpportunities({
   bearerToken = null,
 
   originCoordinates = null,
@@ -50576,55 +50576,60 @@ async function getDynamicBlueMarlinOpportunities({
       });
 
 
-    if (
-      gulfResult.available === true &&
-      Array.isArray(
-        gulfResult.opportunities
-      ) &&
-      gulfResult.opportunities.length >
-        0
-    ) {
-      return {
-        available: true,
+    return {
+      available:
+        gulfResult.available === true,
 
-        species:
-          "blue-marlin",
+      species:
+        "blue-marlin",
 
-        generatedAt:
-          new Date().toISOString(),
+      generatedAt:
+        new Date().toISOString(),
 
-        candidateCount:
-          gulfResult.search
-            .totalMarineCandidateCount,
+      candidateCount:
+        gulfResult.search
+          .totalMarineCandidateCount,
 
-        evaluatedCandidateCount:
-          gulfResult.evaluation
-            .evaluatedCandidateCount,
+      evaluatedCandidateCount:
+        gulfResult.evaluation
+          .evaluatedCandidateCount,
 
-        failedCandidateCount:
-          gulfResult.evaluation
-            .failedCandidateCount,
+      failedCandidateCount:
+        gulfResult.evaluation
+          .failedCandidateCount,
 
-        opportunities:
-          gulfResult.opportunities,
+      opportunities:
+        gulfResult.opportunities,
 
-        delivery:
-          gulfResult.delivery,
+      delivery:
+        gulfResult.delivery,
 
-        limitations: [
-          "gulf-search-uses-distributed-v1-sampling",
-          "does-not-yet-evaluate-every-marine-grid-cell",
-          "does-not-confirm-blue-marlin-presence",
-          "does-not-estimate-catch-probability"
-        ],
+      search:
+        gulfResult.search,
 
-        interpretation:
-          "dynamic-governed-blue-marlin-opportunity-ranking",
+      evaluation:
+        gulfResult.evaluation,
 
-        contractVersion:
-          "pelora-dynamic-blue-marlin-opportunities-v1"
-      };
-    }
+      reason:
+        gulfResult.reason,
+
+      limitations: [
+        gulfResult.search
+            .selection ===
+          "captain-range-stable-nearest-v1"
+          ? "gulf-search-uses-captain-range-stable-nearest-v1-sampling"
+          : "gulf-search-uses-distributed-v1-sampling",
+        "does-not-yet-evaluate-every-marine-grid-cell",
+        "does-not-confirm-blue-marlin-presence",
+        "does-not-estimate-catch-probability"
+      ],
+
+      interpretation:
+        "dynamic-governed-blue-marlin-opportunity-ranking",
+
+      contractVersion:
+        "pelora-dynamic-blue-marlin-opportunities-v1"
+    };
   } catch (error) {
     console.warn(
       "Controlled Gulf Blue Marlin evaluation failed; using curated fallback:",

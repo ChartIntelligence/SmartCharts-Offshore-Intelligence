@@ -22,6 +22,7 @@ import {
   evaluateSpeciesCandidateHabitatEligibilityV1,
   evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1,
   evaluateGulfCandidatesV1,
+  getDynamicBlueMarlinOpportunities,
   assessDynamicBlueMarlinOpportunityEligibilityV1,
   buildDynamicBlueMarlinOpportunity,
   buildUnifiedSpeciesOpportunityInterpretationV1,
@@ -42042,6 +42043,81 @@ console.log(
     unavailableEvaluation
       .evaluatedCandidateCount,
     0
+  );
+}
+
+{
+  const governedZero =
+    await getDynamicBlueMarlinOpportunities({
+      originCoordinates: [
+        29.815,
+        -85.303
+      ],
+
+      operatingRangeNm:
+        0.01,
+
+      explorationMode:
+        "within-range"
+    });
+
+
+  assert.equal(
+    governedZero.available,
+    false
+  );
+
+
+  assert.equal(
+    governedZero.reason,
+    "controlled-gulf-evaluation-produced-no-governed-opportunities"
+  );
+
+
+  assert.equal(
+    governedZero.search
+      .selection,
+    "captain-range-stable-nearest-v1"
+  );
+
+
+  assert.equal(
+    governedZero.search
+      .selectedCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    governedZero.evaluatedCandidateCount,
+    0
+  );
+
+
+  assert.equal(
+    governedZero.failedCandidateCount,
+    0
+  );
+
+
+  assert.deepEqual(
+    governedZero.opportunities,
+    []
+  );
+
+
+  assert.equal(
+    governedZero.delivery
+      .available,
+    false
+  );
+
+
+  assert.equal(
+    governedZero.limitations.includes(
+      "controlled-gulf-evaluation-unavailable-curated-fallback-used"
+    ),
+    false
   );
 }
 
