@@ -49898,7 +49898,9 @@ export async function evaluateSelectedUnifiedOpportunityCandidatesV1({
     selection.selectedCandidates.filter(
       candidate =>
         candidate?.candidateClass ===
-        "open-water"
+          "open-water" ||
+        candidate?.candidateClass ===
+          "physical-structure"
     );
 
 
@@ -49906,7 +49908,9 @@ export async function evaluateSelectedUnifiedOpportunityCandidatesV1({
     selection.selectedCandidates.filter(
       candidate =>
         candidate?.candidateClass !==
-        "open-water"
+          "open-water" &&
+        candidate?.candidateClass !==
+          "physical-structure"
     );
 
 
@@ -49957,8 +49961,8 @@ export async function evaluateSelectedUnifiedOpportunityCandidatesV1({
     },
 
     limitations: [
-      "v1-evaluation-pathway-supports-open-water-candidates-only",
-      "physical-structure-candidates-remain-deferred",
+      "v1-evaluation-pathway-supports-open-water-and-physical-structure-candidates",
+      "physical-structure-identity-does-not-establish-structure-interaction",
       "bathymetric-location-candidates-remain-deferred",
       "evaluation-does-not-establish-opportunity-eligibility-or-rank"
     ],
@@ -50150,6 +50154,189 @@ export async function evaluateUnifiedOpenWaterOceanConditionsV1({
 }
 
 
+export async function evaluateUnifiedPhysicalStructureOceanConditionsV1({
+  candidate = null,
+
+  bearerToken = null,
+
+  oceanConditionsProvider = null
+} = {}) {
+  if (
+    candidate?.candidateClass !==
+    "physical-structure"
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      oceanConditions: null,
+
+      reason:
+        "candidate-evaluation-pathway-not-governed",
+
+      interpretation:
+        "physical-structure-ocean-conditions-evaluation",
+
+      limitations: [
+        "candidate-class-not-supported-by-physical-structure-evaluation-pathway",
+        "live-ocean-conditions-do-not-establish-physical-structure-interaction",
+        "live-ocean-conditions-do-not-establish-species-opportunity",
+        "live-ocean-conditions-do-not-establish-ranking-eligibility",
+        "live-ocean-conditions-do-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-physical-structure-ocean-conditions-evaluation-v1"
+    };
+  }
+
+
+  const rawLatitude =
+    candidate
+      ?.coordinates?.[0];
+
+  const rawLongitude =
+    candidate
+      ?.coordinates?.[1];
+
+
+  const latitudeProvided =
+    rawLatitude !== null &&
+    rawLatitude !== undefined &&
+    (
+      typeof rawLatitude !== "string" ||
+      rawLatitude.trim() !== ""
+    );
+
+
+  const longitudeProvided =
+    rawLongitude !== null &&
+    rawLongitude !== undefined &&
+    (
+      typeof rawLongitude !== "string" ||
+      rawLongitude.trim() !== ""
+    );
+
+
+  const coordinatesProvided =
+    latitudeProvided &&
+    longitudeProvided;
+
+
+  const latitude =
+    Number(
+      rawLatitude
+    );
+
+  const longitude =
+    Number(
+      rawLongitude
+    );
+
+
+  if (
+    !coordinatesProvided ||
+    !coordinatesAreValid(
+      latitude,
+      longitude
+    )
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      oceanConditions: null,
+
+      reason:
+        "candidate-coordinates-invalid",
+
+      interpretation:
+        "physical-structure-ocean-conditions-evaluation",
+
+      limitations: [
+        "valid-candidate-coordinates-required-for-live-ocean-evaluation",
+        "missing-or-invalid-coordinates-do-not-establish-ocean-conditions",
+        "live-ocean-conditions-do-not-establish-physical-structure-interaction",
+        "live-ocean-conditions-do-not-establish-species-opportunity",
+        "live-ocean-conditions-do-not-establish-ranking-eligibility",
+        "live-ocean-conditions-do-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-physical-structure-ocean-conditions-evaluation-v1"
+    };
+  }
+
+
+  if (
+    typeof oceanConditionsProvider !==
+    "function"
+  ) {
+    return {
+      available: false,
+
+      candidate,
+
+      oceanConditions: null,
+
+      reason:
+        "ocean-conditions-provider-unavailable",
+
+      interpretation:
+        "physical-structure-ocean-conditions-evaluation",
+
+      limitations: [
+        "ocean-conditions-provider-required-for-live-evaluation",
+        "provider-unavailability-is-missing-observation-capability-not-negative-ocean-evidence",
+        "live-ocean-conditions-do-not-establish-physical-structure-interaction",
+        "live-ocean-conditions-do-not-establish-species-opportunity",
+        "live-ocean-conditions-do-not-establish-ranking-eligibility",
+        "live-ocean-conditions-do-not-establish-rank"
+      ],
+
+      contractVersion:
+        "pelora-unified-physical-structure-ocean-conditions-evaluation-v1"
+    };
+  }
+
+
+  const oceanConditions =
+    await oceanConditionsProvider(
+      latitude,
+      longitude,
+      {
+        bearerToken
+      }
+    );
+
+
+  return {
+    available:
+      oceanConditions != null,
+
+    candidate,
+
+    oceanConditions,
+
+    interpretation:
+      "physical-structure-ocean-conditions-evaluation",
+
+    limitations: [
+      "ocean-conditions-observed-at-verified-structure-location",
+      "live-ocean-conditions-do-not-establish-physical-structure-interaction",
+      "live-ocean-conditions-do-not-establish-species-opportunity",
+      "live-ocean-conditions-do-not-establish-ranking-eligibility",
+      "live-ocean-conditions-do-not-establish-rank"
+    ],
+
+    contractVersion:
+      "pelora-unified-physical-structure-ocean-conditions-evaluation-v1"
+  };
+}
+
+
 export async function evaluateUnifiedOpportunityOceanConditionsV1({
   candidates = [],
 
@@ -50175,14 +50362,33 @@ export async function evaluateUnifiedOpportunityOceanConditionsV1({
       concurrency,
 
       evaluator:
-        candidate =>
-          evaluateUnifiedOpenWaterOceanConditionsV1({
-            candidate,
+        candidate => {
+          if (
+            candidate?.candidateClass ===
+            "physical-structure"
+          ) {
+            return (
+              evaluateUnifiedPhysicalStructureOceanConditionsV1({
+                candidate,
 
-            bearerToken,
+                bearerToken,
 
-            oceanConditionsProvider
-          })
+                oceanConditionsProvider
+              })
+            );
+          }
+
+
+          return (
+            evaluateUnifiedOpenWaterOceanConditionsV1({
+              candidate,
+
+              bearerToken,
+
+              oceanConditionsProvider
+            })
+          );
+        }
     });
 
 
@@ -50200,7 +50406,7 @@ export async function evaluateUnifiedOpportunityOceanConditionsV1({
       "live-ocean-conditions-do-not-establish-species-opportunity",
       "live-ocean-conditions-do-not-establish-ranking-eligibility",
       "live-ocean-conditions-do-not-establish-rank",
-      "v1-live-evaluation-pathway-supports-open-water-candidates-only"
+      "v1-live-evaluation-pathway-supports-open-water-and-physical-structure-candidates"
     ],
 
     contractVersion:
@@ -50326,14 +50532,14 @@ export async function evaluateControlledGulfBlueMarlinV1({
     GULF_EVALUATION_CONTROL_V1
       .concurrency
 } = {}) {
-  const gulfCandidates =
-    buildGulfSearchGridV1();
+  const candidateUniverse =
+    buildUnifiedOpportunityCandidateSourceUniverseV1();
 
 
-  const eligibleCandidates =
-    filterGulfCandidatesByCaptainRangeV1({
+  const captainContextResult =
+    filterUnifiedOpportunityCandidatesByCaptainContextV1({
       candidates:
-        gulfCandidates,
+        candidateUniverse.candidates,
 
       originCoordinates,
 
@@ -50343,11 +50549,15 @@ export async function evaluateControlledGulfBlueMarlinV1({
     });
 
 
-  const speciesEligibleCandidates =
-    eligibleCandidates.filter(
+  const captainContextCandidates =
+    captainContextResult.candidates;
+
+
+  const candidatesWithEligibility =
+    captainContextCandidates.map(
       candidate => {
         const eligibility =
-          evaluateSpeciesCandidateHabitatEligibilityV1({
+          evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
             candidate,
 
             speciesProfile:
@@ -50355,11 +50565,21 @@ export async function evaluateControlledGulfBlueMarlinV1({
           });
 
 
-        return (
-          eligibility?.eligible ===
-          true
-        );
+        return {
+          ...candidate,
+
+          eligibility
+        };
       }
+    );
+
+
+  const speciesEligibleCandidates =
+    candidatesWithEligibility.filter(
+      candidate =>
+        candidate
+          ?.eligibility
+          ?.eligible === true
     );
 
 
@@ -50393,30 +50613,48 @@ export async function evaluateControlledGulfBlueMarlinV1({
       concurrency,
 
       evaluator:
-        async location => {
-          const [
-            latitude,
-            longitude
-          ] =
-            location.coordinates;
+        async candidate => {
+          const oceanEvaluation =
+            candidate
+              ?.candidateClass ===
+              "physical-structure"
+              ? await evaluateUnifiedPhysicalStructureOceanConditionsV1({
+                  candidate,
+
+                  bearerToken,
+
+                  oceanConditionsProvider:
+                    getOceanConditions
+                })
+              : await evaluateUnifiedOpenWaterOceanConditionsV1({
+                  candidate,
+
+                  bearerToken,
+
+                  oceanConditionsProvider:
+                    getOceanConditions
+                });
 
 
-          const oceanConditions =
-            await getOceanConditions(
-              latitude,
-              longitude,
-              {
-                bearerToken
-              }
+          if (
+            oceanEvaluation
+              ?.available !== true
+          ) {
+            throw new Error(
+              oceanEvaluation
+                ?.reason ??
+              "candidate-ocean-conditions-evaluation-unavailable"
             );
+          }
 
 
           return (
             buildUnifiedSpeciesOpportunityInterpretationV1({
-              candidate:
-                location,
+              candidate,
 
-              oceanConditions,
+              oceanConditions:
+                oceanEvaluation
+                  .oceanConditions,
 
               species:
                 "blue-marlin"
@@ -50455,13 +50693,17 @@ export async function evaluateControlledGulfBlueMarlinV1({
 
     search: {
       totalMarineCandidateCount:
-        gulfCandidates.length,
+        candidateUniverse
+          .candidates
+          .length,
 
       eligibleCandidateCount:
-        eligibleCandidates.length,
+        captainContextCandidates
+          .length,
 
       rangeEligibleCandidateCount:
-        eligibleCandidates.length,
+        captainContextCandidates
+          .length,
 
       speciesEligibleCandidateCount:
         speciesEligibleCandidates.length,

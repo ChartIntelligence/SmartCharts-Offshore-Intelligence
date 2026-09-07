@@ -14,6 +14,7 @@ import {
   selectUnifiedOpportunityCandidatesForEvaluationV1,
   evaluateSelectedUnifiedOpportunityCandidatesV1,
   evaluateUnifiedOpenWaterOceanConditionsV1,
+  evaluateUnifiedPhysicalStructureOceanConditionsV1,
   evaluateUnifiedOpportunityOceanConditionsV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
@@ -44629,7 +44630,8 @@ for (
     evaluatorCalls.sort(),
     [
       "open-water-1",
-      "open-water-2"
+      "open-water-2",
+      "platform-1"
     ]
   );
 
@@ -44671,28 +44673,28 @@ for (
   assert.equal(
     result.summary
       .pathwayEligibleCandidateCount,
-    2
+    3
   );
 
 
   assert.equal(
     result.summary
       .pathwayDeferredCandidateCount,
-    1
+    0
   );
 
 
   assert.equal(
     result.evaluation
       .evaluatedCandidateCount,
-    2
+    3
   );
 
 
   assert.equal(
     result.evaluation
       .successfulCandidateCount,
-    2
+    3
   );
 
 
@@ -44706,24 +44708,7 @@ for (
   assert.deepEqual(
     result.pathwayDeferredCandidates
       .map(candidate => candidate.id),
-    [
-      "platform-1"
-    ]
-  );
-
-
-  assert.equal(
-    result.pathwayDeferredCandidates[0]
-      ?.candidateClass,
-    "physical-structure"
-  );
-
-
-  assert.equal(
-    result.pathwayDeferredCandidates[0]
-      ?.eligibility
-      ?.eligible,
-    true
+    []
   );
 
 
@@ -45300,6 +45285,166 @@ for (
   assert.equal(
     result.contractVersion,
     "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  );
+}
+
+{
+  const providerCalls = [];
+
+
+  const candidate = {
+    id:
+      "platform-live-evaluation-1",
+
+    candidateClass:
+      "physical-structure",
+
+    candidateSubtype:
+      "platform",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+
+      eligible: true,
+
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const fakeOceanConditions = {
+    location: {
+      latitude: 27.5,
+      longitude: -89.5
+    },
+
+    oceanEvidence: {
+      available: true
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedPhysicalStructureOceanConditionsV1({
+      candidate,
+
+      bearerToken:
+        "structure-test-bearer-token",
+
+      oceanConditionsProvider:
+        async (
+          latitude,
+          longitude,
+          options
+        ) => {
+          providerCalls.push({
+            latitude,
+            longitude,
+            options
+          });
+
+
+          return fakeOceanConditions;
+        }
+    });
+
+
+  assert.equal(
+    providerCalls.length,
+    1
+  );
+
+
+  assert.deepEqual(
+    providerCalls[0],
+    {
+      latitude: 27.5,
+
+      longitude: -89.5,
+
+      options: {
+        bearerToken:
+          "structure-test-bearer-token"
+      }
+    }
+  );
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.candidate,
+    candidate
+  );
+
+
+  assert.equal(
+    result.oceanConditions,
+    fakeOceanConditions
+  );
+
+
+  assert.equal(
+    result.interpretation,
+    "physical-structure-ocean-conditions-evaluation"
+  );
+
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-unified-physical-structure-ocean-conditions-evaluation-v1"
+  );
+
+
+  assert.equal(
+    result.speciesOpportunity,
+    undefined
+  );
+
+
+  assert.equal(
+    result.eligibleForRanking,
+    undefined
+  );
+
+
+  assert.equal(
+    result.rank,
+    undefined
+  );
+
+
+  assert.equal(
+    result.limitations.includes(
+      "live-ocean-conditions-do-not-establish-physical-structure-interaction"
+    ),
+    true
+  );
+
+
+  assert.equal(
+    result.limitations.includes(
+      "live-ocean-conditions-do-not-establish-species-opportunity"
+    ),
+    true
+  );
+
+
+  assert.equal(
+    result.limitations.includes(
+      "live-ocean-conditions-do-not-establish-ranking-eligibility"
+    ),
+    true
   );
 }
 
@@ -46126,6 +46271,247 @@ for (
     evaluationResult.value.score,
     undefined
   );
+}
+
+{
+  const providerCalls = [];
+
+
+  const openWaterCandidate = {
+    id:
+      "unified-live-parity-open-water-1",
+
+    candidateClass:
+      "open-water",
+
+    candidateSubtype:
+      "gulf-grid",
+
+    coordinates: [
+      27.5,
+      -89.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const physicalStructureCandidate = {
+    id:
+      "unified-live-parity-structure-1",
+
+    candidateClass:
+      "physical-structure",
+
+    candidateSubtype:
+      "verified-platform",
+
+    coordinates: [
+      28.5,
+      -88.5
+    ],
+
+    eligibility: {
+      available: true,
+      eligible: true,
+      classification:
+        "species-habitat-eligible"
+    }
+  };
+
+
+  const result =
+    await evaluateUnifiedOpportunityOceanConditionsV1({
+      candidates: [
+        openWaterCandidate,
+        physicalStructureCandidate
+      ],
+
+      bearerToken:
+        "unified-parity-bearer-token",
+
+      maximumCandidates: 2,
+
+      concurrency: 2,
+
+      oceanConditionsProvider:
+        async (
+          latitude,
+          longitude,
+          options
+        ) => {
+          providerCalls.push({
+            latitude,
+            longitude,
+            options
+          });
+
+
+          return {
+            location: {
+              latitude,
+              longitude
+            },
+
+            observedAt:
+              "2026-09-07T00:00:00.000Z",
+
+            dataQuality: {
+              overall: {
+                classification:
+                  "complete"
+              }
+            },
+
+            oceanEvidence: {
+              available: true
+            },
+
+            oceanOpportunity: {
+              available: true
+            },
+
+            oceanSignals: {
+              available: true
+            }
+          };
+        }
+    });
+
+
+  assert.equal(
+    providerCalls.length,
+    2
+  );
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+
+  assert.equal(
+    result.controlledEvaluation
+      .summary
+      .evaluatedCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    result.controlledEvaluation
+      .summary
+      .successfulCandidateCount,
+    2
+  );
+
+
+  assert.equal(
+    result.controlledEvaluation
+      .summary
+      .failedCandidateCount,
+    0
+  );
+
+
+  const openWaterResult =
+    result.controlledEvaluation
+      .evaluation
+      .results
+      .find(
+        evaluationResult =>
+          evaluationResult
+            ?.candidate
+            ?.id ===
+          openWaterCandidate.id
+      );
+
+
+  const structureResult =
+    result.controlledEvaluation
+      .evaluation
+      .results
+      .find(
+        evaluationResult =>
+          evaluationResult
+            ?.candidate
+            ?.id ===
+          physicalStructureCandidate.id
+      );
+
+
+  assert.equal(
+    openWaterResult?.status,
+    "fulfilled"
+  );
+
+
+  assert.equal(
+    structureResult?.status,
+    "fulfilled"
+  );
+
+
+  assert.equal(
+    openWaterResult
+      ?.value
+      ?.contractVersion,
+    "pelora-unified-open-water-ocean-conditions-evaluation-v1"
+  );
+
+
+  assert.equal(
+    structureResult
+      ?.value
+      ?.contractVersion,
+    "pelora-unified-physical-structure-ocean-conditions-evaluation-v1"
+  );
+
+
+  for (
+    const evaluationResult
+    of [
+      openWaterResult,
+      structureResult
+    ]
+  ) {
+    assert.equal(
+      evaluationResult
+        ?.value
+        ?.speciesOpportunity,
+      undefined
+    );
+
+
+    assert.equal(
+      evaluationResult
+        ?.value
+        ?.eligibleForRanking,
+      undefined
+    );
+
+
+    assert.equal(
+      evaluationResult
+        ?.value
+        ?.rank,
+      undefined
+    );
+
+
+    assert.equal(
+      evaluationResult
+        ?.value
+        ?.score,
+      undefined
+    );
+  }
 }
 
 {
