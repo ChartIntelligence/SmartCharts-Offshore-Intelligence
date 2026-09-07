@@ -50115,6 +50115,257 @@ export function buildGovernedOpportunityHistoryStorageRecordFromRowV1({
 }
 
 
+export function buildLatestGovernedOpportunityFallbackV1({
+  rows = [],
+  species = null,
+  currentEvaluationTime = null
+} = {}) {
+  const normalizedSpecies =
+    typeof species === "string"
+      ? species.trim().toLowerCase() || null
+      : null;
+
+  const currentTimestamp =
+    typeof currentEvaluationTime === "string" &&
+    Number.isFinite(
+      Date.parse(currentEvaluationTime)
+    )
+      ? Date.parse(currentEvaluationTime)
+      : null;
+
+  const unavailable = reason =>
+    Object.freeze({
+      available: false,
+
+      species:
+        normalizedSpecies,
+
+      evaluatedAt: null,
+
+      ageMilliseconds: null,
+
+      opportunities:
+        Object.freeze([]),
+
+      historicalState:
+        Object.freeze({
+          historicalOnly: true,
+
+          preservesOriginalDecision:
+            false,
+
+          recalculationPerformed:
+            false,
+
+          currentOpportunity:
+            false,
+
+          currentRankingEligibility:
+            false,
+
+          currentRank:
+            false
+        }),
+
+      reason,
+
+      limitations:
+        Object.freeze([
+          "historical-opportunity-is-not-current-opportunity",
+          "historical-rank-is-not-current-rank",
+          "historical-evidence-must-not-be-recalculated"
+        ]),
+
+      contractVersion:
+        "pelora-latest-governed-opportunity-fallback-v1"
+    });
+
+
+  if (!Array.isArray(rows)) {
+    return unavailable(
+      "governed-opportunity-history-rows-unavailable"
+    );
+  }
+
+
+  if (!normalizedSpecies) {
+    return unavailable(
+      "governed-opportunity-history-species-unavailable"
+    );
+  }
+
+
+  if (currentTimestamp === null) {
+    return unavailable(
+      "current-evaluation-time-unavailable"
+    );
+  }
+
+
+  const validRecords =
+    rows
+      .map(row =>
+        buildGovernedOpportunityHistoryStorageRecordFromRowV1({
+          row
+        })
+      )
+      .filter(
+        storageRecord =>
+          storageRecord?.available ===
+            true &&
+          storageRecord
+            ?.historyRecord
+            ?.available === true &&
+          storageRecord.species ===
+            normalizedSpecies &&
+          typeof storageRecord
+            .evaluatedAt ===
+            "string" &&
+          Number.isFinite(
+            Date.parse(
+              storageRecord.evaluatedAt
+            )
+          ) &&
+          Date.parse(
+            storageRecord.evaluatedAt
+          ) <
+            currentTimestamp
+      );
+
+
+  if (validRecords.length === 0) {
+    return unavailable(
+      "no-valid-governed-opportunity-history"
+    );
+  }
+
+
+  const latestEvaluationTimestamp =
+    Math.max(
+      ...validRecords.map(
+        storageRecord =>
+          Date.parse(
+            storageRecord.evaluatedAt
+          )
+      )
+    );
+
+
+  const latestCohort =
+    validRecords
+      .filter(
+        storageRecord =>
+          Date.parse(
+            storageRecord.evaluatedAt
+          ) ===
+          latestEvaluationTimestamp
+      )
+      .sort(
+        (left, right) =>
+          Number(
+            left
+              ?.historyRecord
+              ?.opportunity
+              ?.rank ??
+            Number.MAX_SAFE_INTEGER
+          ) -
+          Number(
+            right
+              ?.historyRecord
+              ?.opportunity
+              ?.rank ??
+            Number.MAX_SAFE_INTEGER
+          )
+      );
+
+
+  const opportunities =
+    latestCohort.map(
+      storageRecord => {
+        const historyRecord =
+          storageRecord.historyRecord;
+
+        return Object.freeze({
+          historyId:
+            storageRecord.historyId,
+
+          opportunity:
+            historyRecord.opportunity,
+
+          governance:
+            historyRecord.governance,
+
+          captainContext:
+            historyRecord.captainContext,
+
+          captainNarrative:
+            historyRecord.captainNarrative,
+
+          historicalState:
+            historyRecord.historicalState
+        });
+      }
+    );
+
+
+  return Object.freeze({
+    available: true,
+
+    species:
+      normalizedSpecies,
+
+    evaluatedAt:
+      latestCohort[0].evaluatedAt,
+
+    ageMilliseconds:
+      Math.max(
+        0,
+        currentTimestamp -
+          latestEvaluationTimestamp
+      ),
+
+    opportunities:
+      Object.freeze(
+        opportunities
+      ),
+
+    historicalState:
+      Object.freeze({
+        historicalOnly: true,
+
+        preservesOriginalDecision:
+          true,
+
+        recalculationPerformed:
+          false,
+
+        currentOpportunity:
+          false,
+
+        currentRankingEligibility:
+          false,
+
+        currentRank:
+          false
+      }),
+
+    reason:
+      "latest-governed-opportunity-history-available",
+
+    limitations:
+      Object.freeze([
+        "historical-opportunity-is-not-current-opportunity",
+        "historical-rank-is-not-current-rank",
+        "historical-conditions-may-have-changed",
+        "historical-evidence-preserved-without-recalculation"
+      ]),
+
+    contractVersion:
+      "pelora-latest-governed-opportunity-fallback-v1"
+  });
+}
+
+
 export async function persistGovernedOpportunityHistoryV1({
   configuration = null,
   bearerToken = null,

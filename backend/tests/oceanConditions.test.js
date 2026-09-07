@@ -40,6 +40,7 @@ import {
   buildGovernedOpportunityHistoryIdentityV1,
   buildGovernedOpportunityHistoryStorageV1,
   buildGovernedOpportunityHistoryStorageRecordFromRowV1,
+  buildLatestGovernedOpportunityFallbackV1,
   persistGovernedOpportunityHistoryV1,
   retrieveGovernedOpportunityHistoryRowsV1,
   captureGovernedOpportunityHistoryV1,
@@ -55113,5 +55114,798 @@ for (
 
   console.log(
     "PASS governed opportunity history retrieval fails closed before request for invalid evaluation window"
+  );
+}
+
+/*
+ * Latest Governed Opportunity Fallback v1
+ *
+ * Historical fallback must preserve the newest valid governed
+ * evaluation cohort without recalculation or reranking.
+ */
+{
+  const buildHistoryRow = ({
+    opportunityId,
+    score,
+    confidence,
+    evaluatedAt,
+    storedAt
+  }) => {
+    const speciesInterpretations = [
+      {
+        available: true,
+
+        candidate: {
+          id: opportunityId
+        },
+
+        species: "blue-marlin",
+
+        speciesOpportunity: {
+          available: true,
+
+          species: "blue-marlin",
+
+          location: {
+            id: opportunityId
+          },
+
+          score,
+
+          confidence: {
+            score: confidence
+          },
+
+          eligibility: {
+            eligibleForRanking: true
+          }
+        }
+      }
+    ];
+
+    const delivery =
+      buildUnifiedCaptainOpportunityDeliveryV1({
+        species: "blue-marlin",
+        speciesInterpretations
+      });
+
+    const historyRecord =
+      buildGovernedOpportunityHistoryRecordV1({
+        delivery,
+        opportunityId,
+        evaluatedAt
+      });
+
+    const identity =
+      buildGovernedOpportunityHistoryIdentityV1({
+        historyRecord
+      });
+
+    return {
+      history_id:
+        identity.historyId,
+
+      user_id:
+        "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+      species:
+        identity.species,
+
+      opportunity_id:
+        identity.opportunityId,
+
+      evaluated_at:
+        identity.evaluatedAt,
+
+      history_schema_version:
+        identity.schemaVersion,
+
+      history_payload:
+        historyRecord,
+
+      created_at:
+        storedAt
+    };
+  };
+
+
+  const olderRow =
+    buildHistoryRow({
+      opportunityId:
+        "history-fallback-older-1",
+      score: 58,
+      confidence: 65,
+      evaluatedAt:
+        "2026-09-07T18:00:00.000Z",
+      storedAt:
+        "2026-09-07T18:01:00.000Z"
+    });
+
+
+  const newerRow =
+    buildHistoryRow({
+      opportunityId:
+        "history-fallback-newer-1",
+      score: 64,
+      confidence: 72,
+      evaluatedAt:
+        "2026-09-07T20:00:00.000Z",
+      storedAt:
+        "2026-09-07T20:01:00.000Z"
+    });
+
+
+  const result =
+    buildLatestGovernedOpportunityFallbackV1({
+      rows: [
+        olderRow,
+        newerRow
+      ],
+
+      species:
+        "Blue-Marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:00:00.000Z"
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    result.evaluatedAt,
+    "2026-09-07T20:00:00.000Z"
+  );
+
+  assert.equal(
+    result.opportunities.length,
+    1
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .location
+      .id,
+    "history-fallback-newer-1"
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .score,
+    64
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .confidence
+      .score,
+    72
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .rank,
+    1
+  );
+
+  assert.equal(
+    result.ageMilliseconds,
+    60 * 60 * 1000
+  );
+
+  assert.equal(
+    result.historicalState
+      .historicalOnly,
+    true
+  );
+
+  assert.equal(
+    result.historicalState
+      .preservesOriginalDecision,
+    true
+  );
+
+  assert.equal(
+    result.historicalState
+      .recalculationPerformed,
+    false
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentOpportunity,
+    false
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentRank,
+    false
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-latest-governed-opportunity-fallback-v1"
+  );
+
+  console.log(
+    "PASS latest governed opportunity fallback selects newest valid historical evaluation"
+  );
+}
+
+
+/*
+ * Latest Governed Opportunity Fallback v1
+ *
+ * Multiple opportunities from one governed evaluation must remain
+ * one historical cohort and preserve their original ranks.
+ */
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-cohort-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+        species: "blue-marlin",
+
+        location: {
+          id: "history-cohort-1"
+        },
+
+        score: 70,
+
+        confidence: {
+          score: 76
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    },
+
+    {
+      available: true,
+
+      candidate: {
+        id: "history-cohort-2"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+        species: "blue-marlin",
+
+        location: {
+          id: "history-cohort-2"
+        },
+
+        score: 62,
+
+        confidence: {
+          score: 69
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    },
+
+    {
+      available: true,
+
+      candidate: {
+        id: "history-cohort-3"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+        species: "blue-marlin",
+
+        location: {
+          id: "history-cohort-3"
+        },
+
+        score: 55,
+
+        confidence: {
+          score: 61
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+
+  const evaluatedAt =
+    "2026-09-07T20:15:00.000Z";
+
+
+  const rows =
+    delivery.opportunities.map(
+      (opportunity, index) => {
+        const historyRecord =
+          buildGovernedOpportunityHistoryRecordV1({
+            delivery,
+
+            opportunityId:
+              opportunity.location.id,
+
+            evaluatedAt
+          });
+
+        const identity =
+          buildGovernedOpportunityHistoryIdentityV1({
+            historyRecord
+          });
+
+        return {
+          history_id:
+            identity.historyId,
+
+          user_id:
+            "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+          species:
+            identity.species,
+
+          opportunity_id:
+            identity.opportunityId,
+
+          evaluated_at:
+            identity.evaluatedAt,
+
+          history_schema_version:
+            identity.schemaVersion,
+
+          history_payload:
+            historyRecord,
+
+          created_at:
+            `2026-09-07T20:16:0${index}.000Z`
+        };
+      }
+    );
+
+
+  const result =
+    buildLatestGovernedOpportunityFallbackV1({
+      rows: [
+        rows[2],
+        rows[0],
+        rows[1]
+      ],
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:15:00.000Z"
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.opportunities.length,
+    3
+  );
+
+  assert.deepEqual(
+    result.opportunities.map(
+      item =>
+        item.opportunity.rank
+    ),
+    [1, 2, 3]
+  );
+
+  assert.deepEqual(
+    result.opportunities.map(
+      item =>
+        item.opportunity.location.id
+    ),
+    [
+      "history-cohort-1",
+      "history-cohort-2",
+      "history-cohort-3"
+    ]
+  );
+
+  assert.deepEqual(
+    result.opportunities.map(
+      item =>
+        item.opportunity.score
+    ),
+    [70, 62, 55]
+  );
+
+  console.log(
+    "PASS latest governed opportunity fallback preserves historical evaluation cohort and original ranks"
+  );
+}
+
+
+/*
+ * Latest Governed Opportunity Fallback v1
+ *
+ * A tampered database row must not contaminate otherwise valid
+ * governed historical evidence.
+ */
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-valid-after-tamper-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+        species: "blue-marlin",
+
+        location: {
+          id: "history-valid-after-tamper-1"
+        },
+
+        score: 61,
+
+        confidence: {
+          score: 67
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+
+      opportunityId:
+        "history-valid-after-tamper-1",
+
+      evaluatedAt:
+        "2026-09-07T20:30:00.000Z"
+    });
+
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+
+  const validRow = {
+    history_id:
+      identity.historyId,
+
+    user_id:
+      "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+    species:
+      identity.species,
+
+    opportunity_id:
+      identity.opportunityId,
+
+    evaluated_at:
+      identity.evaluatedAt,
+
+    history_schema_version:
+      identity.schemaVersion,
+
+    history_payload:
+      historyRecord,
+
+    created_at:
+      "2026-09-07T20:31:00.000Z"
+  };
+
+
+  const tamperedRow = {
+    ...validRow,
+
+    history_id:
+      `${identity.historyId}-tampered`,
+
+    opportunity_id:
+      "tampered-history-opportunity"
+  };
+
+
+  const result =
+    buildLatestGovernedOpportunityFallbackV1({
+      rows: [
+        tamperedRow,
+        validRow
+      ],
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:30:00.000Z"
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.opportunities.length,
+    1
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .location
+      .id,
+    "history-valid-after-tamper-1"
+  );
+
+  console.log(
+    "PASS latest governed opportunity fallback ignores tampered rows without reconstructing history"
+  );
+}
+
+
+/*
+ * Latest Governed Opportunity Fallback v1
+ *
+ * Current and future evaluations are not historical fallback.
+ */
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-current-time-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+        species: "blue-marlin",
+
+        location: {
+          id: "history-current-time-1"
+        },
+
+        score: 66,
+
+        confidence: {
+          score: 73
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+
+      opportunityId:
+        "history-current-time-1",
+
+      evaluatedAt:
+        "2026-09-07T22:00:00.000Z"
+    });
+
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+
+  const row = {
+    history_id:
+      identity.historyId,
+
+    user_id:
+      "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+    species:
+      identity.species,
+
+    opportunity_id:
+      identity.opportunityId,
+
+    evaluated_at:
+      identity.evaluatedAt,
+
+    history_schema_version:
+      identity.schemaVersion,
+
+    history_payload:
+      historyRecord,
+
+    created_at:
+      "2026-09-07T22:01:00.000Z"
+  };
+
+
+  const currentResult =
+    buildLatestGovernedOpportunityFallbackV1({
+      rows: [row],
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T22:00:00.000Z"
+    });
+
+
+  const earlierResult =
+    buildLatestGovernedOpportunityFallbackV1({
+      rows: [row],
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:59:59.000Z"
+    });
+
+
+  assert.equal(
+    currentResult.available,
+    false
+  );
+
+  assert.equal(
+    earlierResult.available,
+    false
+  );
+
+  assert.equal(
+    currentResult.reason,
+    "no-valid-governed-opportunity-history"
+  );
+
+  assert.equal(
+    earlierResult.reason,
+    "no-valid-governed-opportunity-history"
+  );
+
+  console.log(
+    "PASS latest governed opportunity fallback rejects current and future evaluations"
+  );
+}
+
+
+/*
+ * Latest Governed Opportunity Fallback v1
+ *
+ * Missing governed history must remain an explicit historical zero.
+ */
+{
+  const result =
+    buildLatestGovernedOpportunityFallbackV1({
+      rows: [],
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T23:00:00.000Z"
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.opportunities.length,
+    0
+  );
+
+  assert.equal(
+    result.reason,
+    "no-valid-governed-opportunity-history"
+  );
+
+  assert.equal(
+    result.historicalState
+      .historicalOnly,
+    true
+  );
+
+  assert.equal(
+    result.historicalState
+      .preservesOriginalDecision,
+    false
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentOpportunity,
+    false
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentRank,
+    false
+  );
+
+  console.log(
+    "PASS latest governed opportunity fallback preserves explicit zero when no valid history exists"
   );
 }
