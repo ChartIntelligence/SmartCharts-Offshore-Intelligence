@@ -41,6 +41,7 @@ import {
   buildGovernedOpportunityHistoryStorageV1,
   buildGovernedOpportunityHistoryStorageRecordFromRowV1,
   buildLatestGovernedOpportunityFallbackV1,
+  evaluateGovernedHistoricalCaptainContextCompatibilityV1,
   persistGovernedOpportunityHistoryV1,
   retrieveGovernedOpportunityHistoryRowsV1,
   resolveAuthenticatedGovernedOpportunityFallbackV1,
@@ -56337,5 +56338,320 @@ for (
 
   console.log(
     "PASS authenticated governed opportunity fallback fails closed without captain authentication"
+  );
+}
+
+/*
+ * Governed Historical Captain Context Compatibility v1
+ *
+ * Identical within-range missions are compatible.
+ */
+{
+  const historicalCaptainContext = {
+    species: "blue-marlin",
+    explorationMode: "within-range",
+
+    origin: {
+      latitude: 29.8,
+      longitude: -85.3
+    },
+
+    operatingRangeNm: 200,
+
+    selection:
+      "captain-range-stable-nearest-v1"
+  };
+
+  const currentCaptainContext = {
+    species: "Blue-Marlin",
+    explorationMode: "within-range",
+
+    origin: {
+      latitude: 29.8,
+      longitude: -85.3
+    },
+
+    operatingRangeNm: 200
+  };
+
+  const result =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext,
+      currentCaptainContext
+    });
+
+  assert.equal(result.available, true);
+  assert.equal(result.compatible, true);
+
+  assert.equal(
+    result.reason,
+    "captain-context-compatible"
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-governed-historical-captain-context-compatibility-v1"
+  );
+
+  console.log(
+    "PASS governed historical captain context accepts identical within-range mission"
+  );
+}
+
+
+/*
+ * A different operating range is a different governed mission.
+ */
+{
+  const result =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 200
+      },
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 75
+      }
+    });
+
+  assert.equal(result.available, false);
+  assert.equal(result.compatible, false);
+
+  assert.equal(
+    result.reason,
+    "captain-context-operating-range-mismatch"
+  );
+
+  console.log(
+    "PASS governed historical captain context rejects different operating range"
+  );
+}
+
+
+/*
+ * A different origin is a different governed mission.
+ */
+{
+  const result =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 200
+      },
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "within-range",
+
+        origin: {
+          latitude: 29.7,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 200
+      }
+    });
+
+  assert.equal(result.available, false);
+
+  assert.equal(
+    result.reason,
+    "captain-context-origin-mismatch"
+  );
+
+  console.log(
+    "PASS governed historical captain context rejects different origin"
+  );
+}
+
+
+/*
+ * Exploration mode must match.
+ */
+{
+  const result =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 200
+      },
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf"
+      }
+    });
+
+  assert.equal(result.available, false);
+
+  assert.equal(
+    result.reason,
+    "captain-context-exploration-mode-mismatch"
+  );
+
+  console.log(
+    "PASS governed historical captain context rejects exploration-mode mismatch"
+  );
+}
+
+
+/*
+ * Entire-Gulf missions do not require origin/range agreement.
+ */
+{
+  const result =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf",
+        origin: null,
+        operatingRangeNm: null
+      },
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf"
+      }
+    });
+
+  assert.equal(result.available, true);
+  assert.equal(result.compatible, true);
+
+  assert.equal(
+    result.historicalContext.origin,
+    null
+  );
+
+  assert.equal(
+    result.currentContext.operatingRangeNm,
+    null
+  );
+
+  console.log(
+    "PASS governed historical captain context accepts matching entire-Gulf mission"
+  );
+}
+
+
+/*
+ * Species remains part of governed mission identity.
+ */
+{
+  const result =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf"
+      },
+
+      currentCaptainContext: {
+        species: "yellowfin-tuna",
+        explorationMode: "entire-gulf"
+      }
+    });
+
+  assert.equal(result.available, false);
+
+  assert.equal(
+    result.reason,
+    "captain-context-species-mismatch"
+  );
+
+  console.log(
+    "PASS governed historical captain context rejects species mismatch"
+  );
+}
+
+
+/*
+ * Missing or malformed context fails closed.
+ */
+{
+  const missingHistorical =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext: null,
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "entire-gulf"
+      }
+    });
+
+  const invalidCurrent =
+    evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+      historicalCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 200
+      },
+
+      currentCaptainContext: {
+        species: "blue-marlin",
+        explorationMode: "within-range",
+
+        origin: null,
+
+        operatingRangeNm: 200
+      }
+    });
+
+  assert.equal(
+    missingHistorical.available,
+    false
+  );
+
+  assert.equal(
+    missingHistorical.reason,
+    "historical-captain-context-unavailable"
+  );
+
+  assert.equal(
+    invalidCurrent.available,
+    false
+  );
+
+  assert.equal(
+    invalidCurrent.reason,
+    "current-captain-context-unavailable"
+  );
+
+  console.log(
+    "PASS governed historical captain context fails closed for missing or malformed mission context"
   );
 }

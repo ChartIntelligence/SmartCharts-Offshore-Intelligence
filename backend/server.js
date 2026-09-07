@@ -50366,6 +50366,238 @@ export function buildLatestGovernedOpportunityFallbackV1({
 }
 
 
+export function evaluateGovernedHistoricalCaptainContextCompatibilityV1({
+  historicalCaptainContext = null,
+  currentCaptainContext = null
+} = {}) {
+  const normalizeContext = context => {
+    if (
+      context === null ||
+      typeof context !== "object"
+    ) {
+      return null;
+    }
+
+    const species =
+      typeof context.species === "string"
+        ? context.species.trim().toLowerCase() || null
+        : null;
+
+    const explorationMode =
+      context.explorationMode === "entire-gulf"
+        ? "entire-gulf"
+        : context.explorationMode === "within-range"
+          ? "within-range"
+          : null;
+
+    if (
+      !species ||
+      !explorationMode
+    ) {
+      return null;
+    }
+
+    if (
+      explorationMode === "entire-gulf"
+    ) {
+      return {
+        species,
+        explorationMode,
+        origin: null,
+        operatingRangeNm: null
+      };
+    }
+
+    const latitude =
+      Number(
+        context?.origin?.latitude
+      );
+
+    const longitude =
+      Number(
+        context?.origin?.longitude
+      );
+
+    const operatingRangeNm =
+      Number(
+        context?.operatingRangeNm
+      );
+
+    if (
+      !coordinatesAreValid(
+        latitude,
+        longitude
+      ) ||
+      !Number.isFinite(
+        operatingRangeNm
+      ) ||
+      operatingRangeNm <= 0
+    ) {
+      return null;
+    }
+
+    return {
+      species,
+      explorationMode,
+
+      origin: {
+        latitude,
+        longitude
+      },
+
+      operatingRangeNm
+    };
+  };
+
+
+  const historical =
+    normalizeContext(
+      historicalCaptainContext
+    );
+
+  const current =
+    normalizeContext(
+      currentCaptainContext
+    );
+
+
+  const unavailable = reason =>
+    deepFreezeSnapshotValue({
+      available: false,
+
+      compatible: false,
+
+      historicalContext:
+        historical,
+
+      currentContext:
+        current,
+
+      reason,
+
+      limitations: [
+        "Historical captain context compatibility does not establish a current opportunity.",
+        "Historical captain context compatibility does not recalculate historical evidence, score, confidence, eligibility, or rank.",
+        "Within-range historical compatibility requires exact governed origin and operating-range agreement in v1."
+      ],
+
+      contractVersion:
+        "pelora-governed-historical-captain-context-compatibility-v1"
+    });
+
+
+  if (!historical) {
+    return unavailable(
+      "historical-captain-context-unavailable"
+    );
+  }
+
+
+  if (!current) {
+    return unavailable(
+      "current-captain-context-unavailable"
+    );
+  }
+
+
+  if (
+    historical.species !==
+    current.species
+  ) {
+    return unavailable(
+      "captain-context-species-mismatch"
+    );
+  }
+
+
+  if (
+    historical.explorationMode !==
+    current.explorationMode
+  ) {
+    return unavailable(
+      "captain-context-exploration-mode-mismatch"
+    );
+  }
+
+
+  if (
+    historical.explorationMode ===
+    "entire-gulf"
+  ) {
+    return deepFreezeSnapshotValue({
+      available: true,
+
+      compatible: true,
+
+      historicalContext:
+        historical,
+
+      currentContext:
+        current,
+
+      reason:
+        "captain-context-compatible",
+
+      limitations: [
+        "Entire-Gulf historical compatibility preserves species and exploration-mode identity.",
+        "Historical captain context compatibility does not establish a current opportunity.",
+        "Historical evidence and ranking remain historical-only."
+      ],
+
+      contractVersion:
+        "pelora-governed-historical-captain-context-compatibility-v1"
+    });
+  }
+
+
+  if (
+    historical.origin.latitude !==
+      current.origin.latitude ||
+    historical.origin.longitude !==
+      current.origin.longitude
+  ) {
+    return unavailable(
+      "captain-context-origin-mismatch"
+    );
+  }
+
+
+  if (
+    historical.operatingRangeNm !==
+    current.operatingRangeNm
+  ) {
+    return unavailable(
+      "captain-context-operating-range-mismatch"
+    );
+  }
+
+
+  return deepFreezeSnapshotValue({
+    available: true,
+
+    compatible: true,
+
+    historicalContext:
+      historical,
+
+    currentContext:
+      current,
+
+    reason:
+      "captain-context-compatible",
+
+    limitations: [
+      "Within-range historical compatibility requires exact governed origin and operating-range agreement in v1.",
+      "Historical captain context compatibility does not establish a current opportunity.",
+      "Historical evidence and ranking remain historical-only."
+    ],
+
+    contractVersion:
+      "pelora-governed-historical-captain-context-compatibility-v1"
+  });
+}
+
+
 export async function persistGovernedOpportunityHistoryV1({
   configuration = null,
   bearerToken = null,
