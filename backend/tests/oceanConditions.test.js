@@ -43,6 +43,7 @@ import {
   buildLatestGovernedOpportunityFallbackV1,
   persistGovernedOpportunityHistoryV1,
   retrieveGovernedOpportunityHistoryRowsV1,
+  resolveAuthenticatedGovernedOpportunityFallbackV1,
   captureGovernedOpportunityHistoryV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
@@ -55907,5 +55908,434 @@ for (
 
   console.log(
     "PASS latest governed opportunity fallback preserves explicit zero when no valid history exists"
+  );
+}
+
+/*
+ * Authenticated Governed Opportunity Fallback Resolution v1
+ *
+ * Successful authenticated retrieval composes into preserved
+ * historical fallback without recalculation.
+ */
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "authenticated-history-fallback-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "authenticated-history-fallback-1"
+        },
+
+        score: 63,
+
+        confidence: {
+          score: 71
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+
+      opportunityId:
+        "authenticated-history-fallback-1",
+
+      evaluatedAt:
+        "2026-09-07T20:00:00.000Z"
+    });
+
+
+  const identity =
+    buildGovernedOpportunityHistoryIdentityV1({
+      historyRecord
+    });
+
+
+  const result =
+    await resolveAuthenticatedGovernedOpportunityFallbackV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "Blue-Marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:00:00.000Z",
+
+      fetchImplementation:
+        async () => ({
+          ok: true,
+          status: 200,
+
+          async json() {
+            return [
+              {
+                history_id:
+                  identity.historyId,
+
+                user_id:
+                  "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+                species:
+                  identity.species,
+
+                opportunity_id:
+                  identity.opportunityId,
+
+                evaluated_at:
+                  identity.evaluatedAt,
+
+                history_schema_version:
+                  identity.schemaVersion,
+
+                history_payload:
+                  historyRecord,
+
+                created_at:
+                  "2026-09-07T20:01:00.000Z"
+              }
+            ];
+          }
+        })
+    });
+
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    result.opportunities.length,
+    1
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .location
+      .id,
+    "authenticated-history-fallback-1"
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .score,
+    63
+  );
+
+  assert.equal(
+    result.opportunities[0]
+      .opportunity
+      .rank,
+    1
+  );
+
+  assert.equal(
+    result.ageMilliseconds,
+    60 * 60 * 1000
+  );
+
+  assert.equal(
+    result.retrieval.available,
+    true
+  );
+
+  assert.equal(
+    result.fallback.available,
+    true
+  );
+
+  assert.equal(
+    result.historicalState
+      .historicalOnly,
+    true
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentOpportunity,
+    false
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentRank,
+    false
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-authenticated-governed-opportunity-fallback-resolution-v1"
+  );
+
+  console.log(
+    "PASS authenticated governed opportunity fallback resolves captain-owned historical continuity"
+  );
+}
+
+
+/*
+ * Authenticated Governed Opportunity Fallback Resolution v1
+ *
+ * A successful authenticated retrieval with zero rows is a valid
+ * historical zero, not a retrieval failure.
+ */
+{
+  const result =
+    await resolveAuthenticatedGovernedOpportunityFallbackV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:00:00.000Z",
+
+      fetchImplementation:
+        async () => ({
+          ok: true,
+          status: 200,
+
+          async json() {
+            return [];
+          }
+        })
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.retrieval.available,
+    true
+  );
+
+  assert.equal(
+    result.retrieval.summary
+      .returnedRowCount,
+    0
+  );
+
+  assert.equal(
+    result.fallback.available,
+    false
+  );
+
+  assert.equal(
+    result.reason,
+    "no-valid-governed-opportunity-history"
+  );
+
+  assert.equal(
+    result.historicalState
+      .currentOpportunity,
+    false
+  );
+
+  console.log(
+    "PASS authenticated governed opportunity fallback distinguishes successful historical zero from retrieval failure"
+  );
+}
+
+
+/*
+ * Authenticated Governed Opportunity Fallback Resolution v1
+ *
+ * Retrieval failure must remain distinct from a successful
+ * historical zero.
+ */
+{
+  const result =
+    await resolveAuthenticatedGovernedOpportunityFallbackV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:00:00.000Z",
+
+      fetchImplementation:
+        async () => {
+          throw new Error(
+            "simulated network failure"
+          );
+        }
+    });
+
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.retrieval.available,
+    false
+  );
+
+  assert.equal(
+    result.retrieval.requestPerformed,
+    true
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-opportunity-history-retrieval-unavailable"
+  );
+
+  assert.equal(
+    result.fallback,
+    null
+  );
+
+  console.log(
+    "PASS authenticated governed opportunity fallback preserves retrieval failure separately from historical zero"
+  );
+}
+
+
+/*
+ * Authenticated Governed Opportunity Fallback Resolution v1
+ *
+ * Missing authentication must fail closed before Supabase access.
+ */
+{
+  let requestCount = 0;
+
+
+  const result =
+    await resolveAuthenticatedGovernedOpportunityFallbackV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken: null,
+
+      species:
+        "blue-marlin",
+
+      currentEvaluationTime:
+        "2026-09-07T21:00:00.000Z",
+
+      fetchImplementation:
+        async () => {
+          requestCount += 1;
+
+          throw new Error(
+            "request should not occur"
+          );
+        }
+    });
+
+
+  assert.equal(
+    requestCount,
+    0
+  );
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.retrieval.available,
+    false
+  );
+
+  assert.equal(
+    result.retrieval.requestPerformed,
+    false
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-opportunity-history-retrieval-unavailable"
+  );
+
+  console.log(
+    "PASS authenticated governed opportunity fallback fails closed without captain authentication"
   );
 }

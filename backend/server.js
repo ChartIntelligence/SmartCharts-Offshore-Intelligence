@@ -51059,6 +51059,234 @@ export async function retrieveGovernedOpportunityHistoryRowsV1({
 }
 
 
+export async function resolveAuthenticatedGovernedOpportunityFallbackV1({
+  configuration = null,
+  bearerToken = null,
+  species = null,
+  currentEvaluationTime = null,
+  evaluatedAfter = null,
+  maximumRows = 24,
+  fetchImplementation = fetch
+} = {}) {
+  const normalizedSpecies =
+    typeof species === "string"
+      ? species.trim().toLowerCase() || null
+      : null;
+
+  const resolvedCurrentEvaluationTime =
+    typeof currentEvaluationTime === "string" &&
+    Number.isFinite(
+      Date.parse(currentEvaluationTime)
+    )
+      ? currentEvaluationTime
+      : null;
+
+  const unavailable = ({
+    reason,
+    retrieval = null,
+    fallback = null
+  }) =>
+    deepFreezeSnapshotValue({
+      available: false,
+
+      resolutionType:
+        "authenticated-governed-opportunity-history-fallback",
+
+      responsibility:
+        "historical-continuity",
+
+      species:
+        normalizedSpecies,
+
+      currentEvaluationTime:
+        resolvedCurrentEvaluationTime,
+
+      retrieval,
+
+      fallback,
+
+      historicalState: {
+        historicalOnly: true,
+
+        preservesOriginalDecision:
+          false,
+
+        recalculationPerformed:
+          false,
+
+        currentOpportunity:
+          false,
+
+        currentRankingEligibility:
+          false,
+
+        currentRank:
+          false
+      },
+
+      reason,
+
+      limitations: [
+        "Historical fallback cannot establish a current opportunity.",
+        "Historical fallback cannot establish current ranking eligibility or current rank.",
+        "Historical governed decisions are preserved without recalculation."
+      ],
+
+      contractVersion:
+        "pelora-authenticated-governed-opportunity-fallback-resolution-v1"
+    });
+
+
+  if (!normalizedSpecies) {
+    return unavailable({
+      reason:
+        "governed-opportunity-history-species-unavailable"
+    });
+  }
+
+
+  if (!resolvedCurrentEvaluationTime) {
+    return unavailable({
+      reason:
+        "current-evaluation-time-unavailable"
+    });
+  }
+
+
+  let retrieval = null;
+
+  try {
+    retrieval =
+      await retrieveGovernedOpportunityHistoryRowsV1({
+        configuration,
+
+        bearerToken,
+
+        species:
+          normalizedSpecies,
+
+        evaluatedAfter,
+
+        evaluatedBefore:
+          resolvedCurrentEvaluationTime,
+
+        maximumRows,
+
+        fetchImplementation
+      });
+  } catch {
+    return unavailable({
+      reason:
+        "governed-opportunity-history-retrieval-failed"
+    });
+  }
+
+
+  if (retrieval?.available !== true) {
+    return unavailable({
+      reason:
+        "governed-opportunity-history-retrieval-unavailable",
+
+      retrieval
+    });
+  }
+
+
+  const fallback =
+    buildLatestGovernedOpportunityFallbackV1({
+      rows:
+        Array.isArray(retrieval.rows)
+          ? retrieval.rows
+          : [],
+
+      species:
+        normalizedSpecies,
+
+      currentEvaluationTime:
+        resolvedCurrentEvaluationTime
+    });
+
+
+  if (fallback?.available !== true) {
+    return unavailable({
+      reason:
+        fallback?.reason ===
+        "no-valid-governed-opportunity-history"
+          ? "no-valid-governed-opportunity-history"
+          : "governed-opportunity-history-fallback-unavailable",
+
+      retrieval,
+
+      fallback
+    });
+  }
+
+
+  return deepFreezeSnapshotValue({
+    available: true,
+
+    resolutionType:
+      "authenticated-governed-opportunity-history-fallback",
+
+    responsibility:
+      "historical-continuity",
+
+    species:
+      normalizedSpecies,
+
+    currentEvaluationTime:
+      resolvedCurrentEvaluationTime,
+
+    evaluatedAt:
+      fallback.evaluatedAt,
+
+    ageMilliseconds:
+      fallback.ageMilliseconds,
+
+    opportunities:
+      cloneSnapshotValue(
+        fallback.opportunities
+      ),
+
+    retrieval,
+
+    fallback,
+
+    historicalState: {
+      historicalOnly: true,
+
+      preservesOriginalDecision:
+        true,
+
+      recalculationPerformed:
+        false,
+
+      currentOpportunity:
+        false,
+
+      currentRankingEligibility:
+        false,
+
+      currentRank:
+        false
+    },
+
+    reason:
+      "latest-governed-opportunity-history-available",
+
+    limitations: [
+      "Historical fallback is returned only as preserved historical continuity.",
+      "Historical conditions may have changed since the original governed evaluation.",
+      "Historical rank is the original historical rank and is not a current rank.",
+      "Historical fallback does not recalculate score, confidence, evidence, intelligence, narrative, eligibility, or rank."
+    ],
+
+    contractVersion:
+      "pelora-authenticated-governed-opportunity-fallback-resolution-v1"
+  });
+}
+
+
 export async function captureGovernedOpportunityHistoryV1({
   configuration = null,
   bearerToken = null,
