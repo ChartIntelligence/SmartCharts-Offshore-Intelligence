@@ -49334,6 +49334,261 @@ export function buildUnifiedCaptainOpportunityDeliveryV1({
 }
 
 
+export function buildGovernedOpportunityHistoryRecordV1({
+  delivery = null,
+  opportunityId = null,
+  evaluatedAt = null,
+  captainContext = null
+} = {}) {
+  const unavailable = reason => ({
+    available: false,
+
+    species:
+      delivery?.species ??
+      captainContext?.species ??
+      null,
+
+    evaluatedAt:
+      evaluatedAt ?? null,
+
+    opportunity: null,
+
+    governance: null,
+
+    captainContext:
+      captainContext != null
+        ? { ...captainContext }
+        : null,
+
+    captainNarrative: null,
+
+    historicalState: {
+      historicalOnly: true,
+      preservesOriginalDecision: false,
+      recalculatesHistoricalOpportunity: false,
+      grantsCurrentOpportunityStatus: false,
+      grantsCurrentRankingEligibility: false,
+      grantsCurrentRank: false
+    },
+
+    reason,
+
+    limitations: [
+      "historical-record-fails-closed-without-complete-governed-decision-chain",
+      "historical-record-does-not-create-opportunity-evidence",
+      "historical-record-does-not-create-ranking-eligibility",
+      "historical-record-does-not-establish-current-opportunity",
+      "historical-record-does-not-establish-current-rank"
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-history-record-v1"
+  });
+
+  if (delivery?.available !== true) {
+    return unavailable(
+      "governed-captain-opportunity-delivery-unavailable"
+    );
+  }
+
+  if (
+    delivery?.ranking?.available !== true ||
+    delivery?.presentation?.available !== true
+  ) {
+    return unavailable(
+      "governed-ranking-or-presentation-unavailable"
+    );
+  }
+
+  if (
+    typeof opportunityId !== "string" ||
+    opportunityId.trim().length === 0
+  ) {
+    return unavailable(
+      "governed-opportunity-history-id-unavailable"
+    );
+  }
+
+  const normalizedOpportunityId =
+    opportunityId.trim();
+
+  const opportunity =
+    (
+      Array.isArray(delivery?.opportunities)
+        ? delivery.opportunities
+        : []
+    ).find(
+      item =>
+        item?.location?.id ===
+        normalizedOpportunityId
+    ) ??
+    null;
+
+  if (!opportunity) {
+    return unavailable(
+      "governed-presented-opportunity-not-found"
+    );
+  }
+
+  if (
+    !Number.isInteger(opportunity?.rank) ||
+    opportunity.rank < 1
+  ) {
+    return unavailable(
+      "governed-opportunity-rank-unavailable"
+    );
+  }
+
+  const rankingResolution =
+    (
+      Array.isArray(
+        delivery?.ranking
+          ?.rankingResolutions
+      )
+        ? delivery.ranking
+            .rankingResolutions
+        : []
+    ).find(
+      resolution =>
+        resolution?.candidate?.id ===
+        normalizedOpportunityId
+    ) ??
+    null;
+
+  if (
+    rankingResolution
+      ?.eligibleForRanking !== true ||
+    !rankingResolution?.rankingInput
+  ) {
+    return unavailable(
+      "governed-ranking-input-proof-unavailable"
+    );
+  }
+
+  if (
+    rankingResolution
+      ?.rankingInput
+      ?.location
+      ?.id !== normalizedOpportunityId
+  ) {
+    return unavailable(
+      "governed-ranking-input-identity-mismatch"
+    );
+  }
+
+  const presentedOpportunity =
+    (
+      Array.isArray(
+        delivery?.presentation
+          ?.presentedOpportunities
+      )
+        ? delivery.presentation
+            .presentedOpportunities
+        : []
+    ).find(
+      item =>
+        item?.location?.id ===
+        normalizedOpportunityId
+    ) ??
+    null;
+
+  if (!presentedOpportunity) {
+    return unavailable(
+      "governed-presentation-proof-unavailable"
+    );
+  }
+
+  if (
+    presentedOpportunity.rank !==
+    opportunity.rank
+  ) {
+    return unavailable(
+      "governed-presentation-rank-mismatch"
+    );
+  }
+
+  const captainNarrative =
+    (
+      Array.isArray(
+        delivery?.captainNarratives
+      )
+        ? delivery.captainNarratives
+        : []
+    ).find(
+      item =>
+        item?.opportunityId ===
+        normalizedOpportunityId
+    ) ??
+    null;
+
+  return {
+    available: true,
+
+    species:
+      delivery.species ?? null,
+
+    evaluatedAt:
+      evaluatedAt ?? null,
+
+    opportunity: {
+      ...opportunity
+    },
+
+    governance: {
+      rankingResolution: {
+        ...rankingResolution
+      },
+
+      rankingContractVersion:
+        delivery?.ranking
+          ?.contractVersion ??
+        null,
+
+      presentationContractVersion:
+        delivery?.presentation
+          ?.contractVersion ??
+        null,
+
+      deliveryContractVersion:
+        delivery?.contractVersion ??
+        null
+    },
+
+    captainContext:
+      captainContext != null
+        ? { ...captainContext }
+        : null,
+
+    captainNarrative:
+      captainNarrative != null
+        ? { ...captainNarrative }
+        : null,
+
+    historicalState: {
+      historicalOnly: true,
+      preservesOriginalDecision: true,
+      recalculatesHistoricalOpportunity: false,
+      grantsCurrentOpportunityStatus: false,
+      grantsCurrentRankingEligibility: false,
+      grantsCurrentRank: false
+    },
+
+    reason: null,
+
+    limitations: [
+      "historical-record-preserves-a-prior-governed-decision",
+      "historical-record-does-not-establish-current-opportunity",
+      "historical-record-does-not-establish-current-ranking-eligibility",
+      "historical-rank-applies-only-to-the-original-evaluation",
+      "historical-record-does-not-recalculate-opportunity-evidence"
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-history-record-v1"
+  };
+}
+
+
 export const GULF_EVALUATION_CONTROL_V1 = {
   maximumCandidates: 12,
 

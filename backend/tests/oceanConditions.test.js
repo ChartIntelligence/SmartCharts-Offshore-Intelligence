@@ -35,6 +35,7 @@ import {
   translateCaptainOpportunityNarrativeV1,
   buildUnifiedOpportunityIntelligenceV1,
   buildUnifiedCaptainOpportunityDeliveryV1,
+  buildGovernedOpportunityHistoryRecordV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -52663,5 +52664,521 @@ for (
   assert.equal(
     result.reason,
     "no-opportunities-passed-governed-ranking-input"
+  );
+}
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-governed-opportunity-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-governed-opportunity-1",
+          name: "History Governed Opportunity"
+        },
+
+        score: 64,
+
+        confidence: {
+          score: 73
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const result =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-governed-opportunity-1",
+      evaluatedAt:
+        "2026-09-07T18:00:00.000Z",
+      captainContext: {
+        species: "blue-marlin",
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+        rangeNm: 200
+      }
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    result.opportunity.location.id,
+    "history-governed-opportunity-1"
+  );
+
+  assert.equal(
+    result.opportunity.score,
+    64
+  );
+
+  assert.equal(
+    result.opportunity.confidence.score,
+    73
+  );
+
+  assert.equal(
+    result.opportunity.rank,
+    1
+  );
+
+  assert.equal(
+    result.governance
+      .rankingResolution
+      .eligibleForRanking,
+    true
+  );
+
+  assert.equal(
+    result.governance
+      .rankingResolution
+      .rankingInput
+      .location
+      .id,
+    "history-governed-opportunity-1"
+  );
+
+  assert.equal(
+    result.historicalState
+      .historicalOnly,
+    true
+  );
+
+  assert.equal(
+    result.historicalState
+      .preservesOriginalDecision,
+    true
+  );
+
+  assert.equal(
+    result.historicalState
+      .grantsCurrentOpportunityStatus,
+    false
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-governed-opportunity-history-record-v1"
+  );
+}
+
+
+{
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations: []
+    });
+
+  const result =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-governed-zero-1",
+      evaluatedAt:
+        "2026-09-07T18:05:00.000Z"
+    });
+
+  assert.equal(
+    delivery.available,
+    false
+  );
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.opportunity,
+    null
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-captain-opportunity-delivery-unavailable"
+  );
+
+  assert.equal(
+    result.historicalState
+      .preservesOriginalDecision,
+    false
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-excluded-high-score"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-excluded-high-score"
+        },
+
+        score: 99,
+
+        confidence: {
+          score: 95
+        },
+
+        eligibility: {
+          eligibleForRanking: false
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const result =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-excluded-high-score",
+      evaluatedAt:
+        "2026-09-07T18:10:00.000Z"
+    });
+
+  assert.equal(
+    delivery.available,
+    false
+  );
+
+  assert.equal(
+    delivery.ranking
+      .summary
+      .eligibleRankingInputCount,
+    0
+  );
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.opportunity,
+    null
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-identity-source"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-identity-source"
+        },
+
+        score: 58,
+
+        confidence: {
+          score: 67
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const result =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-identity-mismatch",
+      evaluatedAt:
+        "2026-09-07T18:15:00.000Z"
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-presented-opportunity-not-found"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-ranking-proof-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-ranking-proof-1"
+        },
+
+        score: 61,
+
+        confidence: {
+          score: 69
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  delivery.ranking.rankingResolutions =
+    delivery.ranking.rankingResolutions.map(
+      resolution => ({
+        ...resolution,
+
+        rankingInput: {
+          ...resolution.rankingInput,
+
+          location: {
+            ...resolution.rankingInput.location,
+
+            id:
+              "history-ranking-proof-wrong-id"
+          }
+        }
+      })
+    );
+
+  const result =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-ranking-proof-1",
+      evaluatedAt:
+        "2026-09-07T18:20:00.000Z"
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-ranking-input-identity-mismatch"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-presentation-rank-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-presentation-rank-1"
+        },
+
+        score: 55,
+
+        confidence: {
+          score: 65
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  delivery.presentation.presentedOpportunities =
+    delivery.presentation.presentedOpportunities.map(
+      opportunity => ({
+        ...opportunity,
+        rank: opportunity.rank + 1
+      })
+    );
+
+  const result =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-presentation-rank-1",
+      evaluatedAt:
+        "2026-09-07T18:25:00.000Z"
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-presentation-rank-mismatch"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: "history-no-narrative-1"
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: "history-no-narrative-1"
+        },
+
+        score: 52,
+
+        confidence: {
+          score: 62
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  delivery.captainNarratives = [];
+
+  const result =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId:
+        "history-no-narrative-1",
+      evaluatedAt:
+        "2026-09-07T18:30:00.000Z"
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.captainNarrative,
+    null
+  );
+
+  assert.equal(
+    result.opportunity.rank,
+    1
   );
 }
