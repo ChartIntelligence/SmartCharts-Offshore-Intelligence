@@ -39,6 +39,8 @@ import {
   buildGovernedOpportunityHistoryIdentityV1,
   buildGovernedOpportunityHistoryStorageV1,
   buildGovernedOpportunityHistoryStorageRecordFromRowV1,
+  persistGovernedOpportunityHistoryV1,
+  retrieveGovernedOpportunityHistoryRowsV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -53868,5 +53870,657 @@ for (
       "history-opportunity-id-consistency"
     ),
     true
+  );
+}
+
+/*
+ * Governed Opportunity History Persistence v1
+ *
+ * Persistence must preserve the original governed decision,
+ * use captain-authenticated Supabase REST, and remain idempotent.
+ */
+{
+  const opportunityId =
+    "history-persistence-valid-1";
+
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: opportunityId
+      },
+
+      species: "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species: "blue-marlin",
+
+        location: {
+          id: opportunityId
+        },
+
+        score: 64,
+
+        confidence: {
+          score: 73
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species: "blue-marlin",
+      speciesInterpretations
+    });
+
+  const historyRecord =
+    buildGovernedOpportunityHistoryRecordV1({
+      delivery,
+      opportunityId,
+      evaluatedAt:
+        "2026-09-07T20:00:00.000Z"
+    });
+
+  const historyStorage =
+    buildGovernedOpportunityHistoryStorageV1({
+      historyRecord,
+      storedAt:
+        "2026-09-07T20:01:00.000Z"
+    });
+
+  const calls = [];
+
+  const result =
+    await persistGovernedOpportunityHistoryV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      userId:
+        "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+      historyStorage,
+
+      fetchImplementation:
+        async (url, options) => {
+          calls.push({
+            url,
+            options
+          });
+
+          const requestBody =
+            JSON.parse(
+              options.body
+            );
+
+          return {
+            ok: true,
+            status: 201,
+
+            async json() {
+              return [
+                {
+                  ...requestBody,
+
+                  created_at:
+                    "2026-09-07T20:01:00.000Z"
+                }
+              ];
+            }
+          };
+        }
+    });
+
+  assert.equal(
+    calls.length,
+    1
+  );
+
+  const request =
+    calls[0];
+
+  const requestUrl =
+    new URL(
+      request.url
+    );
+
+  assert.equal(
+    requestUrl.pathname,
+    "/rest/v1/governed_opportunity_history"
+  );
+
+  assert.equal(
+    requestUrl.searchParams.get(
+      "on_conflict"
+    ),
+    "user_id,history_id"
+  );
+
+  assert.equal(
+    request.options.method,
+    "POST"
+  );
+
+  assert.equal(
+    request.options.headers.apikey,
+    "test-publishable-key"
+  );
+
+  assert.equal(
+    request.options.headers.Authorization,
+    "Bearer captain-test-token"
+  );
+
+  assert.equal(
+    request.options.headers.Prefer,
+    "resolution=ignore-duplicates,return=representation"
+  );
+
+  const requestBody =
+    JSON.parse(
+      request.options.body
+    );
+
+  assert.equal(
+    requestBody.history_id,
+    historyStorage
+      .identity
+      .historyId
+  );
+
+  assert.equal(
+    requestBody.user_id,
+    "837e9b11-9292-4451-a45d-af28d5024bd8"
+  );
+
+  assert.equal(
+    requestBody.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    requestBody.opportunity_id,
+    opportunityId
+  );
+
+  assert.equal(
+    requestBody.evaluated_at,
+    "2026-09-07T20:00:00.000Z"
+  );
+
+  assert.equal(
+    requestBody.history_schema_version,
+    "pelora-governed-opportunity-history-schema-v1"
+  );
+
+  assert.deepEqual(
+    requestBody.history_payload,
+    historyRecord
+  );
+
+  assert.equal(
+    requestBody.created_at,
+    historyStorage.storedAt
+  );
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.requestPerformed,
+    true
+  );
+
+  assert.equal(
+    result.summary.httpStatus,
+    201
+  );
+
+  assert.equal(
+    result.summary.responseOk,
+    true
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-backend-governed-opportunity-history-persistence-v1"
+  );
+
+  console.log(
+    "PASS governed opportunity history persistence preserves immutable governed record through captain-authenticated Supabase REST"
+  );
+}
+
+
+/*
+ * Governed Opportunity History Persistence v1
+ *
+ * An unavailable governed storage record must fail closed
+ * before any network request is attempted.
+ */
+{
+  let requestCount = 0;
+
+  const result =
+    await persistGovernedOpportunityHistoryV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      userId:
+        "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+      historyStorage:
+        null,
+
+      fetchImplementation:
+        async () => {
+          requestCount += 1;
+
+          throw new Error(
+            "request should not occur"
+          );
+        }
+    });
+
+  assert.equal(
+    requestCount,
+    0
+  );
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.requestPerformed,
+    false
+  );
+
+  assert.equal(
+    result.missingRequirements.includes(
+      "available-governed-opportunity-history-storage"
+    ),
+    true
+  );
+
+  console.log(
+    "PASS governed opportunity history persistence fails closed before request when storage is unavailable"
+  );
+}
+
+
+/*
+ * Governed Opportunity History Retrieval v1
+ *
+ * Retrieval must use captain-authenticated Supabase REST,
+ * preserve filters, and request newest governed history first.
+ */
+{
+  const calls = [];
+
+  const returnedRows = [
+    {
+      history_id:
+        "history-newer",
+
+      user_id:
+        "837e9b11-9292-4451-a45d-af28d5024bd8",
+
+      species:
+        "blue-marlin",
+
+      opportunity_id:
+        "history-retrieval-1",
+
+      evaluated_at:
+        "2026-09-07T21:00:00.000Z",
+
+      history_schema_version:
+        "pelora-governed-opportunity-history-schema-v1",
+
+      history_payload: {
+        available: true
+      },
+
+      created_at:
+        "2026-09-07T21:01:00.000Z"
+    }
+  ];
+
+  const result =
+    await retrieveGovernedOpportunityHistoryRowsV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "Blue-Marlin",
+
+      opportunityId:
+        "history-retrieval-1",
+
+      evaluatedAfter:
+        "2026-09-01T00:00:00.000Z",
+
+      evaluatedBefore:
+        "2026-09-07T23:59:59.000Z",
+
+      maximumRows:
+        12,
+
+      fetchImplementation:
+        async (url, options) => {
+          calls.push({
+            url,
+            options
+          });
+
+          return {
+            ok: true,
+            status: 200,
+
+            async json() {
+              return returnedRows;
+            }
+          };
+        }
+    });
+
+  assert.equal(
+    calls.length,
+    1
+  );
+
+  const request =
+    calls[0];
+
+  const requestUrl =
+    new URL(
+      request.url
+    );
+
+  assert.equal(
+    requestUrl.pathname,
+    "/rest/v1/governed_opportunity_history"
+  );
+
+  assert.equal(
+    requestUrl.searchParams.get(
+      "select"
+    ),
+    "*"
+  );
+
+  assert.equal(
+    requestUrl.searchParams.get(
+      "species"
+    ),
+    "eq.blue-marlin"
+  );
+
+  assert.equal(
+    requestUrl.searchParams.get(
+      "opportunity_id"
+    ),
+    "eq.history-retrieval-1"
+  );
+
+  assert.equal(
+    requestUrl.searchParams.get(
+      "order"
+    ),
+    "evaluated_at.desc"
+  );
+
+  assert.equal(
+    requestUrl.searchParams.get(
+      "limit"
+    ),
+    "12"
+  );
+
+  assert.deepEqual(
+    requestUrl.searchParams.getAll(
+      "evaluated_at"
+    ),
+    [
+      "gte.2026-09-01T00:00:00.000Z",
+      "lte.2026-09-07T23:59:59.000Z"
+    ]
+  );
+
+  assert.equal(
+    request.options.method,
+    "GET"
+  );
+
+  assert.equal(
+    request.options.headers.apikey,
+    "test-publishable-key"
+  );
+
+  assert.equal(
+    request.options.headers.Authorization,
+    "Bearer captain-test-token"
+  );
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.requestPerformed,
+    true
+  );
+
+  assert.equal(
+    result.summary.returnedRowCount,
+    1
+  );
+
+  assert.equal(
+    result.summary.httpStatus,
+    200
+  );
+
+  assert.deepEqual(
+    result.rows,
+    returnedRows
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-backend-governed-opportunity-history-retrieval-v1"
+  );
+
+  console.log(
+    "PASS governed opportunity history retrieval requests captain-owned history newest first with governed filters"
+  );
+}
+
+
+/*
+ * Governed Opportunity History Retrieval v1
+ *
+ * A successful query returning no historical rows is a valid
+ * governed-zero history result, not a retrieval failure.
+ */
+{
+  const result =
+    await retrieveGovernedOpportunityHistoryRowsV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "blue-marlin",
+
+      fetchImplementation:
+        async () => ({
+          ok: true,
+          status: 200,
+
+          async json() {
+            return [];
+          }
+        })
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.requestPerformed,
+    true
+  );
+
+  assert.equal(
+    result.summary.returnedRowCount,
+    0
+  );
+
+  assert.equal(
+    result.summary.responseOk,
+    true
+  );
+
+  assert.equal(
+    result.limitations.includes(
+      "no-governed-opportunity-history-rows-returned"
+    ),
+    true
+  );
+
+  console.log(
+    "PASS governed opportunity history retrieval preserves successful governed zero history result"
+  );
+}
+
+
+/*
+ * Governed Opportunity History Retrieval v1
+ *
+ * An invalid historical evaluation window must fail closed
+ * before any network request is attempted.
+ */
+{
+  let requestCount = 0;
+
+  const result =
+    await retrieveGovernedOpportunityHistoryRowsV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "test-publishable-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      evaluatedAfter:
+        "2026-09-08T00:00:00.000Z",
+
+      evaluatedBefore:
+        "2026-09-07T00:00:00.000Z",
+
+      fetchImplementation:
+        async () => {
+          requestCount += 1;
+
+          throw new Error(
+            "request should not occur"
+          );
+        }
+    });
+
+  assert.equal(
+    requestCount,
+    0
+  );
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.requestPerformed,
+    false
+  );
+
+  assert.equal(
+    result.missingRequirements.includes(
+      "valid-evaluated-time-window"
+    ),
+    true
+  );
+
+  console.log(
+    "PASS governed opportunity history retrieval fails closed before request for invalid evaluation window"
   );
 }
