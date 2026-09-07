@@ -17,6 +17,7 @@ import {
   evaluateUnifiedOpportunityOceanConditionsV1,
   GULF_EVALUATION_CONTROL_V1,
   selectDistributedGulfCandidatesV1,
+  selectCaptainRangeStableGulfCandidatesV1,
   filterGulfCandidatesByCaptainRangeV1,
   evaluateSpeciesCandidateHabitatEligibilityV1,
   evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1,
@@ -42250,6 +42251,98 @@ console.log(
     invalidContextCandidates,
     []
   );
+}
+
+/*
+ * Expanding Captain operating range must not
+ * displace nearer habitat-eligible candidates
+ * solely because the evaluation pool grows.
+ */
+{
+  const gulfGrid =
+    buildGulfSearchGridV1();
+
+  const origin = [
+    29.815,
+    -85.303
+  ];
+
+  const ranges = [
+    75,
+    100,
+    150,
+    200,
+    300
+  ];
+
+  let previousSelectedIds =
+    new Set();
+
+  for (
+    const operatingRangeNm
+    of ranges
+  ) {
+    const rangeEligibleCandidates =
+      filterGulfCandidatesByCaptainRangeV1({
+        candidates:
+          gulfGrid,
+
+        originCoordinates:
+          origin,
+
+        operatingRangeNm,
+
+        explorationMode:
+          "within-range"
+      });
+
+    const speciesEligibleCandidates =
+      rangeEligibleCandidates.filter(
+        candidate =>
+          evaluateSpeciesCandidateHabitatEligibilityV1({
+            candidate,
+
+            speciesProfile:
+              BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE
+          }).eligible === true
+      );
+
+    const selectedCandidates =
+      selectCaptainRangeStableGulfCandidatesV1({
+        candidates:
+          speciesEligibleCandidates,
+
+        originCoordinates:
+          origin,
+
+        maximumCandidates:
+          12
+      });
+
+    const selectedIds =
+      new Set(
+        selectedCandidates.map(
+          candidate =>
+            candidate.id
+        )
+      );
+
+    for (
+      const previousId
+      of previousSelectedIds
+    ) {
+      assert.equal(
+        selectedIds.has(
+          previousId
+        ),
+        true,
+        `Range expansion removed previously selected candidate ${previousId} at ${operatingRangeNm} NM`
+      );
+    }
+
+    previousSelectedIds =
+      selectedIds;
+  }
 }
 
 /*

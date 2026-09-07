@@ -49646,6 +49646,124 @@ export function selectDistributedGulfCandidatesV1({
 }
 
 
+export function selectCaptainRangeStableGulfCandidatesV1({
+  candidates = [],
+  originCoordinates = null,
+  maximumCandidates =
+    GULF_EVALUATION_CONTROL_V1
+      .maximumCandidates
+} = {}) {
+  const sourceCandidates =
+    Array.isArray(candidates)
+      ? candidates
+      : [];
+
+  const normalizedMaximum =
+    Number.isInteger(
+      maximumCandidates
+    ) &&
+    maximumCandidates > 0
+      ? maximumCandidates
+      : GULF_EVALUATION_CONTROL_V1
+          .maximumCandidates;
+
+  const originLatitude =
+    Number(
+      originCoordinates?.[0]
+    );
+
+  const originLongitude =
+    Number(
+      originCoordinates?.[1]
+    );
+
+  if (
+    !coordinatesAreValid(
+      originLatitude,
+      originLongitude
+    )
+  ) {
+    return [];
+  }
+
+  return sourceCandidates
+    .map(candidate => {
+      const latitude =
+        Number(
+          candidate
+            ?.coordinates?.[0]
+        );
+
+      const longitude =
+        Number(
+          candidate
+            ?.coordinates?.[1]
+        );
+
+      if (
+        !coordinatesAreValid(
+          latitude,
+          longitude
+        )
+      ) {
+        return null;
+      }
+
+      const distanceNm =
+        kilometersBetween(
+          originLatitude,
+          originLongitude,
+          latitude,
+          longitude
+        ) /
+        1.852;
+
+      if (
+        !Number.isFinite(
+          distanceNm
+        )
+      ) {
+        return null;
+      }
+
+      return {
+        candidate,
+        distanceNm
+      };
+    })
+    .filter(Boolean)
+    .sort(
+      (left, right) => {
+        if (
+          left.distanceNm !==
+          right.distanceNm
+        ) {
+          return (
+            left.distanceNm -
+            right.distanceNm
+          );
+        }
+
+        return String(
+          left.candidate?.id ?? ""
+        ).localeCompare(
+          String(
+            right.candidate?.id ?? ""
+          )
+        );
+      }
+    )
+    .slice(
+      0,
+      normalizedMaximum
+    )
+    .map(
+      item =>
+        item.candidate
+    );
+}
+
+
 export function selectUnifiedOpportunityCandidatesForEvaluationV1({
   candidates = [],
   maximumCandidates =
@@ -50246,12 +50364,22 @@ export async function evaluateControlledGulfBlueMarlinV1({
 
 
   const selectedCandidates =
-    selectDistributedGulfCandidatesV1({
-      candidates:
-        speciesEligibleCandidates,
+    explorationMode ===
+      "within-range"
+      ? selectCaptainRangeStableGulfCandidatesV1({
+          candidates:
+            speciesEligibleCandidates,
 
-      maximumCandidates
-    });
+          originCoordinates,
+
+          maximumCandidates
+        })
+      : selectDistributedGulfCandidatesV1({
+          candidates:
+            speciesEligibleCandidates,
+
+          maximumCandidates
+        });
 
 
   const evaluation =
@@ -50373,7 +50501,10 @@ export async function evaluateControlledGulfBlueMarlinV1({
           : null,
 
       selection:
-        "deterministic-distributed-gulf-v1"
+        explorationMode ===
+          "within-range"
+          ? "captain-range-stable-nearest-v1"
+          : "deterministic-distributed-gulf-v1"
     },
 
     evaluation: {
