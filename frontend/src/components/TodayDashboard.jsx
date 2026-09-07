@@ -1,7 +1,11 @@
+import HistoricalOpportunityContinuity
+  from "./HistoricalOpportunityContinuity";
+
 function TodayDashboard({
   topOpportunities,
   activeOpportunity,
   opportunityState = "loading",
+  historicalFallback = null,
   setSelectedOpportunity,
   liveMarineData,
   liveMarineLoading,
@@ -581,6 +585,17 @@ const structureDetail =
   </div>
 
 </section>
+
+
+{opportunityState === "governed-zero" &&
+  historicalFallback?.available === true && (
+    <HistoricalOpportunityContinuity
+      historicalFallback={
+        historicalFallback
+      }
+      compact
+    />
+  )}
 
 
       <section className="velion-command-grid">

@@ -6923,6 +6923,292 @@ animation:
   }
 }
 
+/* HISTORICAL OPPORTUNITY CONTINUITY v1 */
+
+.historical-opportunity-continuity {
+  margin-bottom: 22px;
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #10283a,
+      #081d2b
+    );
+
+  border: 1px solid
+    rgba(158, 201, 223, 0.45);
+  border-radius: 14px;
+}
+
+.historical-opportunity-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.historical-opportunity-header h2 {
+  margin: 4px 0 8px;
+  color: #f5fbff;
+  font-size: 24px;
+}
+
+.historical-opportunity-header
+  p:not(.section-eyebrow) {
+  max-width: 720px;
+  margin: 0;
+  color: #b8d3df;
+  line-height: 1.55;
+}
+
+.historical-opportunity-badge {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+
+  border: 1px solid
+    rgba(158, 201, 223, 0.55);
+  border-radius: 999px;
+
+  color: #b8dbe9;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.historical-opportunity-time {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+
+  margin-top: 14px;
+
+  color: #86aaba;
+  font-size: 12px;
+}
+
+.historical-opportunity-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+
+  margin-top: 18px;
+}
+
+.historical-opportunity-card {
+  width: 100%;
+  min-width: 0;
+  padding: 16px;
+
+  background: rgba(5, 24, 36, 0.72);
+
+  border: 1px solid
+    rgba(158, 201, 223, 0.3);
+  border-radius: 10px;
+}
+
+.historical-opportunity-card-header span {
+  color: #9ec9df;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.historical-opportunity-card-header h3 {
+  margin: 6px 0 3px;
+  color: #f5fbff;
+  font-size: 18px;
+}
+
+.historical-opportunity-card-header p {
+  margin: 0;
+  color: #86aaba;
+  font-size: 13px;
+}
+
+.historical-opportunity-metrics {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.historical-opportunity-metrics div {
+  padding: 10px;
+
+  background: rgba(8, 31, 48, 0.72);
+  border-radius: 8px;
+}
+
+.historical-opportunity-metrics span {
+  display: block;
+  margin-bottom: 4px;
+
+  color: #86aaba;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.historical-opportunity-metrics strong {
+  color: #d9edf5;
+}
+
+.historical-opportunity-caution {
+  margin-top: 16px;
+  padding-top: 14px;
+
+  border-top: 1px solid
+    rgba(158, 201, 223, 0.22);
+}
+
+.historical-opportunity-caution strong {
+  color: #ff9f61;
+}
+
+.historical-opportunity-caution p {
+  margin: 5px 0 0;
+  color: #a8c4d0;
+  line-height: 1.5;
+}
+
+.historical-opportunity-continuity-compact {
+  margin-top: 18px;
+}
+
+.historical-mission-context {
+  margin-top: 16px;
+  padding: 12px;
+
+  background: rgba(8, 31, 48, 0.58);
+  border: 1px solid
+    rgba(158, 201, 223, 0.2);
+  border-radius: 8px;
+}
+
+.historical-mission-context > span {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #86aaba;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.historical-mission-context strong {
+  color: #d9edf5;
+}
+
+.historical-mission-context p {
+  margin: 4px 0 0;
+  color: #86aaba;
+  font-size: 12px;
+}
+
+.historical-narrative {
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 1px solid
+    rgba(158, 201, 223, 0.22);
+}
+
+.historical-narrative-heading > span {
+  color: #b8dbe9;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.historical-narrative-heading p {
+  margin: 6px 0 0;
+  color: #86aaba;
+  line-height: 1.5;
+}
+
+.historical-narrative-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.historical-narrative-section {
+  padding: 13px;
+
+  background: rgba(5, 24, 36, 0.62);
+  border: 1px solid
+    rgba(158, 201, 223, 0.2);
+  border-radius: 8px;
+}
+
+.historical-narrative-section h4 {
+  margin: 0 0 12px;
+  color: #d9edf5;
+  font-size: 14px;
+}
+
+.historical-narrative-statement {
+  margin-top: 10px;
+}
+
+.historical-narrative-statement:first-of-type {
+  margin-top: 0;
+}
+
+.historical-narrative-statement span {
+  display: block;
+  margin-bottom: 3px;
+
+  color: #9ec9df;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.historical-narrative-statement p {
+  margin: 0;
+  color: #a8c4d0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .historical-narrative-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .historical-opportunity-continuity {
+    padding: 16px;
+  }
+
+  .historical-opportunity-header {
+    flex-direction: column;
+  }
+
+  .historical-opportunity-list {
+    grid-template-columns: 1fr;
+  }
+
+  .historical-opportunity-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* PERSISTENT CAPTAIN CONTEXT CONTROL v1 */
 
 .captain-context-control {

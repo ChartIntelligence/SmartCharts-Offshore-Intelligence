@@ -11,6 +11,8 @@ import MapLegend from "./MapLegend";
 import TopOpportunity from "./TopOpportunity";
 import OpportunityRanking from "./OpportunityRanking";
 import OpportunityIntelligence from "./OpportunityIntelligence";
+import HistoricalOpportunityContinuity
+  from "./HistoricalOpportunityContinuity";
 import SelectedTarget from "./SelectedTarget";
 import LocationSearch from "./LocationSearch";
 import FishingDayReportPanel from "./FishingDayReportPanel";
@@ -257,6 +259,16 @@ const opportunityState =
         : dynamicOpportunityData
           ? "governed-zero"
           : "loading";
+
+
+const historicalFallback =
+  opportunityState === "governed-zero" &&
+  dynamicOpportunityData
+    ?.historicalFallback
+    ?.available === true
+    ? dynamicOpportunityData
+        .historicalFallback
+    : null;
 
 
 const displayedTopOpportunities =
@@ -538,6 +550,9 @@ return (
     opportunityState={
       opportunityState
     }
+    historicalFallback={
+      historicalFallback
+    }
     setSelectedOpportunity={
       setSelectedOpportunity
     }
@@ -707,6 +722,16 @@ return (
             />
 
           </section>
+
+
+          {opportunityState === "governed-zero" &&
+            historicalFallback?.available === true && (
+              <HistoricalOpportunityContinuity
+                historicalFallback={
+                  historicalFallback
+                }
+              />
+            )}
 
 
           <section className="intelligence-analysis-section">
