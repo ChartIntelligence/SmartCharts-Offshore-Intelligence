@@ -23,6 +23,7 @@ import {
   evaluateSpeciesCandidateHabitatEligibilityV1,
   evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1,
   evaluateGulfCandidatesV1,
+  evaluateControlledGulfBlueMarlinV1,
   getDynamicBlueMarlinOpportunities,
   assessDynamicBlueMarlinOpportunityEligibilityV1,
   buildDynamicBlueMarlinOpportunity,
@@ -41,6 +42,7 @@ import {
   buildGovernedOpportunityHistoryStorageRecordFromRowV1,
   persistGovernedOpportunityHistoryV1,
   retrieveGovernedOpportunityHistoryRowsV1,
+  captureGovernedOpportunityHistoryV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -57,6 +59,7 @@ import {
   buildSnapshotMetadata,
   buildOceanSnapshot,
   buildBackendSupabaseConfiguration,
+  resolveAuthenticatedCaptainIdentityV1,
   retrieveOceanMemoryRows,
   buildOceanMemoryStorage,
   buildOceanMemoryStorageRecordFromRow,
@@ -22028,6 +22031,163 @@ assert.equal(
 
 console.log(
   "PASS Backend Supabase Configuration accepts and normalizes valid public REST configuration"
+);
+
+
+const authenticatedCaptainIdentityCalls = [];
+
+const authenticatedCaptainIdentity =
+  await resolveAuthenticatedCaptainIdentityV1({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "test-captain-bearer-token",
+
+    fetchImplementation:
+      async (
+        url,
+        options
+      ) => {
+        authenticatedCaptainIdentityCalls.push({
+          url,
+          options
+        });
+
+        return {
+          ok: true,
+
+          async json() {
+            return {
+              id:
+                "11111111-2222-3333-4444-555555555555"
+            };
+          }
+        };
+      }
+  });
+
+assert.equal(
+  authenticatedCaptainIdentity.available,
+  true
+);
+
+assert.equal(
+  authenticatedCaptainIdentity.userId,
+  "11111111-2222-3333-4444-555555555555"
+);
+
+assert.equal(
+  authenticatedCaptainIdentity.contractVersion,
+  "pelora-authenticated-captain-identity-v1"
+);
+
+assert.equal(
+  authenticatedCaptainIdentityCalls.length,
+  1
+);
+
+assert.equal(
+  authenticatedCaptainIdentityCalls[0].url,
+  "https://pelora-test.supabase.co/auth/v1/user"
+);
+
+assert.equal(
+  authenticatedCaptainIdentityCalls[0]
+    .options
+    .method,
+  "GET"
+);
+
+assert.equal(
+  authenticatedCaptainIdentityCalls[0]
+    .options
+    .headers
+    .apikey,
+  "pelora-test-publishable-key"
+);
+
+assert.equal(
+  authenticatedCaptainIdentityCalls[0]
+    .options
+    .headers
+    .Authorization,
+  "Bearer test-captain-bearer-token"
+);
+
+
+let missingCaptainIdentityRequestCount = 0;
+
+const missingCaptainIdentity =
+  await resolveAuthenticatedCaptainIdentityV1({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      null,
+
+    fetchImplementation:
+      async () => {
+        missingCaptainIdentityRequestCount += 1;
+
+        throw new Error(
+          "identity request should not run"
+        );
+      }
+  });
+
+assert.equal(
+  missingCaptainIdentity.available,
+  false
+);
+
+assert.equal(
+  missingCaptainIdentity.userId,
+  null
+);
+
+assert.equal(
+  missingCaptainIdentity.reason,
+  "authenticated-captain-identity-inputs-unavailable"
+);
+
+assert.equal(
+  missingCaptainIdentityRequestCount,
+  0
+);
+
+
+const rejectedCaptainIdentity =
+  await resolveAuthenticatedCaptainIdentityV1({
+    configuration:
+      validBackendSupabaseConfiguration,
+
+    bearerToken:
+      "rejected-test-token",
+
+    fetchImplementation:
+      async () => ({
+        ok: false,
+
+        async json() {
+          return {};
+        }
+      })
+  });
+
+assert.equal(
+  rejectedCaptainIdentity.available,
+  false
+);
+
+assert.equal(
+  rejectedCaptainIdentity.userId,
+  null
+);
+
+assert.equal(
+  rejectedCaptainIdentity.reason,
+  "authenticated-captain-identity-request-unsuccessful"
 );
 
 
@@ -53870,6 +54030,437 @@ for (
       "history-opportunity-id-consistency"
     ),
     true
+  );
+}
+
+{
+  const opportunityId =
+    "history-capture-governed-1";
+
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id: opportunityId
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id: opportunityId,
+          name:
+            "History Capture Governed Opportunity"
+        },
+
+        score: 64,
+
+        confidence: {
+          score: 73
+        },
+
+        eligibility: {
+          eligibleForRanking: true
+        }
+      }
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations
+    });
+
+  const persistenceCalls = [];
+
+  const result =
+    await captureGovernedOpportunityHistoryV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-history-capture-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      delivery,
+
+      evaluatedAt:
+        "2026-09-07T20:30:00.000Z",
+
+      storedAt:
+        "2026-09-07T20:31:00.000Z",
+
+      captainContext: {
+        species:
+          "blue-marlin",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        rangeNm: 200
+      },
+
+      persistImplementation:
+        async input => {
+          persistenceCalls.push(
+            input
+          );
+
+          return {
+            available: true,
+
+            reason: null
+          };
+        }
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    1
+  );
+
+  assert.equal(
+    result.persistedCount,
+    1
+  );
+
+  assert.equal(
+    result.failedCount,
+    0
+  );
+
+  assert.equal(
+    persistenceCalls.length,
+    1
+  );
+
+  assert.equal(
+    persistenceCalls[0].userId,
+    "11111111-2222-3333-4444-555555555555"
+  );
+
+  assert.equal(
+    persistenceCalls[0]
+      .bearerToken,
+    "test-history-capture-token"
+  );
+
+  assert.equal(
+    persistenceCalls[0]
+      .historyStorage
+      .historyRecord
+      .evaluatedAt,
+    "2026-09-07T20:30:00.000Z"
+  );
+
+  assert.equal(
+    persistenceCalls[0]
+      .historyStorage
+      .storedAt,
+    "2026-09-07T20:31:00.000Z"
+  );
+
+  assert.equal(
+    persistenceCalls[0]
+      .historyStorage
+      .historyRecord
+      .opportunity
+      .location
+      .id,
+    opportunityId
+  );
+
+  console.log(
+    "PASS governed opportunity history capture preserves governed delivery and evaluation time"
+  );
+}
+
+
+{
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations: []
+    });
+
+  let persistenceCallCount = 0;
+
+  const result =
+    await captureGovernedOpportunityHistoryV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-history-zero-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      delivery,
+
+      evaluatedAt:
+        "2026-09-07T20:35:00.000Z",
+
+      persistImplementation:
+        async () => {
+          persistenceCallCount += 1;
+
+          return {
+            available: true
+          };
+        }
+    });
+
+  assert.equal(
+    delivery.available,
+    false
+  );
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    0
+  );
+
+  assert.equal(
+    persistenceCallCount,
+    0
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-captain-opportunity-delivery-unavailable"
+  );
+
+  console.log(
+    "PASS governed opportunity history capture writes nothing for governed zero"
+  );
+}
+
+
+{
+  const opportunityId =
+    "history-capture-persistence-failure-1";
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations: [
+        {
+          available: true,
+
+          candidate: {
+            id: opportunityId
+          },
+
+          species:
+            "blue-marlin",
+
+          speciesOpportunity: {
+            available: true,
+
+            species:
+              "blue-marlin",
+
+            location: {
+              id: opportunityId,
+              name:
+                "History Capture Failure Opportunity"
+            },
+
+            score: 64,
+
+            confidence: {
+              score: 73
+            },
+
+            eligibility: {
+              eligibleForRanking: true
+            }
+          }
+        }
+      ]
+    });
+
+  const result =
+    await captureGovernedOpportunityHistoryV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-history-failure-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      delivery,
+
+      evaluatedAt:
+        "2026-09-07T20:40:00.000Z",
+
+      storedAt:
+        "2026-09-07T20:41:00.000Z",
+
+      persistImplementation:
+        async () => {
+          throw new Error(
+            "simulated history persistence failure"
+          );
+        }
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    1
+  );
+
+  assert.equal(
+    result.persistedCount,
+    0
+  );
+
+  assert.equal(
+    result.failedCount,
+    1
+  );
+
+  assert.equal(
+    result.results[0].persisted,
+    false
+  );
+
+  assert.equal(
+    result.results[0].reason,
+    "governed-opportunity-history-persistence-threw"
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-opportunity-history-capture-partial"
+  );
+
+  console.log(
+    "PASS governed opportunity history capture contains persistence failure without altering governed delivery"
+  );
+}
+
+
+{
+  let persistenceCallCount = 0;
+
+  const malformedDelivery = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    opportunities: [
+      {
+        location: {
+          id:
+            "history-capture-malformed-1"
+        },
+
+        rank: 1
+      }
+    ]
+  };
+
+  const result =
+    await captureGovernedOpportunityHistoryV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-history-malformed-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      delivery:
+        malformedDelivery,
+
+      evaluatedAt:
+        "2026-09-07T20:45:00.000Z",
+
+      persistImplementation:
+        async () => {
+          persistenceCallCount += 1;
+
+          return {
+            available: true
+          };
+        }
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    1
+  );
+
+  assert.equal(
+    result.persistedCount,
+    0
+  );
+
+  assert.equal(
+    result.failedCount,
+    1
+  );
+
+  assert.equal(
+    persistenceCallCount,
+    0
+  );
+
+  assert.equal(
+    result.results[0].persisted,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity history capture cannot manufacture history from malformed delivery"
   );
 }
 

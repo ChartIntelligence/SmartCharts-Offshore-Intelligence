@@ -211,6 +211,134 @@ export function buildBackendSupabaseConfiguration({
 }
 
 
+export async function resolveAuthenticatedCaptainIdentityV1({
+  configuration = null,
+  bearerToken = null,
+  fetchImplementation = fetch
+} = {}) {
+  const configurationAvailable =
+    configuration?.available === true;
+
+  const projectUrl =
+    typeof configuration?.projectUrl ===
+      "string"
+      ? configuration.projectUrl
+      : null;
+
+  const publishableKey =
+    typeof configuration
+      ?.credentials
+      ?.publishableKey ===
+      "string"
+      ? configuration
+          .credentials
+          .publishableKey
+      : null;
+
+  const normalizedBearerToken =
+    typeof bearerToken === "string"
+      ? bearerToken.trim() || null
+      : null;
+
+  const requestReady =
+    configurationAvailable &&
+    typeof projectUrl === "string" &&
+    typeof publishableKey === "string" &&
+    typeof normalizedBearerToken ===
+      "string" &&
+    typeof fetchImplementation ===
+      "function";
+
+  const unavailable = reason =>
+    deepFreezeSnapshotValue({
+      available: false,
+
+      userId: null,
+
+      reason,
+
+      limitations: [
+        "Captain identity resolution uses only the authenticated captain bearer token and public Supabase configuration.",
+        "Identity resolution does not authorize opportunity eligibility, ranking, delivery, or historical status.",
+        "Identity-resolution failure must not interrupt current governed opportunity delivery."
+      ],
+
+      contractVersion:
+        "pelora-authenticated-captain-identity-v1"
+    });
+
+  if (!requestReady) {
+    return unavailable(
+      "authenticated-captain-identity-inputs-unavailable"
+    );
+  }
+
+  try {
+    const response =
+      await fetchImplementation(
+        `${projectUrl}/auth/v1/user`,
+        {
+          method: "GET",
+
+          headers: {
+            apikey:
+              publishableKey,
+
+            Authorization:
+              `Bearer ${normalizedBearerToken}`,
+
+            Accept:
+              "application/json"
+          },
+
+          cache:
+            "no-store"
+        }
+      );
+
+    if (!response.ok) {
+      return unavailable(
+        "authenticated-captain-identity-request-unsuccessful"
+      );
+    }
+
+    const user =
+      await response.json();
+
+    const userId =
+      typeof user?.id === "string"
+        ? user.id.trim() || null
+        : null;
+
+    if (typeof userId !== "string") {
+      return unavailable(
+        "authenticated-captain-user-id-unavailable"
+      );
+    }
+
+    return deepFreezeSnapshotValue({
+      available: true,
+
+      userId,
+
+      reason: null,
+
+      limitations: [
+        "Captain identity was resolved from the authenticated Supabase session.",
+        "Resolved identity is used only for captain-owned persistence and does not affect governed opportunity science."
+      ],
+
+      contractVersion:
+        "pelora-authenticated-captain-identity-v1"
+    });
+  } catch {
+    return unavailable(
+      "authenticated-captain-identity-request-failed"
+    );
+  }
+}
+
+
 /**
  * ------------------------------------------------------------
  * Backend Ocean Memory Retrieval v1.0
@@ -50680,6 +50808,253 @@ export async function retrieveGovernedOpportunityHistoryRowsV1({
 }
 
 
+export async function captureGovernedOpportunityHistoryV1({
+  configuration = null,
+  bearerToken = null,
+  userId = null,
+  delivery = null,
+  evaluatedAt = null,
+  captainContext = null,
+  storedAt = null,
+  persistImplementation =
+    persistGovernedOpportunityHistoryV1
+} = {}) {
+  const normalizedStoredAt =
+    typeof storedAt === "string" &&
+    Number.isFinite(
+      Date.parse(storedAt)
+    )
+      ? storedAt
+      : new Date().toISOString();
+
+  const opportunityIds =
+    Array.isArray(
+      delivery?.opportunities
+    )
+      ? delivery.opportunities
+          .map(
+            opportunity =>
+              opportunity
+                ?.location
+                ?.id
+          )
+          .filter(
+            opportunityId =>
+              typeof opportunityId ===
+                "string" &&
+              opportunityId.trim().length >
+                0
+          )
+      : [];
+
+  const unavailable = reason =>
+    deepFreezeSnapshotValue({
+      available: false,
+
+      attemptedCount: 0,
+
+      persistedCount: 0,
+
+      failedCount: 0,
+
+      results: [],
+
+      reason,
+
+      limitations: [
+        "Governed Opportunity History capture is downstream of current governed opportunity delivery.",
+        "History capture cannot create eligibility, score, confidence, rank, intelligence, narrative, or opportunity status.",
+        "History capture failure must not interrupt or alter current captain opportunity delivery."
+      ],
+
+      contractVersion:
+        "pelora-governed-opportunity-history-capture-v1"
+    });
+
+  if (
+    delivery?.available !== true
+  ) {
+    return unavailable(
+      "governed-captain-opportunity-delivery-unavailable"
+    );
+  }
+
+  if (
+    !Number.isFinite(
+      Date.parse(evaluatedAt)
+    )
+  ) {
+    return unavailable(
+      "governed-opportunity-evaluation-timestamp-unavailable"
+    );
+  }
+
+  if (
+    typeof userId !== "string" ||
+    userId.trim().length === 0
+  ) {
+    return unavailable(
+      "authenticated-captain-user-id-unavailable"
+    );
+  }
+
+  if (
+    opportunityIds.length === 0
+  ) {
+    return unavailable(
+      "governed-delivery-contains-no-opportunities"
+    );
+  }
+
+  const results = [];
+
+  for (
+    const opportunityId
+    of opportunityIds
+  ) {
+    const historyRecord =
+      buildGovernedOpportunityHistoryRecordV1({
+        delivery,
+
+        opportunityId,
+
+        evaluatedAt,
+
+        captainContext
+      });
+
+    if (
+      historyRecord?.available !==
+        true
+    ) {
+      results.push({
+        opportunityId,
+
+        available: false,
+
+        persisted: false,
+
+        reason:
+          historyRecord?.reason ??
+          "governed-opportunity-history-record-unavailable"
+      });
+
+      continue;
+    }
+
+    const historyStorage =
+      buildGovernedOpportunityHistoryStorageV1({
+        historyRecord,
+
+        storedAt:
+          normalizedStoredAt
+      });
+
+    if (
+      historyStorage?.available !==
+        true
+    ) {
+      results.push({
+        opportunityId,
+
+        available: false,
+
+        persisted: false,
+
+        reason:
+          historyStorage?.reason ??
+          "governed-opportunity-history-storage-unavailable"
+      });
+
+      continue;
+    }
+
+    try {
+      const persistence =
+        await persistImplementation({
+          configuration,
+
+          bearerToken,
+
+          userId,
+
+          historyStorage
+        });
+
+      results.push({
+        opportunityId,
+
+        available:
+          persistence?.available ===
+          true,
+
+        persisted:
+          persistence?.available ===
+          true,
+
+        reason:
+          persistence?.reason ??
+          null,
+
+        historyId:
+          historyStorage
+            ?.identity
+            ?.historyId ??
+          null
+      });
+    } catch {
+      results.push({
+        opportunityId,
+
+        available: false,
+
+        persisted: false,
+
+        reason:
+          "governed-opportunity-history-persistence-threw"
+      });
+    }
+  }
+
+  const persistedCount =
+    results.filter(
+      result =>
+        result.persisted === true
+    ).length;
+
+  const failedCount =
+    results.length -
+    persistedCount;
+
+  return deepFreezeSnapshotValue({
+    available: true,
+
+    attemptedCount:
+      results.length,
+
+    persistedCount,
+
+    failedCount,
+
+    results,
+
+    reason:
+      failedCount === 0
+        ? "governed-opportunity-history-capture-complete"
+        : "governed-opportunity-history-capture-partial",
+
+    limitations: [
+      "Governed Opportunity History capture preserves only opportunities already admitted to governed captain delivery.",
+      "Persistence outcomes are diagnostic only and do not alter current opportunity delivery.",
+      "A failed historical write does not retroactively invalidate the governed opportunity decision."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-history-capture-v1"
+  });
+}
+
+
 export const GULF_EVALUATION_CONTROL_V1 = {
   maximumCandidates: 12,
 
@@ -52031,6 +52406,9 @@ export async function evaluateControlledGulfBlueMarlinV1({
       speciesInterpretations
     });
 
+  const evaluatedAt =
+    new Date().toISOString();
+
 
   return {
     available:
@@ -52116,6 +52494,8 @@ export async function evaluateControlledGulfBlueMarlinV1({
           .contractVersion
     },
 
+    evaluatedAt,
+
     opportunities:
       delivery.opportunities,
 
@@ -52162,6 +52542,109 @@ export async function getDynamicBlueMarlinOpportunities({
           GULF_EVALUATION_CONTROL_V1
             .concurrency
       });
+
+    try {
+      if (
+        gulfResult?.delivery?.available ===
+          true &&
+        Number.isFinite(
+          Date.parse(
+            gulfResult?.evaluatedAt
+          )
+        )
+      ) {
+        const configuration =
+          buildBackendSupabaseConfiguration();
+
+        const captainIdentity =
+          await resolveAuthenticatedCaptainIdentityV1({
+            configuration,
+
+            bearerToken
+          });
+
+        if (
+          captainIdentity?.available ===
+            true &&
+          typeof captainIdentity
+            ?.userId ===
+            "string"
+        ) {
+          const captainContext = {
+            species:
+              "blue-marlin",
+
+            explorationMode:
+              gulfResult
+                ?.search
+                ?.explorationMode ??
+              null,
+
+            origin:
+              Array.isArray(
+                gulfResult
+                  ?.search
+                  ?.originCoordinates
+              )
+                ? {
+                    latitude:
+                      gulfResult
+                        .search
+                        .originCoordinates[0],
+
+                    longitude:
+                      gulfResult
+                        .search
+                        .originCoordinates[1]
+                  }
+                : null,
+
+            rangeNm:
+              Number.isFinite(
+                Number(
+                  gulfResult
+                    ?.search
+                    ?.operatingRangeNm
+                )
+              )
+                ? Number(
+                    gulfResult
+                      .search
+                      .operatingRangeNm
+                  )
+                : null,
+
+            selection:
+              gulfResult
+                ?.search
+                ?.selection ??
+              null
+          };
+
+          await captureGovernedOpportunityHistoryV1({
+            configuration,
+
+            bearerToken,
+
+            userId:
+              captainIdentity.userId,
+
+            delivery:
+              gulfResult.delivery,
+
+            evaluatedAt:
+              gulfResult.evaluatedAt,
+
+            captainContext
+          });
+        }
+      }
+    } catch (historyError) {
+      console.warn(
+        "Governed Opportunity History capture failed without affecting current opportunity delivery:",
+        historyError
+      );
+    }
 
 
     return {
