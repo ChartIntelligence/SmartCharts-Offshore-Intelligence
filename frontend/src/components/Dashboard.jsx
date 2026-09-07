@@ -39,7 +39,8 @@ function Dashboard({
   user,
   authLoading,
   tripMission,
-  captainSpatialContext
+  captainSpatialContext,
+  onEditTripMission
 }) {
   const [activeTab, setActiveTab] =
     useState("today");
@@ -355,7 +356,48 @@ const handleReportSaved = () => {
 };
 
 
- return (
+const captainContextOriginLabel =
+  captainSpatialContext
+    ?.origin
+    ?.name ??
+  "Trip Origin";
+
+
+const captainContextRangeLabel =
+  captainSpatialContext
+    ?.explorationMode ===
+      "entire-gulf"
+    ? "Entire Gulf"
+    : Number.isFinite(
+        Number(
+          captainSpatialContext
+            ?.operatingRangeNm
+        )
+      )
+      ? `${captainSpatialContext.operatingRangeNm} NM`
+      : "Range";
+
+
+const captainContextSpeciesLabels = {
+  "blue-marlin": "Blue Marlin",
+  yellowfin: "Yellowfin Tuna",
+  blackfin: "Blackfin Tuna",
+  mahi: "Mahi",
+  sailfish: "Sailfish",
+  "white-marlin": "White Marlin",
+  wahoo: "Wahoo"
+};
+
+
+const captainContextSpeciesLabel =
+  captainContextSpeciesLabels[
+    tripMission
+      ?.selectedSpecies
+  ] ??
+  "Target Species";
+
+
+return (
   <div className="dashboard">
 
     <header className="smartcharts-app-header">
@@ -444,7 +486,48 @@ const handleReportSaved = () => {
 </header>
 
 
-      {activeTab === "today" && (
+<button
+  type="button"
+  className="captain-context-control"
+  onClick={onEditTripMission}
+  aria-label="Change current trip mission"
+>
+  <span className="captain-context-control-label">
+    Current Trip
+  </span>
+
+  <span className="captain-context-control-summary">
+    <strong>
+      {captainContextOriginLabel}
+    </strong>
+
+    <span aria-hidden="true">
+      ·
+    </span>
+
+    <span>
+      {captainContextRangeLabel}
+    </span>
+
+    <span aria-hidden="true">
+      ·
+    </span>
+
+    <span>
+      {captainContextSpeciesLabel}
+    </span>
+  </span>
+
+  <span
+    className="captain-context-control-chevron"
+    aria-hidden="true"
+  >
+    ▾
+  </span>
+</button>
+
+
+{activeTab === "today" && (
   <TodayDashboard
     topOpportunities={
       displayedTopOpportunities

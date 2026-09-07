@@ -377,6 +377,42 @@ function PeloraStartupFlow({
         captainSpatialContext={
           captainSpatialContext
         }
+        onEditTripMission={() => {
+          setOriginName(
+            tripMission
+              ?.origin
+              ?.name ??
+            ""
+          );
+
+          setLatitude(
+            tripMission
+              ?.origin
+              ?.coordinates
+              ?.[0] ??
+            ""
+          );
+
+          setLongitude(
+            tripMission
+              ?.origin
+              ?.coordinates
+              ?.[1] ??
+            ""
+          );
+
+          setOperatingRangeNm(
+            tripMission
+              ?.operatingRangeNm ??
+            150
+          );
+
+          setLocationError("");
+
+          setStartupStep(
+            "mission"
+          );
+        }}
       />
     );
   }
@@ -475,6 +511,21 @@ function PeloraStartupFlow({
           how far Pelora should look for
           relevant opportunities.
         </p>
+
+
+        {missionReady && (
+          <button
+            type="button"
+            className="pelora-mission-keep-current"
+            onClick={() =>
+              setStartupStep(
+                "dashboard"
+              )
+            }
+          >
+            Keep Current Trip
+          </button>
+        )}
 
 
         <div className="pelora-mission-origin-actions">

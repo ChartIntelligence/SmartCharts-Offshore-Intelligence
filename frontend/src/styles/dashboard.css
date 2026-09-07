@@ -6922,3 +6922,143 @@ animation:
     align-items: flex-start;
   }
 }
+
+/* PERSISTENT CAPTAIN CONTEXT CONTROL v1 */
+
+.captain-context-control {
+  position: fixed;
+  left: 50%;
+  bottom: calc(
+    18px +
+    env(safe-area-inset-bottom)
+  );
+  transform: translateX(-50%);
+  z-index: 1200;
+
+  width: min(
+    calc(100vw - 28px),
+    520px
+  );
+
+  display: grid;
+  grid-template-columns:
+    auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+
+  border: 1px solid
+    rgba(255, 132, 65, 0.9);
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(47, 43, 42, 0.98),
+      rgba(18, 39, 52, 0.98)
+    );
+
+  box-shadow:
+    0 8px 28px
+      rgba(0, 0, 0, 0.38),
+    0 0 18px
+      rgba(255, 132, 65, 0.12);
+
+  color: #f3f7f9;
+  text-align: left;
+  cursor: pointer;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter:
+    blur(12px);
+}
+
+
+.captain-context-control-label {
+  font-size: 0.68rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ff8441;
+  font-weight: 700;
+  opacity: 1;
+}
+
+
+.captain-context-control-summary {
+  min-width: 0;
+  color: #f5f8fa;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  font-size: 0.82rem;
+  line-height: 1.2;
+
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+.captain-context-control-summary strong,
+.captain-context-control-summary span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.captain-context-control-chevron {
+  color: #ff8441;
+  font-size: 1rem;
+  font-weight: 700;
+  opacity: 1;
+}
+
+
+.captain-context-control:hover,
+.captain-context-control:focus-visible {
+  border-color: #ff8441;
+
+  box-shadow:
+    0 8px 30px
+      rgba(0, 0, 0, 0.4),
+    0 0 22px
+      rgba(255, 132, 65, 0.22);
+}
+
+
+.pelora-mission-keep-current {
+  margin-bottom: 16px;
+}
+
+
+@media (max-width: 640px) {
+  .captain-context-control {
+    bottom: calc(
+      12px +
+      env(safe-area-inset-bottom)
+    );
+
+    width:
+      calc(100vw - 20px);
+
+    padding:
+      9px 12px;
+  }
+
+
+  .captain-context-control-label {
+    display: none;
+  }
+
+
+  .captain-context-control-summary {
+    justify-content:
+      flex-start;
+
+    font-size: 0.78rem;
+  }
+}
