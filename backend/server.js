@@ -49670,6 +49670,617 @@ export function buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
 }
 
 
+
+/**
+ * Governed Opportunity Trend Evidence v1
+ *
+ * Responsibility: Compare
+ *
+ * This contract validates whether an already persistent governed
+ * opportunity has a chronological series of comparable opportunity
+ * evidence that may be used by a later governed trend resolver.
+ *
+ * Score and confidence are preserved as governed historical context.
+ * Changes in those values do not independently establish strengthening,
+ * weakening, stability, lifecycle state, feature movement, fish
+ * presence, catch probability, ranking authority, or captain guidance.
+ */
+export function buildGovernedOpportunityTrendEvidenceV1({
+  evidenceAccumulation = null,
+  opportunityPersistence = null
+} = {}) {
+  const accumulationAvailable =
+    evidenceAccumulation?.available === true &&
+    evidenceAccumulation?.contractVersion ===
+      "pelora-governed-opportunity-evidence-accumulation-v1" &&
+    typeof evidenceAccumulation?.species === "string" &&
+    evidenceAccumulation.species.trim().length > 0 &&
+    typeof evidenceAccumulation?.candidateId === "string" &&
+    evidenceAccumulation.candidateId.trim().length > 0 &&
+    Array.isArray(
+      evidenceAccumulation?.observations
+    );
+
+  const persistenceAvailable =
+    opportunityPersistence?.available === true &&
+    opportunityPersistence?.contractVersion ===
+      "pelora-governed-opportunity-persistence-v1" &&
+    typeof opportunityPersistence?.species === "string" &&
+    opportunityPersistence.species.trim().length > 0 &&
+    typeof opportunityPersistence?.candidateId === "string" &&
+    opportunityPersistence.candidateId.trim().length > 0 &&
+    opportunityPersistence?.persistence &&
+    typeof opportunityPersistence.persistence === "object";
+
+  const persistenceSupported =
+    persistenceAvailable &&
+    opportunityPersistence.persistence.supported === true &&
+    opportunityPersistence.persistence.classification ===
+      "persistence-supported" &&
+    opportunityPersistence?.persistenceState
+      ?.establishesOpportunityPersistence === true;
+
+  const identityConsistent =
+    accumulationAvailable &&
+    persistenceAvailable &&
+    evidenceAccumulation.species ===
+      opportunityPersistence.species &&
+    evidenceAccumulation.candidateId ===
+      opportunityPersistence.candidateId;
+
+  const observations =
+    accumulationAvailable
+      ? evidenceAccumulation.observations
+      : [];
+
+  const observationCount =
+    observations.length;
+
+  const normalizedObservations =
+    observations.map(
+      (observation) => {
+        const speciesOpportunity =
+          observation?.speciesInterpretation
+            ?.speciesOpportunity;
+
+        const evaluatedAt =
+          typeof observation?.evaluatedAt ===
+            "string"
+            ? observation.evaluatedAt
+            : null;
+
+        const evaluatedAtMs =
+          evaluatedAt !== null
+            ? Date.parse(evaluatedAt)
+            : Number.NaN;
+
+        const pathway =
+          typeof speciesOpportunity?.pathway ===
+            "string" &&
+          speciesOpportunity.pathway.trim().length > 0
+            ? speciesOpportunity.pathway
+            : null;
+
+        const primarySignalType =
+          typeof speciesOpportunity?.primarySignal?.type ===
+            "string" &&
+          speciesOpportunity.primarySignal.type.trim().length > 0
+            ? speciesOpportunity.primarySignal.type
+            : null;
+
+        const score =
+          Number.isFinite(
+            speciesOpportunity?.score
+          )
+            ? speciesOpportunity.score
+            : null;
+
+        const confidenceScore =
+          Number.isFinite(
+            speciesOpportunity?.confidence?.score
+          )
+            ? speciesOpportunity.confidence.score
+            : null;
+
+        const confidenceLevel =
+          typeof speciesOpportunity?.confidence?.level ===
+            "string" &&
+          speciesOpportunity.confidence.level.trim().length > 0
+            ? speciesOpportunity.confidence.level
+            : null;
+
+        const eligibleForRanking =
+          typeof observation?.decision
+            ?.eligibleForRanking === "boolean"
+            ? observation.decision
+                .eligibleForRanking
+            : null;
+
+        const identityValid =
+          observation?.available === true &&
+          observation?.species ===
+            evidenceAccumulation?.species &&
+          observation?.candidate?.id ===
+            evidenceAccumulation?.candidateId &&
+          speciesOpportunity?.species ===
+            evidenceAccumulation?.species &&
+          speciesOpportunity?.location?.id ===
+            evidenceAccumulation?.candidateId;
+
+        const temporalValid =
+          Number.isFinite(
+            evaluatedAtMs
+          );
+
+        const evidenceSurfaceValid =
+          pathway !== null &&
+          primarySignalType !== null;
+
+        const measurementContextValid =
+          score !== null &&
+          confidenceScore !== null &&
+          confidenceLevel !== null;
+
+        const decisionContextValid =
+          eligibleForRanking !== null;
+
+        return {
+          evaluatedAt,
+          evaluatedAtMs,
+          pathway,
+          primarySignalType,
+          score,
+          confidenceScore,
+          confidenceLevel,
+          eligibleForRanking,
+          identityValid,
+          temporalValid,
+          evidenceSurfaceValid,
+          measurementContextValid,
+          decisionContextValid
+        };
+      }
+    );
+
+  const observationsValid =
+    normalizedObservations.length >= 2 &&
+    normalizedObservations.every(
+      (observation) =>
+        observation.identityValid &&
+        observation.temporalValid &&
+        observation.decisionContextValid
+    );
+
+  const chronologyValid =
+    observationsValid &&
+    normalizedObservations.every(
+      (observation, index) =>
+        index === 0 ||
+        observation.evaluatedAtMs >
+          normalizedObservations[index - 1]
+            .evaluatedAtMs
+    );
+
+  const firstObservation =
+    chronologyValid
+      ? normalizedObservations[0]
+      : null;
+
+  const lastObservation =
+    chronologyValid
+      ? normalizedObservations[
+          normalizedObservations.length - 1
+        ]
+      : null;
+
+  const firstEvaluatedAt =
+    firstObservation?.evaluatedAt ??
+    null;
+
+  const lastEvaluatedAt =
+    lastObservation?.evaluatedAt ??
+    null;
+
+  const derivedDurationHours =
+    chronologyValid
+      ? (
+          lastObservation.evaluatedAtMs -
+          firstObservation.evaluatedAtMs
+        ) /
+        (1000 * 60 * 60)
+      : null;
+
+  const persistenceObservationCount =
+    Number.isInteger(
+      opportunityPersistence?.persistence
+        ?.observationCount
+    )
+      ? opportunityPersistence.persistence
+          .observationCount
+      : null;
+
+  const persistenceFirstEvaluatedAt =
+    typeof opportunityPersistence?.persistence
+      ?.firstEvaluatedAt === "string"
+      ? opportunityPersistence.persistence
+          .firstEvaluatedAt
+      : null;
+
+  const persistenceLastEvaluatedAt =
+    typeof opportunityPersistence?.persistence
+      ?.lastEvaluatedAt === "string"
+      ? opportunityPersistence.persistence
+          .lastEvaluatedAt
+      : null;
+
+  const persistenceDurationHours =
+    Number.isFinite(
+      opportunityPersistence?.persistence
+        ?.durationHours
+    )
+      ? opportunityPersistence.persistence
+          .durationHours
+      : null;
+
+  const persistenceWindowConsistent =
+    chronologyValid &&
+    persistenceSupported &&
+    persistenceObservationCount ===
+      observationCount &&
+    persistenceFirstEvaluatedAt ===
+      firstEvaluatedAt &&
+    persistenceLastEvaluatedAt ===
+      lastEvaluatedAt &&
+    derivedDurationHours !== null &&
+    persistenceDurationHours !== null &&
+    Math.abs(
+      persistenceDurationHours -
+      derivedDurationHours
+    ) < 1e-9;
+
+  const comparableSurfaceAvailable =
+    observationsValid &&
+    normalizedObservations.every(
+      (observation) =>
+        observation.evidenceSurfaceValid
+    );
+
+  const referencePathway =
+    comparableSurfaceAvailable
+      ? normalizedObservations[0].pathway
+      : null;
+
+  const referencePrimarySignalType =
+    comparableSurfaceAvailable
+      ? normalizedObservations[0]
+          .primarySignalType
+      : null;
+
+  const pathwayConsistent =
+    comparableSurfaceAvailable &&
+    normalizedObservations.every(
+      (observation) =>
+        observation.pathway ===
+          referencePathway
+    );
+
+  const primarySignalConsistent =
+    comparableSurfaceAvailable &&
+    normalizedObservations.every(
+      (observation) =>
+        observation.primarySignalType ===
+          referencePrimarySignalType
+    );
+
+  const measurementContextAvailable =
+    observationsValid &&
+    normalizedObservations.every(
+      (observation) =>
+        observation.measurementContextValid
+    );
+
+  const assessmentAvailable =
+    accumulationAvailable &&
+    persistenceAvailable &&
+    persistenceSupported &&
+    identityConsistent &&
+    observationsValid &&
+    chronologyValid &&
+    persistenceWindowConsistent;
+
+  const comparableTrendEvidence =
+    assessmentAvailable &&
+    comparableSurfaceAvailable &&
+    pathwayConsistent &&
+    primarySignalConsistent &&
+    measurementContextAvailable;
+
+  const classification =
+    !assessmentAvailable
+      ? "unavailable"
+      : comparableTrendEvidence
+        ? "trend-evidence-comparable"
+        : "trend-evidence-not-comparable";
+
+  const missingRequirements = [];
+
+  if (!accumulationAvailable) {
+    missingRequirements.push(
+      "governed-opportunity-evidence-accumulation"
+    );
+  }
+
+  if (!persistenceAvailable) {
+    missingRequirements.push(
+      "governed-opportunity-persistence"
+    );
+  }
+
+  if (
+    persistenceAvailable &&
+    !persistenceSupported
+  ) {
+    missingRequirements.push(
+      "supported-governed-opportunity-persistence"
+    );
+  }
+
+  if (
+    accumulationAvailable &&
+    persistenceAvailable &&
+    !identityConsistent
+  ) {
+    missingRequirements.push(
+      "consistent-governed-opportunity-identity"
+    );
+  }
+
+  if (
+    accumulationAvailable &&
+    !observationsValid
+  ) {
+    missingRequirements.push(
+      "two-or-more-valid-governed-opportunity-observations"
+    );
+  }
+
+  if (
+    observationsValid &&
+    !chronologyValid
+  ) {
+    missingRequirements.push(
+      "strictly-chronological-governed-opportunity-observations"
+    );
+  }
+
+  if (
+    persistenceSupported &&
+    chronologyValid &&
+    !persistenceWindowConsistent
+  ) {
+    missingRequirements.push(
+      "consistent-governed-persistence-observation-window"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    !comparableSurfaceAvailable
+  ) {
+    missingRequirements.push(
+      "comparable-governed-opportunity-evidence-surface"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    comparableSurfaceAvailable &&
+    !pathwayConsistent
+  ) {
+    missingRequirements.push(
+      "consistent-governed-opportunity-pathway"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    comparableSurfaceAvailable &&
+    !primarySignalConsistent
+  ) {
+    missingRequirements.push(
+      "consistent-governed-primary-ocean-signal"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    !measurementContextAvailable
+  ) {
+    missingRequirements.push(
+      "governed-score-and-confidence-history"
+    );
+  }
+
+  const measurementSeries =
+    assessmentAvailable
+      ? normalizedObservations.map(
+          (observation) => ({
+            evaluatedAt:
+              observation.evaluatedAt,
+
+            score:
+              observation.score,
+
+            confidence: {
+              score:
+                observation.confidenceScore,
+
+              level:
+                observation.confidenceLevel
+            },
+
+            eligibleForRanking:
+              observation.eligibleForRanking,
+
+            pathway:
+              observation.pathway,
+
+            primarySignalType:
+              observation.primarySignalType
+          })
+        )
+      : [];
+
+  const limitations = [
+    "Trend Evidence requires already-supported governed Opportunity Persistence.",
+    "Trend Evidence requires a chronological observation window consistent with the upstream persistence contract.",
+    "Comparable Trend Evidence requires the same governed opportunity pathway through the evaluated window.",
+    "Comparable Trend Evidence requires the same governed primary Ocean Signal through the evaluated window.",
+    "Score and confidence are preserved only as historical comparison context.",
+    "A score increase does not independently establish strengthening.",
+    "A score decrease does not independently establish weakening.",
+    "Confidence change does not independently establish environmental change.",
+    "Trend Evidence does not classify strengthening, weakening, stability, improvement, or decline.",
+    "Trend Evidence does not determine evidence freshness.",
+    "Trend Evidence does not establish a lifecycle state.",
+    "Trend Evidence does not establish physical-feature identity or movement.",
+    "Trend Evidence does not establish fish presence or catch probability.",
+    "Trend Evidence does not create ranking eligibility, rank, score, or confidence.",
+    "Trend Evidence does not provide captain guidance."
+  ];
+
+  return deepFreezeSnapshotValue({
+    available:
+      assessmentAvailable,
+
+    evidenceType:
+      "governed-opportunity-trend-evidence",
+
+    responsibility:
+      "Compare",
+
+    species:
+      assessmentAvailable
+        ? evidenceAccumulation.species
+        : null,
+
+    candidateId:
+      assessmentAvailable
+        ? evidenceAccumulation.candidateId
+        : null,
+
+    trendEvidence: {
+      supported:
+        comparableTrendEvidence,
+
+      classification,
+
+      observationCount:
+        assessmentAvailable
+          ? observationCount
+          : null,
+
+      firstEvaluatedAt:
+        assessmentAvailable
+          ? firstEvaluatedAt
+          : null,
+
+      lastEvaluatedAt:
+        assessmentAvailable
+          ? lastEvaluatedAt
+          : null,
+
+      durationHours:
+        assessmentAvailable
+          ? derivedDurationHours
+          : null,
+
+      comparableSurface: {
+        pathway:
+          comparableTrendEvidence
+            ? referencePathway
+            : null,
+
+        primarySignalType:
+          comparableTrendEvidence
+            ? referencePrimarySignalType
+            : null
+      },
+
+      measurementSeries
+    },
+
+    trendEvidenceState: {
+      establishesComparableTrendEvidence:
+        comparableTrendEvidence,
+
+      establishesTrend:
+        false,
+
+      establishesStrengthening:
+        false,
+
+      establishesWeakening:
+        false,
+
+      establishesStability:
+        false,
+
+      establishesFreshness:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    evidenceBasis: [
+      "governed-opportunity-evidence-accumulation",
+      "governed-opportunity-persistence",
+      "governed-opportunity-pathway-history",
+      "governed-primary-ocean-signal-history",
+      "governed-opportunity-score-confidence-history"
+    ],
+
+    upstreamContracts: {
+      evidenceAccumulation:
+        evidenceAccumulation
+          ?.contractVersion ??
+        null,
+
+      opportunityPersistence:
+        opportunityPersistence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements:
+      [...new Set(
+        missingRequirements
+      )],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-opportunity-trend-evidence-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {

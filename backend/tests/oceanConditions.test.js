@@ -40,6 +40,7 @@ import {
   buildGovernedOpportunityEvidenceCoherenceV1,
   buildGovernedOpportunityPersistenceV1,
   buildGovernedOpportunityMultiDayPersistenceIntelligenceV1,
+  buildGovernedOpportunityTrendEvidenceV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -59454,6 +59455,666 @@ const buildOpportunityPersistenceTestScenario = ({
   );
 }
 
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Trend Evidence v1
+ * ------------------------------------------------------------
+ *
+ * Trend Evidence validates whether the preserved history of an
+ * already-persistent governed opportunity is comparable through time.
+ *
+ * It preserves score/confidence history as context but does not
+ * classify strengthening, weakening, stability, lifecycle, movement,
+ * ranking authority, or captain guidance.
+ */
+
+
+const buildOpportunityTrendEvidenceTestScenario = ({
+  firstScore = 42,
+  secondScore = 42,
+  firstConfidenceScore = 65,
+  secondConfidenceScore = 65,
+  firstConfidenceLevel = "Moderate",
+  secondConfidenceLevel = "Moderate",
+  firstPathway = "structure-associated",
+  secondPathway = "structure-associated",
+  firstPrimarySignalType =
+    "surface-water-transition",
+  secondPrimarySignalType =
+    "surface-water-transition"
+} = {}) => {
+  const base =
+    buildOpportunityPersistenceTestScenario();
+
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      score:
+        firstScore,
+
+      confidenceScore:
+        firstConfidenceScore,
+
+      confidenceLevel:
+        firstConfidenceLevel,
+
+      pathway:
+        firstPathway,
+
+      primarySignalType:
+        firstPrimarySignalType
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z",
+
+      score:
+        secondScore,
+
+      confidenceScore:
+        secondConfidenceScore,
+
+      confidenceLevel:
+        secondConfidenceLevel,
+
+      pathway:
+        secondPathway,
+
+      primarySignalType:
+        secondPrimarySignalType
+    })
+  ];
+
+  const accumulation = {
+    ...base.accumulation,
+    observations
+  };
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        base.continuity,
+
+      evidenceCoherence:
+        base.coherence
+    });
+
+  return {
+    observations,
+    accumulation,
+    persistence
+  };
+};
+
+
+{
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1();
+
+  assert.equal(
+    trendEvidence.available,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    trendEvidence.missingRequirements.includes(
+      "governed-opportunity-evidence-accumulation"
+    )
+  );
+
+  assert.ok(
+    trendEvidence.missingRequirements.includes(
+      "governed-opportunity-persistence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence remains unavailable without governed upstream contracts"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario();
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.available,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.classification,
+    "trend-evidence-comparable"
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.observationCount,
+    2
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.durationHours,
+    6
+  );
+
+  assert.deepEqual(
+    trendEvidence.trendEvidence.comparableSurface,
+    {
+      pathway:
+        "structure-associated",
+
+      primarySignalType:
+        "surface-water-transition"
+    }
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence establishes a comparable persistent evidence series"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario({
+      firstScore:
+        35,
+
+      secondScore:
+        57,
+
+      firstConfidenceScore:
+        51,
+
+      secondConfidenceScore:
+        74,
+
+      firstConfidenceLevel:
+        "Low",
+
+      secondConfidenceLevel:
+        "Moderate"
+    });
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.measurementSeries[0]
+      .score,
+    35
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.measurementSeries[1]
+      .score,
+    57
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.measurementSeries[0]
+      .confidence.score,
+    51
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.measurementSeries[1]
+      .confidence.score,
+    74
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesTrend,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesStrengthening,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesWeakening,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesStability,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence preserves score and confidence change without interpreting a trend"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario({
+      secondPathway:
+        "open-water"
+    });
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.available,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.classification,
+    "trend-evidence-not-comparable"
+  );
+
+  assert.ok(
+    trendEvidence.missingRequirements.includes(
+      "consistent-governed-opportunity-pathway"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence refuses comparability when the governed opportunity pathway changes"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario({
+      secondPrimarySignalType:
+        "current-convergence"
+    });
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.available,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    false
+  );
+
+  assert.ok(
+    trendEvidence.missingRequirements.includes(
+      "consistent-governed-primary-ocean-signal"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence refuses comparability when the governed primary Ocean Signal changes"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario();
+
+  const observations =
+    accumulation.observations.map(
+      (observation, index) => {
+        if (index !== 1) {
+          return observation;
+        }
+
+        return {
+          ...observation,
+
+          speciesInterpretation: {
+            ...observation.speciesInterpretation,
+
+            speciesOpportunity: {
+              ...observation.speciesInterpretation
+                .speciesOpportunity,
+
+              score:
+                null
+            }
+          }
+        };
+      }
+    );
+
+  const incompleteAccumulation = {
+    ...accumulation,
+    observations
+  };
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        incompleteAccumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.available,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    false
+  );
+
+  assert.ok(
+    trendEvidence.missingRequirements.includes(
+      "governed-score-and-confidence-history"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence requires governed score and confidence history without promoting missing measurements"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario();
+
+  const mismatchedAccumulation = {
+    ...accumulation,
+
+    candidateId:
+      "green-canyon"
+  };
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        mismatchedAccumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.available,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    false
+  );
+
+  assert.ok(
+    trendEvidence.missingRequirements.includes(
+      "consistent-governed-opportunity-identity"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence fails closed on upstream candidate identity disagreement"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario();
+
+  const mismatchedPersistence = {
+    ...persistence,
+
+    persistence: {
+      ...persistence.persistence,
+
+      observationCount:
+        3
+    }
+  };
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityPersistence:
+        mismatchedPersistence
+    });
+
+  assert.equal(
+    trendEvidence.available,
+    false
+  );
+
+  assert.ok(
+    trendEvidence.missingRequirements.includes(
+      "consistent-governed-persistence-observation-window"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence fails closed when persistence and accumulated observation windows disagree"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario({
+      firstScore:
+        40,
+
+      secondScore:
+        50
+    });
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.contractVersion,
+    "pelora-governed-opportunity-trend-evidence-v1"
+  );
+
+  assert.equal(
+    trendEvidence.responsibility,
+    "Compare"
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      trendEvidence
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      trendEvidence.trendEvidence
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      trendEvidence.trendEvidence
+        .measurementSeries
+    ),
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesComparableTrendEvidence,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesFreshness,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesLifecycleState,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesFeatureMovement,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesCaptainOpportunity,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidenceState
+      .establishesRank,
+    false
+  );
+
+  assert.equal(
+    trendEvidence.upstreamContracts
+      .evidenceAccumulation,
+    "pelora-governed-opportunity-evidence-accumulation-v1"
+  );
+
+  assert.equal(
+    trendEvidence.upstreamContracts
+      .opportunityPersistence,
+    "pelora-governed-opportunity-persistence-v1"
+  );
+
+  assert.ok(
+    trendEvidence.limitations.includes(
+      "A score increase does not independently establish strengthening."
+    )
+  );
+
+  assert.ok(
+    trendEvidence.limitations.includes(
+      "Trend Evidence does not classify strengthening, weakening, stability, improvement, or decline."
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend evidence preserves provenance, immutability, and comparison-only authority boundaries"
+  );
+}
 
 
 /*
