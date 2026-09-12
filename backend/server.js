@@ -47753,6 +47753,369 @@ export function buildGovernedOpportunityObservationStorageRecordFromRowV1({
 }
 
 
+export function buildGovernedOpportunityEvidenceAccumulationV1({
+  observationRows = [],
+  species = null,
+  candidateId = null
+} = {}) {
+  const normalizedSpecies =
+    typeof species === "string"
+      ? species.trim().toLowerCase() || null
+      : null;
+
+  const normalizedCandidateId =
+    typeof candidateId === "string"
+      ? candidateId.trim() || null
+      : null;
+
+  const rows =
+    Array.isArray(
+      observationRows
+    )
+      ? observationRows
+      : [];
+
+
+  const adaptedRecords =
+    rows
+      .map(row =>
+        buildGovernedOpportunityObservationStorageRecordFromRowV1({
+          row
+        })
+      )
+      .filter(
+        record =>
+          record?.available === true
+      );
+
+
+  const matchingRecords =
+    adaptedRecords.filter(
+      record =>
+        (
+          normalizedSpecies === null ||
+          record.species ===
+            normalizedSpecies
+        ) &&
+        (
+          normalizedCandidateId === null ||
+          record.candidateId ===
+            normalizedCandidateId
+        )
+    );
+
+
+  const observedSpecies =
+    [
+      ...new Set(
+        matchingRecords
+          .map(
+            record =>
+              record.species
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  const observedCandidateIds =
+    [
+      ...new Set(
+        matchingRecords
+          .map(
+            record =>
+              record.candidateId
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  const resolvedSpecies =
+    normalizedSpecies ??
+    (
+      observedSpecies.length === 1
+        ? observedSpecies[0]
+        : null
+    );
+
+
+  const resolvedCandidateId =
+    normalizedCandidateId ??
+    (
+      observedCandidateIds.length === 1
+        ? observedCandidateIds[0]
+        : null
+    );
+
+
+  const identityConsistent =
+    resolvedSpecies !== null &&
+    resolvedCandidateId !== null &&
+    matchingRecords.every(
+      record =>
+        record.species ===
+          resolvedSpecies &&
+        record.candidateId ===
+          resolvedCandidateId
+    );
+
+
+  const deduplicatedRecords = [];
+
+  const seenObservationIds =
+    new Set();
+
+
+  for (
+    const record
+    of matchingRecords
+  ) {
+    if (
+      typeof record
+        ?.observationId !== "string"
+    ) {
+      continue;
+    }
+
+    if (
+      seenObservationIds.has(
+        record.observationId
+      )
+    ) {
+      continue;
+    }
+
+    seenObservationIds.add(
+      record.observationId
+    );
+
+    deduplicatedRecords.push(
+      record
+    );
+  }
+
+
+  deduplicatedRecords.sort(
+    (
+      firstRecord,
+      secondRecord
+    ) =>
+      Date.parse(
+        firstRecord.evaluatedAt
+      ) -
+      Date.parse(
+        secondRecord.evaluatedAt
+      )
+  );
+
+
+  const observations =
+    deduplicatedRecords.map(
+      record =>
+        cloneSnapshotValue(
+          record.observation
+        )
+    );
+
+
+  const observationCount =
+    observations.length;
+
+
+  const firstObservation =
+    observationCount > 0
+      ? observations[0]
+      : null;
+
+
+  const lastObservation =
+    observationCount > 0
+      ? observations[
+          observationCount - 1
+        ]
+      : null;
+
+
+  const firstEvaluatedAt =
+    firstObservation
+      ?.evaluatedAt ??
+    null;
+
+
+  const lastEvaluatedAt =
+    lastObservation
+      ?.evaluatedAt ??
+    null;
+
+
+  const windowDurationHours =
+    firstEvaluatedAt &&
+    lastEvaluatedAt
+      ? (
+          Date.parse(
+            lastEvaluatedAt
+          ) -
+          Date.parse(
+            firstEvaluatedAt
+          )
+        ) /
+        (
+          1000 *
+          60 *
+          60
+        )
+      : null;
+
+
+  const eligibleObservationCount =
+    observations.filter(
+      observation =>
+        observation
+          ?.decision
+          ?.eligibleForRanking ===
+        true
+    ).length;
+
+
+  const excludedObservationCount =
+    observationCount -
+    eligibleObservationCount;
+
+
+  const exclusionReasons =
+    [
+      ...new Set(
+        observations
+          .flatMap(
+            observation =>
+              Array.isArray(
+                observation
+                  ?.decision
+                  ?.exclusionReasons
+              )
+                ? observation
+                    .decision
+                    .exclusionReasons
+                : []
+          )
+          .filter(
+            reason =>
+              typeof reason ===
+                "string" &&
+              reason.trim().length >
+                0
+          )
+      )
+    ];
+
+
+  const available =
+    identityConsistent &&
+    observationCount > 0;
+
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    species:
+      resolvedSpecies,
+
+    candidateId:
+      resolvedCandidateId,
+
+    observations:
+      available
+        ? observations
+        : [],
+
+    window: {
+      observationCount,
+
+      firstEvaluatedAt,
+
+      lastEvaluatedAt,
+
+      durationHours:
+        Number.isFinite(
+          windowDurationHours
+        )
+          ? windowDurationHours
+          : null
+    },
+
+    decisions: {
+      eligibleObservationCount,
+
+      excludedObservationCount,
+
+      exclusionReasons
+    },
+
+    accumulationState: {
+      establishesSourceAgreement:
+        false,
+
+      establishesContinuity:
+        false,
+
+      establishesPersistence:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    reason:
+      available
+        ? null
+        : "governed-opportunity-evidence-accumulation-unavailable",
+
+    missingRequirements: [
+      resolvedSpecies === null
+        ? "species-identity"
+        : null,
+
+      resolvedCandidateId === null
+        ? "candidate-identity"
+        : null,
+
+      !identityConsistent
+        ? "consistent-observation-identity"
+        : null,
+
+      observationCount === 0
+        ? "governed-opportunity-observations"
+        : null
+    ].filter(Boolean),
+
+    limitations: [
+      "accumulation-preserves-original-governed-observations",
+      "accumulation-does-not-average-score-or-confidence",
+      "accumulation-does-not-reconcile-source-agreement",
+      "accumulation-does-not-establish-feature-continuity",
+      "accumulation-does-not-establish-temporal-persistence",
+      "accumulation-does-not-establish-opportunity-lifecycle-state",
+      "accumulation-does-not-create-ranking-eligibility",
+      "accumulation-does-not-promote-a-captain-facing-opportunity",
+      "accumulation-does-not-assign-rank"
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-accumulation-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {
