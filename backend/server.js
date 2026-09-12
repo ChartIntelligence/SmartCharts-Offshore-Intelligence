@@ -53196,6 +53196,307 @@ export async function captureGovernedOpportunityHistoryV1({
 }
 
 
+export async function captureGovernedOpportunityObservationsV1({
+  configuration = null,
+  bearerToken = null,
+  userId = null,
+  speciesInterpretations = [],
+  evaluatedAt = null,
+  captainContext = null,
+  storedAt = null,
+  persistImplementation =
+    persistGovernedOpportunityObservationV1
+} = {}) {
+  const normalizedStoredAt =
+    typeof storedAt === "string" &&
+    Number.isFinite(
+      Date.parse(storedAt)
+    )
+      ? storedAt
+      : new Date().toISOString();
+
+  const interpretations =
+    Array.isArray(
+      speciesInterpretations
+    )
+      ? speciesInterpretations
+      : [];
+
+  const unavailable = reason =>
+    deepFreezeSnapshotValue({
+      available: false,
+
+      attemptedCount: 0,
+
+      persistedCount: 0,
+
+      failedCount: 0,
+
+      eligibleObservationCount: 0,
+
+      excludedObservationCount: 0,
+
+      results: [],
+
+      reason,
+
+      limitations: [
+        "Governed Opportunity Observation capture is downstream of governed candidate/species evaluation.",
+        "Observation capture preserves both ranking-eligible and ranking-excluded governed evaluations.",
+        "Observation capture cannot create evidence, eligibility, score, confidence, persistence, lifecycle state, opportunity status, or rank.",
+        "Observation capture failure must not interrupt or alter current captain opportunity delivery."
+      ],
+
+      contractVersion:
+        "pelora-governed-opportunity-observation-capture-v1"
+    });
+
+
+  if (
+    !Number.isFinite(
+      Date.parse(evaluatedAt)
+    )
+  ) {
+    return unavailable(
+      "governed-opportunity-evaluation-timestamp-unavailable"
+    );
+  }
+
+
+  if (
+    typeof userId !== "string" ||
+    userId.trim().length === 0
+  ) {
+    return unavailable(
+      "authenticated-captain-user-id-unavailable"
+    );
+  }
+
+
+  if (
+    interpretations.length === 0
+  ) {
+    return unavailable(
+      "governed-species-interpretations-unavailable"
+    );
+  }
+
+
+  if (
+    typeof persistImplementation !==
+      "function"
+  ) {
+    return unavailable(
+      "observation-persist-implementation-unavailable"
+    );
+  }
+
+
+  const results = [];
+
+  let eligibleObservationCount = 0;
+  let excludedObservationCount = 0;
+
+
+  for (
+    const speciesInterpretation
+    of interpretations
+  ) {
+    const rankingResolution =
+      resolveUnifiedOpportunityRankingInputV1({
+        speciesInterpretation
+      });
+
+
+    const observation =
+      buildGovernedOpportunityObservationV1({
+        speciesInterpretation,
+
+        rankingResolution,
+
+        evaluatedAt,
+
+        captainContext
+      });
+
+
+    const candidateId =
+      observation
+        ?.candidate
+        ?.id ??
+      speciesInterpretation
+        ?.candidate
+        ?.id ??
+      null;
+
+
+    if (
+      observation?.available !== true
+    ) {
+      results.push({
+        candidateId,
+
+        available: false,
+
+        persisted: false,
+
+        eligibleForRanking: false,
+
+        reason:
+          observation?.reason ??
+          "governed-opportunity-observation-unavailable"
+      });
+
+      continue;
+    }
+
+
+    if (
+      observation
+        ?.decision
+        ?.eligibleForRanking === true
+    ) {
+      eligibleObservationCount += 1;
+    } else {
+      excludedObservationCount += 1;
+    }
+
+
+    const observationStorage =
+      buildGovernedOpportunityObservationStorageV1({
+        observation,
+
+        storedAt:
+          normalizedStoredAt
+      });
+
+
+    if (
+      observationStorage?.available !==
+        true
+    ) {
+      results.push({
+        candidateId,
+
+        available: false,
+
+        persisted: false,
+
+        eligibleForRanking:
+          observation
+            ?.decision
+            ?.eligibleForRanking ===
+          true,
+
+        reason:
+          "governed-opportunity-observation-storage-unavailable"
+      });
+
+      continue;
+    }
+
+
+    let persistence = null;
+
+    try {
+      persistence =
+        await persistImplementation({
+          configuration,
+
+          bearerToken,
+
+          userId,
+
+          observationStorage
+        });
+    } catch {
+      persistence = null;
+    }
+
+
+    const persisted =
+      persistence?.available ===
+      true;
+
+
+    results.push({
+      candidateId,
+
+      observationId:
+        observationStorage
+          ?.identity
+          ?.observationId ??
+        null,
+
+      available: true,
+
+      persisted,
+
+      eligibleForRanking:
+        observation
+          ?.decision
+          ?.eligibleForRanking ===
+        true,
+
+      reason:
+        persisted
+          ? "governed-opportunity-observation-persisted"
+          : "governed-opportunity-observation-persistence-unavailable"
+    });
+  }
+
+
+  const persistedCount =
+    results.filter(
+      result =>
+        result?.persisted === true
+    ).length;
+
+
+  const failedCount =
+    results.length -
+    persistedCount;
+
+
+  return deepFreezeSnapshotValue({
+    available:
+      results.length > 0,
+
+    attemptedCount:
+      results.length,
+
+    persistedCount,
+
+    failedCount,
+
+    eligibleObservationCount,
+
+    excludedObservationCount,
+
+    results:
+      cloneSnapshotValue(
+        results
+      ),
+
+    reason:
+      failedCount === 0
+        ? "governed-opportunity-observation-capture-complete"
+        : "governed-opportunity-observation-capture-partial",
+
+    limitations: [
+      "Governed Opportunity Observation capture is downstream of governed candidate/species evaluation.",
+      "Observation capture preserves both ranking-eligible and ranking-excluded governed evaluations.",
+      "Observation capture does not establish persistence or lifecycle state.",
+      "Observation capture does not alter current ranking or captain-facing opportunity delivery.",
+      "Persistence failures are isolated to individual observations."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-observation-capture-v1"
+  });
+}
+
+
 export const GULF_EVALUATION_CONTROL_V1 = {
   maximumCandidates: 12,
 
@@ -54637,6 +54938,16 @@ export async function evaluateControlledGulfBlueMarlinV1({
 
     evaluatedAt,
 
+    observationSource: {
+      speciesInterpretations:
+        cloneSnapshotValue(
+          speciesInterpretations
+        ),
+
+      contractVersion:
+        "pelora-governed-opportunity-observation-source-v1"
+    },
+
     opportunities:
       delivery.opportunities,
 
@@ -54737,8 +55048,6 @@ export async function getDynamicBlueMarlinOpportunities({
 
     try {
       if (
-        gulfResult?.delivery?.available ===
-          true &&
         Number.isFinite(
           Date.parse(
             gulfResult?.evaluatedAt
@@ -54755,6 +55064,7 @@ export async function getDynamicBlueMarlinOpportunities({
             bearerToken
           });
 
+
         if (
           captainIdentity?.available ===
             true &&
@@ -54762,29 +55072,74 @@ export async function getDynamicBlueMarlinOpportunities({
             ?.userId ===
             "string"
         ) {
+          try {
+            await captureGovernedOpportunityObservationsV1({
+              configuration,
 
-          await captureGovernedOpportunityHistoryV1({
-            configuration,
+              bearerToken,
 
-            bearerToken,
+              userId:
+                captainIdentity.userId,
 
-            userId:
-              captainIdentity.userId,
+              speciesInterpretations:
+                gulfResult
+                  ?.observationSource
+                  ?.speciesInterpretations ??
+                [],
 
-            delivery:
-              gulfResult.delivery,
+              evaluatedAt:
+                gulfResult.evaluatedAt,
 
-            evaluatedAt:
-              gulfResult.evaluatedAt,
+              captainContext
+            });
+          } catch (
+            observationError
+          ) {
+            console.warn(
+              "Governed Opportunity Observation capture failed without affecting current opportunity delivery:",
+              observationError
+            );
+          }
 
-            captainContext
-          });
+
+          if (
+            gulfResult?.delivery?.available ===
+              true
+          ) {
+            try {
+              await captureGovernedOpportunityHistoryV1({
+                configuration,
+
+                bearerToken,
+
+                userId:
+                  captainIdentity.userId,
+
+                delivery:
+                  gulfResult.delivery,
+
+                evaluatedAt:
+                  gulfResult.evaluatedAt,
+
+                captainContext
+              });
+            } catch (
+              historyError
+            ) {
+              console.warn(
+                "Governed Opportunity History capture failed without affecting current opportunity delivery:",
+                historyError
+              );
+            }
+          }
         }
       }
-    } catch (historyError) {
+    } catch (
+      preservationError
+    ) {
       console.warn(
-        "Governed Opportunity History capture failed without affecting current opportunity delivery:",
-        historyError
+        "Governed opportunity preservation failed without affecting current opportunity delivery:",
+        preservationError
       );
     }
 

@@ -52,6 +52,7 @@ import {
   retrieveGovernedOpportunityHistoryRowsV1,
   resolveAuthenticatedGovernedOpportunityFallbackV1,
   captureGovernedOpportunityHistoryV1,
+  captureGovernedOpportunityObservationsV1,
   buildCurrentGradientAnalysis,
   buildCurrentShearAnalysis,
   buildSurfaceWaterCharacterAnalysis,
@@ -54519,6 +54520,609 @@ for (
 
   console.log(
     "PASS governed opportunity history capture cannot manufacture history from malformed delivery"
+  );
+}
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Observation Capture v1
+ * ------------------------------------------------------------
+ */
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "observation-capture-eligible-1"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id:
+            "observation-capture-eligible-1"
+        },
+
+        score: 67,
+
+        confidence: {
+          score: 74,
+
+          level:
+            "Moderate"
+        },
+
+        eligibility: {
+          eligibleForRanking: true,
+
+          classification:
+            "eligible-species-opportunity",
+
+          reasons: []
+        }
+      },
+
+      contractVersion:
+        "pelora-unified-species-opportunity-interpretation-v1"
+    },
+
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "observation-capture-excluded-1"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id:
+            "observation-capture-excluded-1"
+        },
+
+        score: 41,
+
+        confidence: {
+          score: 28,
+
+          level:
+            "Very Low"
+        },
+
+        eligibility: {
+          eligibleForRanking: false,
+
+          classification:
+            "insufficient-species-opportunity-evidence",
+
+          reasons: [
+            "minimum-opportunity-evidence-gate-not-satisfied"
+          ]
+        }
+      },
+
+      contractVersion:
+        "pelora-unified-species-opportunity-interpretation-v1"
+    }
+  ];
+
+  const persistenceCalls = [];
+
+  const result =
+    await captureGovernedOpportunityObservationsV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-observation-capture-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      speciesInterpretations,
+
+      evaluatedAt:
+        "2026-09-12T06:00:00.000Z",
+
+      storedAt:
+        "2026-09-12T06:01:00.000Z",
+
+      captainContext: {
+        species:
+          "blue-marlin",
+
+        explorationMode:
+          "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 100
+      },
+
+      persistImplementation:
+        async input => {
+          persistenceCalls.push(
+            input
+          );
+
+          return {
+            available: true
+          };
+        }
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    2
+  );
+
+  assert.equal(
+    result.persistedCount,
+    2
+  );
+
+  assert.equal(
+    result.failedCount,
+    0
+  );
+
+  assert.equal(
+    result.eligibleObservationCount,
+    1
+  );
+
+  assert.equal(
+    result.excludedObservationCount,
+    1
+  );
+
+  assert.equal(
+    persistenceCalls.length,
+    2
+  );
+
+  assert.deepEqual(
+    persistenceCalls
+      .map(
+        call =>
+          call
+            .observationStorage
+            .observation
+            .candidate
+            .id
+      ),
+    [
+      "observation-capture-eligible-1",
+      "observation-capture-excluded-1"
+    ]
+  );
+
+  assert.equal(
+    persistenceCalls[0]
+      .observationStorage
+      .observation
+      .evaluatedAt,
+    "2026-09-12T06:00:00.000Z"
+  );
+
+  assert.equal(
+    persistenceCalls[1]
+      .observationStorage
+      .observation
+      .evaluatedAt,
+    "2026-09-12T06:00:00.000Z"
+  );
+
+  assert.equal(
+    persistenceCalls[1]
+      .observationStorage
+      .observation
+      .decision
+      .eligibleForRanking,
+    false
+  );
+
+  assert.ok(
+    persistenceCalls[1]
+      .observationStorage
+      .observation
+      .decision
+      .exclusionReasons
+      .includes(
+        "minimum-opportunity-evidence-gate-not-satisfied"
+      )
+  );
+
+  console.log(
+    "PASS governed opportunity observation capture preserves eligible and ranking-excluded governed evaluations"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "observation-capture-governed-zero-1"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id:
+            "observation-capture-governed-zero-1"
+        },
+
+        score: 39,
+
+        confidence: {
+          score: 24,
+
+          level:
+            "Very Low"
+        },
+
+        eligibility: {
+          eligibleForRanking: false,
+
+          classification:
+            "insufficient-species-opportunity-evidence",
+
+          reasons: [
+            "minimum-opportunity-evidence-gate-not-satisfied"
+          ]
+        }
+      },
+
+      contractVersion:
+        "pelora-unified-species-opportunity-interpretation-v1"
+    }
+  ];
+
+  const delivery =
+    buildUnifiedCaptainOpportunityDeliveryV1({
+      species:
+        "blue-marlin",
+
+      speciesInterpretations
+    });
+
+  let persistenceCallCount = 0;
+
+  const result =
+    await captureGovernedOpportunityObservationsV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-observation-zero-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      speciesInterpretations,
+
+      evaluatedAt:
+        "2026-09-12T06:10:00.000Z",
+
+      persistImplementation:
+        async () => {
+          persistenceCallCount += 1;
+
+          return {
+            available: true
+          };
+        }
+    });
+
+  assert.equal(
+    delivery.available,
+    false
+  );
+
+  assert.equal(
+    delivery.opportunities.length,
+    0
+  );
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    1
+  );
+
+  assert.equal(
+    result.persistedCount,
+    1
+  );
+
+  assert.equal(
+    result.excludedObservationCount,
+    1
+  );
+
+  assert.equal(
+    persistenceCallCount,
+    1
+  );
+
+  console.log(
+    "PASS governed zero still captures ranking-excluded governed observation"
+  );
+}
+
+
+{
+  const speciesInterpretations = [
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "observation-capture-failure-1"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id:
+            "observation-capture-failure-1"
+        },
+
+        score: 61,
+
+        confidence: {
+          score: 68,
+
+          level:
+            "Moderate"
+        },
+
+        eligibility: {
+          eligibleForRanking: true,
+
+          classification:
+            "eligible-species-opportunity",
+
+          reasons: []
+        }
+      },
+
+      contractVersion:
+        "pelora-unified-species-opportunity-interpretation-v1"
+    },
+
+    {
+      available: true,
+
+      candidate: {
+        id:
+          "observation-capture-failure-2"
+      },
+
+      species:
+        "blue-marlin",
+
+      speciesOpportunity: {
+        available: true,
+
+        species:
+          "blue-marlin",
+
+        location: {
+          id:
+            "observation-capture-failure-2"
+        },
+
+        score: 58,
+
+        confidence: {
+          score: 63,
+
+          level:
+            "Moderate"
+        },
+
+        eligibility: {
+          eligibleForRanking: true,
+
+          classification:
+            "eligible-species-opportunity",
+
+          reasons: []
+        }
+      },
+
+      contractVersion:
+        "pelora-unified-species-opportunity-interpretation-v1"
+    }
+  ];
+
+  let persistenceCallCount = 0;
+
+  const result =
+    await captureGovernedOpportunityObservationsV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-observation-failure-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      speciesInterpretations,
+
+      evaluatedAt:
+        "2026-09-12T06:20:00.000Z",
+
+      persistImplementation:
+        async () => {
+          persistenceCallCount += 1;
+
+          if (
+            persistenceCallCount === 1
+          ) {
+            throw new Error(
+              "simulated observation persistence failure"
+            );
+          }
+
+          return {
+            available: true
+          };
+        }
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    2
+  );
+
+  assert.equal(
+    persistenceCallCount,
+    2
+  );
+
+  assert.equal(
+    result.persistedCount,
+    1
+  );
+
+  assert.equal(
+    result.failedCount,
+    1
+  );
+
+  assert.equal(
+    result.results[0].persisted,
+    false
+  );
+
+  assert.equal(
+    result.results[1].persisted,
+    true
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-opportunity-observation-capture-partial"
+  );
+
+  console.log(
+    "PASS governed opportunity observation capture contains one persistence failure and continues remaining observations"
+  );
+}
+
+
+{
+  let persistenceCallCount = 0;
+
+  const result =
+    await captureGovernedOpportunityObservationsV1({
+      configuration: {
+        available: true
+      },
+
+      bearerToken:
+        "test-observation-invalid-token",
+
+      userId:
+        "11111111-2222-3333-4444-555555555555",
+
+      speciesInterpretations: [],
+
+      evaluatedAt:
+        "2026-09-12T06:30:00.000Z",
+
+      persistImplementation:
+        async () => {
+          persistenceCallCount += 1;
+
+          return {
+            available: true
+          };
+        }
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.attemptedCount,
+    0
+  );
+
+  assert.equal(
+    persistenceCallCount,
+    0
+  );
+
+  assert.equal(
+    result.reason,
+    "governed-species-interpretations-unavailable"
+  );
+
+  console.log(
+    "PASS governed opportunity observation capture fails closed when no governed interpretations exist"
   );
 }
 
