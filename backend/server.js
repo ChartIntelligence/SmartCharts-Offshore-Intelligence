@@ -47357,6 +47357,198 @@ export function buildGovernedOpportunityObservationV1({
 }
 
 
+export function buildGovernedOpportunityObservationIdentityV1({
+  observation = null
+} = {}) {
+  const schemaVersion =
+    "pelora-governed-opportunity-observation-schema-v1";
+
+  const species =
+    typeof observation?.species === "string"
+      ? observation.species
+          .trim()
+          .toLowerCase()
+      : null;
+
+  const candidateId =
+    typeof observation
+      ?.candidate
+      ?.id === "string"
+      ? observation
+          .candidate
+          .id
+          .trim()
+      : null;
+
+  const evaluatedAt =
+    typeof observation?.evaluatedAt === "string" &&
+    Number.isFinite(
+      Date.parse(observation.evaluatedAt)
+    )
+      ? observation.evaluatedAt
+      : null;
+
+  const observationAvailable =
+    observation?.available === true &&
+    observation?.contractVersion ===
+      "pelora-governed-opportunity-observation-v1";
+
+  const available =
+    observationAvailable &&
+    species !== null &&
+    species.length > 0 &&
+    candidateId !== null &&
+    candidateId.length > 0 &&
+    evaluatedAt !== null;
+
+  const identityBasis =
+    available
+      ? [
+          schemaVersion,
+          normalizeSnapshotIdentityPart(
+            species
+          ),
+          normalizeSnapshotIdentityPart(
+            candidateId
+          ),
+          normalizeSnapshotIdentityPart(
+            evaluatedAt
+          )
+        ].join("|")
+      : null;
+
+  const observationId =
+    identityBasis !== null
+      ? "pelora-opportunity-observation-" +
+        deterministicSnapshotHash(
+          identityBasis
+        )
+      : null;
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    observationId,
+
+    schemaVersion,
+
+    identityStrategy:
+      "deterministic-species-candidate-evaluation-schema-v1",
+
+    species,
+
+    candidateId,
+
+    evaluatedAt,
+
+    reason:
+      available
+        ? null
+        : "governed-opportunity-observation-identity-unavailable",
+
+    limitations: [
+      "Observation identity identifies one preserved governed candidate/species evaluation.",
+      "Observation identity does not create or recalculate evidence, eligibility, score, confidence, persistence, lifecycle state, opportunity status, or rank.",
+      "A later evaluation time creates a distinct observation even when species and candidate identity are unchanged.",
+      "Captain ownership is not encoded into observation identity and remains the responsibility of the storage boundary."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-observation-identity-v1"
+  });
+}
+
+
+export function buildGovernedOpportunityObservationStorageV1({
+  observation = null,
+  storedAt = null,
+  storageProvider = "supabase-postgres"
+} = {}) {
+  const identity =
+    buildGovernedOpportunityObservationIdentityV1({
+      observation
+    });
+
+  const validStoredAt =
+    typeof storedAt === "string" &&
+    Number.isFinite(
+      Date.parse(storedAt)
+    );
+
+  const validStorageProvider =
+    storageProvider ===
+    "supabase-postgres";
+
+  const available =
+    observation?.available === true &&
+    identity.available === true &&
+    validStoredAt &&
+    validStorageProvider;
+
+  const missingRequirements = [
+    observation?.available !== true
+      ? "available-governed-opportunity-observation"
+      : null,
+
+    identity.available !== true
+      ? "governed-opportunity-observation-identity"
+      : null,
+
+    !validStoredAt
+      ? "valid-stored-at"
+      : null,
+
+    !validStorageProvider
+      ? "supported-storage-provider"
+      : null
+  ].filter(Boolean);
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    storageType:
+      "governed-opportunity-observation-storage",
+
+    responsibility:
+      "preserve",
+
+    identity,
+
+    storedAt:
+      validStoredAt
+        ? storedAt
+        : null,
+
+    storageProvider:
+      validStorageProvider
+        ? storageProvider
+        : null,
+
+    observation:
+      available
+        ? cloneSnapshotValue(
+            observation
+          )
+        : null,
+
+    missingRequirements,
+
+    limitations: [
+      ...missingRequirements,
+
+      "Governed Opportunity Observation Storage preserves one already governed candidate/species evaluation.",
+      "Storage preserves both ranking-eligible and ranking-excluded governed observations.",
+      "Storage does not create or recalculate evidence, eligibility, score, confidence, persistence, lifecycle state, opportunity status, or rank.",
+      "Storage does not convert Ocean Memory into a governed opportunity observation.",
+      "This contract performs no database write and does not authorize captain access."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-observation-storage-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {

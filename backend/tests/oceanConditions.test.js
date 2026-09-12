@@ -30,6 +30,8 @@ import {
   buildUnifiedSpeciesOpportunityInterpretationV1,
   resolveUnifiedOpportunityRankingInputV1,
   buildGovernedOpportunityObservationV1,
+  buildGovernedOpportunityObservationIdentityV1,
+  buildGovernedOpportunityObservationStorageV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -54987,6 +54989,405 @@ for (
 
   console.log(
     "PASS governed opportunity observation fails closed on incomplete governed evaluation inputs"
+  );
+}
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Observation Identity + Storage v1
+ * ------------------------------------------------------------
+ */
+
+
+{
+  const speciesInterpretation = {
+    available: true,
+
+    candidate: {
+      id:
+        "observation-identity-stable-1"
+    },
+
+    species:
+      "blue-marlin",
+
+    speciesOpportunity: {
+      available: true,
+
+      score: 62,
+
+      eligibility: {
+        eligibleForRanking: true
+      }
+    },
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+
+  const rankingResolution =
+    resolveUnifiedOpportunityRankingInputV1({
+      speciesInterpretation
+    });
+
+  const observation =
+    buildGovernedOpportunityObservationV1({
+      speciesInterpretation,
+
+      rankingResolution,
+
+      evaluatedAt:
+        "2026-09-12T03:00:00.000Z"
+    });
+
+  const identityA =
+    buildGovernedOpportunityObservationIdentityV1({
+      observation
+    });
+
+  const identityB =
+    buildGovernedOpportunityObservationIdentityV1({
+      observation
+    });
+
+  assert.equal(
+    identityA.available,
+    true
+  );
+
+  assert.equal(
+    identityA.observationId,
+    identityB.observationId
+  );
+
+  assert.equal(
+    identityA.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    identityA.candidateId,
+    "observation-identity-stable-1"
+  );
+
+  assert.equal(
+    identityA.evaluatedAt,
+    "2026-09-12T03:00:00.000Z"
+  );
+
+  console.log(
+    "PASS governed opportunity observation identity is deterministic for the same governed evaluation"
+  );
+}
+
+
+{
+  const buildObservation =
+    evaluatedAt => {
+      const speciesInterpretation = {
+        available: true,
+
+        candidate: {
+          id:
+            "observation-identity-time-1"
+        },
+
+        species:
+          "blue-marlin",
+
+        speciesOpportunity: {
+          available: true,
+
+          score: 60,
+
+          eligibility: {
+            eligibleForRanking: true
+          }
+        },
+
+        contractVersion:
+          "pelora-unified-species-opportunity-interpretation-v1"
+      };
+
+      const rankingResolution =
+        resolveUnifiedOpportunityRankingInputV1({
+          speciesInterpretation
+        });
+
+      return buildGovernedOpportunityObservationV1({
+        speciesInterpretation,
+
+        rankingResolution,
+
+        evaluatedAt
+      });
+    };
+
+  const firstIdentity =
+    buildGovernedOpportunityObservationIdentityV1({
+      observation:
+        buildObservation(
+          "2026-09-12T03:05:00.000Z"
+        )
+    });
+
+  const secondIdentity =
+    buildGovernedOpportunityObservationIdentityV1({
+      observation:
+        buildObservation(
+          "2026-09-12T03:35:00.000Z"
+        )
+    });
+
+  assert.equal(
+    firstIdentity.available,
+    true
+  );
+
+  assert.equal(
+    secondIdentity.available,
+    true
+  );
+
+  assert.notEqual(
+    firstIdentity.observationId,
+    secondIdentity.observationId
+  );
+
+  console.log(
+    "PASS governed opportunity observation identity distinguishes later evaluations of the same candidate"
+  );
+}
+
+
+{
+  const speciesInterpretation = {
+    available: true,
+
+    candidate: {
+      id:
+        "observation-storage-excluded-1"
+    },
+
+    species:
+      "blue-marlin",
+
+    speciesOpportunity: {
+      available: true,
+
+      score: 49,
+
+      confidence: {
+        score: 27,
+
+        level:
+          "Very Low"
+      },
+
+      eligibility: {
+        eligibleForRanking: false,
+
+        classification:
+          "insufficient-species-opportunity-evidence",
+
+        reasons: [
+          "confidence-insufficient-for-ranking",
+          "insufficient-independent-relationship-support"
+        ]
+      }
+    },
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+
+  const rankingResolution =
+    resolveUnifiedOpportunityRankingInputV1({
+      speciesInterpretation
+    });
+
+  const observation =
+    buildGovernedOpportunityObservationV1({
+      speciesInterpretation,
+
+      rankingResolution,
+
+      evaluatedAt:
+        "2026-09-12T03:10:00.000Z"
+    });
+
+  const storage =
+    buildGovernedOpportunityObservationStorageV1({
+      observation,
+
+      storedAt:
+        "2026-09-12T03:11:00.000Z"
+    });
+
+  assert.equal(
+    observation.available,
+    true
+  );
+
+  assert.equal(
+    observation.decision
+      .eligibleForRanking,
+    false
+  );
+
+  assert.equal(
+    storage.available,
+    true
+  );
+
+  assert.equal(
+    storage.observation
+      .decision
+      .eligibleForRanking,
+    false
+  );
+
+  assert.ok(
+    storage.observation
+      .decision
+      .exclusionReasons
+      .includes(
+        "minimum-opportunity-evidence-gate-not-satisfied"
+      )
+  );
+
+  assert.equal(
+    storage.responsibility,
+    "preserve"
+  );
+
+  console.log(
+    "PASS governed opportunity observation storage preserves ranking-excluded governed observations"
+  );
+}
+
+
+{
+  const speciesInterpretation = {
+    available: true,
+
+    candidate: {
+      id:
+        "observation-storage-freeze-1"
+    },
+
+    species:
+      "blue-marlin",
+
+    speciesOpportunity: {
+      available: true,
+
+      score: 63,
+
+      eligibility: {
+        eligibleForRanking: true
+      }
+    },
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+
+  const rankingResolution =
+    resolveUnifiedOpportunityRankingInputV1({
+      speciesInterpretation
+    });
+
+  const observation =
+    buildGovernedOpportunityObservationV1({
+      speciesInterpretation,
+
+      rankingResolution,
+
+      evaluatedAt:
+        "2026-09-12T03:15:00.000Z"
+    });
+
+  const storage =
+    buildGovernedOpportunityObservationStorageV1({
+      observation,
+
+      storedAt:
+        "2026-09-12T03:16:00.000Z"
+    });
+
+  assert.equal(
+    storage.available,
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(storage),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      storage.observation
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      storage.identity
+    ),
+    true
+  );
+
+  console.log(
+    "PASS governed opportunity observation storage freezes preserved observation and identity"
+  );
+}
+
+
+{
+  const storage =
+    buildGovernedOpportunityObservationStorageV1({
+      observation: null,
+
+      storedAt:
+        "not-a-valid-storage-time"
+    });
+
+  assert.equal(
+    storage.available,
+    false
+  );
+
+  assert.ok(
+    storage.missingRequirements
+      .includes(
+        "available-governed-opportunity-observation"
+      )
+  );
+
+  assert.ok(
+    storage.missingRequirements
+      .includes(
+        "governed-opportunity-observation-identity"
+      )
+  );
+
+  assert.ok(
+    storage.missingRequirements
+      .includes(
+        "valid-stored-at"
+      )
+  );
+
+  assert.equal(
+    storage.observation,
+    null
+  );
+
+  console.log(
+    "PASS governed opportunity observation storage fails closed without valid governed storage inputs"
   );
 }
 
