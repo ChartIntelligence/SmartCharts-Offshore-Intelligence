@@ -41,6 +41,7 @@ import {
   buildGovernedOpportunityPersistenceV1,
   buildGovernedOpportunityMultiDayPersistenceIntelligenceV1,
   buildGovernedOpportunityTrendEvidenceV1,
+  buildGovernedOpportunityTrendResolutionV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -60113,6 +60114,592 @@ const buildOpportunityTrendEvidenceTestScenario = ({
 
   console.log(
     "PASS governed opportunity trend evidence preserves provenance, immutability, and comparison-only authority boundaries"
+  );
+}
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Trend Resolution v1
+ * ------------------------------------------------------------
+ *
+ * Trend Resolution determines whether already-comparable governed
+ * Opportunity Trend Evidence contains authoritative environmental-
+ * direction evidence sufficient to resolve a trend.
+ *
+ * v1 intentionally fails closed because score/confidence history
+ * cannot independently establish environmental direction.
+ */
+
+const buildOpportunityTrendResolutionTestInput = (
+  options = {}
+) => {
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario(
+      options
+    );
+
+  return buildGovernedOpportunityTrendEvidenceV1({
+    evidenceAccumulation:
+      accumulation,
+
+    opportunityPersistence:
+      persistence
+  });
+};
+
+
+{
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1();
+
+  assert.equal(
+    resolution.available,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.classification,
+    "unavailable"
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.ok(
+    resolution.missingRequirements.includes(
+      "governed-opportunity-trend-evidence-contract"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution remains unavailable without the governed Trend Evidence contract"
+  );
+}
+
+
+{
+  const unavailableTrendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1();
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence:
+        unavailableTrendEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    resolution.missingRequirements.includes(
+      "available-governed-opportunity-trend-evidence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution requires available governed Trend Evidence"
+  );
+}
+
+
+{
+  const {
+    accumulation,
+    persistence
+  } =
+    buildOpportunityTrendEvidenceTestScenario({
+      secondPathway:
+        "open-water"
+    });
+
+  const trendEvidence =
+    buildGovernedOpportunityTrendEvidenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityPersistence:
+        persistence
+    });
+
+  assert.equal(
+    trendEvidence.available,
+    true
+  );
+
+  assert.equal(
+    trendEvidence.trendEvidence.supported,
+    false
+  );
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    resolution.missingRequirements.includes(
+      "comparable-governed-opportunity-trend-evidence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution requires comparable governed Trend Evidence"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput();
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.evidenceType,
+    "governed-opportunity-trend-resolution"
+  );
+
+  assert.equal(
+    resolution.responsibility,
+    "Resolve"
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.classification,
+    "trend-direction-unresolved"
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.equal(
+    resolution.trendResolution.reason,
+    "governed-environmental-direction-evidence-not-connected"
+  );
+
+  assert.equal(
+    resolution.trendResolution
+      .comparableTrendEvidence,
+    true
+  );
+
+  assert.ok(
+    resolution.missingRequirements.includes(
+      "governed-environmental-direction-evidence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution conservatively leaves direction unresolved"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput({
+      firstScore:
+        35,
+
+      secondScore:
+        57,
+
+      firstConfidenceScore:
+        51,
+
+      secondConfidenceScore:
+        74,
+
+      firstConfidenceLevel:
+        "Low",
+
+      secondConfidenceLevel:
+        "Moderate"
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesStrengthening,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesTrendResolution,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution does not promote increasing score or confidence to strengthening"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput({
+      firstScore:
+        57,
+
+      secondScore:
+        35,
+
+      firstConfidenceScore:
+        74,
+
+      secondConfidenceScore:
+        51,
+
+      firstConfidenceLevel:
+        "Moderate",
+
+      secondConfidenceLevel:
+        "Low"
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesWeakening,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesTrendResolution,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution does not promote decreasing score or confidence to weakening"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput({
+      firstScore:
+        42,
+
+      secondScore:
+        42,
+
+      firstConfidenceScore:
+        65,
+
+      secondConfidenceScore:
+        65,
+
+      firstConfidenceLevel:
+        "Moderate",
+
+      secondConfidenceLevel:
+        "Moderate"
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesStability,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesTrendResolution,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution does not promote unchanged score or confidence to stability"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput();
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence
+    });
+
+  assert.equal(
+    resolution.species,
+    trendEvidence.species
+  );
+
+  assert.equal(
+    resolution.candidateId,
+    trendEvidence.candidateId
+  );
+
+  assert.deepEqual(
+    resolution.trendResolution
+      .comparableSurface,
+    {
+      pathway:
+        "structure-associated",
+
+      primarySignalType:
+        "surface-water-transition"
+    }
+  );
+
+  assert.equal(
+    resolution.upstreamContracts
+      .trendEvidence,
+    "pelora-governed-opportunity-trend-evidence-v1"
+  );
+
+  assert.deepEqual(
+    resolution.evidenceBasis,
+    [
+      "governed-opportunity-trend-evidence"
+    ]
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution preserves governed identity, evidence surface, and provenance"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput({
+      firstScore:
+        40,
+
+      secondScore:
+        50
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence
+    });
+
+  assert.equal(
+    resolution.contractVersion,
+    "pelora-governed-opportunity-trend-resolution-v1"
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      resolution
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      resolution.trendResolution
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      resolution.trendResolution
+        .comparableSurface
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      resolution.trendResolutionState
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      resolution.evidenceBasis
+    ),
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesStrengthening,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesWeakening,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesStability,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesFreshness,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesLifecycleState,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesFeatureMovement,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesCaptainOpportunity,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesRank,
+    false
+  );
+
+  assert.ok(
+    resolution.limitations.includes(
+      "Opportunity score change does not independently establish environmental strengthening or weakening."
+    )
+  );
+
+  assert.ok(
+    resolution.limitations.includes(
+      "Trend Resolution does not establish an environmental-feature lifecycle state."
+    )
+  );
+
+  assert.ok(
+    resolution.limitations.includes(
+      "Trend Resolution does not establish physical-feature identity or movement."
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution preserves immutability and fail-closed authority boundaries"
   );
 }
 

@@ -50281,6 +50281,295 @@ export function buildGovernedOpportunityTrendEvidenceV1({
 }
 
 
+/**
+ * Governed Opportunity Trend Resolution v1
+ *
+ * Responsibility:
+ * Resolve.
+ *
+ * Purpose:
+ * Determine whether already-comparable governed Opportunity Trend Evidence
+ * contains sufficient authoritative environmental-direction evidence to
+ * resolve an opportunity trend.
+ *
+ * Comparable opportunity score and confidence history are context only.
+ * They do not independently establish strengthening, weakening, stability,
+ * lifecycle state, physical-feature identity or movement, freshness,
+ * fish presence, catch probability, ranking authority, or captain guidance.
+ *
+ * v1 intentionally fails closed because authoritative environmental-direction
+ * evidence is not yet connected to the governed opportunity trend chain.
+ */
+export function buildGovernedOpportunityTrendResolutionV1({
+  trendEvidence = null
+} = {}) {
+  const expectedTrendEvidenceContract =
+    "pelora-governed-opportunity-trend-evidence-v1";
+
+  const trendEvidenceContractAvailable =
+    trendEvidence?.contractVersion ===
+      expectedTrendEvidenceContract;
+
+  const trendEvidenceAvailable =
+    trendEvidenceContractAvailable &&
+    trendEvidence?.available === true &&
+    typeof trendEvidence?.species === "string" &&
+    trendEvidence.species.trim().length > 0 &&
+    typeof trendEvidence?.candidateId === "string" &&
+    trendEvidence.candidateId.trim().length > 0 &&
+    trendEvidence?.trendEvidence &&
+    typeof trendEvidence.trendEvidence === "object" &&
+    trendEvidence?.trendEvidenceState &&
+    typeof trendEvidence.trendEvidenceState === "object";
+
+  const comparableTrendEvidence =
+    trendEvidenceAvailable &&
+    trendEvidence.trendEvidence.supported === true &&
+    trendEvidence.trendEvidence.classification ===
+      "trend-evidence-comparable" &&
+    trendEvidence.trendEvidenceState
+      .establishesComparableTrendEvidence === true;
+
+  const primarySignalType =
+    comparableTrendEvidence &&
+    typeof trendEvidence
+      ?.trendEvidence
+      ?.comparableSurface
+      ?.primarySignalType === "string" &&
+    trendEvidence
+      .trendEvidence
+      .comparableSurface
+      .primarySignalType
+      .trim()
+      .length > 0
+      ? trendEvidence
+          .trendEvidence
+          .comparableSurface
+          .primarySignalType
+          .trim()
+      : null;
+
+  const pathway =
+    comparableTrendEvidence &&
+    typeof trendEvidence
+      ?.trendEvidence
+      ?.comparableSurface
+      ?.pathway === "string" &&
+    trendEvidence
+      .trendEvidence
+      .comparableSurface
+      .pathway
+      .trim()
+      .length > 0
+      ? trendEvidence
+          .trendEvidence
+          .comparableSurface
+          .pathway
+          .trim()
+      : null;
+
+  const assessmentAvailable =
+    comparableTrendEvidence &&
+    primarySignalType !== null &&
+    pathway !== null;
+
+  /*
+   * v1 does not yet consume an authoritative governed
+   * environmental-direction contract. Therefore a valid
+   * assessment intentionally resolves to "direction unresolved".
+   */
+  const authoritativeDirectionEvidenceAvailable =
+    false;
+
+  const trendResolved =
+    assessmentAvailable &&
+    authoritativeDirectionEvidenceAvailable;
+
+  const classification =
+    !assessmentAvailable
+      ? "unavailable"
+      : trendResolved
+        ? "trend-resolved"
+        : "trend-direction-unresolved";
+
+  const direction =
+    trendResolved
+      ? null
+      : null;
+
+  const reason =
+    !assessmentAvailable
+      ? "comparable-governed-opportunity-trend-evidence-required"
+      : !authoritativeDirectionEvidenceAvailable
+        ? "governed-environmental-direction-evidence-not-connected"
+        : "governed-opportunity-trend-resolved";
+
+  const missingRequirements = [];
+
+  if (!trendEvidenceContractAvailable) {
+    missingRequirements.push(
+      "governed-opportunity-trend-evidence-contract"
+    );
+  }
+
+  if (
+    trendEvidenceContractAvailable &&
+    !trendEvidenceAvailable
+  ) {
+    missingRequirements.push(
+      "available-governed-opportunity-trend-evidence"
+    );
+  }
+
+  if (
+    trendEvidenceAvailable &&
+    !comparableTrendEvidence
+  ) {
+    missingRequirements.push(
+      "comparable-governed-opportunity-trend-evidence"
+    );
+  }
+
+  if (
+    comparableTrendEvidence &&
+    (
+      primarySignalType === null ||
+      pathway === null
+    )
+  ) {
+    missingRequirements.push(
+      "complete-governed-opportunity-trend-surface"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    !authoritativeDirectionEvidenceAvailable
+  ) {
+    missingRequirements.push(
+      "governed-environmental-direction-evidence"
+    );
+  }
+
+  const limitations = [
+    "Trend Resolution requires already-comparable governed Opportunity Trend Evidence.",
+    "Opportunity score change does not independently establish environmental strengthening or weakening.",
+    "Opportunity confidence change does not independently establish environmental strengthening or weakening.",
+    "Unchanged opportunity score or confidence does not independently establish environmental stability.",
+    "Trend Resolution v1 does not yet consume authoritative governed environmental-direction evidence.",
+    "Trend Resolution does not establish an environmental-feature lifecycle state.",
+    "Trend Resolution does not establish physical-feature identity or movement.",
+    "Trend Resolution does not determine evidence freshness.",
+    "Trend Resolution does not establish fish presence or catch probability.",
+    "Trend Resolution does not create ranking eligibility, rank, score, or confidence.",
+    "Trend Resolution does not provide captain guidance."
+  ];
+
+  return deepFreezeSnapshotValue({
+    available:
+      assessmentAvailable,
+
+    evidenceType:
+      "governed-opportunity-trend-resolution",
+
+    responsibility:
+      "Resolve",
+
+    species:
+      trendEvidenceAvailable
+        ? trendEvidence.species
+        : null,
+
+    candidateId:
+      trendEvidenceAvailable
+        ? trendEvidence.candidateId
+        : null,
+
+    trendResolution: {
+      supported:
+        trendResolved,
+
+      classification,
+
+      direction,
+
+      reason,
+
+      comparableTrendEvidence:
+        comparableTrendEvidence,
+
+      comparableSurface: {
+        pathway:
+          assessmentAvailable
+            ? pathway
+            : null,
+
+        primarySignalType:
+          assessmentAvailable
+            ? primarySignalType
+            : null
+      }
+    },
+
+    trendResolutionState: {
+      establishesTrendResolution:
+        trendResolved,
+
+      establishesStrengthening:
+        false,
+
+      establishesWeakening:
+        false,
+
+      establishesStability:
+        false,
+
+      establishesFreshness:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    evidenceBasis: [
+      "governed-opportunity-trend-evidence"
+    ],
+
+    upstreamContracts: {
+      trendEvidence:
+        trendEvidence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements:
+      [...new Set(
+        missingRequirements
+      )],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-opportunity-trend-resolution-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {
