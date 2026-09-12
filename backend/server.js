@@ -47105,6 +47105,258 @@ export function resolveUnifiedOpportunityRankingInputV1({
 }
 
 
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Observation v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve one governed candidate/species evaluation at one
+ * authoritative evaluation time, whether or not the candidate
+ * becomes eligible for ranking or a captain-facing opportunity.
+ *
+ * This contract does not:
+ *
+ * - create or recalculate opportunity evidence
+ * - alter species interpretation
+ * - alter Minimum Opportunity Evidence Gate results
+ * - create ranking eligibility
+ * - assign rank
+ * - establish temporal persistence
+ * - establish lifecycle state
+ * - reconcile observations across time
+ * - promote a captain-facing opportunity
+ */
+export function buildGovernedOpportunityObservationV1({
+  speciesInterpretation = null,
+  rankingResolution = null,
+  evaluatedAt = null,
+  captainContext = null
+} = {}) {
+  const candidate =
+    speciesInterpretation
+      ?.candidate ??
+    rankingResolution
+      ?.candidate ??
+    null;
+
+  const species =
+    typeof speciesInterpretation
+      ?.species === "string"
+      ? speciesInterpretation
+          .species
+          .trim()
+          .toLowerCase()
+      : typeof rankingResolution
+          ?.species === "string"
+        ? rankingResolution
+            .species
+            .trim()
+            .toLowerCase()
+        : null;
+
+  const validEvaluatedAt =
+    typeof evaluatedAt === "string" &&
+    Number.isFinite(
+      Date.parse(evaluatedAt)
+    );
+
+  const candidateId =
+    typeof candidate?.id === "string"
+      ? candidate.id.trim()
+      : null;
+
+  const rankingCandidateId =
+    typeof rankingResolution
+      ?.candidate
+      ?.id === "string"
+      ? rankingResolution
+          .candidate
+          .id
+          .trim()
+      : null;
+
+  const rankingSpecies =
+    typeof rankingResolution
+      ?.species === "string"
+      ? rankingResolution
+          .species
+          .trim()
+          .toLowerCase()
+      : null;
+
+  const candidateIdentityConsistent =
+    candidateId !== null &&
+    rankingCandidateId !== null &&
+    candidateId ===
+      rankingCandidateId;
+
+  const speciesIdentityConsistent =
+    species !== null &&
+    rankingSpecies !== null &&
+    species ===
+      rankingSpecies;
+
+  const interpretationAvailable =
+    speciesInterpretation
+      ?.contractVersion ===
+      "pelora-unified-species-opportunity-interpretation-v1";
+
+  const rankingResolutionAvailable =
+    rankingResolution
+      ?.contractVersion ===
+      "pelora-unified-opportunity-ranking-input-v1";
+
+  const available =
+    interpretationAvailable &&
+    rankingResolutionAvailable &&
+    candidateId !== null &&
+    candidateId.length > 0 &&
+    species !== null &&
+    species.length > 0 &&
+    validEvaluatedAt &&
+    candidateIdentityConsistent &&
+    speciesIdentityConsistent;
+
+  const gateEligibility =
+    speciesInterpretation
+      ?.speciesOpportunity
+      ?.eligibility ??
+    null;
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    candidate:
+      candidate != null
+        ? cloneSnapshotValue(
+            candidate
+          )
+        : null,
+
+    species,
+
+    evaluatedAt:
+      validEvaluatedAt
+        ? evaluatedAt
+        : null,
+
+    captainContext:
+      captainContext != null
+        ? cloneSnapshotValue(
+            captainContext
+          )
+        : null,
+
+    speciesInterpretation:
+      interpretationAvailable
+        ? cloneSnapshotValue(
+            speciesInterpretation
+          )
+        : null,
+
+    minimumEvidenceGate:
+      gateEligibility != null
+        ? cloneSnapshotValue(
+            gateEligibility
+          )
+        : null,
+
+    rankingResolution:
+      rankingResolutionAvailable
+        ? cloneSnapshotValue(
+            rankingResolution
+          )
+        : null,
+
+    decision: {
+      eligibleForRanking:
+        rankingResolution
+          ?.eligibleForRanking === true,
+
+      exclusionReasons:
+        Array.isArray(
+          rankingResolution
+            ?.reasons
+        )
+          ? [
+              ...rankingResolution
+                .reasons
+            ]
+          : []
+    },
+
+    observationState: {
+      historicalOnly:
+        false,
+
+      establishesPersistence:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    reason:
+      available
+        ? null
+        : "governed-opportunity-observation-unavailable",
+
+    missingRequirements: [
+      !interpretationAvailable
+        ? "governed-species-interpretation"
+        : null,
+
+      !rankingResolutionAvailable
+        ? "governed-ranking-resolution"
+        : null,
+
+      candidateId === null ||
+      candidateId.length === 0
+        ? "candidate-identity"
+        : null,
+
+      species === null ||
+      species.length === 0
+        ? "species-identity"
+        : null,
+
+      !validEvaluatedAt
+        ? "authoritative-evaluation-time"
+        : null,
+
+      !candidateIdentityConsistent
+        ? "candidate-identity-consistency"
+        : null,
+
+      !speciesIdentityConsistent
+        ? "species-identity-consistency"
+        : null
+    ].filter(Boolean),
+
+    limitations: [
+      "observation-preserves-existing-governed-evaluation-only",
+      "observation-does-not-create-or-recalculate-opportunity-evidence",
+      "observation-does-not-alter-minimum-opportunity-evidence-gate",
+      "observation-does-not-create-ranking-eligibility",
+      "observation-does-not-assign-rank",
+      "observation-does-not-establish-temporal-persistence",
+      "observation-does-not-establish-opportunity-lifecycle-state",
+      "observation-does-not-promote-a-captain-facing-opportunity"
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-observation-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {
