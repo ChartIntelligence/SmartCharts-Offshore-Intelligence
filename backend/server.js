@@ -48939,6 +48939,418 @@ export function buildGovernedOpportunityEvidenceCoherenceV1({
   });
 }
 
+
+/**
+ * Governed Opportunity Persistence v1
+ *
+ * Responsibility: Compare
+ *
+ * Persistence determines whether the same governed opportunity
+ * remained supported through repeated governed evaluations.
+ *
+ * Persistence requires:
+ * - supported governed evaluation continuity
+ * - coherent governed opportunity evidence
+ * - consistent species/candidate identity
+ * - consistent governed eligibility history
+ * - continuous ranking eligibility through the observed window
+ *
+ * Persistence does not establish lifecycle state, physical-feature
+ * identity or movement, fish presence, catch probability, ranking
+ * permission, rank, score/confidence changes, or captain guidance.
+ */
+export function buildGovernedOpportunityPersistenceV1({
+  opportunityContinuity = null,
+  evidenceCoherence = null
+} = {}) {
+  const continuityAvailable =
+    opportunityContinuity?.available === true &&
+    opportunityContinuity?.contractVersion ===
+      "pelora-governed-opportunity-continuity-v1" &&
+    typeof opportunityContinuity?.species === "string" &&
+    opportunityContinuity.species.trim().length > 0 &&
+    typeof opportunityContinuity?.candidateId === "string" &&
+    opportunityContinuity.candidateId.trim().length > 0 &&
+    opportunityContinuity?.continuity &&
+    typeof opportunityContinuity.continuity === "object" &&
+    opportunityContinuity?.eligibilityHistory &&
+    typeof opportunityContinuity.eligibilityHistory === "object";
+
+  const coherenceAvailable =
+    evidenceCoherence?.available === true &&
+    evidenceCoherence?.contractVersion ===
+      "pelora-governed-opportunity-evidence-coherence-v1" &&
+    typeof evidenceCoherence?.species === "string" &&
+    evidenceCoherence.species.trim().length > 0 &&
+    typeof evidenceCoherence?.candidateId === "string" &&
+    evidenceCoherence.candidateId.trim().length > 0 &&
+    evidenceCoherence?.coherence &&
+    typeof evidenceCoherence.coherence === "object" &&
+    evidenceCoherence?.eligibilityHistory &&
+    typeof evidenceCoherence.eligibilityHistory === "object";
+
+  const identityConsistent =
+    continuityAvailable &&
+    coherenceAvailable &&
+    opportunityContinuity.species ===
+      evidenceCoherence.species &&
+    opportunityContinuity.candidateId ===
+      evidenceCoherence.candidateId;
+
+  const continuityEligibility =
+    continuityAvailable
+      ? opportunityContinuity.eligibilityHistory
+      : null;
+
+  const coherenceEligibility =
+    coherenceAvailable
+      ? evidenceCoherence.eligibilityHistory
+      : null;
+
+  const validEligibilityPatterns =
+    new Set([
+      "continuously-eligible",
+      "intermittently-eligible",
+      "continuously-excluded"
+    ]);
+
+  const continuityEligibilityValid =
+    continuityEligibility !== null &&
+    validEligibilityPatterns.has(
+      continuityEligibility.pattern
+    ) &&
+    Number.isInteger(
+      continuityEligibility.eligibleObservationCount
+    ) &&
+    continuityEligibility.eligibleObservationCount >= 0 &&
+    Number.isInteger(
+      continuityEligibility.excludedObservationCount
+    ) &&
+    continuityEligibility.excludedObservationCount >= 0;
+
+  const coherenceEligibilityValid =
+    coherenceEligibility !== null &&
+    validEligibilityPatterns.has(
+      coherenceEligibility.pattern
+    ) &&
+    Number.isInteger(
+      coherenceEligibility.eligibleObservationCount
+    ) &&
+    coherenceEligibility.eligibleObservationCount >= 0 &&
+    Number.isInteger(
+      coherenceEligibility.excludedObservationCount
+    ) &&
+    coherenceEligibility.excludedObservationCount >= 0;
+
+  const eligibilityHistoryConsistent =
+    continuityEligibilityValid &&
+    coherenceEligibilityValid &&
+    continuityEligibility.pattern ===
+      coherenceEligibility.pattern &&
+    continuityEligibility.eligibleObservationCount ===
+      coherenceEligibility.eligibleObservationCount &&
+    continuityEligibility.excludedObservationCount ===
+      coherenceEligibility.excludedObservationCount;
+
+  const continuitySupported =
+    continuityAvailable &&
+    opportunityContinuity.continuity.supported === true &&
+    opportunityContinuity.continuity.classification ===
+      "continuity-supported";
+
+  const assessmentAvailable =
+    continuityAvailable &&
+    coherenceAvailable &&
+    identityConsistent &&
+    eligibilityHistoryConsistent &&
+    continuitySupported;
+
+  const coherenceSupported =
+    assessmentAvailable &&
+    evidenceCoherence.coherence.supported === true &&
+    evidenceCoherence.coherence.classification ===
+      "coherence-supported";
+
+  const continuouslyEligible =
+    assessmentAvailable &&
+    continuityEligibility.pattern ===
+      "continuously-eligible" &&
+    continuityEligibility.excludedObservationCount === 0 &&
+    continuityEligibility.eligibleObservationCount >= 2;
+
+  const persistenceSupported =
+    assessmentAvailable &&
+    coherenceSupported &&
+    continuouslyEligible;
+
+  const classification =
+    !assessmentAvailable
+      ? "unavailable"
+      : persistenceSupported
+        ? "persistence-supported"
+        : "persistence-not-established";
+
+  const missingRequirements = [];
+
+  if (!continuityAvailable) {
+    missingRequirements.push(
+      "governed-opportunity-continuity"
+    );
+  }
+
+  if (
+    continuityAvailable &&
+    !continuitySupported
+  ) {
+    missingRequirements.push(
+      "supported-governed-opportunity-continuity"
+    );
+  }
+
+  if (!coherenceAvailable) {
+    missingRequirements.push(
+      "governed-opportunity-evidence-coherence"
+    );
+  }
+
+  if (
+    continuityAvailable &&
+    coherenceAvailable &&
+    !identityConsistent
+  ) {
+    missingRequirements.push(
+      "consistent-opportunity-persistence-identity"
+    );
+  }
+
+  if (
+    continuityAvailable &&
+    coherenceAvailable &&
+    identityConsistent &&
+    !eligibilityHistoryConsistent
+  ) {
+    missingRequirements.push(
+      "consistent-governed-eligibility-history"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    !coherenceSupported
+  ) {
+    missingRequirements.push(
+      "coherent-governed-opportunity-evidence"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    !continuouslyEligible
+  ) {
+    missingRequirements.push(
+      "continuous-governed-opportunity-eligibility"
+    );
+  }
+
+  const species =
+    identityConsistent
+      ? opportunityContinuity.species
+      : null;
+
+  const candidateId =
+    identityConsistent
+      ? opportunityContinuity.candidateId
+      : null;
+
+  const limitations = [
+    "Opportunity persistence requires supported governed evaluation continuity.",
+    "Opportunity persistence requires coherent governed opportunity evidence.",
+    "Opportunity persistence requires continuous governed opportunity eligibility through the observed window.",
+    "Intermittent eligibility does not establish opportunity persistence.",
+    "Continuously excluded evaluation history does not establish opportunity persistence.",
+    "Score or confidence similarity does not independently establish opportunity persistence.",
+    "Opportunity persistence does not establish a lifecycle state.",
+    "Opportunity persistence does not establish physical-feature identity or movement.",
+    "Opportunity persistence does not establish fish presence or catch probability.",
+    "Opportunity persistence does not create ranking eligibility, rank, score, or confidence.",
+    "Opportunity persistence does not provide captain guidance."
+  ];
+
+  return deepFreezeSnapshotValue({
+    available:
+      assessmentAvailable,
+
+    persistenceType:
+      "governed-opportunity-persistence",
+
+    responsibility:
+      "Compare",
+
+    species,
+
+    candidateId,
+
+    persistence: {
+      supported:
+        persistenceSupported,
+
+      classification,
+
+      observationCount:
+        assessmentAvailable
+          ? (
+              opportunityContinuity
+                .continuity
+                .observationCount ??
+              null
+            )
+          : null,
+
+      firstEvaluatedAt:
+        assessmentAvailable
+          ? (
+              opportunityContinuity
+                .continuity
+                .firstEvaluatedAt ??
+              null
+            )
+          : null,
+
+      lastEvaluatedAt:
+        assessmentAvailable
+          ? (
+              opportunityContinuity
+                .continuity
+                .lastEvaluatedAt ??
+              null
+            )
+          : null,
+
+      durationHours:
+        assessmentAvailable
+          ? (
+              opportunityContinuity
+                .continuity
+                .durationHours ??
+              null
+            )
+          : null
+    },
+
+    evidenceCoherence: {
+      supported:
+        assessmentAvailable
+          ? evidenceCoherence
+              .coherence
+              .supported === true
+          : false,
+
+      classification:
+        assessmentAvailable
+          ? (
+              evidenceCoherence
+                .coherence
+                .classification ??
+              null
+            )
+          : null
+    },
+
+    eligibilityHistory:
+      assessmentAvailable
+        ? {
+            pattern:
+              continuityEligibility.pattern,
+
+            eligibleObservationCount:
+              continuityEligibility
+                .eligibleObservationCount,
+
+            excludedObservationCount:
+              continuityEligibility
+                .excludedObservationCount,
+
+            exclusionReasons:
+              Array.isArray(
+                continuityEligibility
+                  .exclusionReasons
+              )
+                ? [
+                    ...continuityEligibility
+                      .exclusionReasons
+                  ]
+                : []
+          }
+        : {
+            pattern: null,
+            eligibleObservationCount: 0,
+            excludedObservationCount: 0,
+            exclusionReasons: []
+          },
+
+    persistenceState: {
+      establishesOpportunityPersistence:
+        persistenceSupported,
+
+      establishesEvaluationContinuity:
+        false,
+
+      establishesEvidenceCoherence:
+        false,
+
+      establishesSourceAgreement:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    evidenceBasis: [
+      "governed-opportunity-continuity",
+      "governed-opportunity-evidence-coherence",
+      "governed-opportunity-eligibility-history"
+    ],
+
+    upstreamContracts: {
+      opportunityContinuity:
+        opportunityContinuity
+          ?.contractVersion ??
+        null,
+
+      evidenceCoherence:
+        evidenceCoherence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements:
+      [...new Set(
+        missingRequirements
+      )],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-opportunity-persistence-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {

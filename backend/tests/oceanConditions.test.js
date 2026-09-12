@@ -38,6 +38,7 @@ import {
   buildGovernedOpportunityEvidenceAccumulationV1,
   buildGovernedOpportunityContinuityV1,
   buildGovernedOpportunityEvidenceCoherenceV1,
+  buildGovernedOpportunityPersistenceV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -58891,6 +58892,567 @@ const buildEvidenceCoherenceTestContinuity = ({
     "PASS governed opportunity evidence coherence preserves provenance, immutability, and coherence-not-persistence boundaries"
   );
 }
+
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Persistence v1
+ * ------------------------------------------------------------
+ *
+ * Opportunity Persistence consumes governed evaluation continuity,
+ * evidence coherence, and eligibility history.
+ *
+ * It may establish persistence only when the same governed
+ * opportunity remains continuously eligible and its governed
+ * supporting relationship remains coherent.
+ */
+
+
+const buildOpportunityPersistenceTestScenario = ({
+  firstEligible = true,
+  secondEligible = true,
+  eligibilityPattern = "continuously-eligible",
+  eligibleObservationCount = 2,
+  excludedObservationCount = 0,
+  firstPathway = "structure-associated",
+  secondPathway = "structure-associated",
+  firstPrimarySignalType = "surface-water-transition",
+  secondPrimarySignalType = "surface-water-transition"
+} = {}) => {
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      eligibleForRanking:
+        firstEligible,
+
+      pathway:
+        firstPathway,
+
+      primarySignalType:
+        firstPrimarySignalType
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z",
+
+      eligibleForRanking:
+        secondEligible,
+
+      pathway:
+        secondPathway,
+
+      primarySignalType:
+        secondPrimarySignalType
+    })
+  ];
+
+  const accumulation =
+    buildEvidenceCoherenceTestAccumulation({
+      observations
+    });
+
+  const continuity =
+    buildEvidenceCoherenceTestContinuity({
+      eligibilityPattern,
+      eligibleObservationCount,
+      excludedObservationCount
+    });
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityContinuity:
+        continuity
+    });
+
+  return {
+    observations,
+    accumulation,
+    continuity,
+    coherence
+  };
+};
+
+
+{
+  const persistence =
+    buildGovernedOpportunityPersistenceV1();
+
+  assert.equal(
+    persistence.available,
+    false
+  );
+
+  assert.equal(
+    persistence.persistence.supported,
+    false
+  );
+
+  assert.equal(
+    persistence.persistence.classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    persistence.missingRequirements.includes(
+      "governed-opportunity-continuity"
+    )
+  );
+
+  assert.ok(
+    persistence.missingRequirements.includes(
+      "governed-opportunity-evidence-coherence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity persistence remains unavailable without governed upstream contracts"
+  );
+}
+
+
+{
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario();
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        coherence
+    });
+
+  assert.equal(
+    persistence.available,
+    true
+  );
+
+  assert.equal(
+    persistence.persistence.supported,
+    true
+  );
+
+  assert.equal(
+    persistence.persistence.classification,
+    "persistence-supported"
+  );
+
+  assert.equal(
+    persistence.persistence.durationHours,
+    6
+  );
+
+  assert.equal(
+    persistence.eligibilityHistory.pattern,
+    "continuously-eligible"
+  );
+
+  assert.equal(
+    persistence.evidenceCoherence.supported,
+    true
+  );
+
+  console.log(
+    "PASS governed opportunity persistence requires continuity, coherence, and continuous eligibility"
+  );
+}
+
+
+{
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario({
+      secondPrimarySignalType:
+        "current-convergence"
+    });
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        coherence
+    });
+
+  assert.equal(
+    persistence.available,
+    true
+  );
+
+  assert.equal(
+    persistence.persistence.supported,
+    false
+  );
+
+  assert.equal(
+    persistence.persistence.classification,
+    "persistence-not-established"
+  );
+
+  assert.ok(
+    persistence.missingRequirements.includes(
+      "coherent-governed-opportunity-evidence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity persistence is not established when governed evidence coherence breaks"
+  );
+}
+
+
+{
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario({
+      secondEligible:
+        false,
+
+      eligibilityPattern:
+        "intermittently-eligible",
+
+      eligibleObservationCount:
+        1,
+
+      excludedObservationCount:
+        1
+    });
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        coherence
+    });
+
+  assert.equal(
+    persistence.available,
+    true
+  );
+
+  assert.equal(
+    persistence.persistence.supported,
+    false
+  );
+
+  assert.equal(
+    persistence.eligibilityHistory.pattern,
+    "intermittently-eligible"
+  );
+
+  assert.ok(
+    persistence.missingRequirements.includes(
+      "continuous-governed-opportunity-eligibility"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity persistence is not established through intermittent eligibility"
+  );
+}
+
+
+{
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario({
+      firstEligible:
+        false,
+
+      secondEligible:
+        false,
+
+      eligibilityPattern:
+        "continuously-excluded",
+
+      eligibleObservationCount:
+        0,
+
+      excludedObservationCount:
+        2
+    });
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        coherence
+    });
+
+  assert.equal(
+    persistence.available,
+    true
+  );
+
+  assert.equal(
+    persistence.persistence.supported,
+    false
+  );
+
+  assert.equal(
+    persistence.eligibilityHistory.pattern,
+    "continuously-excluded"
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity persistence does not promote continuously excluded evaluation history"
+  );
+}
+
+
+{
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario();
+
+  const mismatchedCoherence = {
+    ...coherence,
+
+    candidateId:
+      "green-canyon"
+  };
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        mismatchedCoherence
+    });
+
+  assert.equal(
+    persistence.available,
+    false
+  );
+
+  assert.equal(
+    persistence.species,
+    null
+  );
+
+  assert.equal(
+    persistence.candidateId,
+    null
+  );
+
+  assert.ok(
+    persistence.missingRequirements.includes(
+      "consistent-opportunity-persistence-identity"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity persistence fails closed on upstream identity disagreement"
+  );
+}
+
+
+{
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario();
+
+  const inconsistentCoherence = {
+    ...coherence,
+
+    eligibilityHistory: {
+      pattern:
+        "intermittently-eligible",
+
+      eligibleObservationCount:
+        1,
+
+      excludedObservationCount:
+        1
+    }
+  };
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        inconsistentCoherence
+    });
+
+  assert.equal(
+    persistence.available,
+    false
+  );
+
+  assert.equal(
+    persistence.persistence.supported,
+    false
+  );
+
+  assert.ok(
+    persistence.missingRequirements.includes(
+      "consistent-governed-eligibility-history"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity persistence fails closed on eligibility-history disagreement"
+  );
+}
+
+
+{
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario();
+
+  const persistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        coherence
+    });
+
+  assert.equal(
+    persistence.contractVersion,
+    "pelora-governed-opportunity-persistence-v1"
+  );
+
+  assert.equal(
+    persistence.responsibility,
+    "Compare"
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      persistence
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      persistence.persistence
+    ),
+    true
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesOpportunityPersistence,
+    true
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesEvaluationContinuity,
+    false
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesEvidenceCoherence,
+    false
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesLifecycleState,
+    false
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesFeatureMovement,
+    false
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesCaptainOpportunity,
+    false
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    persistence.persistenceState
+      .establishesRank,
+    false
+  );
+
+  assert.equal(
+    persistence.upstreamContracts
+      .opportunityContinuity,
+    "pelora-governed-opportunity-continuity-v1"
+  );
+
+  assert.equal(
+    persistence.upstreamContracts
+      .evidenceCoherence,
+    "pelora-governed-opportunity-evidence-coherence-v1"
+  );
+
+  assert.ok(
+    persistence.limitations.includes(
+      "Opportunity persistence does not establish a lifecycle state."
+    )
+  );
+
+  assert.ok(
+    persistence.limitations.includes(
+      "Opportunity persistence does not establish fish presence or catch probability."
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity persistence preserves provenance, immutability, and non-predictive authority boundaries"
+  );
+}
+
 
 /*
  * ------------------------------------------------------------
