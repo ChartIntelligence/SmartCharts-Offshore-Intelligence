@@ -48434,6 +48434,511 @@ export function buildGovernedOpportunityContinuityV1({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Governed Opportunity Evidence Coherence v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Compare the governed opportunity evidence surface preserved across
+ * chronological observations for one species/candidate identity.
+ *
+ * Evidence coherence means the governed opportunity pathway and
+ * primary Ocean Signal type remain consistent across the assessed
+ * observation window.
+ *
+ * Eligibility history, opportunity score, and opportunity confidence
+ * are preserved as context. They do not independently establish
+ * evidence coherence.
+ *
+ * This contract does not establish opportunity persistence, lifecycle
+ * state, feature identity or movement, fish presence, catch
+ * probability, ranking permission, rank, score/confidence changes,
+ * or captain guidance.
+ */
+export function buildGovernedOpportunityEvidenceCoherenceV1({
+  evidenceAccumulation = null,
+  opportunityContinuity = null
+} = {}) {
+  const accumulationAvailable =
+    evidenceAccumulation?.available === true &&
+    evidenceAccumulation?.contractVersion ===
+      "pelora-governed-opportunity-evidence-accumulation-v1" &&
+    typeof evidenceAccumulation?.species === "string" &&
+    evidenceAccumulation.species.trim().length > 0 &&
+    typeof evidenceAccumulation?.candidateId === "string" &&
+    evidenceAccumulation.candidateId.trim().length > 0 &&
+    Array.isArray(evidenceAccumulation?.observations);
+
+  const continuityAvailable =
+    opportunityContinuity?.available === true &&
+    opportunityContinuity?.contractVersion ===
+      "pelora-governed-opportunity-continuity-v1" &&
+    opportunityContinuity?.continuity?.supported === true &&
+    typeof opportunityContinuity?.species === "string" &&
+    opportunityContinuity.species.trim().length > 0 &&
+    typeof opportunityContinuity?.candidateId === "string" &&
+    opportunityContinuity.candidateId.trim().length > 0;
+
+  const identityConsistent =
+    accumulationAvailable &&
+    continuityAvailable &&
+    evidenceAccumulation.species ===
+      opportunityContinuity.species &&
+    evidenceAccumulation.candidateId ===
+      opportunityContinuity.candidateId;
+
+  const observations =
+    accumulationAvailable
+      ? evidenceAccumulation.observations
+      : [];
+
+  const observationCount =
+    observations.length;
+
+  const normalizedObservations =
+    observations.map(observation => {
+      const speciesOpportunity =
+        observation
+          ?.speciesInterpretation
+          ?.speciesOpportunity ??
+        null;
+
+      const observationSpecies =
+        typeof observation?.species === "string"
+          ? observation.species.trim().toLowerCase()
+          : null;
+
+      const observationCandidateId =
+        typeof observation
+          ?.candidate
+          ?.id === "string"
+          ? observation.candidate.id.trim()
+          : null;
+
+      const pathway =
+        typeof speciesOpportunity?.pathway === "string" &&
+        speciesOpportunity.pathway.trim().length > 0
+          ? speciesOpportunity.pathway.trim()
+          : null;
+
+      const primarySignalType =
+        typeof speciesOpportunity
+          ?.primarySignal
+          ?.type === "string" &&
+        speciesOpportunity.primarySignal.type.trim().length > 0
+          ? speciesOpportunity.primarySignal.type.trim()
+          : null;
+
+      const primarySignalLabel =
+        typeof speciesOpportunity
+          ?.primarySignal
+          ?.label === "string" &&
+        speciesOpportunity.primarySignal.label.trim().length > 0
+          ? speciesOpportunity.primarySignal.label.trim()
+          : null;
+
+      const eligibleForRanking =
+        observation
+          ?.decision
+          ?.eligibleForRanking === true;
+
+      const validSpeciesInterpretation =
+        observation
+          ?.speciesInterpretation
+          ?.contractVersion ===
+        "pelora-unified-species-opportunity-interpretation-v1";
+
+      const validSpeciesOpportunity =
+        speciesOpportunity?.available === true &&
+        speciesOpportunity?.contractVersion ===
+          "pelora-dynamic-blue-marlin-opportunity-v1";
+
+      const identityMatches =
+        identityConsistent &&
+        observationSpecies ===
+          evidenceAccumulation.species &&
+        observationCandidateId ===
+          evidenceAccumulation.candidateId;
+
+      const comparable =
+        observation?.available === true &&
+        validSpeciesInterpretation &&
+        validSpeciesOpportunity &&
+        identityMatches &&
+        pathway !== null &&
+        primarySignalType !== null;
+
+      return {
+        evaluatedAt:
+          typeof observation?.evaluatedAt === "string"
+            ? observation.evaluatedAt
+            : null,
+
+        pathway,
+
+        primarySignal: {
+          type: primarySignalType,
+          label: primarySignalLabel
+        },
+
+        eligibility: {
+          eligibleForRanking
+        },
+
+        score:
+          Number.isFinite(
+            speciesOpportunity?.score
+          )
+            ? speciesOpportunity.score
+            : null,
+
+        confidence: {
+          score:
+            Number.isFinite(
+              speciesOpportunity
+                ?.confidence
+                ?.score
+            )
+              ? speciesOpportunity
+                  .confidence
+                  .score
+              : null,
+
+          level:
+            typeof speciesOpportunity
+              ?.confidence
+              ?.level === "string"
+              ? speciesOpportunity
+                  .confidence
+                  .level
+              : null
+        },
+
+        comparable
+      };
+    });
+
+  const comparableObservationCount =
+    normalizedObservations.filter(
+      observation =>
+        observation.comparable
+    ).length;
+
+  const allObservationsComparable =
+    observationCount >= 2 &&
+    comparableObservationCount ===
+      observationCount;
+
+  const pathwayValues =
+    [
+      ...new Set(
+        normalizedObservations
+          .map(
+            observation =>
+              observation.pathway
+          )
+          .filter(
+            value =>
+              value !== null
+          )
+      )
+    ];
+
+  const primarySignalTypes =
+    [
+      ...new Set(
+        normalizedObservations
+          .map(
+            observation =>
+              observation
+                .primarySignal
+                .type
+          )
+          .filter(
+            value =>
+              value !== null
+          )
+      )
+    ];
+
+  const pathwayCoherent =
+    allObservationsComparable &&
+    pathwayValues.length === 1;
+
+  const primarySignalCoherent =
+    allObservationsComparable &&
+    primarySignalTypes.length === 1;
+
+  const assessmentAvailable =
+    accumulationAvailable &&
+    continuityAvailable &&
+    identityConsistent &&
+    allObservationsComparable;
+
+  const coherenceSupported =
+    assessmentAvailable &&
+    pathwayCoherent &&
+    primarySignalCoherent;
+
+  const classification =
+    !assessmentAvailable
+      ? "unavailable"
+      : coherenceSupported
+        ? "coherence-supported"
+        : "coherence-not-established";
+
+  const eligibilityPattern =
+    continuityAvailable &&
+    typeof opportunityContinuity
+      ?.eligibilityHistory
+      ?.pattern === "string"
+      ? opportunityContinuity
+          .eligibilityHistory
+          .pattern
+      : "unresolved";
+
+  const missingRequirements = [
+    !accumulationAvailable
+      ? "governed-opportunity-evidence-accumulation"
+      : null,
+
+    !continuityAvailable
+      ? "governed-opportunity-continuity"
+      : null,
+
+    accumulationAvailable &&
+    continuityAvailable &&
+    !identityConsistent
+      ? "consistent-opportunity-continuity-identity"
+      : null,
+
+    identityConsistent &&
+    observationCount < 2
+      ? "two-or-more-governed-opportunity-observations"
+      : null,
+
+    identityConsistent &&
+    observationCount >= 2 &&
+    !allObservationsComparable
+      ? "comparable-governed-opportunity-evidence-surface"
+      : null
+  ].filter(Boolean);
+
+  const evidenceBasis = [
+    accumulationAvailable
+      ? "governed-opportunity-evidence-accumulation"
+      : null,
+
+    continuityAvailable
+      ? "governed-opportunity-continuity"
+      : null,
+
+    allObservationsComparable
+      ? "governed-opportunity-pathway-history"
+      : null,
+
+    allObservationsComparable
+      ? "governed-primary-ocean-signal-history"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(Array.isArray(
+        evidenceAccumulation?.limitations
+      )
+        ? evidenceAccumulation.limitations
+        : []),
+
+      ...(Array.isArray(
+        opportunityContinuity?.limitations
+      )
+        ? opportunityContinuity.limitations
+        : []),
+
+      ...missingRequirements,
+
+      "Evidence coherence compares only the governed opportunity evidence surface preserved by existing opportunity contracts.",
+      "Evidence coherence requires a consistent governed opportunity pathway and primary Ocean Signal type across the assessed observations.",
+      "Eligibility history is preserved as context and does not independently establish evidence coherence.",
+      "Opportunity score and confidence history are preserved as context and do not independently establish evidence coherence.",
+      "Matching scores or confidence values do not independently establish evidence coherence.",
+      "Evidence coherence does not establish opportunity persistence.",
+      "Evidence coherence does not assign an opportunity lifecycle state.",
+      "Evidence coherence does not establish feature identity or feature movement.",
+      "Evidence coherence does not establish fish presence, catch probability, ranking permission, rank, score/confidence changes, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available:
+      assessmentAvailable,
+
+    coherenceType:
+      "governed-opportunity-evidence-coherence",
+
+    responsibility:
+      "Compare",
+
+    species:
+      identityConsistent
+        ? evidenceAccumulation.species
+        : null,
+
+    candidateId:
+      identityConsistent
+        ? evidenceAccumulation.candidateId
+        : null,
+
+    coherence: {
+      supported:
+        coherenceSupported,
+
+      classification,
+
+      observationCount,
+
+      comparableObservationCount
+    },
+
+    relationships: {
+      pathway: {
+        coherent:
+          pathwayCoherent,
+
+        values:
+          [...pathwayValues]
+      },
+
+      primarySignal: {
+        coherent:
+          primarySignalCoherent,
+
+        types:
+          [...primarySignalTypes]
+      }
+    },
+
+    eligibilityHistory: {
+      pattern:
+        eligibilityPattern,
+
+      eligibleObservationCount:
+        Number.isFinite(
+          opportunityContinuity
+            ?.eligibilityHistory
+            ?.eligibleObservationCount
+        )
+          ? opportunityContinuity
+              .eligibilityHistory
+              .eligibleObservationCount
+          : null,
+
+      excludedObservationCount:
+        Number.isFinite(
+          opportunityContinuity
+            ?.eligibilityHistory
+            ?.excludedObservationCount
+        )
+          ? opportunityContinuity
+              .eligibilityHistory
+              .excludedObservationCount
+          : null
+    },
+
+    observationContext:
+      assessmentAvailable
+        ? normalizedObservations.map(
+            observation => ({
+              evaluatedAt:
+                observation.evaluatedAt,
+
+              pathway:
+                observation.pathway,
+
+              primarySignal:
+                cloneSnapshotValue(
+                  observation.primarySignal
+                ),
+
+              eligibility:
+                cloneSnapshotValue(
+                  observation.eligibility
+                ),
+
+              score:
+                observation.score,
+
+              confidence:
+                cloneSnapshotValue(
+                  observation.confidence
+                )
+            })
+          )
+        : [],
+
+    coherenceState: {
+      establishesEvidenceCoherence:
+        coherenceSupported,
+
+      establishesEvaluationContinuity:
+        false,
+
+      establishesSourceAgreement:
+        false,
+
+      establishesOpportunityPersistence:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    evidenceBasis,
+
+    upstreamContracts: {
+      evidenceAccumulation:
+        evidenceAccumulation
+          ?.contractVersion ??
+        null,
+
+      opportunityContinuity:
+        opportunityContinuity
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements:
+      [...new Set(
+        missingRequirements
+      )],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-coherence-v1"
+  });
+}
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {

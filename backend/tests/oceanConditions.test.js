@@ -37,6 +37,7 @@ import {
   retrieveGovernedOpportunityObservationRowsV1,
   buildGovernedOpportunityEvidenceAccumulationV1,
   buildGovernedOpportunityContinuityV1,
+  buildGovernedOpportunityEvidenceCoherenceV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -57959,6 +57960,937 @@ for (
   );
 }
 
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Evidence Coherence v1
+ * ------------------------------------------------------------
+ *
+ * Evidence Coherence compares the compact governed opportunity
+ * evidence surface across already accumulated, continuity-supported
+ * observations.
+ *
+ * It does not establish persistence, lifecycle state, feature
+ * movement, ranking permission, rank, or captain guidance.
+ */
+
+
+const buildEvidenceCoherenceTestObservation = ({
+  evaluatedAt,
+  candidateId = "madison-swanson",
+  species = "blue-marlin",
+  pathway = "structure-associated",
+  primarySignalType = "surface-water-transition",
+  primarySignalLabel = "Surface Water Transition",
+  eligibleForRanking = true,
+  score = 42,
+  confidenceScore = 65,
+  confidenceLevel = "Moderate"
+} = {}) => ({
+  available: true,
+
+  candidate: {
+    id: candidateId,
+    name: "Madison Swanson"
+  },
+
+  species,
+
+  evaluatedAt,
+
+  speciesInterpretation: {
+    available: true,
+
+    species,
+
+    speciesOpportunity: {
+      available: true,
+
+      species,
+
+      location: {
+        id: candidateId,
+        name: "Madison Swanson"
+      },
+
+      score,
+
+      confidence: {
+        score: confidenceScore,
+        level: confidenceLevel
+      },
+
+      eligibility: {
+        eligibleForRanking
+      },
+
+      pathway,
+
+      primarySignal: {
+        type: primarySignalType,
+        label: primarySignalLabel
+      },
+
+      observedAt:
+        evaluatedAt,
+
+      limitations: [],
+
+      interpretation:
+        "governed-blue-marlin-location-opportunity",
+
+      contractVersion:
+        "pelora-dynamic-blue-marlin-opportunity-v1"
+    },
+
+    interpretation:
+      "governed-unified-species-opportunity-interpretation",
+
+    limitations: [],
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  },
+
+  decision: {
+    eligibleForRanking,
+
+    exclusionReasons:
+      eligibleForRanking
+        ? []
+        : [
+            "minimum-opportunity-evidence-gate-not-satisfied"
+          ]
+  },
+
+  observationState: {
+    establishesPersistence: false,
+    establishesLifecycleState: false,
+    establishesCaptainOpportunity: false,
+    establishesRank: false
+  },
+
+  contractVersion:
+    "pelora-governed-opportunity-observation-v1"
+});
+
+
+const buildEvidenceCoherenceTestAccumulation = ({
+  observations = []
+} = {}) => ({
+  available: true,
+
+  species:
+    "blue-marlin",
+
+  candidateId:
+    "madison-swanson",
+
+  observations,
+
+  window: {
+    observationCount:
+      observations.length,
+
+    firstEvaluatedAt:
+      observations[0]
+        ?.evaluatedAt ??
+      null,
+
+    lastEvaluatedAt:
+      observations[
+        observations.length - 1
+      ]?.evaluatedAt ??
+      null,
+
+    durationHours:
+      observations.length >= 2
+        ? (
+            Date.parse(
+              observations[
+                observations.length - 1
+              ].evaluatedAt
+            ) -
+            Date.parse(
+              observations[0].evaluatedAt
+            )
+          ) /
+          (
+            1000 *
+            60 *
+            60
+          )
+        : 0
+  },
+
+  decisions: {
+    eligibleObservationCount:
+      observations.filter(
+        observation =>
+          observation
+            ?.decision
+            ?.eligibleForRanking ===
+          true
+      ).length,
+
+    excludedObservationCount:
+      observations.filter(
+        observation =>
+          observation
+            ?.decision
+            ?.eligibleForRanking !==
+          true
+      ).length,
+
+    exclusionReasons: []
+  },
+
+  limitations: [
+    "accumulation-does-not-establish-temporal-persistence"
+  ],
+
+  contractVersion:
+    "pelora-governed-opportunity-evidence-accumulation-v1"
+});
+
+
+const buildEvidenceCoherenceTestContinuity = ({
+  eligibilityPattern = "continuously-eligible",
+  eligibleObservationCount = 2,
+  excludedObservationCount = 0,
+  candidateId = "madison-swanson",
+  species = "blue-marlin"
+} = {}) => ({
+  available: true,
+
+  continuityType:
+    "governed-opportunity-continuity",
+
+  responsibility:
+    "Compare",
+
+  species,
+
+  candidateId,
+
+  continuity: {
+    supported: true,
+
+    classification:
+      "continuity-supported",
+
+    observationCount:
+      eligibleObservationCount +
+      excludedObservationCount,
+
+    firstEvaluatedAt:
+      "2026-09-10T12:00:00.000Z",
+
+    lastEvaluatedAt:
+      "2026-09-10T18:00:00.000Z",
+
+    durationHours: 6
+  },
+
+  eligibilityHistory: {
+    pattern:
+      eligibilityPattern,
+
+    eligibleObservationCount,
+
+    excludedObservationCount,
+
+    exclusionReasons:
+      excludedObservationCount > 0
+        ? [
+            "minimum-opportunity-evidence-gate-not-satisfied"
+          ]
+        : []
+  },
+
+  continuityState: {
+    establishesEvaluationContinuity: true,
+    establishesSourceAgreement: false,
+    establishesOpportunityPersistence: false,
+    establishesLifecycleState: false,
+    establishesFeatureMovement: false,
+    establishesCaptainOpportunity: false,
+    establishesRankingEligibility: false,
+    establishesRank: false
+  },
+
+  limitations: [
+    "Evaluation continuity does not independently establish that a fishing opportunity persisted through the observation window."
+  ],
+
+  contractVersion:
+    "pelora-governed-opportunity-continuity-v1"
+});
+
+
+{
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1();
+
+  assert.equal(
+    coherence.available,
+    false
+  );
+
+  assert.equal(
+    coherence.coherence.supported,
+    false
+  );
+
+  assert.equal(
+    coherence.coherence.classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    coherence.missingRequirements.includes(
+      "governed-opportunity-evidence-accumulation"
+    )
+  );
+
+  assert.ok(
+    coherence.missingRequirements.includes(
+      "governed-opportunity-continuity"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence remains unavailable without governed upstream contracts"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z"
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z"
+    })
+  ];
+
+  const accumulation =
+    buildEvidenceCoherenceTestAccumulation({
+      observations
+    });
+
+  const continuity =
+    buildEvidenceCoherenceTestContinuity();
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityContinuity:
+        continuity
+    });
+
+  assert.equal(
+    coherence.available,
+    true
+  );
+
+  assert.equal(
+    coherence.coherence.supported,
+    true
+  );
+
+  assert.equal(
+    coherence.coherence.classification,
+    "coherence-supported"
+  );
+
+  assert.equal(
+    coherence.relationships
+      .pathway
+      .coherent,
+    true
+  );
+
+  assert.deepEqual(
+    coherence.relationships
+      .pathway
+      .values,
+    [
+      "structure-associated"
+    ]
+  );
+
+  assert.equal(
+    coherence.relationships
+      .primarySignal
+      .coherent,
+    true
+  );
+
+  assert.deepEqual(
+    coherence.relationships
+      .primarySignal
+      .types,
+    [
+      "surface-water-transition"
+    ]
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence supports stable governed pathway and primary signal"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      pathway:
+        "structure-associated"
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z",
+
+      pathway:
+        "open-water-associated"
+    })
+  ];
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        buildEvidenceCoherenceTestAccumulation({
+          observations
+        }),
+
+      opportunityContinuity:
+        buildEvidenceCoherenceTestContinuity()
+    });
+
+  assert.equal(
+    coherence.available,
+    true
+  );
+
+  assert.equal(
+    coherence.coherence.supported,
+    false
+  );
+
+  assert.equal(
+    coherence.coherence.classification,
+    "coherence-not-established"
+  );
+
+  assert.equal(
+    coherence.relationships
+      .pathway
+      .coherent,
+    false
+  );
+
+  assert.equal(
+    coherence.relationships
+      .primarySignal
+      .coherent,
+    true
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence does not establish coherence when opportunity pathway changes"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      primarySignalType:
+        "surface-water-transition"
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z",
+
+      primarySignalType:
+        "current-convergence"
+    })
+  ];
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        buildEvidenceCoherenceTestAccumulation({
+          observations
+        }),
+
+      opportunityContinuity:
+        buildEvidenceCoherenceTestContinuity()
+    });
+
+  assert.equal(
+    coherence.available,
+    true
+  );
+
+  assert.equal(
+    coherence.coherence.supported,
+    false
+  );
+
+  assert.equal(
+    coherence.coherence.classification,
+    "coherence-not-established"
+  );
+
+  assert.equal(
+    coherence.relationships
+      .pathway
+      .coherent,
+    true
+  );
+
+  assert.equal(
+    coherence.relationships
+      .primarySignal
+      .coherent,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence does not establish coherence when primary Ocean Signal changes"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      eligibleForRanking:
+        true
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z",
+
+      eligibleForRanking:
+        false
+    })
+  ];
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        buildEvidenceCoherenceTestAccumulation({
+          observations
+        }),
+
+      opportunityContinuity:
+        buildEvidenceCoherenceTestContinuity({
+          eligibilityPattern:
+            "intermittently-eligible",
+
+          eligibleObservationCount:
+            1,
+
+          excludedObservationCount:
+            1
+        })
+    });
+
+  assert.equal(
+    coherence.available,
+    true
+  );
+
+  assert.equal(
+    coherence.coherence.supported,
+    true
+  );
+
+  assert.equal(
+    coherence.eligibilityHistory.pattern,
+    "intermittently-eligible"
+  );
+
+  assert.equal(
+    coherence.eligibilityHistory
+      .eligibleObservationCount,
+    1
+  );
+
+  assert.equal(
+    coherence.eligibilityHistory
+      .excludedObservationCount,
+    1
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence preserves intermittent eligibility without erasing evidence coherence"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      score: 32,
+
+      confidenceScore: 48,
+
+      confidenceLevel:
+        "Low"
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z",
+
+      score: 57,
+
+      confidenceScore: 79,
+
+      confidenceLevel:
+        "High"
+    })
+  ];
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        buildEvidenceCoherenceTestAccumulation({
+          observations
+        }),
+
+      opportunityContinuity:
+        buildEvidenceCoherenceTestContinuity()
+    });
+
+  assert.equal(
+    coherence.available,
+    true
+  );
+
+  assert.equal(
+    coherence.coherence.supported,
+    true
+  );
+
+  assert.deepEqual(
+    coherence.observationContext.map(
+      observation =>
+        observation.score
+    ),
+    [
+      32,
+      57
+    ]
+  );
+
+  assert.deepEqual(
+    coherence.observationContext.map(
+      observation =>
+        observation
+          .confidence
+          .score
+    ),
+    [
+      48,
+      79
+    ]
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence treats score and confidence change as context rather than coherence authority"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z"
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z",
+
+      primarySignalType:
+        null
+    })
+  ];
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        buildEvidenceCoherenceTestAccumulation({
+          observations
+        }),
+
+      opportunityContinuity:
+        buildEvidenceCoherenceTestContinuity()
+    });
+
+  assert.equal(
+    coherence.available,
+    false
+  );
+
+  assert.equal(
+    coherence.coherence.supported,
+    false
+  );
+
+  assert.equal(
+    coherence.coherence.classification,
+    "unavailable"
+  );
+
+  assert.equal(
+    coherence.coherence
+      .comparableObservationCount,
+    1
+  );
+
+  assert.ok(
+    coherence.missingRequirements.includes(
+      "comparable-governed-opportunity-evidence-surface"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence fails closed when any governed observation lacks a comparable evidence surface"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z"
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z"
+    })
+  ];
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        buildEvidenceCoherenceTestAccumulation({
+          observations
+        }),
+
+      opportunityContinuity:
+        buildEvidenceCoherenceTestContinuity({
+          candidateId:
+            "green-canyon"
+        })
+    });
+
+  assert.equal(
+    coherence.available,
+    false
+  );
+
+  assert.equal(
+    coherence.species,
+    null
+  );
+
+  assert.equal(
+    coherence.candidateId,
+    null
+  );
+
+  assert.ok(
+    coherence.missingRequirements.includes(
+      "consistent-opportunity-continuity-identity"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence fails closed when accumulation and continuity identity disagree"
+  );
+}
+
+
+{
+  const observations = [
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T12:00:00.000Z"
+    }),
+
+    buildEvidenceCoherenceTestObservation({
+      evaluatedAt:
+        "2026-09-10T18:00:00.000Z"
+    })
+  ];
+
+  const accumulation =
+    buildEvidenceCoherenceTestAccumulation({
+      observations
+    });
+
+  const continuity =
+    buildEvidenceCoherenceTestContinuity();
+
+  const coherence =
+    buildGovernedOpportunityEvidenceCoherenceV1({
+      evidenceAccumulation:
+        accumulation,
+
+      opportunityContinuity:
+        continuity
+    });
+
+  assert.equal(
+    coherence.contractVersion,
+    "pelora-governed-opportunity-evidence-coherence-v1"
+  );
+
+  assert.equal(
+    coherence.responsibility,
+    "Compare"
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      coherence
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      coherence.relationships
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      coherence.observationContext
+    ),
+    true
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesEvidenceCoherence,
+    true
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesEvaluationContinuity,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesSourceAgreement,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesLifecycleState,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesFeatureMovement,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesCaptainOpportunity,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    coherence.coherenceState
+      .establishesRank,
+    false
+  );
+
+  assert.equal(
+    coherence.upstreamContracts
+      .evidenceAccumulation,
+    "pelora-governed-opportunity-evidence-accumulation-v1"
+  );
+
+  assert.equal(
+    coherence.upstreamContracts
+      .opportunityContinuity,
+    "pelora-governed-opportunity-continuity-v1"
+  );
+
+  assert.ok(
+    coherence.limitations.includes(
+      "Evidence coherence does not establish opportunity persistence."
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity evidence coherence preserves provenance, immutability, and coherence-not-persistence boundaries"
+  );
+}
 
 /*
  * ------------------------------------------------------------
