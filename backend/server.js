@@ -47549,6 +47549,210 @@ export function buildGovernedOpportunityObservationStorageV1({
 }
 
 
+export function buildGovernedOpportunityObservationStorageRecordFromRowV1({
+  row = null
+} = {}) {
+  const observationId =
+    typeof row?.observation_id === "string"
+      ? row.observation_id
+      : null;
+
+  const userId =
+    typeof row?.user_id === "string"
+      ? row.user_id
+      : null;
+
+  const species =
+    typeof row?.species === "string"
+      ? row.species
+      : null;
+
+  const candidateId =
+    typeof row?.candidate_id === "string"
+      ? row.candidate_id
+      : null;
+
+  const evaluatedAt =
+    typeof row?.evaluated_at === "string"
+      ? row.evaluated_at
+      : null;
+
+  const storedAt =
+    typeof row?.created_at === "string"
+      ? row.created_at
+      : null;
+
+  const schemaVersion =
+    typeof row?.observation_schema_version === "string"
+      ? row.observation_schema_version
+      : null;
+
+  const observationPayload =
+    row?.observation_payload &&
+    typeof row.observation_payload === "object"
+      ? row.observation_payload
+      : null;
+
+  const identity =
+    buildGovernedOpportunityObservationIdentityV1({
+      observation:
+        observationPayload
+    });
+
+  const observationIdConsistent =
+    identity.available === true &&
+    identity.observationId ===
+      observationId;
+
+  const speciesConsistent =
+    identity.available === true &&
+    identity.species ===
+      species;
+
+  const candidateIdConsistent =
+    identity.available === true &&
+    identity.candidateId ===
+      candidateId;
+
+  const evaluatedAtConsistent =
+    identity.available === true &&
+    typeof identity.evaluatedAt === "string" &&
+    typeof evaluatedAt === "string" &&
+    Number.isFinite(
+      Date.parse(identity.evaluatedAt)
+    ) &&
+    Number.isFinite(
+      Date.parse(evaluatedAt)
+    ) &&
+    Date.parse(
+      identity.evaluatedAt
+    ) ===
+      Date.parse(
+        evaluatedAt
+      );
+
+  const schemaVersionConsistent =
+    identity.available === true &&
+    identity.schemaVersion ===
+      schemaVersion;
+
+  const available =
+    typeof userId === "string" &&
+    userId.trim().length > 0 &&
+    typeof storedAt === "string" &&
+    Number.isFinite(
+      Date.parse(storedAt)
+    ) &&
+    observationIdConsistent &&
+    speciesConsistent &&
+    candidateIdConsistent &&
+    evaluatedAtConsistent &&
+    schemaVersionConsistent;
+
+  const missingRequirements = [
+    typeof observationId !== "string"
+      ? "database-observation-id"
+      : null,
+
+    typeof userId !== "string"
+      ? "database-user-id"
+      : null,
+
+    typeof species !== "string"
+      ? "database-species"
+      : null,
+
+    typeof candidateId !== "string"
+      ? "database-candidate-id"
+      : null,
+
+    typeof evaluatedAt !== "string"
+      ? "database-evaluated-at"
+      : null,
+
+    typeof storedAt !== "string"
+      ? "database-created-at"
+      : null,
+
+    typeof schemaVersion !== "string"
+      ? "database-observation-schema-version"
+      : null,
+
+    observationPayload === null
+      ? "database-observation-payload"
+      : null,
+
+    observationPayload &&
+    !observationIdConsistent
+      ? "observation-id-consistency"
+      : null,
+
+    observationPayload &&
+    !speciesConsistent
+      ? "observation-species-consistency"
+      : null,
+
+    observationPayload &&
+    !candidateIdConsistent
+      ? "observation-candidate-id-consistency"
+      : null,
+
+    observationPayload &&
+    !evaluatedAtConsistent
+      ? "observation-evaluated-at-consistency"
+      : null,
+
+    observationPayload &&
+    !schemaVersionConsistent
+      ? "observation-schema-version-consistency"
+      : null
+  ].filter(Boolean);
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    observationId,
+
+    userId,
+
+    species,
+
+    candidateId,
+
+    evaluatedAt,
+
+    storedAt,
+
+    schemaVersion,
+
+    identity:
+      identity.available === true
+        ? identity
+        : null,
+
+    observation:
+      available
+        ? cloneSnapshotValue(
+            observationPayload
+          )
+        : null,
+
+    missingRequirements,
+
+    limitations: [
+      ...missingRequirements,
+
+      "The database row remains authoritative for captain ownership and external storage provenance.",
+      "The immutable observation payload remains authoritative for the original governed candidate/species evaluation.",
+      "The row adapter does not recalculate evidence, eligibility, score, confidence, persistence, lifecycle state, opportunity status, or rank."
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-observation-storage-row-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {
@@ -51038,6 +51242,703 @@ export function evaluateGovernedHistoricalCaptainContextCompatibilityV1({
 
     contractVersion:
       "pelora-governed-historical-captain-context-compatibility-v1"
+  });
+}
+
+
+export async function persistGovernedOpportunityObservationV1({
+  configuration = null,
+  bearerToken = null,
+  userId = null,
+  observationStorage = null,
+  fetchImplementation = fetch
+} = {}) {
+  const configurationAvailable =
+    configuration?.available === true;
+
+  const restUrl =
+    typeof configuration?.restUrl === "string"
+      ? configuration.restUrl.trim() || null
+      : null;
+
+  const publishableKey =
+    typeof configuration
+      ?.credentials
+      ?.publishableKey === "string"
+      ? configuration
+          .credentials
+          .publishableKey
+          .trim() || null
+      : null;
+
+  const normalizedBearerToken =
+    typeof bearerToken === "string"
+      ? bearerToken.trim() || null
+      : null;
+
+  const normalizedUserId =
+    typeof userId === "string"
+      ? userId.trim() || null
+      : null;
+
+  const validObservationStorage =
+    observationStorage?.available === true &&
+    observationStorage?.contractVersion ===
+      "pelora-governed-opportunity-observation-storage-v1" &&
+    observationStorage?.identity?.available === true &&
+    observationStorage?.observation?.available === true;
+
+  const identity =
+    validObservationStorage
+      ? observationStorage.identity
+      : null;
+
+  const observation =
+    validObservationStorage
+      ? observationStorage.observation
+      : null;
+
+  const validFetchImplementation =
+    typeof fetchImplementation === "function";
+
+  const missingRequirements = [
+    !configurationAvailable
+      ? "available-backend-supabase-configuration"
+      : null,
+
+    typeof restUrl !== "string"
+      ? "supabase-rest-url"
+      : null,
+
+    typeof publishableKey !== "string"
+      ? "supabase-publishable-key"
+      : null,
+
+    typeof normalizedBearerToken !== "string"
+      ? "captain-bearer-token"
+      : null,
+
+    typeof normalizedUserId !== "string"
+      ? "captain-user-id"
+      : null,
+
+    !validObservationStorage
+      ? "available-governed-opportunity-observation-storage"
+      : null,
+
+    !validFetchImplementation
+      ? "fetch-implementation"
+      : null
+  ].filter(Boolean);
+
+  const requestReady =
+    missingRequirements.length === 0;
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+
+      "Governed Opportunity Observation Persistence writes only an already governed immutable candidate/species evaluation.",
+
+      "Both ranking-eligible and ranking-excluded governed observations may be preserved.",
+
+      "Captain authorization is supplied by the bearer token and ownership remains enforced by Row Level Security.",
+
+      "Persistence does not create or recalculate evidence, eligibility, score, confidence, persistence, lifecycle state, opportunity status, or rank.",
+
+      "Persistence does not convert Ocean Memory into a governed opportunity observation.",
+
+      "Deterministic observation identity and the captain-owned database uniqueness constraint make repeated persistence attempts idempotent."
+    ])
+  ];
+
+  if (!requestReady) {
+    return deepFreezeSnapshotValue({
+      available: false,
+
+      persistenceType:
+        "backend-governed-opportunity-observation-persistence",
+
+      responsibility:
+        "preserve",
+
+      requestPerformed: false,
+
+      request: {
+        observationId:
+          identity?.observationId ?? null,
+
+        userId:
+          normalizedUserId,
+
+        species:
+          identity?.species ?? null,
+
+        candidateId:
+          identity?.candidateId ?? null,
+
+        evaluatedAt:
+          identity?.evaluatedAt ?? null
+      },
+
+      rows: [],
+
+      summary: {
+        returnedRowCount: 0,
+        httpStatus: null,
+        responseOk: false
+      },
+
+      missingRequirements,
+
+      limitations,
+
+      contractVersion:
+        "pelora-backend-governed-opportunity-observation-persistence-v1"
+    });
+  }
+
+  const queryUrl =
+    new URL(
+      `${restUrl}/governed_opportunity_observation`
+    );
+
+  queryUrl.searchParams.set(
+    "on_conflict",
+    "user_id,observation_id"
+  );
+
+  const requestBody = {
+    observation_id:
+      identity.observationId,
+
+    user_id:
+      normalizedUserId,
+
+    species:
+      identity.species,
+
+    candidate_id:
+      identity.candidateId,
+
+    evaluated_at:
+      identity.evaluatedAt,
+
+    observation_schema_version:
+      identity.schemaVersion,
+
+    observation_payload:
+      cloneSnapshotValue(
+        observation
+      ),
+
+    created_at:
+      observationStorage.storedAt
+  };
+
+  let response = null;
+  let responseRows = [];
+
+  try {
+    response =
+      await fetchImplementation(
+        queryUrl.toString(),
+        {
+          method: "POST",
+
+          headers: {
+            apikey:
+              publishableKey,
+
+            Authorization:
+              `Bearer ${normalizedBearerToken}`,
+
+            Accept:
+              "application/json",
+
+            "Content-Type":
+              "application/json",
+
+            Prefer:
+              "resolution=ignore-duplicates,return=representation"
+          },
+
+          body:
+            JSON.stringify(
+              requestBody
+            ),
+
+          cache:
+            "no-store"
+        }
+      );
+
+    if (response?.ok === true) {
+      const parsedBody =
+        await response.json();
+
+      responseRows =
+        Array.isArray(parsedBody)
+          ? parsedBody
+          : [];
+    }
+  } catch {
+    response = null;
+    responseRows = [];
+  }
+
+  const responseOk =
+    response?.ok === true;
+
+  const httpStatus =
+    Number.isInteger(
+      response?.status
+    )
+      ? response.status
+      : null;
+
+  const responseLimitations = [
+    ...limitations,
+
+    !response
+      ? "supabase-request-failed"
+      : null,
+
+    response &&
+    !responseOk
+      ? "supabase-response-not-successful"
+      : null
+  ].filter(Boolean);
+
+  return deepFreezeSnapshotValue({
+    available:
+      responseOk,
+
+    persistenceType:
+      "backend-governed-opportunity-observation-persistence",
+
+    responsibility:
+      "preserve",
+
+    requestPerformed: true,
+
+    request: {
+      observationId:
+        identity.observationId,
+
+      userId:
+        normalizedUserId,
+
+      species:
+        identity.species,
+
+      candidateId:
+        identity.candidateId,
+
+      evaluatedAt:
+        identity.evaluatedAt
+    },
+
+    rows:
+      cloneSnapshotValue(
+        responseRows
+      ),
+
+    summary: {
+      returnedRowCount:
+        responseRows.length,
+
+      httpStatus,
+
+      responseOk
+    },
+
+    missingRequirements,
+
+    limitations:
+      responseLimitations,
+
+    contractVersion:
+      "pelora-backend-governed-opportunity-observation-persistence-v1"
+  });
+}
+
+
+export async function retrieveGovernedOpportunityObservationRowsV1({
+  configuration = null,
+  bearerToken = null,
+  species = null,
+  candidateId = null,
+  evaluatedAfter = null,
+  evaluatedBefore = null,
+  maximumRows = 48,
+  fetchImplementation = fetch
+} = {}) {
+  const configurationAvailable =
+    configuration?.available === true;
+
+  const restUrl =
+    typeof configuration?.restUrl === "string"
+      ? configuration.restUrl.trim() || null
+      : null;
+
+  const publishableKey =
+    typeof configuration
+      ?.credentials
+      ?.publishableKey === "string"
+      ? configuration
+          .credentials
+          .publishableKey
+          .trim() || null
+      : null;
+
+  const normalizedBearerToken =
+    typeof bearerToken === "string"
+      ? bearerToken.trim() || null
+      : null;
+
+  const normalizedSpecies =
+    typeof species === "string"
+      ? species.trim().toLowerCase() || null
+      : null;
+
+  const normalizedCandidateId =
+    typeof candidateId === "string"
+      ? candidateId.trim() || null
+      : null;
+
+  const resolvedEvaluatedAfter =
+    typeof evaluatedAfter === "string" &&
+    Number.isFinite(
+      Date.parse(evaluatedAfter)
+    )
+      ? evaluatedAfter
+      : null;
+
+  const resolvedEvaluatedBefore =
+    typeof evaluatedBefore === "string" &&
+    Number.isFinite(
+      Date.parse(evaluatedBefore)
+    )
+      ? evaluatedBefore
+      : null;
+
+  const afterTimestamp =
+    resolvedEvaluatedAfter
+      ? Date.parse(
+          resolvedEvaluatedAfter
+        )
+      : null;
+
+  const beforeTimestamp =
+    resolvedEvaluatedBefore
+      ? Date.parse(
+          resolvedEvaluatedBefore
+        )
+      : null;
+
+  const validEvaluationWindow =
+    afterTimestamp === null ||
+    beforeTimestamp === null ||
+    afterTimestamp <=
+      beforeTimestamp;
+
+  const resolvedMaximumRows =
+    Number.isInteger(maximumRows) &&
+    maximumRows > 0
+      ? Math.min(
+          maximumRows,
+          250
+        )
+      : null;
+
+  const validFetchImplementation =
+    typeof fetchImplementation ===
+      "function";
+
+  const missingRequirements = [
+    !configurationAvailable
+      ? "available-backend-supabase-configuration"
+      : null,
+
+    typeof restUrl !== "string"
+      ? "supabase-rest-url"
+      : null,
+
+    typeof publishableKey !== "string"
+      ? "supabase-publishable-key"
+      : null,
+
+    typeof normalizedBearerToken !== "string"
+      ? "captain-bearer-token"
+      : null,
+
+    !validEvaluationWindow
+      ? "valid-evaluated-time-window"
+      : null,
+
+    resolvedMaximumRows === null
+      ? "valid-maximum-row-limit"
+      : null,
+
+    !validFetchImplementation
+      ? "fetch-implementation"
+      : null
+  ].filter(Boolean);
+
+  const requestReady =
+    missingRequirements.length === 0;
+
+  const limitations = [
+    ...new Set([
+      ...missingRequirements,
+
+      normalizedSpecies === null &&
+      species !== null
+        ? "invalid-species-filter"
+        : null,
+
+      normalizedCandidateId === null &&
+      candidateId !== null
+        ? "invalid-candidate-id-filter"
+        : null,
+
+      resolvedEvaluatedAfter === null &&
+      evaluatedAfter !== null
+        ? "invalid-evaluated-after-filter"
+        : null,
+
+      resolvedEvaluatedBefore === null &&
+      evaluatedBefore !== null
+        ? "invalid-evaluated-before-filter"
+        : null,
+
+      "Governed Opportunity Observation Retrieval reads captain-owned preserved candidate/species evaluations through Supabase REST.",
+
+      "Retrieved observations may include both ranking-eligible and ranking-excluded evaluations.",
+
+      "Row Level Security remains responsible for ownership enforcement.",
+
+      "Retrieval does not establish persistence, lifecycle state, captain-facing opportunity status, ranking eligibility, or rank.",
+
+      "Retrieval does not recompute evidence, score, confidence, or species interpretation."
+    ].filter(Boolean))
+  ];
+
+  if (!requestReady) {
+    return deepFreezeSnapshotValue({
+      available: false,
+
+      retrievalType:
+        "backend-governed-opportunity-observation-row-retrieval",
+
+      responsibility:
+        "preserve",
+
+      requestPerformed: false,
+
+      request: {
+        species:
+          normalizedSpecies,
+
+        candidateId:
+          normalizedCandidateId,
+
+        evaluatedAfter:
+          resolvedEvaluatedAfter,
+
+        evaluatedBefore:
+          resolvedEvaluatedBefore,
+
+        maximumRows:
+          resolvedMaximumRows
+      },
+
+      rows: [],
+
+      summary: {
+        returnedRowCount: 0,
+        httpStatus: null,
+        responseOk: false
+      },
+
+      missingRequirements,
+
+      limitations,
+
+      contractVersion:
+        "pelora-backend-governed-opportunity-observation-retrieval-v1"
+    });
+  }
+
+  const queryUrl =
+    new URL(
+      `${restUrl}/governed_opportunity_observation`
+    );
+
+  queryUrl.searchParams.set(
+    "select",
+    "*"
+  );
+
+  if (normalizedSpecies) {
+    queryUrl.searchParams.set(
+      "species",
+      `eq.${normalizedSpecies}`
+    );
+  }
+
+  if (normalizedCandidateId) {
+    queryUrl.searchParams.set(
+      "candidate_id",
+      `eq.${normalizedCandidateId}`
+    );
+  }
+
+  if (resolvedEvaluatedAfter) {
+    queryUrl.searchParams.set(
+      "evaluated_at",
+      `gte.${resolvedEvaluatedAfter}`
+    );
+  }
+
+  if (resolvedEvaluatedBefore) {
+    queryUrl.searchParams.append(
+      "evaluated_at",
+      `lte.${resolvedEvaluatedBefore}`
+    );
+  }
+
+  queryUrl.searchParams.set(
+    "order",
+    "evaluated_at.desc"
+  );
+
+  queryUrl.searchParams.set(
+    "limit",
+    String(
+      resolvedMaximumRows
+    )
+  );
+
+  let response = null;
+  let responseRows = [];
+
+  try {
+    response =
+      await fetchImplementation(
+        queryUrl.toString(),
+        {
+          method: "GET",
+
+          headers: {
+            apikey:
+              publishableKey,
+
+            Authorization:
+              `Bearer ${normalizedBearerToken}`,
+
+            Accept:
+              "application/json"
+          },
+
+          cache:
+            "no-store"
+        }
+      );
+
+    if (response?.ok === true) {
+      const parsedBody =
+        await response.json();
+
+      responseRows =
+        Array.isArray(parsedBody)
+          ? parsedBody
+          : [];
+    }
+  } catch {
+    response = null;
+    responseRows = [];
+  }
+
+  const responseOk =
+    response?.ok === true;
+
+  const httpStatus =
+    Number.isInteger(
+      response?.status
+    )
+      ? response.status
+      : null;
+
+  const responseLimitations = [
+    ...limitations,
+
+    !response
+      ? "supabase-request-failed"
+      : null,
+
+    response &&
+    !responseOk
+      ? "supabase-response-not-successful"
+      : null,
+
+    responseOk &&
+    responseRows.length === 0
+      ? "no-governed-opportunity-observation-rows-returned"
+      : null
+  ].filter(Boolean);
+
+  return deepFreezeSnapshotValue({
+    available:
+      responseOk,
+
+    retrievalType:
+      "backend-governed-opportunity-observation-row-retrieval",
+
+    responsibility:
+      "preserve",
+
+    requestPerformed: true,
+
+    request: {
+      species:
+        normalizedSpecies,
+
+      candidateId:
+        normalizedCandidateId,
+
+      evaluatedAfter:
+        resolvedEvaluatedAfter,
+
+      evaluatedBefore:
+        resolvedEvaluatedBefore,
+
+      maximumRows:
+        resolvedMaximumRows
+    },
+
+    rows:
+      cloneSnapshotValue(
+        responseRows
+      ),
+
+    summary: {
+      returnedRowCount:
+        responseRows.length,
+
+      httpStatus,
+
+      responseOk
+    },
+
+    missingRequirements,
+
+    limitations:
+      responseLimitations,
+
+    contractVersion:
+      "pelora-backend-governed-opportunity-observation-retrieval-v1"
   });
 }
 

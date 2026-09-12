@@ -32,6 +32,9 @@ import {
   buildGovernedOpportunityObservationV1,
   buildGovernedOpportunityObservationIdentityV1,
   buildGovernedOpportunityObservationStorageV1,
+  buildGovernedOpportunityObservationStorageRecordFromRowV1,
+  persistGovernedOpportunityObservationV1,
+  retrieveGovernedOpportunityObservationRowsV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -55388,6 +55391,951 @@ for (
 
   console.log(
     "PASS governed opportunity observation storage fails closed without valid governed storage inputs"
+  );
+}
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Observation Row Adapter v1
+ * ------------------------------------------------------------
+ */
+
+
+{
+  const speciesInterpretation = {
+    available: true,
+
+    candidate: {
+      id:
+        "observation-row-valid-1"
+    },
+
+    species:
+      "blue-marlin",
+
+    speciesOpportunity: {
+      available: true,
+
+      score: 58,
+
+      eligibility: {
+        eligibleForRanking: false,
+
+        classification:
+          "insufficient-species-opportunity-evidence",
+
+        reasons: [
+          "insufficient-independent-relationship-support"
+        ]
+      }
+    },
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+
+  const rankingResolution =
+    resolveUnifiedOpportunityRankingInputV1({
+      speciesInterpretation
+    });
+
+  const observation =
+    buildGovernedOpportunityObservationV1({
+      speciesInterpretation,
+
+      rankingResolution,
+
+      evaluatedAt:
+        "2026-09-12T04:00:00.000Z"
+    });
+
+  const storage =
+    buildGovernedOpportunityObservationStorageV1({
+      observation,
+
+      storedAt:
+        "2026-09-12T04:01:00.000Z"
+    });
+
+  const row = {
+    observation_id:
+      storage.identity.observationId,
+
+    user_id:
+      "00000000-0000-0000-0000-000000000001",
+
+    species:
+      storage.identity.species,
+
+    candidate_id:
+      storage.identity.candidateId,
+
+    evaluated_at:
+      storage.identity.evaluatedAt,
+
+    observation_schema_version:
+      storage.identity.schemaVersion,
+
+    observation_payload:
+      storage.observation,
+
+    created_at:
+      storage.storedAt
+  };
+
+  const adapted =
+    buildGovernedOpportunityObservationStorageRecordFromRowV1({
+      row
+    });
+
+  assert.equal(
+    adapted.available,
+    true
+  );
+
+  assert.equal(
+    adapted.observationId,
+    storage.identity.observationId
+  );
+
+  assert.equal(
+    adapted.candidateId,
+    "observation-row-valid-1"
+  );
+
+  assert.equal(
+    adapted.observation
+      .decision
+      .eligibleForRanking,
+    false
+  );
+
+  assert.equal(
+    Object.isFrozen(adapted),
+    true
+  );
+
+  console.log(
+    "PASS governed opportunity observation row adapter preserves valid immutable governed observation"
+  );
+}
+
+
+{
+  const speciesInterpretation = {
+    available: true,
+
+    candidate: {
+      id:
+        "observation-row-tamper-1"
+    },
+
+    species:
+      "blue-marlin",
+
+    speciesOpportunity: {
+      available: true,
+
+      score: 61,
+
+      eligibility: {
+        eligibleForRanking: true
+      }
+    },
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+
+  const rankingResolution =
+    resolveUnifiedOpportunityRankingInputV1({
+      speciesInterpretation
+    });
+
+  const observation =
+    buildGovernedOpportunityObservationV1({
+      speciesInterpretation,
+
+      rankingResolution,
+
+      evaluatedAt:
+        "2026-09-12T04:05:00.000Z"
+    });
+
+  const storage =
+    buildGovernedOpportunityObservationStorageV1({
+      observation,
+
+      storedAt:
+        "2026-09-12T04:06:00.000Z"
+    });
+
+  const row = {
+    observation_id:
+      "tampered-observation-id",
+
+    user_id:
+      "00000000-0000-0000-0000-000000000001",
+
+    species:
+      storage.identity.species,
+
+    candidate_id:
+      storage.identity.candidateId,
+
+    evaluated_at:
+      storage.identity.evaluatedAt,
+
+    observation_schema_version:
+      storage.identity.schemaVersion,
+
+    observation_payload:
+      storage.observation,
+
+    created_at:
+      storage.storedAt
+  };
+
+  const adapted =
+    buildGovernedOpportunityObservationStorageRecordFromRowV1({
+      row
+    });
+
+  assert.equal(
+    adapted.available,
+    false
+  );
+
+  assert.ok(
+    adapted.missingRequirements
+      .includes(
+        "observation-id-consistency"
+      )
+  );
+
+  assert.equal(
+    adapted.observation,
+    null
+  );
+
+  console.log(
+    "PASS governed opportunity observation row adapter rejects tampered observation identity"
+  );
+}
+
+
+{
+  const speciesInterpretation = {
+    available: true,
+
+    candidate: {
+      id:
+        "observation-row-candidate-tamper-1"
+    },
+
+    species:
+      "blue-marlin",
+
+    speciesOpportunity: {
+      available: true,
+
+      score: 57,
+
+      eligibility: {
+        eligibleForRanking: false,
+
+        classification:
+          "insufficient-species-opportunity-evidence",
+
+        reasons: [
+          "minimum-opportunity-evidence-gate-not-satisfied"
+        ]
+      }
+    },
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+
+  const rankingResolution =
+    resolveUnifiedOpportunityRankingInputV1({
+      speciesInterpretation
+    });
+
+  const observation =
+    buildGovernedOpportunityObservationV1({
+      speciesInterpretation,
+
+      rankingResolution,
+
+      evaluatedAt:
+        "2026-09-12T04:10:00.000Z"
+    });
+
+  const storage =
+    buildGovernedOpportunityObservationStorageV1({
+      observation,
+
+      storedAt:
+        "2026-09-12T04:11:00.000Z"
+    });
+
+  const row = {
+    observation_id:
+      storage.identity.observationId,
+
+    user_id:
+      "00000000-0000-0000-0000-000000000001",
+
+    species:
+      storage.identity.species,
+
+    candidate_id:
+      "wrong-candidate-id",
+
+    evaluated_at:
+      storage.identity.evaluatedAt,
+
+    observation_schema_version:
+      storage.identity.schemaVersion,
+
+    observation_payload:
+      storage.observation,
+
+    created_at:
+      storage.storedAt
+  };
+
+  const adapted =
+    buildGovernedOpportunityObservationStorageRecordFromRowV1({
+      row
+    });
+
+  assert.equal(
+    adapted.available,
+    false
+  );
+
+  assert.ok(
+    adapted.missingRequirements
+      .includes(
+        "observation-candidate-id-consistency"
+      )
+  );
+
+  console.log(
+    "PASS governed opportunity observation row adapter rejects candidate identity mismatch"
+  );
+}
+
+
+{
+  const adapted =
+    buildGovernedOpportunityObservationStorageRecordFromRowV1({
+      row: null
+    });
+
+  assert.equal(
+    adapted.available,
+    false
+  );
+
+  assert.equal(
+    adapted.observation,
+    null
+  );
+
+  assert.ok(
+    adapted.missingRequirements
+      .includes(
+        "database-observation-id"
+      )
+  );
+
+  assert.ok(
+    adapted.missingRequirements
+      .includes(
+        "database-observation-payload"
+      )
+  );
+
+  console.log(
+    "PASS governed opportunity observation row adapter fails closed for missing database row"
+  );
+}
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Observation Persistence v1
+ * ------------------------------------------------------------
+ */
+
+
+{
+  const speciesInterpretation = {
+    available: true,
+
+    candidate: {
+      id:
+        "observation-persistence-excluded-1"
+    },
+
+    species:
+      "blue-marlin",
+
+    speciesOpportunity: {
+      available: true,
+
+      score: 43,
+
+      confidence: {
+        score: 29,
+        level: "Very Low"
+      },
+
+      eligibility: {
+        eligibleForRanking: false,
+
+        classification:
+          "insufficient-species-opportunity-evidence",
+
+        reasons: [
+          "minimum-opportunity-evidence-gate-not-satisfied"
+        ]
+      }
+    },
+
+    contractVersion:
+      "pelora-unified-species-opportunity-interpretation-v1"
+  };
+
+  const rankingResolution =
+    resolveUnifiedOpportunityRankingInputV1({
+      speciesInterpretation
+    });
+
+  const observation =
+    buildGovernedOpportunityObservationV1({
+      speciesInterpretation,
+
+      rankingResolution,
+
+      evaluatedAt:
+        "2026-09-12T05:00:00.000Z",
+
+      captainContext: {
+        species:
+          "blue-marlin",
+
+        explorationMode:
+          "within-range",
+
+        origin: {
+          latitude: 29.8,
+          longitude: -85.3
+        },
+
+        operatingRangeNm: 100
+      }
+    });
+
+  const storage =
+    buildGovernedOpportunityObservationStorageV1({
+      observation,
+
+      storedAt:
+        "2026-09-12T05:01:00.000Z"
+    });
+
+  let capturedUrl = null;
+  let capturedOptions = null;
+
+  const persistence =
+    await persistGovernedOpportunityObservationV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "public-test-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      userId:
+        "00000000-0000-0000-0000-000000000001",
+
+      observationStorage:
+        storage,
+
+      fetchImplementation:
+        async (
+          url,
+          options
+        ) => {
+          capturedUrl = url;
+          capturedOptions = options;
+
+          return {
+            ok: true,
+            status: 201,
+
+            async json() {
+              return [
+                {
+                  observation_id:
+                    storage.identity.observationId,
+
+                  user_id:
+                    "00000000-0000-0000-0000-000000000001",
+
+                  species:
+                    storage.identity.species,
+
+                  candidate_id:
+                    storage.identity.candidateId,
+
+                  evaluated_at:
+                    storage.identity.evaluatedAt,
+
+                  observation_schema_version:
+                    storage.identity.schemaVersion,
+
+                  observation_payload:
+                    storage.observation,
+
+                  created_at:
+                    storage.storedAt
+                }
+              ];
+            }
+          };
+        }
+    });
+
+  assert.equal(
+    persistence.available,
+    true
+  );
+
+  assert.equal(
+    persistence.requestPerformed,
+    true
+  );
+
+  assert.equal(
+    persistence.summary.httpStatus,
+    201
+  );
+
+  assert.equal(
+    persistence.summary.returnedRowCount,
+    1
+  );
+
+  assert.equal(
+    persistence.request.candidateId,
+    "observation-persistence-excluded-1"
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "/governed_opportunity_observation"
+    )
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "on_conflict=user_id%2Cobservation_id"
+    )
+  );
+
+  assert.equal(
+    capturedOptions.method,
+    "POST"
+  );
+
+  assert.equal(
+    capturedOptions.headers.Authorization,
+    "Bearer captain-test-token"
+  );
+
+  assert.equal(
+    capturedOptions.headers.apikey,
+    "public-test-key"
+  );
+
+  assert.equal(
+    capturedOptions.headers.Prefer,
+    "resolution=ignore-duplicates,return=representation"
+  );
+
+  const requestBody =
+    JSON.parse(
+      capturedOptions.body
+    );
+
+  assert.equal(
+    requestBody.candidate_id,
+    "observation-persistence-excluded-1"
+  );
+
+  assert.equal(
+    requestBody.observation_payload
+      .decision
+      .eligibleForRanking,
+    false
+  );
+
+  assert.ok(
+    requestBody.observation_payload
+      .decision
+      .exclusionReasons
+      .includes(
+        "minimum-opportunity-evidence-gate-not-satisfied"
+      )
+  );
+
+  console.log(
+    "PASS governed opportunity observation persistence preserves ranking-excluded governed observation through captain-authenticated Supabase REST"
+  );
+}
+
+
+{
+  let requestPerformed = false;
+
+  const persistence =
+    await persistGovernedOpportunityObservationV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "public-test-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      userId:
+        "00000000-0000-0000-0000-000000000001",
+
+      observationStorage:
+        null,
+
+      fetchImplementation:
+        async () => {
+          requestPerformed = true;
+
+          throw new Error(
+            "request should not run"
+          );
+        }
+    });
+
+  assert.equal(
+    persistence.available,
+    false
+  );
+
+  assert.equal(
+    persistence.requestPerformed,
+    false
+  );
+
+  assert.equal(
+    requestPerformed,
+    false
+  );
+
+  assert.ok(
+    persistence.missingRequirements
+      .includes(
+        "available-governed-opportunity-observation-storage"
+      )
+  );
+
+  console.log(
+    "PASS governed opportunity observation persistence fails closed before request when storage is unavailable"
+  );
+}
+
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Observation Retrieval v1
+ * ------------------------------------------------------------
+ */
+
+
+{
+  let capturedUrl = null;
+  let capturedOptions = null;
+
+  const retrieval =
+    await retrieveGovernedOpportunityObservationRowsV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "public-test-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "Blue-Marlin",
+
+      candidateId:
+        "candidate-123",
+
+      evaluatedAfter:
+        "2026-09-11T00:00:00.000Z",
+
+      evaluatedBefore:
+        "2026-09-12T06:00:00.000Z",
+
+      maximumRows:
+        80,
+
+      fetchImplementation:
+        async (
+          url,
+          options
+        ) => {
+          capturedUrl = url;
+          capturedOptions = options;
+
+          return {
+            ok: true,
+            status: 200,
+
+            async json() {
+              return [
+                {
+                  observation_id:
+                    "test-observation-id"
+                }
+              ];
+            }
+          };
+        }
+    });
+
+  assert.equal(
+    retrieval.available,
+    true
+  );
+
+  assert.equal(
+    retrieval.requestPerformed,
+    true
+  );
+
+  assert.equal(
+    retrieval.summary.returnedRowCount,
+    1
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "/governed_opportunity_observation"
+    )
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "species=eq.blue-marlin"
+    )
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "candidate_id=eq.candidate-123"
+    )
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "evaluated_at=gte."
+    )
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "evaluated_at=lte."
+    )
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "order=evaluated_at.desc"
+    )
+  );
+
+  assert.ok(
+    capturedUrl.includes(
+      "limit=80"
+    )
+  );
+
+  assert.equal(
+    capturedOptions.method,
+    "GET"
+  );
+
+  assert.equal(
+    capturedOptions.headers.Authorization,
+    "Bearer captain-test-token"
+  );
+
+  assert.equal(
+    capturedOptions.headers.apikey,
+    "public-test-key"
+  );
+
+  console.log(
+    "PASS governed opportunity observation retrieval requests captain-owned observations newest first with governed filters"
+  );
+}
+
+
+{
+  const retrieval =
+    await retrieveGovernedOpportunityObservationRowsV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "public-test-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      species:
+        "blue-marlin",
+
+      fetchImplementation:
+        async () => ({
+          ok: true,
+          status: 200,
+
+          async json() {
+            return [];
+          }
+        })
+    });
+
+  assert.equal(
+    retrieval.available,
+    true
+  );
+
+  assert.equal(
+    retrieval.requestPerformed,
+    true
+  );
+
+  assert.equal(
+    retrieval.summary.returnedRowCount,
+    0
+  );
+
+  assert.ok(
+    retrieval.limitations
+      .includes(
+        "no-governed-opportunity-observation-rows-returned"
+      )
+  );
+
+  console.log(
+    "PASS governed opportunity observation retrieval preserves successful governed zero observation result"
+  );
+}
+
+
+{
+  let requestPerformed = false;
+
+  const retrieval =
+    await retrieveGovernedOpportunityObservationRowsV1({
+      configuration: {
+        available: true,
+
+        restUrl:
+          "https://example.supabase.co/rest/v1",
+
+        credentials: {
+          publishableKey:
+            "public-test-key"
+        }
+      },
+
+      bearerToken:
+        "captain-test-token",
+
+      evaluatedAfter:
+        "2026-09-12T07:00:00.000Z",
+
+      evaluatedBefore:
+        "2026-09-12T06:00:00.000Z",
+
+      fetchImplementation:
+        async () => {
+          requestPerformed = true;
+
+          throw new Error(
+            "request should not run"
+          );
+        }
+    });
+
+  assert.equal(
+    retrieval.available,
+    false
+  );
+
+  assert.equal(
+    retrieval.requestPerformed,
+    false
+  );
+
+  assert.equal(
+    requestPerformed,
+    false
+  );
+
+  assert.ok(
+    retrieval.missingRequirements
+      .includes(
+        "valid-evaluated-time-window"
+      )
+  );
+
+  console.log(
+    "PASS governed opportunity observation retrieval fails closed before request for invalid evaluation window"
   );
 }
 
