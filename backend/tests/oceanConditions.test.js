@@ -123,6 +123,7 @@ import {
   assessOceanEvidence,
   assessOceanOpportunity,
   resolveOceanSignals,
+  buildGovernedOceanSignalFeatureAssociationV1,
   buildOceanSignalSelectionLineage,
   assessBlueMarlinHabitat,
   buildBlueMarlinHabitatLineage,
@@ -40238,6 +40239,625 @@ assert.equal(
 console.log(
   "PASS Governed Ocean Signal Selection v1 preserves upstream immutability and exposes valid integrated lineage"
 );
+
+/*
+ * ------------------------------------------------------------
+ * Governed Ocean Signal Feature Association v1
+ * ------------------------------------------------------------
+ */
+
+{
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1();
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.classification,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.associated,
+    false
+  );
+
+  assert.equal(
+    result.associationState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.ok(
+    result.missingRequirements.includes(
+      "available-governed-ocean-signal-selection"
+    )
+  );
+
+  assert.ok(
+    result.missingRequirements.includes(
+      "available-governed-feature-persistence"
+    )
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 remains unavailable without governed inputs"
+  );
+}
+
+
+function buildSignalFeatureAssociationTestSignal({
+  opportunityType =
+    "environmental-transition-zone",
+
+  classification =
+    "temperature-transition-candidate",
+
+  supportingEvidence = [
+    "temperature"
+  ],
+
+  sourceFamilies = [
+    "spatial-temperature"
+  ]
+} = {}) {
+  return resolveOceanSignals({
+    oceanOpportunity: {
+      available: true,
+
+      opportunities: [
+        {
+          type:
+            opportunityType,
+
+          classification,
+
+          supportingEvidence,
+
+          sourceFamilies,
+
+          confidence: {
+            score: 72,
+            level: "Moderate"
+          }
+        }
+      ],
+
+      confidence: {
+        score: 72,
+        level: "Moderate"
+      }
+    }
+  });
+}
+
+
+function buildSignalFeatureAssociationTestPersistence({
+  featureType =
+    "environmental-transition",
+
+  featureFamily =
+    "integrated-ocean-physics",
+
+  classification =
+    "persistent",
+
+  lifecycleState =
+    "stable"
+} = {}) {
+  return buildFeaturePersistenceContract({
+    available: true,
+
+    featureType,
+
+    featureFamily,
+
+    classification,
+
+    lifecycleState,
+
+    reason:
+      "governed-test-feature-persistence",
+
+    values: {
+      sampleCount: 3,
+      durationHours: 48
+    },
+
+    confidence: {
+      score: 80,
+      level: "High"
+    },
+
+    drivers: [
+      "governed-test-driver"
+    ],
+
+    limitations: [
+      "governed-test-limitation"
+    ]
+  });
+}
+
+
+{
+  const oceanSignalSelection =
+    buildSignalFeatureAssociationTestSignal();
+
+  const fakeFeaturePersistence = {
+    available: true,
+
+    featureType:
+      "environmental-transition",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    classification:
+      "persistent",
+
+    lifecycleState:
+      "stable"
+  };
+
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection,
+      featurePersistence:
+        fakeFeaturePersistence
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.classification,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.associated,
+    false
+  );
+
+  assert.ok(
+    result.missingRequirements.includes(
+      "available-governed-feature-persistence"
+    )
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 rejects non-governed feature persistence lookalikes"
+  );
+}
+
+
+{
+  const oceanSignalSelection =
+    buildSignalFeatureAssociationTestSignal();
+
+  const featurePersistence =
+    buildSignalFeatureAssociationTestPersistence();
+
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection,
+      featurePersistence
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.classification,
+    "compatible-but-unresolved"
+  );
+
+  assert.equal(
+    result.associated,
+    false
+  );
+
+  assert.equal(
+    result.signal.signalType,
+    "temperature-transition"
+  );
+
+  assert.equal(
+    result.feature.featureType,
+    "environmental-transition"
+  );
+
+  assert.equal(
+    result.associationState
+      .establishesCompatibilityOnly,
+    true
+  );
+
+  assert.equal(
+    result.associationState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.ok(
+    result.missingRequirements.includes(
+      "explicit-governed-signal-feature-identity-evidence"
+    )
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 keeps temperature-transition to environmental-transition unresolved"
+  );
+}
+
+
+{
+  const oceanSignalSelection =
+    buildSignalFeatureAssociationTestSignal({
+      opportunityType:
+        "current-supported-transition-candidate",
+
+      classification:
+        "current-supported-transition-candidate",
+
+      supportingEvidence: [
+        "temperature",
+        "current"
+      ],
+
+      sourceFamilies: [
+        "spatial-temperature",
+        "single-point-current"
+      ]
+    });
+
+  const featurePersistence =
+    buildSignalFeatureAssociationTestPersistence({
+      featureType:
+        "current-edge",
+
+      featureFamily:
+        "physical-ocean"
+    });
+
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection,
+      featurePersistence
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.signal.signalType,
+    "current-supported-transition"
+  );
+
+  assert.equal(
+    result.feature.featureType,
+    "current-edge"
+  );
+
+  assert.equal(
+    result.classification,
+    "compatible-but-unresolved"
+  );
+
+  assert.equal(
+    result.associated,
+    false
+  );
+
+  assert.equal(
+    result.associationState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 does not infer current-edge identity from current-supported-transition"
+  );
+}
+
+
+{
+  const oceanSignalSelection =
+    buildSignalFeatureAssociationTestSignal({
+      opportunityType:
+        "surface-water-boundary-candidate",
+
+      classification:
+        "chlorophyll-derived-surface-transition",
+
+      supportingEvidence: [
+        "productivity",
+        "clarity"
+      ],
+
+      sourceFamilies: [
+        "surface-chlorophyll"
+      ]
+    });
+
+  const featurePersistence =
+    buildSignalFeatureAssociationTestPersistence({
+      featureType:
+        "surface-water-character",
+
+      featureFamily:
+        "integrated-ocean-physics"
+    });
+
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection,
+      featurePersistence
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.signal.signalType,
+    "surface-water-transition"
+  );
+
+  assert.equal(
+    result.feature.featureType,
+    "surface-water-character"
+  );
+
+  assert.equal(
+    result.associated,
+    false
+  );
+
+  assert.equal(
+    result.classification,
+    "compatible-but-unresolved"
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 does not infer surface-water feature identity from chlorophyll-derived provenance"
+  );
+}
+
+
+{
+  const oceanSignalSelection =
+    buildSignalFeatureAssociationTestSignal();
+
+  const featurePersistence =
+    buildSignalFeatureAssociationTestPersistence();
+
+  const fabricatedIdentityEvidence = {
+    available: true,
+
+    identityEstablished: true,
+
+    signalType:
+      "temperature-transition",
+
+    featureType:
+      "environmental-transition",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    contractVersion:
+      "fabricated-signal-feature-identity-v1"
+  };
+
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection,
+      featurePersistence,
+      identityEvidence:
+        fabricatedIdentityEvidence
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.identityEvidence.available,
+    false
+  );
+
+  assert.equal(
+    result.identityEvidence.established,
+    false
+  );
+
+  assert.equal(
+    result.associated,
+    false
+  );
+
+  assert.equal(
+    result.classification,
+    "compatible-but-unresolved"
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 rejects fabricated matching identity evidence"
+  );
+}
+
+
+{
+  const oceanSignalSelection =
+    buildSignalFeatureAssociationTestSignal({
+      supportingEvidence: [
+        "temperature",
+        "current"
+      ],
+
+      sourceFamilies: [
+        "integrated-ocean-physics"
+      ]
+    });
+
+  const featurePersistence =
+    buildSignalFeatureAssociationTestPersistence();
+
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection,
+      featurePersistence
+    });
+
+  assert.equal(
+    result.associated,
+    false
+  );
+
+  assert.ok(
+    result.limitations.includes(
+      "source-family-overlap-does-not-establish-association"
+    )
+  );
+
+  assert.ok(
+    result.limitations.includes(
+      "supporting-evidence-overlap-does-not-establish-association"
+    )
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 does not convert provenance overlap into physical-feature identity"
+  );
+}
+
+
+{
+  const oceanSignalSelection =
+    buildSignalFeatureAssociationTestSignal();
+
+  const featurePersistence =
+    buildSignalFeatureAssociationTestPersistence();
+
+  const signalBefore =
+    structuredClone(
+      oceanSignalSelection
+    );
+
+  const persistenceBefore =
+    structuredClone(
+      featurePersistence
+    );
+
+  const result =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection,
+      featurePersistence
+    });
+
+  assert.deepEqual(
+    oceanSignalSelection,
+    signalBefore
+  );
+
+  assert.deepEqual(
+    featurePersistence,
+    persistenceBefore
+  );
+
+  assert.equal(
+    Object.isFrozen(result),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      result.associationState
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      result.signal
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      result.feature
+    ),
+    true
+  );
+
+  const prohibitedAuthority = [
+    result.associationState
+      .establishesEnvironmentalDirection,
+
+    result.associationState
+      .establishesLifecycleState,
+
+    result.associationState
+      .establishesFeatureMovement,
+
+    result.associationState
+      .establishesOpportunityPersistence,
+
+    result.associationState
+      .establishesRankingEligibility,
+
+    result.associationState
+      .establishesRank,
+
+    result.associationState
+      .establishesBiologicalSignificance,
+
+    result.associationState
+      .establishesFishPresence,
+
+    result.associationState
+      .establishesCatchProbability,
+
+    result.associationState
+      .establishesCaptainGuidance
+  ];
+
+  assert.deepEqual(
+    prohibitedAuthority,
+    Array(
+      prohibitedAuthority.length
+    ).fill(false)
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-governed-ocean-signal-feature-association-v1"
+  );
+
+  assert.equal(
+    result.responsibility,
+    "Associate"
+  );
+
+  console.log(
+    "PASS Governed Ocean Signal Feature Association v1 preserves immutability and fail-closed authority boundaries"
+  );
+}
+
 
 const unavailableChlorophyllResolution =
   resolveChlorophyllObservation({

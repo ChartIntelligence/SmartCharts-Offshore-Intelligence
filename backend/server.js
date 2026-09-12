@@ -37049,6 +37049,383 @@ export function resolveOceanSignals({
 
 /**
  * ------------------------------------------------------------
+ * Governed Ocean Signal Feature Association v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility: Associate.
+ *
+ * Purpose:
+ * Evaluate whether a governed species-neutral Ocean Signal has
+ * sufficient explicit upstream provenance to associate it with a
+ * governed environmental feature persistence contract.
+ *
+ * This contract is intentionally fail-closed.
+ *
+ * Signal terminology, source families, supporting-evidence labels,
+ * feature keys, feature types, feature families, and apparent
+ * semantic compatibility do not establish physical-feature identity.
+ *
+ * In particular, this contract must not infer:
+ *
+ * - temperature-transition -> environmentalTransition
+ * - temperature-transition -> temperatureFront
+ * - current-supported-transition -> current
+ * - current-supported-transition -> currentEdge
+ * - current-supported-transition -> currentShear
+ * - current-supported-transition -> currentConvergence
+ * - surface-water-transition -> surfaceWaterCharacter
+ * - surface-water-transition -> productivity
+ * - surface-water-transition -> clarity
+ * - surface-water-transition -> waterMass
+ * - surface-water-transition -> mixingZone
+ * - surface-water-transition -> oceanFront
+ *
+ * Composite multi-signal support is contextual reinforcement only
+ * and cannot establish physical-feature identity.
+ *
+ * This contract does not establish environmental direction,
+ * lifecycle state, feature movement, opportunity persistence,
+ * ranking eligibility, rank, biological significance, fish
+ * presence, catch probability, or captain guidance.
+ */
+export function buildGovernedOceanSignalFeatureAssociationV1({
+  oceanSignalSelection = null,
+  featurePersistence = null,
+  identityEvidence = null
+} = {}) {
+  const signalSelectionAvailable =
+    oceanSignalSelection?.available === true &&
+    oceanSignalSelection?.methodVersion ===
+      "pelora-ocean-signal-selection-v1.0" &&
+    oceanSignalSelection?.classification ===
+      "primary-signal-selected" &&
+    oceanSignalSelection?.primarySignal &&
+    typeof oceanSignalSelection.primarySignal ===
+      "object";
+
+  const primarySignal =
+    signalSelectionAvailable
+      ? oceanSignalSelection.primarySignal
+      : null;
+
+  const primarySignalType =
+    typeof primarySignal?.signalType === "string" &&
+    primarySignal.signalType.trim()
+      ? primarySignal.signalType.trim()
+      : null;
+
+  const featurePersistenceAvailable =
+    featurePersistence?.contractVersion ===
+      "pelora-feature-persistence-v1" &&
+    featurePersistence?.available === true &&
+    typeof featurePersistence?.featureType ===
+      "string" &&
+    featurePersistence.featureType.trim().length >
+      0 &&
+    OCEAN_PERSISTENCE_FEATURE_FAMILIES.includes(
+      featurePersistence?.featureFamily
+    );
+
+  const featureType =
+    featurePersistenceAvailable
+      ? featurePersistence.featureType.trim()
+      : null;
+
+  const featureFamily =
+    featurePersistenceAvailable
+      ? featurePersistence.featureFamily.trim()
+      : null;
+
+  /*
+   * v1 recognizes explicit identity evidence structurally but does
+   * not manufacture it from signal or persistence terminology.
+   *
+   * No current upstream Pelora contract establishes this identity,
+   * so association remains unresolved unless a future governed
+   * identity contract is connected here deliberately.
+   */
+  /*
+   * No authoritative governed Signal-Feature Identity Evidence
+   * contract is connected in v1.
+   *
+   * Preserve the input and provenance surface for future extension,
+   * but fail closed until Pelora deliberately recognizes an exact
+   * upstream identity-evidence contract.
+   */
+  const recognizedIdentityEvidenceContract =
+    null;
+
+  const identityEvidenceAvailable =
+    recognizedIdentityEvidenceContract !== null &&
+    identityEvidence?.available === true &&
+    identityEvidence?.contractVersion ===
+      recognizedIdentityEvidenceContract;
+
+  const explicitIdentityEstablished =
+    identityEvidenceAvailable &&
+    identityEvidence?.identityEstablished === true &&
+    identityEvidence?.signalType ===
+      primarySignalType &&
+    identityEvidence?.featureType ===
+      featureType &&
+    identityEvidence?.featureFamily ===
+      featureFamily;
+
+  const assessmentAvailable =
+    signalSelectionAvailable &&
+    primarySignalType !== null &&
+    featurePersistenceAvailable;
+
+  const associated =
+    assessmentAvailable &&
+    explicitIdentityEstablished;
+
+  const classification =
+    !assessmentAvailable
+      ? "unavailable"
+      : associated
+        ? "associated"
+        : "compatible-but-unresolved";
+
+  const reason =
+    !assessmentAvailable
+      ? "governed-ocean-signal-and-feature-persistence-required"
+      : associated
+        ? "explicit-governed-signal-feature-identity-established"
+        : "explicit-governed-signal-feature-identity-not-established";
+
+  const missingRequirements = [];
+
+  if (!signalSelectionAvailable) {
+    missingRequirements.push(
+      "available-governed-ocean-signal-selection"
+    );
+  }
+
+  if (!primarySignalType) {
+    missingRequirements.push(
+      "governed-primary-ocean-signal"
+    );
+  }
+
+  if (!featurePersistenceAvailable) {
+    missingRequirements.push(
+      "available-governed-feature-persistence"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    !explicitIdentityEstablished
+  ) {
+    missingRequirements.push(
+      "explicit-governed-signal-feature-identity-evidence"
+    );
+  }
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          oceanSignalSelection?.limitations
+        )
+          ? oceanSignalSelection.limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          featurePersistence?.limitations
+        )
+          ? featurePersistence.limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "signal-provenance-does-not-establish-physical-feature-identity",
+      "semantic-compatibility-does-not-establish-association",
+      "source-family-overlap-does-not-establish-association",
+      "supporting-evidence-overlap-does-not-establish-association",
+      "does-not-establish-environmental-direction",
+      "does-not-establish-lifecycle-state",
+      "does-not-establish-feature-movement",
+      "does-not-establish-opportunity-persistence",
+      "does-not-establish-ranking-eligibility",
+      "does-not-establish-rank",
+      "does-not-establish-biological-significance",
+      "does-not-confirm-fish-presence",
+      "does-not-estimate-catch-probability",
+      "does-not-provide-captain-guidance"
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available:
+      assessmentAvailable,
+
+    evidenceType:
+      "governed-ocean-signal-feature-association",
+
+    responsibility:
+      "Associate",
+
+    classification,
+
+    associated,
+
+    reason,
+
+    signal: {
+      available:
+        signalSelectionAvailable,
+
+      signalType:
+        primarySignalType,
+
+      sourceOpportunityType:
+        primarySignal
+          ?.sourceOpportunityType ??
+        null,
+
+      sourceClassification:
+        primarySignal
+          ?.sourceClassification ??
+        null,
+
+      supportingEvidence:
+        Array.isArray(
+          primarySignal?.supportingEvidence
+        )
+          ? [
+              ...primarySignal.supportingEvidence
+            ]
+          : [],
+
+      sourceFamilies:
+        Array.isArray(
+          primarySignal?.sourceFamilies
+        )
+          ? [
+              ...primarySignal.sourceFamilies
+            ]
+          : []
+    },
+
+    feature: {
+      available:
+        featurePersistenceAvailable,
+
+      featureType,
+
+      featureFamily,
+
+      classification:
+        featurePersistenceAvailable
+          ? featurePersistence
+              ?.classification ??
+            null
+          : null,
+
+      lifecycleState:
+        featurePersistenceAvailable
+          ? featurePersistence
+              ?.lifecycleState ??
+            null
+          : null
+    },
+
+    identityEvidence: {
+      available:
+        identityEvidenceAvailable,
+
+      established:
+        explicitIdentityEstablished,
+
+      contractVersion:
+        identityEvidence
+          ?.contractVersion ??
+        null
+    },
+
+    associationState: {
+      establishesAssociation:
+        associated,
+
+      establishesCompatibilityOnly:
+        assessmentAvailable &&
+        !associated,
+
+      establishesFeatureIdentity:
+        associated,
+
+      establishesEnvironmentalDirection:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesOpportunityPersistence:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false,
+
+      establishesBiologicalSignificance:
+        false,
+
+      establishesFishPresence:
+        false,
+
+      establishesCatchProbability:
+        false,
+
+      establishesCaptainGuidance:
+        false
+    },
+
+    upstreamContracts: {
+      oceanSignalSelection:
+        oceanSignalSelection
+          ?.methodVersion ??
+        null,
+
+      featurePersistence:
+        featurePersistence
+          ?.contractVersion ??
+        null,
+
+      identityEvidence:
+        identityEvidence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    interpretation:
+      "species-neutral-ocean-signal-feature-association",
+
+    contractVersion:
+      "pelora-governed-ocean-signal-feature-association-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Blue Marlin Habitat Suitability Model
  * ------------------------------------------------------------
  *
