@@ -36,6 +36,7 @@ import {
   persistGovernedOpportunityObservationV1,
   retrieveGovernedOpportunityObservationRowsV1,
   buildGovernedOpportunityEvidenceAccumulationV1,
+  buildGovernedOpportunityContinuityV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -57204,6 +57205,760 @@ for (
     "PASS governed opportunity evidence accumulation fails closed without governed observations"
   );
 }
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Continuity v1
+ * ------------------------------------------------------------
+ *
+ * Continuity establishes repeated governed evaluation of the
+ * same species/candidate identity through a chronological window.
+ *
+ * It does not establish opportunity persistence, lifecycle state,
+ * ranking permission, rank, fish presence, catch probability,
+ * score/confidence change, or captain guidance.
+ * ------------------------------------------------------------
+ */
+
+
+{
+  const continuity =
+    buildGovernedOpportunityContinuityV1();
+
+  assert.equal(
+    continuity.available,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .supported,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .classification,
+    "unavailable"
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .pattern,
+    "unresolved"
+  );
+
+  assert.ok(
+    continuity
+      .missingRequirements
+      .includes(
+        "governed-opportunity-evidence-accumulation"
+      )
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity continuity remains unavailable without governed accumulation"
+  );
+}
+
+
+{
+  const accumulation = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    candidateId:
+      "continuity-single-observation-1",
+
+    window: {
+      observationCount: 1,
+
+      firstEvaluatedAt:
+        "2026-09-12T06:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-12T06:00:00.000Z",
+
+      durationHours: 0
+    },
+
+    decisions: {
+      eligibleObservationCount: 1,
+
+      excludedObservationCount: 0,
+
+      exclusionReasons: []
+    },
+
+    limitations: [],
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-accumulation-v1"
+  };
+
+  const continuity =
+    buildGovernedOpportunityContinuityV1({
+      evidenceAccumulation:
+        accumulation
+    });
+
+  assert.equal(
+    continuity.available,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .supported,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    continuity
+      .missingRequirements
+      .includes(
+        "two-or-more-chronological-governed-opportunity-observations"
+      )
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesEvaluationContinuity,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity continuity requires a multi-observation chronological window"
+  );
+}
+
+
+{
+  const accumulation = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    candidateId:
+      "continuity-eligible-1",
+
+    window: {
+      observationCount: 3,
+
+      firstEvaluatedAt:
+        "2026-09-12T06:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-12T18:00:00.000Z",
+
+      durationHours: 12
+    },
+
+    decisions: {
+      eligibleObservationCount: 3,
+
+      excludedObservationCount: 0,
+
+      exclusionReasons: []
+    },
+
+    limitations: [],
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-accumulation-v1"
+  };
+
+  const before =
+    JSON.stringify(
+      accumulation
+    );
+
+  const continuity =
+    buildGovernedOpportunityContinuityV1({
+      evidenceAccumulation:
+        accumulation
+    });
+
+  assert.equal(
+    continuity.available,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .supported,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .classification,
+    "continuity-supported"
+  );
+
+  assert.equal(
+    continuity.species,
+    "blue-marlin"
+  );
+
+  assert.equal(
+    continuity.candidateId,
+    "continuity-eligible-1"
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .observationCount,
+    3
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .durationHours,
+    12
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .pattern,
+    "continuously-eligible"
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .eligibleObservationCount,
+    3
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .excludedObservationCount,
+    0
+  );
+
+  assert.equal(
+    JSON.stringify(
+      accumulation
+    ),
+    before
+  );
+
+  console.log(
+    "PASS governed opportunity continuity supports repeated chronological evaluation with continuous eligibility"
+  );
+}
+
+
+{
+  const accumulation = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    candidateId:
+      "continuity-intermittent-1",
+
+    window: {
+      observationCount: 4,
+
+      firstEvaluatedAt:
+        "2026-09-12T00:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-13T00:00:00.000Z",
+
+      durationHours: 24
+    },
+
+    decisions: {
+      eligibleObservationCount: 2,
+
+      excludedObservationCount: 2,
+
+      exclusionReasons: [
+        "minimum-opportunity-evidence-gate-not-satisfied"
+      ]
+    },
+
+    limitations: [],
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-accumulation-v1"
+  };
+
+  const continuity =
+    buildGovernedOpportunityContinuityV1({
+      evidenceAccumulation:
+        accumulation
+    });
+
+  assert.equal(
+    continuity.available,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .supported,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .pattern,
+    "intermittently-eligible"
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .eligibleObservationCount,
+    2
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .excludedObservationCount,
+    2
+  );
+
+  assert.ok(
+    continuity
+      .eligibilityHistory
+      .exclusionReasons
+      .includes(
+        "minimum-opportunity-evidence-gate-not-satisfied"
+      )
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesEvaluationContinuity,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity continuity preserves intermittent eligibility without erasing evaluation continuity"
+  );
+}
+
+
+{
+  const accumulation = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    candidateId:
+      "continuity-excluded-1",
+
+    window: {
+      observationCount: 3,
+
+      firstEvaluatedAt:
+        "2026-09-12T03:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-12T15:00:00.000Z",
+
+      durationHours: 12
+    },
+
+    decisions: {
+      eligibleObservationCount: 0,
+
+      excludedObservationCount: 3,
+
+      exclusionReasons: [
+        "minimum-opportunity-evidence-gate-not-satisfied"
+      ]
+    },
+
+    limitations: [],
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-accumulation-v1"
+  };
+
+  const continuity =
+    buildGovernedOpportunityContinuityV1({
+      evidenceAccumulation:
+        accumulation
+    });
+
+  assert.equal(
+    continuity.available,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .supported,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .pattern,
+    "continuously-excluded"
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesEvaluationContinuity,
+    true
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesCaptainOpportunity,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesRank,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity continuity preserves continuously excluded evaluation history without promoting opportunity status"
+  );
+}
+
+
+{
+  const accumulation = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    candidateId:
+      "continuity-count-mismatch-1",
+
+    window: {
+      observationCount: 3,
+
+      firstEvaluatedAt:
+        "2026-09-12T06:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-12T18:00:00.000Z",
+
+      durationHours: 12
+    },
+
+    decisions: {
+      eligibleObservationCount: 3,
+
+      excludedObservationCount: 1,
+
+      exclusionReasons: []
+    },
+
+    limitations: [],
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-accumulation-v1"
+  };
+
+  const continuity =
+    buildGovernedOpportunityContinuityV1({
+      evidenceAccumulation:
+        accumulation
+    });
+
+  assert.equal(
+    continuity.available,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuity
+      .supported,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .eligibilityHistory
+      .pattern,
+    "unresolved"
+  );
+
+  assert.ok(
+    continuity
+      .missingRequirements
+      .includes(
+        "consistent-governed-opportunity-decision-counts"
+      )
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesEvaluationContinuity,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity continuity fails closed for inconsistent governed decision counts"
+  );
+}
+
+
+{
+  const accumulation = {
+    available: true,
+
+    species:
+      "blue-marlin",
+
+    candidateId:
+      "continuity-boundary-1",
+
+    window: {
+      observationCount: 2,
+
+      firstEvaluatedAt:
+        "2026-09-12T08:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-12T14:00:00.000Z",
+
+      durationHours: 6
+    },
+
+    decisions: {
+      eligibleObservationCount: 2,
+
+      excludedObservationCount: 0,
+
+      exclusionReasons: []
+    },
+
+    limitations: [
+      "upstream-test-limitation"
+    ],
+
+    contractVersion:
+      "pelora-governed-opportunity-evidence-accumulation-v1"
+  };
+
+  const continuity =
+    buildGovernedOpportunityContinuityV1({
+      evidenceAccumulation:
+        accumulation
+    });
+
+  assert.equal(
+    continuity
+      .upstreamContracts
+      .evidenceAccumulation,
+    "pelora-governed-opportunity-evidence-accumulation-v1"
+  );
+
+  assert.ok(
+    continuity
+      .evidenceBasis
+      .includes(
+        "governed-opportunity-evidence-accumulation"
+      )
+  );
+
+  assert.ok(
+    continuity
+      .evidenceBasis
+      .includes(
+        "governed-chronological-opportunity-observation-window"
+      )
+  );
+
+  assert.ok(
+    continuity
+      .evidenceBasis
+      .includes(
+        "governed-opportunity-eligibility-history"
+      )
+  );
+
+  assert.ok(
+    continuity
+      .limitations
+      .includes(
+        "upstream-test-limitation"
+      )
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesSourceAgreement,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesLifecycleState,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesFeatureMovement,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesCaptainOpportunity,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    continuity
+      .continuityState
+      .establishesRank,
+    false
+  );
+
+  assert.equal(
+    continuity.contractVersion,
+    "pelora-governed-opportunity-continuity-v1"
+  );
+
+  assert.equal(
+    continuity.responsibility,
+    "Compare"
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      continuity
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      continuity.continuity
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      continuity
+        .eligibilityHistory
+    ),
+    true
+  );
+
+  assert.equal(
+    continuity.persistence,
+    undefined
+  );
+
+  assert.equal(
+    continuity.lifecycleState,
+    undefined
+  );
+
+  assert.equal(
+    continuity.rank,
+    undefined
+  );
+
+  assert.equal(
+    continuity.guidance,
+    undefined
+  );
+
+  console.log(
+    "PASS governed opportunity continuity preserves provenance, immutability, and continuity-not-persistence boundaries"
+  );
+}
+
 
 /*
  * ------------------------------------------------------------

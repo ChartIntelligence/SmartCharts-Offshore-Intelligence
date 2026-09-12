@@ -48116,6 +48116,324 @@ export function buildGovernedOpportunityEvidenceAccumulationV1({
 }
 
 
+/**
+ * ------------------------------------------------------------
+ * Governed Opportunity Continuity v1
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Compare.
+ *
+ * Purpose:
+ * Evaluate whether accumulated governed observations establish
+ * chronological evaluation continuity for one species/candidate
+ * identity through time.
+ *
+ * Continuity here means Pelora has repeatedly evaluated the same
+ * governed opportunity candidate across a valid chronological
+ * observation window. It does not establish that the fishing
+ * opportunity itself persisted through that window.
+ *
+ * Eligibility history is preserved as descriptive governed context.
+ * Continuous eligibility is not required for evaluation continuity,
+ * and repeated eligibility does not independently establish
+ * opportunity persistence.
+ *
+ * This contract does not establish persistence, lifecycle state,
+ * source agreement, feature movement, fish presence, catch
+ * probability, ranking permission, rank, score/confidence changes,
+ * or captain guidance.
+ */
+export function buildGovernedOpportunityContinuityV1({
+  evidenceAccumulation = null
+} = {}) {
+  const governedAccumulationAvailable =
+    evidenceAccumulation
+      ?.available === true &&
+    evidenceAccumulation
+      ?.contractVersion ===
+      "pelora-governed-opportunity-evidence-accumulation-v1" &&
+    typeof evidenceAccumulation
+      ?.species === "string" &&
+    evidenceAccumulation
+      .species
+      .trim()
+      .length > 0 &&
+    typeof evidenceAccumulation
+      ?.candidateId === "string" &&
+    evidenceAccumulation
+      .candidateId
+      .trim()
+      .length > 0;
+
+  const observationCount =
+    Number.isFinite(
+      evidenceAccumulation
+        ?.window
+        ?.observationCount
+    )
+      ? evidenceAccumulation
+          .window
+          .observationCount
+      : null;
+
+  const firstEvaluatedAt =
+    typeof evidenceAccumulation
+      ?.window
+      ?.firstEvaluatedAt === "string"
+      ? evidenceAccumulation
+          .window
+          .firstEvaluatedAt
+      : null;
+
+  const lastEvaluatedAt =
+    typeof evidenceAccumulation
+      ?.window
+      ?.lastEvaluatedAt === "string"
+      ? evidenceAccumulation
+          .window
+          .lastEvaluatedAt
+      : null;
+
+  const durationHours =
+    Number.isFinite(
+      evidenceAccumulation
+        ?.window
+        ?.durationHours
+    )
+      ? evidenceAccumulation
+          .window
+          .durationHours
+      : null;
+
+  const chronologicalWindowAvailable =
+    governedAccumulationAvailable &&
+    observationCount !== null &&
+    observationCount >= 2 &&
+    firstEvaluatedAt !== null &&
+    lastEvaluatedAt !== null &&
+    Date.parse(firstEvaluatedAt) <
+      Date.parse(lastEvaluatedAt) &&
+    durationHours !== null &&
+    durationHours > 0;
+
+  const eligibleObservationCount =
+    Number.isFinite(
+      evidenceAccumulation
+        ?.decisions
+        ?.eligibleObservationCount
+    )
+      ? evidenceAccumulation
+          .decisions
+          .eligibleObservationCount
+      : null;
+
+  const excludedObservationCount =
+    Number.isFinite(
+      evidenceAccumulation
+        ?.decisions
+        ?.excludedObservationCount
+    )
+      ? evidenceAccumulation
+          .decisions
+          .excludedObservationCount
+      : null;
+
+  const decisionCountsConsistent =
+    observationCount !== null &&
+    eligibleObservationCount !== null &&
+    excludedObservationCount !== null &&
+    eligibleObservationCount >= 0 &&
+    excludedObservationCount >= 0 &&
+    eligibleObservationCount +
+      excludedObservationCount ===
+      observationCount;
+
+  const available =
+    chronologicalWindowAvailable &&
+    decisionCountsConsistent;
+
+  const eligibilityPattern =
+    !available
+      ? "unresolved"
+      : eligibleObservationCount ===
+          observationCount
+        ? "continuously-eligible"
+        : excludedObservationCount ===
+            observationCount
+          ? "continuously-excluded"
+          : "intermittently-eligible";
+
+  const missingRequirements = [
+    !governedAccumulationAvailable
+      ? "governed-opportunity-evidence-accumulation"
+      : null,
+
+    governedAccumulationAvailable &&
+    !chronologicalWindowAvailable
+      ? "two-or-more-chronological-governed-opportunity-observations"
+      : null,
+
+    chronologicalWindowAvailable &&
+    !decisionCountsConsistent
+      ? "consistent-governed-opportunity-decision-counts"
+      : null
+  ].filter(Boolean);
+
+  const evidenceBasis = [
+    governedAccumulationAvailable
+      ? "governed-opportunity-evidence-accumulation"
+      : null,
+
+    chronologicalWindowAvailable
+      ? "governed-chronological-opportunity-observation-window"
+      : null,
+
+    decisionCountsConsistent
+      ? "governed-opportunity-eligibility-history"
+      : null
+  ].filter(Boolean);
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          evidenceAccumulation
+            ?.limitations
+        )
+          ? evidenceAccumulation
+              .limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "Governed Opportunity Continuity evaluates repeated governed evaluation continuity for one species/candidate identity.",
+
+      "Evaluation continuity does not independently establish that a fishing opportunity persisted through the observation window.",
+
+      "Continuous ranking eligibility does not independently establish opportunity persistence.",
+
+      "Intermittent or excluded ranking eligibility does not erase governed evaluation continuity.",
+
+      "Governed Opportunity Continuity does not assign an opportunity lifecycle state.",
+
+      "Governed Opportunity Continuity does not calculate or infer feature position or movement.",
+
+      "This contract does not establish fish presence, catch probability, ranking permission, rank, score/confidence changes, or captain guidance."
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available,
+
+    continuityType:
+      "governed-opportunity-continuity",
+
+    responsibility:
+      "Compare",
+
+    species:
+      governedAccumulationAvailable
+        ? evidenceAccumulation
+            .species
+        : null,
+
+    candidateId:
+      governedAccumulationAvailable
+        ? evidenceAccumulation
+            .candidateId
+        : null,
+
+    continuity: {
+      supported:
+        available,
+
+      classification:
+        available
+          ? "continuity-supported"
+          : "unavailable",
+
+      observationCount,
+
+      firstEvaluatedAt,
+
+      lastEvaluatedAt,
+
+      durationHours
+    },
+
+    eligibilityHistory: {
+      pattern:
+        eligibilityPattern,
+
+      eligibleObservationCount,
+
+      excludedObservationCount,
+
+      exclusionReasons:
+        Array.isArray(
+          evidenceAccumulation
+            ?.decisions
+            ?.exclusionReasons
+        )
+          ? [
+              ...evidenceAccumulation
+                .decisions
+                .exclusionReasons
+            ]
+          : []
+    },
+
+    continuityState: {
+      establishesEvaluationContinuity:
+        available,
+
+      establishesSourceAgreement:
+        false,
+
+      establishesOpportunityPersistence:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    evidenceBasis,
+
+    upstreamContracts: {
+      evidenceAccumulation:
+        evidenceAccumulation
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-opportunity-continuity-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {
