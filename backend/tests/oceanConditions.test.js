@@ -39,6 +39,7 @@ import {
   buildGovernedOpportunityContinuityV1,
   buildGovernedOpportunityEvidenceCoherenceV1,
   buildGovernedOpportunityPersistenceV1,
+  buildGovernedOpportunityMultiDayPersistenceIntelligenceV1,
   rankDynamicBlueMarlinOpportunities,
   rankUnifiedSpeciesOpportunitiesV1,
   presentUnifiedRankedOpportunitiesV1,
@@ -59450,6 +59451,526 @@ const buildOpportunityPersistenceTestScenario = ({
 
   console.log(
     "PASS governed opportunity persistence preserves provenance, immutability, and non-predictive authority boundaries"
+  );
+}
+
+
+
+/*
+ * ------------------------------------------------------------
+ * Governed Opportunity Multi-Day Persistence Intelligence v1
+ * ------------------------------------------------------------
+ *
+ * This layer explains governed persistence duration only after
+ * Opportunity Persistence has already been established.
+ *
+ * It does not infer temporal trend, lifecycle, movement, freshness,
+ * ranking authority, fish presence, or captain guidance.
+ */
+
+
+const buildMultiDayPersistenceTestInput = ({
+  firstEvaluatedAt =
+    "2026-09-10T12:00:00.000Z",
+
+  lastEvaluatedAt =
+    "2026-09-10T18:00:00.000Z",
+
+  durationHours = 6,
+
+  observationCount = 2,
+
+  supported = true,
+
+  classification =
+    "persistence-supported"
+} = {}) => {
+  const {
+    continuity,
+    coherence
+  } =
+    buildOpportunityPersistenceTestScenario();
+
+  const basePersistence =
+    buildGovernedOpportunityPersistenceV1({
+      opportunityContinuity:
+        continuity,
+
+      evidenceCoherence:
+        coherence
+    });
+
+  return {
+    ...basePersistence,
+
+    persistence: {
+      ...basePersistence.persistence,
+
+      supported,
+
+      classification,
+
+      observationCount,
+
+      firstEvaluatedAt,
+
+      lastEvaluatedAt,
+
+      durationHours
+    },
+
+    persistenceState: {
+      ...basePersistence.persistenceState,
+
+      establishesOpportunityPersistence:
+        supported &&
+        classification ===
+          "persistence-supported"
+    }
+  };
+};
+
+
+{
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1();
+
+  assert.equal(
+    intelligence.available,
+    false
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.supported,
+    false
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    intelligence.missingRequirements.includes(
+      "governed-opportunity-persistence"
+    )
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence remains unavailable without governed Opportunity Persistence"
+  );
+}
+
+
+{
+  const opportunityPersistence =
+    buildMultiDayPersistenceTestInput();
+
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+      opportunityPersistence
+    });
+
+  assert.equal(
+    intelligence.available,
+    true
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.supported,
+    false
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.classification,
+    "persistent-within-single-day"
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.durationHours,
+    6
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.completed24HourPeriods,
+    0
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence preserves sub-24-hour persistence without calling it multi-day"
+  );
+}
+
+
+{
+  const opportunityPersistence =
+    buildMultiDayPersistenceTestInput({
+      firstEvaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-11T12:00:00.000Z",
+
+      durationHours:
+        24
+    });
+
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+      opportunityPersistence
+    });
+
+  assert.equal(
+    intelligence.available,
+    true
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.supported,
+    true
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.classification,
+    "multi-day-persistence-supported"
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.durationHours,
+    24
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.durationDays,
+    1
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.completed24HourPeriods,
+    1
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence establishes multi-day context at the governed 24-hour threshold"
+  );
+}
+
+
+{
+  const opportunityPersistence =
+    buildMultiDayPersistenceTestInput({
+      firstEvaluatedAt:
+        "2026-09-10T23:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-11T01:00:00.000Z",
+
+      durationHours:
+        2
+    });
+
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+      opportunityPersistence
+    });
+
+  assert.equal(
+    intelligence.available,
+    true
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.supported,
+    false
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.classification,
+    "persistent-within-single-day"
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.durationHours,
+    2
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence does not treat a calendar-date boundary as multi-day evidence"
+  );
+}
+
+
+{
+  const opportunityPersistence =
+    buildMultiDayPersistenceTestInput({
+      firstEvaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-12T18:00:00.000Z",
+
+      durationHours:
+        54,
+
+      observationCount:
+        5
+    });
+
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+      opportunityPersistence
+    });
+
+  assert.equal(
+    intelligence.available,
+    true
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.supported,
+    true
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.observationCount,
+    5
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.durationHours,
+    54
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.durationDays,
+    2.25
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.completed24HourPeriods,
+    2
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence preserves governed duration and evaluation count across multiple days"
+  );
+}
+
+
+{
+  const opportunityPersistence =
+    buildMultiDayPersistenceTestInput({
+      supported:
+        false,
+
+      classification:
+        "persistence-not-established"
+    });
+
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+      opportunityPersistence
+    });
+
+  assert.equal(
+    intelligence.available,
+    false
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.supported,
+    false
+  );
+
+  assert.ok(
+    intelligence.missingRequirements.includes(
+      "supported-governed-opportunity-persistence"
+    )
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence refuses temporal interpretation when Opportunity Persistence is not established"
+  );
+}
+
+
+{
+  const opportunityPersistence =
+    buildMultiDayPersistenceTestInput({
+      firstEvaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-11T12:00:00.000Z",
+
+      durationHours:
+        25
+    });
+
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+      opportunityPersistence
+    });
+
+  assert.equal(
+    intelligence.available,
+    false
+  );
+
+  assert.equal(
+    intelligence.multiDayPersistence.supported,
+    false
+  );
+
+  assert.ok(
+    intelligence.missingRequirements.includes(
+      "consistent-governed-persistence-duration"
+    )
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence fails closed when governed duration disagrees with authoritative timestamps"
+  );
+}
+
+
+{
+  const opportunityPersistence =
+    buildMultiDayPersistenceTestInput({
+      firstEvaluatedAt:
+        "2026-09-10T12:00:00.000Z",
+
+      lastEvaluatedAt:
+        "2026-09-12T12:00:00.000Z",
+
+      durationHours:
+        48,
+
+      observationCount:
+        4
+    });
+
+  const intelligence =
+    buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+      opportunityPersistence
+    });
+
+  assert.equal(
+    intelligence.contractVersion,
+    "pelora-governed-opportunity-multi-day-persistence-intelligence-v1"
+  );
+
+  assert.equal(
+    intelligence.responsibility,
+    "Explain"
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      intelligence
+    ),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      intelligence.multiDayPersistence
+    ),
+    true
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesMultiDayPersistenceContext,
+    true
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesFreshness,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesTrend,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesStrengthening,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesWeakening,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesLifecycleState,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesFeatureMovement,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesCaptainOpportunity,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    intelligence.temporalState
+      .establishesRank,
+    false
+  );
+
+  assert.equal(
+    intelligence.upstreamContracts
+      .opportunityPersistence,
+    "pelora-governed-opportunity-persistence-v1"
+  );
+
+  assert.ok(
+    intelligence.limitations.includes(
+      "This contract does not determine strengthening, weakening, stability, or trend."
+    )
+  );
+
+  assert.ok(
+    intelligence.limitations.includes(
+      "This contract does not determine evidence freshness."
+    )
+  );
+
+  console.log(
+    "PASS multi-day persistence intelligence preserves provenance, immutability, and interpretation-only authority boundaries"
   );
 }
 

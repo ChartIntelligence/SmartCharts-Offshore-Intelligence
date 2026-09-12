@@ -49351,6 +49351,325 @@ export function buildGovernedOpportunityPersistenceV1({
 }
 
 
+
+/**
+ * Governed Opportunity Multi-Day Persistence Intelligence v1
+ *
+ * Responsibility: Explain
+ *
+ * This contract interprets the governed temporal extent of an
+ * opportunity only after Opportunity Persistence has already been
+ * established upstream.
+ *
+ * It may distinguish persistence contained within a single 24-hour
+ * period from persistence spanning at least 24 governed hours.
+ *
+ * It does not establish Opportunity Persistence itself, freshness,
+ * strengthening/weakening, lifecycle state, physical-feature
+ * identity or movement, fish presence, catch probability, ranking
+ * permission, rank, score/confidence changes, or captain guidance.
+ */
+export function buildGovernedOpportunityMultiDayPersistenceIntelligenceV1({
+  opportunityPersistence = null
+} = {}) {
+  const persistenceContractAvailable =
+    opportunityPersistence?.available === true &&
+    opportunityPersistence?.contractVersion ===
+      "pelora-governed-opportunity-persistence-v1" &&
+    typeof opportunityPersistence?.species === "string" &&
+    opportunityPersistence.species.trim().length > 0 &&
+    typeof opportunityPersistence?.candidateId === "string" &&
+    opportunityPersistence.candidateId.trim().length > 0 &&
+    opportunityPersistence?.persistence &&
+    typeof opportunityPersistence.persistence === "object";
+
+  const persistenceSupported =
+    persistenceContractAvailable &&
+    opportunityPersistence.persistence.supported === true &&
+    opportunityPersistence.persistence.classification ===
+      "persistence-supported" &&
+    opportunityPersistence?.persistenceState
+      ?.establishesOpportunityPersistence === true;
+
+  const observationCount =
+    persistenceSupported &&
+    Number.isInteger(
+      opportunityPersistence.persistence.observationCount
+    )
+      ? opportunityPersistence.persistence.observationCount
+      : null;
+
+  const firstEvaluatedAt =
+    persistenceSupported &&
+    typeof opportunityPersistence.persistence.firstEvaluatedAt ===
+      "string"
+      ? opportunityPersistence.persistence.firstEvaluatedAt
+      : null;
+
+  const lastEvaluatedAt =
+    persistenceSupported &&
+    typeof opportunityPersistence.persistence.lastEvaluatedAt ===
+      "string"
+      ? opportunityPersistence.persistence.lastEvaluatedAt
+      : null;
+
+  const upstreamDurationHours =
+    persistenceSupported &&
+    Number.isFinite(
+      opportunityPersistence.persistence.durationHours
+    )
+      ? opportunityPersistence.persistence.durationHours
+      : null;
+
+  const firstEvaluatedMs =
+    firstEvaluatedAt !== null
+      ? Date.parse(firstEvaluatedAt)
+      : Number.NaN;
+
+  const lastEvaluatedMs =
+    lastEvaluatedAt !== null
+      ? Date.parse(lastEvaluatedAt)
+      : Number.NaN;
+
+  const chronologicalWindowValid =
+    Number.isFinite(firstEvaluatedMs) &&
+    Number.isFinite(lastEvaluatedMs) &&
+    lastEvaluatedMs > firstEvaluatedMs;
+
+  const derivedDurationHours =
+    chronologicalWindowValid
+      ? (lastEvaluatedMs - firstEvaluatedMs) /
+        (1000 * 60 * 60)
+      : null;
+
+  const durationConsistent =
+    derivedDurationHours !== null &&
+    upstreamDurationHours !== null &&
+    upstreamDurationHours > 0 &&
+    Math.abs(
+      derivedDurationHours - upstreamDurationHours
+    ) < 1e-9;
+
+  const observationWindowValid =
+    Number.isInteger(observationCount) &&
+    observationCount >= 2;
+
+  const assessmentAvailable =
+    persistenceSupported &&
+    chronologicalWindowValid &&
+    durationConsistent &&
+    observationWindowValid;
+
+  const multiDayThresholdHours = 24;
+
+  const multiDaySupported =
+    assessmentAvailable &&
+    derivedDurationHours >=
+      multiDayThresholdHours;
+
+  const classification =
+    !assessmentAvailable
+      ? "unavailable"
+      : multiDaySupported
+        ? "multi-day-persistence-supported"
+        : "persistent-within-single-day";
+
+  const completed24HourPeriods =
+    assessmentAvailable
+      ? Math.floor(
+          derivedDurationHours /
+            multiDayThresholdHours
+        )
+      : null;
+
+  const durationDays =
+    assessmentAvailable
+      ? derivedDurationHours / 24
+      : null;
+
+  const missingRequirements = [];
+
+  if (!persistenceContractAvailable) {
+    missingRequirements.push(
+      "governed-opportunity-persistence"
+    );
+  }
+
+  if (
+    persistenceContractAvailable &&
+    !persistenceSupported
+  ) {
+    missingRequirements.push(
+      "supported-governed-opportunity-persistence"
+    );
+  }
+
+  if (
+    persistenceSupported &&
+    !observationWindowValid
+  ) {
+    missingRequirements.push(
+      "two-or-more-governed-persistence-observations"
+    );
+  }
+
+  if (
+    persistenceSupported &&
+    !chronologicalWindowValid
+  ) {
+    missingRequirements.push(
+      "valid-governed-persistence-time-window"
+    );
+  }
+
+  if (
+    persistenceSupported &&
+    chronologicalWindowValid &&
+    !durationConsistent
+  ) {
+    missingRequirements.push(
+      "consistent-governed-persistence-duration"
+    );
+  }
+
+  const limitations = [
+    "Multi-day persistence intelligence requires supported governed Opportunity Persistence.",
+    "Multi-day persistence requires at least 24 elapsed governed hours.",
+    "Crossing a calendar-date boundary alone does not establish multi-day persistence.",
+    "Observation count alone does not establish multi-day persistence.",
+    "This contract interprets authoritative governed evaluation time only.",
+    "This contract does not determine evidence freshness.",
+    "This contract does not determine strengthening, weakening, stability, or trend.",
+    "This contract does not establish a lifecycle state.",
+    "This contract does not establish physical-feature identity or movement.",
+    "This contract does not establish fish presence or catch probability.",
+    "This contract does not create ranking eligibility, rank, score, or confidence.",
+    "This contract does not provide captain guidance."
+  ];
+
+  return deepFreezeSnapshotValue({
+    available:
+      assessmentAvailable,
+
+    intelligenceType:
+      "governed-opportunity-multi-day-persistence",
+
+    responsibility:
+      "Explain",
+
+    species:
+      assessmentAvailable
+        ? opportunityPersistence.species
+        : null,
+
+    candidateId:
+      assessmentAvailable
+        ? opportunityPersistence.candidateId
+        : null,
+
+    multiDayPersistence: {
+      supported:
+        multiDaySupported,
+
+      classification,
+
+      thresholdHours:
+        multiDayThresholdHours,
+
+      observationCount:
+        assessmentAvailable
+          ? observationCount
+          : null,
+
+      firstEvaluatedAt:
+        assessmentAvailable
+          ? firstEvaluatedAt
+          : null,
+
+      lastEvaluatedAt:
+        assessmentAvailable
+          ? lastEvaluatedAt
+          : null,
+
+      durationHours:
+        assessmentAvailable
+          ? derivedDurationHours
+          : null,
+
+      durationDays:
+        assessmentAvailable
+          ? durationDays
+          : null,
+
+      completed24HourPeriods:
+        assessmentAvailable
+          ? completed24HourPeriods
+          : null
+    },
+
+    temporalState: {
+      establishesMultiDayPersistenceContext:
+        multiDaySupported,
+
+      establishesOpportunityPersistence:
+        false,
+
+      establishesFreshness:
+        false,
+
+      establishesTrend:
+        false,
+
+      establishesStrengthening:
+        false,
+
+      establishesWeakening:
+        false,
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesCaptainOpportunity:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false
+    },
+
+    evidenceBasis: [
+      "governed-opportunity-persistence",
+      "governed-opportunity-persistence-time-window"
+    ],
+
+    upstreamContracts: {
+      opportunityPersistence:
+        opportunityPersistence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements:
+      [...new Set(
+        missingRequirements
+      )],
+
+    limitations,
+
+    contractVersion:
+      "pelora-governed-opportunity-multi-day-persistence-intelligence-v1"
+  });
+}
+
+
 export function rankDynamicBlueMarlinOpportunities(
   opportunities = []
 ) {
