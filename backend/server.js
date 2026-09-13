@@ -1,4 +1,5 @@
 import http from "node:http";
+import { createHash } from "node:crypto";
 import {
   URL,
   pathToFileURL
@@ -23777,6 +23778,578 @@ export function buildFeaturePersistenceContract({
 
     contractVersion:
       "pelora-feature-persistence-v1"
+  });
+}
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Environmental Feature Observation v1.0
+ * ------------------------------------------------------------
+ *
+ * Responsibility:
+ * Preserve.
+ *
+ * Purpose:
+ * Preserve the identity and authoritative sampling footprint of
+ * one governed environmental-feature observation.
+ *
+ * This contract establishes observation identity only. It does
+ * not establish the position, geometry, persistence, movement,
+ * or cross-time identity of a physical ocean feature.
+ *
+ * Observation, request, query-center, and snapshot coordinates
+ * must not be promoted to governed feature positions by this
+ * contract.
+ *
+ * v1 currently supports governed spatial temperature-transition
+ * observations only.
+ */
+export function buildGovernedEnvironmentalFeatureObservationV1({
+  featureType = "temperature-transition",
+  featureFamily = "physical-ocean",
+  observationType =
+    "temperature-transition-observation",
+  spatialStructure = null,
+  sourceType =
+    "spatial-temperature-analysis",
+  sourceContractVersion = null
+} = {}) {
+  const contractVersion =
+    "pelora-governed-environmental-feature-observation-v1";
+
+  const validFeatureType =
+    featureType ===
+    "temperature-transition";
+
+  const validFeatureFamily =
+    featureFamily ===
+      "physical-ocean" &&
+    OCEAN_PERSISTENCE_FEATURE_FAMILIES
+      .includes(
+        featureFamily
+      );
+
+  const validObservationType =
+    observationType ===
+    "temperature-transition-observation";
+
+  const validSpatialStructure =
+    spatialStructure &&
+    typeof spatialStructure ===
+      "object" &&
+    !Array.isArray(
+      spatialStructure
+    );
+
+  const validSourceType =
+    sourceType ===
+    "spatial-temperature-analysis";
+
+  const upstreamContractVersion =
+    typeof spatialStructure
+      ?.thresholdVersion ===
+      "string" &&
+    spatialStructure
+      .thresholdVersion
+      .trim()
+      .length >
+      0
+      ? spatialStructure
+          .thresholdVersion
+      : null;
+
+  const normalizedSourceContractVersion =
+    typeof sourceContractVersion ===
+      "string" &&
+    sourceContractVersion
+      .trim()
+      .length >
+      0
+      ? sourceContractVersion
+      : upstreamContractVersion;
+
+  const validSourceContractVersion =
+    normalizedSourceContractVersion ===
+      "pelora-sst-spatial-range-v1" &&
+    upstreamContractVersion ===
+      "pelora-sst-spatial-range-v1";
+
+  const radiusNauticalMiles =
+    Number.isFinite(
+      spatialStructure
+        ?.sampleRadiusNauticalMiles
+    ) &&
+    spatialStructure
+      .sampleRadiusNauticalMiles >
+      0
+      ? spatialStructure
+          .sampleRadiusNauticalMiles
+      : null;
+
+  const sufficientCoverage =
+    spatialStructure
+      ?.coverage ===
+      "sufficient";
+
+  const supportedClassification =
+    [
+      "weak-temperature-transition",
+      "moderate-temperature-transition",
+      "strong-temperature-break-candidate"
+    ].includes(
+      spatialStructure
+        ?.classification
+    );
+
+  const directionOrder =
+    new Map([
+      ["north", 0],
+      ["east", 1],
+      ["south", 2],
+      ["west", 3]
+    ]);
+
+  const isValidLatitude =
+    value =>
+      Number.isFinite(
+        value
+      ) &&
+      value >=
+        -90 &&
+      value <=
+        90;
+
+  const isValidLongitude =
+    value =>
+      Number.isFinite(
+        value
+      ) &&
+      value >=
+        -180 &&
+      value <=
+        180;
+
+  const rawSamples =
+    Array.isArray(
+      spatialStructure
+        ?.samples
+    )
+      ? spatialStructure.samples
+      : [];
+
+  const samples =
+    rawSamples
+      .filter(
+        sample => {
+          const observedAtTimestamp =
+            Date.parse(
+              sample
+                ?.observedAt ??
+              ""
+            );
+
+          return (
+            typeof sample
+              ?.direction ===
+              "string" &&
+            directionOrder.has(
+              sample.direction
+            ) &&
+            isValidLatitude(
+              sample
+                ?.requestedLatitude
+            ) &&
+            isValidLongitude(
+              sample
+                ?.requestedLongitude
+            ) &&
+            isValidLatitude(
+              sample
+                ?.resolvedLatitude
+            ) &&
+            isValidLongitude(
+              sample
+                ?.resolvedLongitude
+            ) &&
+            Number.isFinite(
+              sample
+                ?.temperatureFahrenheit
+            ) &&
+            Number.isFinite(
+              observedAtTimestamp
+            ) &&
+            typeof sample
+              ?.source
+              ?.provider ===
+              "string" &&
+            sample
+              .source
+              .provider
+              .trim()
+              .length >
+              0 &&
+            typeof sample
+              ?.source
+              ?.classification ===
+              "string" &&
+            sample
+              .source
+              .classification
+              .trim()
+              .length >
+              0 &&
+            sample
+              ?.source
+              ?.availability ===
+              "available"
+          );
+        }
+      )
+      .map(
+        sample => ({
+          direction:
+            sample.direction,
+
+          requestedLatitude:
+            sample
+              .requestedLatitude,
+
+          requestedLongitude:
+            sample
+              .requestedLongitude,
+
+          resolvedLatitude:
+            sample
+              .resolvedLatitude,
+
+          resolvedLongitude:
+            sample
+              .resolvedLongitude,
+
+          temperatureFahrenheit:
+            sample
+              .temperatureFahrenheit,
+
+          observedAt:
+            new Date(
+              sample.observedAt
+            ).toISOString(),
+
+          source: {
+            provider:
+              sample
+                .source
+                .provider,
+
+            classification:
+              sample
+                .source
+                .classification,
+
+            availability:
+              sample
+                .source
+                .availability ??
+              null
+          }
+        })
+      )
+      .sort(
+        (
+          firstSample,
+          secondSample
+        ) =>
+          directionOrder.get(
+            firstSample.direction
+          ) -
+          directionOrder.get(
+            secondSample.direction
+          )
+      );
+
+  const sufficientSampleCount =
+    samples.length >=
+      3;
+
+  const uniqueDirections =
+    new Set(
+      samples.map(
+        sample =>
+          sample.direction
+      )
+    );
+
+  const uniqueDirectionCountValid =
+    uniqueDirections.size ===
+      samples.length;
+
+  const observationTimes = [
+    ...new Set(
+      samples.map(
+        sample =>
+          sample.observedAt
+      )
+    )
+  ];
+
+  const consistentObservationTime =
+    observationTimes.length ===
+      1;
+
+  const observedAt =
+    consistentObservationTime
+      ? observationTimes[0]
+      : null;
+
+  const missingRequirements = [];
+
+  if (!validFeatureType) {
+    missingRequirements.push(
+      "supported-feature-type"
+    );
+  }
+
+  if (!validFeatureFamily) {
+    missingRequirements.push(
+      "supported-feature-family"
+    );
+  }
+
+  if (!validObservationType) {
+    missingRequirements.push(
+      "supported-observation-type"
+    );
+  }
+
+  if (!validSpatialStructure) {
+    missingRequirements.push(
+      "governed-spatial-structure"
+    );
+  }
+
+  if (!validSourceType) {
+    missingRequirements.push(
+      "supported-source-type"
+    );
+  }
+
+  if (!validSourceContractVersion) {
+    missingRequirements.push(
+      "recognized-spatial-temperature-contract"
+    );
+  }
+
+  if (
+    radiusNauticalMiles ===
+      null
+  ) {
+    missingRequirements.push(
+      "valid-sampling-radius"
+    );
+  }
+
+  if (!sufficientCoverage) {
+    missingRequirements.push(
+      "sufficient-spatial-coverage"
+    );
+  }
+
+  if (!supportedClassification) {
+    missingRequirements.push(
+      "supported-temperature-transition-classification"
+    );
+  }
+
+  if (!sufficientSampleCount) {
+    missingRequirements.push(
+      "at-least-three-valid-spatial-samples"
+    );
+  }
+
+  if (!uniqueDirectionCountValid) {
+    missingRequirements.push(
+      "unique-spatial-sample-directions"
+    );
+  }
+
+  if (!consistentObservationTime) {
+    missingRequirements.push(
+      "consistent-spatial-sample-observation-time"
+    );
+  }
+
+  const available =
+    missingRequirements.length ===
+      0;
+
+  const canonicalObservation =
+    available
+      ? JSON.stringify({
+          contractVersion,
+          observationType,
+          featureType,
+          featureFamily,
+          observedAt,
+          radiusNauticalMiles,
+          sourceType,
+          sourceContractVersion:
+            normalizedSourceContractVersion,
+          samples
+        })
+      : null;
+
+  const observationReference =
+    canonicalObservation
+      ? [
+          "pelora-observation-v1",
+          createHash(
+            "sha256"
+          )
+            .update(
+              canonicalObservation,
+              "utf8"
+            )
+            .digest(
+              "hex"
+            )
+        ].join(":")
+      : null;
+
+  const freezeDeep =
+    value => {
+      if (
+        value &&
+        typeof value ===
+          "object" &&
+        !Object.isFrozen(
+          value
+        )
+      ) {
+        for (
+          const child of
+          Object.values(
+            value
+          )
+        ) {
+          freezeDeep(
+            child
+          );
+        }
+
+        Object.freeze(
+          value
+        );
+      }
+
+      return value;
+    };
+
+  return freezeDeep({
+    available,
+
+    observationType,
+
+    responsibility:
+      "Preserve",
+
+    observationReference,
+
+    observedAt,
+
+    feature: {
+      featureType:
+        validFeatureType
+          ? featureType
+          : null,
+
+      featureFamily:
+        validFeatureFamily
+          ? featureFamily
+          : null
+    },
+
+    samplingFootprint: {
+      radiusNauticalMiles,
+
+      sampleCount:
+        samples.length,
+
+      samples
+    },
+
+    source: {
+      type:
+        validSourceType
+          ? sourceType
+          : null,
+
+      contractVersion:
+        validSourceContractVersion
+          ? normalizedSourceContractVersion
+          : null
+    },
+
+    authority: {
+      establishesObservationIdentity:
+        available,
+
+      establishesSamplingFootprint:
+        available,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeaturePosition:
+        false,
+
+      establishesFeatureGeometry:
+        false,
+
+      establishesPersistence:
+        false,
+
+      establishesMovement:
+        false,
+
+      establishesOpportunity:
+        false,
+
+      establishesBiologicalSignificance:
+        false,
+
+      establishesFishPresence:
+        false,
+
+      establishesCatchProbability:
+        false
+    },
+
+    missingRequirements: [
+      ...new Set(
+        missingRequirements
+      )
+    ],
+
+    limitations: [
+      "preserves-environmental-observation-identity-only",
+      "sampling-footprint-is-not-physical-feature-position",
+      "request-or-query-center-is-not-feature-position",
+      "does-not-resolve-exact-temperature-boundary",
+      "does-not-establish-physical-feature-identity",
+      "does-not-establish-cross-time-feature-identity",
+      "does-not-establish-feature-persistence",
+      "does-not-establish-feature-movement",
+      "does-not-establish-ocean-front",
+      "does-not-establish-biological-significance",
+      "does-not-establish-fish-presence",
+      "does-not-estimate-catch-probability"
+    ],
+
+    interpretation:
+      "species-neutral-governed-environmental-feature-observation",
+
+    contractVersion
   });
 }
 
@@ -59213,6 +59786,12 @@ async function getOceanConditions(
     );
   }
 
+  const governedEnvironmentalFeatureObservation =
+    buildGovernedEnvironmentalFeatureObservationV1({
+      spatialStructure:
+        sstSpatial
+    });
+
 
 
 
@@ -60255,7 +60834,9 @@ currents.derived = {
     ],
 
     spatialStructure:
-      sstSpatial
+      sstSpatial,
+
+    governedEnvironmentalFeatureObservation
   },
 
   source: {

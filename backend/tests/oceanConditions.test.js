@@ -111,6 +111,7 @@ import {
   OCEAN_PERSISTENCE_FEATURE_FAMILIES,
   buildFeaturePersistenceContract,
   buildTemporalFeatureContinuity,
+  buildGovernedEnvironmentalFeatureObservationV1,
   buildGovernedFeaturePosition,
   buildGovernedFeatureAssociation,
   buildGovernedFeatureAssociationEvidence,
@@ -29382,6 +29383,781 @@ assert.equal(
 
 console.log(
   "PASS Temporal Feature Continuity preserves the no-movement fallback when Governed Feature Movement is absent"
+);
+
+
+/**
+ * ------------------------------------------------------------
+ * Governed Environmental Feature Observation v1.0
+ * ------------------------------------------------------------
+ */
+
+const unavailableGovernedEnvironmentalFeatureObservation =
+  buildGovernedEnvironmentalFeatureObservationV1();
+
+assert.equal(
+  unavailableGovernedEnvironmentalFeatureObservation
+    .available,
+  false
+);
+
+assert.equal(
+  unavailableGovernedEnvironmentalFeatureObservation
+    .observationReference,
+  null
+);
+
+assert.equal(
+  unavailableGovernedEnvironmentalFeatureObservation
+    .authority
+    .establishesObservationIdentity,
+  false
+);
+
+assert.equal(
+  unavailableGovernedEnvironmentalFeatureObservation
+    .authority
+    .establishesFeatureIdentity,
+  false
+);
+
+assert.equal(
+  unavailableGovernedEnvironmentalFeatureObservation
+    .authority
+    .establishesFeaturePosition,
+  false
+);
+
+assert.ok(
+  unavailableGovernedEnvironmentalFeatureObservation
+    .missingRequirements
+    .includes(
+      "governed-spatial-structure"
+    )
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation fails closed without governed spatial evidence"
+);
+
+
+const governedTemperatureObservationSpatialStructure = {
+  sampleRadiusNauticalMiles:
+    15,
+
+  validNeighborCount:
+    4,
+
+  expectedNeighborCount:
+    4,
+
+  centerTemperatureAvailable:
+    true,
+
+  minimumFahrenheit:
+    76.4,
+
+  maximumFahrenheit:
+    79.1,
+
+  rangeFahrenheit:
+    2.7,
+
+  classification:
+    "strong-temperature-break-candidate",
+
+  interpretation:
+    "local-spatial-temperature-structure",
+
+  thresholdVersion:
+    "pelora-sst-spatial-range-v1",
+
+  coverage:
+    "sufficient",
+
+  samples: [
+    {
+      direction:
+        "west",
+
+      requestedLatitude:
+        28.125,
+
+      requestedLongitude:
+        -87.731,
+
+      resolvedLatitude:
+        28.125,
+
+      resolvedLongitude:
+        -87.73,
+
+      temperatureCelsius:
+        26.17,
+
+      temperatureFahrenheit:
+        79.1,
+
+      observedAt:
+        "2026-09-13T00:00:00Z",
+
+      source: {
+        provider:
+          "Open-Meteo",
+
+        classification:
+          "forecast-model",
+
+        availability:
+          "available"
+      }
+    },
+
+    {
+      direction:
+        "north",
+
+      requestedLatitude:
+        28.375,
+
+      requestedLongitude:
+        -87.45,
+
+      resolvedLatitude:
+        28.375,
+
+      resolvedLongitude:
+        -87.45,
+
+      temperatureCelsius:
+        25.22,
+
+      temperatureFahrenheit:
+        77.4,
+
+      observedAt:
+        "2026-09-13T00:00:00Z",
+
+      source: {
+        provider:
+          "Open-Meteo",
+
+        classification:
+          "forecast-model",
+
+        availability:
+          "available"
+      }
+    },
+
+    {
+      direction:
+        "east",
+
+      requestedLatitude:
+        28.125,
+
+      requestedLongitude:
+        -87.169,
+
+      resolvedLatitude:
+        28.125,
+
+      resolvedLongitude:
+        -87.17,
+
+      temperatureCelsius:
+        24.67,
+
+      temperatureFahrenheit:
+        76.4,
+
+      observedAt:
+        "2026-09-13T00:00:00Z",
+
+      source: {
+        provider:
+          "Open-Meteo",
+
+        classification:
+          "forecast-model",
+
+        availability:
+          "available"
+      }
+    },
+
+    {
+      direction:
+        "south",
+
+      requestedLatitude:
+        27.875,
+
+      requestedLongitude:
+        -87.45,
+
+      resolvedLatitude:
+        27.875,
+
+      resolvedLongitude:
+        -87.45,
+
+      temperatureCelsius:
+        25,
+
+      temperatureFahrenheit:
+        77,
+
+      observedAt:
+        "2026-09-13T00:00:00Z",
+
+      source: {
+        provider:
+          "Open-Meteo",
+
+        classification:
+          "forecast-model",
+
+        availability:
+          "available"
+      }
+    }
+  ],
+
+  limitations: [
+    "forecast-model-samples",
+    "single-time-snapshot",
+    "does-not-confirm-persistence",
+    "does-not-confirm-ocean-front",
+    "does-not-indicate-species-suitability"
+  ]
+};
+
+
+const governedEnvironmentalFeatureObservation =
+  buildGovernedEnvironmentalFeatureObservationV1({
+    spatialStructure:
+      governedTemperatureObservationSpatialStructure
+  });
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .available,
+  true
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .observationType,
+  "temperature-transition-observation"
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .responsibility,
+  "Preserve"
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .feature
+    .featureType,
+  "temperature-transition"
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .feature
+    .featureFamily,
+  "physical-ocean"
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .observedAt,
+  "2026-09-13T00:00:00.000Z"
+);
+
+assert.ok(
+  typeof governedEnvironmentalFeatureObservation
+    .observationReference ===
+    "string"
+);
+
+assert.ok(
+  governedEnvironmentalFeatureObservation
+    .observationReference
+    .startsWith(
+      "pelora-observation-v1:"
+    )
+);
+
+assert.match(
+  governedEnvironmentalFeatureObservation
+    .observationReference,
+  /^pelora-observation-v1:[a-f0-9]{64}$/
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .samplingFootprint
+    .radiusNauticalMiles,
+  15
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .samplingFootprint
+    .sampleCount,
+  4
+);
+
+assert.deepEqual(
+  governedEnvironmentalFeatureObservation
+    .samplingFootprint
+    .samples
+    .map(
+      sample =>
+        sample.direction
+    ),
+  [
+    "north",
+    "east",
+    "south",
+    "west"
+  ]
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .samplingFootprint
+    .samples[1]
+    .requestedLongitude,
+  -87.169
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .samplingFootprint
+    .samples[1]
+    .resolvedLongitude,
+  -87.17
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .source
+    .type,
+  "spatial-temperature-analysis"
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .source
+    .contractVersion,
+  "pelora-sst-spatial-range-v1"
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .contractVersion,
+  "pelora-governed-environmental-feature-observation-v1"
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation preserves governed spatial sampling evidence"
+);
+
+
+const reorderedGovernedEnvironmentalFeatureObservation =
+  buildGovernedEnvironmentalFeatureObservationV1({
+    spatialStructure: {
+      ...governedTemperatureObservationSpatialStructure,
+
+      samples: [
+        ...governedTemperatureObservationSpatialStructure
+          .samples
+      ].reverse()
+    }
+  });
+
+assert.equal(
+  reorderedGovernedEnvironmentalFeatureObservation
+    .available,
+  true
+);
+
+assert.equal(
+  reorderedGovernedEnvironmentalFeatureObservation
+    .observationReference,
+  governedEnvironmentalFeatureObservation
+    .observationReference
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation preserves deterministic observation identity"
+);
+
+
+const threeSampleGovernedEnvironmentalFeatureObservation =
+  buildGovernedEnvironmentalFeatureObservationV1({
+    spatialStructure: {
+      ...governedTemperatureObservationSpatialStructure,
+
+      validNeighborCount:
+        3,
+
+      samples:
+        governedTemperatureObservationSpatialStructure
+          .samples
+          .slice(
+            0,
+            3
+          )
+    }
+  });
+
+assert.equal(
+  threeSampleGovernedEnvironmentalFeatureObservation
+    .available,
+  true
+);
+
+assert.equal(
+  threeSampleGovernedEnvironmentalFeatureObservation
+    .samplingFootprint
+    .sampleCount,
+  3
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation accepts the governed three-neighbor coverage floor"
+);
+
+
+const inconsistentTimeSpatialStructure = {
+  ...governedTemperatureObservationSpatialStructure,
+
+  samples:
+    governedTemperatureObservationSpatialStructure
+      .samples
+      .map(
+        (
+          sample,
+          index
+        ) => ({
+          ...sample,
+
+          observedAt:
+            index ===
+              0
+              ? "2026-09-13T01:00:00Z"
+              : sample.observedAt
+        })
+      )
+};
+
+const inconsistentTimeGovernedEnvironmentalFeatureObservation =
+  buildGovernedEnvironmentalFeatureObservationV1({
+    spatialStructure:
+      inconsistentTimeSpatialStructure
+  });
+
+assert.equal(
+  inconsistentTimeGovernedEnvironmentalFeatureObservation
+    .available,
+  false
+);
+
+assert.equal(
+  inconsistentTimeGovernedEnvironmentalFeatureObservation
+    .observedAt,
+  null
+);
+
+assert.equal(
+  inconsistentTimeGovernedEnvironmentalFeatureObservation
+    .observationReference,
+  null
+);
+
+assert.ok(
+  inconsistentTimeGovernedEnvironmentalFeatureObservation
+    .missingRequirements
+    .includes(
+      "consistent-spatial-sample-observation-time"
+    )
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation fails closed on inconsistent sample times"
+);
+
+
+const unrecognizedSourceGovernedEnvironmentalFeatureObservation =
+  buildGovernedEnvironmentalFeatureObservationV1({
+    spatialStructure: {
+      ...governedTemperatureObservationSpatialStructure,
+
+      thresholdVersion:
+        "unrecognized-spatial-temperature-contract"
+    }
+  });
+
+assert.equal(
+  unrecognizedSourceGovernedEnvironmentalFeatureObservation
+    .available,
+  false
+);
+
+assert.equal(
+  unrecognizedSourceGovernedEnvironmentalFeatureObservation
+    .source
+    .contractVersion,
+  null
+);
+
+assert.ok(
+  unrecognizedSourceGovernedEnvironmentalFeatureObservation
+    .missingRequirements
+    .includes(
+      "recognized-spatial-temperature-contract"
+    )
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation requires recognized upstream provenance"
+);
+
+
+const unavailableSampleGovernedEnvironmentalFeatureObservation =
+  buildGovernedEnvironmentalFeatureObservationV1({
+    spatialStructure: {
+      ...governedTemperatureObservationSpatialStructure,
+
+      samples:
+        governedTemperatureObservationSpatialStructure
+          .samples
+          .map(
+            (
+              sample,
+              index
+            ) => ({
+              ...sample,
+
+              source: {
+                ...sample.source,
+
+                availability:
+                  index <
+                    2
+                    ? "available"
+                    : "request-failed"
+              }
+            })
+          )
+    }
+  });
+
+assert.equal(
+  unavailableSampleGovernedEnvironmentalFeatureObservation
+    .available,
+  false
+);
+
+assert.equal(
+  unavailableSampleGovernedEnvironmentalFeatureObservation
+    .samplingFootprint
+    .sampleCount,
+  2
+);
+
+assert.equal(
+  unavailableSampleGovernedEnvironmentalFeatureObservation
+    .observationReference,
+  null
+);
+
+assert.ok(
+  unavailableSampleGovernedEnvironmentalFeatureObservation
+    .missingRequirements
+    .includes(
+      "at-least-three-valid-spatial-samples"
+    )
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation rejects unavailable source samples"
+);
+
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesObservationIdentity,
+  true
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesSamplingFootprint,
+  true
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesFeatureIdentity,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesFeaturePosition,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesFeatureGeometry,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesPersistence,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesMovement,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesOpportunity,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesBiologicalSignificance,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesFishPresence,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .authority
+    .establishesCatchProbability,
+  false
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .position,
+  undefined
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .geometry,
+  undefined
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .featureId,
+  undefined
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .species,
+  undefined
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .opportunity,
+  undefined
+);
+
+assert.equal(
+  governedEnvironmentalFeatureObservation
+    .guidance,
+  undefined
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedEnvironmentalFeatureObservation
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedEnvironmentalFeatureObservation
+      .samplingFootprint
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedEnvironmentalFeatureObservation
+      .samplingFootprint
+      .samples
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedEnvironmentalFeatureObservation
+      .samplingFootprint
+      .samples[0]
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedEnvironmentalFeatureObservation
+      .samplingFootprint
+      .samples[0]
+      .source
+  ),
+  true
+);
+
+assert.equal(
+  Object.isFrozen(
+    governedEnvironmentalFeatureObservation
+      .authority
+  ),
+  true
+);
+
+console.log(
+  "PASS Governed Environmental Feature Observation preserves immutability and strict authority boundaries"
 );
 
 
