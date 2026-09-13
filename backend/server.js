@@ -10504,6 +10504,121 @@ function buildTemperatureEvidence(
     sst?.spatialStructure ??
     null;
 
+  const governedEnvironmentalFeatureObservation =
+    sst?.derived
+      ?.governedEnvironmentalFeatureObservation ??
+    null;
+
+  const governedObservationAvailable =
+    governedEnvironmentalFeatureObservation
+      ?.available ===
+      true &&
+    governedEnvironmentalFeatureObservation
+      ?.contractVersion ===
+      "pelora-governed-environmental-feature-observation-v1" &&
+    governedEnvironmentalFeatureObservation
+      ?.observationType ===
+      "temperature-transition-observation" &&
+    governedEnvironmentalFeatureObservation
+      ?.feature
+      ?.featureType ===
+      "temperature-transition" &&
+    governedEnvironmentalFeatureObservation
+      ?.feature
+      ?.featureFamily ===
+      "physical-ocean" &&
+    governedEnvironmentalFeatureObservation
+      ?.authority
+      ?.establishesObservationIdentity ===
+      true &&
+    typeof governedEnvironmentalFeatureObservation
+      ?.observationReference ===
+      "string" &&
+    /^pelora-observation-v1:[a-f0-9]{64}$/.test(
+      governedEnvironmentalFeatureObservation
+        .observationReference
+    );
+
+  const observationProvenance = {
+    available:
+      governedObservationAvailable,
+
+    observationReference:
+      governedObservationAvailable
+        ? governedEnvironmentalFeatureObservation
+            .observationReference
+        : null,
+
+    observationContractVersion:
+      governedObservationAvailable
+        ? governedEnvironmentalFeatureObservation
+            .contractVersion
+        : null,
+
+    observationType:
+      governedObservationAvailable
+        ? governedEnvironmentalFeatureObservation
+            .observationType
+        : null,
+
+    observedAt:
+      governedObservationAvailable
+        ? governedEnvironmentalFeatureObservation
+            .observedAt ??
+          null
+        : null,
+
+    feature: {
+      featureType:
+        governedObservationAvailable
+          ? governedEnvironmentalFeatureObservation
+              .feature
+              ?.featureType ??
+            null
+          : null,
+
+      featureFamily:
+        governedObservationAvailable
+          ? governedEnvironmentalFeatureObservation
+              .feature
+              ?.featureFamily ??
+            null
+          : null
+    },
+
+    source: {
+      type:
+        governedObservationAvailable
+          ? governedEnvironmentalFeatureObservation
+              .source
+              ?.type ??
+            null
+          : null,
+
+      contractVersion:
+        governedObservationAvailable
+          ? governedEnvironmentalFeatureObservation
+              .source
+              ?.contractVersion ??
+            null
+          : null
+    },
+
+    authority: {
+      establishesObservationIdentity:
+        governedObservationAvailable,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeaturePosition:
+        false,
+
+      establishesCrossTimeFeatureIdentity:
+        false
+    }
+  };
+
   const spatialClassification =
     spatialStructure
       ?.classification ??
@@ -10629,6 +10744,8 @@ function buildTemperatureEvidence(
       orientation,
 
       confidence,
+
+      observationProvenance,
 
       drivers,
 
@@ -10774,6 +10891,8 @@ function buildTemperatureEvidence(
     orientation,
 
     confidence,
+
+    observationProvenance,
 
     drivers,
 
@@ -36421,6 +36540,112 @@ export function assessOceanOpportunity({
     return "Very Low";
   }
 
+  function buildObservationProvenanceContribution({
+    evidenceType,
+    provenance
+  } = {}) {
+    if (
+      typeof evidenceType !==
+        "string" ||
+      evidenceType.trim().length ===
+        0 ||
+      provenance?.available !==
+        true ||
+      typeof provenance
+        ?.observationReference !==
+        "string" ||
+      !/^pelora-observation-v1:[a-f0-9]{64}$/.test(
+        provenance
+          .observationReference
+      ) ||
+      provenance
+        ?.observationContractVersion !==
+        "pelora-governed-environmental-feature-observation-v1" ||
+      provenance
+        ?.authority
+        ?.establishesObservationIdentity !==
+        true
+    ) {
+      return null;
+    }
+
+    return {
+      evidenceType:
+        evidenceType.trim(),
+
+      observationReference:
+        provenance
+          .observationReference,
+
+      observationContractVersion:
+        provenance
+          .observationContractVersion,
+
+      observationType:
+        provenance
+          ?.observationType ??
+        null,
+
+      observedAt:
+        provenance
+          ?.observedAt ??
+        null,
+
+      feature: {
+        featureType:
+          provenance
+            ?.feature
+            ?.featureType ??
+          null,
+
+        featureFamily:
+          provenance
+            ?.feature
+            ?.featureFamily ??
+          null
+      },
+
+      source: {
+        type:
+          provenance
+            ?.source
+            ?.type ??
+          null,
+
+        contractVersion:
+          provenance
+            ?.source
+            ?.contractVersion ??
+          null
+      },
+
+      authority: {
+        establishesObservationIdentity:
+          true,
+
+        establishesFeatureIdentity:
+          false,
+
+        establishesFeaturePosition:
+          false,
+
+        establishesCrossTimeFeatureIdentity:
+          false
+      }
+    };
+  }
+
+  const temperatureObservationProvenance =
+    buildObservationProvenanceContribution({
+      evidenceType:
+        "temperature",
+
+      provenance:
+        temperature
+          ?.observationProvenance ??
+        null
+    });
+
   function addOpportunity({
     type,
     classification,
@@ -36428,6 +36653,7 @@ export function assessOceanOpportunity({
     detail,
     supportingEvidence,
     sourceFamilies,
+    observationProvenance = [],
     score,
     drivers,
     candidateLimitations
@@ -36453,6 +36679,43 @@ export function assessOceanOpportunity({
       supportingEvidence,
 
       sourceFamilies,
+
+      observationProvenance:
+        Array.isArray(
+          observationProvenance
+        )
+          ? observationProvenance
+              .filter(Boolean)
+              .map(
+                provenance => ({
+                  ...provenance,
+
+                  feature: {
+                    ...(
+                      provenance
+                        ?.feature ??
+                      {}
+                    )
+                  },
+
+                  source: {
+                    ...(
+                      provenance
+                        ?.source ??
+                      {}
+                    )
+                  },
+
+                  authority: {
+                    ...(
+                      provenance
+                        ?.authority ??
+                      {}
+                    )
+                  }
+                })
+              )
+          : [],
 
       confidence: {
         score:
@@ -36529,6 +36792,13 @@ export function assessOceanOpportunity({
         "spatial-temperature"
       ],
 
+      observationProvenance:
+        temperatureObservationProvenance
+          ? [
+              temperatureObservationProvenance
+            ]
+          : [],
+
       score:
         Math.min(
           strongCandidate
@@ -36585,6 +36855,13 @@ export function assessOceanOpportunity({
         "spatial-temperature",
         "single-point-current"
       ],
+
+      observationProvenance:
+        temperatureObservationProvenance
+          ? [
+              temperatureObservationProvenance
+            ]
+          : [],
 
       score:
         Math.min(
@@ -37391,6 +37668,59 @@ export function resolveOceanSignals({
             ]
           : [],
 
+      observationProvenance:
+        Array.isArray(
+          opportunity
+            ?.observationProvenance
+        )
+          ? opportunity
+              .observationProvenance
+              .filter(
+                provenance =>
+                  provenance &&
+                  typeof provenance ===
+                    "object"
+              )
+              .map(
+                provenance => ({
+                  ...provenance,
+
+                  feature: {
+                    ...(
+                      provenance
+                        ?.feature ??
+                      {}
+                    )
+                  },
+
+                  source: {
+                    ...(
+                      provenance
+                        ?.source ??
+                      {}
+                    )
+                  },
+
+                  authority: {
+                    ...(
+                      provenance
+                        ?.authority ??
+                      {}
+                    ),
+
+                    establishesFeatureIdentity:
+                      false,
+
+                    establishesFeaturePosition:
+                      false,
+
+                    establishesCrossTimeFeatureIdentity:
+                      false
+                  }
+                })
+              )
+          : [],
+
       confidence: {
         score:
           Number.isFinite(
@@ -37882,6 +38212,59 @@ export function buildGovernedOceanSignalFeatureAssociationV1({
           ? [
               ...primarySignal.sourceFamilies
             ]
+          : [],
+
+      observationProvenance:
+        Array.isArray(
+          primarySignal
+            ?.observationProvenance
+        )
+          ? primarySignal
+              .observationProvenance
+              .filter(
+                provenance =>
+                  provenance &&
+                  typeof provenance ===
+                    "object"
+              )
+              .map(
+                provenance => ({
+                  ...provenance,
+
+                  feature: {
+                    ...(
+                      provenance
+                        ?.feature ??
+                      {}
+                    )
+                  },
+
+                  source: {
+                    ...(
+                      provenance
+                        ?.source ??
+                      {}
+                    )
+                  },
+
+                  authority: {
+                    ...(
+                      provenance
+                        ?.authority ??
+                      {}
+                    ),
+
+                    establishesFeatureIdentity:
+                      false,
+
+                    establishesFeaturePosition:
+                      false,
+
+                    establishesCrossTimeFeatureIdentity:
+                      false
+                  }
+                })
+              )
           : []
     },
 

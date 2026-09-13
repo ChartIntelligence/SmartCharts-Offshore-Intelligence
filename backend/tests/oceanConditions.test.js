@@ -30163,6 +30163,418 @@ console.log(
 
 /**
  * ------------------------------------------------------------
+ * Governed Environmental Observation Provenance Propagation v1
+ * ------------------------------------------------------------
+ */
+
+{
+  const provenanceOceanEvidence =
+    assessOceanEvidence({
+      latitude:
+        29.75,
+
+      longitude:
+        -86.25,
+
+      sst: {
+        temperatureFahrenheit:
+          78.8,
+
+        derived: {
+          spatialStructure:
+            governedTemperatureObservationSpatialStructure,
+
+          governedEnvironmentalFeatureObservation
+        }
+      },
+
+      chlorophyll:
+        null,
+
+      currents:
+        null,
+
+      dataQuality: {}
+    });
+
+  const temperatureEvidence =
+    provenanceOceanEvidence
+      ?.groups
+      ?.temperature;
+
+  assert.equal(
+    temperatureEvidence
+      ?.observationProvenance
+      ?.available,
+    true
+  );
+
+  assert.equal(
+    temperatureEvidence
+      ?.observationProvenance
+      ?.observationReference,
+    governedEnvironmentalFeatureObservation
+      .observationReference
+  );
+
+  assert.equal(
+    temperatureEvidence
+      ?.observationProvenance
+      ?.authority
+      ?.establishesObservationIdentity,
+    true
+  );
+
+  assert.equal(
+    temperatureEvidence
+      ?.observationProvenance
+      ?.authority
+      ?.establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    temperatureEvidence
+      ?.observationProvenance
+      ?.authority
+      ?.establishesFeaturePosition,
+    false
+  );
+
+  assert.equal(
+    temperatureEvidence
+      ?.observationProvenance
+      ?.authority
+      ?.establishesCrossTimeFeatureIdentity,
+    false
+  );
+
+  console.log(
+    "PASS Governed observation provenance reaches Temperature Evidence without creating feature identity"
+  );
+
+
+  const provenanceOceanOpportunity =
+    assessOceanOpportunity({
+      oceanEvidence:
+        provenanceOceanEvidence
+    });
+
+  const temperatureTransitionOpportunity =
+    provenanceOceanOpportunity
+      .opportunities
+      .find(
+        opportunity =>
+          opportunity?.type ===
+          "environmental-transition-zone"
+      );
+
+  assert.ok(
+    temperatureTransitionOpportunity
+  );
+
+  assert.equal(
+    temperatureTransitionOpportunity
+      .observationProvenance
+      .length,
+    1
+  );
+
+  assert.equal(
+    temperatureTransitionOpportunity
+      .observationProvenance[0]
+      .evidenceType,
+    "temperature"
+  );
+
+  assert.equal(
+    temperatureTransitionOpportunity
+      .observationProvenance[0]
+      .observationReference,
+    governedEnvironmentalFeatureObservation
+      .observationReference
+  );
+
+  assert.equal(
+    temperatureTransitionOpportunity
+      .observationProvenance[0]
+      .authority
+      .establishesFeatureIdentity,
+    false
+  );
+
+  console.log(
+    "PASS Governed observation provenance reaches the temperature-transition opportunity as a bounded evidence contribution"
+  );
+
+
+  const currentSupportedEvidence = {
+    ...provenanceOceanEvidence,
+
+    groups: {
+      ...provenanceOceanEvidence.groups,
+
+      current: {
+        available:
+          true,
+
+        classification:
+          "moderate",
+
+        values: {
+          strengthClassification:
+            "moderate"
+        },
+
+        limitations: []
+      }
+    }
+  };
+
+  const currentSupportedOpportunityResult =
+    assessOceanOpportunity({
+      oceanEvidence:
+        currentSupportedEvidence
+    });
+
+  const currentSupportedOpportunity =
+    currentSupportedOpportunityResult
+      .opportunities
+      .find(
+        opportunity =>
+          opportunity?.type ===
+          "current-supported-transition-candidate"
+      );
+
+  assert.ok(
+    currentSupportedOpportunity
+  );
+
+  assert.deepEqual(
+    currentSupportedOpportunity
+      .supportingEvidence,
+    [
+      "temperature",
+      "current"
+    ]
+  );
+
+  assert.deepEqual(
+    currentSupportedOpportunity
+      .sourceFamilies,
+    [
+      "spatial-temperature",
+      "single-point-current"
+    ]
+  );
+
+  assert.equal(
+    currentSupportedOpportunity
+      .observationProvenance
+      .length,
+    1
+  );
+
+  assert.equal(
+    currentSupportedOpportunity
+      .observationProvenance[0]
+      .evidenceType,
+    "temperature"
+  );
+
+  assert.equal(
+    currentSupportedOpportunity
+      .observationProvenance[0]
+      .observationReference,
+    governedEnvironmentalFeatureObservation
+      .observationReference
+  );
+
+  console.log(
+    "PASS Composite current-supported opportunity preserves temperature observation provenance without claiming current observation provenance"
+  );
+
+
+  const provenanceOceanSignals =
+    resolveOceanSignals({
+      oceanOpportunity:
+        provenanceOceanOpportunity
+    });
+
+  assert.equal(
+    provenanceOceanSignals
+      .available,
+    true
+  );
+
+  assert.equal(
+    provenanceOceanSignals
+      .primarySignal
+      ?.signalType,
+    "temperature-transition"
+  );
+
+  assert.equal(
+    provenanceOceanSignals
+      .primarySignal
+      ?.observationProvenance
+      ?.length,
+    1
+  );
+
+  assert.equal(
+    provenanceOceanSignals
+      .primarySignal
+      ?.observationProvenance?.[0]
+      ?.observationReference,
+    governedEnvironmentalFeatureObservation
+      .observationReference
+  );
+
+  assert.equal(
+    provenanceOceanSignals
+      .primarySignal
+      ?.observationProvenance?.[0]
+      ?.authority
+      ?.establishesFeatureIdentity,
+    false
+  );
+
+  console.log(
+    "PASS Ocean Signal preserves exact governed observation provenance without expanding authority"
+  );
+
+
+  const provenanceAssociation =
+    buildGovernedOceanSignalFeatureAssociationV1({
+      oceanSignalSelection:
+        provenanceOceanSignals,
+
+      featurePersistence:
+        buildSignalFeatureAssociationTestPersistence()
+    });
+
+  assert.equal(
+    provenanceAssociation
+      .available,
+    true
+  );
+
+  assert.equal(
+    provenanceAssociation
+      .classification,
+    "compatible-but-unresolved"
+  );
+
+  assert.equal(
+    provenanceAssociation
+      .associated,
+    false
+  );
+
+  assert.equal(
+    provenanceAssociation
+      .signal
+      ?.observationProvenance
+      ?.length,
+    1
+  );
+
+  assert.equal(
+    provenanceAssociation
+      .signal
+      ?.observationProvenance?.[0]
+      ?.observationReference,
+    governedEnvironmentalFeatureObservation
+      .observationReference
+  );
+
+  assert.equal(
+    provenanceAssociation
+      .associationState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    provenanceAssociation
+      .associationState
+      .establishesAssociation,
+    false
+  );
+
+  assert.equal(
+    provenanceAssociation
+      .associationState
+      .establishesCompatibilityOnly,
+    true
+  );
+
+  console.log(
+    "PASS Observation provenance survives Signal-Feature Association while physical-feature identity remains unresolved"
+  );
+
+
+  const malformedObservationReference =
+    "pelora-observation-v1:not-a-valid-governed-reference";
+
+  const malformedProvenanceEvidence = {
+    ...provenanceOceanEvidence,
+
+    groups: {
+      ...provenanceOceanEvidence.groups,
+
+      temperature: {
+        ...provenanceOceanEvidence
+          .groups
+          .temperature,
+
+        observationProvenance: {
+          ...provenanceOceanEvidence
+            .groups
+            .temperature
+            .observationProvenance,
+
+          observationReference:
+            malformedObservationReference
+        }
+      }
+    }
+  };
+
+  const malformedProvenanceOpportunity =
+    assessOceanOpportunity({
+      oceanEvidence:
+        malformedProvenanceEvidence
+    });
+
+  const malformedTemperatureOpportunity =
+    malformedProvenanceOpportunity
+      .opportunities
+      .find(
+        opportunity =>
+          opportunity?.type ===
+          "environmental-transition-zone"
+      );
+
+  assert.ok(
+    malformedTemperatureOpportunity
+  );
+
+  assert.deepEqual(
+    malformedTemperatureOpportunity
+      .observationProvenance,
+    []
+  );
+
+  console.log(
+    "PASS Malformed governed observation provenance fails closed before entering downstream opportunity provenance"
+  );
+}
+
+
+/**
+ * ------------------------------------------------------------
  * Governed Feature Position v1.0
  * ------------------------------------------------------------
  */
