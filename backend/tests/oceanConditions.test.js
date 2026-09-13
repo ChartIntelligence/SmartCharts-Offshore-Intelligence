@@ -124,6 +124,7 @@ import {
   assessOceanOpportunity,
   resolveOceanSignals,
   buildGovernedOceanSignalFeatureAssociationV1,
+  buildGovernedEnvironmentalDirectionEvidenceV1,
   buildOceanSignalSelectionLineage,
   assessBlueMarlinHabitat,
   buildBlueMarlinHabitatLineage,
@@ -40859,6 +40860,494 @@ function buildSignalFeatureAssociationTestPersistence({
 }
 
 
+
+// Governed Environmental Direction Evidence v1
+
+{
+  const result =
+    buildGovernedEnvironmentalDirectionEvidenceV1();
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.classification,
+    "unavailable"
+  );
+
+  assert.equal(
+    result.directionEvidence.supported,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidence.direction,
+    null
+  );
+
+  assert.equal(
+    result.contractVersion,
+    "pelora-governed-environmental-direction-evidence-v1"
+  );
+
+  console.log(
+    "PASS Governed Environmental Direction Evidence v1 remains unavailable without governed inputs"
+  );
+}
+
+function buildEnvironmentalDirectionTestPersistence({
+  featureType = "environmental-transition",
+  featureFamily = "integrated-ocean-physics",
+  lifecycleState = "strengthening"
+} = {}) {
+  return buildFeaturePersistenceContract({
+    available: true,
+    featureType,
+    featureFamily,
+    classification:
+      "governed-test-persistence",
+    lifecycleState,
+    reason:
+      "governed-test-environmental-direction",
+    values: {
+      sampleCount: 3,
+      durationHours: 48
+    },
+    confidence: {
+      score: 80,
+      level: "High"
+    },
+    drivers: [
+      "governed-test-driver"
+    ],
+    limitations: [
+      "governed-test-limitation"
+    ]
+  });
+}
+
+function buildEnvironmentalDirectionTestAssociation({
+  signalType = "temperature-transition",
+  featureType = "environmental-transition",
+  featureFamily = "integrated-ocean-physics",
+  associated = false,
+  identityEstablished = false
+} = {}) {
+  return {
+    available: true,
+
+    evidenceType:
+      "governed-ocean-signal-feature-association",
+
+    responsibility:
+      "Associate",
+
+    classification:
+      associated
+        ? "associated"
+        : "compatible-but-unresolved",
+
+    associated,
+
+    signal: {
+      available: true,
+      signalType
+    },
+
+    feature: {
+      available: true,
+      featureType,
+      featureFamily
+    },
+
+    identityEvidence: {
+      available:
+        identityEstablished,
+
+      established:
+        identityEstablished,
+
+      contractVersion:
+        identityEstablished
+          ? "pelora-test-signal-feature-identity-v1"
+          : null
+    },
+
+    associationState: {
+      establishesAssociation:
+        associated,
+
+      establishesCompatibilityOnly:
+        !associated,
+
+      establishesFeatureIdentity:
+        associated &&
+        identityEstablished
+    },
+
+    limitations: [],
+
+    contractVersion:
+      "pelora-governed-ocean-signal-feature-association-v1"
+  };
+}
+
+{
+  const persistence =
+    buildEnvironmentalDirectionTestPersistence();
+
+  const association =
+    buildEnvironmentalDirectionTestAssociation();
+
+  const result =
+    buildGovernedEnvironmentalDirectionEvidenceV1({
+      signalFeatureAssociation:
+        association,
+
+      featurePersistence:
+        persistence
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.classification,
+    "environmental-direction-unresolved"
+  );
+
+  assert.equal(
+    result.directionEvidence.supported,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidence.direction,
+    null
+  );
+
+  assert.equal(
+    result.directionEvidence.reason,
+    "authoritative-signal-feature-association-required"
+  );
+
+  console.log(
+    "PASS Governed Environmental Direction Evidence v1 remains unresolved without authoritative feature identity"
+  );
+}
+
+{
+  const persistence =
+    buildEnvironmentalDirectionTestPersistence({
+      lifecycleState:
+        "strengthening"
+    });
+
+  const malformedAssociation =
+    buildEnvironmentalDirectionTestAssociation({
+      associated: true,
+      identityEstablished: false
+    });
+
+  const result =
+    buildGovernedEnvironmentalDirectionEvidenceV1({
+      signalFeatureAssociation:
+        malformedAssociation,
+
+      featurePersistence:
+        persistence
+    });
+
+  assert.equal(
+    result.directionEvidence.supported,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidence.direction,
+    null
+  );
+
+  console.log(
+    "PASS Governed Environmental Direction Evidence v1 rejects associated claims without authoritative identity evidence"
+  );
+}
+
+{
+  const persistence =
+    buildEnvironmentalDirectionTestPersistence({
+      featureType:
+        "environmental-transition",
+      featureFamily:
+        "integrated-ocean-physics",
+      lifecycleState:
+        "strengthening"
+    });
+
+  const association =
+    buildEnvironmentalDirectionTestAssociation({
+      featureType:
+        "current-edge",
+      featureFamily:
+        "physical-ocean",
+      associated: true,
+      identityEstablished: true
+    });
+
+  const result =
+    buildGovernedEnvironmentalDirectionEvidenceV1({
+      signalFeatureAssociation:
+        association,
+
+      featurePersistence:
+        persistence
+    });
+
+  assert.equal(
+    result.available,
+    false
+  );
+
+  assert.equal(
+    result.classification,
+    "unavailable"
+  );
+
+  assert.ok(
+    result.missingRequirements.includes(
+      "matching-governed-feature-surface"
+    )
+  );
+
+  console.log(
+    "PASS Governed Environmental Direction Evidence v1 rejects mismatched feature identity surfaces"
+  );
+}
+
+for (
+  const [
+    lifecycleState,
+    expectedDirection,
+    expectedStateField
+  ] of [
+    [
+      "strengthening",
+      "strengthening",
+      "establishesStrengthening"
+    ],
+    [
+      "weakening",
+      "weakening",
+      "establishesWeakening"
+    ],
+    [
+      "stable",
+      "stable",
+      "establishesStability"
+    ]
+  ]
+) {
+  const persistence =
+    buildEnvironmentalDirectionTestPersistence({
+      lifecycleState
+    });
+
+  const association =
+    buildEnvironmentalDirectionTestAssociation({
+      associated: true,
+      identityEstablished: true
+    });
+
+  const result =
+    buildGovernedEnvironmentalDirectionEvidenceV1({
+      signalFeatureAssociation:
+        association,
+
+      featurePersistence:
+        persistence
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.classification,
+    "environmental-direction-resolved"
+  );
+
+  assert.equal(
+    result.directionEvidence.supported,
+    true
+  );
+
+  assert.equal(
+    result.directionEvidence.direction,
+    expectedDirection
+  );
+
+  assert.equal(
+    result.directionEvidenceState[
+      expectedStateField
+    ],
+    true
+  );
+
+  console.log(
+    `PASS Governed Environmental Direction Evidence v1 resolves governed ${lifecycleState} lifecycle direction`
+  );
+}
+
+for (
+  const lifecycleState of [
+    "emerging",
+    "developing",
+    "fading"
+  ]
+) {
+  const persistence =
+    buildEnvironmentalDirectionTestPersistence({
+      lifecycleState
+    });
+
+  const association =
+    buildEnvironmentalDirectionTestAssociation({
+      associated: true,
+      identityEstablished: true
+    });
+
+  const result =
+    buildGovernedEnvironmentalDirectionEvidenceV1({
+      signalFeatureAssociation:
+        association,
+
+      featurePersistence:
+        persistence
+    });
+
+  assert.equal(
+    result.available,
+    true
+  );
+
+  assert.equal(
+    result.classification,
+    "environmental-direction-unresolved"
+  );
+
+  assert.equal(
+    result.directionEvidence.supported,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidence.direction,
+    null
+  );
+
+  console.log(
+    `PASS Governed Environmental Direction Evidence v1 preserves ${lifecycleState} as lifecycle context without directional promotion`
+  );
+}
+
+{
+  const persistence =
+    buildEnvironmentalDirectionTestPersistence({
+      lifecycleState:
+        "strengthening"
+    });
+
+  const association =
+    buildEnvironmentalDirectionTestAssociation({
+      associated: true,
+      identityEstablished: true
+    });
+
+  const result =
+    buildGovernedEnvironmentalDirectionEvidenceV1({
+      signalFeatureAssociation:
+        association,
+
+      featurePersistence:
+        persistence
+    });
+
+  assert.equal(
+    Object.isFrozen(result),
+    true
+  );
+
+  assert.equal(
+    Object.isFrozen(
+      result.directionEvidence
+    ),
+    true
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesLifecycleState,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesFeatureIdentity,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesFeatureMovement,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesOpportunityPersistence,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesRankingEligibility,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesRank,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesFishPresence,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesCatchProbability,
+    false
+  );
+
+  assert.equal(
+    result.directionEvidenceState
+      .establishesCaptainGuidance,
+    false
+  );
+
+  console.log(
+    "PASS Governed Environmental Direction Evidence v1 preserves immutability and authority boundaries"
+  );
+}
+
 const unavailableChlorophyllResolution =
   resolveChlorophyllObservation({
     observations: []
@@ -61320,6 +61809,360 @@ const buildOpportunityTrendResolutionTestInput = (
 
   console.log(
     "PASS governed opportunity trend resolution preserves immutability and fail-closed authority boundaries"
+  );
+}
+
+
+
+/*
+ * Governed Environmental Direction Evidence ->
+ * Governed Opportunity Trend Resolution integration
+ */
+
+const buildTrendResolutionDirectionEvidenceTestInput = ({
+  direction = "strengthening",
+  signalType = "surface-water-transition",
+  contractVersion =
+    "pelora-governed-environmental-direction-evidence-v1",
+  available = true,
+  supported = true,
+  classification =
+    "environmental-direction-resolved"
+} = {}) => ({
+  available,
+
+  evidenceType:
+    "governed-environmental-direction-evidence",
+
+  responsibility:
+    "Evaluate",
+
+  classification,
+
+  directionEvidence: {
+    supported,
+
+    direction:
+      supported
+        ? direction
+        : null,
+
+    reason:
+      supported
+        ? "governed-feature-lifecycle-supports-environmental-direction"
+        : "authoritative-signal-feature-association-required",
+
+    signalType,
+
+    featureType:
+      "environmental-transition",
+
+    featureFamily:
+      "integrated-ocean-physics",
+
+    lifecycleState:
+      direction === "stable"
+        ? "stable"
+        : direction
+  },
+
+  directionEvidenceState: {
+    establishesEnvironmentalDirection:
+      supported,
+
+    establishesStrengthening:
+      supported &&
+      direction === "strengthening",
+
+    establishesWeakening:
+      supported &&
+      direction === "weakening",
+
+    establishesStability:
+      supported &&
+      direction === "stable",
+
+    establishesLifecycleState:
+      false,
+
+    establishesFeatureIdentity:
+      false,
+
+    establishesFeatureMovement:
+      false,
+
+    establishesOpportunityPersistence:
+      false,
+
+    establishesRankingEligibility:
+      false,
+
+    establishesRank:
+      false,
+
+    establishesBiologicalSignificance:
+      false,
+
+    establishesFishPresence:
+      false,
+
+    establishesCatchProbability:
+      false,
+
+    establishesCaptainGuidance:
+      false
+  },
+
+  contractVersion
+});
+
+
+for (
+  const [
+    direction,
+    stateField
+  ] of [
+    [
+      "strengthening",
+      "establishesStrengthening"
+    ],
+    [
+      "weakening",
+      "establishesWeakening"
+    ],
+    [
+      "stable",
+      "establishesStability"
+    ]
+  ]
+) {
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput();
+
+  const environmentalDirectionEvidence =
+    buildTrendResolutionDirectionEvidenceTestInput({
+      direction
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence,
+      environmentalDirectionEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.classification,
+    "trend-resolved"
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    direction
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesTrendResolution,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolutionState[
+      stateField
+    ],
+    true
+  );
+
+  assert.equal(
+    resolution.missingRequirements.includes(
+      "governed-environmental-direction-evidence"
+    ),
+    false
+  );
+
+  assert.equal(
+    resolution.upstreamContracts
+      .environmentalDirectionEvidence,
+    "pelora-governed-environmental-direction-evidence-v1"
+  );
+
+  console.log(
+    `PASS governed opportunity trend resolution consumes authoritative ${direction} direction`
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput();
+
+  const environmentalDirectionEvidence =
+    buildTrendResolutionDirectionEvidenceTestInput({
+      signalType:
+        "current-supported-transition"
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence,
+      environmentalDirectionEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.classification,
+    "trend-direction-unresolved"
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesTrendResolution,
+    false
+  );
+
+  assert.ok(
+    resolution.missingRequirements.includes(
+      "governed-environmental-direction-evidence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution rejects environmental direction for a different primary Ocean Signal"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput();
+
+  const environmentalDirectionEvidence =
+    buildTrendResolutionDirectionEvidenceTestInput({
+      contractVersion:
+        "pelora-governed-environmental-direction-evidence-lookalike-v1"
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence,
+      environmentalDirectionEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesTrendResolution,
+    false
+  );
+
+  assert.ok(
+    resolution.missingRequirements.includes(
+      "governed-environmental-direction-evidence"
+    )
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution rejects non-governed Environmental Direction Evidence lookalikes"
+  );
+}
+
+
+{
+  const trendEvidence =
+    buildOpportunityTrendResolutionTestInput();
+
+  const environmentalDirectionEvidence =
+    buildTrendResolutionDirectionEvidenceTestInput({
+      available: true,
+      supported: false,
+      classification:
+        "environmental-direction-unresolved"
+    });
+
+  const resolution =
+    buildGovernedOpportunityTrendResolutionV1({
+      trendEvidence,
+      environmentalDirectionEvidence
+    });
+
+  assert.equal(
+    resolution.available,
+    true
+  );
+
+  assert.equal(
+    resolution.trendResolution.supported,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolution.classification,
+    "trend-direction-unresolved"
+  );
+
+  assert.equal(
+    resolution.trendResolution.direction,
+    null
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesStrengthening,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesWeakening,
+    false
+  );
+
+  assert.equal(
+    resolution.trendResolutionState
+      .establishesStability,
+    false
+  );
+
+  console.log(
+    "PASS governed opportunity trend resolution preserves unresolved Environmental Direction Evidence without promotion"
   );
 }
 

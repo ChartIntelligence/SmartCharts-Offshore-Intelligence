@@ -37425,6 +37425,422 @@ export function buildGovernedOceanSignalFeatureAssociationV1({
 
 
 /**
+ * Governed Environmental Direction Evidence v1
+ *
+ * Responsibility:
+ * Evaluate.
+ *
+ * Purpose:
+ * Evaluate whether an authoritative governed Ocean Signal-to-feature
+ * association and that same governed feature's persistence lifecycle
+ * provide sufficient evidence to resolve environmental direction.
+ *
+ * This contract is species-neutral and fail-closed.
+ *
+ * Environmental direction is not inferred from opportunity score,
+ * opportunity confidence, signal terminology, feature terminology,
+ * provenance overlap, semantic compatibility, or feature movement.
+ *
+ * v1 recognizes only explicit directionally equivalent lifecycle states:
+ *   strengthening -> strengthening
+ *   weakening    -> weakening
+ *   stable       -> stable
+ *
+ * Emerging, developing, and fading remain governed lifecycle context.
+ * They do not independently establish environmental direction in v1.
+ *
+ * This contract does not establish physical-feature identity. It consumes
+ * that identity only when Governed Ocean Signal Feature Association has
+ * already established it.
+ *
+ * This contract does not establish feature movement, opportunity
+ * persistence, ranking eligibility, rank, biological significance,
+ * fish presence, catch probability, or captain guidance.
+ */
+export function buildGovernedEnvironmentalDirectionEvidenceV1({
+  signalFeatureAssociation = null,
+  featurePersistence = null
+} = {}) {
+  const expectedAssociationContract =
+    "pelora-governed-ocean-signal-feature-association-v1";
+
+  const expectedPersistenceContract =
+    "pelora-feature-persistence-v1";
+
+  const associationContractAvailable =
+    signalFeatureAssociation?.contractVersion ===
+      expectedAssociationContract;
+
+  const associationAssessmentAvailable =
+    associationContractAvailable &&
+    signalFeatureAssociation?.available === true &&
+    signalFeatureAssociation?.evidenceType ===
+      "governed-ocean-signal-feature-association" &&
+    signalFeatureAssociation?.responsibility ===
+      "Associate" &&
+    signalFeatureAssociation?.signal?.available === true &&
+    typeof signalFeatureAssociation?.signal?.signalType ===
+      "string" &&
+    signalFeatureAssociation.signal.signalType.trim().length >
+      0 &&
+    signalFeatureAssociation?.feature?.available === true &&
+    typeof signalFeatureAssociation?.feature?.featureType ===
+      "string" &&
+    signalFeatureAssociation.feature.featureType.trim().length >
+      0 &&
+    OCEAN_PERSISTENCE_FEATURE_FAMILIES.includes(
+      signalFeatureAssociation?.feature?.featureFamily
+    );
+
+  const featurePersistenceAvailable =
+    featurePersistence?.contractVersion ===
+      expectedPersistenceContract &&
+    featurePersistence?.available === true &&
+    typeof featurePersistence?.featureType ===
+      "string" &&
+    featurePersistence.featureType.trim().length >
+      0 &&
+    OCEAN_PERSISTENCE_FEATURE_FAMILIES.includes(
+      featurePersistence?.featureFamily
+    );
+
+  const signalType =
+    associationAssessmentAvailable
+      ? signalFeatureAssociation.signal.signalType.trim()
+      : null;
+
+  const associationFeatureType =
+    associationAssessmentAvailable
+      ? signalFeatureAssociation.feature.featureType.trim()
+      : null;
+
+  const associationFeatureFamily =
+    associationAssessmentAvailable
+      ? signalFeatureAssociation.feature.featureFamily
+      : null;
+
+  const persistenceFeatureType =
+    featurePersistenceAvailable
+      ? featurePersistence.featureType.trim()
+      : null;
+
+  const persistenceFeatureFamily =
+    featurePersistenceAvailable
+      ? featurePersistence.featureFamily
+      : null;
+
+  const featureSurfaceMatches =
+    associationAssessmentAvailable &&
+    featurePersistenceAvailable &&
+    associationFeatureType ===
+      persistenceFeatureType &&
+    associationFeatureFamily ===
+      persistenceFeatureFamily;
+
+  const assessmentAvailable =
+    associationAssessmentAvailable &&
+    featurePersistenceAvailable &&
+    featureSurfaceMatches;
+
+  const associationEstablished =
+    assessmentAvailable &&
+    signalFeatureAssociation?.associated === true &&
+    signalFeatureAssociation?.classification ===
+      "associated" &&
+    signalFeatureAssociation
+      ?.identityEvidence
+      ?.available === true &&
+    signalFeatureAssociation
+      ?.identityEvidence
+      ?.established === true &&
+    typeof signalFeatureAssociation
+      ?.identityEvidence
+      ?.contractVersion === "string" &&
+    signalFeatureAssociation
+      .identityEvidence
+      .contractVersion
+      .trim()
+      .length > 0 &&
+    signalFeatureAssociation
+      ?.associationState
+      ?.establishesAssociation === true &&
+    signalFeatureAssociation
+      ?.associationState
+      ?.establishesCompatibilityOnly === false &&
+    signalFeatureAssociation
+      ?.associationState
+      ?.establishesFeatureIdentity === true;
+
+  const lifecycleState =
+    assessmentAvailable &&
+    OCEAN_PERSISTENCE_LIFECYCLE_STATES.includes(
+      featurePersistence?.lifecycleState
+    )
+      ? featurePersistence.lifecycleState
+      : null;
+
+  const governedDirectionByLifecycleState = {
+    strengthening:
+      "strengthening",
+
+    weakening:
+      "weakening",
+
+    stable:
+      "stable"
+  };
+
+  const direction =
+    associationEstablished &&
+    lifecycleState !== null &&
+    Object.prototype.hasOwnProperty.call(
+      governedDirectionByLifecycleState,
+      lifecycleState
+    )
+      ? governedDirectionByLifecycleState[
+          lifecycleState
+        ]
+      : null;
+
+  const directionSupported =
+    direction !== null;
+
+  const classification =
+    !assessmentAvailable
+      ? "unavailable"
+      : directionSupported
+        ? "environmental-direction-resolved"
+        : "environmental-direction-unresolved";
+
+  const reason =
+    !assessmentAvailable
+      ? "governed-signal-feature-association-and-feature-persistence-required"
+      : !associationEstablished
+        ? "authoritative-signal-feature-association-required"
+        : lifecycleState === null
+          ? "governed-feature-lifecycle-state-required"
+          : directionSupported
+            ? "governed-feature-lifecycle-supports-environmental-direction"
+            : "governed-lifecycle-state-does-not-establish-direction-in-v1";
+
+  const missingRequirements = [];
+
+  if (!associationContractAvailable) {
+    missingRequirements.push(
+      "governed-ocean-signal-feature-association-contract"
+    );
+  }
+
+  if (
+    associationContractAvailable &&
+    !associationAssessmentAvailable
+  ) {
+    missingRequirements.push(
+      "available-governed-ocean-signal-feature-association"
+    );
+  }
+
+  if (!featurePersistenceAvailable) {
+    missingRequirements.push(
+      "available-governed-feature-persistence"
+    );
+  }
+
+  if (
+    associationAssessmentAvailable &&
+    featurePersistenceAvailable &&
+    !featureSurfaceMatches
+  ) {
+    missingRequirements.push(
+      "matching-governed-feature-surface"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    !associationEstablished
+  ) {
+    missingRequirements.push(
+      "authoritative-governed-signal-feature-identity"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    associationEstablished &&
+    lifecycleState === null
+  ) {
+    missingRequirements.push(
+      "governed-feature-lifecycle-state"
+    );
+  }
+
+  if (
+    assessmentAvailable &&
+    associationEstablished &&
+    lifecycleState !== null &&
+    !directionSupported
+  ) {
+    missingRequirements.push(
+      "directionally-explicit-governed-lifecycle-state"
+    );
+  }
+
+  const limitations = [
+    ...new Set([
+      ...(
+        Array.isArray(
+          signalFeatureAssociation?.limitations
+        )
+          ? signalFeatureAssociation.limitations
+          : []
+      ),
+
+      ...(
+        Array.isArray(
+          featurePersistence?.limitations
+        )
+          ? featurePersistence.limitations
+          : []
+      ),
+
+      ...missingRequirements,
+
+      "environmental-direction-requires-authoritative-signal-feature-identity",
+      "opportunity-score-change-does-not-establish-environmental-direction",
+      "opportunity-confidence-change-does-not-establish-environmental-direction",
+      "signal-terminology-does-not-establish-environmental-direction",
+      "feature-terminology-does-not-establish-environmental-direction",
+      "provenance-overlap-does-not-establish-environmental-direction",
+      "feature-movement-does-not-establish-environmental-direction",
+      "emerging-does-not-independently-establish-strengthening",
+      "developing-does-not-independently-establish-strengthening",
+      "fading-does-not-independently-establish-weakening",
+      "does-not-establish-feature-identity",
+      "does-not-establish-feature-movement",
+      "does-not-establish-opportunity-persistence",
+      "does-not-establish-ranking-eligibility",
+      "does-not-establish-rank",
+      "does-not-establish-biological-significance",
+      "does-not-confirm-fish-presence",
+      "does-not-estimate-catch-probability",
+      "does-not-provide-captain-guidance"
+    ])
+  ];
+
+  return deepFreezeSnapshotValue({
+    available:
+      assessmentAvailable,
+
+    evidenceType:
+      "governed-environmental-direction-evidence",
+
+    responsibility:
+      "Evaluate",
+
+    classification,
+
+    directionEvidence: {
+      supported:
+        directionSupported,
+
+      direction,
+
+      reason,
+
+      signalType,
+
+      featureType:
+        assessmentAvailable
+          ? persistenceFeatureType
+          : null,
+
+      featureFamily:
+        assessmentAvailable
+          ? persistenceFeatureFamily
+          : null,
+
+      lifecycleState
+    },
+
+    directionEvidenceState: {
+      establishesEnvironmentalDirection:
+        directionSupported,
+
+      establishesStrengthening:
+        direction ===
+        "strengthening",
+
+      establishesWeakening:
+        direction ===
+        "weakening",
+
+      establishesStability:
+        direction ===
+        "stable",
+
+      establishesLifecycleState:
+        false,
+
+      establishesFeatureIdentity:
+        false,
+
+      establishesFeatureMovement:
+        false,
+
+      establishesOpportunityPersistence:
+        false,
+
+      establishesRankingEligibility:
+        false,
+
+      establishesRank:
+        false,
+
+      establishesBiologicalSignificance:
+        false,
+
+      establishesFishPresence:
+        false,
+
+      establishesCatchProbability:
+        false,
+
+      establishesCaptainGuidance:
+        false
+    },
+
+    evidenceBasis: [
+      "governed-ocean-signal-feature-association",
+      "governed-feature-persistence"
+    ],
+
+    upstreamContracts: {
+      signalFeatureAssociation:
+        signalFeatureAssociation
+          ?.contractVersion ??
+        null,
+
+      featurePersistence:
+        featurePersistence
+          ?.contractVersion ??
+        null
+    },
+
+    missingRequirements,
+
+    limitations,
+
+    interpretation:
+      "species-neutral-environmental-direction-evidence",
+
+    contractVersion:
+      "pelora-governed-environmental-direction-evidence-v1"
+  });
+}
+
+
+/**
  * ------------------------------------------------------------
  * Blue Marlin Habitat Suitability Model
  * ------------------------------------------------------------
@@ -50678,7 +51094,8 @@ export function buildGovernedOpportunityTrendEvidenceV1({
  * evidence is not yet connected to the governed opportunity trend chain.
  */
 export function buildGovernedOpportunityTrendResolutionV1({
-  trendEvidence = null
+  trendEvidence = null,
+  environmentalDirectionEvidence = null
 } = {}) {
   const expectedTrendEvidenceContract =
     "pelora-governed-opportunity-trend-evidence-v1";
@@ -50751,12 +51168,53 @@ export function buildGovernedOpportunityTrendResolutionV1({
     pathway !== null;
 
   /*
-   * v1 does not yet consume an authoritative governed
-   * environmental-direction contract. Therefore a valid
-   * assessment intentionally resolves to "direction unresolved".
+   * Trend Resolution may resolve direction only from the exact
+   * governed Environmental Direction Evidence contract.
+   *
+   * Opportunity score and confidence movement remain contextual
+   * evidence only and never establish strengthening, weakening,
+   * or stability.
    */
+  const environmentalDirectionContractAvailable =
+    environmentalDirectionEvidence?.contractVersion ===
+      "pelora-governed-environmental-direction-evidence-v1";
+
+  const environmentalDirectionEvidenceAvailable =
+    environmentalDirectionContractAvailable &&
+    environmentalDirectionEvidence?.available === true &&
+    environmentalDirectionEvidence?.evidenceType ===
+      "governed-environmental-direction-evidence" &&
+    environmentalDirectionEvidence?.responsibility ===
+      "Evaluate" &&
+    environmentalDirectionEvidence?.classification ===
+      "environmental-direction-resolved" &&
+    environmentalDirectionEvidence
+      ?.directionEvidence
+      ?.supported === true &&
+    [
+      "strengthening",
+      "weakening",
+      "stable"
+    ].includes(
+      environmentalDirectionEvidence
+        ?.directionEvidence
+        ?.direction
+    ) &&
+    environmentalDirectionEvidence
+      ?.directionEvidenceState
+      ?.establishesEnvironmentalDirection === true;
+
+  const environmentalDirectionSignalMatches =
+    environmentalDirectionEvidenceAvailable &&
+    environmentalDirectionEvidence
+      ?.directionEvidence
+      ?.signalType ===
+      primarySignalType;
+
   const authoritativeDirectionEvidenceAvailable =
-    false;
+    assessmentAvailable &&
+    environmentalDirectionEvidenceAvailable &&
+    environmentalDirectionSignalMatches;
 
   const trendResolved =
     assessmentAvailable &&
@@ -50771,7 +51229,9 @@ export function buildGovernedOpportunityTrendResolutionV1({
 
   const direction =
     trendResolved
-      ? null
+      ? environmentalDirectionEvidence
+          .directionEvidence
+          .direction
       : null;
 
   const reason =
@@ -50833,7 +51293,7 @@ export function buildGovernedOpportunityTrendResolutionV1({
     "Opportunity score change does not independently establish environmental strengthening or weakening.",
     "Opportunity confidence change does not independently establish environmental strengthening or weakening.",
     "Unchanged opportunity score or confidence does not independently establish environmental stability.",
-    "Trend Resolution v1 does not yet consume authoritative governed environmental-direction evidence.",
+    "Trend Resolution resolves direction only from authoritative governed Environmental Direction Evidence.",
     "Trend Resolution does not establish an environmental-feature lifecycle state.",
     "Trend Resolution does not establish physical-feature identity or movement.",
     "Trend Resolution does not determine evidence freshness.",
@@ -50893,13 +51353,16 @@ export function buildGovernedOpportunityTrendResolutionV1({
         trendResolved,
 
       establishesStrengthening:
-        false,
+        direction ===
+        "strengthening",
 
       establishesWeakening:
-        false,
+        direction ===
+        "weakening",
 
       establishesStability:
-        false,
+        direction ===
+        "stable",
 
       establishesFreshness:
         false,
@@ -50930,6 +51393,11 @@ export function buildGovernedOpportunityTrendResolutionV1({
     upstreamContracts: {
       trendEvidence:
         trendEvidence
+          ?.contractVersion ??
+        null,
+
+      environmentalDirectionEvidence:
+        environmentalDirectionEvidence
           ?.contractVersion ??
         null
     },
