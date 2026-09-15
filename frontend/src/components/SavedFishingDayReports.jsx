@@ -527,6 +527,31 @@ function ReportDetails({
 
       </DetailSection>
 
+      <DetailSection title="Fishing Coordinates">
+
+        {report.fishingLocations?.length ? (
+          <ol className="saved-report-area-list">
+
+            {report.fishingLocations.map(
+              (location, index) => (
+                <li
+                  key={index}
+                >
+                  {location.latitude},{" "}
+                  {location.longitude}
+                </li>
+              )
+            )}
+
+          </ol>
+        ) : (
+          <p>
+            No fishing coordinates recorded.
+          </p>
+        )}
+
+      </DetailSection>
+
 
       <DetailSection title="Observed Activity">
 
@@ -874,6 +899,9 @@ function normalizeSupabaseReport(
 
     areasFished:
       row.areas_fished || [],
+
+    fishingLocations:
+      row.fishing_locations || [],
 
     baitObserved:
       row.bait_observed || [],

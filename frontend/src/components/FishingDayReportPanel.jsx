@@ -120,6 +120,7 @@ function createInitialReport() {
     milesRun: "",
 
     areasFished: [],
+    fishingLocations: [],
 
     baitObserved: [],
     birdActivity: [],
@@ -149,6 +150,8 @@ function FishingDayReportPanel({
   const [report, setReport] = useState(
     createInitialReport
   );
+
+  const [fishingLocationDraft, setFishingLocationDraft] = useState({ latitude: '', longitude: '' });
 
   const [areaSearch, setAreaSearch] =
     useState("");
@@ -256,6 +259,67 @@ const [isSaving, setIsSaving] =
   };
 
 
+  const addFishingLocation = () => {
+    const latitude =
+      Number(fishingLocationDraft.latitude);
+
+    const longitude =
+      Number(fishingLocationDraft.longitude);
+
+    if (
+      fishingLocationDraft.latitude.trim() === "" ||
+      fishingLocationDraft.longitude.trim() === "" ||
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
+      window.alert(
+        "Enter a valid latitude and longitude."
+      );
+      return;
+    }
+
+    if (
+      latitude < -90 ||
+      latitude > 90 ||
+      longitude < -180 ||
+      longitude > 180
+    ) {
+      window.alert(
+        "Latitude must be between -90 and 90. Longitude must be between -180 and 180."
+      );
+      return;
+    }
+
+    setReport((current) => ({
+      ...current,
+      fishingLocations: [
+        ...current.fishingLocations,
+        {
+          latitude,
+          longitude
+        }
+      ]
+    }));
+
+    setFishingLocationDraft({
+      latitude: "",
+      longitude: ""
+    });
+  };
+
+
+  const removeFishingLocation = (index) => {
+    setReport((current) => ({
+      ...current,
+      fishingLocations:
+        current.fishingLocations.filter(
+          (_, locationIndex) =>
+            locationIndex !== index
+        )
+    }));
+  };
+
+
   const updateSpeciesResult = (
     species,
     field,
@@ -332,6 +396,9 @@ const saveReport = async (event) => {
       areas_fished:
         report.areasFished,
 
+      fishing_locations:
+        report.fishingLocations,
+
       bait_observed:
         report.baitObserved,
 
@@ -384,6 +451,11 @@ const saveReport = async (event) => {
     setReport(
       createInitialReport()
     );
+
+    setFishingLocationDraft({
+      latitude: "",
+      longitude: ""
+    });
 
     setAreaSearch("");
 
@@ -695,6 +767,107 @@ const saveReport = async (event) => {
             )}
 
           </ReportSection>
+          <ReportSection
+            title="Fishing Coordinates"
+          >
+
+            <p>
+              Add the actual positions where you fished or made observations.
+            </p>
+
+            <div className="report-grid two-column">
+
+              <label>
+                Latitude
+                <input
+                  type="number"
+                  step="any"
+                  min="-90"
+                  max="90"
+                  placeholder="29.12345"
+                  value={fishingLocationDraft.latitude}
+                  onChange={(event) =>
+                    setFishingLocationDraft(
+                      (current) => ({
+                        ...current,
+                        latitude: event.target.value
+                      })
+                    )
+                  }
+                />
+              </label>
+
+              <label>
+                Longitude
+                <input
+                  type="number"
+                  step="any"
+                  min="-180"
+                  max="180"
+                  placeholder="-87.54321"
+                  value={fishingLocationDraft.longitude}
+                  onChange={(event) =>
+                    setFishingLocationDraft(
+                      (current) => ({
+                        ...current,
+                        longitude: event.target.value
+                      })
+                    )
+                  }
+                />
+              </label>
+
+            </div>
+
+            <button
+              type="button"
+              onClick={addFishingLocation}
+            >
+              Add Fishing Coordinate
+            </button>
+
+            {report.fishingLocations.length > 0 && (
+              <div className="selected-report-areas">
+
+                <h4>
+                  Saved Fishing Coordinates
+                </h4>
+
+                {report.fishingLocations.map(
+                  (location, index) => (
+                    <div
+                      key={index}
+                      className="selected-report-area-row"
+                    >
+
+                      <span>
+                        {index + 1}.
+                      </span>
+
+                      <strong>
+                        {location.latitude},{" "}
+                        {location.longitude}
+                      </strong>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeFishingLocation(index)
+                        }
+                      >
+                        Remove
+                      </button>
+
+                    </div>
+                  )
+                )}
+
+              </div>
+            )}
+
+          </ReportSection>
+
+
 
 
           <ReportSection
