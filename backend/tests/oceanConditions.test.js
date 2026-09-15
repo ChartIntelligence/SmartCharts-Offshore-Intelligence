@@ -30687,6 +30687,92 @@ console.log(
 );
 
 
+assert.match(
+  governedCurrentEdgePosition
+    .featurePositionReference,
+  /^pelora-feature-position-v1:[a-f0-9]{64}$/
+);
+
+const duplicateGovernedCurrentEdgePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      28.125,
+
+    longitude:
+      -87.45,
+
+    observedAt:
+      "2026-08-07T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1"
+  });
+
+assert.equal(
+  duplicateGovernedCurrentEdgePosition
+    .featurePositionReference,
+  governedCurrentEdgePosition
+    .featurePositionReference
+);
+
+const changedGovernedCurrentEdgePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      28.126,
+
+    longitude:
+      -87.45,
+
+    observedAt:
+      "2026-08-07T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1"
+  });
+
+assert.notEqual(
+  changedGovernedCurrentEdgePosition
+    .featurePositionReference,
+  governedCurrentEdgePosition
+    .featurePositionReference
+);
+
+assert.equal(
+  unavailableGovernedFeaturePosition
+    .featurePositionReference,
+  null
+);
+
+
+console.log(
+  "PASS Governed Feature Position provides deterministic position-record identity"
+);
+
+
 const invalidGovernedFeaturePosition =
   buildGovernedFeaturePosition({
     featureType:
@@ -30718,6 +30804,12 @@ const invalidGovernedFeaturePosition =
 assert.equal(
   invalidGovernedFeaturePosition.available,
   false
+);
+
+assert.equal(
+  invalidGovernedFeaturePosition
+    .featurePositionReference,
+  null
 );
 
 assert.equal(
@@ -30884,6 +30976,12 @@ assert.equal(
 
 assert.equal(
   unavailableGovernedFeatureAssociation
+    .associationReference,
+  null
+);
+
+assert.equal(
+  unavailableGovernedFeatureAssociation
     .associationType,
   "governed-feature-association"
 );
@@ -31002,6 +31100,149 @@ console.log(
 );
 
 
+assert.match(
+  compatibleGovernedFeatureAssociation
+    .associationReference,
+  /^pelora-feature-association-v1:[a-f0-9]{64}$/
+);
+
+const duplicateGovernedFeatureAssociation =
+  buildGovernedFeatureAssociation({
+    previousFeaturePosition:
+      governedCurrentEdgePosition,
+
+    currentFeaturePosition:
+      laterGovernedCurrentEdgePosition
+  });
+
+assert.equal(
+  duplicateGovernedFeatureAssociation
+    .associationReference,
+  compatibleGovernedFeatureAssociation
+    .associationReference
+);
+
+const alternateLaterGovernedCurrentEdgePosition =
+  buildGovernedFeaturePosition({
+    featureType:
+      "current-edge",
+
+    featureFamily:
+      "physical-ocean",
+
+    positionType:
+      "centroid",
+
+    latitude:
+      28.235,
+
+    longitude:
+      -87.35,
+
+    observedAt:
+      "2026-08-08T12:00:00.000Z",
+
+    sourceType:
+      "derived-feature-analysis",
+
+    sourceContractVersion:
+      "pelora-current-edge-v1"
+  });
+
+const changedGovernedFeatureAssociation =
+  buildGovernedFeatureAssociation({
+    previousFeaturePosition:
+      governedCurrentEdgePosition,
+
+    currentFeaturePosition:
+      alternateLaterGovernedCurrentEdgePosition
+  });
+
+assert.match(
+  changedGovernedFeatureAssociation
+    .associationReference,
+  /^pelora-feature-association-v1:[a-f0-9]{64}$/
+);
+
+assert.notEqual(
+  changedGovernedFeatureAssociation
+    .associationReference,
+  compatibleGovernedFeatureAssociation
+    .associationReference
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .associated,
+  false
+);
+
+assert.equal(
+  compatibleGovernedFeatureAssociation
+    .classification,
+  "insufficient-evidence"
+);
+
+console.log(
+  "PASS Governed Feature Association provides deterministic comparison-instance identity without establishing same-feature identity"
+);
+
+
+const malformedReferenceFeaturePosition =
+  JSON.parse(
+    JSON.stringify(
+      laterGovernedCurrentEdgePosition
+    )
+  );
+
+malformedReferenceFeaturePosition
+  .featurePositionReference =
+  "pelora-feature-position-v1:not-a-valid-reference";
+
+const malformedReferenceFeatureAssociation =
+  buildGovernedFeatureAssociation({
+    previousFeaturePosition:
+      governedCurrentEdgePosition,
+
+    currentFeaturePosition:
+      malformedReferenceFeaturePosition
+  });
+
+assert.equal(
+  malformedReferenceFeatureAssociation
+    .available,
+  true
+);
+
+assert.equal(
+  malformedReferenceFeatureAssociation
+    .compatibility,
+  "compatible"
+);
+
+assert.equal(
+  malformedReferenceFeatureAssociation
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  malformedReferenceFeatureAssociation
+    .associated,
+  false
+);
+
+assert.equal(
+  malformedReferenceFeatureAssociation
+    .associationReference,
+  null
+);
+
+console.log(
+  "PASS Governed Feature Association refuses deterministic instance identity from malformed position references without changing compatibility semantics"
+);
+
+
 const reversedGovernedFeatureAssociation =
   buildGovernedFeatureAssociation({
     previousFeaturePosition:
@@ -31022,6 +31263,12 @@ assert.equal(
     .chronology
     .chronological,
   false
+);
+
+assert.equal(
+  reversedGovernedFeatureAssociation
+    .associationReference,
+  null
 );
 
 assert.ok(
@@ -31333,6 +31580,64 @@ console.log(
 );
 
 
+const malformedReferenceGovernedFeatureAssociationEvidence =
+  buildGovernedFeatureAssociationEvidence({
+    featureAssociation:
+      malformedReferenceFeatureAssociation,
+
+    temporalContinuity:
+      stableTemporalFeatureContinuity,
+
+    spatialPlausibility: {
+      available:
+        true,
+
+      supported:
+        true,
+
+      contractVersion:
+        "pelora-test-spatial-plausibility-v1"
+    }
+  });
+
+assert.equal(
+  malformedReferenceGovernedFeatureAssociationEvidence
+    .available,
+  false
+);
+
+assert.equal(
+  malformedReferenceGovernedFeatureAssociationEvidence
+    .associationSupported,
+  false
+);
+
+assert.equal(
+  malformedReferenceGovernedFeatureAssociationEvidence
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  malformedReferenceGovernedFeatureAssociationEvidence
+    .upstreamContracts
+    .featureAssociationReference,
+  null
+);
+
+assert.ok(
+  malformedReferenceGovernedFeatureAssociationEvidence
+    .missingRequirements
+    .includes(
+      "compatible-governed-feature-association"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association Evidence refuses version-only association binding without deterministic instance identity"
+);
+
+
 const noContinuityGovernedFeatureAssociationEvidence =
   buildGovernedFeatureAssociationEvidence({
     featureAssociation:
@@ -31401,6 +31706,14 @@ assert.equal(
     .upstreamContracts
     .featureAssociation,
   "pelora-governed-feature-association-v1"
+);
+
+assert.equal(
+  supportedGovernedFeatureAssociationEvidence
+    .upstreamContracts
+    .featureAssociationReference,
+  compatibleGovernedFeatureAssociation
+    .associationReference
 );
 
 assert.equal(
@@ -31599,8 +31912,70 @@ assert.equal(
   true
 );
 
+assert.equal(
+  associatedGovernedFeatureAssociationResolution
+    .upstreamContracts
+    .featureAssociationReference,
+  compatibleGovernedFeatureAssociation
+    .associationReference
+);
+
 console.log(
   "PASS Governed Feature Association Resolution promotes supported compatible evidence to associated"
+);
+
+
+const mismatchedGovernedFeatureAssociationResolution =
+  buildGovernedFeatureAssociationResolution({
+    featureAssociation:
+      changedGovernedFeatureAssociation,
+
+    associationEvidence:
+      supportedGovernedFeatureAssociationEvidence
+  });
+
+assert.equal(
+  mismatchedGovernedFeatureAssociationResolution
+    .available,
+  true
+);
+
+assert.equal(
+  mismatchedGovernedFeatureAssociationResolution
+    .associated,
+  false
+);
+
+assert.equal(
+  mismatchedGovernedFeatureAssociationResolution
+    .classification,
+  "insufficient-evidence"
+);
+
+assert.equal(
+  mismatchedGovernedFeatureAssociationResolution
+    .evidence
+    .associationSupported,
+  true
+);
+
+assert.equal(
+  mismatchedGovernedFeatureAssociationResolution
+    .evidence
+    .referencesAssociation,
+  false
+);
+
+assert.ok(
+  mismatchedGovernedFeatureAssociationResolution
+    .missingRequirements
+    .includes(
+      "association-evidence-provenance-binding"
+    )
+);
+
+console.log(
+  "PASS Governed Feature Association Resolution refuses evidence from a different deterministic association instance"
 );
 
 

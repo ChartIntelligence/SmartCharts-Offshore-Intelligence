@@ -24589,6 +24589,49 @@ export function buildGovernedFeaturePosition({
     validSourceType &&
     validSourceContractVersion;
 
+  /*
+   * Deterministic position identity identifies this exact governed
+   * feature-position record only.
+   *
+   * It does not establish persistent physical-feature identity,
+   * cross-time feature identity, association, or movement.
+   */
+  const canonicalFeaturePosition =
+    available
+      ? JSON.stringify({
+          contractVersion:
+            "pelora-governed-feature-position-v1",
+          featureType:
+            featureType,
+          featureFamily:
+            featureFamily,
+          positionType,
+          latitude,
+          longitude,
+          observedAt,
+          sourceType,
+          sourceContractVersion:
+            sourceContractVersion
+        })
+      : null;
+
+  const featurePositionReference =
+    canonicalFeaturePosition
+      ? [
+          "pelora-feature-position-v1",
+          createHash(
+            "sha256"
+          )
+            .update(
+              canonicalFeaturePosition,
+              "utf8"
+            )
+            .digest(
+              "hex"
+            )
+        ].join(":")
+      : null;
+
   const missingRequirements = [
     !validFeatureType
       ? "governed-feature-type"
@@ -24647,6 +24690,8 @@ export function buildGovernedFeaturePosition({
 
     responsibility:
       "Preserve",
+
+    featurePositionReference,
 
     feature: {
       featureType:
@@ -24853,6 +24898,57 @@ export function buildGovernedFeatureAssociation({
     currentAvailable &&
     chronological;
 
+  const previousFeaturePositionReference =
+    typeof previousFeaturePosition
+      ?.featurePositionReference ===
+      "string" &&
+    /^pelora-feature-position-v1:[a-f0-9]{64}$/.test(
+      previousFeaturePosition
+        .featurePositionReference
+    )
+      ? previousFeaturePosition
+          .featurePositionReference
+      : null;
+
+  const currentFeaturePositionReference =
+    typeof currentFeaturePosition
+      ?.featurePositionReference ===
+      "string" &&
+    /^pelora-feature-position-v1:[a-f0-9]{64}$/.test(
+      currentFeaturePosition
+        .featurePositionReference
+    )
+      ? currentFeaturePosition
+          .featurePositionReference
+      : null;
+
+  const canonicalFeatureAssociation =
+    available &&
+    previousFeaturePositionReference !==
+      null &&
+    currentFeaturePositionReference !==
+      null
+      ? JSON.stringify({
+          contractVersion:
+            "pelora-governed-feature-association-v1",
+          previousFeaturePositionReference,
+          currentFeaturePositionReference
+        })
+      : null;
+
+  const associationReference =
+    canonicalFeatureAssociation
+      ? [
+          "pelora-feature-association-v1",
+          createHash("sha256")
+            .update(
+              canonicalFeatureAssociation,
+              "utf8"
+            )
+            .digest("hex")
+        ].join(":")
+      : null;
+
   const missingRequirements = [
     !previousAvailable
       ? "previous-governed-feature-position"
@@ -24911,6 +25007,8 @@ export function buildGovernedFeatureAssociation({
 
     responsibility:
       "Compare",
+
+    associationReference,
 
     compatibility,
 
@@ -25002,6 +25100,15 @@ export function buildGovernedFeatureAssociationEvidence({
   featureStateConsistency = null
 } = {}) {
 
+    const validAssociationReference =
+      typeof featureAssociation
+        ?.associationReference ===
+        "string" &&
+      /^pelora-feature-association-v1:[a-f0-9]{64}$/.test(
+        featureAssociation
+          .associationReference
+      );
+
     const associationAvailable =
       featureAssociation
         ?.available ===
@@ -25011,7 +25118,8 @@ export function buildGovernedFeatureAssociationEvidence({
         "pelora-governed-feature-association-v1" &&
       featureAssociation
         ?.compatibility ===
-        "compatible";
+        "compatible" &&
+      validAssociationReference;
 
     const temporalContinuityAvailable =
       temporalContinuity
@@ -25199,6 +25307,12 @@ export function buildGovernedFeatureAssociationEvidence({
             ?.contractVersion ??
           null,
 
+        featureAssociationReference:
+          validAssociationReference
+            ? featureAssociation
+                .associationReference
+            : null,
+
         temporalContinuity:
           temporalContinuity
             ?.contractVersion ??
@@ -25294,13 +25408,28 @@ export function buildGovernedFeatureAssociationResolution({
       ?.classification ===
       "association-supported";
 
+  const validAssociationReference =
+    typeof featureAssociation
+      ?.associationReference ===
+      "string" &&
+    /^pelora-feature-association-v1:[a-f0-9]{64}$/.test(
+      featureAssociation
+        .associationReference
+    );
+
   const evidenceReferencesAssociation =
     evidenceAvailable &&
+    validAssociationReference &&
     associationEvidence
       ?.upstreamContracts
       ?.featureAssociation ===
       featureAssociation
-        ?.contractVersion;
+        ?.contractVersion &&
+    associationEvidence
+      ?.upstreamContracts
+      ?.featureAssociationReference ===
+      featureAssociation
+        .associationReference;
 
   const associated =
     associationCompatible &&
@@ -25375,8 +25504,6 @@ export function buildGovernedFeatureAssociationResolution({
 
       "Association Resolution does not independently calculate or infer same-feature identity beyond its governed upstream contracts.",
 
-      "Association Evidence v1 currently binds to the Governed Feature Association contract version rather than a unique association-instance identifier.",
-
       "Association Resolution does not calculate displacement, movement direction, movement speed, opportunity, habitat suitability, species probability, or captain guidance."
     ])
   ];
@@ -25439,6 +25566,12 @@ export function buildGovernedFeatureAssociationResolution({
         featureAssociation
           ?.contractVersion ??
         null,
+
+      featureAssociationReference:
+        validAssociationReference
+          ? featureAssociation
+              .associationReference
+          : null,
 
       associationEvidence:
         associationEvidence
