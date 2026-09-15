@@ -817,8 +817,8 @@ return (
     </strong>
 
     <p>
-      Fishing logs are securely stored for this
-      device. Captain identity is never shared.
+      Fishing logs are securely stored with your Pelora
+      account. Captain identity is never shared.
     </p>
 
   </div>

@@ -326,9 +326,17 @@ if (loadError) {
             expandedReportId ===
             reportId;
 
-          const blueMarlin =
-            report.speciesResults
-              ?.blueMarlin || {};
+          const speciesBites =
+            totalSpeciesResult(
+              report.speciesResults,
+              "bites"
+            );
+
+          const totalReleases =
+            totalSpeciesResult(
+              report.speciesResults,
+              "released"
+            );
 
           return (
             <article
@@ -397,17 +405,13 @@ if (loadError) {
                 />
 
                 <ReportMetric
-                  label="Marlin Bites"
-                  value={
-                    blueMarlin.bites || 0
-                  }
+                  label="Total Bites"
+                  value={speciesBites}
                 />
 
                 <ReportMetric
-                  label="Marlin Releases"
-                  value={
-                    blueMarlin.released || 0
-                  }
+                  label="Total Releases"
+                  value={totalReleases}
                 />
 
               </div>
@@ -633,9 +637,6 @@ function ReportDetails({
                 <span
                   className={`species-badge species-${species}`}
               >
-                 <span className="species-icon">
-                  {getSpeciesIcon(species)}
-                 </span>
 
                  {formatSpeciesName(species)}
                </span>
@@ -720,6 +721,21 @@ function ReportDetails({
       )}
 
     </div>
+  );
+}
+
+
+function totalSpeciesResult(
+  speciesResults,
+  field
+) {
+  return Object.values(
+    speciesResults || {}
+  ).reduce(
+    (total, results) =>
+      total +
+      (Number(results?.[field]) || 0),
+    0
   );
 }
 
@@ -829,6 +845,8 @@ function formatSource(value) {
 
 
 function formatSpeciesName(value) {
+  if (value === "yellowfin") return "Yellowfin Tuna";
+  if (value === "blackfin") return "Blackfin Tuna";
   return String(value)
     .replace(
       /([a-z])([A-Z])/g,
@@ -839,30 +857,6 @@ function formatSpeciesName(value) {
       (character) =>
         character.toUpperCase()
     );
-}
-
-
-function getSpeciesIcon(species) {
-
-  const icons = {
-
-    blueMarlin: "🐟",
-
-    whiteMarlin: "🐟",
-
-    sailfish: "🎣",
-
-    yellowfin: "🐠",
-
-    blackfin: "🐠",
-
-    mahi: "🐬",
-
-    wahoo: "⚡"
-
-  };
-
-  return icons[species] || "🐟";
 }
 
 

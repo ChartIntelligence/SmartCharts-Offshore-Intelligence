@@ -88,22 +88,6 @@ const SPECIES_SHORT = {
   mahi: "Mahi"
 };
 
-function getSpeciesIcon(species) {
-
-  const icons = {
-    blueMarlin: "🐟",
-    whiteMarlin: "🐟",
-    sailfish: "🎣",
-    yellowfin: "🐠",
-    blackfin: "🐠",
-    wahoo: "⚡",
-    mahi: "🐬"
-  };
-
-  return icons[species] || "🐟";
-}
-
-
 function createInitialReport() {
   return {
     captain: "",
@@ -1019,10 +1003,6 @@ const saveReport = async (event) => {
                     <div className="species-cell">
 
                   <span className={`species-pill ${species}`}>
-
-                    <span className="species-pill-icon">
-                      {getSpeciesIcon(species)}
-                    </span>
 
                     {SPECIES_SHORT[species]}
 

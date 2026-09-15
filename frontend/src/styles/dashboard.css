@@ -4524,11 +4524,6 @@
   color:white;
 }
 
-.species-icon{
-
-  font-size:14px;
-}
-
 /* Blue Marlin */
 
 .species-blueMarlin{
@@ -4667,12 +4662,6 @@ color:white;
 min-width:82px;
 
 justify-content:center;
-
-}
-
-.species-pill-icon{
-
-font-size:14px;
 
 }
 
@@ -7347,4 +7336,221 @@ animation:
 
     font-size: 0.78rem;
   }
+}
+/* =========================
+   SAVED FISHING REPORTS
+========================= */
+
+.saved-reports-section {
+  width: 100%;
+}
+
+.saved-reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.saved-reports-eyebrow {
+  margin: 0 0 5px;
+  color: #67c8ff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.saved-reports-list {
+  display: grid;
+  gap: 16px;
+}
+
+.saved-report-card {
+  overflow: hidden;
+  border: 1px solid rgba(116, 184, 219, 0.18);
+  border-radius: 14px;
+  background: rgba(7, 27, 42, 0.94);
+}
+
+.saved-report-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 18px 20px 14px;
+}
+
+.saved-report-date {
+  margin: 0 0 5px;
+  color: #67c8ff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.saved-report-summary h3 {
+  margin: 0 0 5px;
+  font-size: 1.15rem;
+}
+
+.saved-report-summary p {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #9fb5c4;
+}
+
+.saved-report-outcome {
+  min-width: 120px;
+  padding: 10px 13px;
+  border: 1px solid rgba(116, 184, 219, 0.14);
+  border-radius: 9px;
+  background: rgba(11, 42, 62, 0.72);
+  text-align: right;
+}
+
+.saved-report-outcome span,
+.saved-report-outcome strong {
+  display: block;
+}
+
+.saved-report-outcome span {
+  margin-bottom: 3px;
+  color: #829aaa;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.saved-report-outcome strong {
+  color: #f5fbff;
+}
+.saved-report-highlights {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 20px;
+  overflow: hidden;
+  border: 1px solid rgba(116, 184, 219, 0.14);
+  border-radius: 10px;
+  background: rgba(116, 184, 219, 0.12);
+}
+
+.saved-report-metric {
+  min-width: 0;
+  padding: 12px 14px;
+  background: rgba(9, 35, 52, 0.96);
+}
+
+.saved-report-metric span,
+.saved-report-metric strong {
+  display: block;
+}
+
+.saved-report-metric span {
+  margin-bottom: 4px;
+  color: #829aaa;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.saved-report-metric strong {
+  color: #f5fbff;
+  font-size: 1rem;
+}
+.saved-report-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 20px 18px;
+}
+
+.view-report-button,
+.delete-report-button,
+.refresh-reports-button {
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.view-report-button {
+  padding: 9px 14px;
+  border: 1px solid rgba(103, 200, 255, 0.35);
+  background: rgba(24, 105, 148, 0.28);
+  color: #dff5ff;
+}
+
+.delete-report-button {
+  padding: 9px 12px;
+  border: 1px solid rgba(226, 115, 115, 0.22);
+  background: transparent;
+  color: #d9a1a1;
+}
+
+.refresh-reports-button {
+  padding: 9px 13px;
+  border: 1px solid rgba(103, 200, 255, 0.25);
+  background: rgba(11, 42, 62, 0.72);
+  color: #dff5ff;
+}
+.view-report-button:hover,
+.refresh-reports-button:hover {
+  border-color: rgba(103, 200, 255, 0.55);
+  background: rgba(24, 105, 148, 0.42);
+}
+
+.delete-report-button:hover {
+  border-color: rgba(226, 115, 115, 0.4);
+  background: rgba(120, 45, 45, 0.16);
+}
+.saved-report-details {
+  display: grid;
+  gap: 14px;
+  padding: 4px 20px 20px;
+  border-top: 1px solid rgba(116, 184, 219, 0.12);
+}
+
+.saved-detail-section {
+  padding: 15px 16px;
+  border: 1px solid rgba(116, 184, 219, 0.12);
+  border-radius: 10px;
+  background: rgba(9, 35, 52, 0.62);
+}
+
+.saved-detail-section h4 {
+  margin: 0 0 12px;
+  color: #f5fbff;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+}
+
+.saved-detail-section > p {
+  margin: 0;
+  color: #9fb5c4;
+}
+.saved-detail-row { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; padding:8px 0; border-bottom:1px solid rgba(116,184,219,0.08); }
+.saved-detail-row:last-child { border-bottom:0; }
+.saved-detail-row span { color:#829aaa; font-size:0.8rem; }
+.saved-detail-row strong { color:#eef8fd; font-size:0.82rem; text-align:right; }
+.saved-report-area-list { margin:0; padding-left:22px; color:#d9e8ef; }
+.saved-report-area-list li + li { margin-top:6px; }
+.saved-species-results { display:grid; gap:9px; }
+.saved-species-card { display:grid; grid-template-columns:minmax(125px,1.4fr) repeat(6,minmax(58px,1fr)); gap:8px; align-items:center; padding:10px; border:1px solid rgba(116,184,219,0.1); border-radius:9px; background:rgba(5,25,39,0.68); }
+.saved-species-card > span:not(.species-badge) { color:#b9cbd5; font-size:0.74rem; white-space:nowrap; }
+.saved-species-card .species-badge { justify-self:start; }
+.saved-report-notes { margin:0; color:#d9e8ef; line-height:1.6; white-space:pre-wrap; }
+@media (max-width: 700px) {
+.saved-reports-header { flex-direction:column; align-items:stretch; }
+.refresh-reports-button { align-self:flex-start; }
+.saved-report-summary { flex-direction:column; padding:16px; }
+.saved-report-outcome { width:100%; box-sizing:border-box; text-align:left; }
+.saved-report-highlights { grid-template-columns:repeat(2,minmax(0,1fr)); margin:0 16px; }
+.saved-report-actions { padding:14px 16px 16px; }
+.saved-report-details { padding:4px 16px 16px; }
+.saved-detail-row { gap:12px; }
+.saved-species-card { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.saved-species-card .species-badge { grid-column:1 / -1; margin-bottom:3px; }
 }
