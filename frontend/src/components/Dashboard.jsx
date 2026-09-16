@@ -86,6 +86,18 @@ function Dashboard({
       setSelectedSpot(null);
     }, []);
 
+  const handleCloseMapSelection =
+    useCallback(() => {
+      setSelectedOpportunity(null);
+      setSelectedSpot(null);
+    }, []);
+
+  const navigateToTopZoneMap = useCallback(() => {
+    setActiveTab("map");
+  }, []);
+
+
+
   const [
     reportPanelOpen,
     setReportPanelOpen
@@ -557,6 +569,7 @@ return (
       setSelectedOpportunity
     }
     setActiveTab={setActiveTab}
+    navigateToTopZoneMap={navigateToTopZoneMap}
     setSelectedSpot={setSelectedSpot}
     setReportPanelOpen={
       setReportPanelOpen
@@ -575,51 +588,21 @@ return (
 
 
       {activeTab === "map" && (
-        <main className="dashboard-tab-content">
+        <main className="dashboard-tab-content map-intelligence-workspace">
 
-          <section className="map-screen-header">
-
-            <div>
-
-              <p className="section-eyebrow">
-                Live Offshore View
-              </p>
-
-              <h2>
-                Gulf Intelligence Map
-              </h2>
-
-              <p>
-                Explore fishing areas,
-                platforms, FADs and
-                environmental layers.
-              </p>
-
-            </div>
-
-
-            <button
-              type="button"
-              className="map-report-shortcut"
-              onClick={() =>
-                setReportPanelOpen(true)
-              }
-            >
-              + Log Fishing Day
-            </button>
-
-          </section>
 
 
           <section className="map-area">
 
-            <LayerControls
-              layers={layers}
-              setLayers={setLayers}
-            />
+
 
 
             <div className="map-wrapper">
+
+              <LayerControls
+                layers={layers}
+                setLayers={setLayers}
+              />
 
               <MapLibreIntelligenceMap
                 layers={layers}
@@ -663,25 +646,51 @@ return (
                 layers={layers}
               />
 
+              {!mapSelectedTarget && (
+                <button
+                  type="button"
+                  className="map-report-shortcut map-workspace-report-shortcut"
+                  onClick={() =>
+                    setReportPanelOpen(true)
+                  }
+                >
+                  + Log Fishing Day
+                </button>
+              )}
+
+              {mapSelectedTarget && (
+                <SelectedTarget
+                  mapPanel
+                  selectedSpot={
+                    mapSelectedTarget
+                  }
+                  oceanData={
+                    mapSelectedMarineData
+                  }
+                  oceanLoading={
+                    mapSelectedMarineLoading
+                  }
+                  oceanError={
+                    mapSelectedMarineError
+                  }
+                  onViewIntelligence={
+                    selectedGovernedOpportunity
+                      ? () =>
+                          setActiveTab("intelligence")
+                      : null
+                  }
+                  onClose={
+                    handleCloseMapSelection
+                  }
+                />
+              )}
+
             </div>
 
           </section>
 
 
-          <SelectedTarget
-            selectedSpot={
-              mapSelectedTarget
-            }
-            oceanData={
-              mapSelectedMarineData
-            }
-            oceanLoading={
-              mapSelectedMarineLoading
-            }
-            oceanError={
-              mapSelectedMarineError
-            }
-          />
+
 
         </main>
       )}
@@ -760,9 +769,7 @@ return (
               setSelectedOpportunity={
                 handleSelectOpportunity
               }
-              setActiveTab={
-                setActiveTab
-              }
+              setActiveTab={setActiveTab}
             />
 
           </section>

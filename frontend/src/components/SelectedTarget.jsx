@@ -4,7 +4,10 @@ function SelectedTarget({
   selectedSpot,
   oceanData,
   oceanLoading,
-  oceanError
+  oceanError,
+  mapPanel = false,
+  onViewIntelligence,
+  onClose
 }) {
 
   if (!selectedSpot) {
@@ -38,14 +41,34 @@ const positionFreshness =
   selectedSpot.position?.freshness;
 
   return (
-    <div className="selected-target">
+    <div
+      className={
+        mapPanel
+          ? "selected-target selected-target-map-panel"
+          : "selected-target"
+      }
+    >
 
       <div className="selected-target-header">
+
+        {mapPanel &&
+          typeof onClose === "function" && (
+            <button
+              type="button"
+              className="selected-target-map-close"
+              onClick={onClose}
+              aria-label="Close map intelligence"
+            >
+              ×
+            </button>
+          )}
 
         <div>
 
           <p className="selected-label">
-            PELORA INTELLIGENCE REPORT
+            {mapPanel
+              ? "MAP INTELLIGENCE"
+              : "PELORA INTELLIGENCE REPORT"}
           </p>
 
           <h2 className="selected-target-name">
@@ -330,20 +353,35 @@ const positionFreshness =
 </div>
 
 
-      <div className="selected-recommendation">
+      {mapPanel &&
+        typeof onViewIntelligence === "function" && (
+          <div className="selected-target-map-actions">
+            <button
+              type="button"
+              className="selected-target-intelligence-button"
+              onClick={onViewIntelligence}
+            >
+              View Intelligence Report
+            </button>
+          </div>
+        )}
 
-        <h3>
-          Pelora Interpretation
-        </h3>
+      {!mapPanel && (
+        <div className="selected-recommendation">
 
-        <p>
-          {buildPeloraInterpretation(
-            oceanData?.oceanSignals,
-            oceanData?.oceanOpportunity
-          )}
-        </p>
+          <h3>
+            Pelora Interpretation
+          </h3>
 
-      </div>
+          <p>
+            {buildPeloraInterpretation(
+              oceanData?.oceanSignals,
+              oceanData?.oceanOpportunity
+            )}
+          </p>
+
+        </div>
+      )}
 
     </div>
   );

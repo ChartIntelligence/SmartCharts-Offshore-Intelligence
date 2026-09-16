@@ -7,6 +7,7 @@ function TodayDashboard({
   opportunityState = "loading",
   historicalFallback = null,
   setSelectedOpportunity,
+  navigateToTopZoneMap,
   liveMarineData,
   liveMarineLoading,
   liveMarineError,
@@ -784,7 +785,7 @@ const structureDetail =
                   setSelectedOpportunity(null);
                 }
 
-                setActiveTab("map");
+                navigateToTopZoneMap();
               }}
             >
               View Top Zone on Map

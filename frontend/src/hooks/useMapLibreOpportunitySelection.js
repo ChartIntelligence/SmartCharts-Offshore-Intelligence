@@ -56,7 +56,7 @@ export function useMapLibreOpportunitySelection({
         latitude
       ],
 
-      zoom: 8,
+      zoom: 7,
 
       duration: 1400,
 
