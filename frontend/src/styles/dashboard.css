@@ -7794,3 +7794,419 @@ animation:
     font-size: 13px;
   }
 }
+
+/* =========================
+   MAP INTELLIGENCE WORKSPACE V1.1
+   APPLICATION-FIRST MOBILE SHELL
+========================= */
+
+@media (max-width: 700px) {
+  .dashboard-map-mode {
+    padding-bottom: 0;
+  }
+
+  .dashboard-map-mode
+  .smartcharts-app-header {
+    margin-bottom: 0;
+
+    border-radius: 0;
+  }
+
+  .dashboard-map-mode
+  .pelora-header-brand {
+    padding: 4px 8px 2px;
+  }
+
+  .dashboard-map-mode
+  .pelora-logo-lockup {
+    width: min(100%, 210px);
+
+    padding: 0 6px 3px;
+  }
+
+  .dashboard-map-mode
+  .pelora-header-lockup-image {
+    width: 190px;
+  }
+
+  .dashboard-map-mode
+  .pelora-logo-subtitle {
+    display: none;
+  }
+
+  .dashboard-map-mode
+  .smartcharts-app-header
+  .dashboard-tabs {
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+  }
+
+  .dashboard-map-mode
+  .smartcharts-app-header
+  .dashboard-tab {
+    padding: 9px 3px;
+
+    border-right:
+      1px solid
+      rgba(31, 80, 110, 0.55);
+
+    border-bottom: none;
+
+    font-size: 9px;
+    letter-spacing: 0.03em;
+  }
+
+  .dashboard-map-mode
+  .captain-context-control {
+    position: fixed;
+
+    left: 10px;
+    bottom: calc(
+      10px +
+      env(safe-area-inset-bottom)
+    );
+
+    transform: none;
+
+    width: auto;
+    max-width: calc(100vw - 20px);
+
+    padding: 8px 10px;
+
+    justify-content: flex-start;
+
+    border-radius: 10px;
+  }
+
+  .dashboard-map-mode
+  .captain-context-control-summary {
+    justify-content: flex-start;
+
+    max-width: calc(100vw - 64px);
+
+    font-size: 0.72rem;
+  }
+
+  .dashboard-map-mode
+  .captain-context-control-chevron {
+    margin-left: 2px;
+  }
+
+  .dashboard-map-mode
+  .map-intelligence-workspace {
+    min-height:
+      calc(100dvh - 92px);
+  }
+
+  .dashboard-map-mode
+  .map-intelligence-workspace
+  .map-wrapper {
+    height:
+      calc(100dvh - 92px);
+
+    min-height: 0;
+  }
+}
+
+/* MAP WORKSPACE FLOATING CONTROLS */
+
+.map-recenter-control {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .dashboard-map-mode
+  .floating-location-search {
+    top: 10px;
+    left: 10px;
+
+    width: auto;
+    max-width: calc(100% - 190px);
+  }
+
+  .dashboard-map-mode
+  .floating-location-search-toggle {
+    min-height: 40px;
+    max-width: 150px;
+
+    padding: 8px 10px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .dashboard-map-mode
+  .floating-location-search-toggle
+  span {
+    font-size: 15px;
+  }
+
+  .dashboard-map-mode
+  .floating-location-search-panel {
+    width: calc(100vw - 20px);
+    max-height: min(60dvh, 420px);
+
+    box-sizing: border-box;
+  }
+
+  .dashboard-map-mode
+  .layer-controls {
+    top: 10px;
+    right: 82px;
+
+    width: auto;
+    max-width: 140px;
+
+    margin: 0;
+  }
+
+  .dashboard-map-mode
+  .layer-controls-toggle {
+    min-height: 40px;
+
+    padding: 7px 10px;
+  }
+
+  .dashboard-map-mode
+  .layer-controls-toggle
+  strong {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .dashboard-map-mode
+  .layer-controls-toggle
+  small {
+    display: none;
+  }
+
+  .dashboard-map-mode
+  .layer-controls-content {
+    width: min(
+      280px,
+      calc(100vw - 20px)
+    );
+
+    max-height: 60dvh;
+
+    overflow-y: auto;
+
+    box-sizing: border-box;
+  }
+
+  .dashboard-map-mode
+  .map-recenter-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    z-index: 21;
+
+    display: block;
+
+    min-height: 40px;
+
+    padding: 8px 10px;
+
+    background:
+      rgba(8, 31, 48, 0.96);
+
+    color: #f5fbff;
+
+    border: 1px solid #1f506e;
+    border-radius: 10px;
+
+    box-shadow:
+      0 6px 18px
+      rgba(0, 0, 0, 0.34);
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+
+    cursor: pointer;
+  }
+}
+
+/* =========================
+   MAP INTELLIGENCE V1.1
+   PEEK / EXPANDED SHEET
+========================= */
+
+.selected-target-map-expand {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .dashboard-map-mode
+  .selected-target-map-panel {
+    top: auto;
+    right: 8px;
+    bottom: calc(
+      8px +
+      env(safe-area-inset-bottom)
+    );
+    left: 8px;
+
+    width: auto;
+
+    max-height: none;
+
+    padding: 10px 12px 12px;
+
+    overflow: hidden;
+
+    border-radius:
+      18px 18px 12px 12px;
+
+    transition:
+      max-height 180ms ease;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-expand {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    margin: -2px 0 7px;
+    padding: 3px 0 5px;
+
+    background: transparent;
+    color: #9ec9df;
+
+    border: none;
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-handle {
+    display: block;
+
+    width: 38px;
+    height: 4px;
+
+    background:
+      rgba(158, 201, 223, 0.55);
+
+    border-radius: 999px;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel
+  .selected-target-header {
+    flex-direction: row;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel
+  .selected-target-name {
+    margin-top: 2px;
+
+    font-size: 18px;
+    line-height: 1.15;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel
+  .selected-region {
+    margin-bottom: 0;
+
+    font-size: 11px;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel
+  .selected-score {
+    width: auto;
+    min-width: 92px;
+
+    padding: 7px 8px;
+
+    box-sizing: border-box;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel
+  .selected-score span {
+    font-size: 8px;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel
+  .selected-score strong {
+    font-size: 13px;
+    line-height: 1.15;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel-peek
+  .selected-target-map-detail {
+    display: none;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel-expanded {
+    max-height: min(
+      68dvh,
+      620px
+    );
+
+    overflow-y: auto;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel-expanded
+  .selected-target-map-detail {
+    display: block;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-actions {
+    margin-top: 9px;
+    padding-top: 9px;
+  }
+
+  .dashboard-map-mode
+  .selected-target-intelligence-button {
+    padding: 9px 12px;
+
+    font-size: 12px;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-close {
+    top: -2px;
+    right: -2px;
+
+    width: 28px;
+    height: 28px;
+  }
+
+  .dashboard-map-mode
+  .selected-target-map-panel-peek {
+    max-height: 25dvh;
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-map-mode
+  .captain-context-control-map-hidden {
+    display: none;
+  }
+}

@@ -1,4 +1,7 @@
-
+import {
+  useEffect,
+  useState
+} from "react";
 
 function SelectedTarget({
   selectedSpot,
@@ -9,6 +12,18 @@ function SelectedTarget({
   onViewIntelligence,
   onClose
 }) {
+
+  const [
+    mapPanelExpanded,
+    setMapPanelExpanded
+  ] = useState(false);
+
+  useEffect(() => {
+    setMapPanelExpanded(false);
+  }, [
+    selectedSpot?.id,
+    selectedSpot?.name
+  ]);
 
   if (!selectedSpot) {
     return (
@@ -44,10 +59,42 @@ const positionFreshness =
     <div
       className={
         mapPanel
-          ? "selected-target selected-target-map-panel"
+          ? [
+              "selected-target",
+              "selected-target-map-panel",
+              mapPanelExpanded
+                ? "selected-target-map-panel-expanded"
+                : "selected-target-map-panel-peek"
+            ].join(" ")
           : "selected-target"
       }
     >
+
+      {mapPanel && (
+        <button
+          type="button"
+          className="selected-target-map-expand"
+          onClick={() =>
+            setMapPanelExpanded(
+              (current) => !current
+            )
+          }
+          aria-expanded={
+            mapPanelExpanded
+          }
+        >
+          <span
+            className="selected-target-map-handle"
+            aria-hidden="true"
+          />
+
+          <span>
+            {mapPanelExpanded
+              ? "Show Less"
+              : "More Map Intelligence"}
+          </span>
+        </button>
+      )}
 
       <div className="selected-target-header">
 
@@ -103,6 +150,14 @@ const positionFreshness =
         </div>
 
       </div>
+
+      <div
+        className={
+          mapPanel
+            ? "selected-target-map-detail"
+            : undefined
+        }
+      >
 
 
      <div className="selected-target-grid">
@@ -349,6 +404,9 @@ const positionFreshness =
 
       </div>
     )}
+
+</div>
+
 
 </div>
 

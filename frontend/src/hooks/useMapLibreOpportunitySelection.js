@@ -50,18 +50,27 @@ export function useMapLibreOpportunitySelection({
     }
 
 
+    const mobileViewport =
+       window.matchMedia(
+        "(max-width: 700px)"
+      ).matches;
+
     map.flyTo({
       center: [
-        longitude,
-        latitude
-      ],
+      longitude,
+      latitude
+    ],
 
-      zoom: 7,
+    zoom: 7,
 
-      duration: 1400,
+    offset: mobileViewport
+      ? [0, -85]
+      : [0, 0],
 
-      essential: true
-    });
+    duration: 1400,
+
+    essential: true
+  });
   }, [
     mapRef,
     selectedOpportunity

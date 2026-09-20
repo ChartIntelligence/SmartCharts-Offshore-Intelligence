@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useRef
 } from "react";
@@ -30,7 +31,8 @@ function MapLibreIntelligenceMap({
   mapIntelligence,
   openWaterOpportunities = [],
   selectedOpportunity = null,
-  setSelectedOpportunity
+  setSelectedOpportunity,
+  recenterRequest = 0
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -141,6 +143,68 @@ function MapLibreIntelligenceMap({
     mapRef,
     selectedOpportunity
   });
+
+  useEffect(() => {
+    if (!recenterRequest) {
+      return;
+    }
+
+    const map = mapRef.current;
+
+    const target =
+      selectedOpportunity ??
+      selectedSpot;
+
+    const coordinates =
+      target?.coordinates;
+
+    if (
+      !map ||
+      !Array.isArray(coordinates) ||
+      coordinates.length < 2
+    ) {
+      return;
+    }
+
+    const latitude =
+      Number(coordinates[0]);
+
+    const longitude =
+      Number(coordinates[1]);
+
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
+      return;
+    }
+
+    const mobileViewport =
+      window.matchMedia(
+        "(max-width: 700px)"
+      ).matches;
+
+    map.flyTo({
+      center: [
+        longitude,
+        latitude
+      ],
+
+      zoom: 7,
+
+      offset: mobileViewport
+        ? [0, -85]
+        : [0, 0],
+
+      duration: 900,
+
+      essential: true
+    });
+  }, [
+    recenterRequest,
+    selectedOpportunity,
+    selectedSpot
+  ]);
 
   useMapLibreMarkers({
     mapRef,

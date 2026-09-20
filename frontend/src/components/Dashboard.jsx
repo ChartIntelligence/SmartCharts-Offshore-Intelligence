@@ -71,6 +71,11 @@ function Dashboard({
     setSelectedOpportunity
   ] = useState(null);
 
+  const [
+    mapRecenterRequest,
+    setMapRecenterRequest
+  ] = useState(0);
+
   const handleSelectSpot =
     useCallback((spot) => {
       setSelectedSpot(spot);
@@ -422,7 +427,13 @@ const captainContextSpeciesLabel =
 
 
 return (
-  <div className="dashboard">
+  <div
+    className={
+      activeTab === "map"
+        ? "dashboard dashboard-map-mode"
+        : "dashboard"
+    }
+  >
 
     <header className="smartcharts-app-header">
 
@@ -512,7 +523,12 @@ return (
 
 <button
   type="button"
-  className="captain-context-control"
+  className={
+    activeTab === "map" &&
+    mapSelectedTarget
+      ? "captain-context-control captain-context-control-map-hidden"
+      : "captain-context-control"
+  }
   onClick={onEditTripMission}
   aria-label="Change current trip mission"
 >
@@ -628,6 +644,10 @@ return (
                 setSelectedOpportunity={
                   handleSelectOpportunity
                 }
+
+                recenterRequest={
+                  mapRecenterRequest
+                }
               />
 
 
@@ -640,6 +660,20 @@ return (
                   handleSelectSpot
                 }
               />
+
+
+              <button
+                type="button"
+                className="map-recenter-control"
+                onClick={() =>
+                  setMapRecenterRequest(
+                    (current) => current + 1
+                  )
+                }
+                aria-label="Recenter map"
+              >
+                Recenter
+              </button>
 
 
               <MapLegend
