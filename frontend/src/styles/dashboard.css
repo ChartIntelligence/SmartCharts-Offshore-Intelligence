@@ -8210,3 +8210,46 @@ animation:
     display: none;
   }
 }
+
+/* Keep mobile map content below the sheet and reserve separate control rows. */
+@media (max-width: 700px) {
+  .dashboard-map-mode .maplibre-map {
+    isolation: isolate;
+  }
+
+  .dashboard-map-mode .captain-context-control {
+    height: 44px;
+    box-sizing: border-box;
+  }
+
+  .dashboard-map-mode .map-workspace-report-shortcut,
+  .dashboard-map-mode .legend-control {
+    position: fixed;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    z-index: 17;
+  }
+
+  .dashboard-map-mode .map-workspace-report-shortcut {
+    left: 10px;
+    width: auto;
+    max-width: calc(100vw - 132px);
+    min-height: 40px;
+  }
+
+  .dashboard-map-mode .legend-control {
+    right: 10px;
+  }
+
+  .dashboard-map-mode .legend-toggle-button {
+    min-height: 40px;
+    box-sizing: border-box;
+  }
+
+  .dashboard-map-mode .map-legend {
+    right: 0;
+    bottom: 48px;
+    max-height: calc(100dvh - 180px - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+}
