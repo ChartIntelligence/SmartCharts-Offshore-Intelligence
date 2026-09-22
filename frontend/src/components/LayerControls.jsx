@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { OBSERVATION_CONTROLS } from "../utils/mapObservationDisplay.js";
 
 
-function LayerControls({ layers, setLayers }) {
+function LayerControls({ layers, setLayers, observationDisplay, transitionAvailable = false }) {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,18 +17,10 @@ function LayerControls({ layers, setLayers }) {
   };
 
 
-  const toggleableLayerNames = [
-  "locations",
-  "chlorophyll",
-  "currents",
-  "temperatureTransition",
-  "baitProbability"
-];
+  const activeLayerCount = Number(layers.locations) +
+    Number(layers.temperatureTransition && transitionAvailable) +
+    OBSERVATION_CONTROLS.filter(({key,type}) => layers[key] && observationDisplay?.counts[type] > 0).length;
 
-const activeLayerCount =
-  toggleableLayerNames.filter(
-    (layerName) => layers[layerName]
-  ).length;
 
 
   return (
@@ -89,54 +82,7 @@ const activeLayerCount =
 
             </label>
 
-            {layers.chlorophyll && (
 
-  <div className="layer-opacity-control">
-
-    <div className="layer-opacity-label">
-
-      <span>
-        Chlorophyll Opacity
-      </span>
-
-      <strong>
-        {Math.round(
-          (layers.chlorophyllOpacity ?? 0.7) *
-          100
-        )}%
-      </strong>
-
-    </div>
-
-
-    <input
-      type="range"
-      min="0"
-      max="1"
-      step="0.05"
-      value={
-        layers.chlorophyllOpacity ??
-        0.7
-      }
-      onChange={(event) => {
-        const opacity =
-          Number(
-            event.target.value
-          );
-
-        setLayers(
-          (currentLayers) => ({
-            ...currentLayers,
-            chlorophyllOpacity:
-              opacity
-          })
-        );
-      }}
-    />
-
-  </div>
-
-)}
 
           </div>
 
@@ -145,35 +91,27 @@ const activeLayerCount =
 
             <h4>Ocean Intelligence</h4>
 
-            <label>
-
-              <input
-                type="checkbox"
-                checked={layers.chlorophyll}
-                onChange={() =>
-                  toggleLayer("chlorophyll")
-                }
-              />
-
-              Chlorophyll
-
-            </label>
-
-
-            <label>
-
-              <input
-                type="checkbox"
-                checked={layers.currents}
-                onChange={() =>
-                  toggleLayer("currents")
-                }
-              />
-
-              Currents
-
-            </label>
-
+            <p className="observation-layer-note">Provider samples only; no continuous coverage.</p>
+            {OBSERVATION_CONTROLS.map(({ key, type, label }) => (
+              <label key={key}>
+                <input type="checkbox" checked={layers[key]} onChange={() => toggleLayer(key)} />
+                <span>{label}<small className="observation-layer-note">
+                  {observationDisplay?.counts[type] ?? 0} eligible samples
+                </small></span>
+              </label>
+            ))}
+            <p className="observation-layer-note">
+              {observationDisplay?.requestStatus === "loading" ? "Loading provider samples…" :
+                observationDisplay?.requestStatus === "degraded" ? "Refresh failed; retained samples keep their own timestamps and status." :
+                observationDisplay?.requestStatus === "unavailable" ? "Select a Place or Opportunity to request ocean observations." :
+                "Tap a sample to inspect its source, value and time."}
+            </p>
+            <p className="observation-layer-note">
+              {observationDisplay?.counts.current > 0 ?
+                "Current arrows share one provider, dataset and valid time. Unmeasured water is not covered." :
+                "No eligible time-aligned current arrows are available."}
+              {observationDisplay?.excluded.length > 0 && " Some samples are excluded by position, provenance, value, freshness or time-alignment requirements."}
+            </p>
 
             <label>
 
@@ -189,7 +127,7 @@ const activeLayerCount =
                 }
               />
 
-              Temperature Transition
+              Temperature Transition Sampling Evidence
 
             </label>
 

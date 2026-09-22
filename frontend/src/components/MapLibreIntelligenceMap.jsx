@@ -10,6 +10,7 @@ import structures from "../data/gulfLocations";
 
 import { buildMapGeoJson } from "../utils/mapLibreHelpers";
 
+import { useMapLibreEnvironmentalObservations } from "../hooks/useMapLibreEnvironmentalObservations.js";
 import { useMapLibreSetup } from "../hooks/useMapLibreSetup";
 import { useMapLibreLayers } from "../hooks/useMapLibreLayers";
 import { useMapLibreMarkers } from "../hooks/useMapLibreMarkers";
@@ -29,6 +30,7 @@ function MapLibreIntelligenceMap({
   selectedSpot,
   setSelectedSpot,
   mapIntelligence,
+  observationDisplay,
   openWaterOpportunities = [],
   selectedOpportunity = null,
   setSelectedOpportunity,
@@ -127,6 +129,8 @@ function MapLibreIntelligenceMap({
       layers.temperatureTransition ===
       true
   });
+
+  useMapLibreEnvironmentalObservations({ mapRef, observationDisplay, layers });
 
   useMapLibreOpenWaterOpportunities({
     mapRef,

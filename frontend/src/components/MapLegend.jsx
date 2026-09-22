@@ -186,16 +186,9 @@ function OpportunityLegendIcon() {
 }
 
 
-function MapLegend({ layers }) {
+function MapLegend({ layers, observationDisplay }) {
 
   const [isOpen, setIsOpen] = useState(false);
-
-
-  const hasIntelligenceLayers =
-    layers.chlorophyll ||
-    layers.currents ||
-    layers.temperatureTransition ||
-    layers.baitProbability;
 
 
   return (
@@ -305,31 +298,20 @@ function MapLegend({ layers }) {
           )}
 
 
-          {layers.chlorophyll && (
-            <div className="legend-row">
-
-              <span className="legend-swatch legend-chlorophyll" />
-
-              <span>
-                Chlorophyll
-              </span>
-
-            </div>
-          )}
-
-
-          {layers.currents && (
-            <div className="legend-row">
-
-              <span className="legend-current-line" />
-
-              <span>
-                Current
-              </span>
-
-            </div>
-          )}
-
+          {layers.temperatureSamples && <div className="legend-row">
+            <span className="observation-legend-temperature" />
+            <span>Temperature model sample ({observationDisplay?.counts.sst ?? 0}); faded fill = freshness unclassified</span>
+          </div>}
+          {layers.chlorophyll && <>
+            <div className="legend-row"><span className="observation-legend-direct" /><span>Direct satellite chlorophyll</span></div>
+            <div className="legend-row"><span className="observation-legend-reconstructed" /><span>Reconstructed chlorophyll (gap-filled)</span></div>
+            <p className="observation-layer-note">{observationDisplay?.counts.chlorophyll ?? 0} chlorophyll samples. Gray outlines indicate historical / stale samples.</p>
+          </>}
+          {layers.currents && <div className="legend-row">
+            <span className="observation-legend-arrow" aria-hidden="true">↑</span>
+            <span>Current toward arrow ({observationDisplay?.counts.current ?? 0})</span>
+          </div>}
+          <p className="observation-layer-note">Symbols mark samples only, not ocean features or continuous fields. Tap to inspect.</p>
 
           {layers.temperatureTransition && (
             <div className="legend-row">
@@ -339,7 +321,7 @@ function MapLegend({ layers }) {
               />
 
               <span>
-                Temperature Transition Evidence
+                Temperature Transition Sampling Footprint
               </span>
 
             </div>

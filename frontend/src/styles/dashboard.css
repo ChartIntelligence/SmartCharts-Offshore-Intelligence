@@ -8253,3 +8253,15 @@ animation:
     box-sizing: border-box;
   }
 }
+
+
+/* Discrete environmental observations and lightweight provider inspection. */
+.observation-layer-note { display: block; font-size: 11px; line-height: 1.4; color: #adc8d7; margin: 5px 0; }
+.observation-legend-temperature { width: 10px; height: 10px; border: 2px solid white; border-radius: 50%; background: #77bcbc; flex-shrink: 0; }
+.observation-legend-direct, .observation-legend-reconstructed { width: 17px; height: 17px; border: 3px solid #5dd7a0; box-sizing: border-box; flex-shrink: 0; }
+.observation-legend-direct { border-radius: 50%; }
+.observation-legend-reconstructed { transform: rotate(45deg); margin: 3px; }
+.observation-legend-arrow { color: #5ac9ee; font-size: 28px; line-height: 1; }
+.environmental-observation-inspection { color: #123047; max-height: 35dvh; overflow-y: auto; overflow-wrap: anywhere; }
+.environmental-observation-inspection section + section { margin-top: 10px; border-top: 1px solid #b2c9d5; padding-top: 8px; }
+.environmental-observation-inspection p { margin: 4px 0; font-size: 12px; line-height: 1.4; }

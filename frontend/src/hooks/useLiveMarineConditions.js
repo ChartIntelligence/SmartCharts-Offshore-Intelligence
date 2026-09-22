@@ -99,6 +99,7 @@ export function useLiveMarineConditions(
     state?.accessToken === accessToken ? state : null;
 
   return {
+    requestStatus: current?.error ? "degraded" : current?.loading ? "loading" : current?.data ? "ready" : "unavailable",
     data: current?.data ?? null,
     loading: current?.loading ?? (longitude !== null && latitude !== null),
     error: current?.data ? null : current?.error ?? null

@@ -2,8 +2,12 @@ import TodayDashboard from "./TodayDashboard";
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState
 } from "react";
+
+import { buildMapEnvironmentalObservations } from "../utils/mapEnvironmentalObservations.js";
+import { buildMapObservationDisplay } from "../utils/mapObservationDisplay.js";
 
 import LayerControls from "./LayerControls";
 import MapLibreIntelligenceMap from "./MapLibreIntelligenceMap";
@@ -53,9 +57,9 @@ function Dashboard({
     blackfin: true,
     locations: true,
 
+    temperatureSamples: true,
     chlorophyll: false,
-    chlorophyllOpacity: 0.7,
-    currents: false,
+    currents: true,
     temperatureTransition: false,
     baitProbability: false
   });
@@ -113,6 +117,7 @@ function Dashboard({
 
 // Selected location
 const {
+  requestStatus: selectedMarineRequestStatus,
   data: selectedMarineData,
   loading: selectedMarineLoading,
   error: selectedMarineError
@@ -329,6 +334,7 @@ const activeOpportunity =
 
 // Active Ocean Brief opportunity
 const {
+  requestStatus: activeOpportunityMarineRequestStatus,
   data: activeOpportunityMarineData,
   loading: activeOpportunityMarineLoading,
   error: activeOpportunityMarineError
@@ -360,6 +366,23 @@ const mapSelectedMarineError =
     ? activeOpportunityMarineError
     : selectedMarineError;
 
+
+const [observationDisplayTime, setObservationDisplayTime] = useState(Date.now);
+useEffect(() => {
+  if (activeTab !== "map") return;
+  setObservationDisplayTime(Date.now());
+  const timer = window.setInterval(() => setObservationDisplayTime(Date.now()), 60000);
+  return () => window.clearInterval(timer);
+}, [activeTab]);
+
+const mapObservationDisplay = useMemo(() => buildMapObservationDisplay(
+  buildMapEnvironmentalObservations({
+    oceanData: mapSelectedMarineData,
+    requestStatus: selectedGovernedOpportunity ? activeOpportunityMarineRequestStatus : selectedMarineRequestStatus
+  }),
+  observationDisplayTime
+), [mapSelectedMarineData, selectedGovernedOpportunity, activeOpportunityMarineRequestStatus,
+  selectedMarineRequestStatus, observationDisplayTime]);
 
 useOceanMemoryPersistence({
   user,
@@ -615,9 +638,12 @@ return (
               <LayerControls
                 layers={layers}
                 setLayers={setLayers}
+                observationDisplay={mapObservationDisplay}
+                transitionAvailable={mapSelectedMarineData?.mapIntelligence?.temperatureTransition?.available === true}
               />
 
               <MapLibreIntelligenceMap
+                observationDisplay={mapObservationDisplay}
                 layers={layers}
                 selectedSpot={
                   selectedSpot
@@ -674,6 +700,7 @@ return (
 
 
               <MapLegend
+                observationDisplay={mapObservationDisplay}
                 layers={layers}
               />
 
