@@ -10,6 +10,7 @@ import { buildMapEnvironmentalObservations } from "../utils/mapEnvironmentalObse
 import { buildMapObservationDisplay } from "../utils/mapObservationDisplay.js";
 
 import LayerControls from "./LayerControls";
+import { fieldStatusText, sampleLayersForMode } from "../utils/oceanFieldPresentation.js";
 import MapLibreIntelligenceMap from "./MapLibreIntelligenceMap";
 import MapLegend from "./MapLegend";
 import TopOpportunity from "./TopOpportunity";
@@ -57,9 +58,11 @@ function Dashboard({
     blackfin: true,
     locations: true,
 
-    temperatureSamples: true,
+    bathymetry: true,
+    currentField: true,
+    temperatureSamples: false,
     chlorophyll: false,
-    currents: true,
+    currents: false,
     temperatureTransition: false,
     baitProbability: false
   });
@@ -367,6 +370,8 @@ const mapSelectedMarineError =
     : selectedMarineError;
 
 
+const [fieldStatus, setFieldStatus] = useState({});
+const qaSamples = import.meta.env.DEV && import.meta.env.VITE_OCEAN_SAMPLE_QA === "true";
 const [observationDisplayTime, setObservationDisplayTime] = useState(Date.now);
 useEffect(() => {
   if (activeTab !== "map") return;
@@ -636,6 +641,8 @@ return (
             <div className="map-wrapper">
 
               <LayerControls
+                fieldStatus={fieldStatus}
+                qaSamples={qaSamples}
                 layers={layers}
                 setLayers={setLayers}
                 observationDisplay={mapObservationDisplay}
@@ -643,6 +650,8 @@ return (
               />
 
               <MapLibreIntelligenceMap
+                qaSamples={qaSamples}
+                onFieldStatus={setFieldStatus}
                 observationDisplay={mapObservationDisplay}
                 layers={layers}
                 selectedSpot={
@@ -699,9 +708,13 @@ return (
               </button>
 
 
+              <div className="ocean-field-status" role="status">
+                {layers.bathymetry && <div>{fieldStatusText("bathymetry", fieldStatus.bathymetry, observationDisplayTime)}</div>}
+                {layers.currentField && <div>{fieldStatusText("currents", fieldStatus.currents, observationDisplayTime)}</div>}
+              </div>
               <MapLegend
                 observationDisplay={mapObservationDisplay}
-                layers={layers}
+                layers={sampleLayersForMode(layers, qaSamples)}
               />
 
               {!mapSelectedTarget && (

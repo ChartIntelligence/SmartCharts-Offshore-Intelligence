@@ -7,6 +7,8 @@ import {
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import structures from "../data/gulfLocations";
+import { useMapLibreOceanFields } from "../hooks/useMapLibreOceanFields.js";
+import { sampleLayersForMode } from "../utils/oceanFieldPresentation.js";
 
 import { buildMapGeoJson } from "../utils/mapLibreHelpers";
 
@@ -31,6 +33,8 @@ function MapLibreIntelligenceMap({
   setSelectedSpot,
   mapIntelligence,
   observationDisplay,
+  qaSamples = false,
+  onFieldStatus,
   openWaterOpportunities = [],
   selectedOpportunity = null,
   setSelectedOpportunity,
@@ -130,7 +134,8 @@ function MapLibreIntelligenceMap({
       true
   });
 
-  useMapLibreEnvironmentalObservations({ mapRef, observationDisplay, layers });
+  useMapLibreEnvironmentalObservations({ mapRef, observationDisplay, layers: sampleLayersForMode(layers, qaSamples) });
+  useMapLibreOceanFields({ mapRef, bathymetry: layers.bathymetry, currentField: layers.currentField, onFieldStatus });
 
   useMapLibreOpenWaterOpportunities({
     mapRef,

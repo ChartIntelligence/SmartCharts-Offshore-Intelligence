@@ -1,4 +1,5 @@
 import http from "node:http";
+import { getOceanField } from "./fields/fieldService.js";
 import { createHash } from "node:crypto";
 import {
   URL,
@@ -62163,6 +62164,18 @@ const server =
           return;
         }
 
+
+        if (request.method === "GET" && requestUrl.pathname === "/api/ocean/field") {
+          try {
+            writeJson(response, 200, await getOceanField(requestUrl.searchParams));
+          } catch (error) {
+            writeJson(response, error.statusCode ?? 502, {
+              contractVersion: "pelora-spatial-field-v1", status: "unavailable",
+              reason: error.message, candidates: error.candidates ?? []
+            });
+          }
+          return;
+        }
 
         if (
           request.method === "GET" &&

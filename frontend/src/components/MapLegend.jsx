@@ -298,6 +298,8 @@ function MapLegend({ layers, observationDisplay }) {
           )}
 
 
+          {layers.bathymetry && <div className="legend-row"><span className="field-bathy-swatch" /><span>ETOPO depth shading · darker = deeper · decimated grid</span></div>}
+          {layers.currentField && <div className="legend-row"><span className="observation-legend-arrow">↑</span><span>Geostrophic surface flow · toward arrow</span></div>}
           {layers.temperatureSamples && <div className="legend-row">
             <span className="observation-legend-temperature" />
             <span>Temperature model sample ({observationDisplay?.counts.sst ?? 0}); faded fill = freshness unclassified</span>
@@ -311,7 +313,7 @@ function MapLegend({ layers, observationDisplay }) {
             <span className="observation-legend-arrow" aria-hidden="true">↑</span>
             <span>Current toward arrow ({observationDisplay?.counts.current ?? 0})</span>
           </div>}
-          <p className="observation-layer-note">Symbols mark samples only, not ocean features or continuous fields. Tap to inspect.</p>
+          {(layers.temperatureSamples || layers.chlorophyll || layers.currents) && <p className="observation-layer-note">QA symbols mark provider samples. Tap to inspect.</p>}
 
           {layers.temperatureTransition && (
             <div className="legend-row">

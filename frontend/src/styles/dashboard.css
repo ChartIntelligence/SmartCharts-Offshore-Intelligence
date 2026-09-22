@@ -8296,3 +8296,9 @@ animation:
     flex: 1;
   }
 }
+
+/* Viewport field identity remains separate from selected-target evidence. */
+.ocean-field-status { position: absolute; top: 68px; left: 10px; z-index: 7; max-width: min(370px, calc(100% - 20px)); box-sizing: border-box; pointer-events: none; color: #dcecf3; background: rgba(7, 25, 37, .86); border-radius: 6px; padding: 6px 8px; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+.ocean-field-status:empty { display: none; }
+.ocean-field-status div + div { margin-top: 4px; }
+.field-bathy-swatch { display: inline-block; width: 28px; height: 12px; flex-shrink: 0; background: linear-gradient(90deg, #477781, #102737); }

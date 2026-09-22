@@ -1,0 +1,37 @@
+import assert from "node:assert/strict";
+import {validateStyleMin} from "@maplibre/maplibre-gl-style-spec";
+import {currentFieldGeoJson,fieldViewport,fieldLayerDefinitions,FIELD_SOURCE,fieldInsertBefore,
+  sampleLayersForMode,bathymetryRasterPlan,fieldStatusText} from "../oceanFieldPresentation.js";
+import {createViewportFieldRequests} from "../viewportFieldRequests.js";
+const field={fieldId:"one-time",validTime:"2026-09-19T00:00:00Z",payloadType:"geostrophic-vector-grid",
+  payload:{cells:[[140,-35,0,1],[141,-35,1,0],[142,-35,0,-1],[143,-35,-1,0],[144,-35,null,1],[145,-35,0,0]]}};
+const geo=currentFieldGeoJson(field);
+assert.deepEqual(geo.features.map(f=>f.properties.directionDegrees),[0,90,180,270]);
+assert.deepEqual(geo.features[0].geometry.coordinates,[140,-35]);
+assert.ok(geo.features.every(f=>f.properties.validTime===field.validTime));
+const layers=fieldLayerDefinitions();
+assert.deepEqual(validateStyleMin({version:8,sources:{[FIELD_SOURCE.bathymetry]:{type:"image",url:"test.png",coordinates:[[0,1],[1,1],[1,0],[0,0]]},[FIELD_SOURCE.currents]:{type:"geojson",data:geo}},layers}),[]);
+assert.equal(layers[0].type,"raster");assert.equal(layers[1].layout["icon-rotation-alignment"],"map");
+assert.equal(fieldInsertBefore({getStyle:()=>({layers:[{id:"ocean",type:"fill"},{id:"structure-clusters",type:"symbol"}]})}),"structure-clusters");
+const active={temperatureSamples:true,chlorophyll:true,currents:true,locations:true};
+assert.deepEqual(sampleLayersForMode(active),{temperatureSamples:false,chlorophyll:false,currents:false,locations:true});
+assert.equal(sampleLayersForMode(active,true),active);
+const bounds={getWest:()=>140,getEast:()=>150,getSouth:()=>-45,getNorth:()=>-35};
+assert.deepEqual(fieldViewport(bounds,7).bbox,[140,-45,150,-35]);
+assert.ok(fieldViewport(bounds,3).currentDensity<fieldViewport(bounds,7).currentDensity);
+assert.throws(()=>fieldViewport({...bounds,getWest:()=>170,getEast:()=>190},5),/Dateline/);
+const raster=bathymetryRasterPlan({bounds:[0,0,2,2],resolution:{deliveredDegrees:1},payload:{longitudes:[0.5,1.5],latitudes:[0.5,1.5],values:[-100,-2000,null,5]}});
+assert.deepEqual(raster.coordinates,[[0,2],[2,2],[2,0],[0,0]]);assert.equal(raster.rectangles.length,2,"land and missing cells transparent");
+assert.ok(raster.rectangles[0].y>250,"southern row drawn in southern image half");
+const statusField={...field,status:"latest-available",coverage:{validCells:4,returnedCells:6},resolution:{deliveredDegrees:.25},freshness:{maxFreshAgeHours:96}};
+assert.match(fieldStatusText("currents",{field:statusField},Date.parse("2026-09-24T00:00:00Z")),/stale/);
+assert.match(fieldStatusText("currents",{status:"unavailable",reason:"provider failed"}),/provider failed/);
+let scheduled=null,network=0;const pending=[],states=[];
+const requests=createViewportFieldRequests({setTimer:fn=>(scheduled=fn,1),clearTimer:()=>{scheduled=null;},request:(layer,viewport,signal)=>{network++;return new Promise(resolve=>pending.push({resolve,signal,viewport}));},onState:(layer,state)=>states.push(state)});
+requests.schedule({bbox:[1]},["currents"]);requests.schedule({bbox:[2]},["currents"]);assert.equal(network,0);
+let run=scheduled();assert.equal(network,1);
+requests.schedule({bbox:[3]},["currents"]);assert.equal(pending[0].signal.aborted,true);
+pending[0].resolve({status:"latest-available",fieldId:"obsolete"});await run;
+assert.ok(!states.some(s=>s.field?.fieldId==="obsolete"));run=scheduled();pending[1].resolve({status:"latest-available",fieldId:"current"});await run;
+assert.equal(states.at(-1).field.fieldId,"current");requests.dispose();assert.equal(pending[1].signal.aborted,true);
+console.log("PASS field viewport debounce/cancel, global coordinates, QA hiding, raster masks/georeferencing, arrow semantics, layer style/order and field status");

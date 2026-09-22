@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { FIELD_CONTROLS } from "../utils/oceanFieldPresentation.js";
 import { OBSERVATION_CONTROLS } from "../utils/mapObservationDisplay.js";
 
 
-function LayerControls({ layers, setLayers, observationDisplay, transitionAvailable = false }) {
+function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, qaSamples = false, transitionAvailable = false }) {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,7 +20,8 @@ function LayerControls({ layers, setLayers, observationDisplay, transitionAvaila
 
   const activeLayerCount = Number(layers.locations) +
     Number(layers.temperatureTransition && transitionAvailable) +
-    OBSERVATION_CONTROLS.filter(({key,type}) => layers[key] && observationDisplay?.counts[type] > 0).length;
+    FIELD_CONTROLS.filter(({key}) => layers[key] && fieldStatus?.[key === "currentField" ? "currents" : key]?.field?.coverage.validCells > 0).length +
+    (qaSamples ? OBSERVATION_CONTROLS.filter(({key,type}) => layers[key] && observationDisplay?.counts[type] > 0).length : 0);
 
 
 
@@ -91,7 +93,13 @@ function LayerControls({ layers, setLayers, observationDisplay, transitionAvaila
 
             <h4>Ocean Intelligence</h4>
 
-            <p className="observation-layer-note">Provider samples only; no continuous coverage.</p>
+            {FIELD_CONTROLS.map(({key,label}) => <label key={key}>
+              <input type="checkbox" checked={!!layers[key]} onChange={() => toggleLayer(key)} />
+              <span>{label}<small className="observation-layer-note">Viewport field · {!layers[key] ? "off" : fieldStatus?.[key === "currentField" ? "currents" : key]?.status ?? "loading"}</small></span>
+            </label>)}
+            <p className="observation-layer-note">Bathymetry: decimated ETOPO elevation shading, not a navigation chart. Arrows: geostrophic surface flow only.</p>
+            {qaSamples && <>
+            <p className="observation-layer-note">QA provider samples only; no continuous coverage.</p>
             {OBSERVATION_CONTROLS.map(({ key, type, label }) => (
               <label key={key}>
                 <input type="checkbox" checked={layers[key]} onChange={() => toggleLayer(key)} />
@@ -112,6 +120,7 @@ function LayerControls({ layers, setLayers, observationDisplay, transitionAvaila
                 "No eligible time-aligned current arrows are available."}
               {observationDisplay?.excluded.length > 0 && " Some samples are excluded by position, provenance, value, freshness or time-alignment requirements."}
             </p>
+            </>}
 
             <label>
 
