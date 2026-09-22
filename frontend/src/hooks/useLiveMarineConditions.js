@@ -8,160 +8,101 @@ export function useLiveMarineConditions(
   location,
   accessToken = null
 ) {
-  const [data, setData] =
-    useState(null);
-
-  const [loading, setLoading] =
-    useState(false);
-
-  const [error, setError] =
-    useState(null);
-
+  const coordinates = location?.coordinates ?? location?.coords;
+  const normalized = normalizeCoordinates(coordinates);
+  const longitude = normalized?.[0] ?? null;
+  const latitude = normalized?.[1] ?? null;
+  const contextKey = JSON.stringify([
+    location?.id ?? null,
+    location?.name ?? null,
+    longitude,
+    latitude
+  ]);
+  const [state, setState] = useState(null);
 
   useEffect(() => {
-    const coordinates =
-      location?.coordinates ??
-      location?.coords;
+    const contextState = {
+      contextKey,
+      accessToken,
+      data: null,
+      loading: longitude !== null && latitude !== null,
+      error: null
+    };
 
-    const normalized =
-      normalizeCoordinates(
-        coordinates
-      );
-
-    if (!normalized) {
-      setData(null);
-      setError(
-        "Location coordinates unavailable."
-      );
-
+    if (longitude === null || latitude === null) {
+      setState({
+        ...contextState,
+        loading: false,
+        error: "Location coordinates unavailable."
+      });
       return;
     }
 
-    const [
-      longitude,
-      latitude
-    ] = normalized;
-
-    const controller =
-      new AbortController();
-
+    // Retention is only valid within this exact selected context.
+    setState(contextState);
+    const controller = new AbortController();
+    let latestRequest = 0;
 
     async function loadConditions() {
-      setLoading(true);
-      setError(null);
+      const requestId = ++latestRequest;
+      const isCurrent = () =>
+        !controller.signal.aborted && requestId === latestRequest;
 
-     try {
-  const response =
-    await fetch(
-  `https://velion-ocean-engine.onrender.com/api/ocean?lat=${latitude}&lon=${longitude}&t=${Date.now()}`,
-      {
-        signal:
-          controller.signal,
+      if (!isCurrent()) return;
+      setState(current => ({ ...current, loading: true, error: null }));
 
-        cache:
-          "no-store",
-
-        headers:
-          typeof accessToken ===
-            "string" &&
-          accessToken.trim() !==
-            ""
-            ? {
-                Authorization:
-                  `Bearer ${accessToken}`
-              }
-            : {}
-      }
-    );
-
-        if (!response.ok) {
-          throw new Error(
-            `Live-data request failed: ${response.status}`
-          );
-        }
-
-        const result =
-          await response.json();
-
-        setData(result);
-      } catch (requestError) {
-        if (
-          requestError.name ===
-          "AbortError"
-        ) {
-          return;
-        }
-
-        console.error(
-          "Unable to load marine conditions:",
-          requestError
+      try {
+        const response = await fetch(
+          `https://velion-ocean-engine.onrender.com/api/ocean?lat=${latitude}&lon=${longitude}&t=${Date.now()}`,
+          {
+            signal: controller.signal,
+            cache: "no-store",
+            headers:
+              typeof accessToken === "string" && accessToken.trim() !== ""
+                ? { Authorization: `Bearer ${accessToken}` }
+                : {}
+          }
         );
 
-        /*
- * Keep the last successful conditions visible
- * during a temporary upstream failure.
- */
-setError(
-  requestError.message ||
-  "Live data temporarily unavailable."
-);
-
-      } finally {
-        if (
-          !controller.signal.aborted
-        ) {
-          setLoading(false);
+        if (!response.ok) {
+          throw new Error(`Live-data request failed: ${response.status}`);
         }
+
+        const data = await response.json();
+        if (!isCurrent()) return;
+        setState({ ...contextState, data, loading: false });
+      } catch (requestError) {
+        if (!isCurrent() || requestError.name === "AbortError") return;
+        console.error("Unable to load marine conditions:", requestError);
+        // Keep the last successful response only for this same context.
+        setState(current => ({
+          ...current,
+          loading: false,
+          error: requestError.message || "Live data temporarily unavailable."
+        }));
       }
     }
 
-
     loadConditions();
-
-
-    /*
-     * Refresh every 15 minutes.
-     */
-    const refreshTimer =
-  window.setInterval(
-    loadConditions,
-    15 * 60 * 1000
-  );
-
-  const retryTimer =
-  window.setTimeout(
-    loadConditions,
-    5000
-  );
-
+    const refreshTimer = window.setInterval(loadConditions, 15 * 60 * 1000);
+    const retryTimer = window.setTimeout(loadConditions, 5000);
 
     return () => {
       controller.abort();
-
-
-      window.clearTimeout(
-        retryTimer
-      );
-
-      window.clearInterval(
-        refreshTimer
-      );
+      window.clearTimeout(retryTimer);
+      window.clearInterval(refreshTimer);
     };
-  }, [
-    location?.id,
-    location?.name,
-    accessToken
-  ]);
+  }, [contextKey, longitude, latitude, accessToken]);
 
+  // Hide old-context data immediately, including before effect cleanup runs.
+  const current = state?.contextKey === contextKey &&
+    state?.accessToken === accessToken ? state : null;
 
   return {
-  data,
-  loading,
-  error:
-    data
-      ? null
-      : error
-};
+    data: current?.data ?? null,
+    loading: current?.loading ?? (longitude !== null && latitude !== null),
+    error: current?.data ? null : current?.error ?? null
+  };
 }
 
 

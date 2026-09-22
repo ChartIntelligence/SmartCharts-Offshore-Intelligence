@@ -120,6 +120,8 @@ export function buildMapGeoJson(structures = []) {
         const score =
           calculateBlueMarlinScore(spot).total;
 
+        const staticSst = Number.parseFloat(spot.conditions?.sst);
+
         const currentText =
           spot.conditions?.current?.toLowerCase() || "";
 
@@ -168,10 +170,8 @@ export function buildMapGeoJson(structures = []) {
             blackfin:
               spot.scores?.blackfin ?? 0,
 
-            sst:
-              parseFloat(
-                spot.conditions?.sst
-              ) || 0,
+            // Legacy Place metadata, never provider observation provenance.
+            sst: Number.isFinite(staticSst) ? staticSst : null,
 
             chlorophyll:
               spot.conditions?.chlorophyll === "High"

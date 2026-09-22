@@ -53,9 +53,6 @@ function Dashboard({
     blackfin: true,
     locations: true,
 
-    sst: false,
-    sstOpacity: 0.32,
-
     chlorophyll: false,
     chlorophyllOpacity: 0.7,
     currents: false,
@@ -629,7 +626,7 @@ return (
                   handleSelectSpot
                 }
                 mapIntelligence={
-                  selectedMarineData
+                  mapSelectedMarineData
                     ?.mapIntelligence ??
                   null
                 }

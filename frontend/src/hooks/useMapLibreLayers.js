@@ -27,30 +27,9 @@ export function useMapLibreLayers({
         );
       };
 
-      const setPaintProperty = (
-        layerId,
-        property,
-        value
-      ) => {
-        if (!map.getLayer(layerId)) {
-          return;
-        }
-
-        map.setPaintProperty(
-          layerId,
-          property,
-          value
-        );
-      };
-
       /*
        * Layer visibility
        */
-
-      setVisibility(
-        "sst-overlay",
-        layers.sst
-      );
 
       setVisibility(
         "structure-clusters",
@@ -73,16 +52,6 @@ export function useMapLibreLayers({
       );
 
       /*
-       * SST styling
-       */
-
-      setPaintProperty(
-        "sst-overlay",
-        "circle-opacity",
-        layers.sstOpacity ?? 0.28
-      );
-
-      /*
        * Keep ocean evidence beneath
        * location and cluster context.
        */
@@ -94,16 +63,6 @@ export function useMapLibreLayers({
       ) {
         map.moveLayer(
           "chlorophyll-raster"
-        );
-      }
-
-      if (
-        map.getLayer(
-          "sst-overlay"
-        )
-      ) {
-        map.moveLayer(
-          "sst-overlay"
         );
       }
 
@@ -165,8 +124,6 @@ export function useMapLibreLayers({
     };
   }, [
     mapRef,
-    layers.sst,
-    layers.sstOpacity,
     layers.locations,
   ]);
 }

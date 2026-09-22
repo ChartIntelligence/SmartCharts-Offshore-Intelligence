@@ -192,7 +192,6 @@ function MapLegend({ layers }) {
 
 
   const hasIntelligenceLayers =
-    layers.sst ||
     layers.chlorophyll ||
     layers.currents ||
     layers.temperatureTransition ||
@@ -303,19 +302,6 @@ function MapLegend({ layers }) {
 
               </div>
             </>
-          )}
-
-
-          {layers.sst && (
-            <div className="legend-row">
-
-              <span className="legend-swatch legend-sst" />
-
-              <span>
-                SST
-              </span>
-
-            </div>
           )}
 
 
