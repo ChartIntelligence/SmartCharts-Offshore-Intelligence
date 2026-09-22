@@ -14,6 +14,7 @@ const map = {
   getLayer: id => layers.get(id), addLayer: layer => layers.set(layer.id,layer),
   setLayoutProperty(id,key,value){ layers.get(id).layout[key]=value; },
   on(name,callback){events.set(name,callback);},
+  once(name,callback){events.set(name,callback);},
   off(name,callback){if(events.get(name)===callback)events.delete(name);},
   queryRenderedFeatures: () => []
 };
@@ -52,3 +53,14 @@ cleanup=effect();
 assert.equal(sources.get(presentation.OBSERVATION_SOURCE).data.features.length,0,"cleared selection clears old sample geometry");
 cleanup();assert.equal(events.size,0);assert.equal(popupRemovals,0);
 console.log("PASS MapLibre observation source reuse, setData, visibility, style reload, cleared-context data and listener cleanup");
+
+map.isStyleLoaded = () => false;
+context.useMapLibreEnvironmentalObservations({mapRef,observationDisplay:next,layers:toggle});
+cleanup=effect();
+assert.equal(sources.get(presentation.OBSERVATION_SOURCE).data.features.length,0);
+assert.ok(events.has("idle"),"post-load source activity must not strand the update");
+events.get("idle")();
+assert.equal(sources.get(presentation.OBSERVATION_SOURCE).data,next.geoJson);
+cleanup();
+assert.equal(events.size,0);
+console.log("PASS update deferred by source loading is applied at idle without another style.load");

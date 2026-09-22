@@ -24,7 +24,7 @@ function LayerControls({ layers, setLayers, observationDisplay, transitionAvaila
 
 
   return (
-    <div className="layer-controls">
+    <div className={isOpen ? "layer-controls is-open" : "layer-controls"}>
 
       <button
         type="button"

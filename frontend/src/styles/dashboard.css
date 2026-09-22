@@ -8265,3 +8265,34 @@ animation:
 .environmental-observation-inspection { color: #123047; max-height: 35dvh; overflow-y: auto; overflow-wrap: anywhere; }
 .environmental-observation-inspection section + section { margin-top: 10px; border-top: 1px solid #b2c9d5; padding-top: 8px; }
 .environmental-observation-inspection p { margin: 4px 0; font-size: 12px; line-height: 1.4; }
+
+@media (max-width: 700px) {
+  .dashboard-map-mode .layer-controls.is-open {
+    right: 10px;
+    width: min(290px, calc(100% - 20px));
+    max-width: calc(100% - 20px);
+    box-sizing: border-box;
+  }
+  .dashboard-map-mode .layer-controls.is-open .layer-controls-content {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+  .dashboard-map-mode .layer-controls-content label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 44px;
+    padding: 6px 0;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+  .dashboard-map-mode .layer-controls-content label input {
+    flex: 0 0 auto;
+    margin: 3px 0 0;
+  }
+  .dashboard-map-mode .layer-controls-content label span {
+    min-width: 0;
+    flex: 1;
+  }
+}

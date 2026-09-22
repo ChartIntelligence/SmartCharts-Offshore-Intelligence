@@ -48,10 +48,13 @@ export function useMapLibreEnvironmentalObservations({ mapRef, observationDispla
         .setLngLat(features[0].geometry.coordinates).setDOMContent(content).addTo(map);
     };
     if (map.isStyleLoaded()) sync();
+    // Source loading can temporarily make isStyleLoaded false after load fired.
+    else map.once("idle", sync);
     map.on("load", sync);
     map.on("style.load", sync);
     map.on("click", inspect);
     return () => {
+      map.off("idle", sync);
       map.off("load", sync);
       map.off("style.load", sync);
       map.off("click", inspect);

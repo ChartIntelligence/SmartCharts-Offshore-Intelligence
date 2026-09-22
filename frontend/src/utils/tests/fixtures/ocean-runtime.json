@@ -1,0 +1,749 @@
+{
+  "location": {
+    "latitude": 28,
+    "longitude": -89
+  },
+  "observedAt": "2026-09-22T01:30",
+  "dataQuality": {
+    "overall": {
+      "classification": "degraded",
+      "reason": "partial-core-operational-coverage",
+      "headline": "Some ocean conditions are unavailable.",
+      "detail": "Pelora is missing chlorophyll imagery and current data. Use the available information with additional caution.",
+      "coreOperationalCoverage": {
+        "available": 4,
+        "total": 4
+      },
+      "supportingEvidenceCoverage": {
+        "available": 1,
+        "total": 3
+      },
+      "interpretation": "overall-usability-of-current-ocean-inputs"
+    },
+    "layers": {
+      "wind": {
+        "state": "live",
+        "reason": "current-model-value-available",
+        "observedAt": "2026-09-22T01:30",
+        "source": "Open-Meteo Weather API"
+      },
+      "waves": {
+        "state": "live",
+        "reason": "current-model-value-available",
+        "observedAt": "2026-09-22T01:30",
+        "source": "Open-Meteo Marine API"
+      },
+      "swell": {
+        "state": "live",
+        "reason": "current-model-value-available",
+        "observedAt": "2026-09-22T01:30",
+        "source": "Open-Meteo Marine API"
+      },
+      "sst": {
+        "state": "live",
+        "reason": "current-model-value-available",
+        "observedAt": "2026-09-22T01:30",
+        "source": "Open-Meteo Marine API"
+      },
+      "chlorophyll": {
+        "state": "degraded",
+        "reason": "chlorophyll-providers-request-failed",
+        "observedAt": null,
+        "ageHours": null,
+        "source": null,
+        "observationType": null
+      },
+      "currents": {
+        "state": "degraded",
+        "reason": "currents-provider-request-failed",
+        "observedAt": null,
+        "ageHours": null,
+        "source": "NOAA CoastWatch"
+      },
+      "moon": {
+        "state": "calculated",
+        "reason": "local-astronomical-calculation",
+        "observedAt": "2026-09-22T01:31:43.839Z",
+        "source": "Pelora"
+      }
+    },
+    "summary": {
+      "live": 4,
+      "calculated": 1,
+      "stale": 0,
+      "degraded": 2,
+      "unavailable": 0,
+      "total": 7
+    },
+    "interpretation": "availability-and-freshness-of-input-data",
+    "methodVersion": "pelora-data-quality-v2"
+  },
+  "sst": {
+    "requestedLatitude": 28,
+    "requestedLongitude": -89,
+    "resolvedLatitude": 28.041664,
+    "resolvedLongitude": -89.04166,
+    "observedAt": "2026-09-22T01:30",
+    "timestampProvenance": "marine-current-block-valid-time",
+    "temperatureFahrenheit": 86.7,
+    "temperatureCelsius": 30.4,
+    "derived": {
+      "temperatureBand": "hot",
+      "interpretation": "single-point-temperature-description",
+      "thresholdVersion": "pelora-sst-band-v1",
+      "limitations": [
+        "does-not-identify-fronts",
+        "does-not-identify-temperature-breaks",
+        "does-not-indicate-species-suitability"
+      ],
+      "spatialStructure": {
+        "sampleRadiusNauticalMiles": 15,
+        "validNeighborCount": 4,
+        "expectedNeighborCount": 4,
+        "centerTemperatureAvailable": true,
+        "minimumFahrenheit": 86.7,
+        "maximumFahrenheit": 87.3,
+        "rangeFahrenheit": 0.6,
+        "classification": "weak-temperature-transition",
+        "interpretation": "local-spatial-temperature-structure",
+        "thresholdVersion": "pelora-sst-spatial-range-v1",
+        "coverage": "sufficient",
+        "orientation": {
+          "classification": "no-clear-directional-transition",
+          "dominantAxis": null,
+          "warmSide": null,
+          "coolSide": null,
+          "dominantDifferenceFahrenheit": null,
+          "eastWestDifferenceFahrenheit": 0.2,
+          "northSouthDifferenceFahrenheit": -0.2,
+          "minimumDirectionalSignalFahrenheit": 0.3,
+          "interpretation": "local-directional-temperature-description",
+          "methodVersion": "pelora-sst-orientation-v1",
+          "limitations": [
+            "four-point-directional-sampling",
+            "forecast-model-samples",
+            "single-time-snapshot",
+            "does-not-confirm-persistence",
+            "does-not-confirm-ocean-front",
+            "does-not-indicate-species-suitability"
+          ]
+        },
+        "confidence": {
+          "level": "low",
+          "score": 43,
+          "coverageRatio": 1,
+          "sampleAgeHours": 0,
+          "dominantDirectionalDifferenceFahrenheit": 0.2,
+          "secondaryDirectionalDifferenceFahrenheit": 0.2,
+          "axisSeparationFahrenheit": 0,
+          "reasons": [
+            "complete-four-point-coverage",
+            "weak-total-temperature-range",
+            "no-clear-directional-orientation",
+            "competing-directional-signals",
+            "recent-samples"
+          ],
+          "interpretation": "confidence-in-local-directional-temperature-pattern",
+          "methodVersion": "pelora-sst-transition-confidence-v1",
+          "limitations": [
+            "confidence-applies-only-to-sampled-temperature-pattern",
+            "four-point-spatial-sampling",
+            "forecast-model-samples",
+            "single-time-snapshot",
+            "does-not-confirm-persistence",
+            "does-not-confirm-ocean-front",
+            "does-not-indicate-species-suitability"
+          ]
+        },
+        "samples": [
+          {
+            "direction": "north",
+            "requestedLatitude": 28.25,
+            "requestedLongitude": -89,
+            "resolvedLatitude": 28.291664,
+            "resolvedLongitude": -89.04166,
+            "providerCoordinates": {
+              "resolvedLatitude": 28.291664,
+              "resolvedLongitude": -89.04166
+            },
+            "timestampProvenance": "marine-current-block-valid-time",
+            "temperatureCelsius": 30.6,
+            "temperatureFahrenheit": 87.1,
+            "observedAt": "2026-09-22T01:30",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 28,
+            "requestedLongitude": -88.71685748732774,
+            "resolvedLatitude": 28.041664,
+            "resolvedLongitude": -88.70833,
+            "providerCoordinates": {
+              "resolvedLatitude": 28.041664,
+              "resolvedLongitude": -88.70833
+            },
+            "timestampProvenance": "marine-current-block-valid-time",
+            "temperatureCelsius": 30.4,
+            "temperatureFahrenheit": 86.7,
+            "observedAt": "2026-09-22T01:30",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 27.75,
+            "requestedLongitude": -89,
+            "resolvedLatitude": 27.791664,
+            "resolvedLongitude": -89.04166,
+            "providerCoordinates": {
+              "resolvedLatitude": 27.791664,
+              "resolvedLongitude": -89.04166
+            },
+            "timestampProvenance": "marine-current-block-valid-time",
+            "temperatureCelsius": 30.7,
+            "temperatureFahrenheit": 87.3,
+            "observedAt": "2026-09-22T01:30",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 28,
+            "requestedLongitude": -89.28314251267226,
+            "resolvedLatitude": 28.041664,
+            "resolvedLongitude": -89.29166,
+            "providerCoordinates": {
+              "resolvedLatitude": 28.041664,
+              "resolvedLongitude": -89.29166
+            },
+            "timestampProvenance": "marine-current-block-valid-time",
+            "temperatureCelsius": 30.5,
+            "temperatureFahrenheit": 86.9,
+            "observedAt": "2026-09-22T01:30",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ],
+        "limitations": [
+          "forecast-model-samples",
+          "single-time-snapshot",
+          "does-not-confirm-persistence",
+          "does-not-confirm-ocean-front",
+          "does-not-indicate-species-suitability"
+        ]
+      },
+      "governedEnvironmentalFeatureObservation": {
+        "available": true,
+        "observationType": "temperature-transition-observation",
+        "responsibility": "Preserve",
+        "observationReference": "pelora-observation-v1:5040fa54ce845586cabb1f301f9fc2a87d82447496f13006a928a3793e5dde74",
+        "observedAt": "2026-09-22T01:30:00.000Z",
+        "feature": {
+          "featureType": "temperature-transition",
+          "featureFamily": "physical-ocean"
+        },
+        "samplingFootprint": {
+          "radiusNauticalMiles": 15,
+          "sampleCount": 4,
+          "samples": [
+            {
+              "direction": "north",
+              "requestedLatitude": 28.25,
+              "requestedLongitude": -89,
+              "resolvedLatitude": 28.291664,
+              "resolvedLongitude": -89.04166,
+              "temperatureFahrenheit": 87.1,
+              "observedAt": "2026-09-22T01:30:00.000Z",
+              "source": {
+                "provider": "Open-Meteo",
+                "classification": "forecast-model",
+                "availability": "available"
+              }
+            },
+            {
+              "direction": "east",
+              "requestedLatitude": 28,
+              "requestedLongitude": -88.71685748732774,
+              "resolvedLatitude": 28.041664,
+              "resolvedLongitude": -88.70833,
+              "temperatureFahrenheit": 86.7,
+              "observedAt": "2026-09-22T01:30:00.000Z",
+              "source": {
+                "provider": "Open-Meteo",
+                "classification": "forecast-model",
+                "availability": "available"
+              }
+            },
+            {
+              "direction": "south",
+              "requestedLatitude": 27.75,
+              "requestedLongitude": -89,
+              "resolvedLatitude": 27.791664,
+              "resolvedLongitude": -89.04166,
+              "temperatureFahrenheit": 87.3,
+              "observedAt": "2026-09-22T01:30:00.000Z",
+              "source": {
+                "provider": "Open-Meteo",
+                "classification": "forecast-model",
+                "availability": "available"
+              }
+            },
+            {
+              "direction": "west",
+              "requestedLatitude": 28,
+              "requestedLongitude": -89.28314251267226,
+              "resolvedLatitude": 28.041664,
+              "resolvedLongitude": -89.29166,
+              "temperatureFahrenheit": 86.9,
+              "observedAt": "2026-09-22T01:30:00.000Z",
+              "source": {
+                "provider": "Open-Meteo",
+                "classification": "forecast-model",
+                "availability": "available"
+              }
+            }
+          ]
+        },
+        "source": {
+          "type": "spatial-temperature-analysis",
+          "contractVersion": "pelora-sst-spatial-range-v1"
+        },
+        "authority": {
+          "establishesObservationIdentity": true,
+          "establishesSamplingFootprint": true,
+          "establishesFeatureIdentity": false,
+          "establishesFeaturePosition": false,
+          "establishesFeatureGeometry": false,
+          "establishesPersistence": false,
+          "establishesMovement": false,
+          "establishesOpportunity": false,
+          "establishesBiologicalSignificance": false,
+          "establishesFishPresence": false,
+          "establishesCatchProbability": false
+        },
+        "missingRequirements": [],
+        "limitations": [
+          "preserves-environmental-observation-identity-only",
+          "sampling-footprint-is-not-physical-feature-position",
+          "request-or-query-center-is-not-feature-position",
+          "does-not-resolve-exact-temperature-boundary",
+          "does-not-establish-physical-feature-identity",
+          "does-not-establish-cross-time-feature-identity",
+          "does-not-establish-feature-persistence",
+          "does-not-establish-feature-movement",
+          "does-not-establish-ocean-front",
+          "does-not-establish-biological-significance",
+          "does-not-establish-fish-presence",
+          "does-not-estimate-catch-probability"
+        ],
+        "interpretation": "species-neutral-governed-environmental-feature-observation",
+        "contractVersion": "pelora-governed-environmental-feature-observation-v1"
+      }
+    },
+    "source": {
+      "provider": "Open-Meteo",
+      "classification": "forecast-model"
+    }
+  },
+  "chlorophyll": {
+    "concentrationMgM3": null,
+    "waterClassification": null,
+    "observedAt": null,
+    "ageHours": null,
+    "source": {
+      "provider": null,
+      "classification": "chlorophyll-unavailable",
+      "availability": "unavailable"
+    }
+  },
+  "currents": {
+    "speedKnots": null,
+    "directionDegrees": null,
+    "eastwardMetersPerSecond": null,
+    "northwardMetersPerSecond": null,
+    "observedAt": null,
+    "ageHours": null,
+    "source": {
+      "provider": "NOAA CoastWatch",
+      "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+      "classification": "altimetry-derived-geostrophic-current",
+      "availability": "provider-unavailable"
+    },
+    "derived": {
+      "spatialAnalysis": {
+        "available": false,
+        "spatialStructure": {
+          "available": false,
+          "observationType": "spatial-current-sampling",
+          "coverage": "unavailable",
+          "requestedSampleCount": 4,
+          "validSampleCount": 0,
+          "failedSampleCount": 4,
+          "sufficientCoverage": false,
+          "sampleRadiusNauticalMiles": 15,
+          "vectors": [],
+          "measurements": {
+            "minimumSpeedKnots": null,
+            "maximumSpeedKnots": null,
+            "speedRangeKnots": null,
+            "maximumDirectionDifferenceDegrees": null,
+            "spatialVariation": "insufficient-spatial-current-data"
+          },
+          "limitations": [
+            "Fewer than three valid surrounding current vectors were available.",
+            "4 surrounding current samples did not produce a valid vector."
+          ]
+        },
+        "organization": {
+          "available": false,
+          "classification": "unavailable",
+          "organizationLevel": "insufficient-evidence",
+          "evidence": {
+            "sufficientCoverage": false,
+            "speedRangeKnots": null,
+            "maximumDirectionDifferenceDegrees": null,
+            "spatialVariation": "insufficient-spatial-current-data"
+          },
+          "interpretation": "Current organization cannot be evaluated from the available spatial measurements.",
+          "limitations": [
+            "At least three valid surrounding current vectors are required.",
+            "Current organization does not establish convergence, shear, an edge, an eddy, or biological significance."
+          ],
+          "thresholdVersion": "pelora-current-organization-v1"
+        },
+        "relationshipContext": {
+          "available": false,
+          "relationshipType": "unavailable",
+          "relationshipState": "insufficient-evidence",
+          "organizationLevel": "insufficient-evidence",
+          "evidence": {
+            "organizationAvailable": false,
+            "organizationClassification": "unavailable",
+            "spatialVariation": "insufficient-spatial-current-data",
+            "coverage": "unknown",
+            "validSampleCount": null
+          },
+          "interpretation": "A current-field relationship cannot be described because spatial organization evidence is unavailable.",
+          "limitations": [
+            "Current Relationship Context requires a valid Current Organization result.",
+            "No convergence, divergence, shear, edge, eddy, persistence, habitat, or biological relationship is inferred."
+          ],
+          "contractVersion": "pelora-current-relationship-context-v1"
+        },
+        "spatialPattern": {
+          "available": false,
+          "patternType": "unavailable",
+          "patternState": "insufficient-evidence",
+          "dominantVariation": "unknown",
+          "evidence": {
+            "relationshipAvailable": false,
+            "sufficientCoverage": false,
+            "relationshipType": "unavailable",
+            "spatialVariation": "insufficient-spatial-current-data",
+            "speedRangeKnots": null,
+            "maximumDirectionDifferenceDegrees": null,
+            "coverage": "unavailable",
+            "validSampleCount": 0
+          },
+          "interpretation": "A current spatial pattern cannot be classified from the available measurements.",
+          "limitations": [
+            "Current Spatial Pattern Analysis requires sufficient spatial measurements and an available Current Relationship Context.",
+            "No convergence, divergence, shear, edge, rotation, radial flow, eddy, persistence, habitat, or biological significance is inferred."
+          ],
+          "thresholdVersion": "pelora-current-spatial-pattern-v1"
+        },
+        "vectorProjection": {
+          "available": false,
+          "analysisType": "current-vector-projection",
+          "coverage": "unavailable",
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "failedProjectionCount": 0,
+          "sufficientCoverage": false,
+          "sampleRadiusNauticalMiles": 15,
+          "projections": [],
+          "interpretation": "The available current vectors were insufficient for a complete spatial projection analysis.",
+          "limitations": [
+            "Fewer than three valid current-vector projections were available.",
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+          ],
+          "upstreamContract": {
+            "engine": "current-spatial-structure",
+            "version": null
+          },
+          "contractVersion": "pelora-current-vector-projection-v1"
+        },
+        "gradient": {
+          "available": false,
+          "analysisType": "current-gradient-analysis",
+          "coverage": "unavailable",
+          "requestedAxisCount": 2,
+          "validAxisCount": 0,
+          "failedAxisCount": 2,
+          "sufficientCoverage": false,
+          "sampleRadiusNauticalMiles": 15,
+          "axisComparisons": [
+            {
+              "axis": "north-south",
+              "available": false,
+              "firstDirection": "north",
+              "secondDirection": "south",
+              "reason": "missing-opposing-projection"
+            },
+            {
+              "axis": "east-west",
+              "available": false,
+              "firstDirection": "east",
+              "secondDirection": "west",
+              "reason": "missing-opposing-projection"
+            }
+          ],
+          "measurements": {
+            "maximumTotalVectorGradientMetersPerSecondPerNauticalMile": null,
+            "maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile": null,
+            "maximumTangentialGradientMetersPerSecondPerNauticalMile": null
+          },
+          "interpretation": "Opposing current samples were insufficient for Current Gradient Analysis.",
+          "limitations": [
+            "Fewer than three valid current-vector projections were available.",
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+            "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+            "The analysis describes horizontal surface-current variation within the sampled radius only.",
+            "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+            "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance."
+          ],
+          "upstreamContract": {
+            "engine": "current-vector-projection",
+            "version": "pelora-current-vector-projection-v1"
+          },
+          "contractVersion": "pelora-current-gradient-v1"
+        },
+        "convergence": {
+          "available": false,
+          "analysisType": "current-convergence-analysis",
+          "convergenceType": "unavailable",
+          "convergenceState": "insufficient-evidence",
+          "convergenceStrength": "unknown",
+          "evidence": {
+            "coverage": "unavailable",
+            "sufficientCoverage": false,
+            "requestedProjectionCount": 0,
+            "validProjectionCount": 0,
+            "meaningfulInwardCount": 0,
+            "strongInwardCount": 0,
+            "meaningfulOutwardCount": 0,
+            "meaningfulInwardDirections": [],
+            "opposingInwardPairs": [],
+            "distributedInwardSupport": false,
+            "completeInwardSupport": false,
+            "meanMeaningfulInwardMetersPerSecond": null,
+            "maximumInwardMetersPerSecond": null,
+            "maximumOutwardMetersPerSecond": null
+          },
+          "thresholds": {
+            "meaningfulRadialMetersPerSecond": 0.05,
+            "strongRadialMetersPerSecond": 0.15,
+            "minimumMeaningfulInwardSamples": 3,
+            "minimumOpposingInwardPairs": 1
+          },
+          "interpretation": "Convergence cannot be evaluated from the available current-vector projections.",
+          "limitations": [
+            "Fewer than three valid current-vector projections were available.",
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+            "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+            "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+            "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+            "No divergence classification is produced by this engine.",
+            "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+          ],
+          "upstreamContract": {
+            "engine": "current-vector-projection",
+            "version": "pelora-current-vector-projection-v1"
+          },
+          "contractVersion": "pelora-current-convergence-v1"
+        },
+        "edge": {
+          "available": false,
+          "analysisType": "current-edge-analysis",
+          "currentEdgeDetected": false,
+          "edgeType": "unavailable",
+          "edgeState": "insufficient-evidence",
+          "edgeStrength": "unknown",
+          "dominantTransition": "none",
+          "evidence": {
+            "gradientAvailable": false,
+            "shearAvailable": false,
+            "patternAvailable": false,
+            "completeAxisCoverage": false,
+            "transitionPatternSupported": false,
+            "pronouncedTransitionPattern": false,
+            "shearCandidateSupported": false,
+            "pronouncedShearSupported": false,
+            "localizedVelocityChange": false,
+            "convergenceAvailable": false,
+            "convergenceCandidateSupported": false,
+            "patternType": "unavailable",
+            "patternState": "insufficient-evidence",
+            "dominantVariation": "unknown",
+            "gradientCoverage": "unavailable",
+            "supportingAxes": [],
+            "maximumTotalVectorGradientMetersPerSecondPerNauticalMile": null,
+            "speedRangeKnots": null,
+            "maximumDirectionDifferenceDegrees": null
+          },
+          "thresholds": {
+            "requiresTransitionPattern": true,
+            "requiresShearCandidate": true,
+            "requiresCompleteAxisCoverage": true,
+            "convergenceRequired": false
+          },
+          "interpretation": "A current edge cannot be evaluated from the available spatial-current evidence.",
+          "limitations": [
+            "Fewer than three valid current-vector projections were available.",
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+            "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+            "The analysis describes horizontal surface-current variation within the sampled radius only.",
+            "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+            "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance.",
+            "Current Shear Analysis consumes finite-difference measurements from Current Gradient Analysis.",
+            "A shear candidate requires complete north-south and east-west gradient coverage.",
+            "Partial coverage may identify localized horizontal velocity change but does not support a shear candidate.",
+            "This engine evaluates horizontal surface-current shear only; vertical shear and subsurface structure are unavailable.",
+            "A current-shear candidate is not proof of a current edge, front, convergence zone, eddy boundary, turbulence, persistence, prey concentration, habitat quality, fish presence, or biological significance.",
+            "Current Spatial Pattern Analysis requires sufficient spatial measurements and an available Current Relationship Context.",
+            "No convergence, divergence, shear, edge, rotation, radial flow, eddy, persistence, habitat, or biological significance is inferred.",
+            "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+            "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+            "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+            "No divergence classification is produced by this engine.",
+            "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred.",
+            "Current Edge Analysis requires a measurable spatial transition corroborated by horizontal current-shear evidence.",
+            "A current-edge candidate requires complete north-south and east-west gradient coverage.",
+            "Convergence may support the interpretation but is not required because current edges may exist without convergent surface flow.",
+            "This analysis describes a surface-current boundary candidate within the sampled radius only.",
+            "No water-mass identity, thermal front, productivity boundary, persistence, prey concentration, habitat quality, fish presence, or biological significance is inferred."
+          ],
+          "upstreamContracts": [
+            {
+              "engine": "current-gradient-analysis",
+              "version": "pelora-current-gradient-v1"
+            },
+            {
+              "engine": "current-shear-analysis",
+              "version": "pelora-current-shear-v1"
+            },
+            {
+              "engine": "current-spatial-pattern-analysis",
+              "version": "pelora-current-spatial-pattern-v1"
+            },
+            {
+              "engine": "current-convergence-analysis",
+              "version": "pelora-current-convergence-v1"
+            }
+          ],
+          "contractVersion": "pelora-current-edge-v1"
+        },
+        "shear": {
+          "available": false,
+          "analysisType": "current-shear-analysis",
+          "currentShearDetected": false,
+          "shearType": "unavailable",
+          "shearState": "insufficient-evidence",
+          "shearStrength": "unknown",
+          "evidence": {
+            "gradientAvailable": false,
+            "gradientCoverage": "unavailable",
+            "sufficientCoverage": false,
+            "completeAxisCoverage": false,
+            "requestedAxisCount": 2,
+            "validAxisCount": 0,
+            "meaningfulAxisCount": 0,
+            "strongAxisCount": 0,
+            "supportingAxes": [],
+            "maximumTotalVectorGradientMetersPerSecondPerNauticalMile": null,
+            "maximumTangentialGradientMetersPerSecondPerNauticalMile": null,
+            "maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile": null,
+            "axisSupport": []
+          },
+          "thresholds": {
+            "meaningfulTotalVectorGradientMetersPerSecondPerNauticalMile": 0.01,
+            "strongTotalVectorGradientMetersPerSecondPerNauticalMile": 0.02,
+            "minimumCompleteAxisCount": 2,
+            "minimumMeaningfulAxesForCandidate": 1,
+            "minimumMeaningfulAxesForPronounced": 2,
+            "minimumStrongAxesForPronounced": 1
+          },
+          "interpretation": "Horizontal current shear cannot be evaluated from the available Current Gradient Analysis.",
+          "limitations": [
+            "Fewer than three valid current-vector projections were available.",
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+            "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+            "The analysis describes horizontal surface-current variation within the sampled radius only.",
+            "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+            "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance.",
+            "Current Shear Analysis consumes finite-difference measurements from Current Gradient Analysis.",
+            "A shear candidate requires complete north-south and east-west gradient coverage.",
+            "Partial coverage may identify localized horizontal velocity change but does not support a shear candidate.",
+            "This engine evaluates horizontal surface-current shear only; vertical shear and subsurface structure are unavailable.",
+            "A current-shear candidate is not proof of a current edge, front, convergence zone, eddy boundary, turbulence, persistence, prey concentration, habitat quality, fish presence, or biological significance."
+          ],
+          "upstreamContract": {
+            "engine": "current-gradient-analysis",
+            "version": "pelora-current-gradient-v1"
+          },
+          "contractVersion": "pelora-current-shear-v1"
+        },
+        "eddyBoundary": null,
+        "contractVersion": "pelora-current-spatial-analysis-v1"
+      }
+    }
+  }
+}
