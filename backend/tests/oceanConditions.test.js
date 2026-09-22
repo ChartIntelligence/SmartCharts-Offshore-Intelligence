@@ -67364,3 +67364,6 @@ const buildMultiDayPersistenceTestInput = ({
     "PASS governed historical captain context fails closed for missing or malformed mission context"
   );
 }
+
+// Also runnable directly as the focused exception-path regression suite.
+await import("./dynamicOpportunityFailure.test.js");

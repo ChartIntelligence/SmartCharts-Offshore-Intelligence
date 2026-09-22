@@ -48318,97 +48318,6 @@ export function filterUnifiedOpportunityCandidatesByCaptainContextV1({
   };
 }
 
-const DYNAMIC_OPPORTUNITY_CANDIDATES_V1 = [
-  {
-    id:
-      "madison-swanson",
-
-    name:
-      "Madison Swanson",
-
-    category:
-      "intelligence_zone",
-
-    type:
-      "Seamount",
-
-    region:
-      "West Florida",
-
-    coordinates: [
-      29.1917,
-      -85.7333
-    ]
-  },
-
-  {
-    id:
-      "green-canyon",
-
-    name:
-      "Green Canyon",
-
-    category:
-      "intelligence_zone",
-
-    type:
-      "Deepwater Structure",
-
-    region:
-      "Northern Gulf",
-
-    coordinates: [
-      27.65,
-      -91.35
-    ]
-  },
-
-  {
-    id:
-      "thunder-horse",
-
-    name:
-      "Thunder Horse",
-
-    category:
-      "oil_platform",
-
-    type:
-      "Deepwater Platform",
-
-    region:
-      "Mississippi Canyon",
-
-    coordinates: [
-      28.19,
-      -88.49
-    ]
-  },
-
-  {
-    id:
-      "desoto-canyon",
-
-    name:
-      "DeSoto Canyon",
-
-    category:
-      "intelligence_zone",
-
-    type:
-      "Canyon System",
-
-    region:
-      "Eastern Gulf",
-
-    coordinates: [
-      29.0,
-      -87.5
-    ]
-  }
-];
-
-
 export function assessDynamicBlueMarlinOpportunityEligibilityV1({
   blueMarlinHabitat = null
 } = {}) {
@@ -59757,10 +59666,12 @@ export async function getDynamicBlueMarlinOpportunities({
 
   explorationMode =
     "entire-gulf"
+} = {}, {
+  controlledEvaluator = evaluateControlledGulfBlueMarlinV1
 } = {}) {
   try {
     const gulfResult =
-      await evaluateControlledGulfBlueMarlinV1({
+      await controlledEvaluator({
         bearerToken,
 
         originCoordinates,
@@ -60078,118 +59989,34 @@ export async function getDynamicBlueMarlinOpportunities({
     };
   } catch (error) {
     console.warn(
-      "Controlled Gulf Blue Marlin evaluation failed; using curated fallback:",
+      "Controlled Gulf Blue Marlin evaluation failed; opportunities unavailable:",
       error
     );
+
+    // No alternate candidate pathway may bypass the controlled governance chain.
+    // Unknown counts remain null: a failed evaluation is not a governed zero.
+    return {
+      available: false,
+      species: "blue-marlin",
+      generatedAt: new Date().toISOString(),
+      candidateCount: null,
+      evaluatedCandidateCount: null,
+      failedCandidateCount: null,
+      opportunities: [],
+      delivery: null,
+      historicalFallback: null,
+      search: null,
+      evaluation: null,
+      reason: "controlled-gulf-evaluation-failed",
+      limitations: [
+        "controlled-governed-evaluation-unavailable",
+        "evaluation-failure-is-not-governed-zero",
+        "no-alternate-candidate-pathway-used"
+      ],
+      interpretation: "dynamic-governed-blue-marlin-opportunity-ranking",
+      contractVersion: "pelora-dynamic-blue-marlin-opportunities-v1"
+    };
   }
-
-
-  const evaluations =
-    await Promise.allSettled(
-      DYNAMIC_OPPORTUNITY_CANDIDATES_V1
-        .map(
-          async location => {
-            const [
-              latitude,
-              longitude
-            ] =
-              location.coordinates;
-
-
-            const oceanConditions =
-              await getOceanConditions(
-                latitude,
-                longitude,
-                {
-                  bearerToken
-                }
-              );
-
-
-            return (
-              buildUnifiedSpeciesOpportunityInterpretationV1({
-                candidate:
-                  location,
-
-                oceanConditions,
-
-                species:
-                  "blue-marlin"
-              })
-            );
-          }
-        )
-    );
-
-
-  const speciesInterpretations =
-    evaluations
-      .filter(
-        result =>
-          result.status ===
-          "fulfilled"
-      )
-      .map(
-        result =>
-          result.value
-      );
-
-
-  const delivery =
-    buildUnifiedCaptainOpportunityDeliveryV1({
-      species:
-        "blue-marlin",
-
-      speciesInterpretations
-    });
-
-
-  const failedCandidateCount =
-    evaluations.filter(
-      result =>
-        result.status ===
-        "rejected"
-    ).length;
-
-
-  return {
-    available:
-      delivery.available ===
-      true,
-
-    species:
-      "blue-marlin",
-
-    generatedAt:
-      new Date().toISOString(),
-
-    candidateCount:
-      DYNAMIC_OPPORTUNITY_CANDIDATES_V1
-        .length,
-
-    evaluatedCandidateCount:
-      speciesInterpretations.length,
-
-    failedCandidateCount,
-
-    opportunities:
-      delivery.opportunities,
-
-    delivery,
-
-    limitations: [
-      "controlled-gulf-evaluation-unavailable-curated-fallback-used",
-      "candidate-set-limited-to-curated-v1-locations",
-      "does-not-confirm-blue-marlin-presence",
-      "does-not-estimate-catch-probability"
-    ],
-
-    interpretation:
-      "dynamic-governed-blue-marlin-opportunity-ranking",
-
-    contractVersion:
-      "pelora-dynamic-blue-marlin-opportunities-v1"
-  };
 }
 
 
@@ -62157,7 +61984,9 @@ const server =
 
           writeJson(
             response,
-            200,
+            opportunities.reason === "controlled-gulf-evaluation-failed"
+              ? 502
+              : 200,
             opportunities
           );
 
