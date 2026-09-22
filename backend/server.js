@@ -2037,7 +2037,17 @@ const rankedObservations =
 }
 
 
-async function getChlorophyllConditions(
+// Preserve provider coordinates separately from the scientific requested sample axes.
+function resolveProviderCoordinates(latitude, longitude) {
+  return {
+    resolvedLatitude: Number.isFinite(latitude) && latitude >= -90 && latitude <= 90
+      ? latitude : null,
+    resolvedLongitude: Number.isFinite(longitude) && longitude >= -180 && longitude <= 360
+      ? (longitude > 180 ? longitude - 360 : longitude) : null
+  };
+}
+
+export async function getChlorophyllConditions(
   latitude,
   longitude
 ) {
@@ -2067,6 +2077,10 @@ async function getChlorophyllConditions(
     rows.length === 0
   ) {
     return {
+      requestedLatitude: latitude,
+      requestedLongitude: longitude,
+      resolvedLatitude: null,
+      resolvedLongitude: null,
       concentrationMgM3: null,
       waterClassification: null,
       observedAt: null,
@@ -2107,6 +2121,9 @@ async function getChlorophyllConditions(
     getAgeHours(observedAt);
 
   return {
+    ...resolveProviderCoordinates(valueAt("latitude"), valueAt("longitude")),
+    requestedLatitude: latitude,
+    requestedLongitude: longitude,
     concentrationMgM3:
       concentration === null
         ? null
@@ -2151,7 +2168,7 @@ async function getChlorophyllConditions(
 }
 
 
-async function getGapFilledChlorophyllConditions(
+export async function getGapFilledChlorophyllConditions(
   latitude,
   longitude
 ) {
@@ -2181,6 +2198,10 @@ async function getGapFilledChlorophyllConditions(
     rows.length === 0
   ) {
     return {
+      requestedLatitude: latitude,
+      requestedLongitude: longitude,
+      resolvedLatitude: null,
+      resolvedLongitude: null,
       concentrationMgM3: null,
 
       waterClassification:
@@ -2263,6 +2284,9 @@ async function getGapFilledChlorophyllConditions(
 
 
   return {
+    ...resolveProviderCoordinates(valueAt("latitude"), valueAt("longitude")),
+    requestedLatitude: latitude,
+    requestedLongitude: longitude,
     concentrationMgM3:
       concentration === null
         ? null
@@ -2319,7 +2343,7 @@ async function getGapFilledChlorophyllConditions(
 }
 
 
-async function getCurrentConditionsPoint(
+export async function getCurrentConditionsPoint(
   latitude,
   longitude
 ) {
@@ -2359,10 +2383,10 @@ async function getCurrentConditionsPoint(
         longitude,
 
       resolvedLatitude:
-        latitude,
+        null,
 
       resolvedLongitude:
-        longitude,
+        null,
 
       speedKnots: null,
       directionDegrees: null,
@@ -2439,16 +2463,11 @@ async function getCurrentConditionsPoint(
     );
 
   return {
+    ...resolveProviderCoordinates(valueAt("latitude"), valueAt("longitude")),
     requestedLatitude:
       latitude,
 
     requestedLongitude:
-      longitude,
-
-    resolvedLatitude:
-      latitude,
-
-    resolvedLongitude:
       longitude,
 
     speedKnots,
@@ -2616,7 +2635,7 @@ async function getCachedCurrentConditionsPoint(
 }
 
 
-async function getCurrentSpatialStructure(
+export async function getCurrentSpatialStructure(
   latitude,
   longitude
 ) {
@@ -2721,12 +2740,12 @@ async function getCurrentSpatialStructure(
             resolvedLatitude:
               sample.current
                 ?.resolvedLatitude ??
-              sample.latitude,
+              null,
 
             resolvedLongitude:
               sample.current
                 ?.resolvedLongitude ??
-              sample.longitude,
+              null,
 
             speedKnots:
               Number.isFinite(
@@ -2777,6 +2796,8 @@ async function getCurrentSpatialStructure(
                 ? sample.current
                     .ageHours
                 : null,
+
+            source: sample.current?.source ?? null,
 
             cache:
               sample.current
@@ -3472,7 +3493,7 @@ function getCurrentProjectionAxes(
 }
 
 
-function buildCurrentVectorProjectionAnalysis(
+export function buildCurrentVectorProjectionAnalysis(
   spatialStructure
 ) {
   const vectors =
@@ -5208,7 +5229,7 @@ export function buildCurrentEdgeAnalysis(
 }
 
 
-function buildCurrentConvergenceAnalysis(
+export function buildCurrentConvergenceAnalysis(
   vectorProjection
 ) {
   const projections =
@@ -6139,7 +6160,7 @@ function createSstSpatialSamplePoints(
 /**
  * Request only the current sea-surface temperature for one point.
  */
-async function getSeaSurfaceTemperaturePoint(
+export async function getSeaSurfaceTemperaturePoint(
   latitude,
   longitude
 ) {
@@ -6200,6 +6221,10 @@ async function getSeaSurfaceTemperaturePoint(
         payload?.longitude
       ) ??
       longitude,
+
+    // Do not promote legacy request-coordinate fallbacks into map positions.
+    providerCoordinates: resolveProviderCoordinates(payload?.latitude, payload?.longitude),
+    timestampProvenance: "marine-current-block-valid-time",
 
     temperatureCelsius,
 
@@ -7160,7 +7185,7 @@ async function getSstSpatialStructure(
 }
 
 
-async function getMarineConditions(
+export async function getMarineConditions(
   latitude,
   longitude
 ) {
@@ -7478,6 +7503,12 @@ if (
 
 
     sst: {
+  requestedLatitude: latitude,
+  requestedLongitude: longitude,
+  ...resolveProviderCoordinates(marine?.latitude, marine?.longitude),
+  // Shared marine valid time, not a distinct SST measurement timestamp.
+  observedAt: marine?.current?.time ?? null,
+  timestampProvenance: "marine-current-block-valid-time",
   temperatureFahrenheit:
     celsiusToFahrenheit(
       waves.sea_surface_temperature
@@ -61319,6 +61350,12 @@ currents.derived = {
 
 
     const sst = {
+  requestedLatitude: marine.sst?.requestedLatitude ?? null,
+  requestedLongitude: marine.sst?.requestedLongitude ?? null,
+  resolvedLatitude: marine.sst?.resolvedLatitude ?? null,
+  resolvedLongitude: marine.sst?.resolvedLongitude ?? null,
+  observedAt: marine.sst?.observedAt ?? null,
+  timestampProvenance: marine.sst?.timestampProvenance ?? null,
   temperatureFahrenheit:
     marine.sst
       ?.temperatureFahrenheit ??
