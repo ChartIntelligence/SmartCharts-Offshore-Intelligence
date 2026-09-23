@@ -14,6 +14,22 @@ Callers pass paths such as `/api/ocean`, with optional query strings. The resolv
 
 Browser Supabase configuration (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`) remains separate and unchanged. Basemap resources and other intentional external services also remain separate. Selecting one backend does not guarantee that independent requests share an analysis cycle.
 
+## Persistence environment compatibility
+
+Pair frontend `VITE_SUPABASE_URL` with backend `SUPABASE_URL`: both must identify the same intended Supabase project. Keep the existing public keys configured separately; keys and bearer tokens are never part of the compatibility response. No new configuration variable selects a database.
+
+Development/test persistence must use a non-production Supabase project. Production captain records and governed history must remain isolated from development/test records. Real public ocean providers may still be used for development. This change does not provision a project, change Supabase selection, or infer whether a project is production. Operators must establish the correct pairing; matching two production URLs is not development isolation.
+
+The shared contract normalizes a configured HTTPS project URL to its origin (case/default port/trailing slash normalized). URLs containing credentials, paths other than `/`, queries or fragments are unverifiable. Use the same canonical project URL on both sides; custom-domain aliases are not inferred to identify the same project.
+
+Opportunity and live-ocean requests send the non-secret identity in `X-Pelora-Persistence-Project`. The backend independently compares it to its configured identity and returns `persistenceEnvironment` with contract version `pelora-persistence-environment-v1`, state `matched`, `mismatched` or `unknown`, normalized project identities and a diagnostic reason. Backend configuration must also be available. This verifies compatibility, not captain authorization: bearer authentication and RLS remain authoritative.
+
+For mismatched/unknown compatibility the backend withholds the bearer token from memory-consuming evaluation, disabling authenticated Ocean Memory reads, governed observation/history writes and historical fallback reads. Current provider acquisition and independently supported opportunities continue under their existing governance. Spatial fields are unchanged. The browser automatically saves an Ocean Snapshot only when that ocean response contains a valid matching acknowledgement for its active browser project. The snapshot payload itself is unchanged. Diagnostics are not captain-facing prose.
+
+Deploy the backend before the frontend. Old frontend requests without the identity header fail closed for backend memory on the new backend; old backend responses without the acknowledgement fail closed for automatic snapshot saving in the new frontend. An old backend cannot enforce this policy on its own GET side effects, so do not deploy the new frontend against an old backend as an isolation strategy. Ensure any intermediary permits the identity header. Vite's existing proxy forwards it; the backend permits it in CORS preflight.
+
+Fishing Day Reports, Saved Reports, access/auth and early-access operations retain their existing browser-direct behavior and configuration. They are not newly guarded here. Their development isolation still depends on correct browser project selection. No schema migration or report/snapshot association is included.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

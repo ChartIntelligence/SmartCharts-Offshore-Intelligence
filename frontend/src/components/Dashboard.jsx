@@ -385,6 +385,8 @@ const mapObservationDisplay = useMemo(() => buildMapObservationDisplay(
 useOceanMemoryPersistence({
   user,
 
+  persistenceEnvironment: selectedMarineData?.persistenceEnvironment ?? null,
+
   selectedLocation:
     selectedSpot,
 

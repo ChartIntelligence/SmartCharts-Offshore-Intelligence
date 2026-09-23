@@ -3,6 +3,7 @@ import {
   useState
 } from "react";
 import { resolvePeloraApiUrl } from "../utils/peloraApi.js";
+import { persistenceRequestHeaders } from "../utils/persistenceEnvironment.js";
 
 
 export function useLiveMarineConditions(
@@ -58,10 +59,12 @@ export function useLiveMarineConditions(
           {
             signal: controller.signal,
             cache: "no-store",
-            headers:
-              typeof accessToken === "string" && accessToken.trim() !== ""
+            headers: {
+              ...persistenceRequestHeaders(),
+              ...(typeof accessToken === "string" && accessToken.trim() !== ""
                 ? { Authorization: `Bearer ${accessToken}` }
-                : {}
+                : {})
+            }
           }
         );
 

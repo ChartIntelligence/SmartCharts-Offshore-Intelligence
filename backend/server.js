@@ -1,4 +1,6 @@
 import { normalizeBathymetryElevationV1 } from "./bathymetryEvidence.js";
+import { resolvePersistenceRequestContext } from "./persistenceEnvironment.js";
+import { PERSISTENCE_PROJECT_HEADER } from "../shared/persistenceEnvironment.mjs";
 import { buildGovernedOpportunityEvaluationStateV1, translateOpportunityEvaluationNarrativeV1 } from "./opportunityEvaluationState.js";
 import http from "node:http";
 import { getOceanField } from "./fields/fieldService.js";
@@ -1027,7 +1029,7 @@ function writeJson(
         "GET, OPTIONS",
 
       "Access-Control-Allow-Headers":
-        "Content-Type, Authorization",
+        `Content-Type, Authorization, ${PERSISTENCE_PROJECT_HEADER}`,
 
       "Cache-Control":
         "no-store"
@@ -61770,8 +61772,12 @@ const observationSnapshot =
 }
 
 
-const server =
-  http.createServer(
+export function createPeloraServer({
+  oceanConditionsProvider = getOceanConditions,
+  opportunityProvider = getDynamicBlueMarlinOpportunities,
+  persistenceConfigurationProvider = buildBackendSupabaseConfiguration
+} = {}) {
+  return http.createServer(
     async (
       request,
       response
@@ -61989,30 +61995,14 @@ const server =
           }
 
 
-          const authorizationHeader =
-            request.headers
-              .authorization ??
-            null;
-
-
-          const bearerToken =
-            typeof authorizationHeader ===
-              "string" &&
-            authorizationHeader
-              .startsWith(
-                "Bearer "
-              )
-              ? authorizationHeader
-                  .slice(
-                    "Bearer ".length
-                  )
-                  .trim() ||
-                null
-              : null;
+          const {bearerToken, persistenceEnvironment} = resolvePersistenceRequestContext({
+            headers: request.headers,
+            configuration: persistenceConfigurationProvider()
+          });
 
 
           const opportunities =
-            await getDynamicBlueMarlinOpportunities({
+            await opportunityProvider({
               bearerToken,
 
               originCoordinates,
@@ -62032,7 +62022,7 @@ const server =
             opportunities.reason === "controlled-gulf-evaluation-failed"
               ? 502
               : 200,
-            opportunities
+            {...opportunities, persistenceEnvironment}
           );
 
           return;
@@ -62061,25 +62051,10 @@ const server =
             longitude
           } = getCoordinates(requestUrl);
 
-          const authorizationHeader =
-            request.headers
-              .authorization ??
-            null;
-
-          const bearerToken =
-            typeof authorizationHeader ===
-              "string" &&
-            authorizationHeader
-              .startsWith(
-                "Bearer "
-              )
-              ? authorizationHeader
-                  .slice(
-                    "Bearer ".length
-                  )
-                  .trim() ||
-                null
-              : null;
+          const {bearerToken, persistenceEnvironment} = resolvePersistenceRequestContext({
+            headers: request.headers,
+            configuration: persistenceConfigurationProvider()
+          });
 
 
           if (
@@ -62102,7 +62077,7 @@ const server =
 
 
           const oceanConditions =
-            await getOceanConditions(
+            await oceanConditionsProvider(
               latitude,
               longitude,
               {
@@ -62114,7 +62089,7 @@ const server =
           writeJson(
             response,
             200,
-            oceanConditions
+            {...oceanConditions, persistenceEnvironment}
           );
 
           return;
@@ -62151,6 +62126,9 @@ const server =
     }
   );
 
+}
+
+const server = createPeloraServer();
 
 const isDirectExecution =
   Boolean(process.argv[1]) &&

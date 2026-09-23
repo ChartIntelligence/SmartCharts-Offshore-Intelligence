@@ -3,6 +3,7 @@ import {
   useState
 } from "react";
 import { resolvePeloraApiUrl } from "../utils/peloraApi.js";
+import { persistenceRequestHeaders } from "../utils/persistenceEnvironment.js";
 
 
 export function useDynamicOpportunities(
@@ -41,7 +42,7 @@ export function useDynamicOpportunities(
 
 
       try {
-        const headers = {};
+        const headers = persistenceRequestHeaders();
 
         if (accessToken) {
           headers.Authorization =

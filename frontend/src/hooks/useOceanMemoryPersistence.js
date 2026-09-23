@@ -6,12 +6,14 @@ import {
 import {
   saveOceanSnapshot
 } from "../lib/oceanMemoryStorage";
+import { canPersistOceanResponse } from "../utils/persistenceEnvironment.js";
 
 
 export function useOceanMemoryPersistence({
   user,
   selectedLocation,
-  oceanSnapshot
+  oceanSnapshot,
+  persistenceEnvironment = null
 }) {
   const attemptedSnapshotIds =
     useRef(
@@ -55,6 +57,7 @@ export function useOceanMemoryPersistence({
         "object";
 
     if (
+      !canPersistOceanResponse(persistenceEnvironment) ||
       !user?.id ||
       !selectedLocationAvailable ||
       oceanSnapshot?.available !== true ||
@@ -122,6 +125,7 @@ export function useOceanMemoryPersistence({
   }, [
     user?.id,
     selectedLocation,
-    oceanSnapshot
+    oceanSnapshot,
+    persistenceEnvironment
   ]);
 }

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {runInNewContext} from "node:vm";
 import {resolvePeloraApiUrl} from "../../utils/peloraApi.js";
+import {persistenceRequestHeaders} from "../../utils/persistenceEnvironment.js";
 
 const source = name => readFileSync(new URL(`../${name}.js`, import.meta.url), "utf8")
   .replace(/^import[\s\S]*?;\r?\n/gm, "").replace("export function", "function");
@@ -16,6 +17,7 @@ function harness(code, invocation, environment, extras = {}) {
   const body = {opportunities:[], evaluationState:{contractVersion:"pelora-governed-opportunity-evaluation-state-v1",state:"partial"}};
   const context = {
     resolvePeloraApiUrl: path => resolvePeloraApiUrl(path, environment),
+    persistenceRequestHeaders: () => persistenceRequestHeaders({VITE_SUPABASE_URL:"https://captain-test.invalid"}),
     AbortController, URLSearchParams, console,
     Date:{now:()=>123456},
     useState(initial) {
@@ -48,6 +50,7 @@ for (const [environment, base] of [
       const {url,options} = run.calls[0];
       assert.equal(url,`${base}/api/opportunities?species=${species}&explorationMode=within-range&originLatitude=27&originLongitude=-90&operatingRangeNm=100&t=123456`);
       assert.equal(options.headers.Authorization,token ? `Bearer ${token}` : undefined);
+      assert.equal(options.headers["X-Pelora-Persistence-Project"],"https://captain-test.invalid");
       assert.equal(options.cache,"no-store");
       assert.equal(options.signal.aborted,false);
       assert.equal(run.slots[0],run.body,"Response metadata is preserved verbatim");
@@ -59,6 +62,7 @@ for (const [environment, base] of [
     const {url,options} = run.calls[0];
     assert.equal(url,`${base}/api/ocean?lat=27&lon=-90&t=123456`);
     assert.equal(options.headers.Authorization,token ? `Bearer ${token}` : undefined);
+    assert.equal(options.headers["X-Pelora-Persistence-Project"],"https://captain-test.invalid");
     assert.equal(options.cache,"no-store");
     assert.equal(run.slots[0].data,run.body);
     assert.deepEqual(run.timers,[900000,5000]);

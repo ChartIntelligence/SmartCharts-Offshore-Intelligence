@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {resolvePeloraApiUrl} from "../peloraApi.js";
+import {persistenceRequestHeaders} from "../persistenceEnvironment.js";
 import {interpretOpportunityEvaluation,EVALUATION_MESSAGES} from "../opportunityEvaluationState.js";
 const data=state=>({evaluationState:{state,contractVersion:"pelora-governed-opportunity-evaluation-state-v1"},opportunities:[]});
 for(const state of ["available","governed-zero","partial","unavailable"]){
@@ -28,7 +29,7 @@ for (const [status, body] of [[502,data("unavailable")],[200,data("governed-zero
   runInNewContext(hookSource + '\nuseDynamicOpportunities();', {
     useState(initial) {const index = nextSlot++; slots[index] = initial; return [initial,value => {slots[index]=value;}];},
     useEffect(callback) {effect=callback;},
-    AbortController, URLSearchParams, resolvePeloraApiUrl,
+    AbortController, URLSearchParams, resolvePeloraApiUrl, persistenceRequestHeaders,
     fetch: async () => ({ok:status===200,status,json:async()=>body}),
     console
   });
