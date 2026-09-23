@@ -17,6 +17,7 @@ import {
 } from "../lib/supabase";
 
 import "../styles/dashboard.css";
+import {useCaptainAccess} from "../hooks/useCaptainAccess";
 
 
 function FoundingCaptainAccessGate() {
@@ -26,14 +27,8 @@ function FoundingCaptainAccessGate() {
     loading: authLoading
   } = useSupabaseAuth();
 
-  const [accessRecord, setAccessRecord] =
-    useState(null);
-
-  const [accessLoading, setAccessLoading] =
-    useState(true);
-
-  const [accessError, setAccessError] =
-    useState("");
+  const {principalId, approved, initialLoading, accessError} =
+    useCaptainAccess({session, authLoading, client:supabase});
 
   const [email, setEmail] =
     useState("");
@@ -55,86 +50,6 @@ function FoundingCaptainAccessGate() {
 
   const isAnonymous =
     user?.is_anonymous === true;
-
-
-  useEffect(() => {
-    let cancelled = false;
-
-
-    async function loadCaptainAccess() {
-      setAccessRecord(null);
-      setAccessError("");
-
-
-      if (
-        authLoading ||
-        !user ||
-        isAnonymous
-      ) {
-        setAccessLoading(false);
-        return;
-      }
-
-
-      setAccessLoading(true);
-
-
-      const {
-        data,
-        error
-      } =
-        await supabase
-          .from("captain_access")
-          .select(
-            "user_id, display_name, boat_name, access_role, access_status"
-          )
-          .eq(
-            "user_id",
-            user.id
-          )
-          .maybeSingle();
-
-
-      if (cancelled) {
-        return;
-      }
-
-
-      if (error) {
-        console.error(
-          "Unable to verify Founding Captain access:",
-          error
-        );
-
-        setAccessError(
-          "Pelora could not verify your captain access."
-        );
-
-        setAccessLoading(false);
-
-        return;
-      }
-
-
-      setAccessRecord(
-        data ?? null
-      );
-
-      setAccessLoading(false);
-    }
-
-
-    loadCaptainAccess();
-
-
-    return () => {
-      cancelled = true;
-    };
-  }, [
-    authLoading,
-    user,
-    isAnonymous
-  ]);
 
 
   useEffect(() => {
@@ -199,7 +114,7 @@ function FoundingCaptainAccessGate() {
   if (
     !openingComplete ||
     authLoading ||
-    accessLoading
+    initialLoading
   ) {
     return (
       <main className="pelora-startup-screen">
@@ -235,12 +150,6 @@ function FoundingCaptainAccessGate() {
   }
 
 
-  const approved =
-    accessRecord
-      ?.access_status ===
-      "approved";
-
-
   if (
     user &&
     !isAnonymous &&
@@ -248,6 +157,7 @@ function FoundingCaptainAccessGate() {
   ) {
     return (
       <PeloraStartupFlow
+        key={principalId}
         session={session}
         user={user}
         authLoading={authLoading}
