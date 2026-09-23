@@ -75,6 +75,21 @@ Task 8C. Existing production ledger reconciliation described above remains separ
 Ordered dependency tests cover known Fishing Log dependencies, not a verified full
 project bootstrap. No disposable PostgreSQL execution was performed in this task.
 
+## Explicit Ocean Snapshot privileges (Task 9B)
+
+`20260924_ocean_snapshot_privileges_v1.sql` follows evidence-capture storage and
+explicitly grants authenticated SELECT/INSERT on `public.ocean_snapshots`.
+Browser insert/returned-row and duplicate/read paths, and backend snapshot reads,
+require those operations. No supported client UPDATE/DELETE path requires a grant.
+The historical snapshot migration and its owner RLS policies remain unchanged.
+This additive migration does not revoke broader platform/default grants or prove
+least privilege. It has not been executed by Task 9B.
+
+See [Non-production bootstrap verification](Non_Production_Bootstrap_v1.md) for
+target/link safety, required approval before migration execution, effective grant
+inspection, synthetic two-user RLS checks, anonymous-Auth and captain_access
+boundaries. No infrastructure has been provisioned. Do not use production data.
+
 ## Repository verification commands
 
 From the repository root:
@@ -83,6 +98,7 @@ From the repository root:
 node backend/tests/fishingDayReportSchema.test.js
 node backend/tests/fishingLogEvidenceStorage.test.js
 node backend/tests/fishingLogEvidenceCapture.test.js
+node backend/tests/oceanSnapshotPrivileges.test.js
 ```
 
 These static tests check the canonical columns, constraints, policies, explicit
