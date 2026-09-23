@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {test} from 'node:test';
-import React, {act, useEffect, useMemo, useState} from 'react';
+import React, {act, useEffect, useMemo, useRef, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {transformSync} from 'rolldown/utils';
 import {useCaptainAccess} from '../useCaptainAccess.js';
+import {emptyLocationDraft, hasLocationDraft, legacyFishingLocations, removeLocation} from '../../utils/fishingLogSpatialCapture.js';
 import {createTemporalDraft, updateTemporalDraft} from '../../utils/fishingLogTemporalCapture.js';
 
 // Minimal DOM host for real React reconciliation, not a hook/reconciler mock.
@@ -80,8 +81,9 @@ async function setup() {
         view.setDraft = value => props.onChange({target:{value}});
       }
       return React.createElement(type, props, ...children);
-    }}, useMemo, useState, structuredClone, createTemporalDraft, updateTemporalDraft,
-    FishingLogTemporalControls:() => null,
+    }}, useMemo, useRef, useState, structuredClone, createTemporalDraft, updateTemporalDraft,
+    FishingLogTemporalControls:() => null, FishingLogSpatialControls:() => null,
+    emptyLocationDraft, hasLocationDraft, legacyFishingLocations, removeLocation,
     insertReportWithTime:() => {throw new Error('Persistence is forbidden in this test');}
   });
   function Workspace({session:currentSession}) {

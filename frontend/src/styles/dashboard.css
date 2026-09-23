@@ -8311,3 +8311,27 @@ animation:
 .ocean-field-status:empty { display: none; }
 .ocean-field-status div + div { margin-top: 4px; }
 .field-bathy-swatch { display: inline-block; width: 28px; height: 12px; flex-shrink: 0; background: linear-gradient(90deg, #477781, #102737); }
+
+/* Manual Fishing Coordinates: source capture, independent of report validity. */
+.report-spatial-controls, .report-coordinate-editor, .report-location-card > div { min-width: 0; }
+.report-coordinate-editor { border: 0; padding: 0; margin: 0; display: grid; gap: 14px; }
+.report-coordinate-legend { margin-bottom: 10px; }
+.report-position-choices { min-width: 0; margin: 0; padding: 10px; border: 1px solid #54809a; border-radius: 8px; }
+.report-position-choices label { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.report-spatial-controls input[type="text"] { min-width: 0; font-size: 16px; }
+.report-spatial-controls p, .report-location-card { overflow-wrap: anywhere; }
+.report-spatial-controls button, .report-location-confirmation button { min-height: 44px; padding: 10px 14px; background: #061827; color: #f5fbff; border: 1px solid #54809a; border-radius: 8px; cursor: pointer; }
+.report-spatial-controls :focus-visible, .report-location-confirmation :focus-visible { outline: 2px solid #8ed3f5; outline-offset: 3px; }
+.report-location-card { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 12px; padding: 12px; margin-top: 8px; background: #061827; border-radius: 8px; }
+.report-location-confirmation { padding: 14px; border: 1px solid #54809a; border-radius: 8px; scroll-margin-block: 100px; }
+.report-location-confirmation button { margin: 4px; }
+.fishing-report-panel { scroll-padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+.fishing-report-form { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+.report-panel-footer { padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 700px) {
+  .report-spatial-controls .report-form-grid { grid-template-columns: minmax(0,1fr); }
+  .report-add-location { width: 100%; box-sizing: border-box; }
+  .report-location-card { grid-template-columns: minmax(0,1fr); }
+  .report-location-card button { justify-self: start; }
+  .fishing-report-form { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+}

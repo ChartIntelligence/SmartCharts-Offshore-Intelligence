@@ -1,7 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { supabase } from "../lib/supabase";
 import FishingLogTemporalControls from "./FishingLogTemporalControls";
 import {createTemporalDraft, updateTemporalDraft, insertReportWithTime} from "../utils/fishingLogTemporalCapture";
+
+import FishingLogSpatialControls from "./FishingLogSpatialControls";
+import {emptyLocationDraft, hasLocationDraft, legacyFishingLocations, removeLocation} from "../utils/fishingLogSpatialCapture";
 
 const INITIAL_SPECIES_RESULTS = {
   blueMarlin: {
@@ -137,7 +140,9 @@ function FishingDayReportPanel({
     createInitialReport
   );
 
-  const [fishingLocationDraft, setFishingLocationDraft] = useState({ latitude: '', longitude: '' });
+  const [fishingLocationDraft, setFishingLocationDraft] = useState(emptyLocationDraft);
+  const [omissionDraft, setOmissionDraft] = useState(null);
+  const latitudeRef = useRef(null);
 
   const [areaSearch, setAreaSearch] =
     useState("");
@@ -242,67 +247,6 @@ const [isSaving, setIsSaving] =
   };
 
 
-  const addFishingLocation = () => {
-    const latitude =
-      Number(fishingLocationDraft.latitude);
-
-    const longitude =
-      Number(fishingLocationDraft.longitude);
-
-    if (
-      fishingLocationDraft.latitude.trim() === "" ||
-      fishingLocationDraft.longitude.trim() === "" ||
-      !Number.isFinite(latitude) ||
-      !Number.isFinite(longitude)
-    ) {
-      window.alert(
-        "Enter a valid latitude and longitude."
-      );
-      return;
-    }
-
-    if (
-      latitude < -90 ||
-      latitude > 90 ||
-      longitude < -180 ||
-      longitude > 180
-    ) {
-      window.alert(
-        "Latitude must be between -90 and 90. Longitude must be between -180 and 180."
-      );
-      return;
-    }
-
-    setReport((current) => ({
-      ...current,
-      fishingLocations: [
-        ...current.fishingLocations,
-        {
-          latitude,
-          longitude
-        }
-      ]
-    }));
-
-    setFishingLocationDraft({
-      latitude: "",
-      longitude: ""
-    });
-  };
-
-
-  const removeFishingLocation = (index) => {
-    setReport((current) => ({
-      ...current,
-      fishingLocations:
-        current.fishingLocations.filter(
-          (_, locationIndex) =>
-            locationIndex !== index
-        )
-    }));
-  };
-
-
   const updateSpeciesResult = (
     species,
     field,
@@ -343,6 +287,17 @@ const saveReport = async (event) => {
     return;
   }
 
+  const omitThisDraft = event.nativeEvent?.submitter?.value === "omit-location" && omissionDraft === fishingLocationDraft;
+  if (hasLocationDraft(fishingLocationDraft) && !omitThisDraft) {
+    setOmissionDraft(fishingLocationDraft);
+    return;
+  }
+  await persistReport();
+};
+
+const persistReport = async () => {
+  if (isSaving) return;
+  setOmissionDraft(null);
   setIsSaving(true);
 
   try {
@@ -372,7 +327,7 @@ const saveReport = async (event) => {
         report.areasFished,
 
       fishing_locations:
-        report.fishingLocations,
+        legacyFishingLocations(report.fishingLocations),
 
       bait_observed:
         report.baitObserved,
@@ -415,10 +370,7 @@ const saveReport = async (event) => {
       createInitialReport()
     );
 
-    setFishingLocationDraft({
-      latitude: "",
-      longitude: ""
-    });
+    setFishingLocationDraft(emptyLocationDraft());
 
     setAreaSearch("");
 
@@ -735,99 +687,12 @@ const saveReport = async (event) => {
             title="Fishing Coordinates"
           >
 
-            <p>
-              Add the actual positions where you fished or made observations.
-            </p>
-
-            <div className="report-grid two-column">
-
-              <label>
-                Latitude
-                <input
-                  type="number"
-                  step="any"
-                  min="-90"
-                  max="90"
-                  placeholder="29.12345"
-                  value={fishingLocationDraft.latitude}
-                  onChange={(event) =>
-                    setFishingLocationDraft(
-                      (current) => ({
-                        ...current,
-                        latitude: event.target.value
-                      })
-                    )
-                  }
-                />
-              </label>
-
-              <label>
-                Longitude
-                <input
-                  type="number"
-                  step="any"
-                  min="-180"
-                  max="180"
-                  placeholder="-87.54321"
-                  value={fishingLocationDraft.longitude}
-                  onChange={(event) =>
-                    setFishingLocationDraft(
-                      (current) => ({
-                        ...current,
-                        longitude: event.target.value
-                      })
-                    )
-                  }
-                />
-              </label>
-
-            </div>
-
-            <button
-              type="button"
-              onClick={addFishingLocation}
-            >
-              Add Fishing Coordinate
-            </button>
-
-            {report.fishingLocations.length > 0 && (
-              <div className="selected-report-areas">
-
-                <h4>
-                  Saved Fishing Coordinates
-                </h4>
-
-                {report.fishingLocations.map(
-                  (location, index) => (
-                    <div
-                      key={index}
-                      className="selected-report-area-row"
-                    >
-
-                      <span>
-                        {index + 1}.
-                      </span>
-
-                      <strong>
-                        {location.latitude},{" "}
-                        {location.longitude}
-                      </strong>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          removeFishingLocation(index)
-                        }
-                      >
-                        Remove
-                      </button>
-
-                    </div>
-                  )
-                )}
-
-              </div>
-            )}
+            <FishingLogSpatialControls draft={fishingLocationDraft}
+              setDraft={next => {setFishingLocationDraft(next); setOmissionDraft(null);}}
+              locations={report.fishingLocations} latitudeRef={latitudeRef}
+              disabled={isSaving || omissionDraft !== null}
+              onAdd={location => setReport(current => ({...current, fishingLocations:[...current.fishingLocations, location]}))}
+              onRemove={location => setReport(current => ({...current, fishingLocations:removeLocation(current.fishingLocations, location)}))} />
 
           </ReportSection>
 
@@ -1147,6 +1012,15 @@ const saveReport = async (event) => {
           </ReportSection>
 
 
+          {omissionDraft && <div className="report-location-confirmation" role="alertdialog"
+            aria-label="Unadded location" aria-describedby="unadded-location-message">
+            <p id="unadded-location-message">This location hasn’t been added. Return to add it, or save the fishing day without it.</p>
+            <button type="button" autoFocus onClick={() => {
+              setOmissionDraft(null);
+              requestAnimationFrame(() => latitudeRef.current?.focus());
+            }}>Return to location</button>
+            <button type="submit" value="omit-location" disabled={isSaving}>Save without this location</button>
+          </div>}
           <footer className="report-panel-footer">
 
             <button
