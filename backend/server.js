@@ -1,3 +1,4 @@
+import { normalizeBathymetryElevationV1 } from "./bathymetryEvidence.js";
 import { buildGovernedOpportunityEvaluationStateV1, translateOpportunityEvaluationNarrativeV1 } from "./opportunityEvaluationState.js";
 import http from "node:http";
 import { getOceanField } from "./fields/fieldService.js";
@@ -41061,17 +41062,13 @@ export function evaluateSpeciesCandidateHabitatEligibilityV1({
 
         elevationMeters:
           Number.isFinite(
-            Number(
-              candidate
+            normalizeBathymetryElevationV1(candidate
                 ?.waterMask
-                ?.elevationMeters
-            )
+                ?.elevationMeters)
           )
-            ? Number(
-                candidate
+            ? normalizeBathymetryElevationV1(candidate
                   .waterMask
-                  .elevationMeters
-              )
+                  .elevationMeters)
             : null,
 
         depthMeters:
@@ -41096,11 +41093,9 @@ export function evaluateSpeciesCandidateHabitatEligibilityV1({
 
 
   const elevationMeters =
-    Number(
-      candidate
+    normalizeBathymetryElevationV1(candidate
         ?.waterMask
-        ?.elevationMeters
-    );
+        ?.elevationMeters);
 
   const minimumDepthMeters =
     Number(
@@ -41115,7 +41110,7 @@ export function evaluateSpeciesCandidateHabitatEligibilityV1({
     )
   ) {
     return {
-      eligible: false,
+      eligible: null,
 
       species,
 
@@ -41126,8 +41121,7 @@ export function evaluateSpeciesCandidateHabitatEligibilityV1({
         governed:
           true,
 
-        eligible:
-          false,
+        eligible: null,
 
         elevationMeters:
           null,
@@ -41401,10 +41395,8 @@ export function evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({
     candidateBathymetry
       ?.available !== true ||
     !Number.isFinite(
-      Number(
-        candidateBathymetry
-          ?.elevationMeters
-      )
+      normalizeBathymetryElevationV1(candidateBathymetry
+          ?.elevationMeters)
     )
   ) {
     return {
@@ -47301,28 +47293,18 @@ export function resolveGulfWaterMaskV1(
 
 
   const elevationMeters =
-    Number(
-      nearestSample
-        .elevationMeters
-    );
+    normalizeBathymetryElevationV1(nearestSample
+        .elevationMeters);
 
 
-  const water =
-    nearestSample
-      .water === true;
-
+  const water = Number.isFinite(elevationMeters)
+    ? nearestSample.water === true
+    : null;
 
   return {
-    available: true,
-
+    available: Number.isFinite(elevationMeters),
     water,
-
-    elevationMeters:
-      Number.isFinite(
-        elevationMeters
-      )
-        ? elevationMeters
-        : null,
+    elevationMeters,
 
     sampleCoordinates: [
       Number(
@@ -47343,9 +47325,7 @@ export function resolveGulfWaterMaskV1(
       ),
 
     reason:
-      water
-        ? "etopo-water"
-        : "etopo-land",
+      water === null ? "bathymetry-unavailable" : water ? "etopo-water" : "etopo-land",
 
     source: {
       provider:
@@ -47393,11 +47373,9 @@ export function resolveOpportunityCandidateBathymetryV1(
   candidate = null
 ) {
   const embeddedElevationMeters =
-    Number(
-      candidate
+    normalizeBathymetryElevationV1(candidate
         ?.waterMask
-        ?.elevationMeters
-    );
+        ?.elevationMeters);
 
   const embeddedBathymetryAvailable =
     Number.isFinite(
@@ -47553,10 +47531,8 @@ export function resolveOpportunityCandidateBathymetryV1(
     resolvedWaterMask
       ?.available !== true ||
     !Number.isFinite(
-      Number(
-        resolvedWaterMask
-          ?.elevationMeters
-      )
+      normalizeBathymetryElevationV1(resolvedWaterMask
+          ?.elevationMeters)
     )
   ) {
     return {
@@ -47601,10 +47577,8 @@ export function resolveOpportunityCandidateBathymetryV1(
 
 
   const elevationMeters =
-    Number(
-      resolvedWaterMask
-        .elevationMeters
-    );
+    normalizeBathymetryElevationV1(resolvedWaterMask
+        .elevationMeters);
 
   return {
     available: true,

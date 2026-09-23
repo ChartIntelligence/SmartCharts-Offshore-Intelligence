@@ -45458,7 +45458,7 @@ console.log(
 
   assert.equal(
     unavailableBathymetryResult.eligible,
-    false
+    null
   );
 
   assert.equal(
@@ -67369,3 +67369,4 @@ const buildMultiDayPersistenceTestInput = ({
 await import("./dynamicOpportunityFailure.test.js");
 
 await import("./opportunityEvaluationState.test.js");
+await import("./bathymetryEvidence.test.js");

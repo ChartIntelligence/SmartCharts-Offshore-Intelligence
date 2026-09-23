@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { normalizeEtopoWaterMaskObservationV1 } from "../backend/bathymetryEvidence.js";
 
 
 const SOURCE_FILE =
@@ -87,13 +88,7 @@ const candidates =
         )
       ],
 
-      elevationMeters:
-        Number(
-          elevationMeters.toFixed(2)
-        ),
-
-      water:
-        elevationMeters < 0
+      ...normalizeEtopoWaterMaskObservationV1(elevationMeters)
     })
   );
 
@@ -106,8 +101,7 @@ const waterCount =
 
 
 const landCount =
-  candidates.length -
-  waterCount;
+  candidates.filter(candidate => candidate.water === false).length;
 
 
 fs.mkdirSync(
@@ -154,7 +148,9 @@ const artifact = {
       waterCount,
 
     land:
-      landCount
+      landCount,
+
+    unresolved: candidates.length - waterCount - landCount
   },
 
   candidates,
