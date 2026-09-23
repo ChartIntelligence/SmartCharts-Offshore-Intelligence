@@ -843,15 +843,13 @@ function metersToFeet(value) {
 /*
  * Convert Celsius to Fahrenheit.
  */
-function celsiusToFahrenheit(value) {
-  const number = Number(value);
-
-  if (!Number.isFinite(number)) {
+export function celsiusToFahrenheit(value) {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
     return null;
   }
 
   return Number(
-    ((number * 9) / 5 + 32).toFixed(1)
+    ((value * 9) / 5 + 32).toFixed(1)
   );
 }
 
@@ -6203,10 +6201,9 @@ export async function getSeaSurfaceTemperaturePoint(
     await fetchJson(url);
 
   const temperatureCelsius =
-    safeNumber(
-      payload?.current
-        ?.sea_surface_temperature
-    );
+    Number.isFinite(payload?.current?.sea_surface_temperature)
+      ? payload.current.sea_surface_temperature
+      : null;
 
   return {
     requestedLatitude:
@@ -6977,7 +6974,7 @@ async function getCachedSeaSurfaceTemperaturePoint(
 }
 
 
-async function getSstSpatialStructure(
+export async function getSstSpatialStructure(
   latitude,
   longitude,
   centerTemperatureFahrenheit
@@ -7520,9 +7517,9 @@ if (
     ),
 
   temperatureCelsius:
-    safeNumber(
-      waves.sea_surface_temperature
-    )
+    Number.isFinite(waves.sea_surface_temperature)
+      ? waves.sea_surface_temperature
+      : null
 },
 
 
