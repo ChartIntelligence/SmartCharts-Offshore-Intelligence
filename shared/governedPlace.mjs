@@ -1,7 +1,8 @@
 // Descriptive records and exact name resolution only. No runtime eligibility policy.
 export const GOVERNED_PLACE_CONTRACT = 'pelora-governed-place-v1';
 export const PLACE_TYPES = Object.freeze(['FISHING_GROUND', 'CANYON', 'RIDGE', 'LEDGE',
-  'BANK', 'SEAMOUNT_OR_HUMP', 'FAD', 'PLATFORM', 'OFFSHORE_STRUCTURE', 'MARINE_AREA', 'OTHER_NAMED_PLACE']);
+  'BANK', 'SEAMOUNT_OR_HUMP', 'FAD', 'PLATFORM', 'OFFSHORE_STRUCTURE', 'MARINE_AREA', 'OTHER_NAMED_PLACE',
+  'OBSERVATION_STATION', 'ARTIFICIAL_REEF', 'WRECK']);
 const fail = path => { throw new TypeError(`Invalid governed place: ${path}`); };
 const text = (v, p) => typeof v === 'string' && v.trim() ? v : fail(p);
 const id = (v, p) => typeof v === 'string' && /^[A-Za-z0-9][A-Za-z0-9._:/+-]*$/.test(v) ? v : fail(p);

@@ -170,8 +170,17 @@ not invented from the location. Unknown context remains absent as an empty refer
 ## Taxonomy and temporal identity
 
 FISHING_GROUND, CANYON, RIDGE, LEDGE, BANK, SEAMOUNT_OR_HUMP, FAD, PLATFORM,
-OFFSHORE_STRUCTURE, MARINE_AREA, OTHER_NAMED_PLACE. These categories are region/species independent.
-Artificial reefs may initially use OFFSHORE_STRUCTURE; no ecological value is implied by category.
+OFFSHORE_STRUCTURE, MARINE_AREA, OTHER_NAMED_PLACE, OBSERVATION_STATION, ARTIFICIAL_REEF, WRECK.
+The last three types were explicitly approved for Task 10D; the v1 taxonomy is extended additively.
+Older validators must be upgraded before reading these types; no existing record is reclassified.
+These categories are region/species/depth independent and imply no ecological or fishing value.
+OBSERVATION_STATION identifies a station, not its hardware, deployment or environmental measurements.
+ARTIFICIAL_REEF identifies a reviewed feature/site, not automatically each material deployment.
+WRECK identifies a wreck, with no implied habitat, access or opportunity eligibility.
+Reef/wreck overlap requires identity review: one physical feature gets one stable identity when evidence
+establishes sameness, otherwise competing records remain unresolved. No source or popularity wins by default.
+The contract retains one reviewed primary placeType; alternate source classifications stay in ingestion
+evidence/provenance until reviewed. No multi-type schema or automatic merge is introduced.
 
 Temporal nature is STATIC_GEOGRAPHIC, FIXED_STRUCTURE or TIME_VARYING_STRUCTURE, independently of type.
 Status is present/removed/unknown, with optional observedAt and validFrom/validTo. No implicit clock,

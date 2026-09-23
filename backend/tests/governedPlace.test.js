@@ -10,7 +10,8 @@ test('catalog admission is depth-neutral and supports shallow-relevant place typ
   const source = readFileSync(new URL('../../shared/governedPlace.mjs', import.meta.url), 'utf8');
   // Guard the current pure boundary: no depth/distance/species admission inputs or acquisition.
   assert.doesNotMatch(source, /depth|bathymetr|offshoreDistance|distanceFromShore|distanceToShore|species|\b200\b|\bimport\b|\bfetch\b/i);
-  for (const placeType of ['FAD', 'OFFSHORE_STRUCTURE', 'MARINE_AREA', 'OTHER_NAMED_PLACE']) {
+  for (const placeType of ['FAD', 'OFFSHORE_STRUCTURE', 'MARINE_AREA', 'OTHER_NAMED_PLACE',
+    'OBSERVATION_STATION', 'ARTIFICIAL_REEF', 'WRECK']) {
     const p = fixture(); p.placeType = placeType;
     const r = normalize(p);
     assert.equal(r.placeType, placeType);
