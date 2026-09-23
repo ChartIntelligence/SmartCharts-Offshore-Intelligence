@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
+import FishingLogTemporalControls from "./FishingLogTemporalControls";
+import {createTemporalDraft, updateTemporalDraft, insertReportWithTime} from "../utils/fishingLogTemporalCapture";
 
 const INITIAL_SPECIES_RESULTS = {
   blueMarlin: {
@@ -93,7 +95,7 @@ function createInitialReport() {
     captain: "",
     boat: "",
     tournament: "",
-    date: new Date().toISOString().slice(0, 10),
+    ...createTemporalDraft(),
 
     visibility: "private",
     shareIntelligence: false,
@@ -177,10 +179,7 @@ const [isSaving, setIsSaving] =
     field,
     value
   ) => {
-    setReport((current) => ({
-      ...current,
-      [field]: value
-    }));
+    setReport((current) => updateTemporalDraft(current, field, value));
   };
 
 
@@ -350,8 +349,6 @@ const saveReport = async (event) => {
     const reportRow = {
       user_id: user.id,
 
-      trip_date: report.date,
-
       captain_private:
         report.captain.trim(),
 
@@ -360,12 +357,6 @@ const saveReport = async (event) => {
 
       tournament_private:
         report.tournament.trim() || null,
-
-      lines_in:
-        report.linesIn || null,
-
-      lines_out:
-        report.linesOut || null,
 
       hours_fished:
         report.hoursFished === ""
@@ -414,19 +405,7 @@ const saveReport = async (event) => {
         report.shareIntelligence === true
     };
 
-    const {
-      data: savedReport,
-      error: saveError
-    } =
-      await supabase
-        .from("fishing_day_reports")
-        .insert(reportRow)
-        .select()
-        .single();
-
-    if (saveError) {
-      throw saveError;
-    }
+    const savedReport = await insertReportWithTime(supabase, reportRow, report);
 
     onReportSaved?.(
       savedReport
@@ -563,7 +542,7 @@ const saveReport = async (event) => {
               />
 
               <ReportInput
-                label="Date"
+                label="Fishing date"
                 type="date"
                 value={report.date}
                 required
@@ -640,6 +619,7 @@ const saveReport = async (event) => {
 
             </div>
 
+            <FishingLogTemporalControls report={report} onChange={updateField} />
           </ReportSection>
 
 

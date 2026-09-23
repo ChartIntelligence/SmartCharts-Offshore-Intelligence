@@ -2235,6 +2235,15 @@
   display: block;
 }
 
+.report-temporal-controls { margin-top: 14px; display: grid; gap: 12px; min-width: 0; }
+.report-temporal-controls fieldset { min-width: 0; margin: 0; padding: 12px; border: 1px solid #1f506e; border-radius: 8px; }
+.report-temporal-controls p { overflow-wrap: anywhere; }
+.report-temporal-controls .report-temporal-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.report-temporal-controls button { padding: 10px 12px; border: 1px solid #54809a; border-radius: 8px; background: #061827; color: #f5fbff; cursor: pointer; }
+.report-temporal-controls button[aria-pressed="true"] { outline: 2px solid #8ed3f5; font-weight: bold; text-decoration: underline; }
+.report-temporal-controls summary { cursor: pointer; padding: 12px 0; }
+.report-temporal-controls :focus-visible { outline: 2px solid #8ed3f5; outline-offset: 3px; }
+
 
 .report-field > span {
   display: block;
