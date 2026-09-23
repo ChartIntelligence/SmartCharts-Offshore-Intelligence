@@ -27,3 +27,4 @@ Thumbs.db
 
 supabase/.temp/
 .local/places-quarantine/
+.local/ocean-quarantine/
