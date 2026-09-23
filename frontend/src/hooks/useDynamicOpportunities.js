@@ -18,7 +18,7 @@ export function useDynamicOpportunities(
     useState(null);
 
   const [loading, setLoading] =
-    useState(false);
+    useState(Boolean(species));
 
   const [error, setError] =
     useState(null);
@@ -162,15 +162,17 @@ export function useDynamicOpportunities(
           );
 
 
-        if (!response.ok) {
+        const result = await response.json();
+        const governedUnavailable = result?.evaluationState?.contractVersion ===
+          "pelora-governed-opportunity-evaluation-state-v1" && result.evaluationState.state === "unavailable";
+        if (!response.ok && !governedUnavailable) {
           throw new Error(
             `Opportunity request failed with status ${response.status}`
           );
         }
 
 
-        const result =
-          await response.json();
+
 
 
         if (

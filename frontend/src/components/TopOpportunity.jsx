@@ -1,3 +1,4 @@
+import { EVALUATION_MESSAGES } from "../utils/opportunityEvaluationState.js";
 function TopOpportunity({
   opportunities = [],
   opportunityState = "loading"
@@ -11,68 +12,14 @@ function TopOpportunity({
     best?.dynamicOpportunity ?? null;
 
 
-  if (opportunityState === "loading") {
+  if (!["available", "partial"].includes(opportunityState) || !(best && dynamicOpportunity)) {
     return (
       <div className="top-opportunity">
-        <h2>
-          Today&apos;s Best Opportunity
-        </h2>
-
-        <p>
-          Reading the ocean…
-        </p>
-
-        <p>
-          Pelora is evaluating governed
-          opportunities for the current trip
-          mission.
-        </p>
+        <h2>Today&apos;s Best Opportunity</h2>
+        <p>{EVALUATION_MESSAGES[opportunityState] ?? EVALUATION_MESSAGES.unavailable}</p>
       </div>
     );
   }
-
-
-  if (opportunityState === "unavailable") {
-    return (
-      <div className="top-opportunity">
-        <h2>
-          Today&apos;s Best Opportunity
-        </h2>
-
-        <p>
-          Opportunity intelligence is
-          temporarily unavailable.
-        </p>
-
-        <p>
-          Pelora could not complete the current
-          evaluation.
-        </p>
-      </div>
-    );
-  }
-
-
-  if (
-    opportunityState === "governed-zero" ||
-    !best ||
-    !dynamicOpportunity
-  ) {
-    return (
-      <div className="top-opportunity">
-        <h2>
-          Today&apos;s Best Opportunity
-        </h2>
-
-        <p>
-          No governed opportunity currently
-          meets Pelora&apos;s minimum evidence
-          requirements.
-        </p>
-      </div>
-    );
-  }
-
 
   const confidence =
     dynamicOpportunity?.confidence ?? null;

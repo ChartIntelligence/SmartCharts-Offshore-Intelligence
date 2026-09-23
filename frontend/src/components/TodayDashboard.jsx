@@ -1,3 +1,4 @@
+import { EVALUATION_MESSAGES } from "../utils/opportunityEvaluationState.js";
 import HistoricalOpportunityContinuity
   from "./HistoricalOpportunityContinuity";
 
@@ -50,11 +51,11 @@ const opportunityConfidenceLevel =
     ?.level ??
   "Unavailable";
 
-const opportunityStateLabel =
+const opportunityStateLabel = opportunityState === "partial" ? "Partial Ocean Picture" :
   opportunityState === "loading"
     ? "Evaluating"
     : opportunityState === "governed-zero"
-      ? "No Qualifying Opportunity"
+      ? "Top Opportunity Not Established"
       : opportunityState === "unavailable"
         ? "Unavailable"
         : activeOpportunity?.name ??
@@ -76,7 +77,7 @@ const opportunityScoreLabel =
 
 
 const opportunityScoreTileLabel =
-  opportunityState === "available"
+  ["available", "partial"].includes(opportunityState)
     ? opportunityScoreLabel
     : "—";
 
@@ -101,7 +102,7 @@ const opportunityConfidenceStateLabel =
     : opportunityState === "governed-zero"
       ? "No governed ranking"
       : opportunityState === "unavailable"
-        ? "Evaluation unavailable"
+        ? "Ocean picture unresolved"
         : opportunityConfidenceLevel;
 
 const oceanBriefSummary =
@@ -461,33 +462,9 @@ const structureDetail =
 
     <div className="ocean-brief-opportunity-list">
 
-      {opportunityState === "loading" && (
-        <p>
-          Evaluating governed opportunities…
-        </p>
-      )}
+      {opportunityState !== "available" && <p>{EVALUATION_MESSAGES[opportunityState]}</p>}
 
-
-      {opportunityState ===
-        "governed-zero" && (
-        <p>
-          No governed opportunities currently meet
-          Pelora&apos;s minimum evidence
-          requirements.
-        </p>
-      )}
-
-
-      {opportunityState ===
-        "unavailable" && (
-        <p>
-          Opportunity ranking is temporarily
-          unavailable.
-        </p>
-      )}
-
-
-      {opportunityState === "available" &&
+      {["available", "partial"].includes(opportunityState) &&
         topOpportunities.map(
           (opportunity, index) => {
 
@@ -613,15 +590,15 @@ const structureDetail =
 
               <h3>
                 {opportunityState === "loading"
-                  ? "Evaluating opportunities"
+                  ? "Reading the ocean"
                   : opportunityState ===
                       "governed-zero"
-                    ? "No qualifying opportunity"
+                    ? "Top Opportunity not established"
                     : opportunityState ===
                         "unavailable"
-                      ? "Opportunity unavailable"
+                      ? "Ocean picture unresolved"
                       : activeOpportunity?.name ??
-                        "Opportunity unavailable"}
+                        (opportunityState === "partial" ? "Partial ocean picture" : "Ocean picture unresolved")}
               </h3>
 
               <p className="velion-location-meta">
@@ -647,7 +624,7 @@ const structureDetail =
               </strong>
 
               <small>
-                {opportunityState === "available"
+                {["available", "partial"].includes(opportunityState) && Number.isFinite(opportunityScore)
                   ? "out of 100"
                   : opportunityState === "loading"
                     ? "evaluating"
@@ -1085,29 +1062,9 @@ function buildOceanBriefSummary({
   score,
   confidence
 }) {
-  if (opportunityState === "loading") {
-    return (
-      "Pelora is reading the ocean and evaluating governed " +
-      "opportunities for the current trip mission."
-    );
+  if (opportunityState !== "available") {
+    return EVALUATION_MESSAGES[opportunityState] ?? EVALUATION_MESSAGES.unavailable;
   }
-
-
-  if (opportunityState === "governed-zero") {
-    return (
-      "Pelora completed the current evaluation. No opportunity " +
-      "currently meets the governed evidence requirements."
-    );
-  }
-
-
-  if (opportunityState === "unavailable") {
-    return (
-      "Pelora could not complete the current opportunity evaluation. " +
-      "Opportunity intelligence is temporarily unavailable."
-    );
-  }
-
 
   if (!opportunity) {
     return (

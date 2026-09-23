@@ -1,3 +1,4 @@
+import { buildGovernedOpportunityEvaluationStateV1, translateOpportunityEvaluationNarrativeV1 } from "./opportunityEvaluationState.js";
 import http from "node:http";
 import { getOceanField } from "./fields/fieldService.js";
 import { createHash } from "node:crypto";
@@ -48653,6 +48654,58 @@ export function buildDynamicBlueMarlinOpportunity({
 }
 
 
+// Observational completeness only; this never grants positive opportunity eligibility.
+export function buildCandidateNegativeConclusionAdequacyV1({candidate, oceanConditions} = {}) {
+  const groups = oceanConditions?.oceanEvidence?.groups ?? {};
+  const thermal = oceanConditions?.sst?.derived?.spatialStructure;
+  const current = groups.current;
+  const spatial = current?.spatialAnalysis?.spatialStructure;
+  const validSource = sample => sample?.source?.availability === "available" &&
+    typeof sample.source.provider === "string" && sample.source.provider.trim() !== "" &&
+    Number.isFinite(Date.parse(sample.observedAt ?? ""));
+  const thermalSamples = (Array.isArray(thermal?.samples) ? thermal.samples : [])
+    .filter(sample => Number.isFinite(sample?.temperatureFahrenheit));
+  const thermalFresh = sample => {
+    const confidence = assessSstTransitionConfidence({samples: [sample], sufficientCoverage: false});
+    return confidence.reasons.some(reason => ["recent-samples", "same-day-samples", "samples-within-24-hours"].includes(reason));
+  };
+  const vectors = (Array.isArray(spatial?.vectors) ? spatial.vectors : []).filter(vector =>
+    [vector?.speedKnots, vector?.directionDegrees, vector?.eastwardMetersPerSecond,
+      vector?.northwardMetersPerSecond].every(Number.isFinite));
+  const currentFresh = vector => {
+    const evidence = buildCurrentEvidence(vector);
+    return evidence.available === true && vector.ageHours >= 0 &&
+      ["recent", "aging"].includes(evidence.values.freshness);
+  };
+  const productivity = groups.productivity;
+  const chlorophyll = oceanConditions?.chlorophyll;
+  const predicates = {
+    upstreamHabitatEligible: candidate?.eligibility?.eligible === true,
+    thermalStructure: groups.temperature?.available === true &&
+      thermal?.thresholdVersion === "pelora-sst-spatial-range-v1" && thermal.coverage === "sufficient" &&
+      thermalSamples.length === thermal.validNeighborCount && thermalSamples.length > 0 &&
+      thermalSamples.every(sample => validSource(sample) && thermalFresh(sample)),
+    currentStructure: current?.available === true && validSource(oceanConditions?.currents) &&
+      currentFresh(oceanConditions?.currents ?? {}) &&
+      spatial?.available === true && spatial.sufficientCoverage === true &&
+      current.spatialAnalysis?.gradient?.available === true &&
+      vectors.length === spatial.validSampleCount && vectors.length > 0 &&
+      vectors.every(vector => validSource(vector) && currentFresh(vector)),
+    surfaceWater: productivity?.available === true &&
+      ["recent", "aging"].includes(productivity.values?.freshness) &&
+      oceanConditions?.dataQuality?.layers?.chlorophyll?.state === "live" &&
+      chlorophyll?.ageHours >= 0 && validSource(chlorophyll) &&
+      ["direct-satellite", "gap-filled-reconstruction"].includes(chlorophyll.source.observationType)
+  };
+  return {
+    adequate: Object.values(predicates).every(value => value === true),
+    predicates,
+    unresolvedRequirements: Object.entries(predicates).filter(([,value]) => !value).map(([key]) => key),
+    changesPositiveEligibility: false,
+    contractVersion: "pelora-candidate-negative-conclusion-adequacy-v1"
+  };
+}
+
 export function buildUnifiedSpeciesOpportunityInterpretationV1({
   candidate = null,
   oceanConditions = null,
@@ -48802,6 +48855,7 @@ export function buildUnifiedSpeciesOpportunityInterpretationV1({
     speciesOpportunity,
 
     intelligenceSource,
+    negativeConclusionAdequacy: buildCandidateNegativeConclusionAdequacyV1({candidate, oceanConditions}),
 
     interpretation:
       "governed-unified-species-opportunity-interpretation",
@@ -59540,6 +59594,15 @@ export async function evaluateControlledGulfBlueMarlinV1({
       speciesInterpretations
     });
 
+  const evaluationState = buildGovernedOpportunityEvaluationStateV1({
+    candidates: selectedCandidates, results: evaluation.results, delivery,
+    searchCounts: {
+      rangeExcludedCandidates: candidateUniverse.candidates.length - captainContextCandidates.length,
+      habitatIneligibleCandidates: candidatesWithEligibility.filter(candidate => candidate.eligibility?.eligible === false).length,
+      habitatUnresolvedCandidates: candidatesWithEligibility.filter(candidate => candidate.eligibility?.eligible == null).length
+    }
+  });
+
   const evaluatedAt =
     new Date().toISOString();
 
@@ -59629,6 +59692,8 @@ export async function evaluateControlledGulfBlueMarlinV1({
     },
 
     evaluatedAt,
+    evaluationState,
+    evaluationNarrative: translateOpportunityEvaluationNarrativeV1(evaluationState),
 
     observationSource: {
       speciesInterpretations:
@@ -59960,6 +60025,8 @@ export async function getDynamicBlueMarlinOpportunities({
         gulfResult.delivery,
 
       historicalFallback,
+      evaluationState: gulfResult.evaluationState,
+      evaluationNarrative: gulfResult.evaluationNarrative,
 
       search:
         gulfResult.search,
@@ -59993,10 +60060,14 @@ export async function getDynamicBlueMarlinOpportunities({
       error
     );
 
+    const evaluationState = buildGovernedOpportunityEvaluationStateV1({failed: true});
+
     // No alternate candidate pathway may bypass the controlled governance chain.
     // Unknown counts remain null: a failed evaluation is not a governed zero.
     return {
       available: false,
+      evaluationState,
+      evaluationNarrative: translateOpportunityEvaluationNarrativeV1(evaluationState),
       species: "blue-marlin",
       generatedAt: new Date().toISOString(),
       candidateCount: null,

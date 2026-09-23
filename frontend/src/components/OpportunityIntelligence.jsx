@@ -1,3 +1,4 @@
+import { EVALUATION_MESSAGES } from "../utils/opportunityEvaluationState.js";
 const INTELLIGENCE_SECTIONS = [
   {
     key: "thermalStructure",
@@ -88,82 +89,15 @@ function OpportunityIntelligence({
     null;
 
 
-    if (opportunityState === "loading") {
-        return (
-            <section className="opportunity-intelligence">
-            <p className="section-eyebrow">
-                Governed Analysis
-            </p>
-
-            <h2>
-                Opportunity Intelligence
-            </h2>
-
-            <p>
-                Reading the ocean…
-            </p>
-
-            <p>
-                Detailed analysis will appear after
-                Pelora completes the current governed
-                evaluation.
-            </p>
-            </section>
-        );
-    }
-
-
-    if (opportunityState === "unavailable") {
-        return (
-            <section className="opportunity-intelligence">
-            <p className="section-eyebrow">
-                Governed Analysis
-            </p>
-
-            <h2>
-                Opportunity Intelligence
-            </h2>
-
-            <p>
-                Opportunity intelligence is temporarily
-                unavailable.
-            </p>
-
-            <p>
-                Pelora could not complete the current
-                evaluation.
-            </p>
-            </section>
-        );
-    }
-
-
-    if (opportunityState === "governed-zero") {
-        return (
-            <section className="opportunity-intelligence">
-            <p className="section-eyebrow">
-                Governed Analysis
-            </p>
-
-            <h2>
-                Opportunity Intelligence
-            </h2>
-
-            <p>
-                No governed opportunity currently meets
-                Pelora&apos;s minimum evidence
-                requirements.
-            </p>
-
-            <p>
-                Detailed opportunity analysis is only
-                shown for locations that pass the
-                governed evidence requirements.
-            </p>
-            </section>
-        );
-    }
-
+  if (!["available", "partial"].includes(opportunityState)) {
+    return (
+      <section className="opportunity-intelligence">
+        <p className="section-eyebrow">Governed Analysis</p>
+        <h2>Opportunity Intelligence</h2>
+        <p>{EVALUATION_MESSAGES[opportunityState] ?? EVALUATION_MESSAGES.unavailable}</p>
+      </section>
+    );
+  }
 
   if (!opportunity) {
     return (
@@ -173,8 +107,8 @@ function OpportunityIntelligence({
         </h2>
 
         <p>
-          No governed opportunity is currently
-          selected for analysis.
+          {opportunityState === "partial" ? EVALUATION_MESSAGES.partial :
+            "Select a governed opportunity to read its supporting ocean evidence."}
         </p>
       </section>
     );

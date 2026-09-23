@@ -1,3 +1,4 @@
+import { interpretOpportunityEvaluation } from "../utils/opportunityEvaluationState.js";
 import TodayDashboard from "./TodayDashboard";
 import {
   useCallback,
@@ -143,6 +144,10 @@ const {
 );
 
 
+const evaluationView = interpretOpportunityEvaluation({
+  data: dynamicOpportunityData, loading: dynamicOpportunityLoading, error: dynamicOpportunityError
+});
+
 const captainNarratives =
   Array.isArray(
     dynamicOpportunityData
@@ -173,11 +178,10 @@ const captainNarrativeByOpportunityId =
 
 const dynamicTopOpportunities =
   Array.isArray(
-    dynamicOpportunityData
+    evaluationView
       ?.opportunities
   )
-    ? dynamicOpportunityData
-        .opportunities
+    ? evaluationView.opportunities
         .map((opportunity) => {
           const location =
             opportunity?.location ?? {};
@@ -270,18 +274,7 @@ const dynamicTopOpportunities =
     : [];
 
 
-const opportunityState =
-  dynamicOpportunityLoading
-    ? "loading"
-    : dynamicOpportunityError
-      ? "unavailable"
-      : dynamicOpportunityData &&
-          dynamicTopOpportunities.length > 0
-        ? "available"
-        : dynamicOpportunityData
-          ? "governed-zero"
-          : "loading";
-
+const opportunityState = evaluationView.state;
 
 const historicalFallback =
   opportunityState === "governed-zero" &&
@@ -329,7 +322,7 @@ useEffect(() => {
 
 
 const activeOpportunity =
-  opportunityState === "available"
+  ["available", "partial"].includes(opportunityState)
     ? selectedGovernedOpportunity ??
       dynamicTopSpot
     : null;
@@ -592,7 +585,13 @@ return (
 </button>
 
 
-{activeTab === "today" && (
+{["today", "map", "intelligence"].includes(activeTab) && (
+        <p role="status" className="opportunity-evaluation-status">
+          {evaluationView.narrative}
+          {evaluationView.scopeNarrative && <> {evaluationView.scopeNarrative}</>}
+        </p>
+      )}
+      {activeTab === "today" && (
   <TodayDashboard
     topOpportunities={
       displayedTopOpportunities

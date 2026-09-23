@@ -67367,3 +67367,5 @@ const buildMultiDayPersistenceTestInput = ({
 
 // Also runnable directly as the focused exception-path regression suite.
 await import("./dynamicOpportunityFailure.test.js");
+
+await import("./opportunityEvaluationState.test.js");

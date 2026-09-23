@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {buildGovernedOpportunityEvaluationStateV1, translateOpportunityEvaluationNarrativeV1} from "../opportunityEvaluationState.js";
 import {
   BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE,
   GULF_EVALUATION_CONTROL_V1,
@@ -31,6 +32,8 @@ console.warn = () => {};
 
 function assertUnavailable(result) {
   assert.equal(result.available, false);
+  assert.equal(result.evaluationState.state, "unavailable");
+  assert.ok(Object.values(result.evaluationState.counts).every(value => value === null));
   assert.equal(result.reason, failureReason);
   assert.notEqual(result.reason, zeroReason);
   assert.equal(result.contractVersion, "pelora-dynamic-blue-marlin-opportunities-v1");
@@ -65,6 +68,18 @@ try {
     assertUnavailable(result);
   }
   console.log("PASS controlled exceptions return unavailable without substitute provider requests");
+
+  const inconsistent = await getDynamicBlueMarlinOpportunities(mission, {
+    controlledEvaluator: async () => {
+      const candidate = {id:"inconsistent-delivery"};
+      return buildGovernedOpportunityEvaluationStateV1({
+        candidates:[candidate], results:[{candidate,status:"fulfilled",value:{}}],
+        delivery:{ranking:{rankingResolutions:[{}],rankedOpportunities:[{}]},opportunities:[{}]}
+      });
+    }
+  });
+  assertUnavailable(inconsistent);
+  console.log("PASS inconsistent delivery counts fail closed with unknown counts and no fallback");
 
   const universe = buildUnifiedOpportunityCandidateSourceUniverseV1();
   const filtered = filterUnifiedOpportunityCandidatesByCaptainContextV1({
@@ -131,6 +146,12 @@ try {
     delivery,
     reason: "controlled-gulf-evaluation-complete"
   };
+  controlled.evaluationState = buildGovernedOpportunityEvaluationStateV1({
+    candidates: [interpretation.candidate],
+    results: [{status: "fulfilled", candidate: interpretation.candidate, value: interpretation}],
+    delivery
+  });
+  controlled.evaluationNarrative = translateOpportunityEvaluationNarrativeV1(controlled.evaluationState);
   const before = structuredClone(controlled);
   const successful = await getDynamicBlueMarlinOpportunities(mission, {
     controlledEvaluator: async () => controlled
@@ -139,6 +160,7 @@ try {
   assert.ok(Number.isFinite(Date.parse(generatedAt)));
   assert.deepEqual(successfulContract, {
     available: true, species: "blue-marlin", candidateCount: 295,
+    evaluationState: before.evaluationState, evaluationNarrative: before.evaluationNarrative,
     evaluatedCandidateCount: 1, failedCandidateCount: 0,
     opportunities: before.opportunities, delivery: before.delivery,
     historicalFallback: null, search: before.search, evaluation: before.evaluation,
@@ -155,6 +177,7 @@ try {
   const zero = await getDynamicBlueMarlinOpportunities(mission);
   const controlledZero = await evaluateControlledGulfBlueMarlinV1(mission);
   assert.equal(zero.available, false);
+  assert.equal(zero.evaluationState.state, "unavailable", "Empty cohort is not an adequately evaluated zero");
   assert.equal(zero.reason, zeroReason);
   assert.deepEqual(zero.opportunities, []);
   assert.deepEqual(zero.delivery, controlledZero.delivery);
@@ -163,7 +186,7 @@ try {
   assert.equal(zero.evaluatedCandidateCount, 0);
   assert.equal(zero.failedCandidateCount, 0);
   assert.equal(networkRequests, 0);
-  console.log("PASS real governed zero remains a completed zero, not an exception failure");
+  console.log("PASS empty cohort remains distinct from an exception and cannot establish governed zero");
 } finally {
   globalThis.fetch = originalFetch;
   console.warn = originalWarn;
