@@ -38,12 +38,51 @@ hardening is separate work; this baseline does not claim to remove those grants.
 Report-to-snapshot same-owner integrity and a governed species-neutral association
 table remain separate future work. The existing snapshot foreign key is unchanged.
 
-## Repository verification
+## Fishing Log source-evidence storage (Task 8C)
+
+`20260923_fishing_log_evidence_capture_v1.sql` adds one nullable JSONB column,
+`public.fishing_day_reports.evidence_capture`. The name describes the shared
+capture envelope without tying storage to a species or a particular interpretation.
+The migration follows the report baseline, Ocean Snapshots and the later
+`fishing_locations` addition. Those historical migrations are unchanged.
+
+The field is intended to hold the SOURCE-ONLY
+`pelora-fishing-log-evidence-capture-v1` envelope from
+`shared/fishingLogEvidenceCapture.mjs`: original temporal/time-basis confirmation
+facts and versioned location inputs, including supplied identities and explicit
+characterization. Derived UTC instants, intervals, quality/readiness, Task 7D scope,
+snapshot IDs and matching/association results are not part of this source envelope.
+
+There is no default or backfill. Existing reports have SQL NULL after this additive
+migration; NULL means no versioned envelope was captured, not an invalid report or
+negative evidence. Do not synthesize envelopes from legacy fields or timestamps.
+`trip_date`, `lines_in`, `lines_out` and `fishing_locations` remain unchanged. No
+trigger synchronizes representations. Future runtime integration must intentionally
+write the source envelope and compatibility projections through the shared contract;
+this task changes neither report saves nor Saved Reports. Task 8B's `captureEvidence`
+reader argument is not itself a database column; future adapters map this field to it.
+
+Existing owner RLS, grants and `share_intelligence` semantics remain unchanged.
+The evidence inherits the report's privacy; it is sensitive captain time/location
+data. No additional access policy is introduced. The column adds no database-level
+JSON shape/version check, index or scientific validation. The governed reader owns
+version compatibility, so future versions are not prevented by a v1-only constraint.
+Storage capability does not prove backend authorship, association or learning consent.
+
+The migration uses plain ADD COLUMN so an unexpected existing column fails rather
+than silently concealing schema drift. It has not been executed or deployed by
+Task 8C. Existing production ledger reconciliation described above remains separate.
+Ordered dependency tests cover known Fishing Log dependencies, not a verified full
+project bootstrap. No disposable PostgreSQL execution was performed in this task.
+
+## Repository verification commands
 
 From the repository root:
 
 ```powershell
 node backend/tests/fishingDayReportSchema.test.js
+node backend/tests/fishingLogEvidenceStorage.test.js
+node backend/tests/fishingLogEvidenceCapture.test.js
 ```
 
 These static tests check the canonical columns, constraints, policies, explicit
