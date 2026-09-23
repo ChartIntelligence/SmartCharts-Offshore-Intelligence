@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {resolvePeloraApiUrl} from "../peloraApi.js";
 import {interpretOpportunityEvaluation,EVALUATION_MESSAGES} from "../opportunityEvaluationState.js";
 const data=state=>({evaluationState:{state,contractVersion:"pelora-governed-opportunity-evaluation-state-v1"},opportunities:[]});
 for(const state of ["available","governed-zero","partial","unavailable"]){
@@ -18,8 +19,7 @@ console.log("PASS shared frontend state preserves partial/zero/unavailable and k
 const {readFileSync} = await import("node:fs");
 const {runInNewContext} = await import("node:vm");
 const hookSource = readFileSync(new URL("../../hooks/useDynamicOpportunities.js", import.meta.url), "utf8")
-  .replace(/import[\s\S]*?from "react";/, "")
-  .replace("import.meta.env.DEV", "true")
+  .replace(/^import[\s\S]*?;\r?\n/gm, "")
   .replace("export function", "function");
 for (const [status, body] of [[502,data("unavailable")],[200,data("governed-zero")],[200,partial]]) {
   const slots = [];
@@ -28,7 +28,7 @@ for (const [status, body] of [[502,data("unavailable")],[200,data("governed-zero
   runInNewContext(hookSource + '\nuseDynamicOpportunities();', {
     useState(initial) {const index = nextSlot++; slots[index] = initial; return [initial,value => {slots[index]=value;}];},
     useEffect(callback) {effect=callback;},
-    AbortController, URLSearchParams,
+    AbortController, URLSearchParams, resolvePeloraApiUrl,
     fetch: async () => ({ok:status===200,status,json:async()=>body}),
     console
   });

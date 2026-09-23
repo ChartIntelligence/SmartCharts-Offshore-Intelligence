@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
+import {resolvePeloraApiUrl} from "../../utils/peloraApi.js";
 import * as presentation from "../../utils/oceanFieldPresentation.js";
 import {observationImages} from "../../utils/mapObservationDisplay.js";
 import {createViewportFieldRequests} from "../../utils/viewportFieldRequests.js";
@@ -17,14 +18,14 @@ const map={getStyle:()=>({layers}),isStyleLoaded:()=>styleLoaded,getSource:id=>s
   getBounds:()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28}),getZoom:()=>5};
 const current={contractVersion:"pelora-spatial-field-v1",layer:"currents",fieldId:"recorded",status:"stale",validTime:"2026-09-19T00:00:00Z",coverage:{validCells:1},payloadType:"geostrophic-vector-grid",payload:{cells:[[-89.875,27.125,-0.291,0.948]]}};
 const bathy={contractVersion:"pelora-spatial-field-v1",layer:"bathymetry",status:"static",coverage:{validCells:1}};
-const context=vm.createContext({...presentation,observationImages,apiBase:"http://test",URLSearchParams,
+const context=vm.createContext({...presentation,observationImages,resolvePeloraApiUrl,URLSearchParams,
   useEffect:fn=>{effect=fn;},window:{setInterval:()=>1,clearInterval:()=>{}},
   bathymetryImage:()=>({url:"data:image/png;base64,test",coordinates:[[-90,28],[-89,28],[-89,27],[-90,27]]}),
   createViewportFieldRequests:options=>createViewportFieldRequests({...options,setTimer:fn=>(scheduled=fn,1),clearTimer:()=>{scheduled=null;}}),
   fetch:async url=>{requests++;return{ok:true,json:async()=>url.includes("layer=bathymetry")?bathy:current};}
 });
 const source=fs.readFileSync(new URL("../useMapLibreOceanFields.js",import.meta.url),"utf8")
-  .replace(/^import[\s\S]*?;\r?\n/gm,"").replace("export function","function").replace("import.meta.env.VITE_OCEAN_API_BASE","apiBase");
+  .replace(/^import[\s\S]*?;\r?\n/gm,"").replace("export function","function");
 vm.runInContext(source,context);
 const props={mapRef:{current:map},bathymetry:true,currentField:true,onFieldStatus:update=>{state=typeof update==="function"?update(state):update;}};
 context.useMapLibreOceanFields(props);let cleanup=effect();assert.equal(requests,0);

@@ -2,12 +2,8 @@ import {
   useEffect,
   useState
 } from "react";
+import { resolvePeloraApiUrl } from "../utils/peloraApi.js";
 
-
-const OPPORTUNITY_API_URL =
-  import.meta.env.DEV
-    ? "/api/opportunities"
-    : "https://velion-ocean-engine.onrender.com/api/opportunities";
 
 export function useDynamicOpportunities(
   species = "blue-marlin",
@@ -149,7 +145,7 @@ export function useDynamicOpportunities(
 
         const response =
           await fetch(
-            `${OPPORTUNITY_API_URL}?${searchParams.toString()}`,
+            resolvePeloraApiUrl(`/api/opportunities?${searchParams.toString()}`),
             {
               signal:
                 controller.signal,

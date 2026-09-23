@@ -1,4 +1,5 @@
 import {useEffect} from "react";
+import {resolvePeloraApiUrl} from "../utils/peloraApi.js";
 import {observationImages} from "../utils/mapObservationDisplay.js";
 import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,bathymetryImage,
   fieldLayerDefinitions,fieldInsertBefore} from "../utils/oceanFieldPresentation.js";
@@ -31,7 +32,7 @@ export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldSt
     const requests=createViewportFieldRequests({
       request:async(layer,viewport,signal)=>{
         const params=new URLSearchParams({layer,bbox:viewport.bbox.join(","),density:String(layer==="bathymetry"?viewport.bathymetryDensity:viewport.currentDensity),time:"latest-available"});
-        const response=await fetch(`${import.meta.env.VITE_OCEAN_API_BASE ?? "https://velion-ocean-engine.onrender.com"}/api/ocean/field?${params}`,{signal});
+        const response=await fetch(resolvePeloraApiUrl(`/api/ocean/field?${params}`),{signal});
         const field=await response.json();if(!response.ok)throw new Error(field.reason??`Field request ${response.status}`);
         if(field.contractVersion!=="pelora-spatial-field-v1"||field.layer!==layer)throw new Error("Unsupported field contract");
         return field;

@@ -2,6 +2,7 @@ import {
   useEffect,
   useState
 } from "react";
+import { resolvePeloraApiUrl } from "../utils/peloraApi.js";
 
 
 export function useLiveMarineConditions(
@@ -53,7 +54,7 @@ export function useLiveMarineConditions(
 
       try {
         const response = await fetch(
-          `https://velion-ocean-engine.onrender.com/api/ocean?lat=${latitude}&lon=${longitude}&t=${Date.now()}`,
+          resolvePeloraApiUrl(`/api/ocean?lat=${latitude}&lon=${longitude}&t=${Date.now()}`),
           {
             signal: controller.signal,
             cache: "no-store",
