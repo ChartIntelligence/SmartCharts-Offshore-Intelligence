@@ -1,0 +1,11 @@
+html,body,#root{margin:0;width:100%;height:100%;overflow:hidden;background:#101e29;color:#e3e9ec;font:14px system-ui,sans-serif}
+.sst-review{position:relative;width:100%;height:100%}.sst-review>.map{position:absolute;inset:0;width:100%;height:100%}
+.sst-review header{position:absolute;top:12px;left:12px;right:60px;display:flex;flex-wrap:wrap;gap:10px 24px;padding:12px;background:#090e13ed;border:1px solid #536571;border-radius:8px;z-index:5}
+.sst-review header span{color:#e4cd92}.sst-review header label{margin-left:auto}.sst-review input{width:20px;height:20px;vertical-align:middle}
+.sst-review aside{position:absolute;bottom:46px;left:12px;box-sizing:border-box;width:340px;max-width:calc(100% - 24px);max-height:48%;overflow:auto;background:#090e13f5;border:1px solid #536571;border-radius:10px;padding:14px;z-index:5}
+.sst-review h1{font-size:18px;margin:0}.sst-review h1 small{font-size:12px;margin-left:12px}.sst-review p{font-size:11px;line-height:1.4;color:#bfcbd2;margin:8px 0}
+.sst-ramp{height:14px;border-radius:2px;margin-top:12px}.sst-ticks{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums;font-size:12px;margin-top:4px}
+.sst-review footer{position:absolute;bottom:21px;left:12px;right:12px;font-size:10px;pointer-events:none;color:#d6dfe4;text-shadow:0 1px 3px #000}
+.sst-review details{font-size:11px}.sst-review summary{cursor:pointer;padding:8px 0}.sst-review .identity{overflow-wrap:anywhere}.sst-review table{width:100%;font-size:10px;text-align:left}
+.sst-review .pelora-open-water-opportunity-pulse{animation:none}
+@media(max-width:500px){.sst-review header{font-size:11px;gap:6px;padding:9px}.sst-review header label{margin-left:0}.sst-review aside{bottom:55px;width:calc(100% - 24px);max-height:34%;padding:10px}.sst-review footer{bottom:23px;font-size:9px;max-width:85%}}
