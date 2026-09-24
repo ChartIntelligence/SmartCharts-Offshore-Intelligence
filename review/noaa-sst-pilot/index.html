@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pelora — Real NOAA SST pilot evidence</title><link rel="stylesheet" href="/maplibre.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101e29;color:#ecf1f2;font:13px system-ui}#map{position:absolute;inset:0}
+.panel{position:absolute;z-index:2;background:#090e13ed;border:1px solid #52616b;border-radius:8px;padding:12px;max-width:440px}
+#notice{left:12px;top:12px;right:62px}h1{font-size:16px;margin:0 0 6px}.muted{color:#b3c1c7;line-height:1.5}
+#legend{left:12px;bottom:36px;width:285px}.ramp{height:12px;margin:8px 0;background:linear-gradient(90deg,#354b70,#427f96,#91b7ad,#e4cd92)}
+.ticks{display:flex;justify-content:space-between}button{background:#1c303d;color:white;border:1px solid #8ea5b2;border-radius:5px;padding:8px 12px;margin-top:8px;cursor:pointer}
+@media(max-width:500px){h1{font-size:13px}.panel{padding:9px}#notice{top:8px;left:8px}#legend{left:8px;bottom:66px;width:262px;font-size:11px}.muted{font-size:11px}}
+</style><div id="map"></div>
+<div class="panel" id="notice"><h1>REAL NOAA SST ANALYSIS — PILOT EVIDENCE</h1><b>PILOT / NOT YET OPERATIONAL</b><div id="evidence" class="muted">Validating retained evidence…</div><button id="toggle" disabled>SST ON — hide</button></div>
+<div class="panel" id="legend"><b>Foundation SST · ANALYSIS · °F</b><div class="ramp"></div><div class="ticks"><span>32</span><span>50</span><span>68</span><span>86+</span></div><p class="muted">Provisional display ramp; values above 86°F saturate. Source land/no-data pixels are transparent. Display filtering is not scientific coverage.</p><div id="range"></div></div>
+<script src="/maplibre.js"></script><script type="module">
+import {createPeloraMapStyle,enforcePeloraLayerOrder,PELORA_BASEMAP_URL} from '/style.mjs';
+const pilot=await fetch('/pilot').then(r=>r.json());
+document.querySelector('#evidence').textContent=`NOAA/NESDIS/OSPO · ${pilot.product.datasetId} · Nominal analysis ${pilot.nominalTime} · ${pilot.ageAtAcquisitionHours.toFixed(2)} h old at acquisition · Freshness UNASSESSED · 0.05° native grid · Support window unknown`;
+const f=k=>(k-273.15)*1.8+32;
+document.querySelector('#range').textContent=`Retained finite range: ${f(pilot.stats.min).toFixed(2)}–${f(pilot.stats.max).toFixed(2)} °F. Numeric grid/mask remains authority.`;
+const style=createPeloraMapStyle(await fetch(PELORA_BASEMAP_URL).then(r=>r.json()));
+window.mapErrors=[];
+window.map=new maplibregl.Map({container:'map',style,center:[-89,25],zoom:4.8,renderWorldCopies:false,fadeDuration:0});
+map.on('error',e=>mapErrors.push(String(e.error)));
+map.addControl(new maplibregl.NavigationControl(),'top-right');
+map.on('load',()=>{
+ map.addSource('pilot-sst',{type:'raster',tiles:[location.origin+pilot.tileTemplate],tileSize:256,minzoom:3,maxzoom:7,bounds:[-98,18,-80,31],attribution:'NOAA/NESDIS/OSPO · DOI 10.5067/GHGPN-4FO02 · PILOT'});
+ map.addLayer({id:'pilot-sst',type:'raster',source:'pilot-sst',metadata:{'pelora:visualSlot':'scalar'},paint:{'raster-resampling':'nearest','raster-fade-duration':0,'raster-opacity':1}});
+ enforcePeloraLayerOrder(map);window.pilotReady=true;
+ const button=document.querySelector('#toggle');button.disabled=false;let on=true;
+ button.onclick=()=>{on=!on;map.setLayoutProperty('pilot-sst','visibility',on?'visible':'none');button.textContent=on?'SST ON — hide':'SST OFF — show';};
+});
+</script></html>

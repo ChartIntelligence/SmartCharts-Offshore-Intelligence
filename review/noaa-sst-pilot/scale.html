@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pelora — retained SST display-scale review</title><link rel="stylesheet" href="/maplibre.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101e29;color:#ecf1f2;font:13px system-ui}#map{position:absolute;inset:0}
+.panel{position:absolute;z-index:2;background:#090e13f0;border:1px solid #52616b;border-radius:8px;padding:12px;max-width:440px}
+#notice{left:12px;top:12px;right:62px}h1{font-size:15px;margin:0 0 6px}.muted{color:#b3c1c7;line-height:1.5}
+#legend{left:12px;bottom:36px;width:320px}.ramp{height:13px;margin:8px 0;background:linear-gradient(90deg,#354b70,#427f96,#91b7ad,#e4cd92)}
+.ticks{display:flex;justify-content:space-between}select{background:#1c303d;color:white;border:1px solid #8ea5b2;border-radius:5px;padding:7px;margin-top:8px;max-width:100%}
+@media(max-width:500px){h1{font-size:12px}.panel{padding:9px}#notice{top:8px;left:8px}#legend{left:8px;bottom:66px;width:270px;font-size:11px}.muted{font-size:11px}}
+</style><div id="map"></div><div class="panel" id="notice"><h1>REAL NOAA SST ANALYSIS · PILOT EVIDENCE</h1><b>Display-scale comparison · not operational</b><div class="muted">Retained 2026-09-22 analysis · no new acquisition</div><select id="candidate" aria-label="Review scale candidate"></select></div>
+<div class="panel" id="legend"><b>SST · ANALYSIS · NOAA Geo-Polar</b><div id="kind"></div><div class="ramp"></div><div id="ticks" class="ticks"></div><div id="clipping" class="muted"></div><div class="muted">Analysis: 22 Sep 2026, 12:00 UTC<br>Native grid: 0.05° · Freshness: UNASSESSED<br>Support window: UNKNOWN · Numeric mask is authority</div></div>
+<script src="/maplibre.js"></script><script type="module">
+import {createPeloraMapStyle,enforcePeloraLayerOrder,PELORA_BASEMAP_URL} from '/style.mjs';
+const p=await fetch('/presentation').then(r=>r.json());
+const select=document.querySelector('#candidate');
+for(const c of p.scales){const o=document.createElement('option');o.value=c.id;o.textContent=c.label;select.append(o);}
+window.mapErrors=[];const style=createPeloraMapStyle(await fetch(PELORA_BASEMAP_URL).then(r=>r.json()));
+window.map=new maplibregl.Map({container:'map',style,center:[-89,25],zoom:4.8,renderWorldCopies:false,fadeDuration:0});
+map.on('error',e=>mapErrors.push(String(e.error)));map.addControl(new maplibregl.NavigationControl(),'top-right');
+window.setCandidate=id=>{
+ const c=p.scales.find(c=>c.id===id);if(!c)throw Error('Unknown candidate');
+ if(map.getLayer('scale-sst'))map.removeLayer('scale-sst');if(map.getSource('scale-sst'))map.removeSource('scale-sst');
+ map.addSource('scale-sst',{type:'raster',tiles:[`${location.origin}/tiles/${id}/${p.deliveryId}/{z}/{x}/{y}.png`],tileSize:256,minzoom:3,maxzoom:7,bounds:[-98,18,-80,31],attribution:'NOAA/NESDIS/OSPO · DOI 10.5067/GHGPN-4FO02 · PILOT'});
+ map.addLayer({id:'scale-sst',type:'raster',source:'scale-sst',metadata:{'pelora:visualSlot':'scalar'},paint:{'raster-resampling':'nearest','raster-fade-duration':0,'raster-opacity':1}});enforcePeloraLayerOrder(map);
+ document.querySelector('#kind').textContent=c.kind;document.querySelector('#ticks').replaceChildren();
+ for(let i=0;i<4;i++){const span=document.createElement('span');span.textContent=(c.domainF[0]+(c.domainF[1]-c.domainF[0])*i/3).toFixed(2)+'°F';document.querySelector('#ticks').append(span);}
+ document.querySelector('#clipping').textContent=`${c.clipping.percent.toFixed(2)}% clipped · ${id==='robust'?'full-frame p02–p98':id==='frame'?'full-frame min/max, outward rounded':'fixed absolute domain'}`;
+ select.value=id;window.activeCandidate=id;
+};
+select.onchange=()=>setCandidate(select.value);
+map.on('load',()=>{setCandidate('control');window.pilotReady=true;});
+</script></html>
