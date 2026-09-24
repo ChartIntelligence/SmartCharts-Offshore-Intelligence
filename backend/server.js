@@ -4,6 +4,7 @@ import { PERSISTENCE_PROJECT_HEADER } from "../shared/persistenceEnvironment.mjs
 import { buildGovernedOpportunityEvaluationStateV1, translateOpportunityEvaluationNarrativeV1 } from "./opportunityEvaluationState.js";
 import http from "node:http";
 import { getOceanField } from "./fields/fieldService.js";
+import { scalarRuntimeResult } from "./fields/scalarRuntime.js";
 import { createHash } from "node:crypto";
 import {
   URL,
@@ -61769,11 +61770,15 @@ const observationSnapshot =
 }
 
 
-export function createPeloraServer({
+export function createPeloraServer(options = {}) {
+  const {
   oceanConditionsProvider = getOceanConditions,
   opportunityProvider = getDynamicBlueMarlinOpportunities,
   persistenceConfigurationProvider = buildBackendSupabaseConfiguration
-} = {}) {
+  } = options;
+  // Synthetic mode requires an explicit own data-property function, never inheritance/accessors.
+  const scalarDependency = Object.getOwnPropertyDescriptor(options, "scalarFieldRuntime");
+  const scalarFieldRuntime = typeof scalarDependency?.value === "function" ? scalarDependency.value : null;
   return http.createServer(
     async (
       request,
@@ -62027,6 +62032,33 @@ export function createPeloraServer({
 
 
         if (request.method === "GET" && requestUrl.pathname === "/api/ocean/field") {
+          const fieldModes = requestUrl.searchParams.getAll("mode");
+          if (fieldModes.length && (fieldModes.length !== 1 || fieldModes[0] !== "scalar")) {
+            const result = scalarRuntimeResult("INVALID_REQUEST", "invalid-field-mode");
+            writeJson(response, result.statusCode, result.body);
+            return;
+          }
+          if (requestUrl.searchParams.getAll("mode").includes("scalar")) {
+            const controller = new AbortController();
+            const cancel = () => controller.abort();
+            request.once("aborted", cancel);
+            response.once("close", cancel);
+            try {
+              const result = scalarFieldRuntime
+                ? await scalarFieldRuntime(requestUrl.searchParams, controller.signal)
+                : scalarRuntimeResult("SCALAR_RUNTIME_DISABLED", "no-injected-test-runtime");
+              if (!controller.signal.aborted) writeJson(response, result.statusCode, result.body);
+            } catch {
+              if (!controller.signal.aborted) {
+                const result = scalarRuntimeResult("DELIVERY_TRANSFORMATION_FAILURE", "scalar-runtime-failed");
+                writeJson(response, result.statusCode, result.body);
+              }
+            } finally {
+              request.off("aborted", cancel);
+              response.off("close", cancel);
+            }
+            return;
+          }
           try {
             writeJson(response, 200, await getOceanField(requestUrl.searchParams));
           } catch (error) {
