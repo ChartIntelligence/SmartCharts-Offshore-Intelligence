@@ -1,9 +1,10 @@
 // Explicit background invocation only. No scheduler, provider, HTTP or database calls.
 import {resolveUnifiedOpportunityRankingInputV1} from '../server.js';
-import {PUBLICATION_CONTRACT, check, copy, keys, freeze, canonical, hash, id, utc,
+import {PUBLICATION_CONTRACT, PUBLICATION_CONTRACT_V2, assessmentContextV2, cycleV2, publicationV2, validatePublicationV2, check, copy, keys, freeze, canonical, hash, id, utc,
   cycleV1, freezeEvidenceV1, publicationV1, validatePublicationV1, publicationLookupV1} from '../../shared/oceanPublication.mjs';
 
 export const PUBLICATION_WORKER = 'pelora-ocean-publication-worker-v1';
+export const PUBLICATION_WORKER_V2 = 'pelora-ocean-publication-worker-v2';
 export const CRASH_WINDOWS = Object.freeze({
   CLAIM: 'Claim outcome may be uncertain; reconcile durable claim ledger. No automatic expiry or takeover.',
   FREEZE: 'Persist/reconcile the exact frozen set; never silently replace it on retry.',
@@ -16,18 +17,20 @@ function functions(port,names) {
   check(port && Object.getPrototypeOf(port)===Object.prototype);
   return Object.fromEntries(names.map(n=>{const d=Object.getOwnPropertyDescriptor(port,n);check(d&&Object.hasOwn(d,'value')&&typeof d.value==='function');return [n,d.value];}));
 }
-export const pointerKeyV1=cycle=>`latest-publication-${hash({contractVersion:PUBLICATION_CONTRACT,region:cycle.region,
+// Common state machine, explicitly selected version; never infer a version from input.
+function workerApi({contractVersion,workerVersion,cycleV1,publicationV1,validatePublicationV1,explicitAssessment=false}) {
+const pointerKeyV1=cycle=>`latest-publication-${hash({contractVersion,region:cycle.region,
   configuration:{id:cycle.configuration.id,version:cycle.configuration.version,governanceReference:cycle.configuration.governanceReference,
     evaluatorVersion:cycle.configuration.evaluatorVersion,candidateUniverseVersion:cycle.configuration.candidateUniverseVersion,
     species:cycle.configuration.species,families:cycle.configuration.families}})}`;
-export const targetV1=p=>freeze({publicationId:p.publicationId,cycleId:p.cycle.cycleId,scheduledAt:p.cycle.scheduledAt,contentDigest:p.contentDigest,integrityDigest:p.integrityDigest});
-export async function readPublicationV1(port,publicationId) {
+const targetV1=p=>freeze({publicationId:p.publicationId,cycleId:p.cycle.cycleId,scheduledAt:p.cycle.scheduledAt,contentDigest:p.contentDigest,integrityDigest:p.integrityDigest});
+async function readPublicationV1(port,publicationId) {
   id(publicationId);const {readExact}=functions(port,['readExact']);const r=copy(await readExact(publicationId));
   if(r.status==='NOT_FOUND'){keys(r,['status']);return null;}
   keys(r,['status','durable','record']);check(r.status==='FOUND'&&r.durable===true);
   const p=validatePublicationV1(r.record);check(p.publicationId===publicationId);return p;
 }
-export async function writePublicationV1(port,input) {
+async function writePublicationV1(port,input) {
   const p=validatePublicationV1(input);const {createIfAbsent}=functions(port,['createIfAbsent']);
   const a=copy(await createIfAbsent(p.publicationId,p));keys(a,['status','durable','record']);
   check(['CREATED','EXISTS'].includes(a.status)&&a.durable===true);
@@ -49,11 +52,12 @@ async function previousV1(port,key,assessedAt) {
   return {snapshot,publication:p,ageHours};
 }
 // Future captain reads do not acquire, evaluate, project or mutate. Projection remains separate.
-export async function readLatestPublicationV1(port,cycleInput,assessedAt) {
+async function readLatestPublicationV1(port,cycleInput,assessedAt) {
   const cycle=cycleV1(cycleInput);return freeze(await previousV1(port,pointerKeyV1(cycle),utc(assessedAt)));
 }
 function governedEvaluation(cycle,evidence,result) {
-  const e=copy(result);keys(e,['evaluatorVersion','evidenceSetId','results','signalReferences','lineageReferences']);
+  const e=copy(result);keys(e,['evaluatorVersion','evidenceSetId','results','signalReferences','lineageReferences',...(explicitAssessment?['assessmentAt']:[])]);
+  if(explicitAssessment){e.assessmentAt=utc(e.assessmentAt);check(e.assessmentAt===cycle.scheduledAt);}
   check(Array.isArray(e.results));
   const candidateResults=e.results.map(r=>{
     keys(r,['candidateId','species','interpretation','evaluationReference','opportunityId','continuityReference','usedFamilies']);
@@ -65,7 +69,7 @@ function governedEvaluation(cycle,evidence,result) {
       gate:{contractVersion:gate.contractVersion,eligibleForRanking:gate.eligibleForRanking,reasons:gate.reasons},
       opportunityId:gate.eligibleForRanking?r.opportunityId:null,continuityReference:r.continuityReference,usedFamilies:r.usedFamilies};
   });
-  return {evaluatorVersion:e.evaluatorVersion,evidenceSetId:e.evidenceSetId,candidateResults,signalReferences:e.signalReferences,lineageReferences:e.lineageReferences};
+  return {...(explicitAssessment?{assessmentAt:e.assessmentAt}:{}),evaluatorVersion:e.evaluatorVersion,evidenceSetId:e.evidenceSetId,candidateResults,signalReferences:e.signalReferences,lineageReferences:e.lineageReferences};
 }
 // Captured interpretation must be shared, not a silently stripped captain evaluation.
 // This rejects dedicated context fields; it cannot qualify opaque referenced content.
@@ -75,12 +79,16 @@ const privateFields=new Set(['captaincontext','captainid','userid','account','ac
   'mission','missionstate','personalmissionstate','authtoken','credentials','rankingoverride']);
 function rejectPrivateContext(value) {
   if(value&&typeof value==='object')for(const [key,child] of Object.entries(value)) {
-    check(!privateFields.has(key.replace(/[_-]/g,'').toLowerCase()));rejectPrivateContext(child);
+    const normalized=key.replace(/[_-]/g,'').toLowerCase();
+    check(!privateFields.has(normalized));
+    // V2 must reject dedicated boat context, not silently discard it in conversion.
+    if(explicitAssessment)check(normalized!=='boat');
+    rejectPrivateContext(child);
   }
 }
-export async function runPublicationCycleV1(input,dependencies) {
+async function runPublicationCycleV1(input,dependencies) {
   let stage='INPUT',previous=null,cycle=null,accepted=null,assessmentTime=null;
-  const report=status=>freeze({contractVersion:PUBLICATION_WORKER,status,stage,cycleId:cycle?.cycleId??null,
+  const report=status=>freeze({contractVersion:workerVersion,status,stage,cycleId:cycle?.cycleId??null,
     publication:accepted,previous:previous?{publication:previous.publication,ageHours:previous.ageHours,assessedAt:assessmentTime}:null,
     reconciliationRequired:status.includes('CONFLICT')||(['CLAIM','FREEZE','EVALUATE','WRITE','READBACK','CAS'].includes(stage)&&!['COMPLETED','IDEMPOTENT','POINTER_ALREADY_CURRENT','OLDER_PUBLICATION_RETAINED'].includes(status))});
   try {
@@ -105,7 +113,7 @@ export async function runPublicationCycleV1(input,dependencies) {
       if(existing.evidence.evidenceSetId!==evidence.evidenceSetId)return report('SAME_CYCLE_EVIDENCE_CONFLICT');
       accepted=existing;
     }else{
-      stage='EVALUATE';const evaluation=governedEvaluation(cycle,evidence,await port.evaluate(freeze({cycle,evidence})));
+      stage='EVALUATE';const evaluation=governedEvaluation(cycle,evidence,await port.evaluate(freeze({cycle,evidence,...(explicitAssessment?{assessment:assessmentContextV2(cycle)}:{})})));
       const endedAt=utc(await port.finishedAt());check(endedAt<=request.assessedAt);
       const record=publicationV1({cycle,evidence,evaluation,attempt:{id:request.attemptId,startedAt:request.startedAt,endedAt}});
       stage='WRITE';const written=await writePublicationV1(port,record);
@@ -129,3 +137,12 @@ export async function runPublicationCycleV1(input,dependencies) {
     return report(existing?'IDEMPOTENT':'COMPLETED');
   }catch{return report('CYCLE_FAILED');}
 }
+
+return {pointerKeyV1,targetV1,readPublicationV1,writePublicationV1,readLatestPublicationV1,runPublicationCycleV1};
+}
+export const {pointerKeyV1,targetV1,readPublicationV1,writePublicationV1,readLatestPublicationV1,runPublicationCycleV1}=
+  workerApi({contractVersion:PUBLICATION_CONTRACT,workerVersion:PUBLICATION_WORKER,cycleV1,publicationV1,validatePublicationV1});
+export const {pointerKeyV1:pointerKeyV2,targetV1:targetV2,readPublicationV1:readPublicationV2,writePublicationV1:writePublicationV2,
+  readLatestPublicationV1:readLatestPublicationV2,runPublicationCycleV1:runPublicationCycleV2}=
+  workerApi({contractVersion:PUBLICATION_CONTRACT_V2,workerVersion:PUBLICATION_WORKER_V2,cycleV1:cycleV2,
+    publicationV1:publicationV2,validatePublicationV1:validatePublicationV2,explicitAssessment:true});

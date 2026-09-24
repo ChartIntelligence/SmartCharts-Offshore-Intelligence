@@ -1,6 +1,8 @@
 // Descriptive immutable publication contract. No provider, captain or ranking policy.
 import {createHash} from 'node:crypto';
 export const PUBLICATION_CONTRACT = 'pelora-governed-ocean-publication-v1';
+export const PUBLICATION_CONTRACT_V2 = 'pelora-governed-ocean-publication-v2';
+export const ASSESSMENT_POLICY_V1 = 'pelora-scheduled-scientific-assessment-v1';
 export const fail = () => { throw new TypeError('Invalid governed publication input'); };
 export function check(v) { if (!v) fail(); }
 export function copy(v, ancestors = new Set()) {
@@ -28,21 +30,30 @@ export function reference(r){
   if(r.kind==='archive') { keys(r,['kind','archiveId','frameId','receiptDigest','contentDigest']);id(r.archiveId);id(r.frameId);digest(r.receiptDigest);digest(r.contentDigest);check(r.archiveId===`opf-${createHash('sha256').update(r.frameId,'utf8').digest('hex')}`); }
   else {keys(r,['kind','referenceId','contractVersion','sha256']);check(r.kind==='captured');id(r.referenceId);id(r.contractVersion);digest(r.sha256);}
 }
-export function cycleV1(input){
+function buildCycle(input,version){
   const c=copy(input);keys(c,['scheduledAt','region','configuration']);
   c.scheduledAt=utc(c.scheduledAt);const t=new Date(c.scheduledAt);
   check(t.getUTCHours()%4===0&&t.getUTCMinutes()===0&&t.getUTCSeconds()===0&&t.getUTCMilliseconds()===0);
   keys(c.region,['id','version']);id(c.region.id);id(c.region.version);
   keys(c.configuration,['id','version','governanceReference','evaluatorVersion','candidateUniverseVersion','species','families','candidateUniverse']);
   for(const k of ['id','version','governanceReference','evaluatorVersion','candidateUniverseVersion'])id(c.configuration[k]);
+  if(version===PUBLICATION_CONTRACT_V2)check(c.configuration.evaluatorVersion.endsWith('-explicit-assessment-v1'));
   unique(c.configuration.species);check(c.configuration.species.length===1&&c.configuration.species[0]==='blue-marlin'); // Only existing governed ranking pathway.
   unique(c.configuration.families);check(c.configuration.families.length>0);
   const u=c.configuration.candidateUniverse;keys(u,['reference','candidateIds']);reference(u.reference);unique(u.candidateIds);
   c.configuration.species.sort();c.configuration.families.sort();u.candidateIds.sort();
   // Candidate-universe capture is frozen content, not a new scheduled cycle on retry.
   const {candidateUniverse,...configurationIdentity}=c.configuration;
-  return freeze({contractVersion:PUBLICATION_CONTRACT,...c,cycleId:`ocycle-${hash({contractVersion:PUBLICATION_CONTRACT,
+  return freeze({contractVersion:version,...c,cycleId:`ocycle-${hash({contractVersion:version,
     scheduledAt:c.scheduledAt,region:c.region,configuration:configurationIdentity})}`});
+}
+export const cycleV1=input=>buildCycle(input,PUBLICATION_CONTRACT);
+export const cycleV2=input=>buildCycle(input,PUBLICATION_CONTRACT_V2);
+export function assessmentContextV2(cycle){
+  cycle=copy(cycle);
+  check(cycle.contractVersion===PUBLICATION_CONTRACT_V2);
+  check(canonical(cycleV2({scheduledAt:cycle.scheduledAt,region:cycle.region,configuration:cycle.configuration}))===canonical(cycle));
+  return freeze({contractVersion:ASSESSMENT_POLICY_V1,assessmentAt:cycle.scheduledAt});
 }
 export function freezeEvidenceV1(cycle,input){
   const entries=copy(input);check(Array.isArray(entries));const seen=new Set();
@@ -67,14 +78,16 @@ export function freezeEvidenceV1(cycle,input){
   check(canonical([...seen].sort())===canonical(cycle.configuration.families));entries.sort((a,b)=>a.family<b.family?-1:1);
   return freeze({evidenceSetId:`oes-${hash(entries)}`,entries});
 }
-export function publicationV1(input){
+function buildPublication(input,version){
   const p=copy(input);keys(p,['cycle','evidence','attempt','evaluation']);
   const c=p.cycle;keys(c,['contractVersion','scheduledAt','region','configuration','cycleId']);
-  const cycle=cycleV1({scheduledAt:c.scheduledAt,region:c.region,configuration:c.configuration});check(canonical(cycle)===canonical(c));
+  const cycle=buildCycle({scheduledAt:c.scheduledAt,region:c.region,configuration:c.configuration},version);check(canonical(cycle)===canonical(c));
   keys(p.evidence,['evidenceSetId','entries']);check(canonical(freezeEvidenceV1(cycle,p.evidence.entries))===canonical(p.evidence));
   keys(p.attempt,['id','startedAt','endedAt']);id(p.attempt.id);p.attempt.startedAt=utc(p.attempt.startedAt);p.attempt.endedAt=utc(p.attempt.endedAt);
   check(cycle.scheduledAt<=p.attempt.startedAt&&p.attempt.startedAt<=p.attempt.endedAt);
-  const e=p.evaluation;keys(e,['evaluatorVersion','evidenceSetId','candidateResults','signalReferences','lineageReferences']);id(e.evaluatorVersion);check(e.evaluatorVersion===cycle.configuration.evaluatorVersion&&e.evidenceSetId===p.evidence.evidenceSetId);
+  const e=p.evaluation;keys(e,['evaluatorVersion','evidenceSetId','candidateResults','signalReferences','lineageReferences',...(version===PUBLICATION_CONTRACT_V2?['assessmentAt']:[])]);
+  if(version===PUBLICATION_CONTRACT_V2){e.assessmentAt=utc(e.assessmentAt);check(e.assessmentAt===cycle.scheduledAt);}
+  id(e.evaluatorVersion);check(e.evaluatorVersion===cycle.configuration.evaluatorVersion&&e.evidenceSetId===p.evidence.evidenceSetId);
   check(Array.isArray(e.candidateResults));const seen=new Set();
   for(const r of e.candidateResults){
     keys(r,['candidateId','species','evaluationReference','gate','opportunityId','continuityReference','usedFamilies']);
@@ -88,12 +101,16 @@ export function publicationV1(input){
   check(seen.size===cycle.configuration.candidateUniverse.candidateIds.length*cycle.configuration.species.length); // No global Top-N truncation.
   e.candidateResults.sort((a,b)=>`${a.species}:${a.candidateId}`<`${b.species}:${b.candidateId}`?-1:1);
   for(const list of [e.signalReferences,e.lineageReferences]){check(Array.isArray(list));list.forEach(reference);}
-  const content={contractVersion:PUBLICATION_CONTRACT,cycle,evidence:p.evidence,evaluation:e,status:'COMPLETED'};
+  const content={contractVersion:version,cycle,evidence:p.evidence,evaluation:e,status:'COMPLETED'};
   const record={...content,publicationId:`opub-${hash(cycle.cycleId)}`,contentDigest:hash(content),attempt:p.attempt};
   return freeze({...record,integrityDigest:hash(record)});
 }
-export function validatePublicationV1(record){
+function validatePublication(record,version){
   const p=copy(record);keys(p,['contractVersion','cycle','evidence','evaluation','status','publicationId','contentDigest','attempt','integrityDigest']);
-  const expected=publicationV1({cycle:p.cycle,evidence:p.evidence,attempt:p.attempt,evaluation:p.evaluation});check(canonical(expected)===canonical(p));return expected;
+  const expected=buildPublication({cycle:p.cycle,evidence:p.evidence,attempt:p.attempt,evaluation:p.evaluation},version);check(canonical(expected)===canonical(p));return expected;
 }
 export const publicationLookupV1=cycle=>`opub-${hash(cycle.cycleId)}`;
+export const publicationV1=input=>buildPublication(input,PUBLICATION_CONTRACT);
+export const publicationV2=input=>buildPublication(input,PUBLICATION_CONTRACT_V2);
+export const validatePublicationV1=input=>validatePublication(input,PUBLICATION_CONTRACT);
+export const validatePublicationV2=input=>validatePublication(input,PUBLICATION_CONTRACT_V2);
