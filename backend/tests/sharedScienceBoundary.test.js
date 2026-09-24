@@ -1,4 +1,4 @@
-// Task 12B STOP-gate diagnostic, not an operational/shared evaluator.
+// Historical Task 12B diagnostic. Task 12B.1 preserves distinct default request assessments.
 // Ocean-condition values are synthetic; candidate geometry and retained bathymetry
 // come from the repository catalog. No provider, history store or Auth calls.
 import test from 'node:test';
@@ -40,7 +40,7 @@ function fixture(){
 }
 const interpret=f=>buildUnifiedSpeciesOpportunityInterpretationV1({candidate:f.candidate,oceanConditions:f.ocean,species:'blue-marlin'});
 
-test('STOP evidence: frozen scientific input changes adequacy with implicit wall clock',t=>{
+test('historical baseline: separate default assessments change adequacy with time',t=>{
   const clock=t.mock.method(Date,'now',()=>atOneHour);
   const f=fixture(),before=hash(f),first=interpret(f);
   clock.mock.mockImplementation(()=>atSeventyThreeHours);
@@ -51,9 +51,9 @@ test('STOP evidence: frozen scientific input changes adequacy with implicit wall
   assert.equal(first.negativeConclusionAdequacy.predicates.thermalStructure,true);
   assert.equal(replay.negativeConclusionAdequacy.predicates.thermalStructure,false);
   const fields=['candidate','species','speciesOpportunity','intelligenceSource','negativeConclusionAdequacy'];
-  const matrix=fields.map(field=>({field,classification:hash(first[field])===hash(replay[field])?'EXACT_MATCH':'MISMATCH',beforeDigest:hash(first[field]),afterDigest:hash(replay[field])}));
-  assert.equal(matrix.filter(x=>x.classification==='MISMATCH').length,1);
-  console.log(JSON.stringify({contractVersion:'pelora-12b-boundary-diagnostic-v1',verdict:'STOP_UNRESOLVED_ASSESSMENT_TIME_DEPENDENCY',
+  const matrix=fields.map(field=>({field,classification:hash(first[field])===hash(replay[field])?'EXACT_MATCH':'EXPECTED_ASSESSMENT_TIME_DIFFERENCE',beforeDigest:hash(first[field]),afterDigest:hash(replay[field])}));
+  assert.equal(matrix.filter(x=>x.classification==='EXPECTED_ASSESSMENT_TIME_DIFFERENCE').length,1);
+  console.log(JSON.stringify({contractVersion:'pelora-12b-boundary-diagnostic-v1',verdict:'DEFAULT_REQUEST_REASSESSMENT_PRESERVED',
     comparison:'existing-governed-function-frozen-input-replay-not-an-adapter-equivalence-pass',
     sourceTime,inputDigest:before,clockA:new Date(atOneHour).toISOString(),clockB:new Date(atSeventyThreeHours).toISOString(),matrix}));
 });
@@ -115,11 +115,12 @@ test('missing habitat and unsupported species do not receive affirmative ranking
   assert.notEqual(evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1({candidate,speciesProfile:BLUE_MARLIN_OPPORTUNITY_TYPE_PROFILE}).eligible,true);
 });
 
-test('history dependency and implicit clock are present in current source, not a diagnostic invention',()=>{
+test('history dependency remains; default-clock diagnostic is distinct from explicit replay',()=>{
   const source=readFileSync(new URL('../server.js',import.meta.url),'utf8');
   const confidence=source.slice(source.indexOf('function assessSstTransitionConfidence('),source.indexOf('function assessSstTransitionConfidence(')+4000);
-  assert(confidence.includes('Date.now()'));
-  const start=source.indexOf('async function getOceanConditions(');assert(start>=0);
+  assert(confidence.includes('Date.parse(assessment.assessmentAt)'));
+  assert(!confidence.includes('Date.now()')); // Task 12B.1 explicit seam; default calls still reassess now.
+  const start=source.indexOf('async function getOceanConditionsAtAssessment(');assert(start>=0);
   const runtime=source.slice(source.indexOf('  const oceanMemoryRowRetrieval =',start));
   assert(runtime.includes('normalizedBearerToken'));assert(runtime.includes('buildOceanPersistence({'));assert(runtime.includes('assessOceanOpportunity({'));
 });

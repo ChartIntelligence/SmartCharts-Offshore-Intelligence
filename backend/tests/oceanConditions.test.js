@@ -1,3 +1,4 @@
+const regressionAssessment = Object.freeze({contractVersion:"pelora-scientific-assessment-v1",assessmentAt:"2026-09-24T01:00:00.000Z"});
 import assert from "node:assert/strict";
 
 import {
@@ -48091,6 +48092,7 @@ for (
 
   const result =
     await evaluateUnifiedOpenWaterOceanConditionsV1({
+      assessment: regressionAssessment,
       candidate,
 
       bearerToken:
@@ -48126,6 +48128,7 @@ for (
       latitude: 27.5,
       longitude: -89.5,
       options: {
+        assessment: regressionAssessment,
         bearerToken:
           "test-bearer-token"
       }
@@ -48233,6 +48236,7 @@ for (
 
   const result =
     await evaluateUnifiedPhysicalStructureOceanConditionsV1({
+      assessment: regressionAssessment,
       candidate,
 
       bearerToken:
@@ -48270,6 +48274,7 @@ for (
       longitude: -89.5,
 
       options: {
+        assessment: regressionAssessment,
         bearerToken:
           "structure-test-bearer-token"
       }
@@ -48378,6 +48383,7 @@ for (
 
   const result =
     await evaluateUnifiedOpenWaterOceanConditionsV1({
+      assessment: regressionAssessment,
       candidate,
 
       oceanConditionsProvider:
@@ -48456,6 +48462,7 @@ for (
 
   const result =
     await evaluateUnifiedOpenWaterOceanConditionsV1({
+      assessment: regressionAssessment,
       candidate,
 
       oceanConditionsProvider:
@@ -48534,6 +48541,7 @@ for (
 
   const result =
     await evaluateUnifiedOpenWaterOceanConditionsV1({
+      assessment: regressionAssessment,
       candidate,
 
       oceanConditionsProvider:
@@ -48609,6 +48617,7 @@ for (
 
   const result =
     await evaluateUnifiedOpenWaterOceanConditionsV1({
+      assessment: regressionAssessment,
       candidate,
 
       oceanConditionsProvider:
@@ -48694,6 +48703,7 @@ for (
   await assert.rejects(
     () =>
       evaluateUnifiedOpenWaterOceanConditionsV1({
+      assessment: regressionAssessment,
         candidate,
 
         oceanConditionsProvider:
@@ -48828,6 +48838,7 @@ for (
       evaluator:
         candidate =>
           evaluateUnifiedOpenWaterOceanConditionsV1({
+      assessment: regressionAssessment,
             candidate,
 
             bearerToken:
@@ -48850,10 +48861,12 @@ for (
     ),
     [
       {
+        assessment: regressionAssessment,
         bearerToken:
           "composition-bearer-token"
       },
       {
+        assessment: regressionAssessment,
         bearerToken:
           "composition-bearer-token"
       }
@@ -49025,6 +49038,7 @@ for (
 
   const result =
     await evaluateUnifiedOpportunityOceanConditionsV1({
+      assessment: regressionAssessment,
       candidates: [
         candidate
       ],
@@ -49075,6 +49089,7 @@ for (
   assert.deepEqual(
     providerCalls[0].options,
     {
+      assessment: regressionAssessment,
       bearerToken:
         "unified-composition-bearer-token"
     }
@@ -49228,6 +49243,7 @@ for (
 
   const result =
     await evaluateUnifiedOpportunityOceanConditionsV1({
+      assessment: regressionAssessment,
       candidates: [
         openWaterCandidate,
         physicalStructureCandidate
@@ -49466,6 +49482,7 @@ for (
 
   const result =
     await evaluateUnifiedOpportunityOceanConditionsV1({
+      assessment: regressionAssessment,
       candidates,
 
       maximumCandidates: 2,

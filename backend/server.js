@@ -1,3 +1,4 @@
+import {resolveScientificAssessmentV1, withScientificAssessmentV1, assertScientificInstantV1, requireScientificAssessmentV1, scientificAgeHoursV1, reassessCurrentAgeV1} from "./scientificAssessment.mjs";
 import { normalizeBathymetryElevationV1 } from "./bathymetryEvidence.js";
 import { resolvePersistenceRequestContext } from "./persistenceEnvironment.js";
 import { PERSISTENCE_PROJECT_HEADER } from "../shared/persistenceEnvironment.mjs";
@@ -1726,9 +1727,11 @@ function classifyMoonPhase(
 }
 
 
-function getMoonConditions(
-  timestamp = new Date()
+export function getMoonConditions(
+  timestamp
 ) {
+  if (timestamp === undefined) throw new TypeError("Moon evaluation requires explicit time");
+  assertScientificInstantV1(timestamp);
   const date =
     timestamp instanceof Date
       ? timestamp
@@ -1840,20 +1843,8 @@ function getMoonConditions(
 }
 
 
-function getAgeHours(timestamp) {
-  const time =
-    new Date(timestamp).getTime();
-
-  if (!Number.isFinite(time)) {
-    return null;
-  }
-
-  return Number(
-    (
-      (Date.now() - time) /
-      3600000
-    ).toFixed(1)
-  );
+export function getAgeHours(timestamp, assessment) {
+  return scientificAgeHoursV1(timestamp, requireScientificAssessmentV1(assessment));
 }
 
 
@@ -2051,10 +2042,12 @@ function resolveProviderCoordinates(latitude, longitude) {
   };
 }
 
-export async function getChlorophyllConditions(
+async function getChlorophyllConditionsAtAssessment(
   latitude,
-  longitude
+  longitude,
+  assessment
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const query =
     `chlor_a[(last)][(0.0)][(${latitude})][(${longitude})]`;
 
@@ -2122,7 +2115,7 @@ export async function getChlorophyllConditions(
     valueAt("time") ?? null;
 
   const ageHours =
-    getAgeHours(observedAt);
+    getAgeHours(observedAt, assessment);
 
   return {
     ...resolveProviderCoordinates(valueAt("latitude"), valueAt("longitude")),
@@ -2172,10 +2165,12 @@ export async function getChlorophyllConditions(
 }
 
 
-export async function getGapFilledChlorophyllConditions(
+async function getGapFilledChlorophyllConditionsAtAssessment(
   latitude,
-  longitude
+  longitude,
+  assessment
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const query =
     `chlor_a[(last)][(0.0)][(${latitude})][(${longitude})]`;
 
@@ -2283,7 +2278,7 @@ export async function getGapFilledChlorophyllConditions(
 
   const ageHours =
     getAgeHours(
-      observedAt
+      observedAt, assessment
     );
 
 
@@ -2347,10 +2342,12 @@ export async function getGapFilledChlorophyllConditions(
 }
 
 
-export async function getCurrentConditionsPoint(
+async function getCurrentConditionsPointAtAssessment(
   latitude,
-  longitude
+  longitude,
+  assessment
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const query =
     [
       `u_current[(last)][(${latitude})][(${longitude})]`,
@@ -2441,7 +2438,7 @@ export async function getCurrentConditionsPoint(
     valueAt("time") ?? null;
 
   const ageHours =
-    getAgeHours(observedAt);
+    getAgeHours(observedAt, assessment);
 
   const hasVector =
     Number.isFinite(eastward) &&
@@ -2544,10 +2541,12 @@ export async function getCurrentConditionsPoint(
 }
 
 
-async function getCachedCurrentConditionsPoint(
+async function getCachedCurrentConditionsPointAtAssessment(
   latitude,
-  longitude
+  longitude,
+  assessment
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const cached =
     getCachedCurrentPoint(
       latitude,
@@ -2555,7 +2554,7 @@ async function getCachedCurrentConditionsPoint(
     );
 
   if (cached) {
-    return cached;
+    return reassessCurrentAgeV1(cached, assessment);
   }
 
   const key =
@@ -2574,7 +2573,7 @@ async function getCachedCurrentConditionsPoint(
       await inFlight;
 
     return {
-      ...value,
+      ...reassessCurrentAgeV1(value, assessment),
 
       cache: {
         status:
@@ -2593,7 +2592,8 @@ async function getCachedCurrentConditionsPoint(
   const request =
     getCurrentConditionsPoint(
       latitude,
-      longitude
+      longitude,
+      assessment
     )
       .then(
         value => {
@@ -2622,7 +2622,7 @@ async function getCachedCurrentConditionsPoint(
     await request;
 
   return {
-    ...value,
+    ...reassessCurrentAgeV1(value, assessment),
 
     cache: {
       status:
@@ -2639,10 +2639,12 @@ async function getCachedCurrentConditionsPoint(
 }
 
 
-export async function getCurrentSpatialStructure(
+async function getCurrentSpatialStructureAtAssessment(
   latitude,
-  longitude
+  longitude,
+  assessment
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const samplePoints =
     createCurrentSpatialSamplePoints(
       latitude,
@@ -2708,7 +2710,8 @@ export async function getCurrentSpatialStructure(
           const current =
             await getCachedCurrentConditionsPoint(
               samplePoint.latitude,
-              samplePoint.longitude
+              samplePoint.longitude,
+              assessment
             );
 
           return {
@@ -5973,11 +5976,14 @@ function buildCurrentSpatialPatternAnalysis(
 
 async function getCurrentConditions(
   latitude,
-  longitude
+  longitude,
+  assessment
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
   return getCachedCurrentConditionsPoint(
     latitude,
-    longitude
+    longitude,
+    assessment
   );
 }
 
@@ -6489,14 +6495,16 @@ function deriveSstTransitionOrientation(
  * pattern. It does not establish persistence, front identity,
  * or biological significance.
  */
-function assessSstTransitionConfidence(
+export function assessSstTransitionConfidence(
   {
     samples,
     sufficientCoverage,
     rangeFahrenheit,
-    orientation
+    orientation,
+    assessment
   }
 ) {
+  assessment = requireScientificAssessmentV1(assessment);
   const validSamples =
     samples.filter(
       sample =>
@@ -6533,6 +6541,8 @@ function assessSstTransitionConfidence(
         )
       : null;
 
+  if (Number.isFinite(newestObservationTime) && newestObservationTime > Date.parse(assessment.assessmentAt)) throw new TypeError("SST evidence timestamp after scientific assessment");
+
   const ageHours =
     Number.isFinite(
       newestObservationTime
@@ -6540,7 +6550,7 @@ function assessSstTransitionConfidence(
       ? Number(
           (
             (
-              Date.now() -
+              Date.parse(assessment.assessmentAt) -
               newestObservationTime
             ) /
             3600000
@@ -6975,11 +6985,13 @@ async function getCachedSeaSurfaceTemperaturePoint(
 }
 
 
-export async function getSstSpatialStructure(
+async function getSstSpatialStructureAtAssessment(
   latitude,
   longitude,
-  centerTemperatureFahrenheit
+  centerTemperatureFahrenheit,
+  assessment
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const samplePoints =
     createSstSpatialSamplePoints(
       latitude,
@@ -7135,7 +7147,8 @@ export async function getSstSpatialStructure(
       samples,
       sufficientCoverage,
       rangeFahrenheit,
-      orientation
+      orientation,
+      assessment
     });
 
   return {
@@ -48629,7 +48642,8 @@ export function buildDynamicBlueMarlinOpportunity({
 
 
 // Observational completeness only; this never grants positive opportunity eligibility.
-export function buildCandidateNegativeConclusionAdequacyV1({candidate, oceanConditions} = {}) {
+function buildCandidateNegativeConclusionAdequacyV1AtAssessment({candidate, oceanConditions, assessment} = {}) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const groups = oceanConditions?.oceanEvidence?.groups ?? {};
   const thermal = oceanConditions?.sst?.derived?.spatialStructure;
   const current = groups.current;
@@ -48640,7 +48654,7 @@ export function buildCandidateNegativeConclusionAdequacyV1({candidate, oceanCond
   const thermalSamples = (Array.isArray(thermal?.samples) ? thermal.samples : [])
     .filter(sample => Number.isFinite(sample?.temperatureFahrenheit));
   const thermalFresh = sample => {
-    const confidence = assessSstTransitionConfidence({samples: [sample], sufficientCoverage: false});
+    const confidence = assessSstTransitionConfidence({samples: [sample], sufficientCoverage: false, assessment});
     return confidence.reasons.some(reason => ["recent-samples", "same-day-samples", "samples-within-24-hours"].includes(reason));
   };
   const vectors = (Array.isArray(spatial?.vectors) ? spatial.vectors : []).filter(vector =>
@@ -48680,11 +48694,13 @@ export function buildCandidateNegativeConclusionAdequacyV1({candidate, oceanCond
   };
 }
 
-export function buildUnifiedSpeciesOpportunityInterpretationV1({
+function buildUnifiedSpeciesOpportunityInterpretationV1AtAssessment({
   candidate = null,
   oceanConditions = null,
-  species = null
+  species = null,
+  assessment
 } = {}) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const normalizedSpecies =
     typeof species === "string"
       ? species
@@ -48829,7 +48845,7 @@ export function buildUnifiedSpeciesOpportunityInterpretationV1({
     speciesOpportunity,
 
     intelligenceSource,
-    negativeConclusionAdequacy: buildCandidateNegativeConclusionAdequacyV1({candidate, oceanConditions}),
+    negativeConclusionAdequacy: buildCandidateNegativeConclusionAdequacyV1({candidate, oceanConditions, assessment}),
 
     interpretation:
       "governed-unified-species-opportunity-interpretation",
@@ -58859,13 +58875,15 @@ export async function evaluateSelectedUnifiedOpportunityCandidatesV1({
 }
 
 
-export async function evaluateUnifiedOpenWaterOceanConditionsV1({
+async function evaluateUnifiedOpenWaterOceanConditionsV1AtAssessment({
+  assessment,
   candidate = null,
 
   bearerToken = null,
 
   oceanConditionsProvider = null
 } = {}) {
+  assessment = resolveScientificAssessmentV1(assessment);
   if (
     candidate?.candidateClass !==
     "open-water"
@@ -59009,6 +59027,7 @@ export async function evaluateUnifiedOpenWaterOceanConditionsV1({
       latitude,
       longitude,
       {
+        assessment,
         bearerToken
       }
     );
@@ -59037,13 +59056,15 @@ export async function evaluateUnifiedOpenWaterOceanConditionsV1({
 }
 
 
-export async function evaluateUnifiedPhysicalStructureOceanConditionsV1({
+async function evaluateUnifiedPhysicalStructureOceanConditionsV1AtAssessment({
+  assessment,
   candidate = null,
 
   bearerToken = null,
 
   oceanConditionsProvider = null
 } = {}) {
+  assessment = resolveScientificAssessmentV1(assessment);
   if (
     candidate?.candidateClass !==
     "physical-structure"
@@ -59190,6 +59211,7 @@ export async function evaluateUnifiedPhysicalStructureOceanConditionsV1({
       latitude,
       longitude,
       {
+        assessment,
         bearerToken
       }
     );
@@ -59220,7 +59242,8 @@ export async function evaluateUnifiedPhysicalStructureOceanConditionsV1({
 }
 
 
-export async function evaluateUnifiedOpportunityOceanConditionsV1({
+async function evaluateUnifiedOpportunityOceanConditionsV1AtAssessment({
+  assessment,
   candidates = [],
 
   bearerToken = null,
@@ -59236,6 +59259,7 @@ export async function evaluateUnifiedOpportunityOceanConditionsV1({
   oceanConditionsProvider =
     getOceanConditions
 } = {}) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const controlledEvaluation =
     await evaluateSelectedUnifiedOpportunityCandidatesV1({
       candidates,
@@ -59252,6 +59276,7 @@ export async function evaluateUnifiedOpportunityOceanConditionsV1({
           ) {
             return (
               evaluateUnifiedPhysicalStructureOceanConditionsV1({
+                assessment,
                 candidate,
 
                 bearerToken,
@@ -59264,6 +59289,7 @@ export async function evaluateUnifiedOpportunityOceanConditionsV1({
 
           return (
             evaluateUnifiedOpenWaterOceanConditionsV1({
+                assessment,
               candidate,
 
               bearerToken,
@@ -59397,7 +59423,8 @@ export function filterGulfCandidatesByCaptainRangeV1({
 }
 
 
-export async function evaluateControlledGulfBlueMarlinV1({
+async function evaluateControlledGulfBlueMarlinV1AtAssessment({
+  assessment,
   bearerToken = null,
 
   originCoordinates = null,
@@ -59415,6 +59442,7 @@ export async function evaluateControlledGulfBlueMarlinV1({
     GULF_EVALUATION_CONTROL_V1
       .concurrency
 } = {}) {
+  assessment = resolveScientificAssessmentV1(assessment);
   const candidateUniverse =
     buildUnifiedOpportunityCandidateSourceUniverseV1();
 
@@ -59502,6 +59530,7 @@ export async function evaluateControlledGulfBlueMarlinV1({
               ?.candidateClass ===
               "physical-structure"
               ? await evaluateUnifiedPhysicalStructureOceanConditionsV1({
+                assessment,
                   candidate,
 
                   bearerToken,
@@ -59510,6 +59539,7 @@ export async function evaluateControlledGulfBlueMarlinV1({
                     getOceanConditions
                 })
               : await evaluateUnifiedOpenWaterOceanConditionsV1({
+                assessment,
                   candidate,
 
                   bearerToken,
@@ -59533,6 +59563,7 @@ export async function evaluateControlledGulfBlueMarlinV1({
 
           return (
             buildUnifiedSpeciesOpportunityInterpretationV1({
+              assessment,
               candidate,
 
               oceanConditions:
@@ -60065,13 +60096,15 @@ export async function getDynamicBlueMarlinOpportunities({
 }
 
 
-async function getOceanConditions(
+async function getOceanConditionsAtAssessment(
   latitude,
   longitude,
   {
+    assessment,
     bearerToken = null
   } = {}
 ) {
+  assessment = resolveScientificAssessmentV1(assessment);
 
   const normalizedBearerToken =
     typeof bearerToken ===
@@ -60102,7 +60135,7 @@ async function getOceanConditions(
       () =>
         getChlorophyllConditions(
           latitude,
-          longitude
+          longitude, assessment
         )
     ),
 
@@ -60110,7 +60143,7 @@ async function getOceanConditions(
       () =>
         getGapFilledChlorophyllConditions(
           latitude,
-          longitude
+          longitude, assessment
         )
     ),
 
@@ -60118,7 +60151,7 @@ async function getOceanConditions(
       () =>
         getCurrentConditions(
           latitude,
-          longitude
+          longitude, assessment
         )
     )
   ]);
@@ -60153,7 +60186,7 @@ async function getOceanConditions(
 
 
   const moon =
-    getMoonConditions();
+    getMoonConditions(assessment.assessmentAt);
 
 
   const sstSpatialResult =
@@ -60164,7 +60197,8 @@ async function getOceanConditions(
           longitude,
           marine.sst
             ?.temperatureFahrenheit ??
-          null
+          null,
+          assessment
         )
     );
 
@@ -60220,7 +60254,7 @@ async function getOceanConditions(
       () =>
         getCurrentSpatialStructure(
           latitude,
-          longitude
+          longitude, assessment
         )
     );
 
@@ -62194,4 +62228,65 @@ if (
       );
     }
   );
+}
+
+// Trusted boundaries establish an async-local consistency guard, never an implicit time source.
+export function buildCandidateNegativeConclusionAdequacyV1(...args) {
+  const options=args[0]??{}; const assessment=assessmentFromOptionsV1(options);
+  return withScientificAssessmentV1(assessment,()=>buildCandidateNegativeConclusionAdequacyV1AtAssessment({...options,assessment}));
+}
+export function buildUnifiedSpeciesOpportunityInterpretationV1(...args) {
+  const options=args[0]??{}; const assessment=assessmentFromOptionsV1(options);
+  return withScientificAssessmentV1(assessment,()=>buildUnifiedSpeciesOpportunityInterpretationV1AtAssessment({...options,assessment}));
+}
+export function evaluateUnifiedOpenWaterOceanConditionsV1(...args) {
+  const options=args[0]??{}; const assessment=assessmentFromOptionsV1(options);
+  return withScientificAssessmentV1(assessment,()=>evaluateUnifiedOpenWaterOceanConditionsV1AtAssessment({...options,assessment}));
+}
+export function evaluateUnifiedPhysicalStructureOceanConditionsV1(...args) {
+  const options=args[0]??{}; const assessment=assessmentFromOptionsV1(options);
+  return withScientificAssessmentV1(assessment,()=>evaluateUnifiedPhysicalStructureOceanConditionsV1AtAssessment({...options,assessment}));
+}
+export function evaluateUnifiedOpportunityOceanConditionsV1(...args) {
+  const options=args[0]??{}; const assessment=assessmentFromOptionsV1(options);
+  return withScientificAssessmentV1(assessment,()=>evaluateUnifiedOpportunityOceanConditionsV1AtAssessment({...options,assessment}));
+}
+export function evaluateControlledGulfBlueMarlinV1(...args) {
+  const options=args[0]??{}; const assessment=assessmentFromOptionsV1(options);
+  return withScientificAssessmentV1(assessment,()=>evaluateControlledGulfBlueMarlinV1AtAssessment({...options,assessment}));
+}
+export function getChlorophyllConditions(...args) {
+  const assessment=resolveScientificAssessmentV1(args[2]); args[2]=assessment;
+  return withScientificAssessmentV1(assessment,()=>getChlorophyllConditionsAtAssessment(...args));
+}
+export function getGapFilledChlorophyllConditions(...args) {
+  const assessment=resolveScientificAssessmentV1(args[2]); args[2]=assessment;
+  return withScientificAssessmentV1(assessment,()=>getGapFilledChlorophyllConditionsAtAssessment(...args));
+}
+export function getCurrentConditionsPoint(...args) {
+  const assessment=resolveScientificAssessmentV1(args[2]); args[2]=assessment;
+  return withScientificAssessmentV1(assessment,()=>getCurrentConditionsPointAtAssessment(...args));
+}
+export function getCachedCurrentConditionsPoint(...args) {
+  const assessment=resolveScientificAssessmentV1(args[2]); args[2]=assessment;
+  return withScientificAssessmentV1(assessment,()=>getCachedCurrentConditionsPointAtAssessment(...args));
+}
+export function getCurrentSpatialStructure(...args) {
+  const assessment=resolveScientificAssessmentV1(args[2]); args[2]=assessment;
+  return withScientificAssessmentV1(assessment,()=>getCurrentSpatialStructureAtAssessment(...args));
+}
+export function getSstSpatialStructure(...args) {
+  const assessment=resolveScientificAssessmentV1(args[3]); args[3]=assessment;
+  return withScientificAssessmentV1(assessment,()=>getSstSpatialStructureAtAssessment(...args));
+}
+function getOceanConditions(...args) {
+  const options=args[2]??{}; const assessment=assessmentFromOptionsV1(options);
+  return withScientificAssessmentV1(assessment,()=>getOceanConditionsAtAssessment(args[0],args[1],{...options,assessment}));
+}
+
+function assessmentFromOptionsV1(options) {
+  const descriptor=Object.getOwnPropertyDescriptor(options,'assessment');
+  if(descriptor && !Object.hasOwn(descriptor,'value'))throw new TypeError('Accessor scientific assessment rejected');
+  if(!descriptor && 'assessment' in options)throw new TypeError('Inherited scientific assessment rejected');
+  return resolveScientificAssessmentV1(descriptor?.value);
 }
