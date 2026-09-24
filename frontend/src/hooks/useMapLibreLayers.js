@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import {enforcePeloraLayerOrder} from "../utils/peloraMapStyle.js";
 
 export function useMapLibreLayers({
   mapRef,
@@ -51,60 +52,7 @@ export function useMapLibreLayers({
         layers.locations !== false
       );
 
-      /*
-       * Keep ocean evidence beneath
-       * location and cluster context.
-       */
-
-      if (
-        map.getLayer(
-          "chlorophyll-raster"
-        )
-      ) {
-        map.moveLayer(
-          "chlorophyll-raster"
-        );
-      }
-
-      if (
-        map.getLayer(
-          "structure-clusters"
-        )
-      ) {
-        map.moveLayer(
-          "structure-clusters"
-        );
-      }
-
-      if (
-        map.getLayer(
-          "structure-cluster-count"
-        )
-      ) {
-        map.moveLayer(
-          "structure-cluster-count"
-        );
-      }
-
-      if (
-        map.getLayer(
-          "fad-clusters"
-        )
-      ) {
-        map.moveLayer(
-          "fad-clusters"
-        );
-      }
-
-      if (
-        map.getLayer(
-          "fad-cluster-count"
-        )
-      ) {
-        map.moveLayer(
-          "fad-cluster-count"
-        );
-      }
+      enforcePeloraLayerOrder(map);
     };
 
     if (map.isStyleLoaded()) {

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import maplibregl from "maplibre-gl";
+import {PELORA_BASEMAP_URL, createPeloraMapStyle, enforcePeloraLayerOrder} from "../utils/peloraMapStyle.js";
 
 export function useMapLibreSetup({
   containerRef,
@@ -20,8 +21,7 @@ export function useMapLibreSetup({
     const map = new maplibregl.Map({
       container: containerRef.current,
 
-      style:
-        "https://demotiles.maplibre.org/style.json",
+      style: null,
 
       center: [-89, 27.5],
 
@@ -35,6 +35,17 @@ export function useMapLibreSetup({
      * cannot create a second map during initialization.
      */
     mapRef.current = map;
+
+    let ordering = false;
+    const orderLayers = () => {
+      if (ordering || mapRef.current !== map) return;
+      ordering = true;
+      try { enforcePeloraLayerOrder(map); } finally { ordering = false; }
+    };
+    map.on("styledata", orderLayers);
+    map.setStyle(PELORA_BASEMAP_URL, {
+      transformStyle: (_previous, next) => createPeloraMapStyle(next),
+    });
 
     map.addControl(
       new maplibregl.NavigationControl({
@@ -608,6 +619,7 @@ export function useMapLibreSetup({
 
 
     return () => {
+      map.off("styledata", orderLayers);
       map.off(
         "load",
         initializeMap

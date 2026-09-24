@@ -8309,6 +8309,29 @@ animation:
 /* Viewport field identity remains separate from selected-target evidence. */
 .ocean-field-status { position: absolute; top: 68px; left: 10px; z-index: 7; max-width: min(370px, calc(100% - 20px)); box-sizing: border-box; pointer-events: none; color: #dcecf3; background: rgba(7, 25, 37, .86); border-radius: 6px; padding: 6px 8px; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
 .ocean-field-status:empty { display: none; }
+
+/* Pelora visual foundation: neutral geography, never environmental evidence. */
+.map-intelligence-workspace .maplibre-map {
+  background: #101e29;
+  isolation: isolate;
+}
+.map-intelligence-workspace .maplibregl-marker.smartcharts-marker-anchor { z-index: 25; }
+.map-intelligence-workspace .maplibregl-marker.pelora-open-water-opportunity-anchor { z-index: 35; }
+.map-intelligence-workspace .maplibregl-ctrl-top-right { top: 72px; z-index: 40; }
+.map-intelligence-workspace .maplibregl-ctrl-group {
+  background: #121d26;
+  border: 1px solid #435661;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .3);
+  overflow: hidden;
+}
+.map-intelligence-workspace .maplibregl-ctrl-group button { width: 44px; height: 44px; }
+.map-intelligence-workspace .maplibregl-ctrl-group button + button { border-top-color: #34434f; }
+.map-intelligence-workspace .maplibregl-ctrl-group button:hover { background-color: #233440; }
+.map-intelligence-workspace .maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(1); }
+.map-intelligence-workspace .maplibregl-ctrl-group button:focus-visible { outline: 2px solid #b6dce9; outline-offset: -3px; }
+.map-intelligence-workspace .maplibregl-ctrl-attrib { background: rgba(9, 14, 19, .88); color: #b5c0c9; }
+.map-intelligence-workspace .maplibregl-ctrl-attrib a { color: #b5c0c9; }
 .ocean-field-status div + div { margin-top: 4px; }
 .field-bathy-swatch { display: inline-block; width: 28px; height: 12px; flex-shrink: 0; background: linear-gradient(90deg, #477781, #102737); }
 
