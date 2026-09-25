@@ -1,0 +1,309 @@
+{
+  "task": "12B.6C",
+  "baseline": "f94327ca4cd257ccfd424185d77c026b69efd421",
+  "verdict": "MISSING_GOVERNED_SOURCE",
+  "scope": "STOP diagnostic: full candidate quality cannot be inferred from locked normalized point captures. No candidate assembler, contract, resolver or species evaluator implemented.",
+  "comparisonTarget": "Current candidate environmental evidence versus capture reconstruction, before species interpretation",
+  "groups": [
+    {
+      "group": 1,
+      "outputField": "candidate.candidateId; coordinates; waterMask",
+      "previousClassification": "GOVERNED_EXISTING_CONTRACT",
+      "sourceInput": "candidate.candidateId; coordinates; waterMask",
+      "derivationFunction": "resolveOpportunityCandidateBathymetryV1 / governed catalogue",
+      "scientificConsumer": "Candidate catalogue and resolveOpportunityCandidateBathymetryV1",
+      "currentAuthority": "STATIC_SHARED_CONTEXT",
+      "comparison": "UNRESOLVED",
+      "finding": "Existing governed catalogue/static identity retained; no new candidate assembly or candidate binding qualified."
+    },
+    {
+      "group": 2,
+      "outputField": "sst.temperatureCelsius/Fahrenheit; requested/resolved coordinates",
+      "previousClassification": "FROZEN_CAPTURE_REQUIRED",
+      "sourceInput": "sst.temperatureCelsius/Fahrenheit; requested/resolved coordinates",
+      "derivationFunction": "getMarineConditions:7204 / getOceanConditionsAtAssessment:61265",
+      "scientificConsumer": "getMarineConditions / getSeaSurfaceTemperaturePoint",
+      "currentAuthority": "SOURCE_EVIDENCE",
+      "comparison": "UNRESOLVED",
+      "finding": "Locked point replay is qualified; complete central marine assembly has not been replay-qualified."
+    },
+    {
+      "group": 3,
+      "outputField": "sst.observedAt; timestampProvenance; directional sample observedAt",
+      "previousClassification": "FROZEN_CAPTURE_REQUIRED",
+      "sourceInput": "sst.observedAt; timestampProvenance; directional sample observedAt",
+      "derivationFunction": "getMarineConditions:7460 / dataQualityLayers:60667",
+      "scientificConsumer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "currentAuthority": "SOURCE_EVIDENCE",
+      "comparison": "UNRESOLVED",
+      "finding": "SST point provenance/time retained; marine aggregate observedAt selects weather time first and is not captured."
+    },
+    {
+      "group": 4,
+      "outputField": "sst.source; samples[].source; provider/classification/availability",
+      "previousClassification": "FROZEN_CAPTURE_REQUIRED",
+      "sourceInput": "sst.source; samples[].source; provider/classification/availability",
+      "derivationFunction": "getSstSpatialStructureAtAssessment:6988 / buildTemperatureEvidence",
+      "scientificConsumer": "getSstSpatialStructureAtAssessment / negative adequacy",
+      "currentAuthority": "SOURCE_EVIDENCE",
+      "comparison": "UNRESOLVED",
+      "finding": "Per-point source preserved; complete assembled source mapping not yet qualified."
+    },
+    {
+      "group": 5,
+      "outputField": "sst.derived.spatialStructure samples/direction/coverage/orientation/range/confidence",
+      "previousClassification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "sourceInput": "sst.derived.spatialStructure samples/direction/coverage/orientation/range/confidence",
+      "derivationFunction": "getSstSpatialStructureAtAssessment:6988",
+      "scientificConsumer": "createSstSpatialSamplePoints / deriveSstTransitionOrientation / assessSstTransitionConfidence",
+      "currentAuthority": "GOVERNED_DERIVATION",
+      "comparison": "UNRESOLVED",
+      "finding": "Existing range/orientation/confidence needs exact centre and selected neighbours plus outcomes. No full current-vs-replay proof performed after STOP."
+    },
+    {
+      "group": 6,
+      "outputField": "sst.derived.temperatureBand; governedEnvironmentalFeatureObservation",
+      "previousClassification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "sourceInput": "sst.derived.temperatureBand; governedEnvironmentalFeatureObservation",
+      "derivationFunction": "getOceanConditionsAtAssessment:61265",
+      "scientificConsumer": "classifySeaSurfaceTemperature / buildGovernedEnvironmentalFeatureObservationV1",
+      "currentAuthority": "GOVERNED_DERIVATION",
+      "comparison": "UNRESOLVED",
+      "finding": "Reuse temperature classification and governed feature observation; depends on complete spatial assembly."
+    },
+    {
+      "group": 7,
+      "outputField": "chlorophyll concentration; observedAt; provider/dataset/observationType/algorithm",
+      "previousClassification": "FROZEN_CAPTURE_REQUIRED",
+      "sourceInput": "chlorophyll concentration; observedAt; provider/dataset/observationType/algorithm",
+      "derivationFunction": "getChlorophyllConditionsAtAssessment / getGapFilledChlorophyllConditionsAtAssessment",
+      "scientificConsumer": "getChlorophyllConditionsAtAssessment / getGapFilledChlorophyllConditionsAtAssessment",
+      "currentAuthority": "SOURCE_EVIDENCE",
+      "comparison": "UNRESOLVED",
+      "finding": "Both normalized point products retained distinctly; no new candidate path qualified."
+    },
+    {
+      "group": 8,
+      "outputField": "chlorophyll ageHours; waterClassification; selectedObservation; freshness",
+      "previousClassification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "sourceInput": "chlorophyll ageHours; waterClassification; selectedObservation; freshness",
+      "derivationFunction": "resolveChlorophyllObservation:1851",
+      "scientificConsumer": "resolveChlorophyllObservation / current chlorophyll assemblers",
+      "currentAuthority": "GOVERNED_DERIVATION",
+      "comparison": "UNRESOLVED",
+      "finding": "Reuse resolveChlorophyllObservation with same age and settled outcomes; never substitute historical equivalence."
+    },
+    {
+      "group": 9,
+      "outputField": "chlorophyll spatial structure; salinity; density; vertical profiles",
+      "previousClassification": "UNRESOLVED",
+      "sourceInput": "chlorophyll spatial structure; salinity; density; vertical profiles",
+      "derivationFunction": "buildWaterMassAnalysis:12459 / buildMixingZoneAnalysis:12929",
+      "scientificConsumer": "buildWaterMassAnalysis / buildMixingZoneAnalysis",
+      "currentAuthority": "UNRESOLVED",
+      "comparison": "UNRESOLVED",
+      "finding": "Current water-mass/mixing consumers explicitly set spatialChlorophyllAvailable=false. Preserve limitation; no invented field mapping."
+    },
+    {
+      "group": 10,
+      "outputField": "currents speedKnots/directionDegrees/u/v; observedAt; requested/resolved coordinates",
+      "previousClassification": "FROZEN_CAPTURE_REQUIRED",
+      "sourceInput": "currents speedKnots/directionDegrees/u/v; observedAt; requested/resolved coordinates",
+      "derivationFunction": "getCurrentSpatialStructureAtAssessment:2642",
+      "scientificConsumer": "getCurrentConditionsPointAtAssessment",
+      "currentAuthority": "SOURCE_EVIDENCE",
+      "comparison": "UNRESOLVED",
+      "finding": "Point vector projection retained; complete candidate assembly not qualified."
+    },
+    {
+      "group": 11,
+      "outputField": "currents source provider/dataset/classification/availability; vectors[].source",
+      "previousClassification": "FROZEN_CAPTURE_REQUIRED",
+      "sourceInput": "currents source provider/dataset/classification/availability; vectors[].source",
+      "derivationFunction": "getCurrentSpatialStructureAtAssessment:2642",
+      "scientificConsumer": "getCurrentSpatialStructureAtAssessment",
+      "currentAuthority": "SOURCE_EVIDENCE",
+      "comparison": "UNRESOLVED",
+      "finding": "Per-vector source and requested/resolved coordinates must survive exact current projection."
+    },
+    {
+      "group": 12,
+      "outputField": "currents ageHours; derived spatialStructure/organization/relationshipContext/spatialPattern/vectorProjection/gradient/shear/convergence/edge",
+      "previousClassification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "sourceInput": "currents ageHours; derived spatialStructure/organization/relationshipContext/spatialPattern/vectorProjection/gradient/shear/convergence/edge",
+      "derivationFunction": "server.js:3010,3194,5630,3503,3947,4448,5239,4841; route:60470",
+      "scientificConsumer": "getOceanConditionsAtAssessment current analysis chain",
+      "currentAuthority": "GOVERNED_DERIVATION",
+      "comparison": "UNRESOLVED",
+      "finding": "Reuse organization -> relationship -> pattern -> projection -> gradient -> shear -> convergence -> edge. Exact directional selection and explicit time required."
+    },
+    {
+      "group": 13,
+      "outputField": "dataQuality.layers state/reason/observedAt/source; summary; overall",
+      "previousClassification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "sourceInput": "dataQuality.layers state/reason/observedAt/source; summary; overall",
+      "derivationFunction": "getOceanConditionsAtAssessment:60610-61243 / buildOceanEvidenceLineage:9785",
+      "scientificConsumer": "getOceanConditionsAtAssessment dataQualityLayers",
+      "currentAuthority": "GOVERNED_DERIVATION",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "finding": "Full quality requires uncaptured wind.speedKnots, waves.heightFeet, swell.heightFeet, marine.observedAt and marine.diagnostics.providerStatus.{weatherApi,marineApi}. Identical captures produce different quality."
+    },
+    {
+      "group": 14,
+      "outputField": "optional dataQuality.score",
+      "previousClassification": "UNRESOLVED",
+      "sourceInput": "optional dataQuality.score",
+      "derivationFunction": "buildOceanEvidenceConfidence:10179",
+      "scientificConsumer": "buildOceanEvidenceConfidence",
+      "currentAuthority": "UNRESOLVED",
+      "comparison": "UNRESOLVED",
+      "finding": "Optional quality score has a consumer, but current route does not emit it. Do not default or invent."
+    },
+    {
+      "group": 15,
+      "outputField": "uncertainty; quality flags; masks; missing reasons; provenance/lineage; frame/receipt digests",
+      "previousClassification": "UNRESOLVED",
+      "sourceInput": "uncertainty; quality flags; masks; missing reasons; provenance/lineage; frame/receipt digests",
+      "derivationFunction": "currentEvidenceCapture.mjs / current point parsers",
+      "scientificConsumer": "Ocean Product Frame / Ocean Product Archive / source adapters",
+      "currentAuthority": "UNRESOLVED",
+      "comparison": "UNRESOLVED",
+      "finding": "No independent mask/uncertainty arrays in the audited normalized point boundary. Full frame-to-current mapping remains unqualified; no invented quality flags."
+    },
+    {
+      "group": 16,
+      "outputField": "assessmentAt; family scientific age; SST sampleAgeHours",
+      "previousClassification": "GOVERNED_EXISTING_CONTRACT",
+      "sourceInput": "assessmentAt; family scientific age; SST sampleAgeHours",
+      "derivationFunction": "scientificAssessment.mjs",
+      "scientificConsumer": "scientificAssessment.mjs / current family functions",
+      "currentAuthority": "ASSESSMENT_CONTEXT",
+      "comparison": "UNRESOLVED",
+      "finding": "Reuse explicit request/scheduled assessment contracts; diagnostic uses fixed request assessment. No new scheduled candidate assembly proof."
+    },
+    {
+      "group": 17,
+      "outputField": "moon phase/context",
+      "previousClassification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "sourceInput": "moon phase/context",
+      "derivationFunction": "getMoonConditions / getOceanConditionsAtAssessment",
+      "scientificConsumer": "getMoonConditions",
+      "currentAuthority": "GOVERNED_DERIVATION",
+      "comparison": "UNRESOLVED",
+      "finding": "Existing explicit-time moon supplies diagnostic quality input; complete candidate replay not qualified."
+    },
+    {
+      "group": 18,
+      "outputField": "bathymetry elevation/classification; static structure relationships",
+      "previousClassification": "GOVERNED_EXISTING_CONTRACT",
+      "sourceInput": "bathymetry elevation/classification; static structure relationships",
+      "derivationFunction": "resolveOpportunityCandidateBathymetryV1:47385 / buildStructureEvidence:22206",
+      "scientificConsumer": "resolveOpportunityCandidateBathymetryV1 / buildStructureEvidence",
+      "currentAuthority": "STATIC_SHARED_CONTEXT",
+      "comparison": "UNRESOLVED",
+      "finding": "Reuse existing candidate-bound static bathymetry and location structure. No temporal timestamp or duplicated contract."
+    },
+    {
+      "group": 19,
+      "outputField": "oceanEvidence groups and environmental relationships; derived Ocean Signals",
+      "previousClassification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "sourceInput": "oceanEvidence groups and environmental relationships; derived Ocean Signals",
+      "derivationFunction": "assessOceanEvidence:9423 / buildOceanEvidenceLineage:9785",
+      "scientificConsumer": "assessOceanEvidence / assessOceanOpportunity / resolveOceanSignals",
+      "currentAuthority": "GOVERNED_DERIVATION",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "finding": "Neutral evidence lineage demonstrably inherits data-quality classification. Ocean Opportunity/derived signals are later interpretation and must not be copied into generic assembly automatically."
+    },
+    {
+      "group": 20,
+      "outputField": "species habitat/eligibility/gate/score/confidence/ranking permission",
+      "previousClassification": "SPECIES_CONFIGURATION",
+      "sourceInput": "species habitat/eligibility/gate/score/confidence/ranking permission",
+      "derivationFunction": "species evaluator boundary",
+      "scientificConsumer": "registered evaluator target; existing Blue Marlin composition",
+      "currentAuthority": "SPECIES_SCIENCE",
+      "comparison": "UNRESOLVED",
+      "finding": "OUTSIDE generic boundary: species configuration/interpretation remains downstream; not an input-equivalence claim."
+    },
+    {
+      "group": 21,
+      "outputField": "historical persistence; temporal narrative",
+      "previousClassification": "OPERATIONAL_REQUEST_ONLY",
+      "sourceInput": "historical persistence; temporal narrative",
+      "derivationFunction": "Ocean Memory / request history path",
+      "scientificConsumer": "Ocean Memory request path; persistence context",
+      "currentAuthority": "REQUEST_WRAPPER",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY",
+      "finding": "OUTSIDE current-evidence assembly: historical persistence remains nonblocking at tested current Blue Marlin scoring boundary. No temporal parity claimed."
+    },
+    {
+      "group": 22,
+      "outputField": "captain origin/range/identity/session/logs/mission",
+      "previousClassification": "CAPTAIN_PROJECTION",
+      "sourceInput": "captain origin/range/identity/session/logs/mission",
+      "derivationFunction": "outer request/projection",
+      "scientificConsumer": "outer request/projection",
+      "currentAuthority": "CAPTAIN_CONTEXT",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY",
+      "finding": "Captain projection excluded; no Auth/history route invoked."
+    },
+    {
+      "group": 23,
+      "outputField": "cache TTL; request duration/logs; retrievedAt; generatedAt",
+      "previousClassification": "OPERATIONAL_REQUEST_ONLY",
+      "sourceInput": "cache TTL; request duration/logs; retrievedAt; generatedAt",
+      "derivationFunction": "settleWithTiming / caches",
+      "scientificConsumer": "provider wrappers and transport",
+      "currentAuthority": "REQUEST_WRAPPER",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY",
+      "finding": "Operational timing/cache excluded; never substitute retrieval time for represented time."
+    },
+    {
+      "group": 24,
+      "outputField": "provider settled status; transport exception",
+      "previousClassification": "FROZEN_CAPTURE_REQUIRED",
+      "sourceInput": "provider settled status; transport exception",
+      "derivationFunction": "getMarineConditions:7204 / dataQualityLayers:60667",
+      "scientificConsumer": "settleWithTiming / getOceanConditionsAtAssessment",
+      "currentAuthority": "SOURCE_EVIDENCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "finding": "Locked capture retains point outcomes, not weather/marine aggregate provider statuses. Missing versus failed acquisition changes candidate quality state/reason."
+    }
+  ],
+  "demonstrations": [
+    {
+      "field": "normalized SST capture including source identity",
+      "classification": "EXACT_MATCH",
+      "result": "Same actual point parser output and identical capture across complete/missing/failed weather scenarios"
+    },
+    {
+      "field": "dataQuality.overall.classification",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "result": "complete versus insufficient for identical captures"
+    },
+    {
+      "field": "dataQuality.layers.wind.state/reason",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "result": "unavailable/no-valid-wind-value versus degraded/weather-provider-request-failed"
+    },
+    {
+      "field": "dataQuality.layers.sst.observedAt",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "result": "Changes with weather aggregate time while captured SST time remains unchanged"
+    },
+    {
+      "field": "oceanEvidence.lineage.inheritedWarnings",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "result": "Actual lineage adds data-quality:insufficient"
+    },
+    {
+      "field": "locked capture serialization/replay",
+      "classification": "EXACT_MATCH",
+      "result": "No network or Date.now required for replay/quality fragment given full explicit inputs"
+    }
+  ],
+  "unexplainedMismatches": 0,
+  "completeCandidateEquivalenceEstablished": false,
+  "nextGate": "Qualify same-product capture of marine/weather availability and aggregate timestamp inputs consumed by quality; then rerun complete current-versus-capture candidate assembly, including spatial derivations.",
+  "resolverRequirement": "Future injected readExact(captureReference) must return validated immutable content matching the full exact reference or fail closed. No latest lookup, storage selection, or durable resolution implemented."
+}
