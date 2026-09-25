@@ -1,0 +1,460 @@
+{
+  "status": "HISTORY_SELECTION_POLICY_REQUIRED",
+  "scope": "audit diagnostic; not a snapshot schema or full temporal qualification",
+  "policies": {
+    "lookback": "POLICY_REQUIRED",
+    "retention": "POLICY_REQUIRED",
+    "maximumAge": "UNKNOWN",
+    "regularSpacing": "NOT_ESTABLISHED",
+    "fourHourSufficiency": "NOT_ESTABLISHED",
+    "repeatedEvidenceSampling": "POLICY_REQUIRED",
+    "request48Rows": "REQUEST_IMPLEMENTATION_BOUNDARY"
+  },
+  "algorithms": [
+    {
+      "name": "buildOceanChangeAnalysis",
+      "source": "backend/server.js",
+      "inputs": {
+        "observation.values": "REQUIRED_FOR_REPLAY",
+        "intelligence.organization": "REQUIRED_FOR_REPLAY",
+        "representedAt": "REQUIRED_FOR_REPLAY",
+        "location": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": 2,
+      "time": "positive observed-time span; last pair; coordinate tolerance 0.0001 degrees",
+      "gaps": "no maximum gap established",
+      "outputs": "change facts",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildOceanChangeFromTimeSeries",
+      "source": "backend/server.js",
+      "inputs": {
+        "chronological observation snapshots": "REQUIRED_FOR_REPLAY",
+        "chronological intelligence snapshots": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": 2,
+      "time": "last two supplied snapshots",
+      "gaps": "no interpolation",
+      "outputs": "change facts",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildPersistenceEvidence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "organizationIndex": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological unique snapshot IDs",
+      "gaps": "selection policy unresolved",
+      "outputs": "organization persistence evidence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildSeaSurfaceTemperaturePersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "temperatureFahrenheit": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": 2,
+      "time": "strictly positive represented-time span",
+      "gaps": "invalid/missing samples filtered; gaps not capped",
+      "outputs": "feature persistence and confidence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildCurrentPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildCurrentEdgePersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildCurrentShearPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildCurrentConvergencePersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildEnvironmentalTransitionPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildSurfaceWaterCharacterPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildWaterMassPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildMixingZonePersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildOceanFrontPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildProductivityPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildClarityPersistence",
+      "source": "backend/server.js",
+      "inputs": {
+        "snapshotId": "REQUIRED_FOR_REPLAY",
+        "observedAt": "REQUIRED_FOR_REPLAY",
+        "family feature payload": "REQUIRED_FOR_REPLAY",
+        "availability": "REQUIRED_FOR_REPLAY",
+        "feature contract": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "chronological feature observations; per-family minimum requires qualification",
+      "gaps": "per-family behavior remains individually unqualified",
+      "outputs": "feature persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildTemporalFeatureContinuity",
+      "source": "backend/server.js",
+      "inputs": {
+        "feature persistence contract": "REQUIRED_FOR_REPLAY",
+        "featureType": "REQUIRED_FOR_REPLAY",
+        "featureFamily": "REQUIRED_FOR_REPLAY",
+        "sampleCount": "REQUIRED_FOR_REPLAY",
+        "first/lastObservedAt": "REQUIRED_FOR_REPLAY",
+        "durationHours": "REQUIRED_FOR_REPLAY",
+        "lifecycle": "REQUIRED_FOR_REPLAY",
+        "movement": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": 2,
+      "time": "positive chronological span",
+      "gaps": "upstream limits retained",
+      "outputs": "continuity facts",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedOpportunityEvidenceAccumulationV1",
+      "source": "backend/server.js",
+      "inputs": {
+        "candidateId": "REQUIRED_FOR_REPLAY",
+        "species": "REQUIRED_FOR_REPLAY",
+        "observation payload": "REQUIRED_FOR_REPLAY",
+        "evaluatedAt": "REQUIRED_FOR_REPLAY",
+        "eligibility": "REQUIRED_FOR_REPLAY",
+        "provenance": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "adapt valid observations and preserve identity; selected upstream",
+      "gaps": "shared selection unresolved",
+      "outputs": "accumulation",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedOpportunityContinuityV1",
+      "source": "backend/server.js",
+      "inputs": {
+        "candidateId": "REQUIRED_FOR_REPLAY",
+        "species": "REQUIRED_FOR_REPLAY",
+        "chronological window": "REQUIRED_FOR_REPLAY",
+        "eligible/excluded counts": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": 2,
+      "time": "positive evaluation-time span; consistent counts",
+      "gaps": "no new gap policy",
+      "outputs": "eligibility continuity, not environmental absence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedOpportunityEvidenceCoherenceV1",
+      "source": "backend/server.js",
+      "inputs": {
+        "governed accumulation": "REQUIRED_FOR_REPLAY",
+        "supporting evidence": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "upstream chronological evidence",
+      "gaps": "unresolved shared window",
+      "outputs": "coherence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedOpportunityPersistenceV1",
+      "source": "backend/server.js",
+      "inputs": {
+        "continuity": "REQUIRED_FOR_REPLAY",
+        "coherence": "REQUIRED_FOR_REPLAY",
+        "candidate/species": "REQUIRED_FOR_REPLAY",
+        "eligibility history": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "compatible upstream contracts",
+      "gaps": "upstream semantics",
+      "outputs": "governed Opportunity persistence",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedOpportunityMultiDayPersistenceIntelligenceV1",
+      "source": "backend/server.js",
+      "inputs": {
+        "supported persistence": "REQUIRED_FOR_REPLAY",
+        "first/lastEvaluatedAt": "REQUIRED_FOR_REPLAY",
+        "durationHours": "REQUIRED_FOR_REPLAY",
+        "observationCount": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": 2,
+      "time": "existing 24-hour multi-day threshold; not retention",
+      "gaps": "upstream semantics",
+      "outputs": "multi-day fact",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedOpportunityTrendEvidenceV1",
+      "source": "backend/server.js",
+      "inputs": {
+        "persistence": "REQUIRED_FOR_REPLAY",
+        "coherence": "REQUIRED_FOR_REPLAY",
+        "comparable environmental evidence": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "governed comparable surface",
+      "gaps": "unresolved shared window",
+      "outputs": "trend comparability",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedOpportunityTrendResolutionV1",
+      "source": "backend/server.js",
+      "inputs": {
+        "trend evidence": "REQUIRED_FOR_REPLAY",
+        "environmental direction evidence": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "existing governed trend path",
+      "gaps": "do not infer from rank",
+      "outputs": "trend facts",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedFeatureAssociation",
+      "source": "backend/server.js",
+      "inputs": {
+        "governed feature observations": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "feature identity/provenance, not display label",
+      "gaps": "unresolved shared selection",
+      "outputs": "association",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildGovernedFeatureMovement",
+      "source": "backend/server.js",
+      "inputs": {
+        "association resolution": "REQUIRED_FOR_REPLAY",
+        "historical/current feature geometry": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "governed identity/time geometry only",
+      "gaps": "no invented trajectory",
+      "outputs": "movement",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildOceanEvolution",
+      "source": "backend/server.js",
+      "inputs": {
+        "oceanChange": "REQUIRED_FOR_REPLAY",
+        "oceanPersistence": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "upstream inputs",
+      "gaps": "upstream limitations",
+      "outputs": "evolution",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    },
+    {
+      "name": "buildTemporalOceanExplainability",
+      "source": "backend/server.js",
+      "inputs": {
+        "oceanEvolution": "REQUIRED_FOR_REPLAY"
+      },
+      "minimumSnapshots": "UNRESOLVED",
+      "time": "upstream facts",
+      "gaps": "preserve unavailable reasons",
+      "outputs": "temporal narrative facts",
+      "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
+      "historyPolicyQualified": false
+    }
+  ],
+  "fieldBoundary": {
+    "candidateIdentity": "REQUIRED_FOR_CONTINUITY",
+    "species": "REQUIRED_FOR_CONTINUITY",
+    "representedTime": "REQUIRED_FOR_REPLAY",
+    "assessmentTime": "REQUIRED_FOR_REPLAY",
+    "sourceEvidenceReferences": "REQUIRED_FOR_REPLAY",
+    "qualityProvenanceLineage": "REQUIRED_FOR_REPLAY",
+    "captainRank": "NOT_REQUIRED",
+    "captainIdentity": "NOT_REQUIRED",
+    "priorScoreConfidence": "UNRESOLVED",
+    "featureGeometry": "REQUIRED_FOR_CONTINUITY",
+    "eligibilityExclusionReason": "REQUIRED_FOR_CONTINUITY"
+  }
+}
