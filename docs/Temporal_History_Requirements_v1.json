@@ -25,7 +25,93 @@
       "gaps": "no maximum gap established",
       "outputs": "change facts",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 16443,
+        "sourceSha256": "f8070e68a8f1cdea771688e20f4451add3e46fd8351fd75daec443b59929ef5d",
+        "existingTestMentions": 6,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "observation.values",
+            "intelligence.organization",
+            "representedAt",
+            "location"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "BOTH"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "upstream snapshot/feature timestamps"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "Two observation snapshots and corresponding intelligence snapshots; not a universal history requirement."
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "explicit previous/current or validated upstream ordering"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "Current observed timestamp strictly later than previous observed timestamp."
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "VERIFIED",
+          "value": "Both coordinates present and absolute latitude/longitude differences each <=0.0001 degrees; comparability test does not prove candidate identity."
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "change facts"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is change facts; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildOceanChangeFromTimeSeries",
@@ -39,7 +125,91 @@
       "gaps": "no interpolation",
       "outputs": "change facts",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 21062,
+        "sourceSha256": "9a0a653767022a1764e78b0ae670b9c350522cecbcdf347928af735eab32ae34",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "chronological observation snapshots",
+            "chronological intelligence snapshots"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "BOTH"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "upstream snapshot/feature timestamps"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "Two observation snapshots and corresponding intelligence snapshots; not a universal history requirement."
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "explicit previous/current or validated upstream ordering"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "Current observed timestamp strictly later than previous observed timestamp."
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "change facts"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "last two supplied records is local consumer selection, not source lookback"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is change facts; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildPersistenceEvidence",
@@ -55,7 +225,93 @@
       "gaps": "selection policy unresolved",
       "outputs": "organization persistence evidence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 22930,
+        "sourceSha256": "b7245277342d03f4038841384db8d3244c104cc721ed28d222ad75385989f173",
+        "existingTestMentions": 5,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "organizationIndex",
+            "availability"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological unique snapshot IDs"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "organization persistence evidence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is organization persistence evidence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildSeaSurfaceTemperaturePersistence",
@@ -71,7 +327,93 @@
       "gaps": "invalid/missing samples filtered; gaps not capped",
       "outputs": "feature persistence and confidence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 26462,
+        "sourceSha256": "2f99e659663ac4fd3f5d69916327a4a2252c3ce402e99eb20335f0ba1a5f2f9a",
+        "existingTestMentions": 3,
+        "family": {
+          "status": "VERIFIED",
+          "value": "SST"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "temperatureFahrenheit",
+            "availability"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "strictly positive represented-time span"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence and confidence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence and confidence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildCurrentPersistence",
@@ -88,7 +430,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 26927,
+        "sourceSha256": "e8efaafcb4533d21668d2d7f22d6f998345c76a3413cbaca63ef1e0f5ecc6b9c",
+        "existingTestMentions": 7,
+        "family": {
+          "status": "VERIFIED",
+          "value": "currents"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshot.identity.snapshotId",
+            "snapshot.metadata.time.observedAt",
+            "snapshot.available",
+            "snapshot.observation.observations.currents.speedKnots",
+            "snapshot.observation.observations.currents.directionDegrees"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "At least two valid samples and positive observed-time span."
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildCurrentEdgePersistence",
@@ -105,7 +534,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 27518,
+        "sourceSha256": "bf520d0c1c350f3d9533fc62b95307ad90d46a358cebd88b220ca32974150a35",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "currents"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildCurrentShearPersistence",
@@ -122,7 +638,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 28091,
+        "sourceSha256": "56d5269fbbefb90fa8fc0a80f0e9f07a58a59f87f2b3927ad047aaf5f5b9ac90",
+        "existingTestMentions": 3,
+        "family": {
+          "status": "VERIFIED",
+          "value": "currents"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildCurrentConvergencePersistence",
@@ -139,7 +742,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 28707,
+        "sourceSha256": "74db29a590924eb6365057f76de015fdd45cd329762fbea826d875dea4d09cea",
+        "existingTestMentions": 3,
+        "family": {
+          "status": "VERIFIED",
+          "value": "currents"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildEnvironmentalTransitionPersistence",
@@ -156,7 +846,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 29368,
+        "sourceSha256": "13ef4f6cacfcd57669d97441a9adb0b3dcfcb7148d2a54631c510eb523272733",
+        "existingTestMentions": 3,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildSurfaceWaterCharacterPersistence",
@@ -173,7 +950,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 30075,
+        "sourceSha256": "77ba63b50bb7726f93db182f527482817a958c3e2ac0be6dab1cc06d274c4324",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildWaterMassPersistence",
@@ -190,7 +1054,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 30809,
+        "sourceSha256": "904fb6840f1c7f3df209dd83b3c7b2e8ba72729b5a1dc37326152df7d9221bcc",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildMixingZonePersistence",
@@ -207,7 +1158,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 31540,
+        "sourceSha256": "083d3b8ce0fdf77d4a6e51758bfb7124cec2e9674189786c1b7ada8ad201e0fb",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildOceanFrontPersistence",
@@ -224,7 +1262,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 32359,
+        "sourceSha256": "4f347d84ed98237c074ed241729f29058a3471bb1e811b10a93fd8af29791094",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "OBSERVATION_HISTORY"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildProductivityPersistence",
@@ -241,7 +1366,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 33194,
+        "sourceSha256": "aba0fb114323b29cd330df7b8c8a72347344db605446891ebb6b77f7ef20aad0",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "chlorophyll-derived"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "BOTH"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "Consumes previously interpreted age/freshness; family represented timestamp remains ordering authority. Historical assessment provenance selection remains unresolved."
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "recorded freshness participates; direct/reconstructed equivalence still unqualified"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildClarityPersistence",
@@ -258,7 +1470,94 @@
       "gaps": "per-family behavior remains individually unqualified",
       "outputs": "feature persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 33870,
+        "sourceSha256": "b7dfdc1dc67651b19cdf6f94091986f8f1d870652c1aa6cb130b0ab7ca7a3c23",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "chlorophyll-derived"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "snapshotId",
+            "observedAt",
+            "family feature payload",
+            "availability",
+            "feature contract"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "BOTH"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "source observation timestamp; family override where encoded"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "Consumes previously interpreted age/freshness; family represented timestamp remains ordering authority. Historical assessment provenance selection remains unresolved."
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "sort observed timestamp"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "deduplicate snapshotId; does not establish environmental identity"
+        },
+        "repeatedValues": {
+          "status": "VERIFIED",
+          "value": "no equality-of-values deduplication; valid sample count can affect confidence"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "chronological feature observations; per-family minimum requires qualification"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "recorded freshness participates; direct/reconstructed equivalence still unqualified"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "feature persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is feature persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildTemporalFeatureContinuity",
@@ -278,7 +1577,97 @@
       "gaps": "upstream limits retained",
       "outputs": "continuity facts",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 26071,
+        "sourceSha256": "5b3a878284cc12709d9a3546cfc94f662ab6d002e67163bc4bf40f8cc1584daf",
+        "existingTestMentions": 5,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "feature persistence contract",
+            "featureType",
+            "featureFamily",
+            "sampleCount",
+            "first/lastObservedAt",
+            "durationHours",
+            "lifecycle",
+            "movement"
+          ]
+        },
+        "historyClass": {
+          "status": "UNRESOLVED",
+          "value": "UNRESOLVED"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "upstream snapshot/feature timestamps"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "explicit previous/current or validated upstream ordering"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "positive chronological span"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "continuity facts"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is continuity facts; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedOpportunityEvidenceAccumulationV1",
@@ -296,7 +1685,95 @@
       "gaps": "shared selection unresolved",
       "outputs": "accumulation",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 49623,
+        "sourceSha256": "3e7ce9af3d08ea8bdcd39fbc4e2780b30c80519c569d460829ec000a0f13a6ab",
+        "existingTestMentions": 5,
+        "family": {
+          "status": "VERIFIED",
+          "value": "Opportunity"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "candidateId",
+            "species",
+            "observation payload",
+            "evaluatedAt",
+            "eligibility",
+            "provenance"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "ASSESSMENT_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "not primary ordering; retain underlying evidence separately"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt/window from governed decision history"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt chronology/upstream governed window"
+        },
+        "duplicates": {
+          "status": "VERIFIED",
+          "value": "Deduplicates observationId then sorts evaluatedAt; decision record identity does not establish distinct environmental observations."
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "adapt valid observations and preserve identity; selected upstream"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "accumulation"
+        },
+        "scoring": {
+          "status": "VERIFIED",
+          "value": "Accumulation does not average score or confidence or grant ranking authority."
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is accumulation; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedOpportunityContinuityV1",
@@ -312,7 +1789,93 @@
       "gaps": "no new gap policy",
       "outputs": "eligibility continuity, not environmental absence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 50014,
+        "sourceSha256": "c4bb91991c3bfb4b3a4cfca0da024160f48985fa2747ec8fd41ccb104627ed46",
+        "existingTestMentions": 7,
+        "family": {
+          "status": "VERIFIED",
+          "value": "Opportunity"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "candidateId",
+            "species",
+            "chronological window",
+            "eligible/excluded counts"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "ASSESSMENT_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "not primary ordering; retain underlying evidence separately"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt/window from governed decision history"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt chronology/upstream governed window"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "positive evaluation-time span; consistent counts"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "eligibility continuity, not environmental absence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is eligibility continuity, not environmental absence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedOpportunityEvidenceCoherenceV1",
@@ -326,7 +1889,91 @@
       "gaps": "unresolved shared window",
       "outputs": "coherence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 50329,
+        "sourceSha256": "7896f9ecf0a8907928188dca9c398c49d76bd5aefdb55298b09a97da8bafa1a9",
+        "existingTestMentions": 10,
+        "family": {
+          "status": "VERIFIED",
+          "value": "Opportunity"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "governed accumulation",
+            "supporting evidence"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "ASSESSMENT_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "not primary ordering; retain underlying evidence separately"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt/window from governed decision history"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt chronology/upstream governed window"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "upstream chronological evidence"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "coherence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is coherence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedOpportunityPersistenceV1",
@@ -342,7 +1989,93 @@
       "gaps": "upstream semantics",
       "outputs": "governed Opportunity persistence",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 50829,
+        "sourceSha256": "157a7db8d58f8f7808fbc3c0f08fe23de98e27315752fc72b71c1332b951fdca",
+        "existingTestMentions": 10,
+        "family": {
+          "status": "VERIFIED",
+          "value": "Opportunity"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "continuity",
+            "coherence",
+            "candidate/species",
+            "eligibility history"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "ASSESSMENT_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "not primary ordering; retain underlying evidence separately"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt/window from governed decision history"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt chronology/upstream governed window"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "compatible upstream contracts"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "governed Opportunity persistence"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is governed Opportunity persistence; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedOpportunityMultiDayPersistenceIntelligenceV1",
@@ -358,7 +2091,93 @@
       "gaps": "upstream semantics",
       "outputs": "multi-day fact",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 51239,
+        "sourceSha256": "c96503460571b4e01525b8ad758f529a78282b1496fd347bb7d2bd0c184bbd5b",
+        "existingTestMentions": 8,
+        "family": {
+          "status": "VERIFIED",
+          "value": "Opportunity"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "supported persistence",
+            "first/lastEvaluatedAt",
+            "durationHours",
+            "observationCount"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "ASSESSMENT_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "not primary ordering; retain underlying evidence separately"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt/window from governed decision history"
+        },
+        "minimumSamples": {
+          "status": "VERIFIED",
+          "value": "at least two at the tested/code gate"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt chronology/upstream governed window"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "VERIFIED",
+          "value": "existing 24-hour multi-day threshold; not retention"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "multi-day fact"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is multi-day fact; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedOpportunityTrendEvidenceV1",
@@ -373,7 +2192,92 @@
       "gaps": "unresolved shared window",
       "outputs": "trend comparability",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 51555,
+        "sourceSha256": "a450177d982d3137840c797901a933647982da28ef21e436a39d356d468a98c4",
+        "existingTestMentions": 12,
+        "family": {
+          "status": "VERIFIED",
+          "value": "Opportunity"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "persistence",
+            "coherence",
+            "comparable environmental evidence"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "ASSESSMENT_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "not primary ordering; retain underlying evidence separately"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt/window from governed decision history"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt chronology/upstream governed window"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "governed comparable surface"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "trend comparability"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is trend comparability; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedOpportunityTrendResolutionV1",
@@ -387,7 +2291,91 @@
       "gaps": "do not infer from rank",
       "outputs": "trend facts",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 52170,
+        "sourceSha256": "4a53e0284c084047e8b01f67dd9ee79488a8c50ee86216f978abade64bf39e39",
+        "existingTestMentions": 13,
+        "family": {
+          "status": "VERIFIED",
+          "value": "Opportunity"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "trend evidence",
+            "environmental direction evidence"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "ASSESSMENT_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "not primary ordering; retain underlying evidence separately"
+        },
+        "assessmentTime": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt/window from governed decision history"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "evaluatedAt chronology/upstream governed window"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "existing governed trend path"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "trend facts"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is trend facts; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedFeatureAssociation",
@@ -400,7 +2388,90 @@
       "gaps": "unresolved shared selection",
       "outputs": "association",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 24833,
+        "sourceSha256": "7410147617017d7d59a8f9a8d103d4997d453426b264c4114ecc7e9b2af86763",
+        "existingTestMentions": 8,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "governed feature observations"
+          ]
+        },
+        "historyClass": {
+          "status": "UNRESOLVED",
+          "value": "UNRESOLVED"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "upstream snapshot/feature timestamps"
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "explicit previous/current or validated upstream ordering"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "feature identity/provenance, not display label"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "association"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is association; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildGovernedFeatureMovement",
@@ -414,7 +2485,91 @@
       "gaps": "no invented trajectory",
       "outputs": "movement",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 25663,
+        "sourceSha256": "3a0951d84c83b1f650a107c61e3550aa1bf380a1b192396ada588c4e3af2b513",
+        "existingTestMentions": 4,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "association resolution",
+            "historical/current feature geometry"
+          ]
+        },
+        "historyClass": {
+          "status": "UNRESOLVED",
+          "value": "UNRESOLVED"
+        },
+        "representedTime": {
+          "status": "VERIFIED",
+          "value": "Uses explicit historical/current feature position observedAt; current must be later."
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "VERIFIED",
+          "value": "explicit previous/current or validated upstream ordering"
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "governed identity/time geometry only"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "VERIFIED",
+          "value": "Resolved governed feature association and explicit finite historical/current feature coordinates; observation/request coordinates are not a substitute."
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "movement"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is movement; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildOceanEvolution",
@@ -428,7 +2583,91 @@
       "gaps": "upstream limitations",
       "outputs": "evolution",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 35165,
+        "sourceSha256": "cd99d49c98eb7cb34da2e6357fe66ae6346a506aeb969ef79671bb6cf7d7409a",
+        "existingTestMentions": 6,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "oceanChange",
+            "oceanPersistence"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "NO_TEMPORAL_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "No independent historical sequence selection; upstream facts retain time authority."
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "NOT_APPLICABLE",
+          "value": "Composes already-derived temporal facts; does not select/order raw historical samples."
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream inputs"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "evolution"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is evolution; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     },
     {
       "name": "buildTemporalOceanExplainability",
@@ -441,7 +2680,90 @@
       "gaps": "preserve unavailable reasons",
       "outputs": "temporal narrative facts",
       "captainContext": "source qualification required; pure algorithm inputs carry no Auth requirement",
-      "historyPolicyQualified": false
+      "historyPolicyQualified": false,
+      "selectionAudit": {
+        "sourceStartLine": 35659,
+        "sourceSha256": "e53296dbf312fc22ba3e7a6e6a39bc21058ffb08c4279bdcff2497ab221c0da7",
+        "existingTestMentions": 5,
+        "family": {
+          "status": "VERIFIED",
+          "value": "cross-family/feature"
+        },
+        "inputShape": {
+          "status": "VERIFIED",
+          "value": [
+            "oceanEvolution"
+          ]
+        },
+        "historyClass": {
+          "status": "VERIFIED",
+          "value": "NO_TEMPORAL_HISTORY"
+        },
+        "representedTime": {
+          "status": "NOT_APPLICABLE",
+          "value": "No independent historical sequence selection; upstream facts retain time authority."
+        },
+        "assessmentTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream interpretation time must remain distinct; no new wall clock"
+        },
+        "minimumSamples": {
+          "status": "UNRESOLVED",
+          "value": "inherited/compositional; not a universal minimum"
+        },
+        "ordering": {
+          "status": "NOT_APPLICABLE",
+          "value": "Composes already-derived temporal facts; does not select/order raw historical samples."
+        },
+        "duplicates": {
+          "status": "UNRESOLVED",
+          "value": "upstream record identity or explicit pair; global identity selection unresolved"
+        },
+        "repeatedValues": {
+          "status": "UNRESOLVED",
+          "value": "do not infer distinct environmental evidence from decision history"
+        },
+        "elapsedTime": {
+          "status": "UNRESOLVED",
+          "value": "upstream facts"
+        },
+        "gap": {
+          "status": "POLICY_REQUIRED",
+          "value": "calculability is not qualification; no universal maximum gap established"
+        },
+        "admissibility": {
+          "status": "POLICY_REQUIRED",
+          "value": "available/valid input gates do not establish historical family admissibility"
+        },
+        "revision": {
+          "status": "POLICY_REQUIRED",
+          "value": "as-used exact evidence retained; same-support corrections not independent temporal support; preference unresolved"
+        },
+        "location": {
+          "status": "UNRESOLVED",
+          "value": "governed candidate/feature identity and payload comparability must be qualified"
+        },
+        "output": {
+          "status": "VERIFIED",
+          "value": "temporal narrative facts"
+        },
+        "scoring": {
+          "status": "UNRESOLVED",
+          "value": "feature confidence or documentary output may change; no inference of final Blue Marlin ranking effects"
+        },
+        "lookback": {
+          "status": "POLICY_REQUIRED",
+          "value": "no qualified maximum historical window"
+        },
+        "retention": {
+          "status": "NOT_APPLICABLE",
+          "value": "storage retention not selected"
+        },
+        "documentary": {
+          "status": "UNRESOLVED",
+          "value": "Direct output is temporal narrative facts; downstream scientific versus documentary use must not be inferred from this local consumer alone."
+        }
+      }
     }
   ],
   "fieldBoundary": {
@@ -456,5 +2778,8 @@
     "priorScoreConfidence": "UNRESOLVED",
     "featureGeometry": "REQUIRED_FOR_CONTINUITY",
     "eligibilityExclusionReason": "REQUIRED_FOR_CONTINUITY"
-  }
+  },
+  "selectionVerdict": "CONSUMER_AWARE_POLICY_REQUIRED",
+  "safeSelectorQualified": false,
+  "selectionAuditVersion": "pelora-temporal-selection-requirements-v1"
 }
