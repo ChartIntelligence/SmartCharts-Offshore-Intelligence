@@ -1,0 +1,494 @@
+{
+  "task": "12B.6B",
+  "baseline": "af83f03f165e3bd23024e47e8a0d11e0a6f95c53",
+  "scope": "Same-product normalized point source capture only; no candidate reconstruction or source qualification",
+  "groups": [
+    {
+      "group": 1,
+      "field": "candidate.candidateId; coordinates; waterMask",
+      "classification": "GOVERNED_EXISTING_CONTRACT",
+      "consumer": "Candidate catalogue and resolveOpportunityCandidateBathymetryV1",
+      "note": "Governed candidate geometry, not captain origin"
+    },
+    {
+      "group": 2,
+      "field": "sst.temperatureCelsius/Fahrenheit; requested/resolved coordinates",
+      "classification": "FROZEN_CAPTURE_REQUIRED",
+      "consumer": "getMarineConditions / getSeaSurfaceTemperaturePoint",
+      "note": "Exact current Open-Meteo point response; retained NOAA analysis is a different product"
+    },
+    {
+      "group": 3,
+      "field": "sst.observedAt; timestampProvenance; directional sample observedAt",
+      "classification": "FROZEN_CAPTURE_REQUIRED",
+      "consumer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "note": "Qualified represented-time authority for the exact source; retained NOAA has unknown support/null observationTime"
+    },
+    {
+      "group": 4,
+      "field": "sst.source; samples[].source; provider/classification/availability",
+      "classification": "FROZEN_CAPTURE_REQUIRED",
+      "consumer": "getSstSpatialStructureAtAssessment / negative adequacy",
+      "note": "Exact source and per-point outcome, not arbitrary caller strings"
+    },
+    {
+      "group": 5,
+      "field": "sst.derived.spatialStructure samples/direction/coverage/orientation/range/confidence",
+      "classification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "consumer": "createSstSpatialSamplePoints / deriveSstTransitionOrientation / assessSstTransitionConfidence",
+      "note": "Reuse existing derivation with complete exact directional source selection; no center-cell fabrication"
+    },
+    {
+      "group": 6,
+      "field": "sst.derived.temperatureBand; governedEnvironmentalFeatureObservation",
+      "classification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "consumer": "classifySeaSurfaceTemperature / buildGovernedEnvironmentalFeatureObservationV1",
+      "note": "Derived from the same admitted spatial inputs, not an independent archive observation"
+    },
+    {
+      "group": 7,
+      "field": "chlorophyll concentration; observedAt; provider/dataset/observationType/algorithm",
+      "classification": "FROZEN_CAPTURE_REQUIRED",
+      "consumer": "getChlorophyllConditionsAtAssessment / getGapFilledChlorophyllConditionsAtAssessment",
+      "note": "Direct and DINEOF gap-filled point payloads and outcomes must remain distinct"
+    },
+    {
+      "group": 8,
+      "field": "chlorophyll ageHours; waterClassification; selectedObservation; freshness",
+      "classification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "consumer": "resolveChlorophyllObservation / current chlorophyll assemblers",
+      "note": "Existing direct/gap selection plus explicit assessment; no new freshness rule"
+    },
+    {
+      "group": 9,
+      "field": "chlorophyll spatial structure; salinity; density; vertical profiles",
+      "classification": "UNRESOLVED",
+      "consumer": "buildWaterMassAnalysis / buildMixingZoneAnalysis",
+      "note": "Current absence/limitations must be preserved; no qualified new spatial chlorophyll source found"
+    },
+    {
+      "group": 10,
+      "field": "currents speedKnots/directionDegrees/u/v; observedAt; requested/resolved coordinates",
+      "classification": "FROZEN_CAPTURE_REQUIRED",
+      "consumer": "getCurrentConditionsPointAtAssessment",
+      "note": "Exact current product point/vector evidence, source time, units and component convention"
+    },
+    {
+      "group": 11,
+      "field": "currents source provider/dataset/classification/availability; vectors[].source",
+      "classification": "FROZEN_CAPTURE_REQUIRED",
+      "consumer": "getCurrentSpatialStructureAtAssessment",
+      "note": "No archive-to-current-product qualification mapping found; acquisition failure differs from valid no-pixel"
+    },
+    {
+      "group": 12,
+      "field": "currents ageHours; derived spatialStructure/organization/relationshipContext/spatialPattern/vectorProjection/gradient/shear/convergence/edge",
+      "classification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "consumer": "getOceanConditionsAtAssessment current analysis chain",
+      "note": "Same existing assemblers from complete frozen directional vectors and failure outcomes"
+    },
+    {
+      "group": 13,
+      "field": "dataQuality.layers state/reason/observedAt/source; summary; overall",
+      "classification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "consumer": "getOceanConditionsAtAssessment dataQualityLayers",
+      "note": "Requires numeric availability, family-specific age and settled provider outcomes; absence of archived frame is not proof provider failed"
+    },
+    {
+      "group": 14,
+      "field": "optional dataQuality.score",
+      "classification": "UNRESOLVED",
+      "consumer": "buildOceanEvidenceConfidence",
+      "note": "Consumer supports it but current request assembly does not emit it; do not fabricate"
+    },
+    {
+      "group": 15,
+      "field": "uncertainty; quality flags; masks; missing reasons; provenance/lineage; frame/receipt digests",
+      "classification": "UNRESOLVED",
+      "consumer": "Ocean Product Frame / Ocean Product Archive / source adapters",
+      "note": "Existing contracts preserve these; request-product correspondence and qualified sampling remain missing; NOAA uncertainty is not score confidence"
+    },
+    {
+      "group": 16,
+      "field": "assessmentAt; family scientific age; SST sampleAgeHours",
+      "classification": "GOVERNED_EXISTING_CONTRACT",
+      "consumer": "scientificAssessment.mjs / current family functions",
+      "note": "One immutable assessment; no nominal/retrieval time substitution"
+    },
+    {
+      "group": 17,
+      "field": "moon phase/context",
+      "classification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "consumer": "getMoonConditions",
+      "note": "Existing algorithm at assessmentAt; no direct phase input in audited habitat scoring call"
+    },
+    {
+      "group": 18,
+      "field": "bathymetry elevation/classification; static structure relationships",
+      "classification": "GOVERNED_EXISTING_CONTRACT",
+      "consumer": "resolveOpportunityCandidateBathymetryV1 / buildStructureEvidence",
+      "note": "Existing static source/location and governing rules; no temporal multiplication"
+    },
+    {
+      "group": 19,
+      "field": "oceanEvidence groups and environmental relationships; derived Ocean Signals",
+      "classification": "DERIVABLE_FROM_FROZEN_GOVERNED_SOURCE",
+      "consumer": "assessOceanEvidence / assessOceanOpportunity / resolveOceanSignals",
+      "note": "Reuse after source reconstruction; labels alone do not establish feature identity"
+    },
+    {
+      "group": 20,
+      "field": "species habitat/eligibility/gate/score/confidence/ranking permission",
+      "classification": "SPECIES_CONFIGURATION",
+      "consumer": "registered evaluator target; existing Blue Marlin composition",
+      "note": "Outside generic reconstruction; not invoked to conceal field mismatches"
+    },
+    {
+      "group": 21,
+      "field": "historical persistence; temporal narrative",
+      "classification": "OPERATIONAL_REQUEST_ONLY",
+      "consumer": "Ocean Memory request path; persistence context",
+      "note": "Documentary/nonblocking at tested current scoring boundary; not a source of missing current evidence"
+    },
+    {
+      "group": 22,
+      "field": "captain origin/range/identity/session/logs/mission",
+      "classification": "CAPTAIN_PROJECTION",
+      "consumer": "outer request/projection",
+      "note": "Excluded from candidate environmental reconstruction"
+    },
+    {
+      "group": 23,
+      "field": "cache TTL; request duration/logs; retrievedAt; generatedAt",
+      "classification": "OPERATIONAL_REQUEST_ONLY",
+      "consumer": "provider wrappers and transport",
+      "note": "Operational times are not represented time; no use to upgrade evidence age"
+    },
+    {
+      "group": 24,
+      "field": "provider settled status; transport exception",
+      "classification": "FROZEN_CAPTURE_REQUIRED",
+      "consumer": "settleWithTiming / getOceanConditionsAtAssessment",
+      "note": "Underlying status contributes to governed dataQuality derivation; preserve outcome without leaking private transport errors"
+    }
+  ],
+  "outsideQualifiedSubset": [
+    "Raw provider-to-point parsing/capture integration and live authenticity",
+    "Complete candidate spatial/quality/layer-state reconstruction",
+    "Ambiguous or missing represented-time interpretation for reassessment",
+    "Full governed derivation replay",
+    "Production capture storage and reference resolver",
+    "Static context capture: reuse existing identity/contract, no duplicate bathymetry schema",
+    "Optional quality/uncertainty/lineage fields absent from current point payloads; no invented defaults"
+  ],
+  "sourceProjectionComparisons": [
+    {
+      "family": "SST",
+      "comparison": "CURRENT_PARSER_SOURCE_PROJECTION_VS_CAPTURE_REPLAY",
+      "rows": [
+        {
+          "field": "point.requestedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.requestedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.resolvedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.resolvedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.providerCoordinates.resolvedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.providerCoordinates.resolvedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.timestampProvenance",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.temperatureCelsius",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.temperatureFahrenheit",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.observedAt",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.provider",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.classification",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.availability",
+          "classification": "EXACT_MATCH"
+        }
+      ],
+      "excluded": {
+        "ageHours": "DERIVED_EQUIVALENT",
+        "derived": "UNRESOLVED: current operational description outside source projection",
+        "cache": "NONSCIENTIFIC_REQUEST_ONLY"
+      },
+      "syntheticTransportOnly": true
+    },
+    {
+      "family": "CHLOROPHYLL_DIRECT",
+      "comparison": "CURRENT_PARSER_SOURCE_PROJECTION_VS_CAPTURE_REPLAY",
+      "rows": [
+        {
+          "field": "point.resolvedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.resolvedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.requestedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.requestedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.concentrationMgM3",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.waterClassification",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.observedAt",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.provider",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.platform",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.dataset",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.variable",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.units",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.classification",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.availability",
+          "classification": "EXACT_MATCH"
+        }
+      ],
+      "excluded": {
+        "ageHours": "DERIVED_EQUIVALENT",
+        "derived": "UNRESOLVED: current operational description outside source projection",
+        "cache": "NONSCIENTIFIC_REQUEST_ONLY"
+      },
+      "syntheticTransportOnly": true
+    },
+    {
+      "family": "CHLOROPHYLL_GAP_FILLED",
+      "comparison": "CURRENT_PARSER_SOURCE_PROJECTION_VS_CAPTURE_REPLAY",
+      "rows": [
+        {
+          "field": "point.resolvedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.resolvedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.requestedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.requestedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.concentrationMgM3",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.waterClassification",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.observedAt",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.provider",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.platform",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.dataset",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.variable",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.units",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.observationType",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.algorithm",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.resolutionKilometers",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.experimental",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.classification",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.availability",
+          "classification": "EXACT_MATCH"
+        }
+      ],
+      "excluded": {
+        "ageHours": "DERIVED_EQUIVALENT",
+        "derived": "UNRESOLVED: current operational description outside source projection",
+        "cache": "NONSCIENTIFIC_REQUEST_ONLY"
+      },
+      "syntheticTransportOnly": true
+    },
+    {
+      "family": "CURRENTS",
+      "comparison": "CURRENT_PARSER_SOURCE_PROJECTION_VS_CAPTURE_REPLAY",
+      "rows": [
+        {
+          "field": "point.resolvedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.resolvedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.requestedLatitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.requestedLongitude",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.speedKnots",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.directionDegrees",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.eastwardMetersPerSecond",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.northwardMetersPerSecond",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.observedAt",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.provider",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.dataset",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.variables.0",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.variables.1",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.units",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.classification",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.directionConvention",
+          "classification": "EXACT_MATCH"
+        },
+        {
+          "field": "point.source.availability",
+          "classification": "EXACT_MATCH"
+        }
+      ],
+      "excluded": {
+        "ageHours": "DERIVED_EQUIVALENT",
+        "derived": "UNRESOLVED: current operational description outside source projection",
+        "cache": "NONSCIENTIFIC_REQUEST_ONLY"
+      },
+      "syntheticTransportOnly": true
+    }
+  ],
+  "verdict": "PASS_QUALIFIED_POINT_SOURCE_SUBSET_ONLY",
+  "adversarialReview": {
+    "verdict": "PASS_QUALIFIED_POINT_SOURCE_SUBSET_ONLY",
+    "retainedExactMatchFields": 62,
+    "classificationChanges": 0,
+    "corrections": [
+      "Require gap-filled reconstruction markers supplied by existing current path",
+      "Require SST valid-time provenance before capture age calculation"
+    ],
+    "sourceQualificationEstablished": false,
+    "completeCandidateReconstruction": false
+  }
+}
