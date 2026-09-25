@@ -1,0 +1,307 @@
+{
+  "task": "12B.6D",
+  "baseline": "ad15d3604d32dbed475010d16f281ae37c86b5fd",
+  "auditCompletedBeforeImplementation": true,
+  "scope": "Missing normalized weather/marine quality inputs only",
+  "dependencies": [
+    {
+      "input": "marine.wind.speedKnots",
+      "role": "SCIENTIFIC_AVAILABILITY_INPUT",
+      "disposition": "CAPTURE_REQUIRED",
+      "consumer": "getMarineConditions -> dataQualityLayers.wind",
+      "finding": "Finite numeric value controls live; rejected weather controls degraded; otherwise unavailable. Direction/gust are not consumed by this quality block."
+    },
+    {
+      "input": "marine.waves.heightFeet",
+      "role": "SCIENTIFIC_AVAILABILITY_INPUT",
+      "disposition": "CAPTURE_REQUIRED",
+      "consumer": "getMarineConditions -> dataQualityLayers.waves",
+      "finding": "Independent wave availability, uses marine acquisition status when missing."
+    },
+    {
+      "input": "marine.swell.heightFeet",
+      "role": "SCIENTIFIC_AVAILABILITY_INPUT",
+      "disposition": "CAPTURE_REQUIRED",
+      "consumer": "getMarineConditions -> dataQualityLayers.swell",
+      "finding": "Independent swell availability; direction/period not consumed by quality block."
+    },
+    {
+      "input": "marine.diagnostics.providerStatus.weatherApi",
+      "role": "SCIENTIFIC_AVAILABILITY_INPUT",
+      "disposition": "CAPTURE_REQUIRED",
+      "consumer": "settleWithTiming -> getMarineConditions -> quality",
+      "finding": "Actual normalized outcomes fulfilled/rejected; unknown fallback is defensive, not a parser-emitted outcome."
+    },
+    {
+      "input": "marine.diagnostics.providerStatus.marineApi",
+      "role": "SCIENTIFIC_AVAILABILITY_INPUT",
+      "disposition": "CAPTURE_REQUIRED",
+      "consumer": "settleWithTiming -> getMarineConditions -> quality",
+      "finding": "Both requests rejected throws before a marine object is returned; do not invent a success object."
+    },
+    {
+      "input": "marine.observedAt",
+      "role": "AGGREGATE_TIME_INPUT",
+      "disposition": "CAPTURE_REQUIRED",
+      "consumer": "getMarineConditions: wind.time ?? waves.time ?? null -> quality layers wind/waves/swell/SST",
+      "finding": "Not newest/oldest, retrieval, assembly or assessment time. Nullish weather-first precedence; malformed strings are not validated by current quality."
+    },
+    {
+      "input": "marine.location.latitude/longitude",
+      "role": "LINEAGE_INPUT",
+      "disposition": "CAPTURE_REQUIRED",
+      "consumer": "getMarineConditions requested location",
+      "finding": "Binds the projection to its requested location; no candidate-ID or captain-origin inference."
+    },
+    {
+      "input": "marine.sst.temperatureFahrenheit",
+      "role": "SCIENTIFIC_AVAILABILITY_INPUT",
+      "disposition": "ALREADY_GOVERNED",
+      "consumer": "current capture SST -> quality.layers.sst",
+      "finding": "Not duplicated; same normalized source selection still required during composition."
+    },
+    {
+      "input": "chlorophyll concentration, source.observationType/provider/availability, observedAt; direct/gap outcome",
+      "role": "SCIENTIFIC_QUALITY_INPUT",
+      "disposition": "ALREADY_GOVERNED",
+      "consumer": "current capture -> resolveChlorophyllObservation -> quality",
+      "finding": "Existing selection and family age thresholds retained; no DIRECT/GAP_FILLED equivalence."
+    },
+    {
+      "input": "currents speedKnots/directionDegrees, observedAt, source.availability; outcome",
+      "role": "SCIENTIFIC_QUALITY_INPUT",
+      "disposition": "ALREADY_GOVERNED",
+      "consumer": "current capture -> existing age -> quality",
+      "finding": "No vector/scalar or product substitution."
+    },
+    {
+      "input": "chlorophyll/current ageHours",
+      "role": "SCIENTIFIC_QUALITY_INPUT",
+      "disposition": "DERIVABLE_FROM_GOVERNED_CAPTURE",
+      "consumer": "scientificAssessment.mjs / family age helpers",
+      "finding": "Assessment-dependent, never frozen as timeless truth. Invalid source time remains unqualified."
+    },
+    {
+      "input": "moon.source.availability/observedAt",
+      "role": "SCIENTIFIC_AVAILABILITY_INPUT",
+      "disposition": "DERIVABLE_FROM_GOVERNED_CAPTURE",
+      "consumer": "getMoonConditions(assessmentAt)",
+      "finding": "Existing explicit-time astronomy; not part of weather capture."
+    },
+    {
+      "input": "quality overall/layers/counts/reasons/headline/detail",
+      "role": "SCIENTIFIC_QUALITY_INPUT",
+      "disposition": "DERIVABLE_FROM_GOVERNED_CAPTURE",
+      "consumer": "getOceanConditionsAtAssessment inline dataQuality block",
+      "finding": "Exactly existing assembler. Overall complete/usable-with-gaps/degraded/insufficient; unavailable is a layer state, not an overall category. No quality score added."
+    },
+    {
+      "input": "data-quality:<classification> warning",
+      "role": "LINEAGE_INPUT",
+      "disposition": "DERIVABLE_FROM_GOVERNED_CAPTURE",
+      "consumer": "buildOceanEvidenceLineage",
+      "finding": "DOCUMENTARY_AUDIT: produced after evidence groups/confidence; not fed back into species scoring by this function. Exact content retained."
+    },
+    {
+      "input": "open-water-evidence-unavailable / persistence-evidence-unavailable",
+      "role": "LINEAGE_INPUT",
+      "disposition": "ALREADY_GOVERNED",
+      "consumer": "buildOceanEvidenceLineage environmentalOpportunityEvidence availability",
+      "finding": "DOCUMENTARY_AUDIT; downstream evidence availability facts remain separate, not generated by weather capture."
+    },
+    {
+      "input": "observationsUsed/Unavailable, inheritedLimitations, producedBy/components/upstream",
+      "role": "LINEAGE_INPUT",
+      "disposition": "ALREADY_GOVERNED",
+      "consumer": "buildOceanEvidenceLineage groups/limitations/methodVersion",
+      "finding": "DOCUMENTARY_AUDIT; no arbitrary warning prose in source capture."
+    },
+    {
+      "input": "retrievedAt, performance durations, providerErrors",
+      "role": "OPERATIONAL_ONLY",
+      "disposition": "OPERATIONAL_ONLY",
+      "consumer": "getMarineConditions diagnostics",
+      "finding": "Not read by quality block; errors may carry private transport details and are excluded."
+    },
+    {
+      "input": "wind direction/gust; wave/swell direction/period; wind.source; classification/source model labels",
+      "role": "UNRESOLVED",
+      "disposition": "UNRESOLVED",
+      "consumer": "Other marine/operational interpretation, outside this quality projection",
+      "finding": "Not used by audited quality block. This is NOT a claim they are globally nonscientific or captured for complete operational marine assessment."
+    },
+    {
+      "input": "masks/uncertainty and full candidate spatial relationships",
+      "role": "UNRESOLVED",
+      "disposition": "UNRESOLVED",
+      "consumer": "Future candidate assembly",
+      "finding": "No new mapping or complete candidate equivalence claim."
+    },
+    {
+      "input": "explicit transport null in wind/wave/swell conversions",
+      "role": "UNRESOLVED",
+      "disposition": "UNRESOLVED",
+      "consumer": "metersPerSecondToKnots / metersToFeet use Number(value)",
+      "finding": "Number(null) becomes zero upstream; absent value becomes normalized null. Capture preserves current normalized result. Original null versus true zero cannot be recovered from this projection. Separate source-normalization review required before production qualification; no formula change made."
+    }
+  ],
+  "inputEquivalence": [
+    {
+      "field": "location.latitude",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "field": "location.longitude",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "field": "qualityInputs.wind.speedKnots",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "field": "qualityInputs.waves.heightFeet",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "field": "qualityInputs.swell.heightFeet",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "field": "qualityInputs.observedAt",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "field": "qualityInputs.diagnostics.providerStatus.weatherApi",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "field": "qualityInputs.diagnostics.providerStatus.marineApi",
+      "classification": "EXACT_MATCH"
+    }
+  ],
+  "assemblerEquivalence": "EXACT_MATCH",
+  "contractVersion": "pelora-weather-marine-quality-capture-v1",
+  "verdict": "PASS_NORMALIZED_QUALITY_CAPTURE_SUBSET",
+  "resumptionVerdict": "CANDIDATE_ASSEMBLY_READY_TO_RESUME",
+  "resumptionScope": "Controlled same-product normalized candidate-assembly qualification only. Not complete candidate equivalence or production source qualification.",
+  "unexplainedMismatches": 0,
+  "assemblerCases": [
+    {
+      "scenario": "all valid",
+      "overall": "complete",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "wind absent",
+      "overall": "degraded",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "waves absent",
+      "overall": "degraded",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "swell absent",
+      "overall": "degraded",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "multiple absent",
+      "overall": "degraded",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "fulfilled all absent",
+      "overall": "insufficient",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "weather rejected",
+      "overall": "degraded",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "marine rejected",
+      "overall": "insufficient",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "numeric zero",
+      "overall": "complete",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "missing supporting family",
+      "overall": "usable-with-gaps",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "stale supporting family",
+      "overall": "complete",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "weather-first time",
+      "overall": "unchanged",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "marine fallback time",
+      "overall": "unchanged",
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "scenario": "null/malformed/ambiguous/future/empty time text",
+      "overall": "unchanged",
+      "classification": "EXACT_MATCH"
+    }
+  ],
+  "failureBoundary": {
+    "bothAcquisitionsRejected": "Current parser throws; constructor rejects fabricated normalized result",
+    "unknownOutcome": "Rejected; unknown is a defensive assembler fallback, not actual parser output",
+    "malformedCapture": "Rejected",
+    "unsupportedSource": "Rejected"
+  },
+  "warningAuthority": [
+    {
+      "warning": "data-quality:<classification>",
+      "authority": "DOCUMENTARY_AUDIT",
+      "facts": "existing overall quality classification"
+    },
+    {
+      "warning": "open-water-evidence-unavailable",
+      "authority": "DOCUMENTARY_AUDIT",
+      "facts": "existing downstream openWater.available"
+    },
+    {
+      "warning": "persistence-evidence-unavailable",
+      "authority": "DOCUMENTARY_AUDIT",
+      "facts": "existing downstream persistence.available"
+    }
+  ],
+  "unresolved": [
+    "Production source qualification and capture integration",
+    "Pre-normalization null versus zero authority lost by existing converters",
+    "Aggregate quality timestamp is replayable parser text, not separately qualified environmental observation time",
+    "Full candidate spatial/quality/mask/uncertainty reconstruction and binding",
+    "Durable exact reference resolution",
+    "Full operational wind/wave/swell interpretation outside quality projection",
+    "Species evaluation equivalence"
+  ],
+  "nextGate": "Resume Task 12B.6C controlled candidate-object input equivalence with both captures, exact source/location binding, and unchanged spatial/quality assemblers; do not implement species science. Separately review upstream null coercion before production qualification.",
+  "adversarialReview": {
+    "verdict": "PASS_NORMALIZED_QUALITY_CAPTURE_SUBSET",
+    "baselineFocusedTests": 54,
+    "finalFocusedTests": 80,
+    "upstreamNullClassification": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+    "captureNullCoercion": false,
+    "demonstratedDefect": "Dedicated private labels inside delimited reference IDs were accepted; four regression cases failed before correction.",
+    "correction": "Reject recognized private label token sequences in reference/text values; metadata, UUID/email and own-data guards retained.",
+    "inputEquivalence": "EXACT_MATCH",
+    "assemblerEquivalence": "EXACT_MATCH",
+    "unexplainedMismatches": 0,
+    "resumption": "CANDIDATE_ASSEMBLY_READY_TO_RESUME",
+    "resumptionLimit": "Controlled normalized-input equivalence only; no production qualification, source authenticity, cross-capture binding or complete candidate reconstruction claim."
+  }
+}
