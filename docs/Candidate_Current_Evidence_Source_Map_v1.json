@@ -1,0 +1,236 @@
+{
+  "task": "12B.6A",
+  "baseline": "943fffbf6a8fe2726f8e77143d1b42f83188f581",
+  "verdict": "MISSING_GOVERNED_SOURCE",
+  "adapterImplemented": false,
+  "stage1Passed": false,
+  "stages2And3Started": false,
+  "checkpointPermitted": false,
+  "architecture": "Species-neutral reconstruction followed by registered qualified species evaluator; Blue Marlin is only the first qualification case",
+  "fields": [
+    {
+      "field": "candidate.candidateId; coordinates; waterMask",
+      "classification": "STATIC_SHARED_CONTEXT",
+      "source": "Candidate catalogue and resolveOpportunityCandidateBathymetryV1",
+      "requirement": "Governed candidate geometry, not captain origin",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "sst.temperatureCelsius/Fahrenheit; requested/resolved coordinates",
+      "classification": "SOURCE_EVIDENCE",
+      "source": "getMarineConditions / getSeaSurfaceTemperaturePoint",
+      "requirement": "Exact current Open-Meteo point response; retained NOAA analysis is a different product",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "sst.observedAt; timestampProvenance; directional sample observedAt",
+      "classification": "SOURCE_EVIDENCE",
+      "source": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "requirement": "Qualified represented-time authority for the exact source; retained NOAA has unknown support/null observationTime",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "sst.source; samples[].source; provider/classification/availability",
+      "classification": "SOURCE_EVIDENCE",
+      "source": "getSstSpatialStructureAtAssessment / negative adequacy",
+      "requirement": "Exact source and per-point outcome, not arbitrary caller strings",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "sst.derived.spatialStructure samples/direction/coverage/orientation/range/confidence",
+      "classification": "GOVERNED_DERIVATION",
+      "source": "createSstSpatialSamplePoints / deriveSstTransitionOrientation / assessSstTransitionConfidence",
+      "requirement": "Reuse existing derivation with complete exact directional source selection; no center-cell fabrication",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "sst.derived.temperatureBand; governedEnvironmentalFeatureObservation",
+      "classification": "GOVERNED_DERIVATION",
+      "source": "classifySeaSurfaceTemperature / buildGovernedEnvironmentalFeatureObservationV1",
+      "requirement": "Derived from the same admitted spatial inputs, not an independent archive observation",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "chlorophyll concentration; observedAt; provider/dataset/observationType/algorithm",
+      "classification": "SOURCE_EVIDENCE",
+      "source": "getChlorophyllConditionsAtAssessment / getGapFilledChlorophyllConditionsAtAssessment",
+      "requirement": "Direct and DINEOF gap-filled point payloads and outcomes must remain distinct",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "chlorophyll ageHours; waterClassification; selectedObservation; freshness",
+      "classification": "GOVERNED_DERIVATION",
+      "source": "resolveChlorophyllObservation / current chlorophyll assemblers",
+      "requirement": "Existing direct/gap selection plus explicit assessment; no new freshness rule",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "chlorophyll spatial structure; salinity; density; vertical profiles",
+      "classification": "UNRESOLVED",
+      "source": "buildWaterMassAnalysis / buildMixingZoneAnalysis",
+      "requirement": "Current absence/limitations must be preserved; no qualified new spatial chlorophyll source found",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "currents speedKnots/directionDegrees/u/v; observedAt; requested/resolved coordinates",
+      "classification": "SOURCE_EVIDENCE",
+      "source": "getCurrentConditionsPointAtAssessment",
+      "requirement": "Exact current product point/vector evidence, source time, units and component convention",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "currents source provider/dataset/classification/availability; vectors[].source",
+      "classification": "SOURCE_EVIDENCE",
+      "source": "getCurrentSpatialStructureAtAssessment",
+      "requirement": "No archive-to-current-product qualification mapping found; acquisition failure differs from valid no-pixel",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "currents ageHours; derived spatialStructure/organization/relationshipContext/spatialPattern/vectorProjection/gradient/shear/convergence/edge",
+      "classification": "GOVERNED_DERIVATION",
+      "source": "getOceanConditionsAtAssessment current analysis chain",
+      "requirement": "Same existing assemblers from complete frozen directional vectors and failure outcomes",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "dataQuality.layers state/reason/observedAt/source; summary; overall",
+      "classification": "GOVERNED_DERIVATION",
+      "source": "getOceanConditionsAtAssessment dataQualityLayers",
+      "requirement": "Requires numeric availability, family-specific age and settled provider outcomes; absence of archived frame is not proof provider failed",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "optional dataQuality.score",
+      "classification": "UNRESOLVED",
+      "source": "buildOceanEvidenceConfidence",
+      "requirement": "Consumer supports it but current request assembly does not emit it; do not fabricate",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "uncertainty; quality flags; masks; missing reasons; provenance/lineage; frame/receipt digests",
+      "classification": "SOURCE_EVIDENCE",
+      "source": "Ocean Product Frame / Ocean Product Archive / source adapters",
+      "requirement": "Existing contracts preserve these; request-product correspondence and qualified sampling remain missing; NOAA uncertainty is not score confidence",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "assessmentAt; family scientific age; SST sampleAgeHours",
+      "classification": "ASSESSMENT_CONTEXT",
+      "source": "scientificAssessment.mjs / current family functions",
+      "requirement": "One immutable assessment; no nominal/retrieval time substitution",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "moon phase/context",
+      "classification": "ASSESSMENT_CONTEXT",
+      "source": "getMoonConditions",
+      "requirement": "Existing algorithm at assessmentAt; no direct phase input in audited habitat scoring call",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "bathymetry elevation/classification; static structure relationships",
+      "classification": "STATIC_SHARED_CONTEXT",
+      "source": "resolveOpportunityCandidateBathymetryV1 / buildStructureEvidence",
+      "requirement": "Existing static source/location and governing rules; no temporal multiplication",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "oceanEvidence groups and environmental relationships; derived Ocean Signals",
+      "classification": "GOVERNED_DERIVATION",
+      "source": "assessOceanEvidence / assessOceanOpportunity / resolveOceanSignals",
+      "requirement": "Reuse after source reconstruction; labels alone do not establish feature identity",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    },
+    {
+      "field": "species habitat/eligibility/gate/score/confidence/ranking permission",
+      "classification": "SPECIES_SCIENCE",
+      "source": "registered evaluator target; existing Blue Marlin composition",
+      "requirement": "Outside generic reconstruction; not invoked to conceal field mismatches",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "historical persistence; temporal narrative",
+      "classification": "REQUEST_WRAPPER",
+      "source": "Ocean Memory request path; persistence context",
+      "requirement": "Documentary/nonblocking at tested current scoring boundary; not a source of missing current evidence",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "captain origin/range/identity/session/logs/mission",
+      "classification": "CAPTAIN_CONTEXT",
+      "source": "outer request/projection",
+      "requirement": "Excluded from candidate environmental reconstruction",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "cache TTL; request duration/logs; retrievedAt; generatedAt",
+      "classification": "NONSCIENTIFIC",
+      "source": "provider wrappers and transport",
+      "requirement": "Operational times are not represented time; no use to upgrade evidence age",
+      "comparison": null,
+      "blocking": false,
+      "scope": "NOT COMPARED: no reconstructed output exists; current authority/absence is inventoried only"
+    },
+    {
+      "field": "provider settled status; transport exception",
+      "classification": "REQUEST_WRAPPER",
+      "source": "settleWithTiming / getOceanConditionsAtAssessment",
+      "requirement": "Underlying status contributes to governed dataQuality derivation; preserve outcome without leaking private transport errors",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "blocking": true,
+      "scope": "Audit finding; no adapter implemented"
+    }
+  ],
+  "blockingMissingFields": 14,
+  "limitations": [
+    "This is a grouped field/source requirements map, not measured current-versus-adapter equivalence.",
+    "Synthetic values may prove mechanics but cannot supply missing provider qualification.",
+    "No claim that Ocean Product Frame cannot represent the needed source evidence.",
+    "NOAA unknown support must not be promoted to instant observation time.",
+    "No stage checkpoint without a passing reconstruction and separate adversarial review."
+  ]
+}
