@@ -1,0 +1,898 @@
+{
+  "task": "12B.6C resumed",
+  "baseline": "3fde1486eb96e70c848cdbead6a8cc4beb10c540",
+  "verdict": "MISSING_GOVERNED_SOURCE",
+  "completeCandidateEquivalence": false,
+  "scope": "STOP source-sufficiency audit. Root groups preserve the full current return inventory; detailed leaf comparison covers the demonstrated marine subobject, not every unresolved nested contract.",
+  "sourcePath": "Synthetic current-product transport -> actual getMarineConditions -> existing inline quality assembler -> existing assessOceanConditions (before species/Auth/history).",
+  "replayPath": "Locked current + weather captures replay quality exactly, but omit six consumed marine fields. No complete candidate assembler built.",
+  "requestObjectGroups": [
+    {
+      "field": "location",
+      "dependency": "DIRECT_FROM_WEATHER_MARINE_CAPTURE",
+      "finding": "Requested location; exact candidate identity must be bound independently.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "observedAt",
+      "dependency": "DIRECT_FROM_WEATHER_MARINE_CAPTURE",
+      "finding": "Aggregate quality time, weather-first nullish marine fallback.",
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "field": "lastUpdated",
+      "dependency": "REQUEST_WRAPPER_ONLY",
+      "finding": "marine.retrievedAt is execution-time metadata; not evidence time.",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY"
+    },
+    {
+      "field": "status.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Current route numeric/age/source status block; preserve distinctions from dataQuality layers.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "dataQuality.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Both locked captures plus selected family age/outcomes and explicit-time moon; full quality equality retained in diagnostic.",
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "field": "oceanConditions.*",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "finding": "Existing assessOceanConditions consumes uncaptured gust/directions/periods. Species-neutral marine interpretation.",
+      "comparison": "MISSING_GOVERNED_SOURCE"
+    },
+    {
+      "field": "oceanEvidence.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Existing assessOceanEvidence groups, relationships, confidence and lineage; complete spatial replay remains unqualified.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "mapIntelligence.temperatureTransition.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Existing temperature map feature derives from spatial and evidence inputs; no raster as evidence.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "observationSnapshot.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Copies observations including missing marine fields; generatedAt uses retrievedAt; not silently omitted.",
+      "comparison": "MISSING_GOVERNED_SOURCE"
+    },
+    {
+      "field": "intelligenceSnapshot.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Current neutral interpretation plus history-derived relationships; complete replay scope not yet qualified.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "snapshotMetadata.*",
+      "dependency": "DOCUMENTARY_ONLY",
+      "finding": "Existing Ocean Memory metadata and time/identity semantics, not a new candidate identity.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "oceanSnapshot.*",
+      "dependency": "DOCUMENTARY_ONLY",
+      "finding": "Existing composed Ocean Memory representation; complete temporal parity deferred, not silently equated.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "oceanOpportunity.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Later environmental Opportunity interpretation/history; not used as this task acceptance criterion.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "oceanSignals.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Existing signal derivation downstream of Opportunity; not newly qualified here.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "relationshipContext.*",
+      "dependency": "DOCUMENTARY_ONLY",
+      "finding": "Current historical relationship context; preserve Task 12B.5 boundary, no full historical parity claim.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "relationshipAssessment.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Current relationship analysis includes historical/contextual dependencies; no new claim.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "blueMarlinHabitat.*",
+      "dependency": "SPECIES_CONFIGURATION",
+      "finding": "Species-specific interpretation explicitly outside candidate assembly.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "wind.*",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "finding": "Speed captured; gust, direction and source availability not fully reconstructable.",
+      "comparison": "MISSING_GOVERNED_SOURCE"
+    },
+    {
+      "field": "waves.*",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "finding": "Height captured; direction and period missing.",
+      "comparison": "MISSING_GOVERNED_SOURCE"
+    },
+    {
+      "field": "swell.*",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "finding": "Height captured; direction and period missing.",
+      "comparison": "MISSING_GOVERNED_SOURCE"
+    },
+    {
+      "field": "sst.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Current capture centre/directional values/source/time plus existing range/orientation/transition/feature assemblers. No complete assembly proof after STOP.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "chlorophyll.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Current DIRECT/GAP_FILLED captures and existing selection/age/interpretation. No historical equivalence claim.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "currents.*",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "finding": "Current point/vector captures and organization/relationship/pattern/projection/gradient/shear/convergence/edge chain. No alternative formulas.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "moon.*",
+      "dependency": "ASSESSMENT_DERIVED",
+      "finding": "Existing getMoonConditions at governed assessment instant.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "diagnostics.*",
+      "dependency": "REQUEST_WRAPPER_ONLY",
+      "finding": "Timing/errors/Ocean Memory Auth diagnostics are not shared scientific evidence. Provider outcomes used by quality remain separately captured.",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY"
+    },
+    {
+      "field": "source.*",
+      "dependency": "UNRESOLVED",
+      "finding": "Family source metadata; marine.source weatherModel/marineModel depends on current_units presence, not retained in the normalized quality projection.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "candidate identity/coordinates/waterMask (outer evaluator input)",
+      "dependency": "STATIC_GOVERNED_CONTEXT",
+      "finding": "Governed catalogue supplies identity; no matching by label/rank/distance. No reconstruction binding implemented.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "bathymetry/static structure (candidate-bound derivation)",
+      "dependency": "STATIC_GOVERNED_CONTEXT",
+      "finding": "Reuse resolveOpportunityCandidateBathymetryV1/buildStructureEvidence; no temporal observations.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "assessment context (outer evaluator input)",
+      "dependency": "ASSESSMENT_DERIVED",
+      "finding": "Existing request/scheduled contracts and explicit age; no new binding implemented.",
+      "comparison": "UNRESOLVED"
+    },
+    {
+      "field": "captain origin/range/identity/mission (outer wrapper)",
+      "dependency": "CAPTAIN_PROJECTION",
+      "finding": "Outside shared candidate Ocean evidence.",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY"
+    }
+  ],
+  "marineLeafMap": [
+    {
+      "field": "wind.speedKnots",
+      "dependency": "DIRECT_FROM_WEATHER_MARINE_CAPTURE",
+      "comparison": "EXACT_MATCH",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "wind.directionDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "wind.gustKnots",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "wind.source.provider",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "wind.source.classification",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "wind.source.availability",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "waves.heightFeet",
+      "dependency": "DIRECT_FROM_WEATHER_MARINE_CAPTURE",
+      "comparison": "EXACT_MATCH",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "waves.directionDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "waves.periodSeconds",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "swell.heightFeet",
+      "dependency": "DIRECT_FROM_WEATHER_MARINE_CAPTURE",
+      "comparison": "EXACT_MATCH",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "swell.directionDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "swell.periodSeconds",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions / request return / observationSnapshot"
+    },
+    {
+      "field": "oceanConditions.overall.classification",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.overall.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.overall.detail",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.wind.classification",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.wind.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.wind.detail",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.wind.values.speedKnots",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.wind.values.gustKnots",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.waves.classification",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.waves.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.waves.detail",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.waves.values.heightFeet",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.waves.values.periodSeconds",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.waves.values.periodClassification",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.swell.classification",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.swell.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.swell.detail",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.swell.values.heightFeet",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.swell.values.periodSeconds",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.assessments.swell.values.periodClassification",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.classification",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.detail",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.values.windDirectionDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.values.waveDirectionDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.values.swellDirectionDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.comparisons.windVsWaves.differenceDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.comparisons.windVsWaves.relationship",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.comparisons.windVsSwell.differenceDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.comparisons.windVsSwell.relationship",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.comparisons.wavesVsSwell.differenceDegrees",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.comparisons.wavesVsSwell.relationship",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.directionalInteraction.interpretation",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.seaStateInteraction.classification",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.seaStateInteraction.seaStateType",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.seaStateInteraction.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.seaStateInteraction.detail",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.seaStateInteraction.drivers.0",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.seaStateInteraction.drivers.1",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.seaStateInteraction.interpretation",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.score",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.level",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.label",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.reasons.0",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.reasons.1",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.reasons.2",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.reasons.3",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.reasons.4",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.limitations",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.wind.available",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.wind.gustsAvailable",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.wind.directionAvailable",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.waves.available",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.waves.periodAvailable",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.waves.directionAvailable",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.swell.available",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.swell.periodAvailable",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.components.swell.directionAvailable",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.confidence.methodVersion",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.0.factor",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.0.classification",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.0.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.1.factor",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.1.classification",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.1.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.2.factor",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.2.classification",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.evidence.2.headline",
+      "dependency": "MISSING_GOVERNED_SOURCE",
+      "comparison": "MISSING_GOVERNED_SOURCE",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.dataQualityClassification",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.limitations.0",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.limitations.1",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.limitations.2",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.limitations.3",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.limitations.4",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.limitations.5",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.interpretation",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    },
+    {
+      "field": "oceanConditions.methodVersion",
+      "dependency": "DERIVED_BY_EXISTING_ASSEMBLER",
+      "comparison": "UNRESOLVED",
+      "consumer": "assessOceanConditions return / candidate oceanConditions"
+    }
+  ],
+  "controlledComparisons": [
+    {
+      "field": "wind.gustKnots",
+      "transportField": "wind_gusts_10m",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "changedCandidateFields": [
+        "oceanConditions.overall.classification",
+        "oceanConditions.overall.headline",
+        "oceanConditions.overall.detail",
+        "oceanConditions.assessments.wind.classification",
+        "oceanConditions.assessments.wind.headline",
+        "oceanConditions.assessments.wind.detail",
+        "oceanConditions.assessments.wind.values.gustKnots",
+        "oceanConditions.seaStateInteraction.classification",
+        "oceanConditions.seaStateInteraction.seaStateType",
+        "oceanConditions.seaStateInteraction.headline",
+        "oceanConditions.seaStateInteraction.detail",
+        "oceanConditions.evidence.0.classification",
+        "oceanConditions.evidence.0.headline"
+      ]
+    },
+    {
+      "field": "wind.directionDegrees",
+      "transportField": "wind_direction_10m",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "changedCandidateFields": [
+        "oceanConditions.overall.detail",
+        "oceanConditions.directionalInteraction.classification",
+        "oceanConditions.directionalInteraction.headline",
+        "oceanConditions.directionalInteraction.detail",
+        "oceanConditions.directionalInteraction.values.windDirectionDegrees",
+        "oceanConditions.directionalInteraction.comparisons.windVsWaves.differenceDegrees",
+        "oceanConditions.directionalInteraction.comparisons.windVsWaves.relationship",
+        "oceanConditions.directionalInteraction.comparisons.windVsSwell.differenceDegrees",
+        "oceanConditions.directionalInteraction.comparisons.windVsSwell.relationship",
+        "oceanConditions.seaStateInteraction.seaStateType",
+        "oceanConditions.seaStateInteraction.headline",
+        "oceanConditions.seaStateInteraction.detail",
+        "oceanConditions.seaStateInteraction.drivers.1"
+      ]
+    },
+    {
+      "field": "waves.directionDegrees",
+      "transportField": "wave_direction",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "changedCandidateFields": [
+        "oceanConditions.overall.detail",
+        "oceanConditions.directionalInteraction.classification",
+        "oceanConditions.directionalInteraction.headline",
+        "oceanConditions.directionalInteraction.detail",
+        "oceanConditions.directionalInteraction.values.waveDirectionDegrees",
+        "oceanConditions.directionalInteraction.comparisons.windVsWaves.differenceDegrees",
+        "oceanConditions.directionalInteraction.comparisons.windVsWaves.relationship",
+        "oceanConditions.directionalInteraction.comparisons.wavesVsSwell.differenceDegrees",
+        "oceanConditions.directionalInteraction.comparisons.wavesVsSwell.relationship",
+        "oceanConditions.seaStateInteraction.seaStateType",
+        "oceanConditions.seaStateInteraction.headline",
+        "oceanConditions.seaStateInteraction.detail",
+        "oceanConditions.seaStateInteraction.drivers.1"
+      ]
+    },
+    {
+      "field": "waves.periodSeconds",
+      "transportField": "wave_period",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "changedCandidateFields": [
+        "oceanConditions.overall.detail",
+        "oceanConditions.assessments.waves.headline",
+        "oceanConditions.assessments.waves.detail",
+        "oceanConditions.assessments.waves.values.periodSeconds",
+        "oceanConditions.assessments.waves.values.periodClassification",
+        "oceanConditions.seaStateInteraction.seaStateType",
+        "oceanConditions.seaStateInteraction.headline",
+        "oceanConditions.seaStateInteraction.detail",
+        "oceanConditions.seaStateInteraction.drivers.0",
+        "oceanConditions.seaStateInteraction.drivers.1",
+        "oceanConditions.evidence.1.headline"
+      ]
+    },
+    {
+      "field": "swell.directionDegrees",
+      "transportField": "swell_wave_direction",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "changedCandidateFields": [
+        "oceanConditions.overall.detail",
+        "oceanConditions.directionalInteraction.classification",
+        "oceanConditions.directionalInteraction.headline",
+        "oceanConditions.directionalInteraction.detail",
+        "oceanConditions.directionalInteraction.values.swellDirectionDegrees",
+        "oceanConditions.directionalInteraction.comparisons.windVsSwell.differenceDegrees",
+        "oceanConditions.directionalInteraction.comparisons.windVsSwell.relationship",
+        "oceanConditions.directionalInteraction.comparisons.wavesVsSwell.differenceDegrees",
+        "oceanConditions.directionalInteraction.comparisons.wavesVsSwell.relationship",
+        "oceanConditions.seaStateInteraction.seaStateType",
+        "oceanConditions.seaStateInteraction.headline",
+        "oceanConditions.seaStateInteraction.detail",
+        "oceanConditions.seaStateInteraction.drivers.1"
+      ]
+    },
+    {
+      "field": "swell.periodSeconds",
+      "transportField": "swell_wave_period",
+      "classification": "MISSING_GOVERNED_SOURCE",
+      "changedCandidateFields": [
+        "oceanConditions.assessments.swell.headline",
+        "oceanConditions.assessments.swell.detail",
+        "oceanConditions.assessments.swell.values.periodSeconds",
+        "oceanConditions.assessments.swell.values.periodClassification",
+        "oceanConditions.evidence.2.headline"
+      ]
+    }
+  ],
+  "additionalFinding": {
+    "field": "wind.source.availability",
+    "comparison": "MISSING_GOVERNED_SOURCE",
+    "result": "Same missing speed and identical captures/quality: no gust/direction -> provider-returned-null; gust/direction present -> available."
+  },
+  "temporalAuthority": [
+    {
+      "field": "sst.observedAt / directional samples / chlorophyll.observedAt / currents.observedAt",
+      "authority": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "limit": "Existing product-specific support authority only; no NOAA substitution"
+    },
+    {
+      "field": "assessment.assessmentAt / explicit-time moon",
+      "authority": "SCIENTIFIC_ASSESSMENT_TIME"
+    },
+    {
+      "field": "root observedAt / core quality layer observedAt",
+      "authority": "QUALITY_TIME",
+      "limit": "Weather-first nullish marine time; not scientific age authority"
+    },
+    {
+      "field": "lastUpdated / observationSnapshot.generatedAt / intelligenceSnapshot.generatedAt",
+      "authority": "RETRIEVAL_TIME",
+      "limit": "Current route passes marine.retrievedAt; snapshot identity/time implications remain explicit and unqualified for complete replay"
+    },
+    {
+      "field": "diagnostics.timingsMilliseconds / cache metadata",
+      "authority": "OPERATIONAL_ONLY"
+    },
+    {
+      "field": "separate acquisition timestamp",
+      "authority": "ACQUISITION_TIME",
+      "limit": "No such source-time field supplied by these normalized captures; outcomes are retained, timestamps not invented"
+    }
+  ],
+  "masksUncertainty": "No explicit raw mask/uncertainty payload read by the demonstrated marine assessor. No new missing-mask blocker proven here; full environmental mapping remains unresolved, existing numeric/availability/quality handling unchanged.",
+  "qualityResult": "EXACT_MATCH for controlled comparisons; prior quality capture gate remains closed successfully",
+  "unexplainedMismatches": 0,
+  "missingSourceFields": [
+    "wind.gustKnots",
+    "wind.directionDegrees",
+    "waves.directionDegrees",
+    "waves.periodSeconds",
+    "swell.directionDegrees",
+    "swell.periodSeconds",
+    "wind.source.availability"
+  ],
+  "notEstablished": [
+    "complete SST/chlorophyll/current spatial assembly",
+    "candidate/location/assessment substitution rejection",
+    "complete-object immutable identity",
+    "Auth/captain wrapper equivalence",
+    "complete-object later-clock replay",
+    "complete candidate field-by-field equivalence",
+    "species-science equivalence"
+  ],
+  "upstreamStatus": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "nextGate": "Qualify same-product capture of wind gust/direction, wave direction/period, swell direction/period and consumed marine provenance. Requires separately reviewed companion coverage or explicit amendment; neither locked v1 changed here. Then resume complete candidate assembly.",
+  "archiveV3": "Prior reference-only compatibility unchanged; no new candidate contract or amendment demonstrated."
+}
