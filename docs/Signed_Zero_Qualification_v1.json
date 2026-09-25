@@ -1,0 +1,1192 @@
+{
+  "reportVersion": "pelora-signed-zero-qualification-report-v1",
+  "baseline": "550cc709c5914ce71bead2165a9cbe180c4228f7",
+  "verdict": "PRESERVE_SIGNED_ZERO",
+  "verdictScope": "Prospective exact current scientific evidence fidelity and content identity; historical canonical archive/scalar meanings remain unchanged",
+  "implementationAmendment": false,
+  "reconstructionResumed": false,
+  "rationale": [
+    "Locked semantic projection explicitly requires exact signed-zero comparison",
+    "Actual current parser maps (0,+0) to 0 degrees/N and (0,-0) to 180 degrees/S before component rounding",
+    "Marine assessor retains nine sign-distinct numeric outputs",
+    "Archive/scalar canonicalization is deliberate but scoped; no global scientific canonicalization permission demonstrated"
+  ],
+  "nonClaims": [
+    "Physical direction at zero speed",
+    "Live provider frequency/authenticity",
+    "Species eligibility/score/confidence/ranking effect or non-effect",
+    "Complete candidate reconstruction",
+    "Durable storage qualification"
+  ],
+  "inventory": [
+    {
+      "contract": "canonical-json-hash",
+      "source": "shared/oceanPublication.mjs",
+      "functions": "copy/canonical/hash",
+      "identityMeaning": "Canonical recursively sorted JSON bytes; hash is SHA-256 of those bytes",
+      "scope": "No independent identity; not a general safe validator",
+      "measurements": [
+        {
+          "contract": "canonical-json-hash",
+          "path": "nested/array/value",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serialized": "POSITIVE_ZERO",
+          "digestEqual": true,
+          "identity": "CALLER_SPECIFIC",
+          "comparison": "Object.is distinguishes; === does not"
+        }
+      ],
+      "contractVersions": []
+    },
+    {
+      "contract": "frame-and-archive-v1",
+      "source": "shared/oceanProductFrame.mjs; shared/oceanProductArchive.mjs",
+      "functions": "normalizeOceanProductFrameV1/serializeOceanProductFrameV1/oceanArchiveIdentityV1/writeOceanArchiveV1/readOceanArchiveV1",
+      "identityMeaning": "Frame supplied ID; archiveId hashes frameId; contentDigest excludes frameId; frameDigest hashes full canonical frame; receiptDigest seals receipt",
+      "scope": "Archive explicitly documents negative-zero JSON canonicalization; numeric missing masks unsupported",
+      "measurements": [
+        {
+          "contract": "frame-and-archive-v1",
+          "path": "scalar-array",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serialized": "POSITIVE_ZERO",
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO",
+          "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+        },
+        {
+          "contract": "frame-and-archive-v1",
+          "path": "uncertainty",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serialized": "POSITIVE_ZERO",
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO",
+          "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+        },
+        {
+          "contract": "frame-and-archive-v1",
+          "path": "coordinates",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serialized": "POSITIVE_ZERO",
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO",
+          "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+        },
+        {
+          "contract": "frame-and-archive-v1",
+          "path": "quality-flag",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serialized": "POSITIVE_ZERO",
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO",
+          "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+        },
+        {
+          "contract": "frame-and-archive-v1",
+          "path": "provenance-parameter",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serialized": "POSITIVE_ZERO",
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO",
+          "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+        },
+        {
+          "contract": "frame-and-archive-v1",
+          "path": "vector-component",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serialized": "POSITIVE_ZERO",
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO",
+          "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+        }
+      ],
+      "contractVersions": [
+        "pelora-ocean-product-frame-v1",
+        "pelora-ocean-product-archive-v1",
+        "pelora-ocean-product-frame-canonical-json-v1"
+      ]
+    },
+    {
+      "contract": "scalar-delivery-v1",
+      "source": "shared/oceanScalarFieldDelivery.mjs",
+      "functions": "deliverOceanScalarFieldV1",
+      "identityMeaning": "deliveryId hashes derivative body including pinned source and derivation, excluding generatedAt",
+      "scope": "Source bytes already canonicalized by archive",
+      "measurements": [
+        {
+          "contract": "scalar-delivery-v1",
+          "path": "grid.values[0]",
+          "accepted": true,
+          "inMemory": "POSITIVE_ZERO_FROM_ARCHIVE",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "replay": "POSITIVE_ZERO"
+        }
+      ],
+      "contractVersions": [
+        "pelora-ocean-scalar-field-delivery-v1"
+      ]
+    },
+    {
+      "contract": "current-evidence-capture-v1",
+      "source": "backend/currentEvidenceCapture.mjs",
+      "functions": "capture/validate/serialize/read/replay/currentCaptureReferenceV1",
+      "identityMeaning": "scientificContentDigest hashes contract/family/samples; captureId additionally binds authority and lineage; reference hashes capture",
+      "scope": "Five isolated numeric paths executed; not live qualification",
+      "measurements": [
+        {
+          "contract": "current-evidence-capture-v1",
+          "path": "SST.temperatureCelsius",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "current-evidence-capture-v1",
+          "path": "CHLOROPHYLL_DIRECT.concentrationMgM3",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "current-evidence-capture-v1",
+          "path": "CHLOROPHYLL_GAP_FILLED.concentrationMgM3",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "current-evidence-capture-v1",
+          "path": "CURRENTS.eastwardMetersPerSecond",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "current-evidence-capture-v1",
+          "path": "CURRENTS.northwardMetersPerSecond",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        }
+      ],
+      "contractVersions": [
+        "pelora-governed-current-evidence-capture-v1"
+      ]
+    },
+    {
+      "contract": "weather-marine-quality-capture-v1",
+      "source": "backend/weatherMarineQualityCapture.mjs",
+      "functions": "capture/validate/serialize/read/replay/weatherMarineQualityReferenceV1",
+      "identityMeaning": "Scientific digest includes source/location/quality inputs; captureId binds authority and lineage; reference hashes capture",
+      "scope": "Three family numeric inputs executed independently",
+      "measurements": [
+        {
+          "contract": "weather-marine-quality-capture-v1",
+          "path": "wind.speedKnots",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "qualityOutputEqual": true
+        },
+        {
+          "contract": "weather-marine-quality-capture-v1",
+          "path": "waves.heightFeet",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "qualityOutputEqual": true
+        },
+        {
+          "contract": "weather-marine-quality-capture-v1",
+          "path": "swell.heightFeet",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "qualityOutputEqual": true
+        }
+      ],
+      "contractVersions": [
+        "pelora-weather-marine-quality-capture-v1"
+      ]
+    },
+    {
+      "contract": "marine-assessor-companion-capture-v1",
+      "source": "backend/marineAssessorCompanionCapture.mjs",
+      "functions": "capture/validate/serialize/read/replay/marineAssessorCompanionReferenceV1",
+      "identityMeaning": "captureId hashes content including bound quality reference; reference hashes capture; no separate scientificContentDigest",
+      "scope": "Six numeric leaves executed independently; bound quality-reference sign ambiguity inherits canonical hashing",
+      "measurements": [
+        {
+          "contract": "marine-assessor-companion-capture-v1",
+          "path": "wind.gustKnots",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "marine-assessor-companion-capture-v1",
+          "path": "wind.directionDegrees",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "marine-assessor-companion-capture-v1",
+          "path": "waves.directionDegrees",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "marine-assessor-companion-capture-v1",
+          "path": "waves.periodSeconds",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "marine-assessor-companion-capture-v1",
+          "path": "swell.directionDegrees",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        },
+        {
+          "contract": "marine-assessor-companion-capture-v1",
+          "path": "swell.periodSeconds",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "directReplay": "NEGATIVE_ZERO",
+          "serializedReplay": "POSITIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false
+        }
+      ],
+      "contractVersions": [
+        "pelora-marine-assessor-companion-capture-v1"
+      ]
+    },
+    {
+      "contract": "environmental-evidence-sample-v1",
+      "source": "backend/temporalEvidencePrimitives.mjs",
+      "functions": "environmentalObservationV1/validateEnvironmentalObservationV1",
+      "identityMeaning": "observationId is canonical frameId/frameDigest/componentIndex/sampleIndex tuple",
+      "scope": "No standalone serializer/reader; validation rebuilds from supplied frame rather than authenticating lost sign",
+      "measurements": [
+        {
+          "contract": "environmental-evidence-sample-v1",
+          "path": "component.value",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "depends on supplied frame; JSON-reloaded frame yields POSITIVE_ZERO",
+          "noStandaloneReader": true
+        }
+      ],
+      "contractVersions": [
+        "pelora-environmental-evidence-sample-v1"
+      ]
+    },
+    {
+      "contract": "publication-v1",
+      "source": "shared/oceanPublication.mjs",
+      "functions": "freezeEvidenceV1/publicationV1/validatePublicationV1",
+      "identityMeaning": "Cycle-key publicationId; contentDigest seals content; integrityDigest seals record; evidenceSetId hashes entries",
+      "scope": "Only numeric age embedded here; source measurements/evaluations referenced",
+      "measurements": [
+        {
+          "contract": "publication-v1",
+          "path": "evidence.entries[0].ageHours",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO"
+        }
+      ],
+      "contractVersions": [
+        "pelora-governed-ocean-publication-v1"
+      ]
+    },
+    {
+      "contract": "publication-v2",
+      "source": "shared/oceanPublication.mjs",
+      "functions": "freezeEvidenceV1/publicationV2/validatePublicationV2",
+      "identityMeaning": "Cycle-key publicationId; contentDigest seals content; integrityDigest seals record; evidenceSetId hashes entries",
+      "scope": "Explicit assessment time; sign-only age equality accepted by current validator",
+      "measurements": [
+        {
+          "contract": "publication-v2",
+          "path": "evidence.entries[0].ageHours",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO"
+        }
+      ],
+      "contractVersions": [
+        "pelora-governed-ocean-publication-v2"
+      ]
+    },
+    {
+      "contract": "publication-v3",
+      "source": "shared/oceanPublication.mjs",
+      "functions": "freezeEvidenceV1/publicationV3/validatePublicationV3",
+      "identityMeaning": "Cycle-key publicationId; contentDigest includes scientific history; integrityDigest seals record",
+      "scope": "Same-cycle age ambiguity and inherited source-reference hash collision; no arbitrary numeric species payload",
+      "measurements": [
+        {
+          "contract": "publication-v3",
+          "path": "evidence.entries[0].ageHours",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "serializedEqual": true,
+          "digestEqual": true,
+          "identityEqual": true,
+          "validationDistinguishes": false,
+          "replay": "POSITIVE_ZERO",
+          "scope": "Numeric age embedded; source values and species scores are references, not arbitrary embedded science"
+        }
+      ],
+      "contractVersions": [
+        "pelora-governed-ocean-publication-v3"
+      ]
+    },
+    {
+      "contract": "semantic-projection-v1",
+      "source": "backend/candidateSemanticProjection.mjs",
+      "functions": "compareCandidateScientificSurfacesV1",
+      "identityMeaning": "No new scientific identity",
+      "scope": "Exact supplied scientific surface, not proof of complete candidate reconstruction",
+      "measurements": [
+        {
+          "contract": "semantic-projection-v1",
+          "path": "/sst/temperatureCelsius",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "identity": "NONE",
+          "comparisonDistinguishes": true,
+          "serialization": "No projection record serializer/replay contract; ordinary JSON loses sign"
+        }
+      ],
+      "contractVersions": [
+        "pelora-candidate-semantic-projection-v1"
+      ]
+    },
+    {
+      "contract": "semantic-projection-v2",
+      "source": "backend/candidateSemanticProjectionV2.mjs",
+      "functions": "compareCandidateScientificSurfacesV2",
+      "identityMeaning": "No new scientific identity",
+      "scope": "Exact comparison preserved; legitimate null shape is not numeric authentication",
+      "measurements": [
+        {
+          "contract": "semantic-projection-v2",
+          "path": "/sst/temperatureCelsius",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "identity": "NONE",
+          "comparisonDistinguishes": true,
+          "serialization": "No projection record serializer/replay contract; ordinary JSON loses sign"
+        }
+      ],
+      "contractVersions": [
+        "pelora-candidate-semantic-projection-v2"
+      ]
+    },
+    {
+      "contract": "bathymetry-static",
+      "source": "backend/bathymetryEvidence.js; backend/server.js",
+      "functions": "normalizeBathymetryElevationV1/normalizeEtopoWaterMaskObservationV1/resolveOpportunityCandidateBathymetryV1",
+      "identityMeaning": "No identity minted by normalizer/resolver",
+      "scope": "ETOPO ingestion and direct normalization differ; no fabricated temporal authority",
+      "measurements": [
+        {
+          "contract": "bathymetry-static",
+          "path": "elevationMeters",
+          "accepted": true,
+          "inMemory": "NEGATIVE_ZERO",
+          "ingestedRounded": "POSITIVE_ZERO",
+          "waterEqual": true,
+          "depthEqual": true,
+          "identity": "not created by normalizer"
+        }
+      ],
+      "contractVersions": []
+    },
+    {
+      "contract": "fishing-log/location precedents",
+      "source": [
+        "shared/fishingLogEvidenceCapture.mjs",
+        "shared/fishingLocationSpatialEvidence.mjs"
+      ],
+      "inspection": "SOURCE_AUDIT_AND_EXISTING_REGRESSION",
+      "accepted": "Original scalar representation permits signed zero",
+      "inMemory": "Encoded original representation; coordinate-normalized value canonicalizes to +0",
+      "serialization": "Closed original scalar tag/text preserves sign",
+      "digest": "NOT_APPLICABLE_TO_INSPECTED_HELPERS",
+      "identity": "NOT_APPLICABLE_TO_INSPECTED_HELPERS",
+      "validation": "Separate log schema; cannot import its invalid-number permission into Ocean contracts",
+      "replay": "Dedicated decoder maps string -0 back to negative zero",
+      "comparison": "NO_GLOBAL_SCIENTIFIC_COMPARISON",
+      "scope": "No private records read; deliberate scoped precedence only"
+    }
+  ],
+  "executedRows": 44,
+  "collisionAndParserMatrix": [
+    {
+      "contract": "canonical-json-hash",
+      "path": "nested/array/value",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serialized": "POSITIVE_ZERO",
+      "digestEqual": true,
+      "identity": "CALLER_SPECIFIC",
+      "comparison": "Object.is distinguishes; === does not"
+    },
+    {
+      "contract": "frame-and-archive-v1",
+      "path": "scalar-array",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serialized": "POSITIVE_ZERO",
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO",
+      "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+    },
+    {
+      "contract": "frame-and-archive-v1",
+      "path": "uncertainty",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serialized": "POSITIVE_ZERO",
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO",
+      "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+    },
+    {
+      "contract": "frame-and-archive-v1",
+      "path": "coordinates",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serialized": "POSITIVE_ZERO",
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO",
+      "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+    },
+    {
+      "contract": "frame-and-archive-v1",
+      "path": "quality-flag",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serialized": "POSITIVE_ZERO",
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO",
+      "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+    },
+    {
+      "contract": "frame-and-archive-v1",
+      "path": "provenance-parameter",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serialized": "POSITIVE_ZERO",
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO",
+      "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+    },
+    {
+      "contract": "frame-and-archive-v1",
+      "path": "vector-component",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serialized": "POSITIVE_ZERO",
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO",
+      "archiveIdMeaning": "hash of caller frameId; frame/content digests seal canonical bytes"
+    },
+    {
+      "contract": "scalar-delivery-v1",
+      "path": "grid.values[0]",
+      "accepted": true,
+      "inMemory": "POSITIVE_ZERO_FROM_ARCHIVE",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "replay": "POSITIVE_ZERO"
+    },
+    {
+      "contract": "current-evidence-capture-v1",
+      "path": "SST.temperatureCelsius",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "current-evidence-capture-v1",
+      "path": "CHLOROPHYLL_DIRECT.concentrationMgM3",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "current-evidence-capture-v1",
+      "path": "CHLOROPHYLL_GAP_FILLED.concentrationMgM3",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "current-evidence-capture-v1",
+      "path": "CURRENTS.eastwardMetersPerSecond",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "current-evidence-capture-v1",
+      "path": "CURRENTS.northwardMetersPerSecond",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "weather-marine-quality-capture-v1",
+      "path": "wind.speedKnots",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "qualityOutputEqual": true
+    },
+    {
+      "contract": "weather-marine-quality-capture-v1",
+      "path": "waves.heightFeet",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "qualityOutputEqual": true
+    },
+    {
+      "contract": "weather-marine-quality-capture-v1",
+      "path": "swell.heightFeet",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "qualityOutputEqual": true
+    },
+    {
+      "contract": "marine-assessor-companion-capture-v1",
+      "path": "wind.gustKnots",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "marine-assessor-companion-capture-v1",
+      "path": "wind.directionDegrees",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "marine-assessor-companion-capture-v1",
+      "path": "waves.directionDegrees",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "marine-assessor-companion-capture-v1",
+      "path": "waves.periodSeconds",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "marine-assessor-companion-capture-v1",
+      "path": "swell.directionDegrees",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "marine-assessor-companion-capture-v1",
+      "path": "swell.periodSeconds",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "directReplay": "NEGATIVE_ZERO",
+      "serializedReplay": "POSITIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false
+    },
+    {
+      "contract": "environmental-evidence-sample-v1",
+      "path": "component.value",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "depends on supplied frame; JSON-reloaded frame yields POSITIVE_ZERO",
+      "noStandaloneReader": true
+    },
+    {
+      "contract": "publication-v3",
+      "path": "evidence.entries[0].ageHours",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO",
+      "scope": "Numeric age embedded; source values and species scores are references, not arbitrary embedded science"
+    },
+    {
+      "contract": "publication-v1",
+      "path": "evidence.entries[0].ageHours",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO"
+    },
+    {
+      "contract": "publication-v2",
+      "path": "evidence.entries[0].ageHours",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "serializedEqual": true,
+      "digestEqual": true,
+      "identityEqual": true,
+      "validationDistinguishes": false,
+      "replay": "POSITIVE_ZERO"
+    },
+    {
+      "contract": "semantic-projection-v1",
+      "path": "/sst/temperatureCelsius",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "identity": "NONE",
+      "comparisonDistinguishes": true,
+      "serialization": "No projection record serializer/replay contract; ordinary JSON loses sign"
+    },
+    {
+      "contract": "semantic-projection-v2",
+      "path": "/sst/temperatureCelsius",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "identity": "NONE",
+      "comparisonDistinguishes": true,
+      "serialization": "No projection record serializer/replay contract; ordinary JSON loses sign"
+    },
+    {
+      "contract": "parser-SST",
+      "path": "temperatureCelsius",
+      "origin": "literal transport",
+      "negative": "NEGATIVE_ZERO",
+      "positive": "POSITIVE_ZERO",
+      "missing": "NULL",
+      "fahrenheitEqual": true,
+      "orientationEqual": true
+    },
+    {
+      "contract": "parser-chlorophyll-direct",
+      "path": "concentrationMgM3",
+      "literalNegative": "POSITIVE_ZERO",
+      "positive": "POSITIVE_ZERO",
+      "computedNegative": "NEGATIVE_ZERO",
+      "missing": "NULL",
+      "classificationEqual": true
+    },
+    {
+      "contract": "parser-chlorophyll-gap-filled",
+      "path": "concentrationMgM3",
+      "literalNegative": "POSITIVE_ZERO",
+      "positive": "POSITIVE_ZERO",
+      "computedNegative": "NEGATIVE_ZERO",
+      "missing": "NULL",
+      "classificationEqual": true
+    },
+    {
+      "contract": "parser-currents",
+      "path": "u_current=0; v_current=+0 versus -0",
+      "directionPositive": 0,
+      "directionNegative": 180,
+      "compassPositive": "N",
+      "compassNegative": "S",
+      "speedEqual": true,
+      "componentsAfterRounding": "POSITIVE_ZERO",
+      "computedSmallNegativeComponent": "NEGATIVE_ZERO",
+      "differences": [
+        {
+          "path": "/directionDegrees",
+          "left": "POSITIVE_ZERO",
+          "right": 180
+        },
+        {
+          "path": "/derived/compassDirection",
+          "left": "N",
+          "right": "S"
+        }
+      ],
+      "physicalMeaning": "zero-speed heading is not authenticated by this audit"
+    },
+    {
+      "contract": "parser-marine",
+      "path": "wind.speedKnots",
+      "literalNegative": "POSITIVE_ZERO",
+      "computedNegative": "NEGATIVE_ZERO",
+      "missing": "POSITIVE_ZERO",
+      "upstreamNullConversionUnresolved": true
+    },
+    {
+      "contract": "parser-marine",
+      "path": "wind.gustKnots",
+      "literalNegative": "POSITIVE_ZERO",
+      "computedNegative": "NEGATIVE_ZERO",
+      "missing": "POSITIVE_ZERO",
+      "upstreamNullConversionUnresolved": true
+    },
+    {
+      "contract": "parser-marine",
+      "path": "waves.heightFeet",
+      "literalNegative": "POSITIVE_ZERO",
+      "computedNegative": "NEGATIVE_ZERO",
+      "missing": "POSITIVE_ZERO",
+      "upstreamNullConversionUnresolved": true
+    },
+    {
+      "contract": "parser-marine",
+      "path": "swell.heightFeet",
+      "literalNegative": "POSITIVE_ZERO",
+      "computedNegative": "NEGATIVE_ZERO",
+      "missing": "POSITIVE_ZERO",
+      "upstreamNullConversionUnresolved": true
+    },
+    {
+      "contract": "parser-marine",
+      "path": "wind.directionDegrees",
+      "literalNegative": "NEGATIVE_ZERO",
+      "missing": "NULL"
+    },
+    {
+      "contract": "parser-marine",
+      "path": "waves.directionDegrees",
+      "literalNegative": "NEGATIVE_ZERO",
+      "missing": "NULL"
+    },
+    {
+      "contract": "parser-marine",
+      "path": "waves.periodSeconds",
+      "literalNegative": "NEGATIVE_ZERO",
+      "missing": "NULL"
+    },
+    {
+      "contract": "parser-marine",
+      "path": "swell.directionDegrees",
+      "literalNegative": "NEGATIVE_ZERO",
+      "missing": "NULL"
+    },
+    {
+      "contract": "parser-marine",
+      "path": "swell.periodSeconds",
+      "literalNegative": "NEGATIVE_ZERO",
+      "missing": "NULL"
+    },
+    {
+      "contract": "marine-assessor",
+      "path": "all nine zero marine fields",
+      "canonicalOutputEqual": true,
+      "exactOutputEqual": false,
+      "differences": [
+        {
+          "path": "/assessments/wind/values/speedKnots",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/assessments/wind/values/gustKnots",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/assessments/waves/values/heightFeet",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/assessments/waves/values/periodSeconds",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/assessments/swell/values/heightFeet",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/assessments/swell/values/periodSeconds",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/directionalInteraction/values/windDirectionDegrees",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/directionalInteraction/values/waveDirectionDegrees",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        },
+        {
+          "path": "/directionalInteraction/values/swellDirectionDegrees",
+          "left": "NEGATIVE_ZERO",
+          "right": "POSITIVE_ZERO"
+        }
+      ],
+      "scope": "species-neutral marine assessor only; no species evaluation"
+    },
+    {
+      "contract": "bathymetry-static",
+      "path": "elevationMeters",
+      "accepted": true,
+      "inMemory": "NEGATIVE_ZERO",
+      "ingestedRounded": "POSITIVE_ZERO",
+      "waterEqual": true,
+      "depthEqual": true,
+      "identity": "not created by normalizer"
+    },
+    {
+      "contract": "current-vector-and-gradient-assemblers",
+      "path": "zero component sign combinations",
+      "canonicalOutputsEqual": true,
+      "exactOutputsEqual": true,
+      "limit": "controlled zero vectors; no species-output equivalence claim"
+    }
+  ],
+  "identityClasses": {
+    "archiveFrameDigest": "EXACT_CANONICAL_SERIALIZED_BYTES",
+    "archiveContentDigest": "CANONICAL_SCIENTIFIC_CONTENT_EXCLUDING_FRAME_ID",
+    "archiveId": "CALLER_FRAME_ID_KEY",
+    "captureDigests": "CANONICAL_NORMALIZED_CONTENT; CURRENT_SIGN_COLLISION",
+    "temporalObservationId": "FRAME_DIGEST_PLUS_SAMPLE_ADDRESS",
+    "publicationId": "CYCLE_KEY",
+    "publicationContentDigest": "CANONICAL_CONTENT",
+    "semanticProjection": "NO_IDENTITY; EXACT_VALUE_COMPARISON"
+  },
+  "scientificEffectAudit": [
+    {
+      "area": "current direction",
+      "producer": "getCurrentConditionsPointAtAssessment/currentDirectionDegrees",
+      "result": "DEMONSTRATED_DIFFERENCE",
+      "paths": [
+        "/directionDegrees",
+        "/derived/compassDirection"
+      ],
+      "scope": "Zero-speed quadrant representation; no physical direction or species inference"
+    },
+    {
+      "area": "SST conversion/orientation",
+      "producer": "getSeaSurfaceTemperaturePoint/celsiusToFahrenheit/deriveSstTransitionOrientation",
+      "result": "Celsius exact sign differs; Fahrenheit 32 and controlled orientation equal"
+    },
+    {
+      "area": "current vectors/gradients",
+      "producer": "buildCurrentVectorProjectionAnalysis/buildCurrentGradientAnalysis",
+      "result": "Four zero-component sign combinations exact-equal; no universal finite-domain proof"
+    },
+    {
+      "area": "marine conditions",
+      "producer": "assessOceanConditions",
+      "result": "Nine retained numeric paths differ by sign; all other controlled outputs exact-equal"
+    },
+    {
+      "area": "quality/state/availability",
+      "producer": "getOceanConditionsAtAssessment inline quality block",
+      "result": "Controlled sign substitutions equal; finite/null predicates retain missingness distinction"
+    },
+    {
+      "area": "static water/bathymetry",
+      "producer": "normalizeEtopoWaterMaskObservationV1/resolveOpportunityCandidateBathymetryV1",
+      "result": "Direct elevation sign retained; tested water/depth interpretation equal"
+    },
+    {
+      "area": "thresholds/confidence/lineage",
+      "result": "No changed controlled marine classification/confidence/lineage found beyond retained values; not a universal whole-program proof"
+    },
+    {
+      "area": "reciprocals/geographic atan2",
+      "result": "Source inspected; no scientific reciprocal-zero effect demonstrated. Geographic site behavior not globally requalified"
+    },
+    {
+      "area": "species gates/score/ranking/persistence/identities",
+      "result": "No species evaluator executed; no effect or non-effect established; unchanged source and regressions"
+    }
+  ],
+  "canonicalizationPrecedent": [
+    {
+      "source": "docs/Ocean_Product_Archive_v1.md",
+      "rule": "Explicit JavaScript JSON negative-zero treatment"
+    },
+    {
+      "source": "docs/Ocean_Scalar_Field_Delivery_v1.md",
+      "rule": "Explicit negative-zero to zero canonicalization"
+    },
+    {
+      "source": "shared/fishingLocationSpatialEvidence.mjs",
+      "rule": "Original scalar preserved, normalized coordinates canonicalized"
+    },
+    {
+      "source": "shared/fishingLogEvidenceCapture.mjs",
+      "rule": "Closed original-scalar tag for -0; not shared Ocean numeric authority"
+    },
+    {
+      "source": "backend/server.js",
+      "rule": "Scoped unit conversion, decimal rounding, direction normalization"
+    },
+    {
+      "source": "docs/Candidate_Semantic_Projection_v1.md",
+      "rule": "Deliberate exact signed-zero comparison"
+    }
+  ],
+  "historicalCompatibility": {
+    "acceptedV1": "Preserve bytes/IDs/readers and original canonical meaning",
+    "lostSign": "Unrecoverable from canonical zero alone",
+    "noRelabeling": true,
+    "archiveAmendment": false
+  },
+  "amendmentScope": {
+    "implemented": [],
+    "minimumLaterReview": [
+      "current capture versioned numeric representation",
+      "matching serializer/reader/validator",
+      "matching scientific digest, captureId and reference hash"
+    ],
+    "wholeCandidateLaterReview": [
+      "weather/marine quality successor",
+      "marine companion successor and explicit quality binding"
+    ],
+    "conditionalArchivePath": [
+      "separate frame/archive representation if exact-sign archive replay required",
+      "dependent scalar/temporal adapter authority"
+    ],
+    "preserveNow": [
+      "all existing contracts",
+      "parser/scientific formulas",
+      "projection exact comparison",
+      "publication V1/V2/V3",
+      "historical identities"
+    ]
+  },
+  "representationOptions": [
+    {
+      "name": "VERSIONED_CANONICAL_JSON_NEGATIVE_ZERO_TOKEN",
+      "evaluation": "Narrowest candidate; valid JSON -0 survives parsing; strict schema, key order and domain separation required; not implemented"
+    },
+    {
+      "name": "VERSIONED_TAGGED_NUMERIC_FORM",
+      "evaluation": "Closed numeric-path tag allowlist; reject arbitrary objects/nonfinite/private payloads; not implemented"
+    },
+    {
+      "name": "VERSIONED_BINARY",
+      "evaluation": "Byte order and finite-only schema required; larger scope; not implemented"
+    }
+  ],
+  "negativeZeroVersusMissing": "Distinct; missing masks remain strings; no null/zero relaxation",
+  "privacy": "No encoding change; nonfinite/tag/accessor/private-field attacks rejected in focused tests; inherited objects rejected",
+  "nextGate": "VERSIONED SIGNED-ZERO-PRESERVING EXACT-EVIDENCE SERIALIZATION / IDENTITY AMENDMENT REVIEW",
+  "separateOpenRequirement": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "task12B6C": "PAUSED",
+  "task9ED": "PAUSED",
+  "verification": {
+    "focusedTests": 40,
+    "network": "BLOCKED; synthetic local transport mocks only",
+    "regressionScripts": 48,
+    "regression": "ALL_PASSED",
+    "syntaxModules": 85,
+    "jsonFiles": 19,
+    "whitespace": "PASSED",
+    "trackedChanges": false,
+    "stagedChanges": false
+  },
+  "limitations": "Representative executed numeric paths plus source inventory, not every possible value/field combination or whole-program equivalence proof"
+}
