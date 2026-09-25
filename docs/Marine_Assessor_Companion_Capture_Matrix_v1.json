@@ -1,0 +1,299 @@
+{
+  "task": "12B.6E",
+  "baseline": "8d9d7ce3e0642f5fdc3a19ea9e45ac8ebbbc6b74",
+  "contractVersion": "pelora-marine-assessor-companion-capture-v1",
+  "verdict": "CANDIDATE_ASSEMBLY_READY_TO_RESUME",
+  "qualifiedBoundary": "Same-product normalized marine companion inputs and same existing marine assessor only",
+  "sixFieldSourceMap": [
+    {
+      "field": "wind.gustKnots",
+      "transport": "wind_gusts_10m",
+      "parser": "backend/server.js:getMarineConditions",
+      "converter": "metersPerSecondToKnots",
+      "units": "knots",
+      "sourceProduct": "Open-Meteo Weather Forecast API",
+      "classification": "EXACT_MATCH",
+      "normalizedMissing": "null; distinct from numeric zero",
+      "transportNull": "0; UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+      "ranges": "No new scientific range; finite numbers or null. Existing assessor normalizes directions.",
+      "representedTime": "No individual time field on normalized wind/waves/swell; no new time authority created",
+      "provenance": [
+        "wind.source",
+        "source.weatherModel"
+      ],
+      "availabilityEffect": "windHasAnyValue includes speed OR gust OR direction",
+      "consumer": "wind assessment; buildAssessmentConfidence; windHasAnyValue availability",
+      "ordering": "Named family/field roles; no observation sequence or array of measurements",
+      "currentAuthority": "Normalized synthetic actual-parser output; not production source qualification"
+    },
+    {
+      "field": "wind.directionDegrees",
+      "transport": "wind_direction_10m",
+      "parser": "backend/server.js:getMarineConditions",
+      "converter": "safeNumber",
+      "units": "degrees",
+      "sourceProduct": "Open-Meteo Weather Forecast API",
+      "classification": "EXACT_MATCH",
+      "normalizedMissing": "null; distinct from numeric zero",
+      "transportNull": "null",
+      "ranges": "No new scientific range; finite numbers or null. Existing assessor normalizes directions.",
+      "representedTime": "No individual time field on normalized wind/waves/swell; no new time authority created",
+      "provenance": [
+        "wind.source",
+        "source.weatherModel"
+      ],
+      "availabilityEffect": "windHasAnyValue includes speed OR gust OR direction",
+      "consumer": "directionDifference; directionalInteraction; buildAssessmentConfidence; windHasAnyValue",
+      "ordering": "Named family/field roles; no observation sequence or array of measurements",
+      "currentAuthority": "Normalized synthetic actual-parser output; not production source qualification"
+    },
+    {
+      "field": "waves.directionDegrees",
+      "transport": "wave_direction",
+      "parser": "backend/server.js:getMarineConditions",
+      "converter": "safeNumber",
+      "units": "degrees",
+      "sourceProduct": "Open-Meteo Marine Forecast API",
+      "classification": "EXACT_MATCH",
+      "normalizedMissing": "null; distinct from numeric zero",
+      "transportNull": "null",
+      "ranges": "No new scientific range; finite numbers or null. Existing assessor normalizes directions.",
+      "representedTime": "No individual time field on normalized wind/waves/swell; no new time authority created",
+      "provenance": [
+        "source.marineModel"
+      ],
+      "availabilityEffect": "Height/family outcomes remain in locked quality capture; period/direction availability enters marine assessment",
+      "consumer": "directionDifference; directionalInteraction; buildAssessmentConfidence",
+      "ordering": "Named family/field roles; no observation sequence or array of measurements",
+      "currentAuthority": "Normalized synthetic actual-parser output; not production source qualification"
+    },
+    {
+      "field": "waves.periodSeconds",
+      "transport": "wave_period",
+      "parser": "backend/server.js:getMarineConditions",
+      "converter": "safeNumber",
+      "units": "seconds",
+      "sourceProduct": "Open-Meteo Marine Forecast API",
+      "classification": "EXACT_MATCH",
+      "normalizedMissing": "null; distinct from numeric zero",
+      "transportNull": "null",
+      "ranges": "No new scientific range; finite numbers or null. Existing assessor normalizes directions.",
+      "representedTime": "No individual time field on normalized wind/waves/swell; no new time authority created",
+      "provenance": [
+        "source.marineModel"
+      ],
+      "availabilityEffect": "Height/family outcomes remain in locked quality capture; period/direction availability enters marine assessment",
+      "consumer": "classifyWavePeriod; sea state; buildAssessmentConfidence",
+      "ordering": "Named family/field roles; no observation sequence or array of measurements",
+      "currentAuthority": "Normalized synthetic actual-parser output; not production source qualification"
+    },
+    {
+      "field": "swell.directionDegrees",
+      "transport": "swell_wave_direction",
+      "parser": "backend/server.js:getMarineConditions",
+      "converter": "safeNumber",
+      "units": "degrees",
+      "sourceProduct": "Open-Meteo Marine Forecast API",
+      "classification": "EXACT_MATCH",
+      "normalizedMissing": "null; distinct from numeric zero",
+      "transportNull": "null",
+      "ranges": "No new scientific range; finite numbers or null. Existing assessor normalizes directions.",
+      "representedTime": "No individual time field on normalized wind/waves/swell; no new time authority created",
+      "provenance": [
+        "source.marineModel"
+      ],
+      "availabilityEffect": "Height/family outcomes remain in locked quality capture; period/direction availability enters marine assessment",
+      "consumer": "directionDifference; directionalInteraction; buildAssessmentConfidence",
+      "ordering": "Named family/field roles; no observation sequence or array of measurements",
+      "currentAuthority": "Normalized synthetic actual-parser output; not production source qualification"
+    },
+    {
+      "field": "swell.periodSeconds",
+      "transport": "swell_wave_period",
+      "parser": "backend/server.js:getMarineConditions",
+      "converter": "safeNumber",
+      "units": "seconds",
+      "sourceProduct": "Open-Meteo Marine Forecast API",
+      "classification": "EXACT_MATCH",
+      "normalizedMissing": "null; distinct from numeric zero",
+      "transportNull": "null",
+      "ranges": "No new scientific range; finite numbers or null. Existing assessor normalizes directions.",
+      "representedTime": "No individual time field on normalized wind/waves/swell; no new time authority created",
+      "provenance": [
+        "source.marineModel"
+      ],
+      "availabilityEffect": "Height/family outcomes remain in locked quality capture; period/direction availability enters marine assessment",
+      "consumer": "classifySwellPeriod; sea state; buildAssessmentConfidence",
+      "ordering": "Named family/field roles; no observation sequence or array of measurements",
+      "currentAuthority": "Normalized synthetic actual-parser output; not production source qualification"
+    }
+  ],
+  "provenanceMap": [
+    {
+      "field": "wind.source.provider",
+      "derivation": "Open-Meteo Weather API",
+      "consumer": "Returned candidate wind source; no assessor formula reads this label",
+      "classification": "EXACT_MATCH",
+      "authority": "Recorded parser provenance, not authentication"
+    },
+    {
+      "field": "wind.source.classification",
+      "derivation": "forecast-model",
+      "consumer": "Returned candidate wind source",
+      "classification": "EXACT_MATCH",
+      "authority": "Recorded parser provenance, not authentication"
+    },
+    {
+      "field": "wind.source.availability",
+      "derivation": "windHasAnyValue + weather acquisition/current-block state",
+      "consumer": "Returned candidate source availability; not reconstructed from speed alone",
+      "classification": "EXACT_MATCH",
+      "authority": "Recorded parser provenance, not authentication"
+    },
+    {
+      "field": "source.provider",
+      "derivation": "Open-Meteo",
+      "consumer": "Candidate source.marine",
+      "classification": "EXACT_MATCH",
+      "authority": "Recorded parser provenance, not authentication"
+    },
+    {
+      "field": "source.weatherModel",
+      "derivation": "Weather Forecast API when weather.current_units is truthy; otherwise null",
+      "consumer": "Candidate source.marine",
+      "classification": "EXACT_MATCH",
+      "authority": "Recorded parser provenance, not authentication"
+    },
+    {
+      "field": "source.marineModel",
+      "derivation": "Marine Forecast API when marine.current_units is truthy; otherwise null",
+      "consumer": "Candidate source.marine",
+      "classification": "EXACT_MATCH",
+      "authority": "Recorded parser provenance, not authentication"
+    }
+  ],
+  "composition": [
+    {
+      "contract": "pelora-weather-marine-quality-capture-v1",
+      "binding": "Exact immutable reference and digest validated on every construction/read/replay",
+      "provides": [
+        "location",
+        "wind.speedKnots",
+        "waves.heightFeet",
+        "swell.heightFeet",
+        "observedAt",
+        "diagnostics.providerStatus"
+      ],
+      "classification": "EXACT_MATCH"
+    },
+    {
+      "contract": "pelora-governed-current-evidence-capture-v1",
+      "binding": "Test-only same-parser projection; complete candidate cross-family resolver not implemented",
+      "provides": [
+        "SST source input",
+        "fixed supporting chlorophyll/current inputs"
+      ],
+      "classification": "EXACT_MATCH"
+    }
+  ],
+  "temporalAudit": [
+    {
+      "field": "observedAt",
+      "authority": "QUALITY_TIME",
+      "source": "Locked quality capture: weather current time nullish marine current time",
+      "scientificAgeAuthority": false
+    },
+    {
+      "field": "sst.observedAt",
+      "authority": "marine-current-block-valid-time",
+      "source": "Locked current evidence capture; unchanged"
+    },
+    {
+      "field": "retrievedAt",
+      "authority": "OPERATIONAL_ONLY",
+      "disposition": "Not retained by companion; full candidate snapshot replay remains separate"
+    },
+    {
+      "field": "assessmentAt",
+      "authority": "SCIENTIFIC_ASSESSMENT_TIME",
+      "disposition": "Not an input to companion. Fixed governed context for supporting test family age."
+    }
+  ],
+  "equivalence": {
+    "retainedCompanionScientificAndSourceLeaves": 12,
+    "input": "EXACT_MATCH",
+    "quality": "EXACT_MATCH",
+    "oceanConditions": "EXACT_MATCH",
+    "unexplainedMismatches": 0,
+    "oneAtATimeComparisons": 6,
+    "partialAvailabilityCombinations": 8,
+    "completeCandidateEquivalence": "UNESTABLISHED",
+    "speciesOutputs": "NOT_EVALUATED"
+  },
+  "excluded": [
+    {
+      "group": "provider timings/errors",
+      "classification": "NONSCIENTIFIC_OPERATIONAL"
+    },
+    {
+      "group": "retrieval timestamp",
+      "classification": "NONSCIENTIFIC_OPERATIONAL"
+    },
+    {
+      "group": "species and captain context",
+      "classification": "OUTSIDE_CONTRACT"
+    }
+  ],
+  "unresolved": [
+    "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+    "Full candidate SST/chlorophyll/current spatial reconstruction and cross-family binding",
+    "Broader masks/uncertainty mapping",
+    "Durable capture reference resolution and production integration",
+    "Live source qualification, authenticity, reliability and operational freshness"
+  ],
+  "referenceCompatibility": {
+    "archive": "REFERENCE_ONLY",
+    "publicationV3": "REFERENCE_ONLY",
+    "durability": "UNESTABLISHED"
+  },
+  "sourceAuthority": "Capture validity != provider authenticity. Source identity != source qualification. Synthetic fixtures prove mechanics only.",
+  "nextGate": "Resume 12B.6C complete candidate-object input comparison using all three captures and unchanged assemblers; do not jump to species equivalence.",
+  "verification": {
+    "focusedTests": 108,
+    "backendSharedScripts": 42,
+    "failedScripts": 0,
+    "syntaxModules": 76,
+    "json": "PASS",
+    "whitespace": "PASS",
+    "diffCheck": "PASS",
+    "network": "blocked except synthetic transport mocks"
+  },
+  "scienceGuard": "Existing runtime, converters, science, locked captures, archive and V3 unchanged. Task 9E-D paused.",
+  "adversarialReview": {
+    "verdict": "PASS_AFTER_DEMONSTRATED_CORRECTION",
+    "baseline": {
+      "focusedTests": 84,
+      "addedLines": 637
+    },
+    "defects": [
+      {
+        "id": "CONTRADICTORY_WIND_SOURCE_AVAILABILITY",
+        "demonstrated": "Two red tests accepted finite speed/gust/direction with missing-source provenance, and all-null wind with available provenance.",
+        "correction": "Validation-only invariant: recorded available iff existing parser windHasAnyValue over bound speed OR companion gust OR companion direction. Reject contradictions; do not repair provenance or change formulas.",
+        "redEvidence": ".local/ocean-quarantine/task12b6e-review/red.log"
+      }
+    ],
+    "addedTests": 24,
+    "binding": "Exact reference, digest, contract, identity, source location/time/value/lineage/authority swaps reject",
+    "sixFields": "EXACT_MATCH",
+    "provenance": "EXACT_MATCH",
+    "quality": "EXACT_MATCH",
+    "oceanConditions": "EXACT_MATCH",
+    "availabilityCombinations": 8,
+    "privacy": "Dedicated private labels, metadata-shaped additions, email/UUID, dotted/hyphenated/underscored references, accessors/inheritance reject",
+    "sourceAuthorityLimit": "A producer that changes measurements, family labels and digests consistently is not authenticated. Validation establishes internal integrity, not physical origin or unit truth.",
+    "unexplainedMismatches": 0,
+    "lockedContracts": "UNCHANGED",
+    "resumption": "CANDIDATE_ASSEMBLY_READY_TO_RESUME for controlled 12B.6C only; not resumed in review"
+  }
+}
