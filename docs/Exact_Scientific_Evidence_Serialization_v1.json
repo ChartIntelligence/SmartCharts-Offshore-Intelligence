@@ -1,0 +1,485 @@
+{
+  "reportVersion": "pelora-exact-scientific-evidence-serialization-qualification-v1",
+  "baseline": "71c6c039c8d733c496c0a0c687c33a3eb45678c4",
+  "verdict": "EXACT_EVIDENCE_SERIALIZATION_QUALIFIED",
+  "scope": "Current capture v2 mechanism plus one root SST signed-zero producer-baseline compatibility case; no runtime integration or complete candidate reconstruction",
+  "auditBeforeImplementation": true,
+  "amendmentScope": [
+    {
+      "boundary": "pelora-governed-current-evidence-capture-v1",
+      "classification": "MUST_VERSION_FOR_EXACT_EVIDENCE",
+      "action": "New v2, historical v1 unchanged"
+    },
+    {
+      "boundary": "pelora-weather-marine-quality-capture-v1",
+      "classification": "MUST_VERSION_FOR_EXACT_EVIDENCE",
+      "action": "Deferred, no v2 created"
+    },
+    {
+      "boundary": "pelora-marine-assessor-companion-capture-v1",
+      "classification": "MUST_VERSION_FOR_EXACT_EVIDENCE",
+      "action": "Deferred with compatible future quality binding; no v2 created"
+    },
+    {
+      "boundary": "currentCaptureReferenceV1",
+      "classification": "MUST_VERSION_FOR_EXACT_EVIDENCE",
+      "action": "New currentCaptureReferenceV2 and exact version-verifying helper"
+    },
+    {
+      "boundary": "pelora-environmental-evidence-sample-v1",
+      "classification": "HISTORICAL_CANONICAL_CONTRACT",
+      "action": "Existing frame-bound identity unchanged"
+    },
+    {
+      "boundary": "future exact temporal sample view",
+      "classification": "MUST_VERSION_FOR_EXACT_EVIDENCE",
+      "action": "Compose typed exact reference plus sample address; no view/codec implemented"
+    },
+    {
+      "boundary": "Ocean Product Frame/archive/scalar v1",
+      "classification": "HISTORICAL_CANONICAL_CONTRACT",
+      "action": "No amendment, migration or inferred sign"
+    },
+    {
+      "boundary": "archive/scalar references",
+      "classification": "REFERENCE_ONLY_COMPATIBLE",
+      "action": "Contextual binding only; canonical values cannot recover sign"
+    },
+    {
+      "boundary": "publication V3 captured references",
+      "classification": "REFERENCE_ONLY_COMPATIBLE",
+      "action": "Existing contractVersion/sha256 fields bind v2 identity; no resolver claim"
+    },
+    {
+      "boundary": "generic publication reference helper",
+      "classification": "REFERENCE_ONLY_COMPATIBLE",
+      "action": "Syntax only; exact semantic verification requires explicit v2 helper"
+    },
+    {
+      "boundary": "semantic projection v1/v2",
+      "classification": "NO_CHANGE_REQUIRED",
+      "action": "Exact signed-zero comparison unchanged"
+    },
+    {
+      "boundary": "parsers/spatial/marine/assessment science",
+      "classification": "NO_CHANGE_REQUIRED",
+      "action": "No algorithm changes"
+    }
+  ],
+  "representations": [
+    {
+      "name": "A_VERSIONED_JSON_NUMERIC_MINUS_ZERO",
+      "selected": true,
+      "finiteRoundTrip": true,
+      "ordering": "Sorted object keys, original array order",
+      "schema": "Closed source schema; numeric -0 only, no tags/reviver",
+      "complexity": "One finite numeric sign case; native string escaping/parser",
+      "inspectability": "Human-readable JSON",
+      "hashing": "UTF-8 exact canonical bytes with version/purpose domain",
+      "runtime": "Current Node native JSON parser preserves numeric -0",
+      "security": "Canonical reserialization rejects duplicate fields/alternate spellings; own-data validation",
+      "scalability": "Output-size linear encoding plus object key sorting; bounded qualification input"
+    },
+    {
+      "name": "B_CLOSED_NUMERIC_TAG",
+      "selected": false,
+      "finiteRoundTrip": "Possible",
+      "ordering": "Requires canonical tag/key rules",
+      "schema": "Exact numeric-path tags and payload grammar required",
+      "complexity": "Extra representation and decoding schema",
+      "inspectability": "Verbose JSON",
+      "hashing": "Versioned tag bytes",
+      "runtime": "Custom decoder",
+      "security": "Tag confusion/arbitrary objects must be rejected",
+      "scalability": "Larger numeric payload"
+    },
+    {
+      "name": "C_DETERMINISTIC_BINARY",
+      "selected": false,
+      "finiteRoundTrip": "Possible",
+      "ordering": "Requires explicit field/array encoding",
+      "schema": "Byte order/type/finite-only encoding required",
+      "complexity": "Broader codec/tooling",
+      "inspectability": "Binary tooling required",
+      "hashing": "Versioned bytes",
+      "runtime": "Possible with Node buffers",
+      "security": "Nonfinite bits/malformed lengths require validation",
+      "scalability": "Compact but broader integration scope"
+    },
+    {
+      "name": "D_NEGATIVE_ZERO_PATH_SIDECAR",
+      "selected": false,
+      "finiteRoundTrip": "Possible with exact pointers",
+      "ordering": "Array pointer movement must be governed",
+      "schema": "Duplicate numeric authority and pointer coherence required",
+      "complexity": "Higher than direct numeric token",
+      "inspectability": "Two-part record",
+      "hashing": "Must bind payload and sidecar",
+      "runtime": "Custom traversal",
+      "security": "Dangling/non-numeric/duplicate pointers",
+      "scalability": "Additional path overhead"
+    }
+  ],
+  "contracts": {
+    "capture": "pelora-governed-current-evidence-capture-v2",
+    "serialization": "pelora-exact-scientific-json-v1",
+    "digest": "pelora-exact-scientific-content-sha256-v1",
+    "referenceProtocol": "pelora-exact-current-evidence-reference-v1"
+  },
+  "wire": {
+    "referenceKeys": [
+      "kind",
+      "referenceId",
+      "contractVersion",
+      "sha256"
+    ],
+    "referenceContractVersion": "pelora-governed-current-evidence-capture-v2",
+    "serializationAndDigestDispatch": "Capture v2 fixes exact serialization/digest/reference versions; record includes explicit serializationVersion and digestVersion",
+    "numericGrammar": "Canonical JSON.stringify(finite Number), except Object.is(-0) emits -0",
+    "strings": "Always JSON strings, no revival",
+    "reader": "Native JSON.parse then schema/integrity validation and exact canonical reserialization equality"
+  },
+  "digest": {
+    "algorithm": "SHA-256",
+    "encoding": "UTF-8",
+    "envelopeKeys": [
+      "digestVersion",
+      "serializationVersion",
+      "captureVersion",
+      "purpose",
+      "content"
+    ],
+    "purposes": [
+      "scientific-content",
+      "capture-identity",
+      "pelora-exact-current-evidence-reference-v1"
+    ],
+    "idPrefix": "cec2-",
+    "identityMeaning": "Versioned exact normalized content; not source authenticity or candidate identity"
+  },
+  "numericAuthority": {
+    "common": [
+      "samples/*/point/requestedLatitude",
+      "samples/*/point/requestedLongitude",
+      "samples/*/point/resolvedLatitude",
+      "samples/*/point/resolvedLongitude"
+    ],
+    "SST": [
+      "temperatureCelsius",
+      "temperatureFahrenheit",
+      "providerCoordinates/resolvedLatitude",
+      "providerCoordinates/resolvedLongitude"
+    ],
+    "CURRENTS": [
+      "speedKnots",
+      "directionDegrees",
+      "eastwardMetersPerSecond",
+      "northwardMetersPerSecond"
+    ],
+    "CHLOROPHYLL_DIRECT": [
+      "concentrationMgM3"
+    ],
+    "CHLOROPHYLL_GAP_FILLED": [
+      "concentrationMgM3",
+      "source/resolutionKilometers (existing fixed 9 only)"
+    ],
+    "notAdmitted": [
+      "ageHours",
+      "HTTP metadata",
+      "operational counters",
+      "quality objects",
+      "static bathymetry",
+      "wind/waves/swell families",
+      "arbitrary numeric/tagged objects"
+    ]
+  },
+  "safety": {
+    "finiteOnly": true,
+    "nonfiniteRejected": true,
+    "requiredMissingRejected": true,
+    "optionalAbsencePreserved": true,
+    "nullDistinct": true,
+    "prototypeAccessorRejected": true,
+    "noGettersInvoked": true,
+    "privateLabelsRejected": true,
+    "stringRevival": false,
+    "duplicateWireKeysRejected": true,
+    "sparseArraysRejected": true,
+    "maxStringCharacters": 200,
+    "observedAtMaxCharacters": 64,
+    "maxDepth": 32,
+    "maxCaptureBytes": 1048576,
+    "limitsMeaning": "Explicit qualification input-safety bounds; not production sizing from benchmark"
+  },
+  "prototypeCorrections": [
+    {
+      "finding": "Oversized reference initially rejected only after slow privacy regex scan",
+      "correction": "Bound reviewed string/key vocabulary before scans",
+      "historicalFilesChanged": false
+    }
+  ],
+  "collisionMatrix": [
+    {
+      "family": "SST",
+      "field": "temperatureCelsius",
+      "exactBytesDifferent": true,
+      "exactDigestDifferent": true,
+      "exactIdDifferent": true,
+      "exactReferenceDifferent": true,
+      "exactNegativeZeroReplay": true,
+      "historicalBytesEqual": true,
+      "historicalIdEqual": true,
+      "negativeReference": {
+        "kind": "captured",
+        "referenceId": "cec2-3d3ad9386d3ffab7dab5bedac24459694f39cdc2a261b2c0995bcd50cec9492a",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "c1d7dfdf9ad195db53a17093304e05628b2d902682345d18b22289cb87b0d4b9"
+      },
+      "positiveReference": {
+        "kind": "captured",
+        "referenceId": "cec2-17c20256e96ba913304c39c688b524754a2765336149da9460d9ec8cf0926ba0",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "ad8fea8c96ca7876b110167b0f4cec5bb80b39799ad7f38d0802c677c75f6b5d"
+      }
+    },
+    {
+      "family": "SST",
+      "field": "temperatureFahrenheit",
+      "exactBytesDifferent": true,
+      "exactDigestDifferent": true,
+      "exactIdDifferent": true,
+      "exactReferenceDifferent": true,
+      "exactNegativeZeroReplay": true,
+      "historicalBytesEqual": true,
+      "historicalIdEqual": true,
+      "negativeReference": {
+        "kind": "captured",
+        "referenceId": "cec2-35e9d641fcd5dcf64e62909e41725f1bf55d118ac26393cab141cc3537b6ec6a",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "bb4a630b459320156d68f889385a2614231e589ea8fe23e8d715316dbc957d88"
+      },
+      "positiveReference": {
+        "kind": "captured",
+        "referenceId": "cec2-5046f1e766b514d8a640c2a0c507cfd474bac9c5a026dc6f890f556f7300ff81",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "2f98ce235240e95d7cfa1e0b2a997217623967eda2b55d7b170298581327c101"
+      }
+    },
+    {
+      "family": "CURRENTS",
+      "field": "eastwardMetersPerSecond",
+      "exactBytesDifferent": true,
+      "exactDigestDifferent": true,
+      "exactIdDifferent": true,
+      "exactReferenceDifferent": true,
+      "exactNegativeZeroReplay": true,
+      "historicalBytesEqual": true,
+      "historicalIdEqual": true,
+      "negativeReference": {
+        "kind": "captured",
+        "referenceId": "cec2-8a7eee0b9000933ee521a0b30e1157775664cd016327aba4d71cfcf8c235ba61",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "33ed64587a665abfdc700f347bb6dbbd14e5078306158b9061327a4ba82f8e04"
+      },
+      "positiveReference": {
+        "kind": "captured",
+        "referenceId": "cec2-8dd1891f4df836419952d73e206e074a8436e9e4a5d645cb017ad350746ddfe6",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "98e32b8f3dbacbee6539f213bb1e8cac1210c8e80923293b5ecf58234ae51e5f"
+      }
+    },
+    {
+      "family": "CURRENTS",
+      "field": "northwardMetersPerSecond",
+      "exactBytesDifferent": true,
+      "exactDigestDifferent": true,
+      "exactIdDifferent": true,
+      "exactReferenceDifferent": true,
+      "exactNegativeZeroReplay": true,
+      "historicalBytesEqual": true,
+      "historicalIdEqual": true,
+      "negativeReference": {
+        "kind": "captured",
+        "referenceId": "cec2-78460eddf5a212a65a8602bbf30731d544bf46d595d1716a7fbdef88cb5b1c8a",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "1b10b6b27cf201023fee81219a64d4cb6ba1df246f4b291d5dd01754ff30bb3b"
+      },
+      "positiveReference": {
+        "kind": "captured",
+        "referenceId": "cec2-c59070cb82376fac562f3c20dd17fd8e933d0a54903dee2fcfb6e47fcdf7a2f2",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "cd3c7e085201537039012a9d5c2bca4fb331ab2d9e3b68922e4d49e770f22699"
+      }
+    },
+    {
+      "family": "CHLOROPHYLL_DIRECT",
+      "field": "concentrationMgM3",
+      "exactBytesDifferent": true,
+      "exactDigestDifferent": true,
+      "exactIdDifferent": true,
+      "exactReferenceDifferent": true,
+      "exactNegativeZeroReplay": true,
+      "historicalBytesEqual": true,
+      "historicalIdEqual": true,
+      "negativeReference": {
+        "kind": "captured",
+        "referenceId": "cec2-a822e07099edce0712a4c7db1e7e666b40aefc8f1f2d31d5ca30f1b21ab2328f",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "52f8896c6ad6a3caf637f7469e194d730fecfe84fdc984834ccacddb136ccbe7"
+      },
+      "positiveReference": {
+        "kind": "captured",
+        "referenceId": "cec2-c67c37418941f7529a2be36f82e1b9b89a7175cf37c03a0997387c8b4dae63cb",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "23939501ee9db9f7a95efa64a9c4f74f8bd56debe2f666769b4049aa9d398aec"
+      }
+    },
+    {
+      "family": "CHLOROPHYLL_GAP_FILLED",
+      "field": "concentrationMgM3",
+      "exactBytesDifferent": true,
+      "exactDigestDifferent": true,
+      "exactIdDifferent": true,
+      "exactReferenceDifferent": true,
+      "exactNegativeZeroReplay": true,
+      "historicalBytesEqual": true,
+      "historicalIdEqual": true,
+      "negativeReference": {
+        "kind": "captured",
+        "referenceId": "cec2-a1bd55360b9a021ca8a7dad05cd5d90dddebde0d01a1caca9d58f20c229dccf4",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "b37dfeb2bc822a5d92a9ac210142fefef8c8eae1960c8a6634e8760f4dc6dccf"
+      },
+      "positiveReference": {
+        "kind": "captured",
+        "referenceId": "cec2-21f1aa6d20fd571f62804a64e121195e7d597c1d179da14ede801855fc667765",
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "sha256": "fca5d8fd9d351d7a1b2491d7d94b1c01564478d9ce66c0e4b98d17097421e853"
+      }
+    }
+  ],
+  "compatibility": {
+    "futureSst": {
+      "producer": "actual SST parser and existing spatial assembler",
+      "replay": "v2 capture/serialize/read/validate/replay then unchanged assembler",
+      "comparison": "locked projection v2",
+      "result": "EXACT_MATCH",
+      "borrowedDerivedFacts": false,
+      "networkDuringReplay": false,
+      "dateNowDuringReplay": false
+    },
+    "historicalSst": {
+      "result": "MISMATCH",
+      "path": "/sst/derived/spatialStructure/samples/0/temperatureCelsius",
+      "producer": "NEGATIVE_ZERO",
+      "replay": "POSITIVE_ZERO"
+    },
+    "V3": {
+      "referenceBinding": "PASS",
+      "sameCyclePublicationId": true,
+      "signOnlyReferenceChangeAltersContentDigest": true,
+      "durableResolver": false
+    },
+    "archive": {
+      "amendment": false,
+      "independentExactSource": true,
+      "canonicalArchiveCannotRecoverSign": true
+    },
+    "scalar": {
+      "unchanged": true,
+      "sourceAuthority": "Canonical presentation/science references do not establish original sign"
+    },
+    "temporal": {
+      "v1Unchanged": true,
+      "newViewCreated": false,
+      "preferredFutureApproach": "typed capture reference plus sample address"
+    },
+    "weatherAndCompanion": {
+      "v1Unchanged": true,
+      "successorsCreated": false,
+      "exactReplayDeferred": true
+    }
+  },
+  "historicalPreservation": {
+    "pinnedGitBlobs": 12,
+    "allOldValidatorsUnchanged": true,
+    "crossVersionRecordsRejected": true,
+    "noMigration": true,
+    "noRehash": true,
+    "noOriginalSignInference": true
+  },
+  "performance": {
+    "fixture": "two-point-SST-signed-zero",
+    "iterations": 100,
+    "v1Bytes": 1631,
+    "v2Bytes": 1751,
+    "v1SerializeMs": 0.49809300000000006,
+    "v2SerializeMs": 0.9952820000000009,
+    "v1ReadReplayMs": 1.2874009999999998,
+    "v2ReadReplayMs": 2.9102369999999986,
+    "scope": "single-desktop synthetic diagnostic, not production budgets"
+  },
+  "qualificationLimits": [
+    "No complete candidate equivalence",
+    "No weather/marine companion v2",
+    "No live provider qualification",
+    "No production budgets",
+    "No storage/resolver",
+    "No species evaluation",
+    "No runtime integration"
+  ],
+  "scientificMismatches": {
+    "futureNarrowSst": 0,
+    "historicalExpected": 1
+  },
+  "nextGate": "SEPARATE_EXACT_WEATHER_MARINE_AND_COMPANION_VERSION_QUALIFICATION_BEFORE_COMPLETE_RECONSTRUCTION",
+  "task12B6C": "PAUSED",
+  "task9ED": "PAUSED",
+  "separateOpenIssue": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "verification": {
+    "focusedTests": 160,
+    "regression": "ALL_PASSED",
+    "regressionScripts": 49,
+    "syntaxModules": 88,
+    "jsonFiles": 20,
+    "whitespace": "PASSED",
+    "trackedChanges": false,
+    "stagedChanges": false,
+    "network": "BLOCKED; synthetic transport mocks only"
+  },
+  "adversarialReview": {
+    "verdict": "PASS_FOR_REVIEWED_CURRENT_CAPTURE_V2_MECHANISM",
+    "defectsDemonstrated": [],
+    "implementationCorrections": [],
+    "baselineFocusedTests": 115,
+    "finalFocusedTests": 160,
+    "duplicateKeys": "All object boundaries in all four current families attacked, including nested metadata, provenance and array elements. Native parsing is internal only; no collapsed record is returned: canonical re-encoding rejects every duplicate wire before acceptance.",
+    "grammar": "Malformed and alternate numeric/Unicode spellings rejected; canonical validated re-encoding byte equality required; numeric-looking strings never revived.",
+    "identity": "Sign-only differences bind exact scientific digest, cec2 ID and typed reference digest. All component sign combinations preserve stored direction unchanged.",
+    "versioningDecisions": {
+      "weatherMarineQuality": "V2_REQUIRED_BEFORE_COMPLETE_RECONSTRUCTION",
+      "marineCompanion": "V2_REQUIRED_BEFORE_COMPLETE_RECONSTRUCTION"
+    },
+    "consumedMarinePaths": [
+      "/oceanConditions/assessments/wind/values/speedKnots",
+      "/oceanConditions/assessments/wind/values/gustKnots",
+      "/oceanConditions/assessments/waves/values/heightFeet",
+      "/oceanConditions/assessments/waves/values/periodSeconds",
+      "/oceanConditions/assessments/swell/values/heightFeet",
+      "/oceanConditions/assessments/swell/values/periodSeconds",
+      "/oceanConditions/directionalInteraction/values/windDirectionDegrees",
+      "/oceanConditions/directionalInteraction/values/waveDirectionDegrees",
+      "/oceanConditions/directionalInteraction/values/swellDirectionDegrees"
+    ],
+    "marineFixtureAuthority": "Actual synthetic parser output with one controlled normalized numeric field set to -0. Some upstream unit converters erase raw -0; no claim that every raw transport -0 survives. Same assessor then projection demonstrates each normalized sign loss after existing capture serialization.",
+    "publication": "Reference-only binding passes. Altering version, ID or digest invalidates an existing publication. Generic V3 reference syntax does not authenticate source content; exact reference validation against the v2 capture remains required. No durable resolver or new publication consumer is claimed.",
+    "resumptionDecision": "ADDITIONAL_EXACT_CAPTURE_VERSION_REQUIRED",
+    "task12B6CResumed": false,
+    "scientificMismatches": {
+      "currentV2NarrowSst": 0,
+      "historicalV1SstExpected": 1,
+      "existingMarineV1ExpectedControlledSignCases": 9
+    },
+    "qualification": "No complete candidate, marine successor, provider, production freshness, storage or species qualification."
+  }
+}
