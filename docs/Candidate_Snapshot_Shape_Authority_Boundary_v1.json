@@ -1,0 +1,1103 @@
+{
+  "verdict": "SNAPSHOT_SEMANTIC_AUTHORITY_UNRESOLVED",
+  "baseline": "10ae54e634684771149fa5a728528cbb1a31977f",
+  "v3Created": false,
+  "task12B6C": "PAUSED",
+  "task9ED": "PAUSED",
+  "scope": "PRODUCER_CORRESPONDENCE_AND_PROPOSED_DELTA_AUDIT_ONLY",
+  "predecessorHashes": {
+    "backend/candidateSemanticProjection.mjs": "7ec9e3b65344c2f953a09e666240e5312ae8a31f55b389a40ca2b85453dd99d8",
+    "backend/candidateSemanticProjectionV2.mjs": "3a9d4c804ca5392df15d3f87eacb480acbdc89ce33460ea637c0a2f6cf1670f5",
+    "docs/Candidate_Semantic_Surfaces_v1.json": "da74605e625445c5d3770cab408bf565deb1fd20cfffec35a9ea3870ee4351e1",
+    "docs/Candidate_Semantic_Shapes_v2.json": "91b301b7d535166f4be4df01588b9d248aba8502db9b536692a526e2cd6d1902"
+  },
+  "proposedDelta": {
+    "applied": false,
+    "spatialNullablePatterns": [
+      "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantAxis",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+      "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/temperatureFahrenheit"
+    ],
+    "featurePaths": [
+      "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*",
+      "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference",
+      "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt"
+    ]
+  },
+  "spatialPatternMapping": [
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+      "rootPath": "/sst/derived/spatialStructure/classification",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/classification",
+        "populatedTypes": [
+          "string"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; populated existing classification string otherwise.",
+        "producer": "getSstSpatialStructureAtAssessment"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff fewer than two opposite-pair measurements are available.",
+        "producer": "assessSstTransitionConfidence"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff no opposite-pair measurement is available.",
+        "producer": "assessSstTransitionConfidence"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "rootPath": "/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/confidence/sampleAgeHours",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff no finite-temperature sample has a Date.parse-finite represented time. Actual confidence assembler ignores missing/invalid times; future finite evidence throws.",
+        "producer": "assessSstTransitionConfidence"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff fewer than two opposite-pair measurements are available.",
+        "producer": "assessSstTransitionConfidence"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/maximumFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/maximumFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise.",
+        "producer": "getSstSpatialStructureAtAssessment"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/minimumFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/minimumFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise.",
+        "producer": "getSstSpatialStructureAtAssessment"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide",
+      "rootPath": "/sst/derived/spatialStructure/orientation/coolSide",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/orientation/coolSide",
+        "populatedTypes": [
+          "string"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition.",
+        "producer": "deriveSstTransitionOrientation"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantAxis",
+      "rootPath": "/sst/derived/spatialStructure/orientation/dominantAxis",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/orientation/dominantAxis",
+        "populatedTypes": [
+          "string"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition.",
+        "producer": "deriveSstTransitionOrientation"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition.",
+        "producer": "deriveSstTransitionOrientation"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff east or west finite Fahrenheit is absent.",
+        "producer": "deriveSstTransitionOrientation"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff north or south finite Fahrenheit is absent.",
+        "producer": "deriveSstTransitionOrientation"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+      "rootPath": "/sst/derived/spatialStructure/orientation/warmSide",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/orientation/warmSide",
+        "populatedTypes": [
+          "string"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition.",
+        "producer": "deriveSstTransitionOrientation"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/rangeFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/rangeFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise.",
+        "producer": "getSstSpatialStructureAtAssessment"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+      "rootPath": "/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null for nonfinite/missing transport SST; paired Fahrenheit null, source unavailable.",
+        "producer": "getSeaSurfaceTemperaturePoint"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    },
+    {
+      "snapshotPath": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/temperatureFahrenheit",
+      "rootPath": "/sst/derived/spatialStructure/samples/*/temperatureFahrenheit",
+      "mechanism": "buildObservationSnapshot -> cloneSnapshotValue -> structuredClone",
+      "correspondence": "EXACT_MATCH",
+      "upstreamReviewedRule": {
+        "path": "/sst/derived/spatialStructure/samples/*/temperatureFahrenheit",
+        "populatedTypes": [
+          "number"
+        ],
+        "additionalType": "null",
+        "condition": "Null iff normalized Celsius null under existing converter; no conversion performed by projection.",
+        "producer": "getSeaSurfaceTemperaturePoint"
+      },
+      "recomputed": false,
+      "defaulted": false,
+      "omittedBySnapshot": false,
+      "nullifiedBySnapshot": false,
+      "temporalSubstitution": false,
+      "consumer": "fixed candidate semantic registry scientific comparison; source spatial facts also consumed by buildTemperatureEvidence"
+    }
+  ],
+  "featureAudit": {
+    "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+    "consumer": "buildTemperatureEvidence checks available, feature/contract/type/authority, reference shape; carries observation provenance",
+    "missingRequirements": {
+      "role": "producer prerequisite state: length controls available and observation identity; no direct string consumer demonstrated in buildTemperatureEvidence",
+      "order": "fixed producer check order; Set removes duplicates without reordering",
+      "reviewedScenarioVocabulary": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples",
+        "consistent-spatial-sample-observation-time"
+      ],
+      "entireProducerVocabularyIsNotNewlyAuthorized": true
+    },
+    "observationReference": {
+      "nullWhen": "available is false",
+      "populatedShape": "pelora-observation-v1:<64 lowercase hex>",
+      "source": "existing SHA256(JSON.stringify(canonicalObservation))",
+      "newValidationOrRecomputation": false
+    },
+    "observedAt": {
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME of filtered feature sampling footprint",
+      "populatedWhen": "exactly one distinct normalized observedAt among retained valid samples",
+      "nullWhen": "zero or multiple distinct retained sample times",
+      "availabilityIndependent": true,
+      "normalization": "Date.parse eligibility followed by new Date(...).toISOString() in unchanged producer",
+      "newTimeAuthority": false
+    }
+  },
+  "additionalAuthorityRequired": [
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*",
+      "kind": "PATH_SPECIFIC_PRIVACY_ALLOWLIST",
+      "demonstratedValue": "minimal-total-temperature-range",
+      "condition": "uniform or zero actual producer output"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/observedAt",
+      "kind": "PATH_SPECIFIC_NULL_SHAPE",
+      "condition": "actual missing-time producer output",
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/observedAt",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/observedAt",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/observedAt",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/observedAt"
+      ]
+    }
+  ],
+  "original28Disposition": [
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantAxis",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/temperatureCelsius",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/temperatureFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureCelsius",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/temperatureCelsius",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/temperatureFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureCelsius",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureFahrenheit",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "getSstSpatialStructure -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/0",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1 -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/1",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1 -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/2",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1 -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/3",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1 -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1 -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt",
+      "disposition": "UNRESOLVED",
+      "producerCorrespondence": "EXACT_MATCH",
+      "proposedAuthority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE",
+      "reason": "No versioned authority granted after out-of-scope prerequisite STOP",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1 -> buildObservationSnapshot",
+      "copied": true,
+      "transformedBySnapshot": false,
+      "recomputedBySnapshot": false,
+      "defaultedBySnapshot": false
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "populated",
+      "rootComparison": "EXACT_MATCH",
+      "snapshotSpatialCorrespondence": "EXACT_MATCH",
+      "projection": {
+        "outcome": "ACCEPTED",
+        "unresolved": []
+      },
+      "feature": {
+        "available": true,
+        "missingRequirements": [],
+        "observationReference": "pelora-observation-v1:01c0c753bd347ce41c96960ecb212bbb6cbbebea215d146612e1a011581909e6",
+        "observedAt": "2026-09-24T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "missing",
+      "rootComparison": "EXACT_MATCH",
+      "snapshotSpatialCorrespondence": "EXACT_MATCH",
+      "projection": {
+        "outcome": "UNRESOLVED",
+        "unresolved": [
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/0",
+            "value": "sufficient-spatial-coverage"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/1",
+            "value": "supported-temperature-transition-classification"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/2",
+            "value": "at-least-three-valid-spatial-samples"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/3",
+            "value": "consistent-spatial-sample-observation-time"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantAxis",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/temperatureCelsius",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/temperatureFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureCelsius",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/temperatureCelsius",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/temperatureFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureCelsius",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureFahrenheit",
+            "value": null
+          }
+        ]
+      },
+      "feature": {
+        "available": false,
+        "missingRequirements": [
+          "sufficient-spatial-coverage",
+          "supported-temperature-transition-classification",
+          "at-least-three-valid-spatial-samples",
+          "consistent-spatial-sample-observation-time"
+        ],
+        "observationReference": null,
+        "observedAt": null
+      }
+    },
+    {
+      "name": "partial",
+      "rootComparison": "EXACT_MATCH",
+      "snapshotSpatialCorrespondence": "EXACT_MATCH",
+      "projection": {
+        "outcome": "UNRESOLVED",
+        "unresolved": [
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/0",
+            "value": "sufficient-spatial-coverage"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/1",
+            "value": "supported-temperature-transition-classification"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/2",
+            "value": "at-least-three-valid-spatial-samples"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureCelsius",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureFahrenheit",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureCelsius",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureFahrenheit",
+            "value": null
+          }
+        ]
+      },
+      "feature": {
+        "available": false,
+        "missingRequirements": [
+          "sufficient-spatial-coverage",
+          "supported-temperature-transition-classification",
+          "at-least-three-valid-spatial-samples"
+        ],
+        "observationReference": null,
+        "observedAt": "2026-09-24T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "uniform",
+      "rootComparison": "EXACT_MATCH",
+      "snapshotSpatialCorrespondence": "EXACT_MATCH",
+      "projection": {
+        "outcome": "REJECTED",
+        "error": "Private scientific content"
+      },
+      "feature": {
+        "available": false,
+        "missingRequirements": [
+          "supported-temperature-transition-classification"
+        ],
+        "observationReference": null,
+        "observedAt": "2026-09-24T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "positive-zero",
+      "rootComparison": "EXACT_MATCH",
+      "snapshotSpatialCorrespondence": "EXACT_MATCH",
+      "projection": {
+        "outcome": "REJECTED",
+        "error": "Private scientific content"
+      },
+      "feature": {
+        "available": false,
+        "missingRequirements": [
+          "supported-temperature-transition-classification"
+        ],
+        "observationReference": null,
+        "observedAt": "2026-09-24T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "negative-zero",
+      "rootComparison": "EXACT_MATCH",
+      "snapshotSpatialCorrespondence": "EXACT_MATCH",
+      "projection": {
+        "outcome": "REJECTED",
+        "error": "Private scientific content"
+      },
+      "feature": {
+        "available": false,
+        "missingRequirements": [
+          "supported-temperature-transition-classification"
+        ],
+        "observationReference": null,
+        "observedAt": "2026-09-24T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "missing-time",
+      "rootComparison": "EXACT_MATCH",
+      "snapshotSpatialCorrespondence": "EXACT_MATCH",
+      "projection": {
+        "outcome": "UNRESOLVED",
+        "unresolved": [
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/0",
+            "value": "at-least-three-valid-spatial-samples"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/1",
+            "value": "consistent-spatial-sample-observation-time"
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/observedAt",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/observedAt",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/observedAt",
+            "value": null
+          },
+          {
+            "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/observedAt",
+            "value": null
+          }
+        ]
+      },
+      "feature": {
+        "available": false,
+        "missingRequirements": [
+          "at-least-three-valid-spatial-samples",
+          "consistent-spatial-sample-observation-time"
+        ],
+        "observationReference": null,
+        "observedAt": null
+      }
+    }
+  ],
+  "qualification": "NOT_QUALIFIED",
+  "nextGate": "Separately authorize/review exact additional snapshot reason privacy and sample observedAt authority; then re-enter snapshot shape qualification",
+  "openIssue": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED"
+}
