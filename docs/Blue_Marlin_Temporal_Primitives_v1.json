@@ -1,0 +1,97 @@
+{
+  "contractVersion": "pelora-blue-marlin-temporal-qualification-v1",
+  "verdict": "NARROW_PRIMITIVES_QUALIFIED_FOR_SYNTHETIC_AS_USED_INPUTS",
+  "baseline": "b94ad4ebaba7855d06bb735413b141d8cb691959",
+  "scope": "Current Blue Marlin blocking outputs; not full shared evaluator or production source qualification",
+  "universalSelectorQualified": false,
+  "dependencies": [
+    {
+      "input": "Current environmental evidence represented times and assessmentAt",
+      "source": ["buildCandidateNegativeConclusionAdequacyV1AtAssessment", "assessBlueMarlinHabitat", "buildUnifiedSpeciesOpportunityInterpretationV1AtAssessment"],
+      "classification": "SCIENTIFIC_BLOCKING",
+      "effects": ["eligibility", "gate", "score", "confidence", "ranking-permission", "negative-adequacy"],
+      "primitive": "Existing scientific assessment context; narrow exact frame-sample representation",
+      "historySelectionRequiredForBlockingOutputs": false,
+      "status": "Current evidence qualification remains mandatory"
+    },
+    {
+      "input": "Historical family persistence through oceanPersistence",
+      "source": ["buildOceanPersistence", "assessOceanOpportunity", "resolveOceanSignals", "assessBlueMarlinHabitat"],
+      "classification": "DOCUMENTARY_ONLY",
+      "effects": ["persistence-classification", "documentary-context", "temporal-explainability"],
+      "primitive": "Not required for current blocking outputs; SST qualification view only",
+      "historySelectionRequiredForBlockingOutputs": false,
+      "status": "Tested full habitat/interpretation/gate equality; persistence score zero"
+    },
+    {
+      "input": "Observation plus intelligence change/evolution",
+      "source": ["buildOceanChangeFromTimeSeries", "buildOceanEvolution", "buildTemporalOceanExplainability"],
+      "classification": "SCIENTIFIC_NONBLOCKING",
+      "effects": ["change-facts", "temporal-narrative"],
+      "primitive": "Deferred observation/intelligence payload, not opaque references",
+      "historySelectionRequiredForBlockingOutputs": false,
+      "status": "Source composition; full temporal replay remains unqualified"
+    },
+    {
+      "input": "Historical feature association and movement",
+      "source": ["buildGovernedFeatureAssociation", "buildGovernedFeatureMovement", "buildTemporalFeatureContinuity"],
+      "classification": "SCIENTIFIC_NONBLOCKING",
+      "effects": ["continuity", "movement"],
+      "primitive": "Deferred governed feature payload",
+      "historySelectionRequiredForBlockingOutputs": false,
+      "status": "No current promotion into Blue Marlin blocking outputs demonstrated"
+    },
+    {
+      "input": "Prior governed Opportunity decisions",
+      "source": ["buildGovernedOpportunityEvidenceAccumulationV1", "buildGovernedOpportunityContinuityV1", "buildGovernedOpportunityPersistenceV1", "buildGovernedOpportunityTrendResolutionV1"],
+      "classification": "SCIENTIFIC_NONBLOCKING",
+      "effects": ["prior-decision-relationship", "continuity", "documentary-trend"],
+      "primitive": "pelora-publication-candidate-assessment-v1 (reference projection only)",
+      "historySelectionRequiredForBlockingOutputs": false,
+      "status": "Decision history is not environmental observation history"
+    },
+    {
+      "input": "Captain-owned historical delivery substitution",
+      "source": ["governed-opportunity-history-fallback"],
+      "classification": "REQUEST_FALLBACK_ONLY",
+      "effects": ["request-UX"],
+      "primitive": "Excluded",
+      "historySelectionRequiredForBlockingOutputs": false,
+      "status": "Runtime remains unchanged; private source not promoted"
+    }
+  ],
+  "equivalence": [
+    {"case": "qualified synthetic SST direct versus primitive-backed persistence input", "classification": "EXACT_MATCH"},
+    {"case": "two versus three legitimate SST observations", "classification": "EXPECTED_HISTORY_DIFFERENCE", "meaning": "Existing feature confidence 60 versus 70; not final Blue Marlin score/confidence"},
+    {"case": "same frame/sample across three scientific assessments", "classification": "EXACT_MATCH", "meaning": "One evidence reference, three assessment identities; no sample inflation"},
+    {"case": "represented-time canonical ordering and exact duplicate", "classification": "EXACT_MATCH"},
+    {"case": "fixed source construction under later wall clock", "classification": "EXACT_MATCH"},
+    {"case": "changed documentary persistenceContext", "classification": "NOT_CURRENTLY_BLOCKING", "meaning": "Documentary output changes; full habitat, interpretation, ranking gate identical"},
+    {"case": "competing same-support revision preference", "classification": "UNRESOLVED", "meaning": "Test view rejects ambiguous selection"},
+    {"case": "historical DIRECT versus GAP_FILLED equivalence", "classification": "UNRESOLVED"},
+    {"case": "production source identity/admissibility/gap/lookback/resolver", "classification": "UNRESOLVED"}
+  ],
+  "unexplainedMismatches": 0,
+  "adversarialReview": {
+    "focusedTests": 100,
+    "demonstratedDefect": "Dedicated captain_id accepted in Frame provenance parameter name/value metadata",
+    "correction": "Reject normalized private field names in keys, provenance parameter names and quality flag identifiers",
+    "sourceAuthorityLimit": "Structural/content validation is not provider authentication or source qualification; trusted resolver remains unqualified",
+    "gridStatus": "Asymmetric rectilinear grid rejected; exact point/component addressing verified",
+    "scientificMismatch": false,
+    "productionSelectionQualified": false
+  },
+  "remainingBlockingOutputGates": [
+    "Archive-bound current evidence conversion/equivalence",
+    "Evaluator/configuration completeness",
+    "Complete universe/candidate-cap qualification",
+    "Captain projection/ranking separation",
+    "Separately reviewed runtime migration"
+  ],
+  "remainingTemporalParityGates": [
+    "Qualified immutable shared sources and semantic observation identity",
+    "Consumer-specific support/admissibility/revision/gap/lookback rules",
+    "Exact resolver and temporal payload consumption",
+    "Continuity/persistence/narrative replay equivalence"
+  ]
+}
