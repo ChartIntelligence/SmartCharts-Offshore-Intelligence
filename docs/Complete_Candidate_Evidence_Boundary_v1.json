@@ -1,0 +1,614 @@
+{
+  "task": "12B.6C final resumption",
+  "baseline": "1d4dcd8d8629807cfc1570e86a9eb03eb1614ff5",
+  "verdict": "CANDIDATE_ASSEMBLER_SEMANTICS_REQUIRED",
+  "scope": "Complete request-return and outer candidate group inventory; detailed demonstrated documentary differences. Not a complete leaf-equivalence claim.",
+  "completeCandidateEquivalence": false,
+  "newScientificMissingSourceDemonstrated": false,
+  "newCaptureCreated": false,
+  "requestObjectGroups": [
+    {
+      "field": "location",
+      "dependency": "WEATHER_MARINE_CAPTURE",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "assessOceanEvidence / observationSnapshot / outer candidate evaluator",
+      "comparison": "EXACT_MATCH",
+      "finding": "Exact marine location retained; candidate identity binding not newly implemented."
+    },
+    {
+      "field": "observedAt",
+      "dependency": "WEATHER_MARINE_CAPTURE",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "dataQuality / observation and intelligence snapshots",
+      "comparison": "EXACT_MATCH",
+      "finding": "Quality time; no represented-time substitution."
+    },
+    {
+      "field": "lastUpdated",
+      "dependency": "REQUEST_WRAPPER_ONLY",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "request return",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY",
+      "finding": "marine.retrievedAt; not scientific observation time."
+    },
+    {
+      "field": "status.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "request return / delivery",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "dataQuality.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "assessOceanConditions / assessOceanEvidence / snapshots / relationshipAssessment",
+      "comparison": "EXACT_MATCH",
+      "finding": "Controlled current marine projection; full candidate qualification not claimed."
+    },
+    {
+      "field": "oceanConditions.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function assessOceanConditions(",
+      "sourceLine": 7861,
+      "consumer": "request return / marine interpretation",
+      "comparison": "EXACT_MATCH",
+      "finding": "Three-capture marine composition remains exact."
+    },
+    {
+      "field": "oceanEvidence.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function assessOceanEvidence(",
+      "sourceLine": 9423,
+      "consumer": "oceanOpportunity / map feature / observationSnapshot / habitat downstream",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "mapIntelligence.temperatureTransition.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildTemperatureTransitionMapFeature(",
+      "sourceLine": 10954,
+      "consumer": "map consumers / request return",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "observationSnapshot.*",
+      "dependency": "DOCUMENTARY",
+      "assembler": "export function buildObservationSnapshot(",
+      "sourceLine": 15727,
+      "consumer": "buildSnapshotMetadata / buildOceanSnapshot / historical observation readers",
+      "comparison": "UNRESOLVED",
+      "finding": "Complete object retains generatedAt from uncaptured retrieval time."
+    },
+    {
+      "field": "intelligenceSnapshot.*",
+      "dependency": "DOCUMENTARY",
+      "assembler": "export function buildIntelligenceSnapshot(",
+      "sourceLine": 16087,
+      "consumer": "buildSnapshotMetadata / buildOceanSnapshot / change analysis",
+      "comparison": "UNRESOLVED",
+      "finding": "Copies history-derived persistenceContext and generatedAt."
+    },
+    {
+      "field": "snapshotMetadata.*",
+      "dependency": "DOCUMENTARY",
+      "assembler": "export function buildSnapshotMetadata(",
+      "sourceLine": 17259,
+      "consumer": "buildOceanSnapshot / storage reconstruction / replay",
+      "comparison": "UNRESOLVED",
+      "finding": "Generated time changes; snapshot identity uses other explicit inputs and was not shown to change."
+    },
+    {
+      "field": "oceanSnapshot.*",
+      "dependency": "DOCUMENTARY",
+      "assembler": "export function buildOceanSnapshot(",
+      "sourceLine": 17794,
+      "consumer": "Ocean Memory storage / history consumers",
+      "comparison": "UNRESOLVED",
+      "finding": "Complete nested snapshot changes for the demonstrated omitted documentary facts."
+    },
+    {
+      "field": "oceanOpportunity.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function assessOceanOpportunity(",
+      "sourceLine": 36567,
+      "consumer": "resolveOceanSignals / relationships / intelligenceSnapshot / downstream habitat",
+      "comparison": "UNRESOLVED",
+      "finding": "persistenceContext is expressly documentary-only, not promoted to blocking current science."
+    },
+    {
+      "field": "oceanSignals.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function resolveOceanSignals(",
+      "sourceLine": 37680,
+      "consumer": "request return / feature and downstream species interpretation",
+      "comparison": "UNRESOLVED",
+      "finding": "Returned persistenceContext changes with supplied history."
+    },
+    {
+      "field": "relationshipContext.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildRelationshipContext(",
+      "sourceLine": 39118,
+      "consumer": "assessRelationships / intelligenceSnapshot",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "relationshipAssessment.*",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function assessRelationships(",
+      "sourceLine": 39597,
+      "consumer": "intelligenceSnapshot / downstream interpretation",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "blueMarlinHabitat.*",
+      "dependency": "SPECIES_CONFIGURATION",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "species interpretation",
+      "comparison": "UNRESOLVED",
+      "finding": "Explicitly excluded from a species-neutral surface; no species acceptance test."
+    },
+    {
+      "field": "wind.*",
+      "dependency": "MARINE_COMPANION_CAPTURE",
+      "assembler": "export async function getMarineConditions(",
+      "sourceLine": 7204,
+      "consumer": "assessOceanConditions / observationSnapshot",
+      "comparison": "EXACT_MATCH",
+      "finding": "Companion plus referenced quality capture; no duplicate speed/heights."
+    },
+    {
+      "field": "waves.*",
+      "dependency": "MARINE_COMPANION_CAPTURE",
+      "assembler": "export async function getMarineConditions(",
+      "sourceLine": 7204,
+      "consumer": "assessOceanConditions / observationSnapshot",
+      "comparison": "EXACT_MATCH",
+      "finding": "Companion plus referenced quality capture; no duplicate speed/heights."
+    },
+    {
+      "field": "swell.*",
+      "dependency": "MARINE_COMPANION_CAPTURE",
+      "assembler": "export async function getMarineConditions(",
+      "sourceLine": 7204,
+      "consumer": "assessOceanConditions / observationSnapshot",
+      "comparison": "EXACT_MATCH",
+      "finding": "Companion plus referenced quality capture; no duplicate speed/heights."
+    },
+    {
+      "field": "sst.*",
+      "dependency": "CURRENT_CAPTURE",
+      "assembler": "export async function getSeaSurfaceTemperaturePoint(",
+      "sourceLine": 6173,
+      "consumer": "buildTemperatureEvidence / spatial confidence / observationSnapshot / negative adequacy",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "chlorophyll.*",
+      "dependency": "CURRENT_CAPTURE",
+      "assembler": "export function resolveChlorophyllObservation(",
+      "sourceLine": 1851,
+      "consumer": "buildProductivityEvidence / buildClarityEvidence / quality / negative adequacy",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "currents.*",
+      "dependency": "CURRENT_CAPTURE",
+      "assembler": "async function getCurrentConditionsPointAtAssessment(",
+      "sourceLine": 2345,
+      "consumer": "buildCurrentEvidence / spatial chain / quality / negative adequacy",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "moon.*",
+      "dependency": "ASSESSMENT_DERIVED",
+      "assembler": "export function getMoonConditions(",
+      "sourceLine": 1730,
+      "consumer": "quality / observationSnapshot / downstream habitat",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "diagnostics.*",
+      "dependency": "REQUEST_WRAPPER_ONLY",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "operational response diagnostics",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY",
+      "finding": "Timing/Auth/provider errors outside shared science; consumed acquisition outcomes retained by captures."
+    },
+    {
+      "field": "source.*",
+      "dependency": "MARINE_COMPANION_CAPTURE",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "request source metadata",
+      "comparison": "UNRESOLVED",
+      "finding": "Marine source projection qualified; combined candidate provenance remains unqualified."
+    },
+    {
+      "field": "candidate identity/coordinates",
+      "dependency": "STATIC_GOVERNED_CONTEXT",
+      "assembler": "export function normalizeOpportunityCandidateV1(",
+      "sourceLine": 47824,
+      "consumer": "outer candidate wrapper / bathymetry / evaluator",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "candidate waterMask/bathymetry",
+      "dependency": "STATIC_GOVERNED_CONTEXT",
+      "assembler": "export function resolveOpportunityCandidateBathymetryV1(",
+      "sourceLine": 47385,
+      "consumer": "habitat eligibility downstream",
+      "comparison": "UNRESOLVED",
+      "finding": "Static input; existing governed source, no temporal multiplication."
+    },
+    {
+      "field": "scientific assessment context",
+      "dependency": "ASSESSMENT_DERIVED",
+      "assembler": "async function getOceanConditionsAtAssessment(",
+      "sourceLine": 60099,
+      "consumer": "SST/current/chlorophyll age and explicit moon",
+      "comparison": "UNRESOLVED",
+      "finding": "Not compared completely after boundary STOP"
+    },
+    {
+      "field": "captain origin/range/identity",
+      "dependency": "CAPTAIN_PROJECTION",
+      "assembler": "export function filterUnifiedOpportunityCandidatesByCaptainContextV1(",
+      "sourceLine": 48172,
+      "consumer": "outer selection/projection",
+      "comparison": "NONSCIENTIFIC_REQUEST_ONLY",
+      "finding": "No shared candidate implementation; no complete candidate independence claim."
+    }
+  ],
+  "spatialDerivationMap": [
+    {
+      "field": "sst.derived.spatialStructure",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "async function getSstSpatialStructureAtAssessment(",
+      "sourceLine": 6988,
+      "inputs": "directional SST roles, values, times, provenance; center temperature",
+      "consumer": "buildTemperatureEvidence / governed feature / negative adequacy",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "sst.derived.governedEnvironmentalFeatureObservation",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildGovernedEnvironmentalFeatureObservationV1(",
+      "sourceLine": 23974,
+      "inputs": "SST spatial structure",
+      "consumer": "feature association and continuity",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.spatialStructure",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "async function getCurrentSpatialStructureAtAssessment(",
+      "sourceLine": 2642,
+      "inputs": "directional current capture roles, coordinates, components, time, outcomes; existing sample geometry",
+      "consumer": "current spatial derivative chain",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.vectorProjection",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildCurrentVectorProjectionAnalysis(",
+      "sourceLine": 3503,
+      "inputs": "spatialStructure",
+      "consumer": "gradient / convergence",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.gradient",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildCurrentGradientAnalysis(",
+      "sourceLine": 3947,
+      "inputs": "vectorProjection",
+      "consumer": "shear / edge",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.shear",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildCurrentShearAnalysis(",
+      "sourceLine": 4448,
+      "inputs": "gradient",
+      "consumer": "edge / downstream current evidence",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.convergence",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildCurrentConvergenceAnalysis(",
+      "sourceLine": 5239,
+      "inputs": "vectorProjection",
+      "consumer": "edge / downstream current evidence",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.edge",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "export function buildCurrentEdgeAnalysis(",
+      "sourceLine": 4841,
+      "inputs": "gradient, shear, spatialPattern, convergence",
+      "consumer": "current evidence / downstream assessment",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.organization",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildCurrentOrganizationAnalysis(",
+      "sourceLine": 3010,
+      "inputs": "spatialStructure",
+      "consumer": "relationshipContext",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.relationshipContext",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildCurrentRelationshipContext(",
+      "sourceLine": 3194,
+      "inputs": "organization",
+      "consumer": "spatialPattern",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "currents.derived.spatialAnalysis.spatialPattern",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildCurrentSpatialPatternAnalysis(",
+      "sourceLine": 5630,
+      "inputs": "spatialStructure, relationshipContext",
+      "consumer": "edge",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "oceanEvidence.groups.structure",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildStructureEvidence({",
+      "sourceLine": 22206,
+      "inputs": "location + current + existing static structure catalogue",
+      "consumer": "species-neutral environmental relationships",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "oceanEvidence.groups.temperature",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildTemperatureEvidence(",
+      "sourceLine": 10530,
+      "inputs": "SST with spatial structure",
+      "consumer": "water mass / mixing / transitions / front / organization",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "oceanEvidence.groups.current",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildCurrentEvidence(",
+      "sourceLine": 11245,
+      "inputs": "current derived spatialAnalysis + source/time",
+      "consumer": "water mass / mixing / transitions / front / organization",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "oceanEvidence.groups.productivity",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildProductivityEvidence(",
+      "sourceLine": 11566,
+      "inputs": "selected chlorophyll concentration, classification, source/time",
+      "consumer": "surface-water relationships",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    },
+    {
+      "field": "oceanEvidence.groups.clarity",
+      "dependency": "DERIVED_EXISTING_ASSEMBLER",
+      "assembler": "function buildClarityEvidence(",
+      "sourceLine": 21655,
+      "inputs": "selected chlorophyll",
+      "consumer": "surface-water relationships",
+      "comparison": "UNRESOLVED",
+      "finding": "Audited derivation; full reconstruction not qualified after complete-object boundary STOP. No missing spatial measurement proved here."
+    }
+  ],
+  "demonstratedDifferences": [
+    {
+      "diagnostic": "DOCUMENTARY_HISTORY_NOT_CURRENT_EVIDENCE",
+      "changedFields": [
+        "oceanOpportunity.persistenceContext.classification",
+        "oceanOpportunity.persistenceContext.sampleCount",
+        "oceanOpportunity.persistenceContext.observationWindowHours",
+        "oceanOpportunity.persistenceContext.assessedFeatureCount",
+        "oceanOpportunity.persistenceContext.limitations.0",
+        "oceanOpportunity.persistenceContext.limitations.1",
+        "oceanOpportunity.persistenceContext.limitations.2",
+        "oceanOpportunity.persistenceContext.limitations.3",
+        "oceanOpportunity.persistenceContext.limitations.4",
+        "oceanOpportunity.persistenceContext.limitations.5",
+        "signals.persistenceContext.classification",
+        "signals.persistenceContext.sampleCount",
+        "signals.persistenceContext.observationWindowHours",
+        "signals.persistenceContext.assessedFeatureCount",
+        "signals.persistenceContext.limitations.0",
+        "signals.persistenceContext.limitations.1",
+        "signals.persistenceContext.limitations.2",
+        "signals.persistenceContext.limitations.3",
+        "signals.persistenceContext.limitations.4",
+        "signals.persistenceContext.limitations.5",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.classification",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.sampleCount",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.observationWindowHours",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.assessedFeatureCount",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.limitations.0",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.limitations.1",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.limitations.2",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.limitations.3",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.limitations.4",
+        "intelligenceSnapshot.oceanOpportunity.persistenceContext.limitations.5",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.classification",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.sampleCount",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.observationWindowHours",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.assessedFeatureCount",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.limitations.0",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.limitations.1",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.limitations.2",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.limitations.3",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.limitations.4",
+        "oceanSnapshot.intelligence.oceanOpportunity.persistenceContext.limitations.5"
+      ]
+    },
+    {
+      "diagnostic": "RETRIEVAL_METADATA_NOT_REPRESENTED_TIME",
+      "changedFields": [
+        "observationSnapshot.generatedAt",
+        "intelligenceSnapshot.generatedAt",
+        "metadata.time.generatedAt",
+        "oceanSnapshot.metadata.time.generatedAt",
+        "oceanSnapshot.observation.generatedAt",
+        "oceanSnapshot.intelligence.generatedAt"
+      ]
+    }
+  ],
+  "temporalAuthority": [
+    {
+      "field": "SST/chlorophyll/current observedAt",
+      "kind": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "qualification": "Existing product-specific semantics only"
+    },
+    {
+      "field": "assessment.assessmentAt",
+      "kind": "SCIENTIFIC_ASSESSMENT_TIME"
+    },
+    {
+      "field": "marine.observedAt / dataQuality.layers.*.observedAt",
+      "kind": "QUALITY_TIME"
+    },
+    {
+      "field": "marine.retrievedAt / lastUpdated / snapshots.generatedAt / metadata.time.generatedAt",
+      "kind": "RETRIEVAL_TIME",
+      "finding": "Recorded operational time; not reconstructable from three current captures; no substitution"
+    },
+    {
+      "field": "spatial samples.cache.ageSeconds / ttlSeconds",
+      "kind": "OPERATIONAL_ONLY",
+      "finding": "Cache diagnostics carried in raw structures; no blocking scientific read demonstrated"
+    },
+    {
+      "field": "publication cycle",
+      "kind": "PUBLICATION_TIME",
+      "finding": "Outside current request object; no substitution"
+    },
+    {
+      "field": "acquisition outcomes",
+      "kind": "OPERATIONAL_ONLY",
+      "finding": "Not timestamps; scientifically consumed outcomes are separately captured"
+    }
+  ],
+  "masksUncertainty": [
+    {
+      "field": "candidate.waterMask / bathymetry",
+      "classification": "BLOCKING_CURRENT_CANDIDATE_INPUT",
+      "source": "Existing static boundary; not raw scalar missingness"
+    },
+    {
+      "field": "raw SST/chlorophyll/current masks or uncertainty arrays",
+      "classification": "NOT_CONSUMED",
+      "scope": "Inspected current point parsers/marine and candidate evidence assemblers; no such array read found"
+    },
+    {
+      "field": "broader archive masks/uncertainty mapping",
+      "classification": "UNRESOLVED",
+      "finding": "No new defect or invented mapping"
+    }
+  ],
+  "scenarioMatrix": [
+    {
+      "scenario": "complete",
+      "marineSubset": "EXACT_MATCH",
+      "completeCandidate": "UNRESOLVED"
+    },
+    {
+      "scenario": "degraded",
+      "marineSubset": "EXACT_MATCH",
+      "completeCandidate": "UNRESOLVED"
+    },
+    {
+      "scenario": "rejected weather acquisition",
+      "marineSubset": "EXACT_MATCH",
+      "completeCandidate": "UNRESOLVED"
+    },
+    {
+      "scenario": "fulfilled missing wind",
+      "marineSubset": "EXACT_MATCH",
+      "completeCandidate": "UNRESOLVED"
+    },
+    {
+      "scenario": "numeric zero",
+      "marineSubset": "EXACT_MATCH",
+      "completeCandidate": "UNRESOLVED"
+    },
+    {
+      "scenario": "changed marine directions/period",
+      "marineSubset": "EXACT_MATCH",
+      "completeCandidate": "UNRESOLVED"
+    }
+  ],
+  "unperformedCompleteScenarios": [
+    "usable-with-gaps",
+    "insufficient",
+    "changed SST spatial evidence",
+    "complete provenance/missing-family matrix",
+    "land/masks",
+    "candidate binding/privacy/immutability attacks"
+  ],
+  "scienceBoundary": "Documentary-history/full snapshot parity is not promoted into current scientific blocking status. No species score/confidence/ranking test.",
+  "nextGate": "Govern the complete-candidate comparison surface: current environmental assembly versus separately bound documentary history/retrieval envelope. Then resume unchanged spatial/candidate assembler equivalence. No new capture is justified by this diagnostic.",
+  "openPolicies": [
+    "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+    "CONSUMER_AWARE_POLICY_REQUIRED",
+    "HISTORY_SELECTION_POLICY_REQUIRED",
+    "Complete spatial reconstruction",
+    "Durable reference resolution",
+    "Production source qualification"
+  ],
+  "verification": {
+    "focusedTests": 10,
+    "completeBackendShared": 43,
+    "failedScripts": 0,
+    "syntaxModules": 77,
+    "json": "PASS",
+    "whitespace": "PASS",
+    "diffCheck": "PASS",
+    "network": "blocked with synthetic transport mocks"
+  },
+  "guards": "No runtime, capture, science, archive or V3 changes; Task 9E-D paused; no provider/DB/Auth/Supabase access; no new capture, commit, tag, push or deployment"
+}
