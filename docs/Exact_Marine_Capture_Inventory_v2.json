@@ -1,0 +1,487 @@
+{
+  "task": "12B.6I",
+  "baseline": "518c83daf942b22d2e657a3bb90e4aed2207fbea",
+  "status": "EXACT_MARINE_CAPTURE_SUCCESSORS_QUALIFIED",
+  "inventory": [
+    {
+      "family": "wind",
+      "normalizedPath": "wind/speedKnots",
+      "units": "knots",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "wind_speed_10m",
+        "converter": "metersPerSecondToKnots",
+        "product": "Open-Meteo Weather Forecast API"
+      },
+      "historicalCapture": "pelora-weather-marine-quality-capture-v1",
+      "capturePath": "qualityInputs/wind/speedKnots",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/assessments/wind/values/speedKnots"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "QUALITY_AND_MARINE_ASSESSOR",
+      "provenance": "wind.source provider/classification/availability; source.weatherModel; quality acquisition outcome; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-weather-marine-quality-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "wind",
+      "normalizedPath": "wind/gustKnots",
+      "units": "knots",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "wind_gusts_10m",
+        "converter": "metersPerSecondToKnots",
+        "product": "Open-Meteo Weather Forecast API"
+      },
+      "historicalCapture": "pelora-marine-assessor-companion-capture-v1",
+      "capturePath": "marineInputs/wind/gustKnots",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/assessments/wind/values/gustKnots"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "MARINE_ASSESSOR_INPUT",
+      "provenance": "wind.source provider/classification/availability; source.weatherModel; quality acquisition outcome; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-marine-assessor-companion-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "wind",
+      "normalizedPath": "wind/directionDegrees",
+      "units": "degrees",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "wind_direction_10m",
+        "converter": "safeNumber",
+        "product": "Open-Meteo Weather Forecast API"
+      },
+      "historicalCapture": "pelora-marine-assessor-companion-capture-v1",
+      "capturePath": "marineInputs/wind/directionDegrees",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/directionalInteraction/values/windDirectionDegrees"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "MARINE_ASSESSOR_INPUT",
+      "provenance": "wind.source provider/classification/availability; source.weatherModel; quality acquisition outcome; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-marine-assessor-companion-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "waves",
+      "normalizedPath": "waves/heightFeet",
+      "units": "feet",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "wave_height",
+        "converter": "metersToFeet",
+        "product": "Open-Meteo Marine Forecast API"
+      },
+      "historicalCapture": "pelora-weather-marine-quality-capture-v1",
+      "capturePath": "qualityInputs/waves/heightFeet",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/assessments/waves/values/heightFeet"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "QUALITY_AND_MARINE_ASSESSOR",
+      "provenance": "source.provider/marineModel; quality acquisition outcome; family identity; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-weather-marine-quality-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "waves",
+      "normalizedPath": "waves/directionDegrees",
+      "units": "degrees",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "wave_direction",
+        "converter": "safeNumber",
+        "product": "Open-Meteo Marine Forecast API"
+      },
+      "historicalCapture": "pelora-marine-assessor-companion-capture-v1",
+      "capturePath": "marineInputs/waves/directionDegrees",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/directionalInteraction/values/waveDirectionDegrees"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "MARINE_ASSESSOR_INPUT",
+      "provenance": "source.provider/marineModel; quality acquisition outcome; family identity; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-marine-assessor-companion-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "waves",
+      "normalizedPath": "waves/periodSeconds",
+      "units": "seconds",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "wave_period",
+        "converter": "safeNumber",
+        "product": "Open-Meteo Marine Forecast API"
+      },
+      "historicalCapture": "pelora-marine-assessor-companion-capture-v1",
+      "capturePath": "marineInputs/waves/periodSeconds",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/assessments/waves/values/periodSeconds"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "MARINE_ASSESSOR_INPUT",
+      "provenance": "source.provider/marineModel; quality acquisition outcome; family identity; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-marine-assessor-companion-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "swell",
+      "normalizedPath": "swell/heightFeet",
+      "units": "feet",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "swell_wave_height",
+        "converter": "metersToFeet",
+        "product": "Open-Meteo Marine Forecast API"
+      },
+      "historicalCapture": "pelora-weather-marine-quality-capture-v1",
+      "capturePath": "qualityInputs/swell/heightFeet",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/assessments/swell/values/heightFeet"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "QUALITY_AND_MARINE_ASSESSOR",
+      "provenance": "source.provider/marineModel; quality acquisition outcome; family identity; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-weather-marine-quality-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "swell",
+      "normalizedPath": "swell/directionDegrees",
+      "units": "degrees",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "swell_wave_direction",
+        "converter": "safeNumber",
+        "product": "Open-Meteo Marine Forecast API"
+      },
+      "historicalCapture": "pelora-marine-assessor-companion-capture-v1",
+      "capturePath": "marineInputs/swell/directionDegrees",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/directionalInteraction/values/swellDirectionDegrees"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "MARINE_ASSESSOR_INPUT",
+      "provenance": "source.provider/marineModel; quality acquisition outcome; family identity; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-marine-assessor-companion-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    },
+    {
+      "family": "swell",
+      "normalizedPath": "swell/periodSeconds",
+      "units": "seconds",
+      "producer": {
+        "file": "backend/server.js",
+        "function": "getMarineConditions",
+        "transportField": "swell_wave_period",
+        "converter": "safeNumber",
+        "product": "Open-Meteo Marine Forecast API"
+      },
+      "historicalCapture": "pelora-marine-assessor-companion-capture-v1",
+      "capturePath": "marineInputs/swell/periodSeconds",
+      "consumer": {
+        "function": "assessOceanConditions",
+        "scientificPath": "/oceanConditions/assessments/swell/values/periodSeconds"
+      },
+      "signedZeroChangesScientificProjection": true,
+      "role": "MARINE_ASSESSOR_INPUT",
+      "provenance": "source.provider/marineModel; quality acquisition outcome; family identity; exact quality reference",
+      "timeAuthority": "No per-value represented-time authority added. Existing aggregate quality time is weather.current.time ?? marine.current.time ?? null; not scientific age.",
+      "rawTransportLimit": "Controlled normalized sign; converters may already erase raw sign/null distinctions.",
+      "v2Owner": "pelora-marine-assessor-companion-capture-v2",
+      "inputReplay": "EXACT_MATCH",
+      "sameAssemblerScientificProjection": "EXACT_MATCH",
+      "signChangesBytesDigestIdReference": true,
+      "historicalV1": "EXPECTED_SIGN_LOSS_UNCHANGED"
+    }
+  ],
+  "codecAudit": {
+    "finding": "Qualified codec/digest were private in currentEvidenceCaptureV2.mjs; digest captured the current-v2 version constant.",
+    "userAuthorization": "Allow behavior-preserving shared extraction",
+    "implementation": "backend/exactScientificEvidence.mjs",
+    "singleProductionEncoder": true,
+    "serializationContract": "pelora-exact-scientific-json-v1",
+    "digestContract": "pelora-exact-scientific-content-sha256-v1",
+    "change": "Move existing encoder, privacy/own-data copy, constants and digest envelope to shared internal module; pass captureVersion explicitly; current-v2 wrapper passes unchanged constant.",
+    "currentV2Preservation": {
+      "byteIdenticalSource": false,
+      "reason": "Explicitly authorized extraction only",
+      "contractUnchanged": true,
+      "wireDigestIdentityReferencePreserved": true,
+      "preExtractionGoldenCases": 24,
+      "baseline": "518c83daf942b22d2e657a3bb90e4aed2207fbea",
+      "goldenFixture": "backend/tests/fixtures/exactCurrentV2ExtractionGolden.mjs",
+      "existingSuite": 160
+    },
+    "internalPortBoundary": "exactJson/exactDigest are internal validated-content ports, not schema authenticators. Each capture entry point validates closed own-data source schema before encoding; fixed internal digest envelopes are the only other inputs."
+  },
+  "resumptionDecision": "TASK_12B_6C_READY_TO_RESUME_WITH_ALL_EXACT_CAPTURES",
+  "contracts": {
+    "quality": {
+      "capture": "pelora-weather-marine-quality-capture-v2",
+      "identityPrefix": "wmq2-",
+      "referenceProtocol": "pelora-exact-weather-marine-quality-reference-v1",
+      "scientificContent": [
+        "source",
+        "location",
+        "qualityInputs"
+      ],
+      "captureContent": [
+        "contractVersion",
+        "serializationVersion",
+        "digestVersion",
+        "source",
+        "sourceAuthority",
+        "location",
+        "qualityInputs",
+        "lineageReferences",
+        "scientificContentDigest"
+      ]
+    },
+    "companion": {
+      "capture": "pelora-marine-assessor-companion-capture-v2",
+      "identityPrefix": "mac2-",
+      "referenceProtocol": "pelora-exact-marine-assessor-companion-reference-v1",
+      "scientificContent": [
+        "qualityReference",
+        "marineInputs",
+        "source"
+      ],
+      "captureContent": [
+        "contractVersion",
+        "serializationVersion",
+        "digestVersion",
+        "qualityReference",
+        "marineInputs",
+        "source",
+        "lineageReferences",
+        "scientificContentDigest"
+      ]
+    },
+    "sharedSerialization": "pelora-exact-scientific-json-v1",
+    "sharedDigest": "pelora-exact-scientific-content-sha256-v1",
+    "referenceKeys": [
+      "kind",
+      "referenceId",
+      "contractVersion",
+      "sha256"
+    ],
+    "referenceDomain": "Capture version fixes serialization/digest/reference protocol; SHA256 domain includes serializationVersion,digestVersion,captureVersion,purpose,content. Reference content is the complete validated capture, including captureId/scientificContentDigest and exact bound quality reference."
+  },
+  "provenance": {
+    "retainedCompanionLeaves": [
+      "marineInputs/wind/source/provider",
+      "marineInputs/wind/source/classification",
+      "marineInputs/wind/source/availability",
+      "source/provider",
+      "source/weatherModel",
+      "source/marineModel"
+    ],
+    "roundTrip": "EXACT_MATCH",
+    "contradictoryWindAvailability": "REJECTED through unchanged v1 source validator; speed OR gust OR direction",
+    "schemaAdapter": "Quality-v2 and its exact reference validated first. An internal in-memory v1-shaped quality/source adapter invokes existing v1 validation; every resulting v1 ID/hash is discarded. It is never serialized or exposed as an accepted v1 binding. Caller v1 references/records are rejected."
+  },
+  "results": {
+    "nineSigns": {
+      "total": 9,
+      "exactMatches": 9,
+      "unexpectedMismatches": 0
+    },
+    "mixedSigns": [
+      0,
+      341,
+      170,
+      511,
+      56,
+      455,
+      7,
+      102
+    ],
+    "familyAvailabilityCombinations": {
+      "total": 8,
+      "result": "EXACT_MATCH"
+    },
+    "controlledCompanionChanges": {
+      "total": 6,
+      "result": "EXACT_MATCH"
+    },
+    "qualityStates": [
+      "complete",
+      "usable-with-gaps",
+      "degraded",
+      "insufficient"
+    ],
+    "missingness": "Unavailable family, fulfilled missing and rejected acquisition retain existing distinctions; both-provider rejection remains unrepresentable.",
+    "qualityAndLineage": "Complete tested objects EXACT_MATCH through unchanged quality/lineage assemblers",
+    "marineAssessor": "Complete tested oceanConditions EXACT_MATCH; locked semantic projection v2 EXACT_MATCH",
+    "provenance": "Six retained consumed source leaves preserve normalized values; existing consistency invariants reused",
+    "borrowedDerivedOutputs": false,
+    "currentComposition": "Current SST capture v2 serialized/validated/reference-verified/replayed alongside both new v2 marine captures; supporting non-target chlorophyll/current/moon context remains explicit fixture context, not complete candidate reconstruction.",
+    "finiteNumbers": "No added rounding; finite extremes replay exactly; scientific ranges unchanged",
+    "nullMissing": "Null and signed zeros remain distinct; required absence rejected; no optional extension bag or default insertion",
+    "nonfinite": "Rejected at all nine measurement positions plus both location coordinates",
+    "canonical": "Every-object duplicate wire keys, alternate zero spellings and extra whitespace rejected; object-key ordering stable; lineage order/duplicates identity-significant",
+    "privacy": "Private labels, UUID underscore suffix, metadata/provenance/reference paths rejected; inherited/accessor/prototype/cycle/sparse attacks rejected without getters",
+    "immutability": "Detached deeply frozen captures, references and replay",
+    "versionSeparation": "Cross-version records/reference/binding and sign-only bound-quality substitution rejected",
+    "clockNetwork": "Completed replay works with fetch, Date.now and Math.random forbidden; no Auth inputs",
+    "temporal": "Existing quality observedAt preserves weather-first/marine fallback text including existing malformed-text semantics; no age authority or timestamp substitution",
+    "V3": "Reference-only PASS: exact reference binds; sign-only reference changes publication content digest; old-version/ID/digest substitution invalidates existing publication and exact source reference verification. No source authenticator/resolver claimed.",
+    "archiveScalar": "Unchanged canonical archive/scalar may coexist as references; cannot restore lost sign",
+    "species": "No species evaluation or species interpretation introduced"
+  },
+  "performance": [
+    {
+      "family": "quality",
+      "iterations": 20,
+      "v1Bytes": 1230,
+      "v2Bytes": 1351,
+      "v1SerializeMs": 0.485924999999952,
+      "v2SerializeMs": 0.7790200000000368,
+      "v1ReadReplayMs": 1.3144650000000184,
+      "v2ReadReplayMs": 2.3196899999999916
+    },
+    {
+      "family": "companion",
+      "iterations": 20,
+      "v1Bytes": 1005,
+      "v2Bytes": 1223,
+      "v1SerializeMs": 1.4132150000000365,
+      "v2SerializeMs": 3.6705549999999674,
+      "v1ReadReplayMs": 4.239860000000045,
+      "v2ReadReplayMs": 12.089860000000044
+    }
+  ],
+  "performanceScope": "20-iteration synthetic desktop diagnostic; validation-inclusive, not production budget",
+  "verification": {
+    "focusedTests": 152,
+    "focused": "PASSED",
+    "completeRegression": "ALL_REVIEW_REGRESSIONS_PASSED",
+    "regressionScripts": 50,
+    "finalFocusedRerun": "152 passed in full network-blocked review regression, including final exact-family duplicate targeting",
+    "syntaxModules": 94,
+    "jsonFiles": 21,
+    "whitespace": "PASSED",
+    "gitDiffCheck": "PASSED",
+    "stagedChanges": false,
+    "network": "BLOCKED; actual parser uses controlled synthetic transport only",
+    "historicalSuites": {
+      "currentExact": 160,
+      "signedZero": 40,
+      "reconstructionDiagnostic": 17,
+      "projectionV2": 100,
+      "projectionV1": 113,
+      "weatherMarineV1": 80,
+      "marineCompanionV1": 108
+    }
+  },
+  "limits": [
+    "No complete candidate equivalence",
+    "No durable resolver/storage",
+    "No provider authenticity or production freshness",
+    "No scheduler deployment",
+    "No all-species qualification",
+    "No captain projection equivalence"
+  ],
+  "nextGate": "Task 12B.6I adversarial review and explicit checkpoint; then separately resume controlled 12B.6C with all three exact captures",
+  "task12B6C": "NOT_RESUMED",
+  "task9ED": "PAUSED",
+  "separateOpenIssue": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "adversarialReview": {
+    "verdict": "PASS_FOR_QUALIFIED_EXACT_MARINE_SUBSET",
+    "baselineFocusedTests": 130,
+    "focusedTests": 152,
+    "defectsDemonstrated": [
+      {
+        "location": "backend/exactScientificEvidence.mjs exactDigest",
+        "finding": "The newly exported domain-parameter port accepted non-string objects/null/numeric identifiers; an accessor-bearing captureVersion object invoked its getter and returned a digest.",
+        "reproduction": "domain-red.log: two failing regression tests; direct probe recorded domainGetterCalls=1 and returnedDigest=true.",
+        "existingCaptureImpact": "No accepted current/quality/companion record mismatch demonstrated: family wrappers supply fixed primitive constants.",
+        "correction": "Validate captureVersion and purpose with existing primitive identifier grammar before constructing/encoding the envelope. No family registry or scientific logic added to shared code.",
+        "goldensUpdated": false
+      }
+    ],
+    "sharedScope": "One production encoder/digest implementation. Shared code contains no family-specific IDs/contracts/reference protocols, source schema, species, archive or publication policy. It reuses existing generic data/identifier helpers.",
+    "explicitDomains": "Serialization/digest versions are fixed shared constants; capture version and purpose are explicit fixed caller constants. Missing/malformed/object/inherited/accessor domain parameters fail before traversal. Substituted well-formed strings compute another domain, never validate under a fixed family capture/reference protocol.",
+    "currentPreservation": "All 24 original pre-extraction goldens unchanged and passing; existing 160-test current exact suite required unchanged. New domain guard affects only malformed newly exposed internal port calls, not checkpointed current-v2 behavior.",
+    "signedZeros": "Nine independent exact projection cases and eight mixed-sign configurations pass. All nine sign-conflicting duplicate fields tested in both orders at their exact family objects.",
+    "namespaces": "All six cross-family cec2/wmq2/mac2 ID substitutions fail. Cross-family digest/purpose/version and malformed namespace attacks fail.",
+    "binding": "Quality authority/reference, lineage/order, quality time, coordinates, acquisition and sign substitutions invalidate old companions. Compatible explicit rebuilds produce distinct companion identities.",
+    "provenance": "Existing speed OR gust OR direction availability consistency preserved; complete normalized replay including six source leaves compared before assembler output.",
+    "publication": "Both exact protocols bind under existing V3 reference-only semantics. Cross-family/version changes produce distinct publication content; tampering with existing publication fails. V3 may record an arbitrary newly supplied opaque reference, which is not source resolution or family authorization; exact typed validators reject incompatible references. No ambiguous alias demonstrated.",
+    "safety": "Descriptor/private/schema protections and all prior attacks retained; golden fixtures unmodified; no post-replay sign repair.",
+    "performance": "Refreshed review-run metrics below; diagnostic only.",
+    "resumptionDecision": "TASK_12B_6C_READY_TO_RESUME_WITH_ALL_EXACT_CAPTURES",
+    "task12B6CResumed": false,
+    "unexpectedScientificMismatches": 0,
+    "remainingQualificationLimits": [
+      "No complete candidate equivalence",
+      "No durable resolver/storage",
+      "No provider authenticity or production freshness",
+      "No scheduler deployment",
+      "No all-species qualification",
+      "No captain projection equivalence"
+    ]
+  }
+}
