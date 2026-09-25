@@ -1,0 +1,827 @@
+{
+  "contractVersion": "pelora-candidate-semantic-projection-v2",
+  "baseContract": "pelora-candidate-semantic-projection-v1",
+  "baseCheckpoint": "8d666533c9250ef1a0c1c4c01c2e83844e5b0bf7",
+  "scope": "Exact root SST spatial branch only; snapshot aliases or other null paths are not automatically admitted.",
+  "originalPatterns": 16,
+  "additionalPrerequisitePatterns": 1,
+  "nullablePaths": [
+    {
+      "path": "/sst/derived/spatialStructure/classification",
+      "populatedTypes": [
+        "string"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff fewer than three finite directional neighbors; populated existing classification string otherwise.",
+      "producer": "getSstSpatialStructureAtAssessment"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff fewer than two opposite-pair measurements are available.",
+      "producer": "assessSstTransitionConfidence"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff no opposite-pair measurement is available.",
+      "producer": "assessSstTransitionConfidence"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff no finite-temperature sample has a Date.parse-finite represented time. Actual confidence assembler ignores missing/invalid times; future finite evidence throws.",
+      "producer": "assessSstTransitionConfidence"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff fewer than two opposite-pair measurements are available.",
+      "producer": "assessSstTransitionConfidence"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/maximumFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise.",
+      "producer": "getSstSpatialStructureAtAssessment"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/minimumFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise.",
+      "producer": "getSstSpatialStructureAtAssessment"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/orientation/coolSide",
+      "populatedTypes": [
+        "string"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff existing orientation has no clear directional transition.",
+      "producer": "deriveSstTransitionOrientation"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/orientation/dominantAxis",
+      "populatedTypes": [
+        "string"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff existing orientation has no clear directional transition.",
+      "producer": "deriveSstTransitionOrientation"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff existing orientation has no clear directional transition.",
+      "producer": "deriveSstTransitionOrientation"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff east or west finite Fahrenheit is absent.",
+      "producer": "deriveSstTransitionOrientation"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff north or south finite Fahrenheit is absent.",
+      "producer": "deriveSstTransitionOrientation"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/orientation/warmSide",
+      "populatedTypes": [
+        "string"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff existing orientation has no clear directional transition.",
+      "producer": "deriveSstTransitionOrientation"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/rangeFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise.",
+      "producer": "getSstSpatialStructureAtAssessment"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null for nonfinite/missing transport SST; paired Fahrenheit null, source unavailable.",
+      "producer": "getSeaSurfaceTemperaturePoint"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/samples/*/temperatureFahrenheit",
+      "populatedTypes": [
+        "number"
+      ],
+      "additionalType": "null",
+      "condition": "Null iff normalized Celsius null under existing converter; no conversion performed by projection.",
+      "producer": "getSeaSurfaceTemperaturePoint"
+    },
+    {
+      "path": "/sst/derived/spatialStructure/samples/*/observedAt",
+      "populatedTypes": [
+        "string"
+      ],
+      "additionalType": "null",
+      "condition": "Actual getSeaSurfaceTemperaturePoint returns payload.current.time ?? null; required explicit addition for missing represented-time scenario.",
+      "producer": "getSeaSurfaceTemperaturePoint",
+      "additionalToOriginalSixteen": true
+    }
+  ],
+  "coherence": "Shape, required keys, paired missingness, coverage, pair availability, orientation-class missingness, age presence/future validation. Numeric derived truth remains the unchanged assembler authority; projection does not authenticate source or recompute science.",
+  "time": "Malformed/unparseable time may remain audit text with null confidence age because existing assembler does so. This is not Task12B.1/12B.6B timestamp qualification. Valid future times from finite samples rejected. Finite-sample source timestamp provenance must be the reviewed parser marker.",
+  "identity": "No new scientific identity/digest",
+  "upstreamNormalization": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "completeReconstruction": false,
+  "reviewedReasonText": {
+    "path": "/sst/derived/spatialStructure/confidence/reasons/*",
+    "values": [
+      "minimal-total-temperature-range",
+      "weak-total-temperature-range",
+      "moderate-total-temperature-range"
+    ],
+    "reason": "Exact existing assessSstTransitionConfidence output; v1 private range label filter rejects these previously unreviewed variants. No other path or appended text exemption."
+  },
+  "v1ByteDigests": {
+    "backend/candidateSemanticProjection.mjs": "7ec9e3b65344c2f953a09e666240e5312ae8a31f55b389a40ca2b85453dd99d8",
+    "docs/Candidate_Semantic_Surfaces_v1.json": "da74605e625445c5d3770cab408bf565deb1fd20cfffec35a9ea3870ee4351e1"
+  },
+  "verdict": "LEGITIMATE_SCIENTIFIC_SHAPES_QUALIFIED",
+  "confidenceReasonVocabulary": [
+    "complete-four-point-coverage",
+    "partial-but-sufficient-coverage",
+    "insufficient-spatial-coverage",
+    "strong-total-temperature-range",
+    "moderate-total-temperature-range",
+    "weak-total-temperature-range",
+    "minimal-total-temperature-range",
+    "strong-directional-difference",
+    "moderate-directional-difference",
+    "weak-directional-difference",
+    "no-clear-directional-orientation",
+    "clear-dominant-axis",
+    "moderately-distinct-axis",
+    "weak-axis-separation",
+    "competing-directional-signals",
+    "single-axis-only",
+    "future-dated-sample-time",
+    "recent-samples",
+    "same-day-samples",
+    "samples-within-24-hours",
+    "stale-samples",
+    "sample-time-unavailable"
+  ],
+  "availabilityMatrix": [
+    {
+      "mask": 0,
+      "finiteNeighborCount": 0,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": true
+      },
+      "sampleNulls": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 1,
+      "finiteNeighborCount": 1,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 2,
+      "finiteNeighborCount": 1,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        true,
+        false,
+        true,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 3,
+      "finiteNeighborCount": 2,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        false,
+        true,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 4,
+      "finiteNeighborCount": 1,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        true,
+        true,
+        false,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 5,
+      "finiteNeighborCount": 2,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": true
+      },
+      "orientation": "directional-temperature-transition",
+      "dominantAxis": "north-south",
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": false,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        true,
+        false,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 6,
+      "finiteNeighborCount": 2,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        true,
+        false,
+        false,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 7,
+      "finiteNeighborCount": 3,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": true
+      },
+      "orientation": "directional-temperature-transition",
+      "dominantAxis": "north-south",
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": false,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        false,
+        false,
+        true
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 8,
+      "finiteNeighborCount": 1,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 9,
+      "finiteNeighborCount": 2,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        true,
+        true,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 10,
+      "finiteNeighborCount": 2,
+      "oppositePairs": {
+        "eastWest": true,
+        "northSouth": false
+      },
+      "orientation": "directional-temperature-transition",
+      "dominantAxis": "east-west",
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": false,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 11,
+      "finiteNeighborCount": 3,
+      "oppositePairs": {
+        "eastWest": true,
+        "northSouth": false
+      },
+      "orientation": "directional-temperature-transition",
+      "dominantAxis": "east-west",
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": false,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 12,
+      "finiteNeighborCount": 2,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": false
+      },
+      "orientation": "no-clear-directional-transition",
+      "dominantAxis": null,
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": true,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 13,
+      "finiteNeighborCount": 3,
+      "oppositePairs": {
+        "eastWest": false,
+        "northSouth": true
+      },
+      "orientation": "directional-temperature-transition",
+      "dominantAxis": "north-south",
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": false,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 14,
+      "finiteNeighborCount": 3,
+      "oppositePairs": {
+        "eastWest": true,
+        "northSouth": false
+      },
+      "orientation": "directional-temperature-transition",
+      "dominantAxis": "east-west",
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": false,
+        "secondaryDirectionalDifferenceFahrenheit": true,
+        "axisSeparationFahrenheit": true,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    },
+    {
+      "mask": 15,
+      "finiteNeighborCount": 4,
+      "oppositePairs": {
+        "eastWest": true,
+        "northSouth": true
+      },
+      "orientation": "directional-temperature-transition",
+      "dominantAxis": "east-west",
+      "confidenceNulls": {
+        "dominantDirectionalDifferenceFahrenheit": false,
+        "secondaryDirectionalDifferenceFahrenheit": false,
+        "axisSeparationFahrenheit": false,
+        "sampleAgeHours": false
+      },
+      "sampleNulls": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "observedAtShapes": [
+        "string",
+        "string",
+        "string",
+        "string"
+      ],
+      "comparison": "EXACT_MATCH"
+    }
+  ],
+  "v1ToV2AuthorityDelta": {
+    "baseRegistryPaths": 7510,
+    "addedPathNames": [],
+    "primaryAuthorityReassignments": [],
+    "broadenedLeafTypes": [
+      {
+        "path": "/sst/derived/spatialStructure/classification",
+        "addedType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; populated existing classification string otherwise."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff fewer than two opposite-pair measurements are available."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff no opposite-pair measurement is available."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/confidence/sampleAgeHours",
+        "addedType": "null",
+        "condition": "Null iff no finite-temperature sample has a Date.parse-finite represented time. Actual confidence assembler ignores missing/invalid times; future finite evidence throws."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff fewer than two opposite-pair measurements are available."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/maximumFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/minimumFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/orientation/coolSide",
+        "addedType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/orientation/dominantAxis",
+        "addedType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff east or west finite Fahrenheit is absent."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff north or south finite Fahrenheit is absent."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/orientation/warmSide",
+        "addedType": "null",
+        "condition": "Null iff existing orientation has no clear directional transition."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/rangeFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff fewer than three finite directional neighbors; finite number otherwise."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+        "addedType": "null",
+        "condition": "Null for nonfinite/missing transport SST; paired Fahrenheit null, source unavailable."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/samples/*/temperatureFahrenheit",
+        "addedType": "null",
+        "condition": "Null iff normalized Celsius null under existing converter; no conversion performed by projection."
+      },
+      {
+        "path": "/sst/derived/spatialStructure/samples/*/observedAt",
+        "addedType": "null",
+        "condition": "Actual getSeaSurfaceTemperaturePoint returns payload.current.time ?? null; required explicit addition for missing represented-time scenario."
+      }
+    ],
+    "broadenedPrivacyText": [
+      {
+        "path": "/sst/derived/spatialStructure/confidence/reasons/*",
+        "value": "minimal-total-temperature-range",
+        "match": "exact string and exact root path only"
+      },
+      {
+        "path": "/sst/derived/spatialStructure/confidence/reasons/*",
+        "value": "weak-total-temperature-range",
+        "match": "exact string and exact root path only"
+      },
+      {
+        "path": "/sst/derived/spatialStructure/confidence/reasons/*",
+        "value": "moderate-total-temperature-range",
+        "match": "exact string and exact root path only"
+      }
+    ],
+    "restrictions": [
+      "Complete root four-direction sibling structure and explicit assessment context required when root spatial branch supplied.",
+      "Paired temperature missingness and source availability; counts and coverage missingness; opposite-pair and orientation/confidence missingness; time presence/future guards.",
+      "Existing classification vocabulary; nonnegative range and ordered min/max bounds.",
+      "Clear orientation requires distinct opposite sides matching its available axis.",
+      "Root confidence reasons restricted to unchanged assembler vocabulary; exact reason lookalikes rejected.",
+      "Scientific UUID privacy also rejects underscore-adjacent recognizable UUID text."
+    ],
+    "noChange": "Other path/type admissions and semantic authorities remain those of the locked v1 registry. Snapshot aliases receive no null overlay. No new evidence identity.",
+    "boundary": "Negative range and reversed bounds are structurally rejected. Numerical range arithmetic, finite conversion, orientation magnitude, confidence score and age arithmetic are not recomputed; guarded comparison detects differences against the producer baseline."
+  },
+  "adversarialReview": {
+    "verdict": "PASS_FOR_QUALIFIED_ROOT_SST_SHAPES",
+    "baselineTests": 64,
+    "focusedTests": 100,
+    "demonstratedDefects": [
+      "Contradictory axis/side labels",
+      "Identical warm and cool sides",
+      "Unknown classification vocabulary",
+      "Negative range",
+      "Minimum greater than maximum",
+      "Confidence-reason suffix escaped generic string/privacy checks",
+      "Underscore-adjacent UUID escaped word-boundary privacy regex"
+    ],
+    "corrections": [
+      "Structural orientation/classification/bounds checks",
+      "Exact root confidence-reason producer vocabulary",
+      "UUID hex-boundary privacy matching in v2 only"
+    ],
+    "numericalTruthLimit": "Shape-coherent finite numerical lies remain outside projection authentication. Actual assembler authority and independent baseline comparison are required.",
+    "temporalLimit": "Date.parse-compatible ambiguous/offset/high-precision strings follow unchanged assembler behavior. Neither accepted string nor null age qualifies temporal provenance; separately named acquisition/retrieval/assessment source fields remain unknown. A caller relabeling plausible time text cannot be authenticated here.",
+    "v1Changed": false,
+    "scientificProducersChanged": false,
+    "completeReconstruction": false,
+    "verification": {
+      "focusedPassed": 100,
+      "v1Passed": 113,
+      "reconstructionDiagnosticPassed": 10,
+      "backendSharedScriptsPassed": 46,
+      "syntaxModules": 83,
+      "jsonFiles": 17,
+      "network": "blocked",
+      "whitespace": "PASS",
+      "gitDiffCheck": "PASS"
+    }
+  }
+}
