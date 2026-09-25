@@ -1,0 +1,32 @@
+{
+  "task": "12B.6",
+  "baseline": "a20a9875b86eeb19d4447808c1db7269f4937661",
+  "verdict": "CURRENT_EVIDENCE_ADAPTER_QUALIFICATION_REQUIRED",
+  "sharedEvaluatorImplemented": false,
+  "equivalenceQualified": false,
+  "scope": "Diagnostic requirements, not an evaluator or a production evidence selection contract",
+  "dependencies": [
+    {"input":"SST central and directional samples, represented times, source availability, spatial structure and feature provenance","classification":"ARCHIVE_BOUND_SHARED_INPUT","consumer":"assessOceanEvidence / buildTemperatureEvidence / buildCandidateNegativeConclusionAdequacyV1","mapping":"UNRESOLVED"},
+    {"input":"Chlorophyll concentration, DIRECT/GAP_FILLED selection, represented time, age, classification, provenance and layer state","classification":"ARCHIVE_BOUND_SHARED_INPUT","consumer":"resolveChlorophyllObservation / buildProductivityEvidence / negative adequacy","mapping":"UNRESOLVED"},
+    {"input":"Current speed/direction/components, represented times, source availability, directional coverage and spatial analysis","classification":"ARCHIVE_BOUND_SHARED_INPUT","consumer":"buildCurrentEvidence / negative adequacy","mapping":"UNRESOLVED"},
+    {"input":"Data-quality layer states and available quality context","classification":"ARCHIVE_BOUND_SHARED_INPUT","consumer":"buildOceanEvidenceConfidence / negative adequacy","mapping":"UNRESOLVED; do not synthesize optional dataQuality.score absent from request output"},
+    {"input":"Candidate water mask/elevation or repository static bathymetry; static structure catalogue","classification":"STATIC_SHARED_INPUT","consumer":"resolveOpportunityCandidateBathymetryV1 / species eligibility / structure evidence"},
+    {"input":"Explicit scientific assessment instant; moon derived using existing algorithm","classification":"ASSESSMENT_CONTEXT","consumer":"scientificAssessment.mjs / getMoonConditions / scientific age paths","note":"Moon context is returned separately; no direct moon-phase argument was found in assessed habitat scoring composition"},
+    {"input":"Blue Marlin species profile, habitat and evidence-gate configuration","classification":"SPECIES_CONFIGURATION","consumer":"evaluateUnifiedOpportunityCandidateSpeciesEligibilityV1 / assessBlueMarlinHabitat / ranking input gate"},
+    {"input":"Historical family persistence","classification":"NONBLOCKING_HISTORY","consumer":"assessOceanOpportunity / assessBlueMarlinHabitat","authority":"Documentary at tested current boundary; persistence score zero"},
+    {"input":"Origin/range, travel and captain-facing ranking","classification":"CAPTAIN_PROJECTION","consumer":"outer candidate selection/ranking","note":"Not implemented or qualified here"},
+    {"input":"Provider acquisition, cache TTL, Auth historical retrieval, error transport and request fallback","classification":"REQUEST_WRAPPER","consumer":"getOceanConditionsAtAssessment and routes","note":"Must remain outside future shared evaluator"},
+    {"input":"Exact archive-to-candidate spatial/source/quality/selection manifest and reuse of current family assemblers","classification":"UNRESOLVED","consumer":"Future archive adapter","note":"Do not default missing metadata or copy scientific formulas"}
+  ],
+  "comparisons": [
+    {"case":"Full frozen current composition replay with Date.now forbidden","classification":"EXACT_MATCH","scope":"Existing current pure science and explicit moon, not a shared evaluator"},
+    {"case":"Historical persistence context changed","classification":"EXACT_MATCH","scope":"Tested blocking outputs only; persistence score 0"},
+    {"case":"Remove candidate spatial structures while retaining central scalar values","classification":"MISMATCH","explained":true,"score":[24,27],"negativeAdequacy":[true,false],"reason":"Deliberately incomplete projection loses scientific spatial inputs; not equivalent complete blocking evidence"},
+    {"case":"Retain numeric sample values/times but omit source metadata","classification":"MISMATCH","explained":true,"negativeAdequacy":[true,false],"reason":"Availability/provenance are consumed scientific inputs"},
+    {"case":"Change chlorophyll live layer to unavailable with same values","classification":"MISMATCH","explained":true,"surfaceWaterAdequacy":[true,false],"reason":"Layer availability is a consumed scientific input"},
+    {"case":"Optional dataQuality.score 0 versus 100","classification":"MISMATCH","explained":true,"evidenceConfidence":[76,86],"reason":"Different confidence inputs; current route does not emit this optional score. This is not a demonstrated route-dependent final Blue Marlin confidence change"},
+    {"case":"Request wrapper and production latency","classification":"NOT_COMPARABLE_REQUEST_WRAPPER","reason":"No shared evaluator implemented, no production requests performed"}
+  ],
+  "unestablished": ["Archive-bound family scientific equivalence", "Eligible/excluded full status matrix", "Shared evaluator candidate/Opportunity identity equivalence", "Auth/captain/scheduled-worker equivalence", "Shared evaluator immutability", "V3 evaluator scientific consumption", "Current-versus-shared performance"],
+  "remainingGates": ["Qualify exact archive-to-current scientific input reconstruction", "Archive-bound current-evidence evaluator equivalence", "Evaluator/configuration completeness", "Complete-universe/candidate-cap qualification", "Captain projection/ranking equivalence", "Separately reviewed runtime migration"]
+}
