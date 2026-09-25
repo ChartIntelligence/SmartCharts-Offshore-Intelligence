@@ -2,6 +2,8 @@
 import {createHash} from 'node:crypto';
 export const PUBLICATION_CONTRACT = 'pelora-governed-ocean-publication-v1';
 export const PUBLICATION_CONTRACT_V2 = 'pelora-governed-ocean-publication-v2';
+export const PUBLICATION_CONTRACT_V3 = 'pelora-governed-ocean-publication-v3';
+export const SCIENTIFIC_HISTORY_V1 = 'pelora-shared-scientific-history-v1';
 export const ASSESSMENT_POLICY_V1 = 'pelora-scheduled-scientific-assessment-v1';
 export const fail = () => { throw new TypeError('Invalid governed publication input'); };
 export function check(v) { if (!v) fail(); }
@@ -38,6 +40,7 @@ function buildCycle(input,version){
   keys(c.configuration,['id','version','governanceReference','evaluatorVersion','candidateUniverseVersion','species','families','candidateUniverse']);
   for(const k of ['id','version','governanceReference','evaluatorVersion','candidateUniverseVersion'])id(c.configuration[k]);
   if(version===PUBLICATION_CONTRACT_V2)check(c.configuration.evaluatorVersion.endsWith('-explicit-assessment-v1'));
+  if(version===PUBLICATION_CONTRACT_V3)check(c.configuration.evaluatorVersion.endsWith('-explicit-assessment-history-v1'));
   unique(c.configuration.species);check(c.configuration.species.length===1&&c.configuration.species[0]==='blue-marlin'); // Only existing governed ranking pathway.
   unique(c.configuration.families);check(c.configuration.families.length>0);
   const u=c.configuration.candidateUniverse;keys(u,['reference','candidateIds']);reference(u.reference);unique(u.candidateIds);
@@ -79,14 +82,15 @@ export function freezeEvidenceV1(cycle,input){
   return freeze({evidenceSetId:`oes-${hash(entries)}`,entries});
 }
 function buildPublication(input,version){
-  const p=copy(input);keys(p,['cycle','evidence','attempt','evaluation']);
+  const p=copy(input);keys(p,['cycle','evidence','attempt','evaluation',...(version===PUBLICATION_CONTRACT_V3?['history']:[])]);
   const c=p.cycle;keys(c,['contractVersion','scheduledAt','region','configuration','cycleId']);
   const cycle=buildCycle({scheduledAt:c.scheduledAt,region:c.region,configuration:c.configuration},version);check(canonical(cycle)===canonical(c));
   keys(p.evidence,['evidenceSetId','entries']);check(canonical(freezeEvidenceV1(cycle,p.evidence.entries))===canonical(p.evidence));
   keys(p.attempt,['id','startedAt','endedAt']);id(p.attempt.id);p.attempt.startedAt=utc(p.attempt.startedAt);p.attempt.endedAt=utc(p.attempt.endedAt);
   check(cycle.scheduledAt<=p.attempt.startedAt&&p.attempt.startedAt<=p.attempt.endedAt);
-  const e=p.evaluation;keys(e,['evaluatorVersion','evidenceSetId','candidateResults','signalReferences','lineageReferences',...(version===PUBLICATION_CONTRACT_V2?['assessmentAt']:[])]);
-  if(version===PUBLICATION_CONTRACT_V2){e.assessmentAt=utc(e.assessmentAt);check(e.assessmentAt===cycle.scheduledAt);}
+  const e=p.evaluation;keys(e,['evaluatorVersion','evidenceSetId','candidateResults','signalReferences','lineageReferences',...(version!==PUBLICATION_CONTRACT?['assessmentAt']:[]),...(version===PUBLICATION_CONTRACT_V3?['historyId','historyState']:[])]);
+  if(version!==PUBLICATION_CONTRACT){e.assessmentAt=utc(e.assessmentAt);check(e.assessmentAt===cycle.scheduledAt);}
+  if(version===PUBLICATION_CONTRACT_V3){const h=freezeScientificHistoryV1(cycle,historyInput(p.history));check(canonical(h)===canonical(p.history)&&h.state!=='INVALID');check(e.historyId===h.historyId&&e.historyState===h.state);}
   id(e.evaluatorVersion);check(e.evaluatorVersion===cycle.configuration.evaluatorVersion&&e.evidenceSetId===p.evidence.evidenceSetId);
   check(Array.isArray(e.candidateResults));const seen=new Set();
   for(const r of e.candidateResults){
@@ -101,16 +105,43 @@ function buildPublication(input,version){
   check(seen.size===cycle.configuration.candidateUniverse.candidateIds.length*cycle.configuration.species.length); // No global Top-N truncation.
   e.candidateResults.sort((a,b)=>`${a.species}:${a.candidateId}`<`${b.species}:${b.candidateId}`?-1:1);
   for(const list of [e.signalReferences,e.lineageReferences]){check(Array.isArray(list));list.forEach(reference);}
-  const content={contractVersion:version,cycle,evidence:p.evidence,evaluation:e,status:'COMPLETED'};
+  const content={contractVersion:version,cycle,evidence:p.evidence,...(version===PUBLICATION_CONTRACT_V3?{history:p.history}:{}),evaluation:e,status:'COMPLETED'};
   const record={...content,publicationId:`opub-${hash(cycle.cycleId)}`,contentDigest:hash(content),attempt:p.attempt};
   return freeze({...record,integrityDigest:hash(record)});
 }
 function validatePublication(record,version){
-  const p=copy(record);keys(p,['contractVersion','cycle','evidence','evaluation','status','publicationId','contentDigest','attempt','integrityDigest']);
-  const expected=buildPublication({cycle:p.cycle,evidence:p.evidence,attempt:p.attempt,evaluation:p.evaluation},version);check(canonical(expected)===canonical(p));return expected;
+  const p=copy(record);keys(p,['contractVersion','cycle','evidence','evaluation','status','publicationId','contentDigest','attempt','integrityDigest',...(version===PUBLICATION_CONTRACT_V3?['history']:[])]);
+  const expected=buildPublication({cycle:p.cycle,evidence:p.evidence,attempt:p.attempt,evaluation:p.evaluation,...(version===PUBLICATION_CONTRACT_V3?{history:p.history}:{})},version);check(canonical(expected)===canonical(p));return expected;
 }
 export const publicationLookupV1=cycle=>`opub-${hash(cycle.cycleId)}`;
 export const publicationV1=input=>buildPublication(input,PUBLICATION_CONTRACT);
 export const publicationV2=input=>buildPublication(input,PUBLICATION_CONTRACT_V2);
 export const validatePublicationV1=input=>validatePublication(input,PUBLICATION_CONTRACT);
 export const validatePublicationV2=input=>validatePublication(input,PUBLICATION_CONTRACT_V2);
+
+export const cycleV3=input=>buildCycle(input,PUBLICATION_CONTRACT_V3);
+export const publicationV3=input=>buildPublication(input,PUBLICATION_CONTRACT_V3);
+export const validatePublicationV3=input=>validatePublication(input,PUBLICATION_CONTRACT_V3);
+export function assessmentContextV3(cycle){
+ const c=copy(cycle);check(canonical(cycleV3({scheduledAt:c.scheduledAt,region:c.region,configuration:c.configuration}))===canonical(c));
+ return freeze({contractVersion:ASSESSMENT_POLICY_V1,assessmentAt:c.scheduledAt});
+}
+function historyInput(value){const h=copy(value);keys(h,['contractVersion','state','asOf','reason','sourceReference','entries','historyId','contentDigest']);const {historyId,contentDigest,...input}=h;return input;}
+export function freezeScientificHistoryV1(cycle,input){
+ assessmentContextV3(cycle);
+ const h=copy(input);keys(h,['contractVersion','state','asOf','reason','sourceReference','entries']);
+ check(h.contractVersion===SCIENTIFIC_HISTORY_V1);check(['AVAILABLE','UNAVAILABLE','INVALID'].includes(h.state));
+ h.asOf=utc(h.asOf);check(h.asOf===cycle.scheduledAt);id(h.reason);check(Array.isArray(h.entries));
+ if(h.sourceReference!==null)reference(h.sourceReference);
+ if(h.state==='AVAILABLE')check(h.sourceReference!==null);else check(h.entries.length===0);
+ const seen=new Set();
+ for(const e of h.entries){
+  keys(e,['candidateId','species','representedAt','evaluatedAt','evaluationReference','opportunityId','continuityReference']);
+  id(e.candidateId);check(cycle.configuration.candidateUniverse.candidateIds.includes(e.candidateId));check(e.species==='blue-marlin'&&cycle.configuration.species.includes(e.species));
+  e.representedAt=utc(e.representedAt);e.evaluatedAt=utc(e.evaluatedAt);check(e.representedAt<=e.evaluatedAt&&e.evaluatedAt<=h.asOf);
+  reference(e.evaluationReference);if(e.opportunityId!==null)id(e.opportunityId);if(e.continuityReference!==null)reference(e.continuityReference);
+  const key=canonical([e.candidateId,e.species,e.evaluationReference]);check(!seen.has(key));seen.add(key);
+ }
+ h.entries.sort((a,b)=>{const x=canonical([a.evaluatedAt,a.candidateId,a.species,a.evaluationReference]),y=canonical([b.evaluatedAt,b.candidateId,b.species,b.evaluationReference]);return x<y?-1:x>y?1:0;});
+ const contentDigest=hash(h);return freeze({...h,historyId:'osh-'+contentDigest,contentDigest});
+}
