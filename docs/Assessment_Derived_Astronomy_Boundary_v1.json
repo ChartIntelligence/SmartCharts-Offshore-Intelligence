@@ -1,0 +1,1973 @@
+{
+  "version": "pelora-assessment-derived-astronomy-boundary-v1",
+  "task": "12B.6S",
+  "verdict": "ASSESSMENT_DERIVED_ASTRONOMY_QUALIFIED",
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "scope": "Current DEFAULT production provider astronomy only. This is semantic boundary evidence, not algorithm-accuracy certification, injected-provider qualification, snapshot optionality or projection authority.",
+  "originalNine": {
+    "status": "BLOCKING_UNRESOLVED",
+    "modified": false,
+    "requalified": false
+  },
+  "sourceBindings": [
+    {
+      "path": "backend/server.js",
+      "sha256": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06"
+    },
+    {
+      "path": "backend/scientificAssessment.mjs",
+      "sha256": "b27a04f6c74fab51e54998301c6c03d6dfd6a1ae3cbd4787089c4a04e41e7a9f"
+    },
+    {
+      "path": "backend/oceanState/publicationWorker.mjs",
+      "sha256": "b021d06c9ce838bf9113803526f368a63a1374fa1e1148478a962959245b52cb"
+    },
+    {
+      "path": "shared/oceanPublication.mjs",
+      "sha256": "1006bc99103d5b84c5ad38480d209cb97537fb69259f061c333c7a6771ceac49"
+    }
+  ],
+  "entry": {
+    "productionBinding": "backend/server.js:59538-59548 binds module-private getOceanConditions for both candidate classes; standalone evaluation defaults to it at 59259.",
+    "chain": [
+      "production species orchestration / unified default evaluation",
+      "getOceanConditions (62282): resolve context; withScientificAssessmentV1",
+      "getOceanConditionsAtAssessment (60099)",
+      "getMoonConditions(assessment.assessmentAt) (60188)",
+      "classifyMoonPhase (1684)",
+      "dataQuality moon layer / supporting quality counts (60866-60998)",
+      "buildObservationSnapshot (15727; call 61345)",
+      "buildOceanSnapshot (17794; call 61534)",
+      "assessBlueMarlinHabitat (call 61544), after neutral evidence construction"
+    ],
+    "arguments": "Astronomy receives one timestamp only; no candidate, coordinate, source evidence, captain, Auth or species argument."
+  },
+  "time": {
+    "authority": "Explicit scientific assessmentAt, validated/frozen by requireScientificAssessmentV1 and protected by AsyncLocalStorage equality guard.",
+    "grammar": "Four-digit calendar year, valid ISO UTC YYYY-MM-DDTHH:mm:ssZ or exactly three fractional digits .sssZ, exact Date round trip. Versions pelora-scientific-assessment-v1 and pelora-scheduled-scientific-assessment-v1.",
+    "outerDefault": "Missing independently callable outer context captures Date.now once. This is existing Task12B.1 behavior. Missing nested context rejects. Explicit malformed/null context does not default.",
+    "future": "Existing contract accepts future assessment dates; no separate astronomy future restriction added.",
+    "observedAt": "new Date(assessment.assessmentAt).toISOString()",
+    "hiddenClock": false,
+    "proof": "Core repeat with Date.now, Date() and no-argument new Date prohibited; default evaluations with advancing execution clocks, fixed assessment and sources; request single capture counted.",
+    "otherClocks": "Default acquisition/cache/retrieval still uses operational clocks. They are not prohibited globally and do not enter astronomy. generatedAt differences remain snapshot/retrieval metadata in this astronomy comparison."
+  },
+  "algorithm": {
+    "periodDays": 29.530588853,
+    "referenceEpoch": "2000-01-06T18:14:00.000Z",
+    "sequence": [
+      "finite validated assessment milliseconds minus private reference milliseconds",
+      "divide by 86400000",
+      "((days % period) + period) % period",
+      "fraction = age / period",
+      "illumination = (1 - cos(2*pi*fraction))/2",
+      "classify unrounded fraction; round numeric output only"
+    ],
+    "unchanged": true,
+    "accuracyClaim": "Existing approximate phase calculation only; no astronomical accuracy or rise/set/position claim."
+  },
+  "output": {
+    "containers": [
+      "/moon",
+      "/moon/source"
+    ],
+    "leaves": [
+      {
+        "path": "/moon/phase",
+        "type": "STRING",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "Closed eight-label result of unrounded phase fraction. No direct phase-to-score consumer found."
+      },
+      {
+        "path": "/moon/phaseFraction",
+        "type": "NUMBER",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "Normalized age/period, rounded to four decimals for output only; classification uses unrounded fraction."
+      },
+      {
+        "path": "/moon/lunarAgeDays",
+        "type": "NUMBER",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "Normalized remainder, rounded to two decimals."
+      },
+      {
+        "path": "/moon/illuminationPercent",
+        "type": "NUMBER",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "(1-cos(2*pi*f))/2 * 100, rounded to one decimal."
+      },
+      {
+        "path": "/moon/observedAt",
+        "type": "STRING",
+        "classification": "SCIENTIFIC_CONSUMED",
+        "role": "Exact canonical assessment instant; copied into quality moon layer and snapshots. It is calculated-at assessment time, NOT an environmental sample timestamp."
+      },
+      {
+        "path": "/moon/source/provider",
+        "type": "STRING",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "Pelora provenance, retained in root source and snapshots."
+      },
+      {
+        "path": "/moon/source/classification",
+        "type": "STRING",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "astronomical-calculation provenance."
+      },
+      {
+        "path": "/moon/source/accuracy",
+        "type": "STRING",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "approximate method annotation; retained provenance, not a numeric accuracy/score input."
+      },
+      {
+        "path": "/moon/source/referenceEpoch",
+        "type": "STRING",
+        "classification": "SNAPSHOT_SCIENTIFIC",
+        "role": "2000-01-06T18:14:00.000Z fixed algorithm reference; not retrieval or assessment authority."
+      },
+      {
+        "path": "/moon/source/availability",
+        "type": "STRING",
+        "classification": "SCIENTIFIC_CONSUMED",
+        "role": "available; drives quality and status, indirectly supporting quality counts."
+      }
+    ],
+    "leafCount": 10,
+    "nonfiniteDefaultOutputs": false,
+    "unsupportedFields": "No rise/set, position, location, descriptive timing window or separate retrieval field is produced.",
+    "invalidStandaloneShape": "Not included: invalid-time fallback unreachable in validated default context. Export used outside active context is not qualified here."
+  },
+  "consumers": [
+    {
+      "source": "server.js:60866",
+      "read": "source.availability; observedAt",
+      "effect": "quality state/reason/time; source Pelora",
+      "classification": "scientific supporting quality; calculated is counted with available supporting evidence"
+    },
+    {
+      "source": "server.js:60939-60998",
+      "read": "dataQuality.layers.moon.state",
+      "effect": "supportingAvailableCount and overall quality classification; calculated contributes one. Degraded-data-quality consumer in marine assessment and inherited warnings in ocean evidence consume overall quality.",
+      "classification": "indirect scientific; phase and illumination do not change this available state"
+    },
+    {
+      "source": "server.js:61040",
+      "read": "missing layer name moon",
+      "effect": "moon information explanation if unavailable",
+      "classification": "documentary branch unavailable for validated default astronomy; not a permission for missing astronomy"
+    },
+    {
+      "source": "server.js:61345-61376,15727",
+      "read": "entire moon via observations, and dataQuality",
+      "effect": "structuredClone into deeply frozen observationSnapshot",
+      "classification": "snapshot scientific/provenance retention"
+    },
+    {
+      "source": "server.js:61534,17794",
+      "read": "observationSnapshot",
+      "effect": "retained under oceanSnapshot.observation",
+      "classification": "snapshot scientific/provenance retention"
+    },
+    {
+      "source": "server.js:61605",
+      "read": "source.availability",
+      "effect": "status.moon calculated",
+      "classification": "status summary; not independent scientific adequacy"
+    },
+    {
+      "source": "server.js:61674,61800",
+      "read": "moon; moon.source",
+      "effect": "returned moon and source.moon",
+      "classification": "scientific values and provenance"
+    },
+    {
+      "source": "server.js:45430,61544",
+      "read": "dataQuality, oceanEvidence, oceanOpportunity; no raw moon field",
+      "effect": "species interpretation follows shared evidence; generic quality can affect downstream interpretation, not lunar label/illumination directly",
+      "classification": "species-neutral astronomy generated before species interpretation"
+    }
+  ],
+  "dependencies": {
+    "location": "None for astronomy: only timestamp and fixed private constants. Accepted candidate corner coordinates (15,-100),(32,-75), and (25,-90) reproduce identical moon. This does not globally qualify environmental geography.",
+    "candidate": "No ID/class input in calculation. Generated facts can be shared for identical assessment; currently copied per candidate, no architecture changed.",
+    "captain": "Inert synthetic captain/Auth/origin/range/boat/mission wrapper fields and candidate field cannot change moon. No Auth service or private store accessed; independence additionally follows sole-argument source.",
+    "species": "No species parameter or configuration read by calculation. Default returns neutral moon before current blue-marlin interpretation. Not a qualification of other species science.",
+    "environment": "No environmental values feed astronomy. Source ages independently depend on assessment; fixed source evidence across seven-day assessment shift changes ages by 168 hours. These are not lunar effects."
+  },
+  "branches": [
+    {
+      "id": "ASTRONOMY_PHASE_NEW_MOON",
+      "function": "classifyMoonPhase",
+      "predicate": "f < 0.03125 || f >= 0.96875",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "new-moon"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-09-12T18:38:41.966Z",
+          "offsetMilliseconds": -1,
+          "phase": "new-moon",
+          "phaseBranchCount": 7
+        },
+        {
+          "assessmentAt": "2026-10-10T11:04:59.664Z",
+          "offsetMilliseconds": 0,
+          "phase": "new-moon",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-10-10T11:04:59.665Z",
+          "offsetMilliseconds": 1,
+          "phase": "new-moon",
+          "phaseBranchCount": 1
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_PHASE_WAXING_CRESCENT",
+      "function": "classifyMoonPhase",
+      "predicate": "0.03125 <= f && f < 0.21875",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "waxing-crescent"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-09-12T18:38:41.967Z",
+          "offsetMilliseconds": 0,
+          "phase": "waxing-crescent",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-12T18:38:41.968Z",
+          "offsetMilliseconds": 1,
+          "phase": "waxing-crescent",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-18T07:31:57.506Z",
+          "offsetMilliseconds": -1,
+          "phase": "waxing-crescent",
+          "phaseBranchCount": 7
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_PHASE_FIRST_QUARTER",
+      "function": "classifyMoonPhase",
+      "predicate": "0.21875 <= f && f < 0.28125",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "first-quarter"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-09-18T07:31:57.507Z",
+          "offsetMilliseconds": 0,
+          "phase": "first-quarter",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-18T07:31:57.508Z",
+          "offsetMilliseconds": 1,
+          "phase": "first-quarter",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-20T03:49:42.685Z",
+          "offsetMilliseconds": -1,
+          "phase": "first-quarter",
+          "phaseBranchCount": 7
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_PHASE_WAXING_GIBBOUS",
+      "function": "classifyMoonPhase",
+      "predicate": "0.28125 <= f && f < 0.46875",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "waxing-gibbous"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-09-20T03:49:42.686Z",
+          "offsetMilliseconds": 0,
+          "phase": "waxing-gibbous",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-20T03:49:42.687Z",
+          "offsetMilliseconds": 1,
+          "phase": "waxing-gibbous",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-25T16:42:58.225Z",
+          "offsetMilliseconds": -1,
+          "phase": "waxing-gibbous",
+          "phaseBranchCount": 7
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_PHASE_FULL_MOON",
+      "function": "classifyMoonPhase",
+      "predicate": "0.46875 <= f && f < 0.53125",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "full-moon"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-09-25T16:42:58.226Z",
+          "offsetMilliseconds": 0,
+          "phase": "full-moon",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-25T16:42:58.227Z",
+          "offsetMilliseconds": 1,
+          "phase": "full-moon",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-27T13:00:43.405Z",
+          "offsetMilliseconds": -1,
+          "phase": "full-moon",
+          "phaseBranchCount": 7
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_PHASE_WANING_GIBBOUS",
+      "function": "classifyMoonPhase",
+      "predicate": "0.53125 <= f && f < 0.71875",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "waning-gibbous"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-09-27T13:00:43.406Z",
+          "offsetMilliseconds": 0,
+          "phase": "waning-gibbous",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-09-27T13:00:43.407Z",
+          "offsetMilliseconds": 1,
+          "phase": "waning-gibbous",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-10-03T01:53:58.944Z",
+          "offsetMilliseconds": -1,
+          "phase": "waning-gibbous",
+          "phaseBranchCount": 7
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_PHASE_LAST_QUARTER",
+      "function": "classifyMoonPhase",
+      "predicate": "0.71875 <= f && f < 0.78125",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "last-quarter"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-10-03T01:53:58.945Z",
+          "offsetMilliseconds": 0,
+          "phase": "last-quarter",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-10-03T01:53:58.946Z",
+          "offsetMilliseconds": 1,
+          "phase": "last-quarter",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-10-04T22:11:44.124Z",
+          "offsetMilliseconds": -1,
+          "phase": "last-quarter",
+          "phaseBranchCount": 7
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_PHASE_WANING_CRESCENT",
+      "function": "classifyMoonPhase",
+      "predicate": "0.78125 <= f && f < 0.96875",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": {
+        "phase": "waning-crescent"
+      },
+      "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+      "scenarios": [
+        {
+          "assessmentAt": "2026-10-04T22:11:44.125Z",
+          "offsetMilliseconds": 0,
+          "phase": "waning-crescent",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-10-04T22:11:44.126Z",
+          "offsetMilliseconds": 1,
+          "phase": "waning-crescent",
+          "phaseBranchCount": 1
+        },
+        {
+          "assessmentAt": "2026-10-10T11:04:59.663Z",
+          "offsetMilliseconds": -1,
+          "phase": "waning-crescent",
+          "phaseBranchCount": 7
+        }
+      ]
+    },
+    {
+      "id": "ASTRONOMY_EXPLICIT_TIME_REQUIRED",
+      "function": "getMoonConditions",
+      "predicate": "timestamp === undefined",
+      "disposition": "UNREACHABLE_CALLER_CONSTRUCTED",
+      "enforcement": "getOceanConditionsAtAssessment unconditionally passes assessment.assessmentAt after resolveScientificAssessmentV1; explicit null is rejected and outer omitted context captures once.",
+      "counterexample": "Missing outer context exercised: valid captured timestamp reaches astronomy; malformed explicit values reject before transport."
+    },
+    {
+      "id": "ASTRONOMY_DATE_OBJECT_INPUT",
+      "function": "getMoonConditions",
+      "predicate": "timestamp instanceof Date",
+      "disposition": "UNREACHABLE_UPSTREAM_VALIDATION",
+      "enforcement": "requireScientificAssessmentV1 accepts only a round-tripping UTC string; Date object rejected before provider.",
+      "consequence": "Default always constructs Date from the canonical explicit string."
+    },
+    {
+      "id": "ASTRONOMY_INVALID_TIME_FALLBACK",
+      "function": "getMoonConditions",
+      "predicate": "!Number.isFinite(date.getTime())",
+      "disposition": "UNREACHABLE_UPSTREAM_VALIDATION",
+      "enforcement": "Validated four-digit-year ISO UTC timestamp has finite Date.parse and exact ISO round trip.",
+      "counterexample": "Malformed, offset, precision, invalid calendar, NaN and infinities reject before transport; minimum/maximum accepted years produce finite astronomy.",
+      "consequence": "Standalone invalid-time return has nulls and omits lunarAgeDays/referenceEpoch; NOT a qualified default output shape."
+    },
+    {
+      "id": "ASTRONOMY_NONFINITE_PHASE_GUARD",
+      "function": "classifyMoonPhase",
+      "predicate": "!Number.isFinite(phaseFraction)",
+      "disposition": "UNREACHABLE_IMPOSSIBLE_STATE",
+      "enforcement": "Validated finite time minus finite private reference, divided by 86400000, has finite magnitude below 4 million days; positive finite period modulo normalization and division remain finite.",
+      "counterexample": "Year 0000 and 9999, exact epoch and adjacent milliseconds tested; no nonfinite result."
+    },
+    {
+      "id": "ASTRONOMY_QUALITY_AND_STATUS",
+      "function": "getOceanConditionsAtAssessment",
+      "predicate": "moon.source?.availability === \"available\"; moon.observedAt ?? null",
+      "disposition": "REACHABLE_DEFAULT_DOMAIN",
+      "consequence": "calculated, local-astronomical-calculation, assessment-derived observedAt; status.moon calculated. Moon contributes one calculated supporting layer.",
+      "oppositeEnforcement": "Default getMoonConditions always returns available and populated ISO observedAt for validated context; invalid-time path excluded above. Missing source/time requires bypassing default producer.",
+      "proof": "Every actual default scenario asserts available; demonstrated cases assert quality calculated and equal observedAt."
+    }
+  ],
+  "phaseVocabulary": [
+    "new-moon",
+    "waxing-crescent",
+    "first-quarter",
+    "waxing-gibbous",
+    "full-moon",
+    "waning-gibbous",
+    "last-quarter",
+    "waning-crescent"
+  ],
+  "boundaries": {
+    "method": "Source thresholds use unrounded fraction; derive nominal crossing then locate exact adjacent accepted integer milliseconds under existing algorithm, without epsilon. At means first representable millisecond in next branch, not falsely exact fractional equality.",
+    "thresholds": [
+      0.03125,
+      0.21875,
+      0.28125,
+      0.46875,
+      0.53125,
+      0.71875,
+      0.78125,
+      0.96875
+    ],
+    "cases": [
+      {
+        "fraction": 0.03125,
+        "idealMilliseconds": 1789238321966.6392,
+        "transitionMilliseconds": 1789238321967,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-12T18:38:41.966Z",
+            "offsetMilliseconds": -1,
+            "phase": "new-moon",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-12T18:38:41.967Z",
+            "offsetMilliseconds": 0,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-12T18:38:41.968Z",
+            "offsetMilliseconds": 1,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.21875,
+        "idealMilliseconds": 1789716717506.0576,
+        "transitionMilliseconds": 1789716717507,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-18T07:31:57.506Z",
+            "offsetMilliseconds": -1,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-18T07:31:57.507Z",
+            "offsetMilliseconds": 0,
+            "phase": "first-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-18T07:31:57.508Z",
+            "offsetMilliseconds": 1,
+            "phase": "first-quarter",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.28125,
+        "idealMilliseconds": 1789876182685.8638,
+        "transitionMilliseconds": 1789876182686,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-20T03:49:42.685Z",
+            "offsetMilliseconds": -1,
+            "phase": "first-quarter",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-20T03:49:42.686Z",
+            "offsetMilliseconds": 0,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-20T03:49:42.687Z",
+            "offsetMilliseconds": 1,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.46875,
+        "idealMilliseconds": 1790354578225.2825,
+        "transitionMilliseconds": 1790354578226,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-25T16:42:58.225Z",
+            "offsetMilliseconds": -1,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-25T16:42:58.226Z",
+            "offsetMilliseconds": 0,
+            "phase": "full-moon",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-25T16:42:58.227Z",
+            "offsetMilliseconds": 1,
+            "phase": "full-moon",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.53125,
+        "idealMilliseconds": 1790514043405.0889,
+        "transitionMilliseconds": 1790514043406,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-27T13:00:43.405Z",
+            "offsetMilliseconds": -1,
+            "phase": "full-moon",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-27T13:00:43.406Z",
+            "offsetMilliseconds": 0,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-27T13:00:43.407Z",
+            "offsetMilliseconds": 1,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.71875,
+        "idealMilliseconds": 1790992438944.5073,
+        "transitionMilliseconds": 1790992438945,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-10-03T01:53:58.944Z",
+            "offsetMilliseconds": -1,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-10-03T01:53:58.945Z",
+            "offsetMilliseconds": 0,
+            "phase": "last-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-03T01:53:58.946Z",
+            "offsetMilliseconds": 1,
+            "phase": "last-quarter",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.78125,
+        "idealMilliseconds": 1791151904124.3135,
+        "transitionMilliseconds": 1791151904125,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-10-04T22:11:44.124Z",
+            "offsetMilliseconds": -1,
+            "phase": "last-quarter",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-10-04T22:11:44.125Z",
+            "offsetMilliseconds": 0,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-04T22:11:44.126Z",
+            "offsetMilliseconds": 1,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.96875,
+        "idealMilliseconds": 1791630299663.732,
+        "transitionMilliseconds": 1791630299664,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-10-10T11:04:59.663Z",
+            "offsetMilliseconds": -1,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-10-10T11:04:59.664Z",
+            "offsetMilliseconds": 0,
+            "phase": "new-moon",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-10T11:04:59.665Z",
+            "offsetMilliseconds": 1,
+            "phase": "new-moon",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "id": "epoch-wrap",
+        "assessmentAt": "2000-01-06T18:13:59.999Z",
+        "moon": {
+          "phase": "new-moon",
+          "phaseFraction": 1,
+          "lunarAgeDays": 29.53,
+          "illuminationPercent": 0,
+          "observedAt": "2000-01-06T18:13:59.999Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      },
+      {
+        "id": "epoch-wrap",
+        "assessmentAt": "2000-01-06T18:14:00.000Z",
+        "moon": {
+          "phase": "new-moon",
+          "phaseFraction": 0,
+          "lunarAgeDays": 0,
+          "illuminationPercent": 0,
+          "observedAt": "2000-01-06T18:14:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      },
+      {
+        "id": "epoch-wrap",
+        "assessmentAt": "2000-01-06T18:14:00.001Z",
+        "moon": {
+          "phase": "new-moon",
+          "phaseFraction": 0,
+          "lunarAgeDays": 0,
+          "illuminationPercent": 0,
+          "observedAt": "2000-01-06T18:14:00.001Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      }
+    ]
+  },
+  "executionEvidence": {
+    "cases": [
+      {
+        "id": "demonstrated-0",
+        "assessmentAt": "2026-09-26T01:00:00Z",
+        "moon": {
+          "phase": "full-moon",
+          "phaseFraction": 0.4804,
+          "lunarAgeDays": 14.19,
+          "illuminationPercent": 99.6,
+          "observedAt": "2026-09-26T01:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        },
+        "phaseBranchCount": 1
+      },
+      {
+        "id": "demonstrated-1",
+        "assessmentAt": "2026-10-03T01:00:00Z",
+        "moon": {
+          "phase": "waning-gibbous",
+          "phaseFraction": 0.7175,
+          "lunarAgeDays": 21.19,
+          "illuminationPercent": 60.1,
+          "observedAt": "2026-10-03T01:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        },
+        "phaseBranchCount": 1
+      }
+    ],
+    "boundaries": [
+      {
+        "fraction": 0.03125,
+        "idealMilliseconds": 1789238321966.6392,
+        "transitionMilliseconds": 1789238321967,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-12T18:38:41.966Z",
+            "offsetMilliseconds": -1,
+            "phase": "new-moon",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-12T18:38:41.967Z",
+            "offsetMilliseconds": 0,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-12T18:38:41.968Z",
+            "offsetMilliseconds": 1,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.21875,
+        "idealMilliseconds": 1789716717506.0576,
+        "transitionMilliseconds": 1789716717507,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-18T07:31:57.506Z",
+            "offsetMilliseconds": -1,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-18T07:31:57.507Z",
+            "offsetMilliseconds": 0,
+            "phase": "first-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-18T07:31:57.508Z",
+            "offsetMilliseconds": 1,
+            "phase": "first-quarter",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.28125,
+        "idealMilliseconds": 1789876182685.8638,
+        "transitionMilliseconds": 1789876182686,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-20T03:49:42.685Z",
+            "offsetMilliseconds": -1,
+            "phase": "first-quarter",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-20T03:49:42.686Z",
+            "offsetMilliseconds": 0,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-20T03:49:42.687Z",
+            "offsetMilliseconds": 1,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.46875,
+        "idealMilliseconds": 1790354578225.2825,
+        "transitionMilliseconds": 1790354578226,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-25T16:42:58.225Z",
+            "offsetMilliseconds": -1,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-25T16:42:58.226Z",
+            "offsetMilliseconds": 0,
+            "phase": "full-moon",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-25T16:42:58.227Z",
+            "offsetMilliseconds": 1,
+            "phase": "full-moon",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.53125,
+        "idealMilliseconds": 1790514043405.0889,
+        "transitionMilliseconds": 1790514043406,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-09-27T13:00:43.405Z",
+            "offsetMilliseconds": -1,
+            "phase": "full-moon",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-09-27T13:00:43.406Z",
+            "offsetMilliseconds": 0,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-27T13:00:43.407Z",
+            "offsetMilliseconds": 1,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.71875,
+        "idealMilliseconds": 1790992438944.5073,
+        "transitionMilliseconds": 1790992438945,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-10-03T01:53:58.944Z",
+            "offsetMilliseconds": -1,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-10-03T01:53:58.945Z",
+            "offsetMilliseconds": 0,
+            "phase": "last-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-03T01:53:58.946Z",
+            "offsetMilliseconds": 1,
+            "phase": "last-quarter",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.78125,
+        "idealMilliseconds": 1791151904124.3135,
+        "transitionMilliseconds": 1791151904125,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-10-04T22:11:44.124Z",
+            "offsetMilliseconds": -1,
+            "phase": "last-quarter",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-10-04T22:11:44.125Z",
+            "offsetMilliseconds": 0,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-04T22:11:44.126Z",
+            "offsetMilliseconds": 1,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "fraction": 0.96875,
+        "idealMilliseconds": 1791630299663.732,
+        "transitionMilliseconds": 1791630299664,
+        "exactIdealOnMillisecondGrid": false,
+        "meaning": "first representable millisecond taking the next source branch, not a tolerance",
+        "records": [
+          {
+            "assessmentAt": "2026-10-10T11:04:59.663Z",
+            "offsetMilliseconds": -1,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-10-10T11:04:59.664Z",
+            "offsetMilliseconds": 0,
+            "phase": "new-moon",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-10T11:04:59.665Z",
+            "offsetMilliseconds": 1,
+            "phase": "new-moon",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "id": "epoch-wrap",
+        "assessmentAt": "2000-01-06T18:13:59.999Z",
+        "moon": {
+          "phase": "new-moon",
+          "phaseFraction": 1,
+          "lunarAgeDays": 29.53,
+          "illuminationPercent": 0,
+          "observedAt": "2000-01-06T18:13:59.999Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      },
+      {
+        "id": "epoch-wrap",
+        "assessmentAt": "2000-01-06T18:14:00.000Z",
+        "moon": {
+          "phase": "new-moon",
+          "phaseFraction": 0,
+          "lunarAgeDays": 0,
+          "illuminationPercent": 0,
+          "observedAt": "2000-01-06T18:14:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      },
+      {
+        "id": "epoch-wrap",
+        "assessmentAt": "2000-01-06T18:14:00.001Z",
+        "moon": {
+          "phase": "new-moon",
+          "phaseFraction": 0,
+          "lunarAgeDays": 0,
+          "illuminationPercent": 0,
+          "observedAt": "2000-01-06T18:14:00.001Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      }
+    ],
+    "differences": [
+      {
+        "path": "/dataQuality/layers/chlorophyll/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/dataQuality/layers/currents/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/dataQuality/layers/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z",
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/evidence/groups/clarity/values/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/values/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/productivity/values/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/temperature/confidence/sampleAgeHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "SST_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/generatedAt",
+        "left": "2026-09-27T21:32:27.710Z",
+        "right": "2026-09-27T21:32:27.722Z",
+        "subsystem": "RETRIEVAL_SNAPSHOT_METADATA"
+      },
+      {
+        "path": "/observations/chlorophyll/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/moon/illuminationPercent",
+        "left": 99.6,
+        "right": 60.1,
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/lunarAgeDays",
+        "left": 14.19,
+        "right": 21.19,
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z",
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/phase",
+        "left": "full-moon",
+        "right": "waning-gibbous",
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/phaseFraction",
+        "left": 0.4804,
+        "right": 0.7175,
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "SST_ASSESSMENT_AGE"
+      }
+    ],
+    "clock": [
+      {
+        "kind": "outer-capture",
+        "assessmentCaptures": 1,
+        "operationalClockCalls": 9,
+        "observedAt": "2026-09-26T01:00:00.000Z"
+      },
+      {
+        "kind": "scheduled-context",
+        "assessment": {
+          "contractVersion": "pelora-scheduled-scientific-assessment-v1",
+          "assessmentAt": "2026-09-26T00:00:00.000Z"
+        },
+        "moon": {
+          "phase": "full-moon",
+          "phaseFraction": 0.479,
+          "lunarAgeDays": 14.15,
+          "illuminationPercent": 99.6,
+          "observedAt": "2026-09-26T00:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      }
+    ],
+    "domain": [
+      {
+        "input": "2026-09-26",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "2026-09-26T01:00:00",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "2026-09-26T01:00:00+00:00",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "2026-09-26T01:00:00.12Z",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "2026-09-26T01:00:00.0001Z",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "2026-02-30T01:00:00Z",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "tomorrow",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "NaN",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "Infinity",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "-Infinity",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "null",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "Fri Sep 25 2026 21:00:00 GMT-0400 (Eastern Daylight Time)",
+        "accepted": false,
+        "requests": 0
+      },
+      {
+        "input": "0000-01-01T00:00:00.000Z",
+        "accepted": true,
+        "moon": {
+          "phase": "first-quarter",
+          "phaseFraction": 0.2512,
+          "lunarAgeDays": 7.42,
+          "illuminationPercent": 50.4,
+          "observedAt": "0000-01-01T00:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      },
+      {
+        "input": "9999-12-31T23:59:59.999Z",
+        "accepted": true,
+        "moon": {
+          "phase": "new-moon",
+          "phaseFraction": 0.0202,
+          "lunarAgeDays": 0.6,
+          "illuminationPercent": 0.4,
+          "observedAt": "9999-12-31T23:59:59.999Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      },
+      {
+        "input": "2028-02-29T12:00:00Z",
+        "accepted": true,
+        "moon": {
+          "phase": "waxing-crescent",
+          "phaseFraction": 0.1387,
+          "lunarAgeDays": 4.1,
+          "illuminationPercent": 17.8,
+          "observedAt": "2028-02-29T12:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      },
+      {
+        "input": "2099-01-01T00:00:00Z",
+        "accepted": true,
+        "moon": {
+          "phase": "waxing-gibbous",
+          "phaseFraction": 0.298,
+          "lunarAgeDays": 8.8,
+          "illuminationPercent": 64.8,
+          "observedAt": "2099-01-01T00:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        }
+      }
+    ],
+    "identity": {
+      "sameExistingSnapshotId": "pelora-snapshot-eb426f61",
+      "moonContentDifferent": true,
+      "interpretation": "Current snapshot ID is location/represented-time/capture/schema identity, not a full content digest."
+    },
+    "cache": {
+      "coldRequests": 13,
+      "warmRequests": 4,
+      "changedAssessmentRequests": 4,
+      "sameAssessmentExact": true,
+      "changedAssessmentRecomputed": true
+    },
+    "retainedAstronomyDifferences": [
+      {
+        "path": "/dataQuality/layers/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z"
+      },
+      {
+        "path": "/moon/illuminationPercent",
+        "left": 99.6,
+        "right": 60.1
+      },
+      {
+        "path": "/moon/lunarAgeDays",
+        "left": 14.19,
+        "right": 21.19
+      },
+      {
+        "path": "/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z"
+      },
+      {
+        "path": "/moon/phase",
+        "left": "full-moon",
+        "right": "waning-gibbous"
+      },
+      {
+        "path": "/moon/phaseFraction",
+        "left": 0.4804,
+        "right": 0.7175
+      },
+      {
+        "path": "/observationSnapshot/dataQuality/layers/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z"
+      },
+      {
+        "path": "/observationSnapshot/observations/moon/illuminationPercent",
+        "left": 99.6,
+        "right": 60.1
+      },
+      {
+        "path": "/observationSnapshot/observations/moon/lunarAgeDays",
+        "left": 14.19,
+        "right": 21.19
+      },
+      {
+        "path": "/observationSnapshot/observations/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z"
+      },
+      {
+        "path": "/observationSnapshot/observations/moon/phase",
+        "left": "full-moon",
+        "right": "waning-gibbous"
+      },
+      {
+        "path": "/observationSnapshot/observations/moon/phaseFraction",
+        "left": 0.4804,
+        "right": 0.7175
+      },
+      {
+        "path": "/oceanSnapshot/observation/dataQuality/layers/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z"
+      },
+      {
+        "path": "/oceanSnapshot/observation/observations/moon/illuminationPercent",
+        "left": 99.6,
+        "right": 60.1
+      },
+      {
+        "path": "/oceanSnapshot/observation/observations/moon/lunarAgeDays",
+        "left": 14.19,
+        "right": 21.19
+      },
+      {
+        "path": "/oceanSnapshot/observation/observations/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z"
+      },
+      {
+        "path": "/oceanSnapshot/observation/observations/moon/phase",
+        "left": "full-moon",
+        "right": "waning-gibbous"
+      },
+      {
+        "path": "/oceanSnapshot/observation/observations/moon/phaseFraction",
+        "left": 0.4804,
+        "right": 0.7175
+      }
+    ]
+  },
+  "cache": {
+    "astronomyCached": false,
+    "proof": "Unconditional fresh getMoonConditions call outside environmental caches; no astronomy cache lookup or writes; cold/warm transport counts recorded; changing assessment on warm environmental cache recomputes phase.",
+    "comparison": {
+      "coldRequests": 13,
+      "warmRequests": 4,
+      "changedAssessmentRequests": 4,
+      "sameAssessmentExact": true,
+      "changedAssessmentRecomputed": true
+    }
+  },
+  "mutation": {
+    "rootMutable": true,
+    "sharedAcrossEvaluations": false,
+    "snapshotDetachedAndFrozen": true,
+    "proof": "Mutate root phase/source, retained snapshot unchanged; subsequent default execution exact and separately allocated. Private epoch object is never returned; referenceEpoch is a string."
+  },
+  "identity": {
+    "candidate": "Moon retained in default candidate evidence and snapshot content; full evaluation object changes with it.",
+    "snapshot": {
+      "sameExistingSnapshotId": "pelora-snapshot-eb426f61",
+      "moonContentDifferent": true,
+      "interpretation": "Current snapshot ID is location/represented-time/capture/schema identity, not a full content digest."
+    },
+    "publication": "Worker passes assessmentContextV3(cycle) to registered evaluation port. That frozen scheduled context yields deterministic moon when used by default provider, demonstrated. Publication binds assessment and evaluator/evidence/history identities; it does not itself store the entire raw provider moon object or bind provider implementation identity. No deployed adapter binding is claimed.",
+    "request": "Outer current default evaluation captures once if absent; nested provider and astronomy receive same explicit context. Counter confirms one assessment clock capture.",
+    "newIdentityCreated": false
+  },
+  "modelAddition": {
+    "id": "ASSESSMENT_DERIVED_ASTRONOMY",
+    "scope": "Assessment-derived lunar phase/age/illumination and time/provenance retention in DEFAULT provider plus availability-to-quality effects.",
+    "nodes": [
+      "getOceanConditions",
+      "getOceanConditionsAtAssessment",
+      "getMoonConditions",
+      "classifyMoonPhase",
+      "requireScientificAssessmentV1",
+      "assertScientificInstantV1",
+      "buildObservationSnapshot",
+      "buildOceanSnapshot"
+    ],
+    "branches": "Eight phase intervals; validated input guards; finite normalization and rounding; available-to-quality/status; snapshot copies.",
+    "paths": [
+      "/moon",
+      "/source/moon",
+      "/status/moon",
+      "/dataQuality/layers/moon",
+      "/observationSnapshot/observations/moon",
+      "/observationSnapshot/dataQuality/layers/moon",
+      "/oceanSnapshot/observation/observations/moon",
+      "/oceanSnapshot/observation/dataQuality/layers/moon"
+    ],
+    "temporalAuthority": "Explicit assessment context only, unlike retained environmental sample time.",
+    "dependencies": [
+      "existing assessment validation",
+      "fixed lunar constants",
+      "existing clone/freeze snapshot mechanism",
+      "quality supporting-layer aggregation"
+    ],
+    "instruction": "Create an explicitly revised model containing original nine plus this area, then audit completeness before resolution. Do NOT append to or reinterpret the failed old ledger."
+  },
+  "blockingAstronomyItems": [],
+  "nextGate": "EXPLICITLY REVISED DEFAULT-PROVIDER SEMANTIC REVIEW MODEL",
+  "forbiddenWork": {
+    "optionalityQualification": false,
+    "requirementAuthority": false,
+    "authorityProposal": false,
+    "freeze": false,
+    "projectionV3": false,
+    "productionEdits": false,
+    "originalNineRequalification": false
+  },
+  "preservedState": {
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "upstream": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+    "injectedProvider": "UNQUALIFIED / OUTSIDE SCOPE"
+  },
+  "verification": {
+    "focusedTests": 11,
+    "network": "Network blocker preloaded; test fetch only allowlisted synthetic transports; no provider/database/Auth/Supabase access.",
+    "regressions": {
+      "scripts": 62,
+      "failures": 0,
+      "draftV3SuiteExcluded": true,
+      "focusedFinalRerun": 11,
+      "entries": [
+        {
+          "file": "backend/tests/archiveBoundScienceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 14
+        },
+        {
+          "file": "backend/tests/assessmentAstronomy.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/bathymetryEvidence.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+          "exitCode": 0,
+          "tests": 11
+        },
+        {
+          "file": "backend/tests/candidateCaptureAssemblyBoundary.test.js",
+          "exitCode": 0,
+          "tests": 8
+        },
+        {
+          "file": "backend/tests/candidateCaptureResumptionBoundary.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/candidateEvidenceSourceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 7
+        },
+        {
+          "file": "backend/tests/candidateSemanticProjection.test.js",
+          "exitCode": 0,
+          "tests": 113
+        },
+        {
+          "file": "backend/tests/candidateSemanticProjectionV2.test.js",
+          "exitCode": 0,
+          "tests": 100
+        },
+        {
+          "file": "backend/tests/candidateSnapshotProducerSurface.test.js",
+          "exitCode": 0,
+          "tests": 6
+        },
+        {
+          "file": "backend/tests/captureDerivedScientificBoundary.test.js",
+          "exitCode": 0,
+          "tests": 17
+        },
+        {
+          "file": "backend/tests/clientPrivilegeHardening.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/completeCandidateEvidenceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/currentEvidenceCapture.test.js",
+          "exitCode": 0,
+          "tests": 96
+        },
+        {
+          "file": "backend/tests/currentScientificReconstructionBoundary.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/defaultProviderSemanticReview.test.js",
+          "exitCode": 0,
+          "tests": 6
+        },
+        {
+          "file": "backend/tests/defaultProviderTransitive.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/dynamicOpportunityFailure.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/environmentalObservationMetadata.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/exactCandidateSnapshotBoundary.test.js",
+          "exitCode": 0,
+          "tests": 18
+        },
+        {
+          "file": "backend/tests/exactMarineCapture.test.js",
+          "exitCode": 0,
+          "tests": 152
+        },
+        {
+          "file": "backend/tests/exactScientificEvidence.test.js",
+          "exitCode": 0,
+          "tests": 160
+        },
+        {
+          "file": "backend/tests/fishingDayReportSchema.test.js",
+          "exitCode": 0,
+          "tests": 6
+        },
+        {
+          "file": "backend/tests/fishingLocationSpatialEvidence.test.js",
+          "exitCode": 0,
+          "tests": 8
+        },
+        {
+          "file": "backend/tests/fishingLogAssociationReadiness.test.js",
+          "exitCode": 0,
+          "tests": 14
+        },
+        {
+          "file": "backend/tests/fishingLogEvidenceCapture.test.js",
+          "exitCode": 0,
+          "tests": 18
+        },
+        {
+          "file": "backend/tests/fishingLogEvidenceStorage.test.js",
+          "exitCode": 0,
+          "tests": 4
+        },
+        {
+          "file": "backend/tests/fishingLogTemporalEvidence.test.js",
+          "exitCode": 0,
+          "tests": 17
+        },
+        {
+          "file": "backend/tests/governedPlace.test.js",
+          "exitCode": 0,
+          "tests": 26
+        },
+        {
+          "file": "backend/tests/historicalOceanRequirements.test.js",
+          "exitCode": 0,
+          "tests": 13
+        },
+        {
+          "file": "backend/tests/marineAssessorCompanionCapture.test.js",
+          "exitCode": 0,
+          "tests": 108
+        },
+        {
+          "file": "backend/tests/noaaSstDisplayScale.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/noaaSstPilot.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/oceanConditions.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/oceanFields.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/oceanProductArchive.test.js",
+          "exitCode": 0,
+          "tests": 36
+        },
+        {
+          "file": "backend/tests/oceanProductFrame.test.js",
+          "exitCode": 0,
+          "tests": 17
+        },
+        {
+          "file": "backend/tests/oceanProviderBoundary.test.js",
+          "exitCode": 0,
+          "tests": 11
+        },
+        {
+          "file": "backend/tests/oceanPublication.test.js",
+          "exitCode": 0,
+          "tests": 57
+        },
+        {
+          "file": "backend/tests/oceanPublicationAssessment.test.js",
+          "exitCode": 0,
+          "tests": 75
+        },
+        {
+          "file": "backend/tests/oceanPublicationHistory.test.js",
+          "exitCode": 0,
+          "tests": 87
+        },
+        {
+          "file": "backend/tests/oceanScalarFieldDelivery.test.js",
+          "exitCode": 0,
+          "tests": 44
+        },
+        {
+          "file": "backend/tests/oceanSnapshotPrivileges.test.js",
+          "exitCode": 0,
+          "tests": 4
+        },
+        {
+          "file": "backend/tests/opportunityEvaluationState.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/persistenceEnvironment.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/placeIngestion.test.js",
+          "exitCode": 0,
+          "tests": 22
+        },
+        {
+          "file": "backend/tests/scalarRuntime.test.js",
+          "exitCode": 0,
+          "tests": 22
+        },
+        {
+          "file": "backend/tests/scientificAssessment.test.js",
+          "exitCode": 0,
+          "tests": 42
+        },
+        {
+          "file": "backend/tests/scientificHistoryBoundary.test.js",
+          "exitCode": 0,
+          "tests": 9
+        },
+        {
+          "file": "backend/tests/sharedScienceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 9
+        },
+        {
+          "file": "backend/tests/signedZeroQualification.test.js",
+          "exitCode": 0,
+          "tests": 40
+        },
+        {
+          "file": "backend/tests/snapshotBranchOptionality.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+          "exitCode": 0,
+          "tests": 4
+        },
+        {
+          "file": "backend/tests/snapshotProducerQualificationV2.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/snapshotShapeAuthorityBoundary.test.js",
+          "exitCode": 0,
+          "tests": 18
+        },
+        {
+          "file": "backend/tests/sstNumericIntegrity.test.js",
+          "exitCode": 0,
+          "tests": 19
+        },
+        {
+          "file": "backend/tests/sstProductAdapter.test.js",
+          "exitCode": 0,
+          "tests": 19
+        },
+        {
+          "file": "backend/tests/sstWorker.test.js",
+          "exitCode": 0,
+          "tests": 56
+        },
+        {
+          "file": "backend/tests/temporalEvidencePrimitives.test.js",
+          "exitCode": 0,
+          "tests": 100
+        },
+        {
+          "file": "backend/tests/temporalHistorySelection.test.js",
+          "exitCode": 0,
+          "tests": 13
+        },
+        {
+          "file": "backend/tests/transitiveProducerBoundary.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/weatherMarineQualityCapture.test.js",
+          "exitCode": 0,
+          "tests": 80
+        }
+      ],
+      "note": "The full discovery run executed the initial 10 astronomy tests; final focused rerun passed all 11 after adding cache witness and retained-copy assertion. No production or other tests changed."
+    },
+    "syntax": {
+      "modules": 119,
+      "failures": []
+    },
+    "json": {
+      "files": 50,
+      "failures": []
+    },
+    "protected": {
+      "count": 53,
+      "allUnchanged": true
+    },
+    "git": {
+      "trackedDiffEmpty": true,
+      "stagedDiffEmpty": true,
+      "newDeliverables": 5,
+      "untrackedEntries": 60,
+      "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+      "branch": "codex/pelora-remote-setup"
+    }
+  }
+}
