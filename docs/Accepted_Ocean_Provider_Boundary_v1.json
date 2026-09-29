@@ -1,0 +1,1252 @@
+{
+  "version": "pelora-accepted-ocean-provider-boundary-review-v1",
+  "verdict": "DEFAULT_PROVIDER_DOMAIN_QUALIFIABLE_SEPARATELY",
+  "defaultTransitiveRequalificationMayResume": true,
+  "completeDefaultProducerQualified": false,
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "domains": [
+    {
+      "id": "DEFAULT_PRODUCTION_PROVIDER_DOMAIN",
+      "definition": "Unchanged module-private getOceanConditions selected by executable default or explicit internal binding; unchanged transitive producers; synthetic transport data is allowed for offline branch review.",
+      "excludes": [
+        "Injected function implementations, even with equivalent output",
+        "Provider authenticity/freshness qualification",
+        "Capture-derived reconstruction equivalence",
+        "Species/evaluator registration qualification"
+      ]
+    },
+    {
+      "id": "INJECTED_TRUSTED_PROVIDER_DOMAIN",
+      "definition": "Application-code supplied function at internal API/server construction. Trust in who supplies code is not authentication of science, version or output.",
+      "qualified": false
+    },
+    {
+      "id": "ARBITRARY_UNTRUSTED_PROVIDER_OUTPUT",
+      "definition": "Adversarial values returned by an application-code callback; cannot be selected as a callback by traced external request data.",
+      "qualified": false
+    }
+  ],
+  "externalSelectability": {
+    "found": false,
+    "scope": "Searched repository runtime/frontend/shared code, constructor and evaluator callers; local request-listener attacks. No plugin/worker/env/database/Auth/provider-response selector found.",
+    "limit": "Not a proof against arbitrary code execution or future callers; arbitrary application code can supply dependencies."
+  },
+  "injectionPoints": [
+    {
+      "function": "evaluateUnifiedOpenWaterOceanConditionsV1 / AtAssessment",
+      "default": null,
+      "validation": "explicit assessment; class/coordinates; typeof provider function",
+      "after": "oceanConditions != null; no descendant inspection"
+    },
+    {
+      "function": "evaluateUnifiedPhysicalStructureOceanConditionsV1 / AtAssessment",
+      "default": null,
+      "validation": "explicit assessment; class/coordinates; typeof provider function",
+      "after": "oceanConditions != null; no descendant inspection"
+    },
+    {
+      "function": "evaluateUnifiedOpportunityOceanConditionsV1 / AtAssessment",
+      "default": "getOceanConditions",
+      "validation": "candidate selection and leaf checks",
+      "after": "worker fulfilled/rejected reporting; no provider schema"
+    },
+    {
+      "function": "createPeloraServer",
+      "default": "getOceanConditions",
+      "validation": "Construction-time JS options; route Gulf coordinates",
+      "after": "spreads response and JSON serializes; no scientific schema"
+    }
+  ],
+  "productionBindings": [
+    {
+      "function": "evaluateControlledGulfBlueMarlinV1AtAssessment",
+      "use": "PRODUCTION_DEFAULT",
+      "mechanism": "Both class branches explicitly pass module-private getOceanConditions",
+      "callbackInputAccepted": false
+    },
+    {
+      "function": "module bootstrap createPeloraServer()",
+      "use": "PRODUCTION_DEFAULT",
+      "mechanism": "No options supplied; provider closed over at construction"
+    }
+  ],
+  "injectionUseCases": {
+    "TEST_FIXTURE": "All alternate oceanConditionsProvider implementations found in tests, including controlled retained-object replay.",
+    "INTERNAL_REPLAY": "Possible internal seam, no non-test current replay implementation found.",
+    "ARCHIVE_REPLAY": "Required future evidence reconstruction is separately locked; this callback protocol is not mandated or qualified.",
+    "WORKER": "Publication worker has separate evaluate dependency, not oceanConditionsProvider.",
+    "PRODUCTION_ALTERNATE": "None found",
+    "OTHER": "Exported constructor/functions allow trusted application-code callers; no capability registry/authentication."
+  },
+  "sourceSites": [
+    {
+      "file": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+      "line": 3,
+      "text": "import {evaluateUnifiedOpportunityOceanConditionsV1} from '../../server.js';",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+      "line": 18,
+      "text": "try{const result=await evaluateUnifiedOpportunityOceanConditionsV1({assessment,candidates:[candidate],bearerToken:null,concurrency:1});const record=result.controlledEvaluation.evaluation.results[0];assert.equal(record.status,'fulfilled');return {result,ocean:record.value.oceanConditions,requests};}",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+      "line": 21,
+      "text": "export async function injected(value,extra={}){return evaluateUnifiedOpportunityOceanConditionsV1({assessment,candidates:[candidate],oceanConditionsProvider:async()=>value,...extra});}",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+      "line": 7,
+      "text": "import {evaluateUnifiedOpportunityOceanConditionsV1} from '../../server.js';",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+      "line": 48,
+      "text": "const result=await evaluateUnifiedOpportunityOceanConditionsV1({assessment,candidates:[candidate],bearerToken:null,concurrency:1});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+      "line": 67,
+      "text": "const queue=['evaluateUnifiedOpportunityOceanConditionsV1'],seen=new Set(),nodes=[],branches=[];",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanProviderBoundary.test.js",
+      "line": 43,
+      "text": "const result=await injected(value,{oceanConditionsProvider:async(_a,_b,options)=>{seen=options.assessment;assert(Object.isFrozen(seen));return value;}});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanProviderBoundary.test.js",
+      "line": 50,
+      "text": "const server=createPeloraServer({oceanConditionsProvider:chosen,persistenceConfigurationProvider:()=>({configured:false})});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanProviderBoundary.test.js",
+      "line": 51,
+      "text": "try{for(const suffix of ['', '&oceanConditionsProvider=untrusted&provider=untrusted']){",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanProviderBoundary.test.js",
+      "line": 52,
+      "text": "const req=Object.assign(new EventEmitter(),{method:'GET',url:'/api/ocean?lat=25&lon=-90'+suffix,headers:{host:'localhost','x-ocean-conditions-provider':'untrusted',cookie:'provider=untrusted'},body:{oceanConditionsProvider:'untrusted'}});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanProviderBoundary.test.js",
+      "line": 61,
+      "text": "assert.equal((caller.match(/oceanConditionsProvider:\\s*getOceanConditions/g)||[]).length,2);",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanProviderBoundary.test.js",
+      "line": 62,
+      "text": "const leaf=source.slice(source.indexOf('async function evaluateUnifiedOpenWaterOceanConditionsV1AtAssessment('),source.indexOf('async function evaluateUnifiedPhysicalStructureOceanConditionsV1AtAssessment('));",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanProviderBoundary.test.js",
+      "line": 98,
+      "text": "assert(!worker.includes('oceanConditionsProvider'));assert(!contract.includes('oceanConditionsProvider'));",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "line": 5,
+      "text": "import {evaluateUnifiedOpportunityOceanConditionsV1,evaluateUnifiedOpenWaterOceanConditionsV1,getChlorophyllConditions} from '../server.js';",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "line": 17,
+      "text": "for(const coordinates of [[15,-100],[32,-75],['25','-90']])assert.equal((await evaluateUnifiedOpenWaterOceanConditionsV1({assessment,candidate:{...candidate,coordinates},oceanConditionsProvider:provider})).available,true);",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "line": 18,
+      "text": "for(const coordinates of [[14.999,-90],[32.001,-90],[25,-100.001],[25,-74.999],[null,-90],['',-90]])assert.equal((await evaluateUnifiedOpenWaterOceanConditionsV1({assessment,candidate:{...candidate,coordinates},oceanConditionsProvider:provider})).reason,'candidate-coordinates-invalid');",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "line": 20,
+      "text": "assert.equal((await evaluateUnifiedOpenWaterOceanConditionsV1({assessment,candidate:{...candidate,candidateClass:'unsupported'},oceanConditionsProvider:provider})).reason,'candidate-evaluation-pathway-not-governed');",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "line": 25,
+      "text": "const result=await evaluateUnifiedOpportunityOceanConditionsV1({assessment,candidates:[candidate],oceanConditionsProvider:async()=>output});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "line": 29,
+      "text": "const none=await evaluateUnifiedOpenWaterOceanConditionsV1({assessment,candidate,oceanConditionsProvider:async()=>null});assert.equal(none.available,false);",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 58878,
+      "text": "async function evaluateUnifiedOpenWaterOceanConditionsV1AtAssessment({",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 58884,
+      "text": "oceanConditionsProvider = null",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 58995,
+      "text": "typeof oceanConditionsProvider !==",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59026,
+      "text": "await oceanConditionsProvider(",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59059,
+      "text": "async function evaluateUnifiedPhysicalStructureOceanConditionsV1AtAssessment({",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59065,
+      "text": "oceanConditionsProvider = null",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59178,
+      "text": "typeof oceanConditionsProvider !==",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59210,
+      "text": "await oceanConditionsProvider(",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59245,
+      "text": "async function evaluateUnifiedOpportunityOceanConditionsV1AtAssessment({",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59259,
+      "text": "oceanConditionsProvider =",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59278,
+      "text": "evaluateUnifiedPhysicalStructureOceanConditionsV1({",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59284,
+      "text": "oceanConditionsProvider",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59291,
+      "text": "evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59297,
+      "text": "oceanConditionsProvider",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59532,
+      "text": "? await evaluateUnifiedPhysicalStructureOceanConditionsV1({",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59538,
+      "text": "oceanConditionsProvider:",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59541,
+      "text": ": await evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 59547,
+      "text": "oceanConditionsProvider:",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 61807,
+      "text": "export function createPeloraServer(options = {}) {",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 61809,
+      "text": "oceanConditionsProvider = getOceanConditions,",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62143,
+      "text": "await oceanConditionsProvider(",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62194,
+      "text": "const server = createPeloraServer();",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62242,
+      "text": "export function evaluateUnifiedOpenWaterOceanConditionsV1(...args) {",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62244,
+      "text": "return withScientificAssessmentV1(assessment,()=>evaluateUnifiedOpenWaterOceanConditionsV1AtAssessment({...options,assessment}));",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62246,
+      "text": "export function evaluateUnifiedPhysicalStructureOceanConditionsV1(...args) {",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62248,
+      "text": "return withScientificAssessmentV1(assessment,()=>evaluateUnifiedPhysicalStructureOceanConditionsV1AtAssessment({...options,assessment}));",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62250,
+      "text": "export function evaluateUnifiedOpportunityOceanConditionsV1(...args) {",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/server.js",
+      "line": 62252,
+      "text": "return withScientificAssessmentV1(assessment,()=>evaluateUnifiedOpportunityOceanConditionsV1AtAssessment({...options,assessment}));",
+      "context": "RUNTIME_SOURCE"
+    },
+    {
+      "file": "backend/tests/completeCandidateEvidenceBoundary.test.js",
+      "line": 73,
+      "text": "const route=s.slice(s.indexOf('async function getOceanConditionsAtAssessment('),s.indexOf('export function createPeloraServer('));",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 17,
+      "text": "evaluateUnifiedOpenWaterOceanConditionsV1,",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 18,
+      "text": "evaluateUnifiedPhysicalStructureOceanConditionsV1,",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 19,
+      "text": "evaluateUnifiedOpportunityOceanConditionsV1,",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48094,
+      "text": "await evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48101,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48238,
+      "text": "await evaluateUnifiedPhysicalStructureOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48245,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48385,
+      "text": "await evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48389,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48464,
+      "text": "await evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48468,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48543,
+      "text": "await evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48547,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48619,
+      "text": "await evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48623,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48705,
+      "text": "evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48709,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48803,
+      "text": "const oceanConditionsProvider =",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48840,
+      "text": "evaluateUnifiedOpenWaterOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 48847,
+      "text": "oceanConditionsProvider",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 49040,
+      "text": "await evaluateUnifiedOpportunityOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 49053,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 49245,
+      "text": "await evaluateUnifiedOpportunityOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 49259,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 49484,
+      "text": "await evaluateUnifiedOpportunityOceanConditionsV1({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/oceanConditions.test.js",
+      "line": 49492,
+      "text": "oceanConditionsProvider:",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/persistenceEnvironment.test.js",
+      "line": 73,
+      "text": "const server=createPeloraServer({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/persistenceEnvironment.test.js",
+      "line": 78,
+      "text": "oceanConditionsProvider:async (latitude,longitude,{bearerToken})=>({",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scalarRuntime.test.js",
+      "line": 28,
+      "text": "const s = await setup(); const server = createPeloraServer({scalarFieldRuntime: s.runtime,",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scalarRuntime.test.js",
+      "line": 39,
+      "text": "const server = createPeloraServer(); const req = Object.assign(new EventEmitter(), {method: 'GET', url: '/api/ocean/field?' + params(), headers: {host: 'localhost'}});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scalarRuntime.test.js",
+      "line": 118,
+      "text": "const server = createPeloraServer({scalarFieldRuntime: async (_p, signal) => {",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scalarRuntime.test.js",
+      "line": 128,
+      "text": "const server = createPeloraServer(options);",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 4,
+      "text": "import {buildUnifiedSpeciesOpportunityInterpretationV1,resolveUnifiedOpportunityRankingInputV1,assessSstTransitionConfidence,getAgeHours,getMoonConditions,getChlorophyllConditions,getGapFilledChlorophyllConditions,getCachedCurrentConditionsPoint,getCurrentSpatialStructure,evaluateUnifiedOpportunityOceanConditionsV1,filterUnifiedOpportunityCandidatesByCaptainContextV1} from '../server.js';",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 34,
+      "text": "const r=await evaluateUnifiedOpportunityOceanConditionsV1({candidates:[f.candidate,{...f.candidate,id:'synthetic-second'}],maximumCandidates:2,concurrency:1,oceanConditionsProvider:async(_lat,_lon,options)=>{seen.push(options.assessment.assessmentAt);return f.ocean;}});assert.equal(calls,1);assert.deepEqual(seen,[early,early]);assert.equal(r.available,true);",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 48,
+      "text": "await evaluateUnifiedOpportunityOceanConditionsV1({candidates:[f.candidate],assessment,oceanConditionsProvider:async(_lat,_lon,options)=>{seen.push(options.assessment.assessmentAt);assert.deepEqual(interpret(f,options.assessment),interpret(f,assessment));return f.ocean;}});assert.deepEqual(seen,[cycle.scheduledAt]);",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 61,
+      "text": "const server=createPeloraServer({persistenceConfigurationProvider:()=>({configured:false}),oceanConditionsProvider:async(lat,lon,options)=>{",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 75,
+      "text": "const server=createPeloraServer({persistenceConfigurationProvider:()=>{throw Error('Auth forbidden');}});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 79,
+      "text": "let signal;const cancellable=createPeloraServer({scalarFieldRuntime:async(_p,s)=>{signal=s;await Promise.resolve();return {statusCode:200,body:{test:true}};}});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 85,
+      "text": "await evaluateUnifiedOpportunityOceanConditionsV1({candidates:[f.candidate],assessment:context(early),oceanConditionsProvider:async(_lat,_lon,options)=>{",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 91,
+      "text": "t.mock.method(Date,'now',()=>{throw Error('scientific clock forbidden');});const f=fixture();const results=await Promise.all([early,late].map(at=>evaluateUnifiedOpportunityOceanConditionsV1({candidates:[f.candidate],assessment:context(at),oceanConditionsProvider:async(_a,_b,options)=>{await Promise.resolve();assert.equal(options.assessment.assessmentAt,at);interpret(f,options.assessment);return f.ocean;}})));assert(results.every(r=>r.available));",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 97,
+      "text": "await evaluateUnifiedOpportunityOceanConditionsV1({candidates:[f.candidate,{...f.candidate,id:'test-second'},{...f.candidate,id:'test-third'}],maximumCandidates:3,assessment,oceanConditionsProvider:async(_lat,_lon,options)=>{",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/scientificAssessment.test.js",
+      "line": 110,
+      "text": "const original=context(early),f=fixture();await evaluateUnifiedOpportunityOceanConditionsV1({candidates:[f.candidate],assessment:original,oceanConditionsProvider:async(_a,_b,options)=>{original.assessmentAt=late;original.contractVersion='changed';await Promise.resolve();assert.equal(options.assessment.assessmentAt,early);assert.throws(()=>{options.assessment.assessmentAt=late;});assert.equal(interpret(f,options.assessment).negativeConclusionAdequacy.adequate,true);return f.ocean;}});",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/sharedScienceBoundary.test.js",
+      "line": 15,
+      "text": "rankUnifiedSpeciesOpportunitiesV1, evaluateUnifiedOpenWaterOceanConditionsV1} from '../server.js';",
+      "context": "TEST_FIXTURE"
+    },
+    {
+      "file": "backend/tests/sharedScienceBoundary.test.js",
+      "line": 63,
+      "text": "const captured=await evaluateUnifiedOpenWaterOceanConditionsV1({candidate:f.candidate,oceanConditionsProvider:async(lat,lon,options)=>{",
+      "context": "TEST_FIXTURE"
+    }
+  ],
+  "primitiveAndMalformedResults": [
+    {
+      "id": "false",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "zero",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "string",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "true",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "one",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "minus-one",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "null",
+      "status": "fulfilled",
+      "leafAvailable": false,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "undefined",
+      "status": "fulfilled",
+      "leafAvailable": false,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "array",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "object",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "function",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "NaN",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "Infinity",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "missing-family",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "wrong-primitive",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "null-sst",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "nonfinite",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "wrong-provenance",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "wrong-time",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "malformed-spatial",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "private",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "unreviewed-snapshot",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "inherited",
+      "status": "fulfilled",
+      "leafAvailable": true,
+      "wrapperAvailable": true,
+      "successful": 1,
+      "failed": 0,
+      "snapshotCreated": false,
+      "scoreOrGateInvoked": false
+    },
+    {
+      "id": "thenable-throw",
+      "status": "rejected",
+      "leafAvailable": null,
+      "wrapperAvailable": true,
+      "successful": 0,
+      "failed": 1,
+      "thenReads": 1
+    },
+    {
+      "id": "explicit-internal-score-bridge",
+      "automaticProductionPath": false,
+      "copiedScore": 88,
+      "copiedConfidence": 91,
+      "eligibleForRanking": false
+    }
+  ],
+  "availability": {
+    "leaf": "returned value != null",
+    "worker": "successfulCandidateCount counts fulfilled calls, even when leaf unavailable; wrapper available means results exist",
+    "scientific": "Does not establish scientific availability, quality, feature evidence, negative adequacy or ranking"
+  },
+  "equivalence": {
+    "result": "EXACT_MATCH",
+    "construction": "Actual default object returned unchanged by injected callback, same candidate/assessment/concurrency/bearer options",
+    "limit": "Pass-through only; no reconstruction, reference authentication or durable replay qualification"
+  },
+  "scientificConsequence": {
+    "automaticInjectedScoring": false,
+    "productionSpeciesBinding": "getOceanConditions only",
+    "controlledManualBridge": "Claimed score 88 and confidence 91 copied by explicit subsequent exported opportunity-interpreter call; ranking gate remains false. This is not an externally selectable runtime path.",
+    "noClaim": "No positive gate, negative adequacy, score recomputation or full species equivalence established."
+  },
+  "privacy": {
+    "seam": "Dedicated private fields retained; nested accessors/inherited evidence accepted without inspection",
+    "thenable": "await invokes then accessor; controlled throw is caught as rejected evaluation",
+    "separateGuard": "Locked projection v2 rejects demonstrated private payload; not invoked automatically by seam"
+  },
+  "clock": {
+    "context": "Explicit frozen context forwarded unchanged",
+    "output": "Conflicting output assessment/represented/retrieval fields passed through without validation",
+    "limit": "Not proof downstream assessment validators accept time substitution"
+  },
+  "options": {
+    "A": "SELECTED for default-only branch qualification with explicit exclusions",
+    "B": "Possible later requirement for registered trusted replay; no current ocean-provider capability binding",
+    "C": "Possible later validation amendment if injected output is granted shared-science authority; shape validation alone cannot authenticate values",
+    "D": "No runtime amendment needed to establish default-only review scope"
+  },
+  "capability": {
+    "id": "pelora-blue-marlin-explicit-assessment-v1",
+    "binding": "Assessment API capability only; no provider implementation/version binding found"
+  },
+  "publication": {
+    "version": "pelora-governed-ocean-publication-v3",
+    "binding": "Evaluator-version suffix/equality, evidence/history IDs and assessment time; not function implementation identity",
+    "dependency": "Own data-property evaluate function provided by internal application code; no registered deployed scheduler/provider configuration established",
+    "oceanProviderInjection": false
+  },
+  "consumers": [
+    {
+      "path": "provider return itself",
+      "consumer": "leaf evaluator",
+      "classification": "REQUIRED_CONSUMED",
+      "meaning": "nullish test only"
+    },
+    {
+      "path": "oceanEvaluation.available",
+      "consumer": "production Blue Marlin orchestration",
+      "classification": "REQUIRED_CONSUMED",
+      "meaning": "failure barrier before interpretation; actual provider hard-bound"
+    },
+    {
+      "path": "provider descendants",
+      "consumer": "transparent evaluator",
+      "classification": "IGNORED",
+      "meaning": "passed through, not stripped or semantically demoted"
+    },
+    {
+      "path": "all enumerable top-level provider fields",
+      "consumer": "HTTP /api/ocean response spread",
+      "classification": "DOCUMENTARY_CONSUMED",
+      "meaning": "delivery copy only; category is consumer action, not registry reclassification"
+    },
+    {
+      "path": "blueMarlinHabitat.confidence / oceanOpportunity.pathwayClassification / oceanSignals.primarySignal / observedAt",
+      "consumer": "buildDynamicBlueMarlinOpportunity",
+      "classification": "OPTIONAL_CONSUMED",
+      "meaning": "score/confidence/pathway/signal/time read by explicitly separate species interpreter"
+    },
+    {
+      "path": "sst.derived.spatialStructure / oceanEvidence.groups / currents / chlorophyll / dataQuality.layers.chlorophyll",
+      "consumer": "buildCandidateNegativeConclusionAdequacyV1AtAssessment",
+      "classification": "OPTIONAL_CONSUMED",
+      "meaning": "scientific adequacy uses source/freshness/state; availability wrapper is not evidence"
+    },
+    {
+      "path": "other downstream descendant reads",
+      "consumer": "full scientific/species transitive closure",
+      "classification": "UNKNOWN",
+      "meaning": "outside boundary qualification; no blanket ignored-science assertion"
+    }
+  ],
+  "returnShape": {
+    "artifact": "Default_Ocean_Provider_Return_Shapes_v1.json",
+    "topLevelKeys": [
+      "blueMarlinHabitat",
+      "chlorophyll",
+      "currents",
+      "dataQuality",
+      "diagnostics",
+      "intelligenceSnapshot",
+      "lastUpdated",
+      "location",
+      "mapIntelligence",
+      "moon",
+      "observationSnapshot",
+      "observedAt",
+      "oceanConditions",
+      "oceanEvidence",
+      "oceanOpportunity",
+      "oceanSignals",
+      "oceanSnapshot",
+      "relationshipAssessment",
+      "relationshipContext",
+      "snapshotMetadata",
+      "source",
+      "sst",
+      "status",
+      "swell",
+      "waves",
+      "wind"
+    ],
+    "observedPaths": 18783,
+    "scenarios": [
+      "complete",
+      "empty-chlorophyll",
+      "future-sst",
+      "rejected-sst",
+      "empty-currents",
+      "rejected-weather"
+    ],
+    "exhaustiveScientificSchema": false
+  },
+  "graph": {
+    "artifact": "Default_Ocean_Provider_Semantic_Graph_v1.json",
+    "nodes": 154,
+    "complete": false,
+    "nestedTargetBindings": 33,
+    "unresolvedNamedDynamicTargets": [],
+    "memberAndBehavioralClosureQualified": false
+  },
+  "protectedFiles": [
+    {
+      "path": "backend/candidateSemanticProjectionV3.mjs",
+      "before": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+      "after": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "before": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+      "after": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+      "before": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+      "after": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+      "before": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+      "after": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+      "before": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+      "after": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+      "before": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+      "after": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+      "before": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+      "after": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+      "before": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+      "after": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+      "before": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+      "after": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+      "before": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+      "after": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/snapshotBranchOptionality.test.js",
+      "before": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+      "after": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "before": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+      "after": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+      "before": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+      "after": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/transitiveProducerBoundary.test.js",
+      "before": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+      "after": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+      "before": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+      "after": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+      "before": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+      "after": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Semantic_Shapes_v3.json",
+      "before": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+      "after": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+      "before": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+      "after": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+      "before": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+      "after": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+      "before": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+      "after": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+      "before": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+      "after": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+      "before": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+      "after": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+      "before": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+      "after": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+      "before": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+      "after": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+      "before": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+      "after": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+      "before": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+      "after": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+      "before": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+      "after": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+      "before": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+      "after": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+      "before": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+      "after": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+      "before": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+      "after": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+      "before": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+      "after": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+      "before": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+      "after": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+      "before": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+      "after": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+      "before": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+      "after": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+      "before": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+      "after": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+      "unchanged": true
+    }
+  ],
+  "authorityProposalCreated": false,
+  "freezeCreated": false,
+  "projectionV3Created": false,
+  "nextGate": "DEFAULT_PRODUCTION_PROVIDER_DOMAIN — TRANSITIVE PRODUCER BRANCH REQUALIFICATION",
+  "paused": [
+    "12B.6C",
+    "9E-D"
+  ],
+  "openIssue": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "trustModelConclusion": "Code-only internal dependency seam with an incompletely specified scientific replay contract; default executable binding is separately reviewable. No intentional security design or evidence authenticity is inferred from missing validation.",
+  "callerAuthenticationContext": "No provider selection is exposed through Auth/request data. Bearer context is optional operational history input; callback selection occurs in application code or module-private default binding.",
+  "verification": {
+    "focused": 11,
+    "focusedPassed": 11,
+    "networkBlockedScripts": 59,
+    "failedScripts": 0,
+    "syntaxModules": 112,
+    "jsonFiles": 43,
+    "protectedFiles": 35,
+    "protectedChanged": 0,
+    "draftV3TestsExcluded": true
+  }
+}

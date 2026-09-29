@@ -1,0 +1,3207 @@
+{
+  "version": "pelora-default-provider-transitive-discovery-v2",
+  "entry": "backend/server.js::getOceanConditions",
+  "sourceHashes": {
+    "backend/server.js": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06",
+    "backend/scientificAssessment.mjs": "b27a04f6c74fab51e54998301c6c03d6dfd6a1ae3cbd4787089c4a04e41e7a9f"
+  },
+  "nodes": [
+    {
+      "id": "backend/scientificAssessment.mjs::assertScientificInstantV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "assertScientificInstantV1",
+      "line": 38,
+      "sourceHash": "5133f278d0783452e742204d72f3b39d8d9e01da24353d70fe655efa28c47cf8",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "reassessCurrentAgeV1",
+      "line": 29,
+      "sourceHash": "5f70f45a9de0c72d25b5105699b0bd52b30a8904025614852c7669b70d3e8dbc",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "requireScientificAssessmentV1",
+      "line": 8,
+      "sourceHash": "64563764def55041354619f1eda677ba8e84ea170470691b18146068de713216",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "resolveScientificAssessmentV1",
+      "line": 21,
+      "sourceHash": "2682d927381f0418b4f1733d8b085535a7a9a61589a0199850bdef286ee8b1ef",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "scientificAgeHoursV1",
+      "line": 22,
+      "sourceHash": "111805a451380c3f4ccb18f20328b87221b4d652986c6fc633b78b5350341b23",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "withScientificAssessmentV1",
+      "line": 36,
+      "sourceHash": "8e6974dc991fa043e2cb0d5bfa223d85fcaee408f89f24355876d0358720afed",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::angularDifferenceDegrees",
+      "file": "backend/server.js",
+      "function": "angularDifferenceDegrees",
+      "line": 16383,
+      "sourceHash": "a7c00a508c80b40097c573fb4b42f8fec53e6d5019b15c94c9282ebf11f103ba",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::assessBlueMarlinHabitat",
+      "file": "backend/server.js",
+      "function": "assessBlueMarlinHabitat",
+      "line": 45430,
+      "sourceHash": "b066ccf3ce122ca17fa7cfe03ea83b68590e45704ca9eedb7fd4f438062bea4f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::assessmentFromOptionsV1",
+      "file": "backend/server.js",
+      "function": "assessmentFromOptionsV1",
+      "line": 62287,
+      "sourceHash": "2438f0f937849e0d78a978e674fdc33ebf6f96c9af3e4f2862589ab79cefbba1",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::assessOceanConditions",
+      "file": "backend/server.js",
+      "function": "assessOceanConditions",
+      "line": 7861,
+      "sourceHash": "0811134005a7d27b83861c3f9118777a33ecdee10b377b6a1d02ac65b3c2eaae",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::assessOceanEvidence",
+      "file": "backend/server.js",
+      "function": "assessOceanEvidence",
+      "line": 9423,
+      "sourceHash": "61ed7533eec85d3a7dae13180ead821b4cfab1aed0258fcdb4d62bb60d350d5b",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::assessOceanOpportunity",
+      "file": "backend/server.js",
+      "function": "assessOceanOpportunity",
+      "line": 36567,
+      "sourceHash": "c7dbfc5996976edb463af5443a3f480dec2b8d4838015b7ddc75959e39049802",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::assessRelationships",
+      "file": "backend/server.js",
+      "function": "assessRelationships",
+      "line": 39597,
+      "sourceHash": "6803ba0100af6dd372da369fcd142b97f41eb1d9f0ff2d381df89db80f38c271",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::assessSstTransitionConfidence",
+      "file": "backend/server.js",
+      "function": "assessSstTransitionConfidence",
+      "line": 6498,
+      "sourceHash": "8aeceb4493958e3ca8d24ab751d511cdd7bbdc03158a368cf0e92299285569cb",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildAssessmentConfidence",
+      "file": "backend/server.js",
+      "function": "buildAssessmentConfidence",
+      "line": 7609,
+      "sourceHash": "a655f7ffb7822f56948ae815c65b5392ff52605fa6e787f9d2c774c061635552",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildBackendSupabaseConfiguration",
+      "file": "backend/server.js",
+      "function": "buildBackendSupabaseConfiguration",
+      "line": 60,
+      "sourceHash": "5e01f4afb98882699b98005d437b7837b2ffe731181d480b91dcdb9b6d5b6ed8",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildBlueMarlinHabitatLineage",
+      "file": "backend/server.js",
+      "function": "buildBlueMarlinHabitatLineage",
+      "line": 45303,
+      "sourceHash": "9d02ac47fb27755a861a7f02213c7622f8bd2ad2b5b011c74d99dd049653cdae",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildBlueMarlinPathwayLineage",
+      "file": "backend/server.js",
+      "function": "buildBlueMarlinPathwayLineage",
+      "line": 40109,
+      "sourceHash": "92592b4d3a4832e5c2677153567ce93c4e54097a3f2a9971e688af393261b267",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildClarityEvidence",
+      "file": "backend/server.js",
+      "function": "buildClarityEvidence",
+      "line": 21655,
+      "sourceHash": "ecb75c7faa902c82a7350a99a62a61d3c970af7d5eaf740cd2ffd6be23ac8771",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildClarityPersistence",
+      "file": "backend/server.js",
+      "function": "buildClarityPersistence",
+      "line": 33870,
+      "sourceHash": "e8a146f51b5cbe1acc696e926a82d2a64967c6fe7846b5edb7805da879ddd79f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentConvergenceAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentConvergenceAnalysis",
+      "line": 5239,
+      "sourceHash": "a5c02eee575155cbd5e322c116dca858e708c9715b265e8f0b4d67fa1f4e4943",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentConvergencePersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentConvergencePersistence",
+      "line": 28707,
+      "sourceHash": "312f6236aca5a9f3e2816e2e00799e0e9cdac16395ed04ea891c3331d1878526",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentEdgeAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentEdgeAnalysis",
+      "line": 4841,
+      "sourceHash": "8d154a7f2ab75da0da32f91e367bd0183ef531d9f6d07908e75c18c6909b6ca0",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentEdgePersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentEdgePersistence",
+      "line": 27518,
+      "sourceHash": "cda93771364ca5039c192702d4f8bb1c049c50540c4060740da83183ee254a83",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentEvidence",
+      "file": "backend/server.js",
+      "function": "buildCurrentEvidence",
+      "line": 11245,
+      "sourceHash": "9aa8df1bf2e4a4063845246ac0122f6ba355dee23496da5a8e6a6fdfc376ab8a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentGradientAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentGradientAnalysis",
+      "line": 3947,
+      "sourceHash": "d1a89d4ba26eb0dee3b1af2b4c412c08ad2a59a3e6c2e10ac8edd2f7930ffb98",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentOrganizationAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentOrganizationAnalysis",
+      "line": 3010,
+      "sourceHash": "c59234f2c297ef5635d916bdaf569ba53de635c89e8803323a27173fce79a2ad",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentPersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentPersistence",
+      "line": 26927,
+      "sourceHash": "29a8eca6c55abcd8a12e78ee75faad148d6533b3060ff5f002a48afbcb7d9374",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentRelationshipContext",
+      "file": "backend/server.js",
+      "function": "buildCurrentRelationshipContext",
+      "line": 3194,
+      "sourceHash": "3efc256e74ac86bda65a91cfe371932b41a48108b00ce379fdcb042121465a33",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentShearAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentShearAnalysis",
+      "line": 4448,
+      "sourceHash": "074d6b6f0ae1c35db8661eea5c0fe178806bad82a0f0d81b2ed2f1e548d7eab0",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentShearPersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentShearPersistence",
+      "line": 28091,
+      "sourceHash": "6210e0606f66a8896d545ec72d38d96a325f4edfe552f35fec35871ba57b5e8a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentSpatialAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentSpatialAnalysis",
+      "line": 11181,
+      "sourceHash": "51f9edc192cdbc50ec2911d1b389d2ed90022a4a3229672dab1cbf1a8e111c7d",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentSpatialPatternAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentSpatialPatternAnalysis",
+      "line": 5630,
+      "sourceHash": "ee84899786aa65e3cb7f32274accb801b7bab8bb22e42afab44c8e2a4399e0ff",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildCurrentVectorProjectionAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentVectorProjectionAnalysis",
+      "line": 3503,
+      "sourceHash": "68d1363b5506ce06b8dcda8577ad6d89ccd5b6a08b33399da494cf307ab0e03e",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildEnvironmentalOpportunityEvidence",
+      "file": "backend/server.js",
+      "function": "buildEnvironmentalOpportunityEvidence",
+      "line": 22781,
+      "sourceHash": "16b8a0326761892feb318e6648375cc033cd5e3cde4f133207c6a20e3e491ca1",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildEnvironmentalTransitionAnalysis",
+      "file": "backend/server.js",
+      "function": "buildEnvironmentalTransitionAnalysis",
+      "line": 13275,
+      "sourceHash": "07460a0dd1d6fe71b4db0e3dfb67ccc79ac8739c58722b939b80596c12a68751",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildEnvironmentalTransitionPersistence",
+      "file": "backend/server.js",
+      "function": "buildEnvironmentalTransitionPersistence",
+      "line": 29368,
+      "sourceHash": "07ef104970fc81040e85c8f948517cbb36d5c70f380de76df771fa7163b553cf",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildFeaturePersistenceContract",
+      "file": "backend/server.js",
+      "function": "buildFeaturePersistenceContract",
+      "line": 23787,
+      "sourceHash": "2c59dd88be12903ddff6db95f809063b45034ae583e9edc7ccd848d92472a209",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+      "file": "backend/server.js",
+      "function": "buildGovernedEnvironmentalFeatureObservationV1",
+      "line": 23974,
+      "sourceHash": "4b812d96ec87e825294918498da64bd611bbb242a6041281c60cb47240301df6",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildHistoricalSnapshotQuery",
+      "file": "backend/server.js",
+      "function": "buildHistoricalSnapshotQuery",
+      "line": 18952,
+      "sourceHash": "39539c3d7bcdbbb3c0018f7da1ca59f7b633f1e436bb9d0dd904cfc1db303ecf",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildIntelligenceSnapshot",
+      "file": "backend/server.js",
+      "function": "buildIntelligenceSnapshot",
+      "line": 16087,
+      "sourceHash": "2c0424d61460adc4dfc77566b6e1335066e079a0645cabd51982fbf4d04ecf98",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildLineageUpstreamReference",
+      "file": "backend/server.js",
+      "function": "buildLineageUpstreamReference",
+      "line": 42510,
+      "sourceHash": "8e446ccfa7f37ca76b4484f1be48c1ef7fd04a9197511d117c24263ee6006f45",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildMixingZoneAnalysis",
+      "file": "backend/server.js",
+      "function": "buildMixingZoneAnalysis",
+      "line": 12807,
+      "sourceHash": "7260707aecaf1dbd7ba5f05934752a569acfc5b1445a23bf42ad3869587c0389",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildMixingZonePersistence",
+      "file": "backend/server.js",
+      "function": "buildMixingZonePersistence",
+      "line": 31540,
+      "sourceHash": "6780274d0fd47f57053cb2a5ca7fd839543b65bd31050687e0442d09f4e1a164",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildObservationSnapshot",
+      "file": "backend/server.js",
+      "function": "buildObservationSnapshot",
+      "line": 15727,
+      "sourceHash": "ac580cf88ab280d7d45fd74c45803102895dd762584ac03761b017830d5105ca",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanChangeAnalysis",
+      "file": "backend/server.js",
+      "function": "buildOceanChangeAnalysis",
+      "line": 16443,
+      "sourceHash": "e49d5c98f337d6d198025b75226bf9cdcfc4fff77f79ccd25e086dac0395575f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanChangeFromTimeSeries",
+      "file": "backend/server.js",
+      "function": "buildOceanChangeFromTimeSeries",
+      "line": 21062,
+      "sourceHash": "83a9cf13afbb82b620766a71a961bc3c689161b2d0b87207505f8926b58b8390",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanEvidenceConfidence",
+      "file": "backend/server.js",
+      "function": "buildOceanEvidenceConfidence",
+      "line": 9977,
+      "sourceHash": "c624a8b892c2548e51c1d6dcdc3d8161cd9b5cf6c57f1df86892540d5eef655f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanEvidenceLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanEvidenceLineage",
+      "line": 9786,
+      "sourceHash": "ddae0d9f2de0b33296b9f82ebc42a96b98a8305f21da741421f694fbf85286d4",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanEvidenceSummary",
+      "file": "backend/server.js",
+      "function": "buildOceanEvidenceSummary",
+      "line": 10391,
+      "sourceHash": "07fa0823e592ae602b6bb452f7a267e3bd840a25d44d3e3184722801664a6a66",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanEvolution",
+      "file": "backend/server.js",
+      "function": "buildOceanEvolution",
+      "line": 35165,
+      "sourceHash": "9c21fc31461d777211fcfcd96846dc2552178975dad072fa86f83dfe2e6a5d16",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanFrontAnalysis",
+      "file": "backend/server.js",
+      "function": "buildOceanFrontAnalysis",
+      "line": 13940,
+      "sourceHash": "f52ae1012ff89e2bd05e32a657c8f20a0371f4bd7e8a08c06e816b3b6bae94f4",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanFrontPersistence",
+      "file": "backend/server.js",
+      "function": "buildOceanFrontPersistence",
+      "line": 32359,
+      "sourceHash": "e8497189bcb9b9b980757f29937039718c94dada703c25f7141df5043fdc76b0",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+      "file": "backend/server.js",
+      "function": "buildOceanMemoryStorageRecordFromRow",
+      "line": 18315,
+      "sourceHash": "690494040bd3ec2de75c179d1478d23519f7e928f58dea9dcf210a85f1bb27b3",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanMemoryTimeSeries",
+      "file": "backend/server.js",
+      "function": "buildOceanMemoryTimeSeries",
+      "line": 20780,
+      "sourceHash": "9a64acf5c9314c34d97f4d3f1dd8461295f694c148dbafc302456956ea017469",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanOpportunityLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanOpportunityLineage",
+      "line": 36476,
+      "sourceHash": "5a691e06d3881ec37b2e305c828469f0222085c9020acd2ec3bef708190058fb",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanOrganizationAnalysis",
+      "file": "backend/server.js",
+      "function": "buildOceanOrganizationAnalysis",
+      "line": 14992,
+      "sourceHash": "87c706ecf4a9ded749627ffdb2705465d3c2a2121eb8b4f20a797333c51dc872",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanPersistence",
+      "file": "backend/server.js",
+      "function": "buildOceanPersistence",
+      "line": 34552,
+      "sourceHash": "02408b9525dbe739b5fa0bf02e0707990ea742db8794c7332a7c0664d57c17ad",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanPhysicsExplainabilityLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanPhysicsExplainabilityLineage",
+      "line": 14796,
+      "sourceHash": "82187918981cca2dea42fc76c608f36f33e83825e60ad866dd0ce0caabc25a5a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanPhysicsExplainabilitySummary",
+      "file": "backend/server.js",
+      "function": "buildOceanPhysicsExplainabilitySummary",
+      "line": 14446,
+      "sourceHash": "aed1c29d142ef26d64fc2a09ea9197f67829e7abbbd7d704dd1e13cf339fd017",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanSignalSelectionLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanSignalSelectionLineage",
+      "line": 37612,
+      "sourceHash": "0e33e20837f055db5b7c68a1e99b4f378af4b03e6e4aff27303af6a633190109",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOceanSnapshot",
+      "file": "backend/server.js",
+      "function": "buildOceanSnapshot",
+      "line": 17794,
+      "sourceHash": "b7a55151eb91139b55937dc12b080fadf6da9d1712c00b8469212868b03482bf",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOpenWaterEvidence",
+      "file": "backend/server.js",
+      "function": "buildOpenWaterEvidence",
+      "line": 22518,
+      "sourceHash": "3d3b35eb5503f3f72d15c7de54653e1748aef1b1ce773debbb35df83a200e623",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildOpportunityTypeResolutionLineage",
+      "file": "backend/server.js",
+      "function": "buildOpportunityTypeResolutionLineage",
+      "line": 44273,
+      "sourceHash": "d05e4fde4ae07752fc1952fcd1f45cd8647778327c318792dc1970b957c5ed26",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildPersistenceEvidence",
+      "file": "backend/server.js",
+      "function": "buildPersistenceEvidence",
+      "line": 22930,
+      "sourceHash": "ce97f5ac227046a72d4b860c14320a3623904c0e11cba049908a96b828358448",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildProductivityEvidence",
+      "file": "backend/server.js",
+      "function": "buildProductivityEvidence",
+      "line": 11566,
+      "sourceHash": "ab9890c255c3d54c2a19a89b9ad12c569e8002e51a0fde1132f19ee7bf840f1f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildProductivityPersistence",
+      "file": "backend/server.js",
+      "function": "buildProductivityPersistence",
+      "line": 33194,
+      "sourceHash": "945ac9782598621bcdb23a1e04d72c2cad6bc649214a01b43920718ef696562b",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildRelationshipAssessmentLineage",
+      "file": "backend/server.js",
+      "function": "buildRelationshipAssessmentLineage",
+      "line": 39473,
+      "sourceHash": "d449391ebcd62f04f7056f6799b75afade87ae19d12d237b020062cbb285cc53",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildRelationshipContext",
+      "file": "backend/server.js",
+      "function": "buildRelationshipContext",
+      "line": 39118,
+      "sourceHash": "9c906e66828dc2b17e90def498db6508cadac499aaef961d43d2afafc6b46c77",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildRelationshipContextLineage",
+      "file": "backend/server.js",
+      "function": "buildRelationshipContextLineage",
+      "line": 39016,
+      "sourceHash": "a4a54f981654ac9a36ed1e99b3551598fc74480d4c48bb5941a6bb14db362843",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildSeaSurfaceTemperaturePersistence",
+      "file": "backend/server.js",
+      "function": "buildSeaSurfaceTemperaturePersistence",
+      "line": 26462,
+      "sourceHash": "2d93daaf8d32b0fa6dae54ac5fb4b840ac2d9329124df7746747bc37f8552015",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildSnapshotMetadata",
+      "file": "backend/server.js",
+      "function": "buildSnapshotMetadata",
+      "line": 17259,
+      "sourceHash": "85f464dff0150298121e461bb9d76c5a0fffbde58c2966dea0c6e05cd18ec019",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildStructureConfidence",
+      "file": "backend/server.js",
+      "function": "buildStructureConfidence",
+      "line": 22178,
+      "sourceHash": "b1d0b7c98e146d1ef6a968e11bf60e84b87b6c2e0e5387b07d43de5c1116d3f4",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildStructureEvidence",
+      "file": "backend/server.js",
+      "function": "buildStructureEvidence",
+      "line": 22206,
+      "sourceHash": "d5ef42db9783f6a35b75021c5ec64e64bc82b664f6f7944ef8c1a497eae723aa",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildStructureMetadata",
+      "file": "backend/server.js",
+      "function": "buildStructureMetadata",
+      "line": 22059,
+      "sourceHash": "8523aaedc44f4aa0948ed2f2c445cbae0d27ccfbf10a0121639aafa5c09ed7ac",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildSurfaceWaterCharacterAnalysis",
+      "file": "backend/server.js",
+      "function": "buildSurfaceWaterCharacterAnalysis",
+      "line": 11811,
+      "sourceHash": "82f11931205ceb4809632b762bd8e254cc68d4bc8f3bc9521c5329789a049085",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildSurfaceWaterCharacterPersistence",
+      "file": "backend/server.js",
+      "function": "buildSurfaceWaterCharacterPersistence",
+      "line": 30075,
+      "sourceHash": "69078273d4bdd684e62a80c70d9aa6525376534954e584451d3927fa9a9c3ce7",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildTemperatureEvidence",
+      "file": "backend/server.js",
+      "function": "buildTemperatureEvidence",
+      "line": 10530,
+      "sourceHash": "fc05b0986dcbcee725ef94a0d4bc17703109a524d9923b63a668e6ff79b94609",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildTemperatureTransitionMapFeature",
+      "file": "backend/server.js",
+      "function": "buildTemperatureTransitionMapFeature",
+      "line": 10954,
+      "sourceHash": "14c743e53e9ba5c1dfd33fd776ab4ebb142a0a6247b4f4a915530699de812623",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildTemporalFeatureContinuity",
+      "file": "backend/server.js",
+      "function": "buildTemporalFeatureContinuity",
+      "line": 26071,
+      "sourceHash": "8544be7caa70d58739a4a828716d3a90871fcbb1bb1e02fa3710c33460242132",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildTemporalOceanExplainability",
+      "file": "backend/server.js",
+      "function": "buildTemporalOceanExplainability",
+      "line": 35659,
+      "sourceHash": "985d9fdd45e8d8a8fb0f4d4d222f7f9b60678b5f81e32bfe140e7f0d9ee25166",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildWaterMassAnalysis",
+      "file": "backend/server.js",
+      "function": "buildWaterMassAnalysis",
+      "line": 12315,
+      "sourceHash": "34ab91baf26c18322a31dc270c99acb98de18ac0827690dbaf7e47b2ef8bf772",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::buildWaterMassPersistence",
+      "file": "backend/server.js",
+      "function": "buildWaterMassPersistence",
+      "line": 30809,
+      "sourceHash": "ad9299d904f5944c343f9ef7dbb6b52715fa35b686f47e982b96f852b4e35d1f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::celsiusToFahrenheit",
+      "file": "backend/server.js",
+      "function": "celsiusToFahrenheit",
+      "line": 848,
+      "sourceHash": "ef9dd1badb291930e63312146581953a044e9ea86889d080e9f77d7e2a8cedce",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::classifyChlorophyll",
+      "file": "backend/server.js",
+      "function": "classifyChlorophyll",
+      "line": 1430,
+      "sourceHash": "95e98d7045faa18aa05162b530162d3ef0f7551ff098071ea4aa9be462d8e2e5",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::classifyCurrentSpatialVariation",
+      "file": "backend/server.js",
+      "function": "classifyCurrentSpatialVariation",
+      "line": 1549,
+      "sourceHash": "0e0f4c0c26ac79559b7ba3c334cdc76266162b7a3d6453dfcab5807ab71720d1",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::classifyCurrentStrength",
+      "file": "backend/server.js",
+      "function": "classifyCurrentStrength",
+      "line": 1606,
+      "sourceHash": "3e731c8b27a2e7c4a7a6b0bff92c45617103ebb75b2efc1f7b754f75b3ea84d4",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::classifyMoonPhase",
+      "file": "backend/server.js",
+      "function": "classifyMoonPhase",
+      "line": 1684,
+      "sourceHash": "71c71cb4e3f6dca61a9aa0aead333aeddfedeef13660381e3489c0d2631926c1",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::classifyOceanOpportunity",
+      "file": "backend/server.js",
+      "function": "classifyOceanOpportunity",
+      "line": 36174,
+      "sourceHash": "3d6e222e9283c7c209f086ee7b0b4d33ed9a601e9ce2ea1385c7070fb68e7e30",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::classifySeaSurfaceTemperature",
+      "file": "backend/server.js",
+      "function": "classifySeaSurfaceTemperature",
+      "line": 1462,
+      "sourceHash": "a834eeadc509b8c6a47bf8c210eb48d2014f35d775ffaba1e7cfc40eb35dbb0a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::classifySstSpatialRange",
+      "file": "backend/server.js",
+      "function": "classifySstSpatialRange",
+      "line": 6271,
+      "sourceHash": "0b2b09120965fc68e1f2d736349d5afcd7996b2b4b0cc79227a9ec5e28edc8e4",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::cloneSnapshotValue",
+      "file": "backend/server.js",
+      "function": "cloneSnapshotValue",
+      "line": 15679,
+      "sourceHash": "9caab626537a10f97dcc737f0b1fca7db8d563e2f7ab39fa588c9515a5416ccb",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::createCurrentPointCacheKey",
+      "file": "backend/server.js",
+      "function": "createCurrentPointCacheKey",
+      "line": 1239,
+      "sourceHash": "2164f4cd8a54d9900026ff4a9b0d68d6ca5d7915025f185dd43ab125d2b6e39a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::createCurrentSpatialSamplePoints",
+      "file": "backend/server.js",
+      "function": "createCurrentSpatialSamplePoints",
+      "line": 1343,
+      "sourceHash": "d01ad1be2f85ce0bfb7349190b1f472ffc851fe3bfa9ff74b3acd90649974b6a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::createSstPointCacheKey",
+      "file": "backend/server.js",
+      "function": "createSstPointCacheKey",
+      "line": 6004,
+      "sourceHash": "f2db338c9a6d551db8c18f2ad74bf002fd785459f977b949c7bcfeb7f9aab4ff",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::createSstSpatialSamplePoints",
+      "file": "backend/server.js",
+      "function": "createSstSpatialSamplePoints",
+      "line": 6104,
+      "sourceHash": "b85859c88ce28f874cf1512f369f1fecfad2e53fbf790000f7b65909989cc56f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::currentCompassDirection",
+      "file": "backend/server.js",
+      "function": "currentCompassDirection",
+      "line": 1636,
+      "sourceHash": "9122ba0aa5db7df1d42db853f1a2158278d79016aa35b1cc7fe0a012e61d77ec",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::currentDirectionDegrees",
+      "file": "backend/server.js",
+      "function": "currentDirectionDegrees",
+      "line": 1493,
+      "sourceHash": "1477c260b70f57ff7b92e1a157238efa0de8a760efa3cc56ec25f43e44657f8a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::deepFreezeSnapshotValue",
+      "file": "backend/server.js",
+      "function": "deepFreezeSnapshotValue",
+      "line": 15694,
+      "sourceHash": "dccfd3dd37596a29da18ab2ef2a3b52eeb2098e2a31b1a7cf204c753812fd0e9",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::deriveSstTransitionOrientation",
+      "file": "backend/server.js",
+      "function": "deriveSstTransitionOrientation",
+      "line": 6305,
+      "sourceHash": "8ae52ba99d185b76d3b4d16d821dbea2558348992e49b6265c3681d25d29af29",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::deterministicSnapshotHash",
+      "file": "backend/server.js",
+      "function": "deterministicSnapshotHash",
+      "line": 17222,
+      "sourceHash": "cdd2fa3a4fb4432a1158593481599c22772f159422f43a5755c4b550fb138bf2",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::evaluateCurrentInteraction",
+      "file": "backend/server.js",
+      "function": "evaluateCurrentInteraction",
+      "line": 22137,
+      "sourceHash": "f2cc9ffd67f5179c14cf82cc5e963fe43196743b518885ba540400618b6d30ab",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::evaluateProductivityInteraction",
+      "file": "backend/server.js",
+      "function": "evaluateProductivityInteraction",
+      "line": 22171,
+      "sourceHash": "d882031807bbe508b3a4395b0baf7b4f57c3acc93191afc2567bc3548c55b8d6",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::evaluateThermalInteraction",
+      "file": "backend/server.js",
+      "function": "evaluateThermalInteraction",
+      "line": 22164,
+      "sourceHash": "7376050d68e0670215d847d4ed96ce5def0d7a0f0af4f91c7f9661b5bea4389b",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::fetchJson",
+      "file": "backend/server.js",
+      "function": "fetchJson",
+      "line": 1096,
+      "sourceHash": "bce5f9a641b7fbda404c0ebf48083fd0908b4753b86112c1d8bb964d6d085a82",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::findNearestStructure",
+      "file": "backend/server.js",
+      "function": "findNearestStructure",
+      "line": 21916,
+      "sourceHash": "53b07d96d4729a94795ed0d76e92cc116c6843bbb9b6af1af734df0129348a6a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getAgeHours",
+      "file": "backend/server.js",
+      "function": "getAgeHours",
+      "line": 1846,
+      "sourceHash": "cb215e3b4522b249777ff40371ccadd3d7ed6d15791692da03c19d50f8cbdc27",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCachedCurrentConditionsPoint",
+      "file": "backend/server.js",
+      "function": "getCachedCurrentConditionsPoint",
+      "line": 62270,
+      "sourceHash": "ffc9647b9af6dd0763acd684a0c77593201cea176e2d2e4e5cd16d44d68fbf11",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "file": "backend/server.js",
+      "function": "getCachedCurrentConditionsPointAtAssessment",
+      "line": 2544,
+      "sourceHash": "439b765813b872a4df4f27819dbaf410ec852112f3af950f238cb020d68609a4",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCachedCurrentPoint",
+      "file": "backend/server.js",
+      "function": "getCachedCurrentPoint",
+      "line": 1250,
+      "sourceHash": "5087952a111d22167ac7224a6f7effd195896ac8ffa3c8f2ecebcadc154036d3",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+      "file": "backend/server.js",
+      "function": "getCachedSeaSurfaceTemperaturePoint",
+      "line": 6892,
+      "sourceHash": "3f6c44931286a7e783c2d9f9f2a33d30b7deaf337fbbd14c94134ca91aa72218",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCachedSstPoint",
+      "file": "backend/server.js",
+      "function": "getCachedSstPoint",
+      "line": 6015,
+      "sourceHash": "5e274b88952a39fa5896ccc24dac878b9e4d5a7e5c351858380ea1b0654a19da",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getChlorophyllConditions",
+      "file": "backend/server.js",
+      "function": "getChlorophyllConditions",
+      "line": 62258,
+      "sourceHash": "d310a882b2bb41555da39622808d9f1bca3470e50ef403f7e9d1f487cfd7247d",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "file": "backend/server.js",
+      "function": "getChlorophyllConditionsAtAssessment",
+      "line": 2045,
+      "sourceHash": "5d18e26b938315002c820eb3d5fb3f89738649524d7d367a803b48bd50bcbaf7",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCircularDirectionDifference",
+      "file": "backend/server.js",
+      "function": "getCircularDirectionDifference",
+      "line": 1520,
+      "sourceHash": "0bf8cf7f44558feee6c6604c2ade14a4f2bea4704ec6d0eabc6d3e145ef13612",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCurrentConditions",
+      "file": "backend/server.js",
+      "function": "getCurrentConditions",
+      "line": 5977,
+      "sourceHash": "4b32a4aa9b4efd55fb443bb49ff4b1efe82494f32d7ca21cd444e3f8d84851ee",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCurrentConditionsPoint",
+      "file": "backend/server.js",
+      "function": "getCurrentConditionsPoint",
+      "line": 62266,
+      "sourceHash": "490e6b0421d62ba0414e6f2ee387cde7b471e806c304292a4089e063840384b2",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "file": "backend/server.js",
+      "function": "getCurrentConditionsPointAtAssessment",
+      "line": 2345,
+      "sourceHash": "d7383f855e8c7a14179b92011d709a8f966f525ebd160d077537bdad2f2dae13",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCurrentProjectionAxes",
+      "file": "backend/server.js",
+      "function": "getCurrentProjectionAxes",
+      "line": 3424,
+      "sourceHash": "ac9992a8367c4ebe8dc5c60772aa62fb770b5e76dbf35678c9040911c57136c4",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCurrentSpatialStructure",
+      "file": "backend/server.js",
+      "function": "getCurrentSpatialStructure",
+      "line": 62274,
+      "sourceHash": "508701e332c525c4db015fbf08c9926310d1e90bb51552916014a5c5e645ba38",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "file": "backend/server.js",
+      "function": "getCurrentSpatialStructureAtAssessment",
+      "line": 2642,
+      "sourceHash": "29a248f9369e71b4a11b9301cd7f6b2d6bc7d62d7b01e0f28acaf47662ec62b2",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getGapFilledChlorophyllConditions",
+      "file": "backend/server.js",
+      "function": "getGapFilledChlorophyllConditions",
+      "line": 62262,
+      "sourceHash": "7cb9ecdc5e538a868ea9212a0cf843e2f16d416e642e905fb180c283e9289b43",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "file": "backend/server.js",
+      "function": "getGapFilledChlorophyllConditionsAtAssessment",
+      "line": 2168,
+      "sourceHash": "27d5906b1f7f79f61fbd3a1ba28a36dd22ebc25b0ca53f02a42d6244f1789344",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getMarineConditions",
+      "file": "backend/server.js",
+      "function": "getMarineConditions",
+      "line": 7204,
+      "sourceHash": "1b676328795ede935144e45c72aa4c989de3e2464a4fa1f34d361653f0558491",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getMoonConditions",
+      "file": "backend/server.js",
+      "function": "getMoonConditions",
+      "line": 1730,
+      "sourceHash": "ea6a44e7d52ab7e4ba604d9f18e0d51bb736586cc285d2c7dbe8f0631770927d",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getOceanConditions",
+      "file": "backend/server.js",
+      "function": "getOceanConditions",
+      "line": 62282,
+      "sourceHash": "b8c5b51d62a9d2710f5b4526c59cda205d3a653db361e60ecf70b9a769c1a920",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getOceanConditionsAtAssessment",
+      "file": "backend/server.js",
+      "function": "getOceanConditionsAtAssessment",
+      "line": 60099,
+      "sourceHash": "57e5ebef095fa663542ba33c1430aaeca1e3f6940985375a5ced9225d478834e",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getOpposingCurrentSampleDirection",
+      "file": "backend/server.js",
+      "function": "getOpposingCurrentSampleDirection",
+      "line": 3924,
+      "sourceHash": "4c58cd5389e7177af958fa9f6f9a1edca0464d2df9467118b7b14a6bd99e2b7a",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getSeaSurfaceTemperaturePoint",
+      "file": "backend/server.js",
+      "function": "getSeaSurfaceTemperaturePoint",
+      "line": 6173,
+      "sourceHash": "a94d9216b963c8a5603f0474b076f505ee9a0e564fcd6170239afa013add7e50",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getSstSpatialStructure",
+      "file": "backend/server.js",
+      "function": "getSstSpatialStructure",
+      "line": 62278,
+      "sourceHash": "bf8f490fcf980efca834d57ca34afdfa02f321b399108700f99d2013c7ca14b4",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "file": "backend/server.js",
+      "function": "getSstSpatialStructureAtAssessment",
+      "line": 6988,
+      "sourceHash": "d8231cd1c10f3f5061b0b210d85db044a76165ef1b74c2e04d992f10d21f1666",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::interpretBlueMarlinPathway",
+      "file": "backend/server.js",
+      "function": "interpretBlueMarlinPathway",
+      "line": 40213,
+      "sourceHash": "fe0c892000d46c8dc975361983e7097abdf431c933d6ef529907d62c7c5e8bca",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::kilometersBetween",
+      "file": "backend/server.js",
+      "function": "kilometersBetween",
+      "line": 987,
+      "sourceHash": "140d9e880ba8a6df2d14d7f42aee5b40c6f3f47f3aaace488c10e524c5fe8f84",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::metersPerSecondToKnots",
+      "file": "backend/server.js",
+      "function": "metersPerSecondToKnots",
+      "line": 816,
+      "sourceHash": "34b04f5ff49bc978e841d4fca13e32a35f208e5df60b90fc50c95a2cc00225b9",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::metersToFeet",
+      "file": "backend/server.js",
+      "function": "metersToFeet",
+      "line": 832,
+      "sourceHash": "796c238aaf543858e4e4f04e8b9b2ebb96bd30aa8b673562d76c188fbf069e88",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::nauticalMilesBetween",
+      "file": "backend/server.js",
+      "function": "nauticalMilesBetween",
+      "line": 876,
+      "sourceHash": "9118ce9f67e38a043d8026f8e75f8a33bae8be75354581189fb1c6e1fbbada70",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::normalizeSnapshotIdentityPart",
+      "file": "backend/server.js",
+      "function": "normalizeSnapshotIdentityPart",
+      "line": 17204,
+      "sourceHash": "fa0445d7a3c8296d0319ade0dae3c101880fb816d4eb30174b18ef13f9328aba",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::propagateEvidenceLineage",
+      "file": "backend/server.js",
+      "function": "propagateEvidenceLineage",
+      "line": 42553,
+      "sourceHash": "e85133b85d530594a9ff26c41bafedd1f744d8acccf7ae969c8c7a61502ee34f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::resolveBlueMarlinOpportunityType",
+      "file": "backend/server.js",
+      "function": "resolveBlueMarlinOpportunityType",
+      "line": 45249,
+      "sourceHash": "64bc44102feffeea18d72cd033bbbdee71142c4c099941fba7d2f31241985075",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::resolveChlorophyllObservation",
+      "file": "backend/server.js",
+      "function": "resolveChlorophyllObservation",
+      "line": 1851,
+      "sourceHash": "15352e97596dcd42938c68e52902d2cdcfb6f2d9a4616fef2054721445df2789",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::resolveOceanSignals",
+      "file": "backend/server.js",
+      "function": "resolveOceanSignals",
+      "line": 37680,
+      "sourceHash": "63584804ee4ccb873cf78902fa47374ff93433a50ddbc3c45481a7af21e7d595",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::resolveProviderCoordinates",
+      "file": "backend/server.js",
+      "function": "resolveProviderCoordinates",
+      "line": 2036,
+      "sourceHash": "66e9eb2725906e022b1c1c561ad5f63b00495718d8632a1c40792906963b89a7",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::resolveRelationshipImportance",
+      "file": "backend/server.js",
+      "function": "resolveRelationshipImportance",
+      "line": 43237,
+      "sourceHash": "18c4849b30e7da22035aaf29b73b2b492fbd25ef7d8cf7acd0f23bd04dc6ec2f",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::resolveSpeciesOpportunityType",
+      "file": "backend/server.js",
+      "function": "resolveSpeciesOpportunityType",
+      "line": 44374,
+      "sourceHash": "f1295d589fa9eed529ac78a395216c66ae01185cd8273b85b619314516f4fc5e",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::retrieveOceanMemoryRows",
+      "file": "backend/server.js",
+      "function": "retrieveOceanMemoryRows",
+      "line": 365,
+      "sourceHash": "4bfec3ef45bd5e6eec23a63c3e9a4aa6757d944c1ab5a755b8cc76db5d5131fd",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::safeNumber",
+      "file": "backend/server.js",
+      "function": "safeNumber",
+      "line": 859,
+      "sourceHash": "116ff830ffb569c7ecf616c7b377d839fb55d0d8a962c8cafcd3faf6893e9163",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::setCachedCurrentPoint",
+      "file": "backend/server.js",
+      "function": "setCachedCurrentPoint",
+      "line": 1302,
+      "sourceHash": "63665ce758a08524ee84cff4a3773c1e047c06d11871f2142682974acace2827",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::setCachedSstPoint",
+      "file": "backend/server.js",
+      "function": "setCachedSstPoint",
+      "line": 6067,
+      "sourceHash": "68811d39ada0c0656c041f3db2b0d5d3c30e32466454fc9207cd5d9867b06d92",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::settleWithTiming",
+      "file": "backend/server.js",
+      "function": "settleWithTiming",
+      "line": 1049,
+      "sourceHash": "af6cd7eb8771f89b818baeddb0456d8c2881528bfc5ebe33ddfba5a17f5752bb",
+      "async": true,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::snapshotTimestampMilliseconds",
+      "file": "backend/server.js",
+      "function": "snapshotTimestampMilliseconds",
+      "line": 16413,
+      "sourceHash": "c8c4fc3ea404a1570b08ba9ebfc45e4737685a3b867141a3a2d2e7448f26f4e1",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::validateEvidenceLineage",
+      "file": "backend/server.js",
+      "function": "validateEvidenceLineage",
+      "line": 42920,
+      "sourceHash": "28ec5f620fa2f96ddd714ced7452685c20c4cd52daf32f5a116b1dab02a898b0",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::validateKnowledgeProvenance",
+      "file": "backend/server.js",
+      "function": "validateKnowledgeProvenance",
+      "line": 40671,
+      "sourceHash": "126892bbfabd8870e81250c839d9a104fb103782a1d9f5efc334a9472abffccc",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::validateLineageUpstreamReference",
+      "file": "backend/server.js",
+      "function": "validateLineageUpstreamReference",
+      "line": 42302,
+      "sourceHash": "b4c55f84aee5555f6e51e9475db7b28e2fd4b1b06f24a49833f67499155b8140",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    },
+    {
+      "id": "backend/server.js::validateSpeciesKnowledgeProfile",
+      "file": "backend/server.js",
+      "function": "validateSpeciesKnowledgeProfile",
+      "line": 43269,
+      "sourceHash": "35d9494f3f5572f7281d3d54c850fbb5694641caf91900595e3fd850a472d740",
+      "async": false,
+      "qualification": "DISCOVERY_ONLY"
+    }
+  ],
+  "edges": [
+    {
+      "from": "backend/scientificAssessment.mjs::assertScientificInstantV1",
+      "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+      "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+      "to": "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+      "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessBlueMarlinHabitat",
+      "to": "backend/server.js::assessRelationships",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessBlueMarlinHabitat",
+      "to": "backend/server.js::buildBlueMarlinHabitatLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessBlueMarlinHabitat",
+      "to": "backend/server.js::buildPersistenceEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessBlueMarlinHabitat",
+      "to": "backend/server.js::buildRelationshipContext",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessBlueMarlinHabitat",
+      "to": "backend/server.js::interpretBlueMarlinPathway",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessBlueMarlinHabitat",
+      "to": "backend/server.js::resolveBlueMarlinOpportunityType",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessmentFromOptionsV1",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanConditions",
+      "to": "backend/server.js::buildAssessmentConfidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildClarityEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildCurrentEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildEnvironmentalOpportunityEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildEnvironmentalTransitionAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildMixingZoneAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOceanEvidenceConfidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOceanEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOceanEvidenceSummary",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOceanFrontAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOceanOrganizationAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOceanPhysicsExplainabilityLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOceanPhysicsExplainabilitySummary",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildOpenWaterEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildPersistenceEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildProductivityEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildStructureEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildSurfaceWaterCharacterAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildTemperatureEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanEvidence",
+      "to": "backend/server.js::buildWaterMassAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanOpportunity",
+      "to": "backend/server.js::buildOceanOpportunityLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessOceanOpportunity",
+      "to": "backend/server.js::classifyOceanOpportunity",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessRelationships",
+      "to": "backend/server.js::buildRelationshipAssessmentLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessRelationships",
+      "to": "backend/server.js::buildRelationshipContext",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::assessSstTransitionConfidence",
+      "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildBackendSupabaseConfiguration",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildBlueMarlinHabitatLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildBlueMarlinPathwayLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildClarityEvidence",
+      "to": "backend/server.js::classifyChlorophyll",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildClarityPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentConvergenceAnalysis",
+      "to": "backend/server.js::getOpposingCurrentSampleDirection",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentConvergencePersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentEdgePersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentEvidence",
+      "to": "backend/server.js::buildCurrentSpatialAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentEvidence",
+      "to": "backend/server.js::classifyCurrentStrength",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentEvidence",
+      "to": "backend/server.js::currentCompassDirection",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentGradientAnalysis",
+      "to": "backend/server.js::getCircularDirectionDifference",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentGradientAnalysis",
+      "to": "backend/server.js::nauticalMilesBetween",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentShearPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildCurrentVectorProjectionAnalysis",
+      "to": "backend/server.js::getCurrentProjectionAxes",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildEnvironmentalTransitionPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildFeaturePersistenceContract",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildHistoricalSnapshotQuery",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildHistoricalSnapshotQuery",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildHistoricalSnapshotQuery",
+      "to": "backend/server.js::kilometersBetween",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildIntelligenceSnapshot",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildIntelligenceSnapshot",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildLineageUpstreamReference",
+      "to": "backend/server.js::validateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildMixingZonePersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildObservationSnapshot",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildObservationSnapshot",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanChangeAnalysis",
+      "to": "backend/server.js::angularDifferenceDegrees",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanChangeAnalysis",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanChangeAnalysis",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanChangeAnalysis",
+      "to": "backend/server.js::snapshotTimestampMilliseconds",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanChangeFromTimeSeries",
+      "to": "backend/server.js::buildOceanChangeAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanChangeFromTimeSeries",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanChangeFromTimeSeries",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanEvolution",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanEvolution",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanFrontPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanMemoryTimeSeries",
+      "to": "backend/server.js::buildHistoricalSnapshotQuery",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanMemoryTimeSeries",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanMemoryTimeSeries",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanOpportunityLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildClarityPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildCurrentConvergencePersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildCurrentEdgePersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildCurrentPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildCurrentShearPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildEnvironmentalTransitionPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildMixingZonePersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildOceanFrontPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildPersistenceEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildProductivityPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildSeaSurfaceTemperaturePersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildSurfaceWaterCharacterPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildTemporalFeatureContinuity",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::buildWaterMassPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPersistence",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanPhysicsExplainabilityLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanSignalSelectionLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanSnapshot",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOceanSnapshot",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildOpportunityTypeResolutionLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildPersistenceEvidence",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildProductivityEvidence",
+      "to": "backend/server.js::classifyChlorophyll",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildProductivityPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildRelationshipAssessmentLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildRelationshipContext",
+      "to": "backend/server.js::buildRelationshipContextLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildRelationshipContextLineage",
+      "to": "backend/server.js::propagateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildSeaSurfaceTemperaturePersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildSnapshotMetadata",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildSnapshotMetadata",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildSnapshotMetadata",
+      "to": "backend/server.js::deterministicSnapshotHash",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildSnapshotMetadata",
+      "to": "backend/server.js::normalizeSnapshotIdentityPart",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureEvidence",
+      "to": "backend/server.js::buildStructureConfidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureEvidence",
+      "to": "backend/server.js::buildStructureMetadata",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureEvidence",
+      "to": "backend/server.js::evaluateCurrentInteraction",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureEvidence",
+      "to": "backend/server.js::evaluateProductivityInteraction",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureEvidence",
+      "to": "backend/server.js::evaluateThermalInteraction",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureEvidence",
+      "to": "backend/server.js::findNearestStructure",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureEvidence",
+      "to": "backend/server.js::safeNumber",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildStructureMetadata",
+      "to": "backend/server.js::safeNumber",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildSurfaceWaterCharacterPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildTemperatureEvidence",
+      "to": "backend/server.js::classifySeaSurfaceTemperature",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildTemporalFeatureContinuity",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildTemporalOceanExplainability",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildTemporalOceanExplainability",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::buildWaterMassPersistence",
+      "to": "backend/server.js::buildFeaturePersistenceContract",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::deepFreezeSnapshotValue",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::findNearestStructure",
+      "to": "backend/server.js::nauticalMilesBetween",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getAgeHours",
+      "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getAgeHours",
+      "to": "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "to": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::createCurrentPointCacheKey",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::getCachedCurrentPoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::getCurrentConditionsPoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::setCachedCurrentPoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPoint",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPoint",
+      "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentConditionsPoint",
+      "to": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedCurrentPoint",
+      "to": "backend/server.js::createCurrentPointCacheKey",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::createSstPointCacheKey",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::getCachedSstPoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::getSeaSurfaceTemperaturePoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::setCachedSstPoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCachedSstPoint",
+      "to": "backend/server.js::createSstPointCacheKey",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::classifyChlorophyll",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::fetchJson",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::getAgeHours",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::resolveProviderCoordinates",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::safeNumber",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditions",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditions",
+      "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getChlorophyllConditions",
+      "to": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditions",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditions",
+      "to": "backend/server.js::getCachedCurrentConditionsPoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::classifyCurrentStrength",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::currentCompassDirection",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::currentDirectionDegrees",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::fetchJson",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::getAgeHours",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::metersPerSecondToKnots",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::resolveProviderCoordinates",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "to": "backend/server.js::safeNumber",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPoint",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPoint",
+      "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentConditionsPoint",
+      "to": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "to": "backend/server.js::classifyCurrentSpatialVariation",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "to": "backend/server.js::createCurrentSpatialSamplePoints",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "to": "backend/server.js::getCachedCurrentConditionsPoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "to": "backend/server.js::getCircularDirectionDifference",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructure",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructure",
+      "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getCurrentSpatialStructure",
+      "to": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::classifyChlorophyll",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::fetchJson",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::getAgeHours",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::resolveProviderCoordinates",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "to": "backend/server.js::safeNumber",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditions",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditions",
+      "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getGapFilledChlorophyllConditions",
+      "to": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMarineConditions",
+      "to": "backend/server.js::celsiusToFahrenheit",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMarineConditions",
+      "to": "backend/server.js::fetchJson",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMarineConditions",
+      "to": "backend/server.js::metersPerSecondToKnots",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMarineConditions",
+      "to": "backend/server.js::metersToFeet",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMarineConditions",
+      "to": "backend/server.js::resolveProviderCoordinates",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMarineConditions",
+      "to": "backend/server.js::safeNumber",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMarineConditions",
+      "to": "backend/server.js::settleWithTiming",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMoonConditions",
+      "to": "backend/scientificAssessment.mjs::assertScientificInstantV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getMoonConditions",
+      "to": "backend/server.js::classifyMoonPhase",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::assessBlueMarlinHabitat",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::assessOceanConditions",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::assessOceanEvidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::assessOceanOpportunity",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::assessRelationships",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildBackendSupabaseConfiguration",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentConvergenceAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentEdgeAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentGradientAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentOrganizationAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentRelationshipContext",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentShearAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentSpatialPatternAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildCurrentVectorProjectionAnalysis",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildHistoricalSnapshotQuery",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildIntelligenceSnapshot",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildObservationSnapshot",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildOceanChangeFromTimeSeries",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildOceanEvolution",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildOceanMemoryTimeSeries",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildOceanPersistence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildOceanSnapshot",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildRelationshipContext",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildSnapshotMetadata",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildTemperatureTransitionMapFeature",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::buildTemporalOceanExplainability",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::classifySeaSurfaceTemperature",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::getChlorophyllConditions",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::getCurrentConditions",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::getCurrentSpatialStructure",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::getGapFilledChlorophyllConditions",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::getMarineConditions",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::getMoonConditions",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::getSstSpatialStructure",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::resolveChlorophyllObservation",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::resolveOceanSignals",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::retrieveOceanMemoryRows",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditionsAtAssessment",
+      "to": "backend/server.js::settleWithTiming",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditions",
+      "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditions",
+      "to": "backend/server.js::assessmentFromOptionsV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getOceanConditions",
+      "to": "backend/server.js::getOceanConditionsAtAssessment",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::celsiusToFahrenheit",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::fetchJson",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::resolveProviderCoordinates",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+      "to": "backend/server.js::safeNumber",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "to": "backend/server.js::assessSstTransitionConfidence",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "to": "backend/server.js::classifySstSpatialRange",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "to": "backend/server.js::createSstSpatialSamplePoints",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "to": "backend/server.js::deriveSstTransitionOrientation",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "to": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructure",
+      "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructure",
+      "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::getSstSpatialStructure",
+      "to": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::interpretBlueMarlinPathway",
+      "to": "backend/server.js::buildBlueMarlinPathwayLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::kilometersBetween",
+      "to": "backend/server.js::nauticalMilesBetween",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::propagateEvidenceLineage",
+      "to": "backend/server.js::buildLineageUpstreamReference",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::propagateEvidenceLineage",
+      "to": "backend/server.js::validateEvidenceLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::resolveBlueMarlinOpportunityType",
+      "to": "backend/server.js::resolveSpeciesOpportunityType",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::resolveOceanSignals",
+      "to": "backend/server.js::buildOceanSignalSelectionLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::resolveSpeciesOpportunityType",
+      "to": "backend/server.js::buildOpportunityTypeResolutionLineage",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::resolveSpeciesOpportunityType",
+      "to": "backend/server.js::resolveRelationshipImportance",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::resolveSpeciesOpportunityType",
+      "to": "backend/server.js::validateSpeciesKnowledgeProfile",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::retrieveOceanMemoryRows",
+      "to": "backend/server.js::cloneSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::retrieveOceanMemoryRows",
+      "to": "backend/server.js::deepFreezeSnapshotValue",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::setCachedCurrentPoint",
+      "to": "backend/server.js::createCurrentPointCacheKey",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::setCachedSstPoint",
+      "to": "backend/server.js::createSstPointCacheKey",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::validateEvidenceLineage",
+      "to": "backend/server.js::validateLineageUpstreamReference",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    },
+    {
+      "from": "backend/server.js::validateSpeciesKnowledgeProfile",
+      "to": "backend/server.js::validateKnowledgeProvenance",
+      "resolution": "SOURCE_IDENTIFIER_REFERENCE"
+    }
+  ],
+  "callbacks": [
+    {
+      "caller": "backend/server.js::assessBlueMarlinHabitat",
+      "target": "hasOpportunityType",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 45506
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "assessDirectionalInteraction",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 8441
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "assessSeaStateInteraction",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 8694
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "assessSwell",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 8279
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "assessWaves",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 8110
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "assessWind",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 7998
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "classifyDirectionalDifference",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 7933
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "classifySwellPeriod",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 8247
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "classifyWavePeriod",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 7966
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "directionDifference",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 7895
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "formatFactorList",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 9103
+    },
+    {
+      "caller": "backend/server.js::assessOceanConditions",
+      "target": "normalizeDirection",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 7874
+    },
+    {
+      "caller": "backend/server.js::assessOceanOpportunity",
+      "target": "addOpportunity",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 36829
+    },
+    {
+      "caller": "backend/server.js::assessOceanOpportunity",
+      "target": "buildObservationProvenanceContribution",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 36723
+    },
+    {
+      "caller": "backend/server.js::assessOceanOpportunity",
+      "target": "confidenceLevel",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 36705
+    },
+    {
+      "caller": "backend/server.js::assessRelationships",
+      "target": "confidenceLevelForValue",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 39640
+    },
+    {
+      "caller": "backend/server.js::buildCurrentPersistence",
+      "target": "calculateDirectionDifference",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 26957
+    },
+    {
+      "caller": "backend/server.js::buildCurrentPersistence",
+      "target": "normalizeDirectionDegrees",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 26937
+    },
+    {
+      "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+      "target": "freezeDeep",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 24385
+    },
+    {
+      "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+      "target": "isValidLatitude",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 24079
+    },
+    {
+      "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+      "target": "isValidLongitude",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 24089
+    },
+    {
+      "caller": "backend/server.js::buildOceanPersistence",
+      "target": "buildUnavailableFeature",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 34650
+    },
+    {
+      "caller": "backend/server.js::buildOceanPhysicsExplainabilitySummary",
+      "target": "normalizeStage",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 14453
+    },
+    {
+      "caller": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "target": "valueAt",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 2099
+    },
+    {
+      "caller": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "target": "valueAt",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 2417
+    },
+    {
+      "caller": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "target": "valueAt",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 2257
+    },
+    {
+      "caller": "backend/server.js::getOceanConditionsAtAssessment",
+      "target": "formatLayerList",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 61051
+    },
+    {
+      "caller": "backend/server.js::nauticalMilesBetween",
+      "target": "radians",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 882
+    },
+    {
+      "caller": "backend/server.js::propagateEvidenceLineage",
+      "target": "cleanUniqueStrings",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 42814
+    },
+    {
+      "caller": "backend/server.js::resolveChlorophyllObservation",
+      "target": "observationQualityRank",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 1908
+    },
+    {
+      "caller": "backend/server.js::resolveOceanSignals",
+      "target": "buildSignal",
+      "resolution": "STATIC_KNOWN_TARGET",
+      "line": 37748
+    },
+    {
+      "caller": "backend/server.js::retrieveOceanMemoryRows",
+      "target": "fetchImplementation",
+      "resolution": "CLOSED_CURRENT_CALLBACK",
+      "line": 669
+    },
+    {
+      "caller": "backend/server.js::settleWithTiming",
+      "target": "operation",
+      "resolution": "CLOSED_CURRENT_CALLBACK",
+      "line": 1057
+    }
+  ],
+  "memberCallReview": {
+    "siteCount": 1770,
+    "inlineCallbackCount": 234,
+    "status": "NOT_A_SEMANTIC_BRANCH_UNIVERSE",
+    "remainingEffectExamples": [
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 60890,
+        "expression": "Object.values(\n      dataQualityLayers\n    ).map",
+        "inlineCallbacks": [
+          {
+            "line": 60893,
+            "sourceHash": "41e288359a3b94aa9518b13de6369e7c3214e1c0f7e8ca6b0ab651a90f87aa3c"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 60914,
+        "expression": "coreOperationalLayerNames.map",
+        "inlineCallbacks": [
+          {
+            "line": 60915,
+            "sourceHash": "040f09103511b0e901a642b995269df3d456c35e027062e5758ae5a04abd70da"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 60921,
+        "expression": "supportingEvidenceLayerNames.map",
+        "inlineCallbacks": [
+          {
+            "line": 60922,
+            "sourceHash": "040f09103511b0e901a642b995269df3d456c35e027062e5758ae5a04abd70da"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 60928,
+        "expression": "coreOperationalLayers.filter",
+        "inlineCallbacks": [
+          {
+            "line": 60929,
+            "sourceHash": "034ccee7fd2dbf03e02fa9c22a74f5a68ecbb1de54d4b5458c464a1bf9eda6b1"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 60940,
+        "expression": "supportingEvidenceLayers.filter",
+        "inlineCallbacks": [
+          {
+            "line": 60941,
+            "sourceHash": "5b67ff88cd5ccfa11d724f07a4cc196233bcc54398685160a0160a90d5242a1a"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 60953,
+        "expression": "dataQualityStates.filter",
+        "inlineCallbacks": [
+          {
+            "line": 60954,
+            "sourceHash": "15e516be7e5388d3125b24f115c8fd570bb0d415c2568725e7a836a86ab41cf7"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61001,
+        "expression": "Object.entries(\n      dataQualityLayers\n    )\n      .filter(\n        ([, layer]) =>\n          [\n            \"unavailable\",\n            \"degraded\"\n          ].includes(\n            layer.state\n          )\n      )\n      .map",
+        "inlineCallbacks": [
+          {
+            "line": 61014,
+            "sourceHash": "51ea2f30010c8a4ddcb375b899f84c098f6ac270d1967db14484c468e5f3dfd4"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61001,
+        "expression": "Object.entries(\n      dataQualityLayers\n    )\n      .filter",
+        "inlineCallbacks": [
+          {
+            "line": 61005,
+            "sourceHash": "434eea054b69a9fb5374913a83275240627436450260c75bb1ac68793a1909a9"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61205,
+        "expression": "dataQualityStates.filter",
+        "inlineCallbacks": [
+          {
+            "line": 61206,
+            "sourceHash": "44b7443a6950b2c7527f9fa52ac98be8ccd02ef90810d1121d65780121bba66e"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61211,
+        "expression": "dataQualityStates.filter",
+        "inlineCallbacks": [
+          {
+            "line": 61212,
+            "sourceHash": "d8230cb4fa286dba4b8cb09b7114ce79629777e571e9dc69c3fdc616a419035c"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61217,
+        "expression": "dataQualityStates.filter",
+        "inlineCallbacks": [
+          {
+            "line": 61218,
+            "sourceHash": "428b538668e818c62f013e136c8f604e248c5ae49a3e63db27561c1ee63a225b"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61226,
+        "expression": "dataQualityStates.filter",
+        "inlineCallbacks": [
+          {
+            "line": 61227,
+            "sourceHash": "63833b4b4650592613fd5c14899895f937bebd8b2c70b45b68ebf357bb87e213"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61405,
+        "expression": "oceanMemoryRowRetrieval\n          .rows\n          .map(row =>\n            buildOceanMemoryStorageRecordFromRow({\n              row\n            })\n          )\n          .filter",
+        "inlineCallbacks": [
+          {
+            "line": 61413,
+            "sourceHash": "ac22f85daf3b3aeaf738a68dad34ad2afd641b834b091d0d2f4b532e6e20605a"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "line": 61405,
+        "expression": "oceanMemoryRowRetrieval\n          .rows\n          .map",
+        "inlineCallbacks": [
+          {
+            "line": 61407,
+            "sourceHash": "1ff769ec1e78be1ba9137717448acead44b136dd51c4ba00058ffac070f1278e"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "line": 24108,
+        "expression": "rawSamples\n      .filter(\n        sample => {\n          const observedAtTimestamp =\n            Date.parse(\n              sample\n                ?.observedAt ??\n              \"\"\n            );\n\n          return (\n            typeof sample\n              ?.direction ===\n              \"string\" &&\n            directionOrder.has(\n              sample.direction\n            ) &&\n            isValidLatitude(\n              sample\n                ?.requestedLatitude\n            ) &&\n            isValidLongitude(\n              sample\n                ?.requestedLongitude\n            ) &&\n            isValidLatitude(\n              sample\n                ?.resolvedLatitude\n            ) &&\n            isValidLongitude(\n              sample\n                ?.resolvedLongitude\n            ) &&\n            Number.isFinite(\n              sample\n                ?.temperatureFahrenheit\n            ) &&\n            Number.isFinite(\n              observedAtTimestamp\n            ) &&\n            typeof sample\n              ?.source\n              ?.provider ===\n              \"string\" &&\n            sample\n              .source\n              .provider\n              .trim()\n              .length >\n              0 &&\n            typeof sample\n              ?.source\n              ?.classification ===\n              \"string\" &&\n            sample\n              .source\n              .classification\n              .trim()\n              .length >\n              0 &&\n            sample\n              ?.source\n              ?.availability ===\n              \"available\"\n          );\n        }\n      )\n      .map(\n        sample => ({\n          direction:\n            sample.direction,\n\n          requestedLatitude:\n            sample\n              .requestedLatitude,\n\n          requestedLongitude:\n            sample\n              .requestedLongitude,\n\n          resolvedLatitude:\n            sample\n              .resolvedLatitude,\n\n          resolvedLongitude:\n            sample\n              .resolvedLongitude,\n\n          temperatureFahrenheit:\n            sample\n              .temperatureFahrenheit,\n\n          observedAt:\n            new Date(\n              sample.observedAt\n            ).toISOString(),\n\n          source: {\n            provider:\n              sample\n                .source\n                .provider,\n\n            classification:\n              sample\n                .source\n                .classification,\n\n            availability:\n              sample\n                .source\n                .availability ??\n              null\n          }\n        })\n      )\n      .sort",
+        "inlineCallbacks": [
+          {
+            "line": 24225,
+            "sourceHash": "cfcb14e3980e0567adad05007df8c20d02bab36a32d5a6732d3666a72e237082"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "line": 24108,
+        "expression": "rawSamples\n      .filter(\n        sample => {\n          const observedAtTimestamp =\n            Date.parse(\n              sample\n                ?.observedAt ??\n              \"\"\n            );\n\n          return (\n            typeof sample\n              ?.direction ===\n              \"string\" &&\n            directionOrder.has(\n              sample.direction\n            ) &&\n            isValidLatitude(\n              sample\n                ?.requestedLatitude\n            ) &&\n            isValidLongitude(\n              sample\n                ?.requestedLongitude\n            ) &&\n            isValidLatitude(\n              sample\n                ?.resolvedLatitude\n            ) &&\n            isValidLongitude(\n              sample\n                ?.resolvedLongitude\n            ) &&\n            Number.isFinite(\n              sample\n                ?.temperatureFahrenheit\n            ) &&\n            Number.isFinite(\n              observedAtTimestamp\n            ) &&\n            typeof sample\n              ?.source\n              ?.provider ===\n              \"string\" &&\n            sample\n              .source\n              .provider\n              .trim()\n              .length >\n              0 &&\n            typeof sample\n              ?.source\n              ?.classification ===\n              \"string\" &&\n            sample\n              .source\n              .classification\n              .trim()\n              .length >\n              0 &&\n            sample\n              ?.source\n              ?.availability ===\n              \"available\"\n          );\n        }\n      )\n      .map",
+        "inlineCallbacks": [
+          {
+            "line": 24176,
+            "sourceHash": "d7758b9c2acb1dd84f2f506e9e870ccf72370378f97ed51aa5339301d9c15081"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "line": 24108,
+        "expression": "rawSamples\n      .filter",
+        "inlineCallbacks": [
+          {
+            "line": 24110,
+            "sourceHash": "e02d2cdcb60d3197bf3632eb30978f7e0dc7a18580136112558d502035e9d7db"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "line": 24243,
+        "expression": "samples.map",
+        "inlineCallbacks": [
+          {
+            "line": 24244,
+            "sourceHash": "fe208c52795e5458f8371804c75107c75fb8d8f143b9cf544403508cae643f04"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "line": 24255,
+        "expression": "samples.map",
+        "inlineCallbacks": [
+          {
+            "line": 24256,
+            "sourceHash": "3ad1afb31394c0235695f9ab79b8da098076f0925e2d1c3511ee509f46e660e2"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::assessSstTransitionConfidence",
+        "line": 6509,
+        "expression": "samples.filter",
+        "inlineCallbacks": [
+          {
+            "line": 6510,
+            "sourceHash": "a772414b928cdd418fedf04d1151ba8a3f1e8f3fde3094cf5993f818d5137374"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::assessSstTransitionConfidence",
+        "line": 6526,
+        "expression": "validSamples\n      .map",
+        "inlineCallbacks": [
+          {
+            "line": 6528,
+            "sourceHash": "3fe8ef066c6cd443756d5274da73e8b6d98554c63540acad88e467f78c746ab0"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      },
+      {
+        "caller": "backend/server.js::assessSstTransitionConfidence",
+        "line": 6583,
+        "expression": "[\n    eastWestMagnitude,\n    northSouthMagnitude\n  ]\n    .filter(\n      Number.isFinite\n    )\n    .sort",
+        "inlineCallbacks": [
+          {
+            "line": 6591,
+            "sourceHash": "e84e25ecbe4672d4188ffd8e001a1db186de5a672bb520d5ae40a62ddc767bbb"
+          }
+        ],
+        "status": "REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW"
+      }
+    ]
+  },
+  "unresolvedNamedTargets": [],
+  "semanticGraphComplete": false,
+  "semanticBranchUniverseEstablished": false
+}

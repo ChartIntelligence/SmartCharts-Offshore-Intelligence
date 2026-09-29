@@ -1,0 +1,486 @@
+{
+  "version": "pelora-default-provider-transitive-review-v1",
+  "task": "12B.6Q",
+  "verdict": "DEFAULT_PROVIDER_SEMANTIC_BRANCH_MODEL_UNRESOLVED",
+  "qualified": false,
+  "completion": "PARTIAL_REVIEW_STOP",
+  "reason": "Named call closure and bounded fallback proofs do not establish a complete semantic graph, branch universe or exhaustive reachability. No runtime defect is asserted.",
+  "entry": {
+    "module": "backend/server.js",
+    "function": "getOceanConditions",
+    "productionCaller": "evaluateControlledGulfBlueMarlinV1AtAssessment",
+    "binding": "Two explicit module-private getOceanConditions bindings; test invokes unified evaluator without a provider override",
+    "arguments": [
+      "latitude",
+      "longitude",
+      "{assessment,bearerToken}"
+    ],
+    "injectedProviders": "OUTSIDE_QUALIFICATION"
+  },
+  "domain": {
+    "coordinatePredicate": "Number-coerced, present coordinates; 15 <= latitude <= 32 && -100 <= longitude <= -75",
+    "assessment": "pelora-scientific-assessment-v1; executable explicit-context validation",
+    "fixtureOnly": [
+      "uniform finite source values",
+      "single represented time",
+      "eligible synthetic open-water candidate",
+      "null bearerToken",
+      "no authenticated history",
+      "fixed weather/marine state except rejected-weather"
+    ],
+    "domainQualified": false
+  },
+  "graph": {
+    "artifact": "Default_Provider_Transitive_Discovery_v2.json",
+    "namedNodes": 154,
+    "identifierEdges": 267,
+    "namedNestedBindings": 33,
+    "unresolvedNamedTargets": 0,
+    "semanticTargetsFullyReviewed": false,
+    "complete": false,
+    "memberCallSites": 1770,
+    "inlineCallbackSites": 234,
+    "countsAreNotSemanticBranchCounts": true
+  },
+  "branchReview": {
+    "semanticUniverseTotal": null,
+    "provenReachableRecords": [
+      {
+        "id": "buildSurfaceWaterCharacterAnalysis::chlorophyll-concentration::nonfinite-null",
+        "scenario": "empty-chlorophyll",
+        "consequences": [
+          "MISSINGNESS",
+          "AVAILABILITY"
+        ],
+        "proof": "V8 null alternative positive; finite control zero; parser no-valid-pixel positive; historical line 11928",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN"
+      },
+      {
+        "id": "getOceanConditionsAtAssessment::sst-spatial::rejected-assembly",
+        "scenario": "future-sst",
+        "consequences": [
+          "MISSINGNESS",
+          "SPATIAL",
+          "SNAPSHOT_SHAPE"
+        ],
+        "proof": "V8 future-time throw and spatial-sampling-unavailable fallback positive; baseline fallback zero",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN"
+      },
+      {
+        "id": "getSstSpatialStructureAtAssessment::directional-request::rejected",
+        "scenario": "rejected-sst",
+        "consequences": [
+          "MISSINGNESS",
+          "SPATIAL"
+        ],
+        "proof": "V8 request-failed alternative positive; four missing samples; insufficient coverage",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN"
+      },
+      {
+        "id": "getCurrentConditionsPointAtAssessment::table::empty",
+        "scenario": "empty-currents",
+        "consequences": [
+          "MISSINGNESS",
+          "AVAILABILITY"
+        ],
+        "proof": "V8 no-valid-pixel positive; null speed through actual default snapshot",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN"
+      },
+      {
+        "id": "getMarineConditions::weather::request-rejected",
+        "scenario": "rejected-weather",
+        "consequences": [
+          "AVAILABILITY",
+          "QUALITY"
+        ],
+        "proof": "V8 provider-request-failed positive; downstream wind degraded",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN"
+      }
+    ],
+    "provenReachableCount": 5,
+    "unreachableExclusionsGranted": 0,
+    "operationalEquivalentExclusionsGranted": 0,
+    "openReviewObligations": [
+      {
+        "id": "transport-result-domain",
+        "functions": "fetchJson; getMarineConditions; NOAA table parsers",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "HTTP errors, abort, JSON rejection, fulfilled missing/partial records and temporal/numeric normalization have not all received accepted-input branch proofs."
+      },
+      {
+        "id": "sst-spatial-confidence",
+        "functions": "getSstSpatialStructureAtAssessment; deriveSstTransitionOrientation; assessSstTransitionConfidence",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "Threshold/compound outcomes, missing time, partial coverage and signed-zero combinations need complete default-chain coverage, not inherited old fixture dispositions."
+      },
+      {
+        "id": "chlorophyll-selection",
+        "functions": "getChlorophyllConditionsAtAssessment; getGapFilledChlorophyllConditionsAtAssessment; resolveChlorophyllObservation",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "Direct/gap-filled selection, freshness and invalid/missing alternatives remain unexhausted. Empty-table proof does not close this family."
+      },
+      {
+        "id": "current-relations",
+        "functions": "getCurrentConditionsPointAtAssessment; reassessCurrentAgeV1; getCurrentSpatialStructureAtAssessment; current relationship builders",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "Vector, partial spatial, future/missing time and derived relationship predicates need complete source/coverage mapping."
+      },
+      {
+        "id": "marine-quality",
+        "functions": "getMarineConditions; assessOceanConditions; getOceanConditionsAtAssessment",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "Partial family inputs and the core/supporting quality aggregation callback effects are not exhaustively qualified."
+      },
+      {
+        "id": "cache-semantics",
+        "functions": "SST/current point cache and in-flight maps",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "One complete miss/hit/expiry case is insufficient for shared in-flight, different assessments, rounded-coordinate cache identity and all missing/failure states."
+      },
+      {
+        "id": "feature-prerequisites",
+        "functions": "buildGovernedEnvironmentalFeatureObservationV1",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "The sample filter and prerequisite combinations require default-domain coverage and consumer trace; old requirement classifications are not adopted."
+      },
+      {
+        "id": "output-boundary",
+        "functions": "getOceanConditionsAtAssessment; snapshot/history/relationship builders",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "The discovered closure includes processing after observationSnapshot creation. A semantic slice must distinguish the requested current snapshot from later history/species outputs without silently excluding scientifically consumed dependencies."
+      },
+      {
+        "id": "static-caller-boundary",
+        "functions": "production candidate construction and class dispatch",
+        "disposition": "REQUIRES_FURTHER_REVIEW",
+        "reason": "Coordinate validation is proven; candidate eligibility/static construction is not fully audited by the synthetic eligible candidate. No fixed fixture value is an unreachability invariant."
+      }
+    ],
+    "furtherReviewObligationCount": 9,
+    "furtherReviewBranchCount": null
+  },
+  "executionEvidence": [
+    {
+      "id": "coordinate-box",
+      "inside": [
+        [
+          25,
+          -90
+        ],
+        [
+          15,
+          -100
+        ],
+        [
+          32,
+          -75
+        ]
+      ],
+      "outsideRejectedBeforeTransport": true
+    },
+    {
+      "id": "complete",
+      "requests": [
+        "weather",
+        "marine",
+        "chlorophyll",
+        "chlorophyll",
+        "currents",
+        "directional-sst",
+        "directional-sst",
+        "directional-sst",
+        "directional-sst",
+        "currents",
+        "currents",
+        "currents",
+        "currents"
+      ],
+      "snapshotAvailable": true
+    },
+    {
+      "id": "empty-chlorophyll",
+      "stableBranch": "buildSurfaceWaterCharacterAnalysis::chlorophyll-concentration::nonfinite-null",
+      "historicalLine": 11928,
+      "positiveCoverage": 1,
+      "controlCoverage": 0,
+      "finalAvailability": "unavailable",
+      "productivityAvailable": false,
+      "snapshotAvailable": true
+    },
+    {
+      "id": "future-sst",
+      "samples": 0,
+      "coverage": "unavailable",
+      "orientationPresent": false,
+      "confidencePresent": false,
+      "positiveFallbackCoverage": true
+    },
+    {
+      "id": "rejected-sst",
+      "samples": 4,
+      "coverage": "insufficient",
+      "orientationPresent": true,
+      "confidencePresent": true
+    },
+    {
+      "id": "empty-currents",
+      "currentAvailability": "no-valid-pixel",
+      "speedKnots": null
+    },
+    {
+      "id": "rejected-weather",
+      "windState": "degraded"
+    },
+    {
+      "id": "cold-warm-expiry",
+      "requests": [
+        13,
+        4,
+        13
+      ],
+      "differences": [
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/0/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/0/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/1/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/1/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/2/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/2/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/3/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/3/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/generatedAt",
+          "left": "2026-09-27T20:10:06.835Z",
+          "right": "2026-09-27T20:10:06.844Z"
+        },
+        {
+          "path": "/observations/currents/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/currents/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/0/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/0/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/1/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/1/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/2/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/2/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/3/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/3/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/0/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/0/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/1/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/1/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/2/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/2/cache/status",
+          "left": "miss",
+          "right": "hit"
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/3/cache/ageSeconds",
+          "left": 0,
+          "right": 1
+        },
+        {
+          "path": "/observations/sst/derived/spatialStructure/samples/3/cache/status",
+          "left": "miss",
+          "right": "hit"
+        }
+      ],
+      "scope": "one complete represented source case; no general cache equivalence claim"
+    },
+    {
+      "id": "bounded-order-cache-attacks",
+      "scenarioCount": 6,
+      "orders": 10,
+      "runs": 120,
+      "exactOperationalDifferencePaths": [
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/0/cache/ageSeconds",
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/0/cache/status",
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/1/cache/ageSeconds",
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/1/cache/status",
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/2/cache/ageSeconds",
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/2/cache/status",
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/3/cache/ageSeconds",
+        "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/3/cache/status",
+        "/generatedAt",
+        "/observations/currents/cache/ageSeconds",
+        "/observations/currents/cache/status",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/0/cache/ageSeconds",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/0/cache/status",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/1/cache/ageSeconds",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/1/cache/status",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/2/cache/ageSeconds",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/2/cache/status",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/3/cache/ageSeconds",
+        "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/3/cache/status",
+        "/observations/sst/derived/spatialStructure/samples/0/cache/ageSeconds",
+        "/observations/sst/derived/spatialStructure/samples/0/cache/status",
+        "/observations/sst/derived/spatialStructure/samples/1/cache/ageSeconds",
+        "/observations/sst/derived/spatialStructure/samples/1/cache/status",
+        "/observations/sst/derived/spatialStructure/samples/2/cache/ageSeconds",
+        "/observations/sst/derived/spatialStructure/samples/2/cache/status",
+        "/observations/sst/derived/spatialStructure/samples/3/cache/ageSeconds",
+        "/observations/sst/derived/spatialStructure/samples/3/cache/status"
+      ],
+      "allOtherSnapshotLeavesExactlyEqual": true,
+      "inventoryOrAuthorityClaim": false
+    }
+  ],
+  "cache": {
+    "boundedOutcome": "Only cache status/ageSeconds and documentary generatedAt changed in the complete-case cold/warm snapshot; expiry restored miss case except generatedAt",
+    "scientificMismatchDemonstrated": false,
+    "generalEquivalenceQualified": false,
+    "metadataNotStripped": true
+  },
+  "scenarioMatrix": {
+    "familyStates": [
+      "complete",
+      "empty-chlorophyll",
+      "future-sst",
+      "rejected-sst",
+      "empty-currents",
+      "rejected-weather"
+    ],
+    "familyScenarioCount": 6,
+    "coordinateCases": 7,
+    "cacheRuns": 3,
+    "branchComplete": false,
+    "permutationQualification": "NOT_RUN: no branch-complete scenario universe established",
+    "boundedInvariance": {
+      "executionLists": 10,
+      "snapshots": 120,
+      "reverse": true,
+      "seededPermutations": 5,
+      "duplicates": true,
+      "subsetThenFull": true,
+      "coldWarm": true,
+      "allOtherLeavesExactlyEqual": true,
+      "branchUniverseComplete": false
+    }
+  },
+  "optionality": {
+    "requalified": false,
+    "count": null
+  },
+  "requirements": {
+    "requalified": false
+  },
+  "producerInventory": {
+    "created": false,
+    "pathCount": null,
+    "digest": null,
+    "comparisonToFailedInventories": "NOT_PERFORMED: no qualified inventory exists"
+  },
+  "authorityProposalCreated": false,
+  "authorityFreezeCreated": false,
+  "projectionV3Created": false,
+  "productionModified": false,
+  "providerBoundaryPreserved": true,
+  "task12B6C": "PAUSED",
+  "task9ED": "PAUSED",
+  "separateIssue": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "nextGate": "COMPLETE DEFAULT-PROVIDER SEMANTIC EFFECT AND BRANCH REACHABILITY REVIEW; then adversarial review before optionality/authority work",
+  "verification": {
+    "networkBlocked": true,
+    "focusedTests": 12,
+    "backendSharedScripts": 60,
+    "failedScripts": 0,
+    "draftV3TestExcluded": true,
+    "syntaxModules": 115,
+    "jsonFiles": 46,
+    "protectedFilesUnchanged": 41,
+    "trackedProductionChanges": 0,
+    "stagedFiles": 0,
+    "whitespace": "PASS",
+    "gitDiffCheck": "PASS"
+  }
+}

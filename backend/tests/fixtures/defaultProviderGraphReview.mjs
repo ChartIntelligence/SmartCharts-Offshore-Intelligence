@@ -1,0 +1,25 @@
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {Session} from 'node:inspector';
+export const source=readFileSync(new URL('../../server.js',import.meta.url),'utf8');
+export const sha=value=>createHash('sha256').update(value).digest('hex');
+export async function coverageSession(){const s=new Session();s.connect();const post=(method,params={})=>new Promise((resolve,reject)=>s.post(method,params,(error,value)=>error?reject(error):resolve(value)));await post('Profiler.enable');await post('Profiler.startPreciseCoverage',{callCount:true,detailed:true});return {async take(){const r=await post('Profiler.takePreciseCoverage');return r.result.filter(x=>x.url.endsWith('/backend/server.js')).flatMap(x=>x.functions);},async close(){await post('Profiler.stopPreciseCoverage');s.disconnect();}};}
+export function branchCount(coverage,functionName,text){const start=source.indexOf('function '+functionName+'(');const offset=source.indexOf(text,start);if(start<0||offset<0)throw Error('Stale source anchor');const ranges=coverage.flatMap(f=>f.ranges).filter(r=>r.startOffset<=offset&&r.endOffset>offset).sort((a,b)=>(a.endOffset-a.startOffset)-(b.endOffset-b.startOffset));return ranges[0]?.count??0;}
+function walk(n,f){if(!n||typeof n!=='object')return;f(n);for(const[k,v]of Object.entries(n)){if(['loc','start','end'].includes(k))continue;if(Array.isArray(v))v.forEach(x=>walk(x,f));else if(v&&typeof v==='object')walk(v,f);}}
+// Fresh source traversal. Historical graph/path lists are never inputs.
+export function discoverDefaultGraph(){
+ const acorn={};new Function('exports','module',process.binding('natives')['internal/deps/acorn/acorn/dist/acorn'])(acorn,{exports:acorn});const units=new Map(),hashes={};
+ for(const file of ['backend/server.js','backend/scientificAssessment.mjs']){const text=readFileSync(new URL('../../../'+file,import.meta.url),'utf8');hashes[file]=sha(text);const ast=acorn.parse(text,{ecmaVersion:'latest',sourceType:'module',locations:true});for(const statement of ast.body){const n=statement.declaration??statement;if(n.type==='FunctionDeclaration')units.set(n.id.name,{file,text,n});}}
+ const queue=['getOceanConditions'],seen=new Set(),nodes=[],edges=[],callbacks=[],memberCalls=[];
+ const builtin=new Set(['Number','String','Boolean','encodeURIComponent','setTimeout','clearTimeout','fetch','structuredClone','createHash']);const unresolved=[];
+ while(queue.length){const name=queue.shift();if(seen.has(name))continue;seen.add(name);const{file,text,n}=units.get(name);const id=file+'::'+name,targets=new Set(),local=new Map();
+ walk(n.body,x=>{if(x.type==='Identifier'&&units.has(x.name))targets.add(x.name);if(x.type==='VariableDeclarator'&&x.id.type==='Identifier'&&['ArrowFunctionExpression','FunctionExpression'].includes(x.init?.type))local.set(x.id.name,x);if(x.type==='FunctionDeclaration')local.set(x.id.name,x);});
+ walk(n.body,x=>{if(x.type!=='CallExpression')return;const c=x.callee;if(c.type==='Identifier'&&!units.has(c.name)&&!builtin.has(c.name)){
+ const binding=local.get(c.name);const resolution=binding?'STATIC_KNOWN_TARGET':c.name==='operation'&&name==='settleWithTiming'?'CLOSED_CURRENT_CALLBACK':c.name==='fetchImplementation'&&name==='retrieveOceanMemoryRows'?'CLOSED_CURRENT_CALLBACK':'UNRESOLVED_DYNAMIC_TARGET';
+ const entry={caller:id,target:c.name,resolution,line:binding?.loc.start.line??x.loc.start.line};if(!callbacks.some(y=>y.caller===id&&y.target===c.name))callbacks.push(entry);if(resolution==='UNRESOLVED_DYNAMIC_TARGET')unresolved.push(entry);
+ }else if(c.type==='MemberExpression')memberCalls.push({caller:id,line:x.loc.start.line,expression:text.slice(c.start,c.end),inlineCallbacks:x.arguments.filter(a=>['ArrowFunctionExpression','FunctionExpression'].includes(a.type)).map(a=>({line:a.loc.start.line,sourceHash:sha(text.slice(a.start,a.end))})),status:'REQUIRES_SEMANTIC_RECEIVER_AND_EFFECT_REVIEW'});});
+ nodes.push({id,file,function:name,line:n.loc.start.line,sourceHash:sha(text.slice(n.start,n.end)),async:n.async,qualification:'DISCOVERY_ONLY'});
+ for(const target of [...targets].sort()){edges.push({from:id,to:units.get(target).file+'::'+target,resolution:'SOURCE_IDENTIFIER_REFERENCE'});if(!seen.has(target))queue.push(target);}
+ }
+ return {version:'pelora-default-provider-transitive-discovery-v2',entry:'backend/server.js::getOceanConditions',sourceHashes:hashes,nodes:nodes.sort((a,b)=>a.id.localeCompare(b.id)),edges:edges.sort((a,b)=>(a.from+a.to).localeCompare(b.from+b.to)),callbacks:callbacks.sort((a,b)=>(a.caller+a.target).localeCompare(b.caller+b.target)),memberCallReview:{siteCount:memberCalls.length,inlineCallbackCount:memberCalls.reduce((n,x)=>n+x.inlineCallbacks.length,0),status:'NOT_A_SEMANTIC_BRANCH_UNIVERSE',remainingEffectExamples:memberCalls.filter(x=>x.inlineCallbacks.length&&['::assessSstTransitionConfidence','::getOceanConditionsAtAssessment','::buildGovernedEnvironmentalFeatureObservationV1'].some(name=>x.caller.endsWith(name)))},unresolvedNamedTargets:unresolved,semanticGraphComplete:false,semanticBranchUniverseEstablished:false};
+}

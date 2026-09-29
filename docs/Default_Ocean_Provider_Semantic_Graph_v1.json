@@ -1,0 +1,3086 @@
+{
+  "version": "pelora-default-provider-semantic-graph-review-v1",
+  "purpose": "Boundary review; not complete branch qualification",
+  "sourceHashes": {
+    "backend/server.js": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06",
+    "backend/scientificAssessment.mjs": "b27a04f6c74fab51e54998301c6c03d6dfd6a1ae3cbd4787089c4a04e41e7a9f"
+  },
+  "nodes": [
+    {
+      "id": "backend/server.js::getOceanConditions",
+      "file": "backend/server.js",
+      "function": "getOceanConditions",
+      "line": 62282,
+      "async": false,
+      "stage": "boundary",
+      "semanticRole": "Acquire/settle or assemble source values and fallback states",
+      "callees": [
+        "assessmentFromOptionsV1",
+        "getOceanConditionsAtAssessment",
+        "withScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "b8c5b51d62a9d2710f5b4526c59cda205d3a653db361e60ecf70b9a769c1a920",
+      "callers": []
+    },
+    {
+      "id": "backend/server.js::getOceanConditionsAtAssessment",
+      "file": "backend/server.js",
+      "function": "getOceanConditionsAtAssessment",
+      "line": 60099,
+      "async": true,
+      "stage": "boundary",
+      "semanticRole": "Acquire/settle or assemble source values and fallback states",
+      "callees": [
+        "assessBlueMarlinHabitat",
+        "assessOceanConditions",
+        "assessOceanEvidence",
+        "assessOceanOpportunity",
+        "assessRelationships",
+        "buildBackendSupabaseConfiguration",
+        "buildCurrentConvergenceAnalysis",
+        "buildCurrentEdgeAnalysis",
+        "buildCurrentGradientAnalysis",
+        "buildCurrentOrganizationAnalysis",
+        "buildCurrentRelationshipContext",
+        "buildCurrentShearAnalysis",
+        "buildCurrentSpatialPatternAnalysis",
+        "buildCurrentVectorProjectionAnalysis",
+        "buildGovernedEnvironmentalFeatureObservationV1",
+        "buildHistoricalSnapshotQuery",
+        "buildIntelligenceSnapshot",
+        "buildObservationSnapshot",
+        "buildOceanChangeFromTimeSeries",
+        "buildOceanEvolution",
+        "buildOceanMemoryStorageRecordFromRow",
+        "buildOceanMemoryTimeSeries",
+        "buildOceanPersistence",
+        "buildOceanSnapshot",
+        "buildRelationshipContext",
+        "buildSnapshotMetadata",
+        "buildTemperatureTransitionMapFeature",
+        "buildTemporalOceanExplainability",
+        "classifySeaSurfaceTemperature",
+        "getChlorophyllConditions",
+        "getCurrentConditions",
+        "getCurrentSpatialStructure",
+        "getGapFilledChlorophyllConditions",
+        "getMarineConditions",
+        "getMoonConditions",
+        "getSstSpatialStructure",
+        "resolveChlorophyllObservation",
+        "resolveOceanSignals",
+        "resolveScientificAssessmentV1",
+        "retrieveOceanMemoryRows",
+        "settleWithTiming"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "57e5ebef095fa663542ba33c1430aaeca1e3f6940985375a5ced9225d478834e",
+      "callers": [
+        "backend/server.js::getOceanConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::settleWithTiming",
+      "file": "backend/server.js",
+      "function": "settleWithTiming",
+      "line": 1049,
+      "async": true,
+      "stage": "boundary",
+      "semanticRole": "Acquire/settle or assemble source values and fallback states",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "af6cd7eb8771f89b818baeddb0456d8c2881528bfc5ebe33ddfba5a17f5752bb",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment",
+        "backend/server.js::getMarineConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::fetchJson",
+      "file": "backend/server.js",
+      "function": "fetchJson",
+      "line": 1096,
+      "async": true,
+      "stage": "boundary",
+      "semanticRole": "Acquire/settle or assemble source values and fallback states",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "bce5f9a641b7fbda404c0ebf48083fd0908b4753b86112c1d8bb964d6d085a82",
+      "callers": [
+        "backend/server.js::getMarineConditions",
+        "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::getCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "resolveScientificAssessmentV1",
+      "line": 21,
+      "async": false,
+      "stage": "assessment",
+      "semanticRole": "Validate explicit assessment or compute/reassess governed age",
+      "callees": [
+        "requireScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "2682d927381f0418b4f1733d8b085535a7a9a61589a0199850bdef286ee8b1ef",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment",
+        "backend/server.js::getSstSpatialStructure",
+        "backend/server.js::getSstSpatialStructureAtAssessment",
+        "backend/server.js::getChlorophyllConditions",
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditions",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::getCurrentConditions",
+        "backend/server.js::getCurrentConditionsPoint",
+        "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "backend/server.js::getCachedCurrentConditionsPoint",
+        "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "backend/server.js::getCurrentSpatialStructure",
+        "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "backend/server.js::assessmentFromOptionsV1"
+      ]
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "requireScientificAssessmentV1",
+      "line": 8,
+      "async": false,
+      "stage": "assessment",
+      "semanticRole": "Validate explicit assessment or compute/reassess governed age",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "64563764def55041354619f1eda677ba8e84ea170470691b18146068de713216",
+      "callers": [
+        "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+        "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+        "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+        "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+        "backend/scientificAssessment.mjs::assertScientificInstantV1",
+        "backend/server.js::assessSstTransitionConfidence",
+        "backend/server.js::getAgeHours"
+      ]
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "withScientificAssessmentV1",
+      "line": 36,
+      "async": false,
+      "stage": "assessment",
+      "semanticRole": "Validate explicit assessment or compute/reassess governed age",
+      "callees": [
+        "requireScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "8e6974dc991fa043e2cb0d5bfa223d85fcaee408f89f24355876d0358720afed",
+      "callers": [
+        "backend/server.js::getOceanConditions",
+        "backend/server.js::getSstSpatialStructure",
+        "backend/server.js::getChlorophyllConditions",
+        "backend/server.js::getGapFilledChlorophyllConditions",
+        "backend/server.js::getCurrentConditionsPoint",
+        "backend/server.js::getCachedCurrentConditionsPoint",
+        "backend/server.js::getCurrentSpatialStructure"
+      ]
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "scientificAgeHoursV1",
+      "line": 22,
+      "async": false,
+      "stage": "assessment",
+      "semanticRole": "Validate explicit assessment or compute/reassess governed age",
+      "callees": [
+        "requireScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "111805a451380c3f4ccb18f20328b87221b4d652986c6fc633b78b5350341b23",
+      "callers": [
+        "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+        "backend/server.js::getAgeHours"
+      ]
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "reassessCurrentAgeV1",
+      "line": 29,
+      "async": false,
+      "stage": "assessment",
+      "semanticRole": "Validate explicit assessment or compute/reassess governed age",
+      "callees": [
+        "requireScientificAssessmentV1",
+        "scientificAgeHoursV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "5f70f45a9de0c72d25b5105699b0bd52b30a8904025614852c7669b70d3e8dbc",
+      "callers": [
+        "backend/server.js::getCachedCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/scientificAssessment.mjs::assertScientificInstantV1",
+      "file": "backend/scientificAssessment.mjs",
+      "function": "assertScientificInstantV1",
+      "line": 38,
+      "async": false,
+      "stage": "assessment",
+      "semanticRole": "Validate explicit assessment or compute/reassess governed age",
+      "callees": [
+        "requireScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "5133f278d0783452e742204d72f3b39d8d9e01da24353d70fe655efa28c47cf8",
+      "callers": [
+        "backend/server.js::getMoonConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::getMarineConditions",
+      "file": "backend/server.js",
+      "function": "getMarineConditions",
+      "line": 7204,
+      "async": true,
+      "stage": "marine",
+      "semanticRole": "Produce or preserve marine values/shapes/state",
+      "callees": [
+        "celsiusToFahrenheit",
+        "fetchJson",
+        "metersPerSecondToKnots",
+        "metersToFeet",
+        "resolveProviderCoordinates",
+        "safeNumber",
+        "settleWithTiming"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "1b676328795ede935144e45c72aa4c989de3e2464a4fa1f34d361653f0558491",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::metersPerSecondToKnots",
+      "file": "backend/server.js",
+      "function": "metersPerSecondToKnots",
+      "line": 816,
+      "async": false,
+      "stage": "marine",
+      "semanticRole": "Produce or preserve marine values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "34b04f5ff49bc978e841d4fca13e32a35f208e5df60b90fc50c95a2cc00225b9",
+      "callers": [
+        "backend/server.js::getMarineConditions",
+        "backend/server.js::getCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::metersToFeet",
+      "file": "backend/server.js",
+      "function": "metersToFeet",
+      "line": 832,
+      "async": false,
+      "stage": "marine",
+      "semanticRole": "Produce or preserve marine values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "796c238aaf543858e4e4f04e8b9b2ebb96bd30aa8b673562d76c188fbf069e88",
+      "callers": [
+        "backend/server.js::getMarineConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::assessOceanConditions",
+      "file": "backend/server.js",
+      "function": "assessOceanConditions",
+      "line": 7861,
+      "async": false,
+      "stage": "marine",
+      "semanticRole": "Produce or preserve marine values/shapes/state",
+      "callees": [
+        "buildAssessmentConfidence"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "0811134005a7d27b83861c3f9118777a33ecdee10b377b6a1d02ac65b3c2eaae",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getMoonConditions",
+      "file": "backend/server.js",
+      "function": "getMoonConditions",
+      "line": 1730,
+      "async": false,
+      "stage": "marine",
+      "semanticRole": "Produce or preserve marine values/shapes/state",
+      "callees": [
+        "assertScientificInstantV1",
+        "classifyMoonPhase"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ea6a44e7d52ab7e4ba604d9f18e0d51bb736586cc285d2c7dbe8f0631770927d",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getSeaSurfaceTemperaturePoint",
+      "file": "backend/server.js",
+      "function": "getSeaSurfaceTemperaturePoint",
+      "line": 6173,
+      "async": true,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [
+        "celsiusToFahrenheit",
+        "fetchJson",
+        "resolveProviderCoordinates",
+        "safeNumber"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "a94d9216b963c8a5603f0474b076f505ee9a0e564fcd6170239afa013add7e50",
+      "callers": [
+        "backend/server.js::getCachedSeaSurfaceTemperaturePoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+      "file": "backend/server.js",
+      "function": "getCachedSeaSurfaceTemperaturePoint",
+      "line": 6892,
+      "async": true,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [
+        "createSstPointCacheKey",
+        "getCachedSstPoint",
+        "getSeaSurfaceTemperaturePoint",
+        "setCachedSstPoint"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "3f6c44931286a7e783c2d9f9f2a33d30b7deaf337fbbd14c94134ca91aa72218",
+      "callers": [
+        "backend/server.js::getSstSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCachedSstPoint",
+      "file": "backend/server.js",
+      "function": "getCachedSstPoint",
+      "line": 6015,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [
+        "createSstPointCacheKey"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "5e274b88952a39fa5896ccc24dac878b9e4d5a7e5c351858380ea1b0654a19da",
+      "callers": [
+        "backend/server.js::getCachedSeaSurfaceTemperaturePoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::setCachedSstPoint",
+      "file": "backend/server.js",
+      "function": "setCachedSstPoint",
+      "line": 6067,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [
+        "createSstPointCacheKey"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "68811d39ada0c0656c041f3db2b0d5d3c30e32466454fc9207cd5d9867b06d92",
+      "callers": [
+        "backend/server.js::getCachedSeaSurfaceTemperaturePoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::createSstSpatialSamplePoints",
+      "file": "backend/server.js",
+      "function": "createSstSpatialSamplePoints",
+      "line": 6104,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "b85859c88ce28f874cf1512f369f1fecfad2e53fbf790000f7b65909989cc56f",
+      "callers": [
+        "backend/server.js::getSstSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getSstSpatialStructure",
+      "file": "backend/server.js",
+      "function": "getSstSpatialStructure",
+      "line": 62278,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [
+        "getSstSpatialStructureAtAssessment",
+        "resolveScientificAssessmentV1",
+        "withScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "bf8f490fcf980efca834d57ca34afdfa02f321b399108700f99d2013c7ca14b4",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getSstSpatialStructureAtAssessment",
+      "file": "backend/server.js",
+      "function": "getSstSpatialStructureAtAssessment",
+      "line": 6988,
+      "async": true,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [
+        "assessSstTransitionConfidence",
+        "classifySstSpatialRange",
+        "createSstSpatialSamplePoints",
+        "deriveSstTransitionOrientation",
+        "getCachedSeaSurfaceTemperaturePoint",
+        "resolveScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d8231cd1c10f3f5061b0b210d85db044a76165ef1b74c2e04d992f10d21f1666",
+      "callers": [
+        "backend/server.js::getSstSpatialStructure"
+      ]
+    },
+    {
+      "id": "backend/server.js::deriveSstTransitionOrientation",
+      "file": "backend/server.js",
+      "function": "deriveSstTransitionOrientation",
+      "line": 6305,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "8ae52ba99d185b76d3b4d16d821dbea2558348992e49b6265c3681d25d29af29",
+      "callers": [
+        "backend/server.js::getSstSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::assessSstTransitionConfidence",
+      "file": "backend/server.js",
+      "function": "assessSstTransitionConfidence",
+      "line": 6498,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [
+        "requireScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "8aeceb4493958e3ca8d24ab751d511cdd7bbdc03158a368cf0e92299285569cb",
+      "callers": [
+        "backend/server.js::getSstSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::classifySstSpatialRange",
+      "file": "backend/server.js",
+      "function": "classifySstSpatialRange",
+      "line": 6271,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "0b2b09120965fc68e1f2d736349d5afcd7996b2b4b0cc79227a9ec5e28edc8e4",
+      "callers": [
+        "backend/server.js::getSstSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::classifySeaSurfaceTemperature",
+      "file": "backend/server.js",
+      "function": "classifySeaSurfaceTemperature",
+      "line": 1462,
+      "async": false,
+      "stage": "sst",
+      "semanticRole": "Produce or preserve sst values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "a834eeadc509b8c6a47bf8c210eb48d2014f35d775ffaba1e7cfc40eb35dbb0a",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment",
+        "backend/server.js::buildTemperatureEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::getChlorophyllConditions",
+      "file": "backend/server.js",
+      "function": "getChlorophyllConditions",
+      "line": 62258,
+      "async": false,
+      "stage": "chlorophyll",
+      "semanticRole": "Produce or preserve chlorophyll values/shapes/state",
+      "callees": [
+        "getChlorophyllConditionsAtAssessment",
+        "resolveScientificAssessmentV1",
+        "withScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d310a882b2bb41555da39622808d9f1bca3470e50ef403f7e9d1f487cfd7247d",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getChlorophyllConditionsAtAssessment",
+      "file": "backend/server.js",
+      "function": "getChlorophyllConditionsAtAssessment",
+      "line": 2045,
+      "async": true,
+      "stage": "chlorophyll",
+      "semanticRole": "Produce or preserve chlorophyll values/shapes/state",
+      "callees": [
+        "classifyChlorophyll",
+        "fetchJson",
+        "getAgeHours",
+        "resolveProviderCoordinates",
+        "resolveScientificAssessmentV1",
+        "safeNumber"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "5d18e26b938315002c820eb3d5fb3f89738649524d7d367a803b48bd50bcbaf7",
+      "callers": [
+        "backend/server.js::getChlorophyllConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::getGapFilledChlorophyllConditions",
+      "file": "backend/server.js",
+      "function": "getGapFilledChlorophyllConditions",
+      "line": 62262,
+      "async": false,
+      "stage": "chlorophyll",
+      "semanticRole": "Produce or preserve chlorophyll values/shapes/state",
+      "callees": [
+        "getGapFilledChlorophyllConditionsAtAssessment",
+        "resolveScientificAssessmentV1",
+        "withScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "7cb9ecdc5e538a868ea9212a0cf843e2f16d416e642e905fb180c283e9289b43",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+      "file": "backend/server.js",
+      "function": "getGapFilledChlorophyllConditionsAtAssessment",
+      "line": 2168,
+      "async": true,
+      "stage": "chlorophyll",
+      "semanticRole": "Produce or preserve chlorophyll values/shapes/state",
+      "callees": [
+        "classifyChlorophyll",
+        "fetchJson",
+        "getAgeHours",
+        "resolveProviderCoordinates",
+        "resolveScientificAssessmentV1",
+        "safeNumber"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "27d5906b1f7f79f61fbd3a1ba28a36dd22ebc25b0ca53f02a42d6244f1789344",
+      "callers": [
+        "backend/server.js::getGapFilledChlorophyllConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::resolveChlorophyllObservation",
+      "file": "backend/server.js",
+      "function": "resolveChlorophyllObservation",
+      "line": 1851,
+      "async": false,
+      "stage": "chlorophyll",
+      "semanticRole": "Produce or preserve chlorophyll values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "15352e97596dcd42938c68e52902d2cdcfb6f2d9a4616fef2054721445df2789",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::classifyChlorophyll",
+      "file": "backend/server.js",
+      "function": "classifyChlorophyll",
+      "line": 1430,
+      "async": false,
+      "stage": "chlorophyll",
+      "semanticRole": "Produce or preserve chlorophyll values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "95e98d7045faa18aa05162b530162d3ef0f7551ff098071ea4aa9be462d8e2e5",
+      "callers": [
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::buildProductivityEvidence",
+        "backend/server.js::buildClarityEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCurrentConditions",
+      "file": "backend/server.js",
+      "function": "getCurrentConditions",
+      "line": 5977,
+      "async": true,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "getCachedCurrentConditionsPoint",
+        "resolveScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "4b32a4aa9b4efd55fb443bb49ff4b1efe82494f32d7ca21cd444e3f8d84851ee",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCurrentConditionsPoint",
+      "file": "backend/server.js",
+      "function": "getCurrentConditionsPoint",
+      "line": 62266,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "getCurrentConditionsPointAtAssessment",
+        "resolveScientificAssessmentV1",
+        "withScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "490e6b0421d62ba0414e6f2ee387cde7b471e806c304292a4089e063840384b2",
+      "callers": [
+        "backend/server.js::getCachedCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCurrentConditionsPointAtAssessment",
+      "file": "backend/server.js",
+      "function": "getCurrentConditionsPointAtAssessment",
+      "line": 2345,
+      "async": true,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "classifyCurrentStrength",
+        "currentCompassDirection",
+        "currentDirectionDegrees",
+        "fetchJson",
+        "getAgeHours",
+        "metersPerSecondToKnots",
+        "resolveProviderCoordinates",
+        "resolveScientificAssessmentV1",
+        "safeNumber"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d7383f855e8c7a14179b92011d709a8f966f525ebd160d077537bdad2f2dae13",
+      "callers": [
+        "backend/server.js::getCurrentConditionsPoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCachedCurrentConditionsPoint",
+      "file": "backend/server.js",
+      "function": "getCachedCurrentConditionsPoint",
+      "line": 62270,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "getCachedCurrentConditionsPointAtAssessment",
+        "resolveScientificAssessmentV1",
+        "withScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ffc9647b9af6dd0763acd684a0c77593201cea176e2d2e4e5cd16d44d68fbf11",
+      "callers": [
+        "backend/server.js::getCurrentConditions",
+        "backend/server.js::getCurrentSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+      "file": "backend/server.js",
+      "function": "getCachedCurrentConditionsPointAtAssessment",
+      "line": 2544,
+      "async": true,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "createCurrentPointCacheKey",
+        "getCachedCurrentPoint",
+        "getCurrentConditionsPoint",
+        "reassessCurrentAgeV1",
+        "resolveScientificAssessmentV1",
+        "setCachedCurrentPoint"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "439b765813b872a4df4f27819dbaf410ec852112f3af950f238cb020d68609a4",
+      "callers": [
+        "backend/server.js::getCachedCurrentConditionsPoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCachedCurrentPoint",
+      "file": "backend/server.js",
+      "function": "getCachedCurrentPoint",
+      "line": 1250,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "createCurrentPointCacheKey"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "5087952a111d22167ac7224a6f7effd195896ac8ffa3c8f2ecebcadc154036d3",
+      "callers": [
+        "backend/server.js::getCachedCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::setCachedCurrentPoint",
+      "file": "backend/server.js",
+      "function": "setCachedCurrentPoint",
+      "line": 1302,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "createCurrentPointCacheKey"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "63665ce758a08524ee84cff4a3773c1e047c06d11871f2142682974acace2827",
+      "callers": [
+        "backend/server.js::getCachedCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::createCurrentSpatialSamplePoints",
+      "file": "backend/server.js",
+      "function": "createCurrentSpatialSamplePoints",
+      "line": 1343,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d01ad1be2f85ce0bfb7349190b1f472ffc851fe3bfa9ff74b3acd90649974b6a",
+      "callers": [
+        "backend/server.js::getCurrentSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCurrentSpatialStructure",
+      "file": "backend/server.js",
+      "function": "getCurrentSpatialStructure",
+      "line": 62274,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "getCurrentSpatialStructureAtAssessment",
+        "resolveScientificAssessmentV1",
+        "withScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "508701e332c525c4db015fbf08c9926310d1e90bb51552916014a5c5e645ba38",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+      "file": "backend/server.js",
+      "function": "getCurrentSpatialStructureAtAssessment",
+      "line": 2642,
+      "async": true,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "classifyCurrentSpatialVariation",
+        "createCurrentSpatialSamplePoints",
+        "getCachedCurrentConditionsPoint",
+        "getCircularDirectionDifference",
+        "resolveScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "29a248f9369e71b4a11b9301cd7f6b2d6bc7d62d7b01e0f28acaf47662ec62b2",
+      "callers": [
+        "backend/server.js::getCurrentSpatialStructure"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentOrganizationAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentOrganizationAnalysis",
+      "line": 3010,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "c59234f2c297ef5635d916bdaf569ba53de635c89e8803323a27173fce79a2ad",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentRelationshipContext",
+      "file": "backend/server.js",
+      "function": "buildCurrentRelationshipContext",
+      "line": 3194,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "3efc256e74ac86bda65a91cfe371932b41a48108b00ce379fdcb042121465a33",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentSpatialPatternAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentSpatialPatternAnalysis",
+      "line": 5630,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ee84899786aa65e3cb7f32274accb801b7bab8bb22e42afab44c8e2a4399e0ff",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentVectorProjectionAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentVectorProjectionAnalysis",
+      "line": 3503,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "getCurrentProjectionAxes"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "68d1363b5506ce06b8dcda8577ad6d89ccd5b6a08b33399da494cf307ab0e03e",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentGradientAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentGradientAnalysis",
+      "line": 3947,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "getCircularDirectionDifference",
+        "nauticalMilesBetween"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d1a89d4ba26eb0dee3b1af2b4c412c08ad2a59a3e6c2e10ac8edd2f7930ffb98",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentShearAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentShearAnalysis",
+      "line": 4448,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "074d6b6f0ae1c35db8661eea5c0fe178806bad82a0f0d81b2ed2f1e548d7eab0",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentConvergenceAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentConvergenceAnalysis",
+      "line": 5239,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [
+        "getOpposingCurrentSampleDirection"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "a5c02eee575155cbd5e322c116dca858e708c9715b265e8f0b4d67fa1f4e4943",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentEdgeAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentEdgeAnalysis",
+      "line": 4841,
+      "async": false,
+      "stage": "currents",
+      "semanticRole": "Produce or preserve currents values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "8d154a7f2ab75da0da32f91e367bd0183ef531d9f6d07908e75c18c6909b6ca0",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::assessOceanEvidence",
+      "file": "backend/server.js",
+      "function": "assessOceanEvidence",
+      "line": 9423,
+      "async": false,
+      "stage": "evidence",
+      "semanticRole": "Produce or preserve evidence values/shapes/state",
+      "callees": [
+        "buildClarityEvidence",
+        "buildCurrentEvidence",
+        "buildEnvironmentalOpportunityEvidence",
+        "buildEnvironmentalTransitionAnalysis",
+        "buildMixingZoneAnalysis",
+        "buildOceanEvidenceConfidence",
+        "buildOceanEvidenceLineage",
+        "buildOceanEvidenceSummary",
+        "buildOceanFrontAnalysis",
+        "buildOceanOrganizationAnalysis",
+        "buildOceanPhysicsExplainabilityLineage",
+        "buildOceanPhysicsExplainabilitySummary",
+        "buildOpenWaterEvidence",
+        "buildPersistenceEvidence",
+        "buildProductivityEvidence",
+        "buildStructureEvidence",
+        "buildSurfaceWaterCharacterAnalysis",
+        "buildTemperatureEvidence",
+        "buildWaterMassAnalysis"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "61ed7533eec85d3a7dae13180ead821b4cfab1aed0258fcdb4d62bb60d350d5b",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildTemperatureEvidence",
+      "file": "backend/server.js",
+      "function": "buildTemperatureEvidence",
+      "line": 10530,
+      "async": false,
+      "stage": "evidence",
+      "semanticRole": "Produce or preserve evidence values/shapes/state",
+      "callees": [
+        "classifySeaSurfaceTemperature"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "fc05b0986dcbcee725ef94a0d4bc17703109a524d9923b63a668e6ff79b94609",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildProductivityEvidence",
+      "file": "backend/server.js",
+      "function": "buildProductivityEvidence",
+      "line": 11566,
+      "async": false,
+      "stage": "evidence",
+      "semanticRole": "Produce or preserve evidence values/shapes/state",
+      "callees": [
+        "classifyChlorophyll"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ab9890c255c3d54c2a19a89b9ad12c569e8002e51a0fde1132f19ee7bf840f1f",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentEvidence",
+      "file": "backend/server.js",
+      "function": "buildCurrentEvidence",
+      "line": 11245,
+      "async": false,
+      "stage": "evidence",
+      "semanticRole": "Produce or preserve evidence values/shapes/state",
+      "callees": [
+        "buildCurrentSpatialAnalysis",
+        "classifyCurrentStrength",
+        "currentCompassDirection"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9aa8df1bf2e4a4063845246ac0122f6ba355dee23496da5a8e6a6fdfc376ab8a",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildSurfaceWaterCharacterAnalysis",
+      "file": "backend/server.js",
+      "function": "buildSurfaceWaterCharacterAnalysis",
+      "line": 11811,
+      "async": false,
+      "stage": "evidence",
+      "semanticRole": "Produce or preserve evidence values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "82f11931205ceb4809632b762bd8e254cc68d4bc8f3bc9521c5329789a049085",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+      "file": "backend/server.js",
+      "function": "buildGovernedEnvironmentalFeatureObservationV1",
+      "line": 23974,
+      "async": false,
+      "stage": "evidence",
+      "semanticRole": "Produce or preserve evidence values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "4b812d96ec87e825294918498da64bd611bbb242a6041281c60cb47240301df6",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildTemperatureTransitionMapFeature",
+      "file": "backend/server.js",
+      "function": "buildTemperatureTransitionMapFeature",
+      "line": 10954,
+      "async": false,
+      "stage": "evidence",
+      "semanticRole": "Produce or preserve evidence values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "14c743e53e9ba5c1dfd33fd776ab4ebb142a0a6247b4f4a915530699de812623",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildObservationSnapshot",
+      "file": "backend/server.js",
+      "function": "buildObservationSnapshot",
+      "line": 15727,
+      "async": false,
+      "stage": "snapshot",
+      "semanticRole": "Produce or preserve snapshot values/shapes/state",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ac580cf88ab280d7d45fd74c45803102895dd762584ac03761b017830d5105ca",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::cloneSnapshotValue",
+      "file": "backend/server.js",
+      "function": "cloneSnapshotValue",
+      "line": 15679,
+      "async": false,
+      "stage": "snapshot",
+      "semanticRole": "Produce or preserve snapshot values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9caab626537a10f97dcc737f0b1fca7db8d563e2f7ab39fa588c9515a5416ccb",
+      "callers": [
+        "backend/server.js::buildObservationSnapshot",
+        "backend/server.js::retrieveOceanMemoryRows",
+        "backend/server.js::buildHistoricalSnapshotQuery",
+        "backend/server.js::buildOceanMemoryTimeSeries",
+        "backend/server.js::buildIntelligenceSnapshot",
+        "backend/server.js::buildSnapshotMetadata",
+        "backend/server.js::buildOceanSnapshot",
+        "backend/server.js::buildOceanChangeAnalysis",
+        "backend/server.js::buildOceanChangeFromTimeSeries",
+        "backend/server.js::buildOceanEvolution",
+        "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+        "backend/server.js::buildTemporalOceanExplainability"
+      ]
+    },
+    {
+      "id": "backend/server.js::deepFreezeSnapshotValue",
+      "file": "backend/server.js",
+      "function": "deepFreezeSnapshotValue",
+      "line": 15694,
+      "async": false,
+      "stage": "snapshot",
+      "semanticRole": "Produce or preserve snapshot values/shapes/state",
+      "callees": [
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "dccfd3dd37596a29da18ab2ef2a3b52eeb2098e2a31b1a7cf204c753812fd0e9",
+      "callers": [
+        "backend/server.js::buildObservationSnapshot",
+        "backend/server.js::deepFreezeSnapshotValue",
+        "backend/server.js::retrieveOceanMemoryRows",
+        "backend/server.js::buildHistoricalSnapshotQuery",
+        "backend/server.js::buildOceanMemoryTimeSeries",
+        "backend/server.js::buildOceanPersistence",
+        "backend/server.js::buildIntelligenceSnapshot",
+        "backend/server.js::buildSnapshotMetadata",
+        "backend/server.js::buildOceanSnapshot",
+        "backend/server.js::buildBackendSupabaseConfiguration",
+        "backend/server.js::buildFeaturePersistenceContract",
+        "backend/server.js::buildOceanChangeAnalysis",
+        "backend/server.js::buildOceanChangeFromTimeSeries",
+        "backend/server.js::buildOceanEvolution",
+        "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+        "backend/server.js::buildPersistenceEvidence",
+        "backend/server.js::buildTemporalFeatureContinuity",
+        "backend/server.js::buildTemporalOceanExplainability"
+      ]
+    },
+    {
+      "id": "backend/server.js::retrieveOceanMemoryRows",
+      "file": "backend/server.js",
+      "function": "retrieveOceanMemoryRows",
+      "line": 365,
+      "async": true,
+      "stage": "later-return-history",
+      "semanticRole": "Later return context; authenticated branch source-traced only",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "4bfec3ef45bd5e6eec23a63c3e9a4aa6757d944c1ab5a755b8cc76db5d5131fd",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildHistoricalSnapshotQuery",
+      "file": "backend/server.js",
+      "function": "buildHistoricalSnapshotQuery",
+      "line": 18952,
+      "async": false,
+      "stage": "later-return-history",
+      "semanticRole": "Later return context; authenticated branch source-traced only",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue",
+        "kilometersBetween"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "39539c3d7bcdbbb3c0018f7da1ca59f7b633f1e436bb9d0dd904cfc1db303ecf",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment",
+        "backend/server.js::buildOceanMemoryTimeSeries"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanMemoryTimeSeries",
+      "file": "backend/server.js",
+      "function": "buildOceanMemoryTimeSeries",
+      "line": 20780,
+      "async": false,
+      "stage": "later-return-history",
+      "semanticRole": "Later return context; authenticated branch source-traced only",
+      "callees": [
+        "buildHistoricalSnapshotQuery",
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9a64acf5c9314c34d97f4d3f1dd8461295f694c148dbafc302456956ea017469",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanPersistence",
+      "file": "backend/server.js",
+      "function": "buildOceanPersistence",
+      "line": 34552,
+      "async": false,
+      "stage": "later-return-history",
+      "semanticRole": "Later return context; authenticated branch source-traced only",
+      "callees": [
+        "buildClarityPersistence",
+        "buildCurrentConvergencePersistence",
+        "buildCurrentEdgePersistence",
+        "buildCurrentPersistence",
+        "buildCurrentShearPersistence",
+        "buildEnvironmentalTransitionPersistence",
+        "buildFeaturePersistenceContract",
+        "buildMixingZonePersistence",
+        "buildOceanFrontPersistence",
+        "buildPersistenceEvidence",
+        "buildProductivityPersistence",
+        "buildSeaSurfaceTemperaturePersistence",
+        "buildSurfaceWaterCharacterPersistence",
+        "buildTemporalFeatureContinuity",
+        "buildWaterMassPersistence",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "02408b9525dbe739b5fa0bf02e0707990ea742db8794c7332a7c0664d57c17ad",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildIntelligenceSnapshot",
+      "file": "backend/server.js",
+      "function": "buildIntelligenceSnapshot",
+      "line": 16087,
+      "async": false,
+      "stage": "later-return-history",
+      "semanticRole": "Later return context; authenticated branch source-traced only",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "2c0424d61460adc4dfc77566b6e1335066e079a0645cabd51982fbf4d04ecf98",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildSnapshotMetadata",
+      "file": "backend/server.js",
+      "function": "buildSnapshotMetadata",
+      "line": 17259,
+      "async": false,
+      "stage": "later-return-history",
+      "semanticRole": "Later return context; authenticated branch source-traced only",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue",
+        "deterministicSnapshotHash",
+        "normalizeSnapshotIdentityPart"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "85f464dff0150298121e461bb9d76c5a0fffbde58c2966dea0c6e05cd18ec019",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanSnapshot",
+      "file": "backend/server.js",
+      "function": "buildOceanSnapshot",
+      "line": 17794,
+      "async": false,
+      "stage": "later-return-history",
+      "semanticRole": "Later return context; authenticated branch source-traced only",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "b7a55151eb91139b55937dc12b080fadf6da9d1712c00b8469212868b03482bf",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::angularDifferenceDegrees",
+      "file": "backend/server.js",
+      "function": "angularDifferenceDegrees",
+      "line": 16383,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "a7c00a508c80b40097c573fb4b42f8fec53e6d5019b15c94c9282ebf11f103ba",
+      "callers": [
+        "backend/server.js::buildOceanChangeAnalysis"
+      ]
+    },
+    {
+      "id": "backend/server.js::assessBlueMarlinHabitat",
+      "file": "backend/server.js",
+      "function": "assessBlueMarlinHabitat",
+      "line": 45430,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "assessRelationships",
+        "buildBlueMarlinHabitatLineage",
+        "buildPersistenceEvidence",
+        "buildRelationshipContext",
+        "interpretBlueMarlinPathway",
+        "resolveBlueMarlinOpportunityType"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "b066ccf3ce122ca17fa7cfe03ea83b68590e45704ca9eedb7fd4f438062bea4f",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::assessOceanOpportunity",
+      "file": "backend/server.js",
+      "function": "assessOceanOpportunity",
+      "line": 36567,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildOceanOpportunityLineage",
+        "classifyOceanOpportunity"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "c7dbfc5996976edb463af5443a3f480dec2b8d4838015b7ddc75959e39049802",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::assessRelationships",
+      "file": "backend/server.js",
+      "function": "assessRelationships",
+      "line": 39597,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildRelationshipAssessmentLineage",
+        "buildRelationshipContext"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "6803ba0100af6dd372da369fcd142b97f41eb1d9f0ff2d381df89db80f38c271",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment",
+        "backend/server.js::assessBlueMarlinHabitat"
+      ]
+    },
+    {
+      "id": "backend/server.js::assessmentFromOptionsV1",
+      "file": "backend/server.js",
+      "function": "assessmentFromOptionsV1",
+      "line": 62287,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "resolveScientificAssessmentV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "2438f0f937849e0d78a978e674fdc33ebf6f96c9af3e4f2862589ab79cefbba1",
+      "callers": [
+        "backend/server.js::getOceanConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildAssessmentConfidence",
+      "file": "backend/server.js",
+      "function": "buildAssessmentConfidence",
+      "line": 7609,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "a655f7ffb7822f56948ae815c65b5392ff52605fa6e787f9d2c774c061635552",
+      "callers": [
+        "backend/server.js::assessOceanConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildBackendSupabaseConfiguration",
+      "file": "backend/server.js",
+      "function": "buildBackendSupabaseConfiguration",
+      "line": 60,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "5e01f4afb98882699b98005d437b7837b2ffe731181d480b91dcdb9b6d5b6ed8",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildBlueMarlinHabitatLineage",
+      "file": "backend/server.js",
+      "function": "buildBlueMarlinHabitatLineage",
+      "line": 45303,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9d02ac47fb27755a861a7f02213c7622f8bd2ad2b5b011c74d99dd049653cdae",
+      "callers": [
+        "backend/server.js::assessBlueMarlinHabitat"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildBlueMarlinPathwayLineage",
+      "file": "backend/server.js",
+      "function": "buildBlueMarlinPathwayLineage",
+      "line": 40109,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "92592b4d3a4832e5c2677153567ce93c4e54097a3f2a9971e688af393261b267",
+      "callers": [
+        "backend/server.js::interpretBlueMarlinPathway"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildClarityEvidence",
+      "file": "backend/server.js",
+      "function": "buildClarityEvidence",
+      "line": 21655,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "classifyChlorophyll"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ecb75c7faa902c82a7350a99a62a61d3c970af7d5eaf740cd2ffd6be23ac8771",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildClarityPersistence",
+      "file": "backend/server.js",
+      "function": "buildClarityPersistence",
+      "line": 33870,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "e8a146f51b5cbe1acc696e926a82d2a64967c6fe7846b5edb7805da879ddd79f",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentConvergencePersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentConvergencePersistence",
+      "line": 28707,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "312f6236aca5a9f3e2816e2e00799e0e9cdac16395ed04ea891c3331d1878526",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentEdgePersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentEdgePersistence",
+      "line": 27518,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "cda93771364ca5039c192702d4f8bb1c049c50540c4060740da83183ee254a83",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentPersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentPersistence",
+      "line": 26927,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "29a8eca6c55abcd8a12e78ee75faad148d6533b3060ff5f002a48afbcb7d9374",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentShearPersistence",
+      "file": "backend/server.js",
+      "function": "buildCurrentShearPersistence",
+      "line": 28091,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "6210e0606f66a8896d545ec72d38d96a325f4edfe552f35fec35871ba57b5e8a",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildCurrentSpatialAnalysis",
+      "file": "backend/server.js",
+      "function": "buildCurrentSpatialAnalysis",
+      "line": 11181,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "51f9edc192cdbc50ec2911d1b389d2ed90022a4a3229672dab1cbf1a8e111c7d",
+      "callers": [
+        "backend/server.js::buildCurrentEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildEnvironmentalOpportunityEvidence",
+      "file": "backend/server.js",
+      "function": "buildEnvironmentalOpportunityEvidence",
+      "line": 22781,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "16b8a0326761892feb318e6648375cc033cd5e3cde4f133207c6a20e3e491ca1",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildEnvironmentalTransitionAnalysis",
+      "file": "backend/server.js",
+      "function": "buildEnvironmentalTransitionAnalysis",
+      "line": 13275,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "07460a0dd1d6fe71b4db0e3dfb67ccc79ac8739c58722b939b80596c12a68751",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildEnvironmentalTransitionPersistence",
+      "file": "backend/server.js",
+      "function": "buildEnvironmentalTransitionPersistence",
+      "line": 29368,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "07ef104970fc81040e85c8f948517cbb36d5c70f380de76df771fa7163b553cf",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildFeaturePersistenceContract",
+      "file": "backend/server.js",
+      "function": "buildFeaturePersistenceContract",
+      "line": 23787,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "2c59dd88be12903ddff6db95f809063b45034ae583e9edc7ccd848d92472a209",
+      "callers": [
+        "backend/server.js::buildOceanPersistence",
+        "backend/server.js::buildClarityPersistence",
+        "backend/server.js::buildCurrentConvergencePersistence",
+        "backend/server.js::buildCurrentEdgePersistence",
+        "backend/server.js::buildCurrentPersistence",
+        "backend/server.js::buildCurrentShearPersistence",
+        "backend/server.js::buildEnvironmentalTransitionPersistence",
+        "backend/server.js::buildMixingZonePersistence",
+        "backend/server.js::buildOceanFrontPersistence",
+        "backend/server.js::buildProductivityPersistence",
+        "backend/server.js::buildSeaSurfaceTemperaturePersistence",
+        "backend/server.js::buildSurfaceWaterCharacterPersistence",
+        "backend/server.js::buildWaterMassPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildLineageUpstreamReference",
+      "file": "backend/server.js",
+      "function": "buildLineageUpstreamReference",
+      "line": 42510,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "validateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "8e446ccfa7f37ca76b4484f1be48c1ef7fd04a9197511d117c24263ee6006f45",
+      "callers": [
+        "backend/server.js::propagateEvidenceLineage"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildMixingZoneAnalysis",
+      "file": "backend/server.js",
+      "function": "buildMixingZoneAnalysis",
+      "line": 12807,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "7260707aecaf1dbd7ba5f05934752a569acfc5b1445a23bf42ad3869587c0389",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildMixingZonePersistence",
+      "file": "backend/server.js",
+      "function": "buildMixingZonePersistence",
+      "line": 31540,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "6780274d0fd47f57053cb2a5ca7fd839543b65bd31050687e0442d09f4e1a164",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanChangeAnalysis",
+      "file": "backend/server.js",
+      "function": "buildOceanChangeAnalysis",
+      "line": 16443,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "angularDifferenceDegrees",
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue",
+        "snapshotTimestampMilliseconds"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "e49d5c98f337d6d198025b75226bf9cdcfc4fff77f79ccd25e086dac0395575f",
+      "callers": [
+        "backend/server.js::buildOceanChangeFromTimeSeries"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanChangeFromTimeSeries",
+      "file": "backend/server.js",
+      "function": "buildOceanChangeFromTimeSeries",
+      "line": 21062,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildOceanChangeAnalysis",
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "83a9cf13afbb82b620766a71a961bc3c689161b2d0b87207505f8926b58b8390",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanEvidenceConfidence",
+      "file": "backend/server.js",
+      "function": "buildOceanEvidenceConfidence",
+      "line": 9977,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "c624a8b892c2548e51c1d6dcdc3d8161cd9b5cf6c57f1df86892540d5eef655f",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanEvidenceLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanEvidenceLineage",
+      "line": 9786,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ddae0d9f2de0b33296b9f82ebc42a96b98a8305f21da741421f694fbf85286d4",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanEvidenceSummary",
+      "file": "backend/server.js",
+      "function": "buildOceanEvidenceSummary",
+      "line": 10391,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "07fa0823e592ae602b6bb452f7a267e3bd840a25d44d3e3184722801664a6a66",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanEvolution",
+      "file": "backend/server.js",
+      "function": "buildOceanEvolution",
+      "line": 35165,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9c21fc31461d777211fcfcd96846dc2552178975dad072fa86f83dfe2e6a5d16",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanFrontAnalysis",
+      "file": "backend/server.js",
+      "function": "buildOceanFrontAnalysis",
+      "line": 13940,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "f52ae1012ff89e2bd05e32a657c8f20a0371f4bd7e8a08c06e816b3b6bae94f4",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanFrontPersistence",
+      "file": "backend/server.js",
+      "function": "buildOceanFrontPersistence",
+      "line": 32359,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "e8497189bcb9b9b980757f29937039718c94dada703c25f7141df5043fdc76b0",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+      "file": "backend/server.js",
+      "function": "buildOceanMemoryStorageRecordFromRow",
+      "line": 18315,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "690494040bd3ec2de75c179d1478d23519f7e928f58dea9dcf210a85f1bb27b3",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanOpportunityLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanOpportunityLineage",
+      "line": 36476,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "5a691e06d3881ec37b2e305c828469f0222085c9020acd2ec3bef708190058fb",
+      "callers": [
+        "backend/server.js::assessOceanOpportunity"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanOrganizationAnalysis",
+      "file": "backend/server.js",
+      "function": "buildOceanOrganizationAnalysis",
+      "line": 14992,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "87c706ecf4a9ded749627ffdb2705465d3c2a2121eb8b4f20a797333c51dc872",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanPhysicsExplainabilityLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanPhysicsExplainabilityLineage",
+      "line": 14796,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "82187918981cca2dea42fc76c608f36f33e83825e60ad866dd0ce0caabc25a5a",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanPhysicsExplainabilitySummary",
+      "file": "backend/server.js",
+      "function": "buildOceanPhysicsExplainabilitySummary",
+      "line": 14446,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "aed1c29d142ef26d64fc2a09ea9197f67829e7abbbd7d704dd1e13cf339fd017",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOceanSignalSelectionLineage",
+      "file": "backend/server.js",
+      "function": "buildOceanSignalSelectionLineage",
+      "line": 37612,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "0e33e20837f055db5b7c68a1e99b4f378af4b03e6e4aff27303af6a633190109",
+      "callers": [
+        "backend/server.js::resolveOceanSignals"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOpenWaterEvidence",
+      "file": "backend/server.js",
+      "function": "buildOpenWaterEvidence",
+      "line": 22518,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "3d3b35eb5503f3f72d15c7de54653e1748aef1b1ce773debbb35df83a200e623",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildOpportunityTypeResolutionLineage",
+      "file": "backend/server.js",
+      "function": "buildOpportunityTypeResolutionLineage",
+      "line": 44273,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d05e4fde4ae07752fc1952fcd1f45cd8647778327c318792dc1970b957c5ed26",
+      "callers": [
+        "backend/server.js::resolveSpeciesOpportunityType"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildPersistenceEvidence",
+      "file": "backend/server.js",
+      "function": "buildPersistenceEvidence",
+      "line": 22930,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ce97f5ac227046a72d4b860c14320a3623904c0e11cba049908a96b828358448",
+      "callers": [
+        "backend/server.js::assessOceanEvidence",
+        "backend/server.js::buildOceanPersistence",
+        "backend/server.js::assessBlueMarlinHabitat"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildProductivityPersistence",
+      "file": "backend/server.js",
+      "function": "buildProductivityPersistence",
+      "line": 33194,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "945ac9782598621bcdb23a1e04d72c2cad6bc649214a01b43920718ef696562b",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildRelationshipAssessmentLineage",
+      "file": "backend/server.js",
+      "function": "buildRelationshipAssessmentLineage",
+      "line": 39473,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d449391ebcd62f04f7056f6799b75afade87ae19d12d237b020062cbb285cc53",
+      "callers": [
+        "backend/server.js::assessRelationships"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildRelationshipContext",
+      "file": "backend/server.js",
+      "function": "buildRelationshipContext",
+      "line": 39118,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildRelationshipContextLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9c906e66828dc2b17e90def498db6508cadac499aaef961d43d2afafc6b46c77",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment",
+        "backend/server.js::assessBlueMarlinHabitat",
+        "backend/server.js::assessRelationships"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildRelationshipContextLineage",
+      "file": "backend/server.js",
+      "function": "buildRelationshipContextLineage",
+      "line": 39016,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "propagateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "a4a54f981654ac9a36ed1e99b3551598fc74480d4c48bb5941a6bb14db362843",
+      "callers": [
+        "backend/server.js::buildRelationshipContext"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildSeaSurfaceTemperaturePersistence",
+      "file": "backend/server.js",
+      "function": "buildSeaSurfaceTemperaturePersistence",
+      "line": 26462,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "2d93daaf8d32b0fa6dae54ac5fb4b840ac2d9329124df7746747bc37f8552015",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildStructureConfidence",
+      "file": "backend/server.js",
+      "function": "buildStructureConfidence",
+      "line": 22178,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "b1d0b7c98e146d1ef6a968e11bf60e84b87b6c2e0e5387b07d43de5c1116d3f4",
+      "callers": [
+        "backend/server.js::buildStructureEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildStructureEvidence",
+      "file": "backend/server.js",
+      "function": "buildStructureEvidence",
+      "line": 22206,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildStructureConfidence",
+        "buildStructureMetadata",
+        "evaluateCurrentInteraction",
+        "evaluateProductivityInteraction",
+        "evaluateThermalInteraction",
+        "findNearestStructure",
+        "safeNumber"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d5ef42db9783f6a35b75021c5ec64e64bc82b664f6f7944ef8c1a497eae723aa",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildStructureMetadata",
+      "file": "backend/server.js",
+      "function": "buildStructureMetadata",
+      "line": 22059,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "safeNumber"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "8523aaedc44f4aa0948ed2f2c445cbae0d27ccfbf10a0121639aafa5c09ed7ac",
+      "callers": [
+        "backend/server.js::buildStructureEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildSurfaceWaterCharacterPersistence",
+      "file": "backend/server.js",
+      "function": "buildSurfaceWaterCharacterPersistence",
+      "line": 30075,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "69078273d4bdd684e62a80c70d9aa6525376534954e584451d3927fa9a9c3ce7",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildTemporalFeatureContinuity",
+      "file": "backend/server.js",
+      "function": "buildTemporalFeatureContinuity",
+      "line": 26071,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "8544be7caa70d58739a4a828716d3a90871fcbb1bb1e02fa3710c33460242132",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildTemporalOceanExplainability",
+      "file": "backend/server.js",
+      "function": "buildTemporalOceanExplainability",
+      "line": 35659,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "cloneSnapshotValue",
+        "deepFreezeSnapshotValue"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "985d9fdd45e8d8a8fb0f4d4d222f7f9b60678b5f81e32bfe140e7f0d9ee25166",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildWaterMassAnalysis",
+      "file": "backend/server.js",
+      "function": "buildWaterMassAnalysis",
+      "line": 12315,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "34ab91baf26c18322a31dc270c99acb98de18ac0827690dbaf7e47b2ef8bf772",
+      "callers": [
+        "backend/server.js::assessOceanEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::buildWaterMassPersistence",
+      "file": "backend/server.js",
+      "function": "buildWaterMassPersistence",
+      "line": 30809,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildFeaturePersistenceContract"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ad9299d904f5944c343f9ef7dbb6b52715fa35b686f47e982b96f852b4e35d1f",
+      "callers": [
+        "backend/server.js::buildOceanPersistence"
+      ]
+    },
+    {
+      "id": "backend/server.js::celsiusToFahrenheit",
+      "file": "backend/server.js",
+      "function": "celsiusToFahrenheit",
+      "line": 848,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ef9dd1badb291930e63312146581953a044e9ea86889d080e9f77d7e2a8cedce",
+      "callers": [
+        "backend/server.js::getMarineConditions",
+        "backend/server.js::getSeaSurfaceTemperaturePoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::classifyCurrentSpatialVariation",
+      "file": "backend/server.js",
+      "function": "classifyCurrentSpatialVariation",
+      "line": 1549,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "0e0f4c0c26ac79559b7ba3c334cdc76266162b7a3d6453dfcab5807ab71720d1",
+      "callers": [
+        "backend/server.js::getCurrentSpatialStructureAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::classifyCurrentStrength",
+      "file": "backend/server.js",
+      "function": "classifyCurrentStrength",
+      "line": 1606,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "3e731c8b27a2e7c4a7a6b0bff92c45617103ebb75b2efc1f7b754f75b3ea84d4",
+      "callers": [
+        "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "backend/server.js::buildCurrentEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::classifyMoonPhase",
+      "file": "backend/server.js",
+      "function": "classifyMoonPhase",
+      "line": 1684,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "71c71cb4e3f6dca61a9aa0aead333aeddfedeef13660381e3489c0d2631926c1",
+      "callers": [
+        "backend/server.js::getMoonConditions"
+      ]
+    },
+    {
+      "id": "backend/server.js::classifyOceanOpportunity",
+      "file": "backend/server.js",
+      "function": "classifyOceanOpportunity",
+      "line": 36174,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "3d6e222e9283c7c209f086ee7b0b4d33ed9a601e9ce2ea1385c7070fb68e7e30",
+      "callers": [
+        "backend/server.js::assessOceanOpportunity"
+      ]
+    },
+    {
+      "id": "backend/server.js::createCurrentPointCacheKey",
+      "file": "backend/server.js",
+      "function": "createCurrentPointCacheKey",
+      "line": 1239,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "2164f4cd8a54d9900026ff4a9b0d68d6ca5d7915025f185dd43ab125d2b6e39a",
+      "callers": [
+        "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "backend/server.js::getCachedCurrentPoint",
+        "backend/server.js::setCachedCurrentPoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::createSstPointCacheKey",
+      "file": "backend/server.js",
+      "function": "createSstPointCacheKey",
+      "line": 6004,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "f2db338c9a6d551db8c18f2ad74bf002fd785459f977b949c7bcfeb7f9aab4ff",
+      "callers": [
+        "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+        "backend/server.js::getCachedSstPoint",
+        "backend/server.js::setCachedSstPoint"
+      ]
+    },
+    {
+      "id": "backend/server.js::currentCompassDirection",
+      "file": "backend/server.js",
+      "function": "currentCompassDirection",
+      "line": 1636,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9122ba0aa5db7df1d42db853f1a2158278d79016aa35b1cc7fe0a012e61d77ec",
+      "callers": [
+        "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "backend/server.js::buildCurrentEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::currentDirectionDegrees",
+      "file": "backend/server.js",
+      "function": "currentDirectionDegrees",
+      "line": 1493,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "1477c260b70f57ff7b92e1a157238efa0de8a760efa3cc56ec25f43e44657f8a",
+      "callers": [
+        "backend/server.js::getCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::deterministicSnapshotHash",
+      "file": "backend/server.js",
+      "function": "deterministicSnapshotHash",
+      "line": 17222,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "cdd2fa3a4fb4432a1158593481599c22772f159422f43a5755c4b550fb138bf2",
+      "callers": [
+        "backend/server.js::buildSnapshotMetadata"
+      ]
+    },
+    {
+      "id": "backend/server.js::evaluateCurrentInteraction",
+      "file": "backend/server.js",
+      "function": "evaluateCurrentInteraction",
+      "line": 22137,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "f2cc9ffd67f5179c14cf82cc5e963fe43196743b518885ba540400618b6d30ab",
+      "callers": [
+        "backend/server.js::buildStructureEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::evaluateProductivityInteraction",
+      "file": "backend/server.js",
+      "function": "evaluateProductivityInteraction",
+      "line": 22171,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "d882031807bbe508b3a4395b0baf7b4f57c3acc93191afc2567bc3548c55b8d6",
+      "callers": [
+        "backend/server.js::buildStructureEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::evaluateThermalInteraction",
+      "file": "backend/server.js",
+      "function": "evaluateThermalInteraction",
+      "line": 22164,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "7376050d68e0670215d847d4ed96ce5def0d7a0f0af4f91c7f9661b5bea4389b",
+      "callers": [
+        "backend/server.js::buildStructureEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::findNearestStructure",
+      "file": "backend/server.js",
+      "function": "findNearestStructure",
+      "line": 21916,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "nauticalMilesBetween"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "53b07d96d4729a94795ed0d76e92cc116c6843bbb9b6af1af734df0129348a6a",
+      "callers": [
+        "backend/server.js::buildStructureEvidence"
+      ]
+    },
+    {
+      "id": "backend/server.js::getAgeHours",
+      "file": "backend/server.js",
+      "function": "getAgeHours",
+      "line": 1846,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "requireScientificAssessmentV1",
+        "scientificAgeHoursV1"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "cb215e3b4522b249777ff40371ccadd3d7ed6d15791692da03c19d50f8cbdc27",
+      "callers": [
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::getCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCircularDirectionDifference",
+      "file": "backend/server.js",
+      "function": "getCircularDirectionDifference",
+      "line": 1520,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "0bf8cf7f44558feee6c6604c2ade14a4f2bea4704ec6d0eabc6d3e145ef13612",
+      "callers": [
+        "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "backend/server.js::buildCurrentGradientAnalysis"
+      ]
+    },
+    {
+      "id": "backend/server.js::getCurrentProjectionAxes",
+      "file": "backend/server.js",
+      "function": "getCurrentProjectionAxes",
+      "line": 3424,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "ac9992a8367c4ebe8dc5c60772aa62fb770b5e76dbf35678c9040911c57136c4",
+      "callers": [
+        "backend/server.js::buildCurrentVectorProjectionAnalysis"
+      ]
+    },
+    {
+      "id": "backend/server.js::getOpposingCurrentSampleDirection",
+      "file": "backend/server.js",
+      "function": "getOpposingCurrentSampleDirection",
+      "line": 3924,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "4c58cd5389e7177af958fa9f6f9a1edca0464d2df9467118b7b14a6bd99e2b7a",
+      "callers": [
+        "backend/server.js::buildCurrentConvergenceAnalysis"
+      ]
+    },
+    {
+      "id": "backend/server.js::interpretBlueMarlinPathway",
+      "file": "backend/server.js",
+      "function": "interpretBlueMarlinPathway",
+      "line": 40213,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildBlueMarlinPathwayLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "fe0c892000d46c8dc975361983e7097abdf431c933d6ef529907d62c7c5e8bca",
+      "callers": [
+        "backend/server.js::assessBlueMarlinHabitat"
+      ]
+    },
+    {
+      "id": "backend/server.js::kilometersBetween",
+      "file": "backend/server.js",
+      "function": "kilometersBetween",
+      "line": 987,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "nauticalMilesBetween"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "140d9e880ba8a6df2d14d7f42aee5b40c6f3f47f3aaace488c10e524c5fe8f84",
+      "callers": [
+        "backend/server.js::buildHistoricalSnapshotQuery"
+      ]
+    },
+    {
+      "id": "backend/server.js::nauticalMilesBetween",
+      "file": "backend/server.js",
+      "function": "nauticalMilesBetween",
+      "line": 876,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "9118ce9f67e38a043d8026f8e75f8a33bae8be75354581189fb1c6e1fbbada70",
+      "callers": [
+        "backend/server.js::buildCurrentGradientAnalysis",
+        "backend/server.js::findNearestStructure",
+        "backend/server.js::kilometersBetween"
+      ]
+    },
+    {
+      "id": "backend/server.js::normalizeSnapshotIdentityPart",
+      "file": "backend/server.js",
+      "function": "normalizeSnapshotIdentityPart",
+      "line": 17204,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "fa0445d7a3c8296d0319ade0dae3c101880fb816d4eb30174b18ef13f9328aba",
+      "callers": [
+        "backend/server.js::buildSnapshotMetadata"
+      ]
+    },
+    {
+      "id": "backend/server.js::propagateEvidenceLineage",
+      "file": "backend/server.js",
+      "function": "propagateEvidenceLineage",
+      "line": 42553,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildLineageUpstreamReference",
+        "validateEvidenceLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "e85133b85d530594a9ff26c41bafedd1f744d8acccf7ae969c8c7a61502ee34f",
+      "callers": [
+        "backend/server.js::buildBlueMarlinHabitatLineage",
+        "backend/server.js::buildBlueMarlinPathwayLineage",
+        "backend/server.js::buildOceanOpportunityLineage",
+        "backend/server.js::buildOceanPhysicsExplainabilityLineage",
+        "backend/server.js::buildOceanSignalSelectionLineage",
+        "backend/server.js::buildOpportunityTypeResolutionLineage",
+        "backend/server.js::buildRelationshipAssessmentLineage",
+        "backend/server.js::buildRelationshipContextLineage"
+      ]
+    },
+    {
+      "id": "backend/server.js::resolveBlueMarlinOpportunityType",
+      "file": "backend/server.js",
+      "function": "resolveBlueMarlinOpportunityType",
+      "line": 45249,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "resolveSpeciesOpportunityType"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "64bc44102feffeea18d72cd033bbbdee71142c4c099941fba7d2f31241985075",
+      "callers": [
+        "backend/server.js::assessBlueMarlinHabitat"
+      ]
+    },
+    {
+      "id": "backend/server.js::resolveOceanSignals",
+      "file": "backend/server.js",
+      "function": "resolveOceanSignals",
+      "line": 37680,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildOceanSignalSelectionLineage"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "63584804ee4ccb873cf78902fa47374ff93433a50ddbc3c45481a7af21e7d595",
+      "callers": [
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::resolveProviderCoordinates",
+      "file": "backend/server.js",
+      "function": "resolveProviderCoordinates",
+      "line": 2036,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "66e9eb2725906e022b1c1c561ad5f63b00495718d8632a1c40792906963b89a7",
+      "callers": [
+        "backend/server.js::getMarineConditions",
+        "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::getCurrentConditionsPointAtAssessment"
+      ]
+    },
+    {
+      "id": "backend/server.js::resolveRelationshipImportance",
+      "file": "backend/server.js",
+      "function": "resolveRelationshipImportance",
+      "line": 43237,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "18c4849b30e7da22035aaf29b73b2b492fbd25ef7d8cf7acd0f23bd04dc6ec2f",
+      "callers": [
+        "backend/server.js::resolveSpeciesOpportunityType"
+      ]
+    },
+    {
+      "id": "backend/server.js::resolveSpeciesOpportunityType",
+      "file": "backend/server.js",
+      "function": "resolveSpeciesOpportunityType",
+      "line": 44374,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "buildOpportunityTypeResolutionLineage",
+        "resolveRelationshipImportance",
+        "validateSpeciesKnowledgeProfile"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "f1295d589fa9eed529ac78a395216c66ae01185cd8273b85b619314516f4fc5e",
+      "callers": [
+        "backend/server.js::resolveBlueMarlinOpportunityType"
+      ]
+    },
+    {
+      "id": "backend/server.js::safeNumber",
+      "file": "backend/server.js",
+      "function": "safeNumber",
+      "line": 859,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "116ff830ffb569c7ecf616c7b377d839fb55d0d8a962c8cafcd3faf6893e9163",
+      "callers": [
+        "backend/server.js::getMarineConditions",
+        "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "backend/server.js::buildStructureEvidence",
+        "backend/server.js::buildStructureMetadata"
+      ]
+    },
+    {
+      "id": "backend/server.js::snapshotTimestampMilliseconds",
+      "file": "backend/server.js",
+      "function": "snapshotTimestampMilliseconds",
+      "line": 16413,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "c8c4fc3ea404a1570b08ba9ebfc45e4737685a3b867141a3a2d2e7448f26f4e1",
+      "callers": [
+        "backend/server.js::buildOceanChangeAnalysis"
+      ]
+    },
+    {
+      "id": "backend/server.js::validateEvidenceLineage",
+      "file": "backend/server.js",
+      "function": "validateEvidenceLineage",
+      "line": 42920,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "validateLineageUpstreamReference"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "28ec5f620fa2f96ddd714ced7452685c20c4cd52daf32f5a116b1dab02a898b0",
+      "callers": [
+        "backend/server.js::buildLineageUpstreamReference",
+        "backend/server.js::propagateEvidenceLineage"
+      ]
+    },
+    {
+      "id": "backend/server.js::validateKnowledgeProvenance",
+      "file": "backend/server.js",
+      "function": "validateKnowledgeProvenance",
+      "line": 40671,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "126892bbfabd8870e81250c839d9a104fb103782a1d9f5efc334a9472abffccc",
+      "callers": [
+        "backend/server.js::validateSpeciesKnowledgeProfile"
+      ]
+    },
+    {
+      "id": "backend/server.js::validateLineageUpstreamReference",
+      "file": "backend/server.js",
+      "function": "validateLineageUpstreamReference",
+      "line": 42302,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "b4c55f84aee5555f6e51e9475db7b28e2fd4b1b06f24a49833f67499155b8140",
+      "callers": [
+        "backend/server.js::validateEvidenceLineage"
+      ]
+    },
+    {
+      "id": "backend/server.js::validateSpeciesKnowledgeProfile",
+      "file": "backend/server.js",
+      "function": "validateSpeciesKnowledgeProfile",
+      "line": 43269,
+      "async": false,
+      "stage": "transitive-semantic-helper",
+      "semanticRole": "Produce or preserve transitive-semantic-helper values/shapes/state",
+      "callees": [
+        "validateKnowledgeProvenance"
+      ],
+      "unexpandedLocalCallees": [],
+      "sourceHash": "35d9494f3f5572f7281d3d54c850fbb5694641caf91900595e3fd850a472d740",
+      "callers": [
+        "backend/server.js::resolveSpeciesOpportunityType"
+      ]
+    }
+  ],
+  "dynamicResolution": [
+    {
+      "site": "oceanConditionsProvider",
+      "defaultTarget": "module-private getOceanConditions",
+      "rule": "Omitted/undefined unified option; production species caller explicitly binds same function; standalone server constructs with no options"
+    },
+    {
+      "site": "settleWithTiming callback",
+      "targets": [
+        "getMarineConditions",
+        "getChlorophyllConditions",
+        "getGapFilledChlorophyllConditions",
+        "getCurrentConditions",
+        "getSstSpatialStructure",
+        "getCurrentSpatialStructure"
+      ],
+      "rule": "Lexically constructed closures in getOceanConditionsAtAssessment"
+    },
+    {
+      "site": "Promise.allSettled sample callbacks",
+      "targets": [
+        "getCachedSeaSurfaceTemperaturePoint",
+        "getCachedCurrentConditionsPoint"
+      ],
+      "rule": "Existing spatial sample arrays mapped by source-defined callbacks"
+    },
+    {
+      "site": "withScientificAssessmentV1 callback",
+      "targets": [
+        "getOceanConditionsAtAssessment",
+        "wrapped assessment-aware functions"
+      ],
+      "rule": "Lexical closures under AsyncLocalStorage.run; caller cannot swap through transport JSON"
+    },
+    {
+      "site": "global fetch",
+      "target": "environmental transport endpoint; synthetic response in tests",
+      "rule": "Code-provided fetch implementation, not selected by response data"
+    },
+    {
+      "site": "createHash/digest, Math, Date and structuredClone",
+      "target": "Node/ECMAScript builtins",
+      "rule": "Used for existing computation, reference identity and cloning; no new algorithm"
+    }
+  ],
+  "complete": false,
+  "unresolved": [
+    "Full member-call/callback and return-surface reachability still requires branch qualification; resolved lexical targets do not prove all branches covered.",
+    "Authenticated history source paths were not executed; no database/Auth access permitted."
+  ],
+  "providerDispatchUnresolvedInDefaultDomain": false,
+  "nestedTargetResolutions": [
+    {
+      "caller": "getOceanConditionsAtAssessment",
+      "target": "formatLayerList",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 61051
+    },
+    {
+      "caller": "settleWithTiming",
+      "target": "operation",
+      "binding": "CALLBACK_FROM_DEFAULT_CALLER_CLOSURES",
+      "file": "backend/server.js",
+      "line": 1049
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "normalizeDirection",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 7874
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "classifyWavePeriod",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 7966
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "classifySwellPeriod",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 8247
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "directionDifference",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 7895
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "classifyDirectionalDifference",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 7933
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "assessDirectionalInteraction",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 8441
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "assessWind",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 7998
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "assessWaves",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 8110
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "assessSwell",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 8279
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "assessSeaStateInteraction",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 8694
+    },
+    {
+      "caller": "assessOceanConditions",
+      "target": "formatFactorList",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 9103
+    },
+    {
+      "caller": "getChlorophyllConditionsAtAssessment",
+      "target": "valueAt",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 2099
+    },
+    {
+      "caller": "getGapFilledChlorophyllConditionsAtAssessment",
+      "target": "valueAt",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 2257
+    },
+    {
+      "caller": "resolveChlorophyllObservation",
+      "target": "observationQualityRank",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 1908
+    },
+    {
+      "caller": "getCurrentConditionsPointAtAssessment",
+      "target": "valueAt",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 2417
+    },
+    {
+      "caller": "buildGovernedEnvironmentalFeatureObservationV1",
+      "target": "isValidLatitude",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 24079
+    },
+    {
+      "caller": "buildGovernedEnvironmentalFeatureObservationV1",
+      "target": "isValidLongitude",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 24089
+    },
+    {
+      "caller": "buildGovernedEnvironmentalFeatureObservationV1",
+      "target": "freezeDeep",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 24385
+    },
+    {
+      "caller": "retrieveOceanMemoryRows",
+      "target": "fetchImplementation",
+      "binding": "DEFAULT_FETCH_NOT_OVERRIDDEN_BY_GET_OCEAN_CONDITIONS",
+      "file": "backend/server.js",
+      "line": 365
+    },
+    {
+      "caller": "buildOceanPersistence",
+      "target": "buildUnavailableFeature",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 34650
+    },
+    {
+      "caller": "assessBlueMarlinHabitat",
+      "target": "hasOpportunityType",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 45506
+    },
+    {
+      "caller": "assessOceanOpportunity",
+      "target": "buildObservationProvenanceContribution",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 36723
+    },
+    {
+      "caller": "assessOceanOpportunity",
+      "target": "confidenceLevel",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 36705
+    },
+    {
+      "caller": "assessOceanOpportunity",
+      "target": "addOpportunity",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 36829
+    },
+    {
+      "caller": "assessRelationships",
+      "target": "confidenceLevelForValue",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 39640
+    },
+    {
+      "caller": "buildCurrentPersistence",
+      "target": "normalizeDirectionDegrees",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 26937
+    },
+    {
+      "caller": "buildCurrentPersistence",
+      "target": "calculateDirectionDifference",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 26957
+    },
+    {
+      "caller": "buildOceanPhysicsExplainabilitySummary",
+      "target": "normalizeStage",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 14453
+    },
+    {
+      "caller": "nauticalMilesBetween",
+      "target": "radians",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 882
+    },
+    {
+      "caller": "propagateEvidenceLineage",
+      "target": "cleanUniqueStrings",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 42814
+    },
+    {
+      "caller": "resolveOceanSignals",
+      "target": "buildSignal",
+      "binding": "LEXICALLY_CONSTRUCTED_LOCAL_FUNCTION",
+      "file": "backend/server.js",
+      "line": 37748
+    }
+  ],
+  "unresolvedNamedDynamicTargets": [],
+  "importedScientificBindings": [
+    "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+    "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+    "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+    "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+    "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+    "backend/scientificAssessment.mjs::assertScientificInstantV1"
+  ]
+}

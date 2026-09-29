@@ -1,0 +1,433 @@
+{
+  "version": "pelora-default-provider-semantic-review-v1",
+  "task": "12B.6R",
+  "verdict": "DEFAULT_PROVIDER_SEMANTIC_MODEL_INCOMPLETE",
+  "qualified": false,
+  "sourceReport": "Default_Provider_Transitive_Review_v1.md",
+  "ledger": [
+    {
+      "reviewId": "SEMANTIC_REVIEW_01",
+      "description": "Accepted default transport-result and normalization branches, including fulfilled missing/partial responses and error/timeout handling.",
+      "originalId": "transport-result-domain",
+      "sourceFunctions": "fetchJson; getMarineConditions; NOAA table parsers",
+      "statedLimitation": "HTTP errors, abort, JSON rejection, fulfilled missing/partial records and temporal/numeric normalization have not all received accepted-input branch proofs.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::fetchJson",
+        "backend/server.js::getMarineConditions"
+      ],
+      "unresolvedQuestion": "HTTP errors, abort, JSON rejection, fulfilled missing/partial records and temporal/numeric normalization have not all received accepted-input branch proofs.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Transport availability, normalization and missingness"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_02",
+      "description": "SST coverage/orientation/confidence thresholds, compound predicates, time and signed-zero states through the default chain.",
+      "originalId": "sst-spatial-confidence",
+      "sourceFunctions": "getSstSpatialStructureAtAssessment; deriveSstTransitionOrientation; assessSstTransitionConfidence",
+      "statedLimitation": "Threshold/compound outcomes, missing time, partial coverage and signed-zero combinations need complete default-chain coverage, not inherited old fixture dispositions.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::assessSstTransitionConfidence",
+        "backend/server.js::deriveSstTransitionOrientation",
+        "backend/server.js::getSstSpatialStructure",
+        "backend/server.js::getSstSpatialStructureAtAssessment"
+      ],
+      "unresolvedQuestion": "Threshold/compound outcomes, missing time, partial coverage and signed-zero combinations need complete default-chain coverage, not inherited old fixture dispositions.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "SST spatial values, confidence, time and signed-zero state"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_03",
+      "description": "Direct/gap-filled chlorophyll selection, missingness and freshness branches.",
+      "originalId": "chlorophyll-selection",
+      "sourceFunctions": "getChlorophyllConditionsAtAssessment; getGapFilledChlorophyllConditionsAtAssessment; resolveChlorophyllObservation",
+      "statedLimitation": "Direct/gap-filled selection, freshness and invalid/missing alternatives remain unexhausted. Empty-table proof does not close this family.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::getChlorophyllConditions",
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditions",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::resolveChlorophyllObservation"
+      ],
+      "unresolvedQuestion": "Direct/gap-filled selection, freshness and invalid/missing alternatives remain unexhausted. Empty-table proof does not close this family.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Productivity values, availability, freshness and provenance"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_04",
+      "description": "Current vector/spatial/relationship and temporal branches.",
+      "originalId": "current-relations",
+      "sourceFunctions": "getCurrentConditionsPointAtAssessment; reassessCurrentAgeV1; getCurrentSpatialStructureAtAssessment; current relationship builders",
+      "statedLimitation": "Vector, partial spatial, future/missing time and derived relationship predicates need complete source/coverage mapping.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+        "backend/server.js::getCurrentConditions",
+        "backend/server.js::getCurrentConditionsPoint",
+        "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "backend/server.js::getCurrentSpatialStructure",
+        "backend/server.js::getCurrentSpatialStructureAtAssessment"
+      ],
+      "unresolvedQuestion": "Vector, partial spatial, future/missing time and derived relationship predicates need complete source/coverage mapping.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Current vectors, spatial relationships, availability and time"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_05",
+      "description": "Partial weather/marine inputs and quality aggregation effects.",
+      "originalId": "marine-quality",
+      "sourceFunctions": "getMarineConditions; assessOceanConditions; getOceanConditionsAtAssessment",
+      "statedLimitation": "Partial family inputs and the core/supporting quality aggregation callback effects are not exhaustively qualified.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::assessOceanConditions",
+        "backend/server.js::getMarineConditions",
+        "backend/server.js::getOceanConditions",
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ],
+      "unresolvedQuestion": "Partial family inputs and the core/supporting quality aggregation callback effects are not exhaustively qualified.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Weather/marine quality, availability and aggregated state"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_06",
+      "description": "Cache identity, in-flight and all missing/failure-state equivalence.",
+      "originalId": "cache-semantics",
+      "sourceFunctions": "SST/current point cache and in-flight maps",
+      "statedLimitation": "One complete miss/hit/expiry case is insufficient for shared in-flight, different assessments, rounded-coordinate cache identity and all missing/failure states.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [],
+      "unresolvedQuestion": "One complete miss/hit/expiry case is insufficient for shared in-flight, different assessments, rounded-coordinate cache identity and all missing/failure states.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Cache-dependent values, time or provenance versus operational metadata"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_07",
+      "description": "Feature sample filtering, prerequisites, combinations and downstream consumption.",
+      "originalId": "feature-prerequisites",
+      "sourceFunctions": "buildGovernedEnvironmentalFeatureObservationV1",
+      "statedLimitation": "The sample filter and prerequisite combinations require default-domain coverage and consumer trace; old requirement classifications are not adopted.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1"
+      ],
+      "unresolvedQuestion": "The sample filter and prerequisite combinations require default-domain coverage and consumer trace; old requirement classifications are not adopted.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Feature availability, sample selection and prerequisite state"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_08",
+      "description": "Exact semantic slice separating observation-snapshot production from subsequent history/species processing.",
+      "originalId": "output-boundary",
+      "sourceFunctions": "getOceanConditionsAtAssessment; snapshot/history/relationship builders",
+      "statedLimitation": "The discovered closure includes processing after observationSnapshot creation. A semantic slice must distinguish the requested current snapshot from later history/species outputs without silently excluding scientifically consumed dependencies.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::getOceanConditions",
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ],
+      "unresolvedQuestion": "The discovered closure includes processing after observationSnapshot creation. A semantic slice must distinguish the requested current snapshot from later history/species outputs without silently excluding scientifically consumed dependencies.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Current versus historical/species output consumption"
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_09",
+      "description": "Upstream static/candidate construction constraints, independent of the fixture's eligibility flag.",
+      "originalId": "static-caller-boundary",
+      "sourceFunctions": "production candidate construction and class dispatch",
+      "statedLimitation": "Coordinate validation is proven; candidate eligibility/static construction is not fully audited by the synthetic eligible candidate. No fixed fixture value is an unreachability invariant.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [],
+      "unresolvedQuestion": "Coordinate validation is proven; candidate eligibility/static construction is not fully audited by the synthetic eligible candidate. No fixed fixture value is an unreachability invariant.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Candidate eligibility and static input boundary"
+    }
+  ],
+  "dispositionCounts": {
+    "SEMANTIC_REACHABLE": 0,
+    "SEMANTIC_UNREACHABLE_ENFORCED": 0,
+    "OPERATIONAL_EQUIVALENT": 0,
+    "OUTSIDE_DEFAULT_DOMAIN": 0,
+    "BLOCKING_UNRESOLVED": 9
+  },
+  "stopRule": "Task 12B.6R sections 2 and 28: a genuinely new semantic area outside the original nine requires STOP, not silent addition.",
+  "newArea": {
+    "id": "UNMODELED_ASSESSMENT_DERIVED_ASTRONOMY",
+    "appendedToNineAreaLedger": false,
+    "functions": [
+      "getOceanConditionsAtAssessment",
+      "getMoonConditions",
+      "classifyMoonPhase",
+      "buildObservationSnapshot"
+    ],
+    "sourceDecision": "classifyMoonPhase thresholds on phaseFraction computed from the explicit assessmentAt, synodic month and reference epoch",
+    "chain": [
+      "accepted explicit scientific assessment",
+      "private default getOceanConditions",
+      "getOceanConditionsAtAssessment",
+      "getMoonConditions(assessment.assessmentAt)",
+      "classifyMoonPhase(phaseFraction)",
+      "returned moon object",
+      "buildObservationSnapshot observations.moon via structuredClone"
+    ],
+    "governedConsequences": [
+      "VALUE",
+      "TIME",
+      "SNAPSHOT_VALUE"
+    ],
+    "changedPaths": [
+      "/moon/phase",
+      "/moon/phaseFraction",
+      "/moon/lunarAgeDays",
+      "/moon/illuminationPercent",
+      "/moon/observedAt",
+      "/observationSnapshot/observations/moon/phase",
+      "/observationSnapshot/observations/moon/phaseFraction",
+      "/observationSnapshot/observations/moon/lunarAgeDays",
+      "/observationSnapshot/observations/moon/illuminationPercent",
+      "/observationSnapshot/observations/moon/observedAt"
+    ],
+    "existingGovernance": "Locked Candidate_Semantic_Surfaces_v1 registry classifies root moon leaves as currentOceanScientificEvidence; no new alias/permission is granted.",
+    "whyOutsideNine": [
+      {
+        "reviewId": "SEMANTIC_REVIEW_01",
+        "reason": "No transport, HTTP result, parser or source-response normalization supplies the lunar phase; it is calculated locally from assessmentAt."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_02",
+        "reason": "The decision is not SST acquisition, spatial structure, confidence or temperature."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_03",
+        "reason": "The decision is not chlorophyll selection, productivity or freshness."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_04",
+        "reason": "The decision is not a current vector, relationship or current timestamp."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_05",
+        "reason": "The numeric lunar phase and phase-label thresholds vary while moon availability stays available/calculated. Partial weather/marine input and quality aggregation do not describe these astronomical calculations."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_06",
+        "reason": "The lunar calculation has no point-cache or in-flight evidence dependency."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_07",
+        "reason": "It does not use the governed temperature-transition feature sample/prerequisite builder."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_08",
+        "reason": "It occurs before observation-snapshot construction, not in the separation of that snapshot from subsequent history/species processing."
+      },
+      {
+        "reviewId": "SEMANTIC_REVIEW_09",
+        "reason": "It is time-varying astronomical evidence, not upstream static/candidate construction or eligibility."
+      }
+    ],
+    "executionEvidence": [
+      {
+        "id": "lunar-assessment-september",
+        "assessmentAt": "2026-09-26T01:00:00Z",
+        "moon": {
+          "phase": "full-moon",
+          "phaseFraction": 0.4804,
+          "lunarAgeDays": 14.19,
+          "illuminationPercent": 99.6,
+          "observedAt": "2026-09-26T01:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        },
+        "snapshotMoon": {
+          "phase": "full-moon",
+          "phaseFraction": 0.4804,
+          "lunarAgeDays": 14.19,
+          "illuminationPercent": 99.6,
+          "observedAt": "2026-09-26T01:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        },
+        "coverage": [
+          {
+            "phase": "new-moon",
+            "count": 0
+          },
+          {
+            "phase": "waxing-crescent",
+            "count": 0
+          },
+          {
+            "phase": "first-quarter",
+            "count": 0
+          },
+          {
+            "phase": "waxing-gibbous",
+            "count": 0
+          },
+          {
+            "phase": "full-moon",
+            "count": 1
+          },
+          {
+            "phase": "waning-gibbous",
+            "count": 0
+          },
+          {
+            "phase": "last-quarter",
+            "count": 0
+          },
+          {
+            "phase": "waning-crescent",
+            "count": 0
+          }
+        ]
+      },
+      {
+        "id": "lunar-assessment-october",
+        "assessmentAt": "2026-10-03T01:00:00Z",
+        "moon": {
+          "phase": "waning-gibbous",
+          "phaseFraction": 0.7175,
+          "lunarAgeDays": 21.19,
+          "illuminationPercent": 60.1,
+          "observedAt": "2026-10-03T01:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        },
+        "snapshotMoon": {
+          "phase": "waning-gibbous",
+          "phaseFraction": 0.7175,
+          "lunarAgeDays": 21.19,
+          "illuminationPercent": 60.1,
+          "observedAt": "2026-10-03T01:00:00.000Z",
+          "source": {
+            "provider": "Pelora",
+            "classification": "astronomical-calculation",
+            "accuracy": "approximate",
+            "referenceEpoch": "2000-01-06T18:14:00.000Z",
+            "availability": "available"
+          }
+        },
+        "coverage": [
+          {
+            "phase": "new-moon",
+            "count": 0
+          },
+          {
+            "phase": "waxing-crescent",
+            "count": 0
+          },
+          {
+            "phase": "first-quarter",
+            "count": 0
+          },
+          {
+            "phase": "waxing-gibbous",
+            "count": 0
+          },
+          {
+            "phase": "full-moon",
+            "count": 0
+          },
+          {
+            "phase": "waning-gibbous",
+            "count": 1
+          },
+          {
+            "phase": "last-quarter",
+            "count": 0
+          },
+          {
+            "phase": "waning-crescent",
+            "count": 0
+          }
+        ]
+      }
+    ],
+    "scienceDefectClaim": false,
+    "astronomicalAccuracyQualification": false
+  },
+  "nestedBindings": {
+    "diagnosticCount": 33,
+    "status": "NOT_REQUALIFIED_AFTER_STOP",
+    "blockingDynamicTargetDemonstrated": false,
+    "completeSemanticTargetResolutionClaim": false
+  },
+  "generatedAt": {
+    "source": "getMarineConditions retrievedAt -> observationSnapshot.generatedAt",
+    "sourceConsumers": [
+      "buildSnapshotMetadata validates/documentary time",
+      "buildOceanSnapshot consistency/availability checks",
+      "snapshotTimestampMilliseconds has an observedAt-to-generatedAt fallback used by buildOceanChangeAnalysis"
+    ],
+    "conclusion": "No claim of unconditional non-scientific treatment; full default/history reachability of fallback was not requalified after STOP. No clock substitution was demonstrated by the new lunar execution."
+  },
+  "assessmentTime": "New lunar branch execution uses explicit assessmentAt, not Date.now/retrieval/generatedAt; source response time remains fixed.",
+  "compactQualifiedBranchModelCreated": false,
+  "optionalityQualified": false,
+  "requirementAuthorityCreated": false,
+  "authorityProposalCreated": false,
+  "authorityFreezeCreated": false,
+  "projectionV3Created": false,
+  "productionChanged": false,
+  "injectedProviderQualified": false,
+  "task12B6C": "PAUSED",
+  "task9ED": "PAUSED",
+  "separateIssue": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+  "nextGate": "ADVERSARIAL REVIEW OF THE OMITTED ASSESSMENT-DERIVED ASTRONOMY AREA; explicitly revise the review model before resuming nine-area qualification",
+  "lockedProviderBoundary": "DEFAULT_PROVIDER_DOMAIN_QUALIFIABLE_SEPARATELY",
+  "verification": {
+    "networkBlocked": true,
+    "focusedTests": 6,
+    "task12B6QTests": 12,
+    "providerBoundaryTests": 11,
+    "transitiveStopTests": 10,
+    "priorAdversarialStopTests": 4,
+    "backendSharedScripts": 61,
+    "failedScripts": 0,
+    "syntaxModules": 117,
+    "jsonFiles": 48,
+    "protectedFilesUnchanged": 48,
+    "draftV3TestsExcluded": true,
+    "whitespace": "PASS",
+    "gitDiffCheck": "PASS",
+    "productionDiffEmpty": true,
+    "stagedDiffEmpty": true
+  }
+}
