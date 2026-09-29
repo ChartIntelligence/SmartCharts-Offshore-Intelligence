@@ -1,0 +1,4869 @@
+{
+  "version": "pelora-revised-semantic-model-completeness-stop-v1",
+  "task": "12B.6T",
+  "verdict": "REVISED_SEMANTIC_MODEL_INCOMPLETE",
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "scope": "Default production provider only; ownership/completeness audit, no original-area resolution.",
+  "originalReferences": [
+    {
+      "path": "docs/Default_Provider_Transitive_Review_v1.md",
+      "sha256": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81"
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Review_v1.json",
+      "sha256": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5"
+    },
+    {
+      "path": "docs/Default_Provider_Semantic_Review_v1.json",
+      "sha256": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf"
+    }
+  ],
+  "originalNine": [
+    {
+      "reviewId": "SEMANTIC_REVIEW_01",
+      "description": "Accepted default transport-result and normalization branches, including fulfilled missing/partial responses and error/timeout handling.",
+      "originalId": "transport-result-domain",
+      "sourceFunctions": "fetchJson; getMarineConditions; NOAA table parsers",
+      "statedLimitation": "HTTP errors, abort, JSON rejection, fulfilled missing/partial records and temporal/numeric normalization have not all received accepted-input branch proofs.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::fetchJson",
+        "backend/server.js::getMarineConditions"
+      ],
+      "unresolvedQuestion": "HTTP errors, abort, JSON rejection, fulfilled missing/partial records and temporal/numeric normalization have not all received accepted-input branch proofs.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Transport availability, normalization and missingness",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_01",
+        "canonicalRecordSha256": "b74052c4efec16e3689389dcecbd6f57ff447a04464a8d724d8e6aada3fafe39"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_02",
+      "description": "SST coverage/orientation/confidence thresholds, compound predicates, time and signed-zero states through the default chain.",
+      "originalId": "sst-spatial-confidence",
+      "sourceFunctions": "getSstSpatialStructureAtAssessment; deriveSstTransitionOrientation; assessSstTransitionConfidence",
+      "statedLimitation": "Threshold/compound outcomes, missing time, partial coverage and signed-zero combinations need complete default-chain coverage, not inherited old fixture dispositions.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::assessSstTransitionConfidence",
+        "backend/server.js::deriveSstTransitionOrientation",
+        "backend/server.js::getSstSpatialStructure",
+        "backend/server.js::getSstSpatialStructureAtAssessment"
+      ],
+      "unresolvedQuestion": "Threshold/compound outcomes, missing time, partial coverage and signed-zero combinations need complete default-chain coverage, not inherited old fixture dispositions.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "SST spatial values, confidence, time and signed-zero state",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_02",
+        "canonicalRecordSha256": "9c701eb158800b8e2825d590614feba2e4000718a470a4e1e663a5eb754ab005"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_03",
+      "description": "Direct/gap-filled chlorophyll selection, missingness and freshness branches.",
+      "originalId": "chlorophyll-selection",
+      "sourceFunctions": "getChlorophyllConditionsAtAssessment; getGapFilledChlorophyllConditionsAtAssessment; resolveChlorophyllObservation",
+      "statedLimitation": "Direct/gap-filled selection, freshness and invalid/missing alternatives remain unexhausted. Empty-table proof does not close this family.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::getChlorophyllConditions",
+        "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "backend/server.js::getGapFilledChlorophyllConditions",
+        "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "backend/server.js::resolveChlorophyllObservation"
+      ],
+      "unresolvedQuestion": "Direct/gap-filled selection, freshness and invalid/missing alternatives remain unexhausted. Empty-table proof does not close this family.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Productivity values, availability, freshness and provenance",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_03",
+        "canonicalRecordSha256": "8994bd8502d6fc97e00f7148e7a146f079631f95b18ee6aa963167f1194c733f"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_04",
+      "description": "Current vector/spatial/relationship and temporal branches.",
+      "originalId": "current-relations",
+      "sourceFunctions": "getCurrentConditionsPointAtAssessment; reassessCurrentAgeV1; getCurrentSpatialStructureAtAssessment; current relationship builders",
+      "statedLimitation": "Vector, partial spatial, future/missing time and derived relationship predicates need complete source/coverage mapping.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+        "backend/server.js::getCurrentConditions",
+        "backend/server.js::getCurrentConditionsPoint",
+        "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "backend/server.js::getCurrentSpatialStructure",
+        "backend/server.js::getCurrentSpatialStructureAtAssessment"
+      ],
+      "unresolvedQuestion": "Vector, partial spatial, future/missing time and derived relationship predicates need complete source/coverage mapping.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Current vectors, spatial relationships, availability and time",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_04",
+        "canonicalRecordSha256": "740f2ad021b1ecbfb1d327e49244c048672c0e0b7972197cea163411c00291ea"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_05",
+      "description": "Partial weather/marine inputs and quality aggregation effects.",
+      "originalId": "marine-quality",
+      "sourceFunctions": "getMarineConditions; assessOceanConditions; getOceanConditionsAtAssessment",
+      "statedLimitation": "Partial family inputs and the core/supporting quality aggregation callback effects are not exhaustively qualified.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::assessOceanConditions",
+        "backend/server.js::getMarineConditions",
+        "backend/server.js::getOceanConditions",
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ],
+      "unresolvedQuestion": "Partial family inputs and the core/supporting quality aggregation callback effects are not exhaustively qualified.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Weather/marine quality, availability and aggregated state",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_05",
+        "canonicalRecordSha256": "030dbd430aa6624ffc3f194a4d2aa5ab543e4eaa576c253478c5309cfcef6477"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_06",
+      "description": "Cache identity, in-flight and all missing/failure-state equivalence.",
+      "originalId": "cache-semantics",
+      "sourceFunctions": "SST/current point cache and in-flight maps",
+      "statedLimitation": "One complete miss/hit/expiry case is insufficient for shared in-flight, different assessments, rounded-coordinate cache identity and all missing/failure states.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [],
+      "unresolvedQuestion": "One complete miss/hit/expiry case is insufficient for shared in-flight, different assessments, rounded-coordinate cache identity and all missing/failure states.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Cache-dependent values, time or provenance versus operational metadata",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_06",
+        "canonicalRecordSha256": "61b11005d488be4027b5ad0085d26de633033e540486108dcbb8ef936c707f14"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_07",
+      "description": "Feature sample filtering, prerequisites, combinations and downstream consumption.",
+      "originalId": "feature-prerequisites",
+      "sourceFunctions": "buildGovernedEnvironmentalFeatureObservationV1",
+      "statedLimitation": "The sample filter and prerequisite combinations require default-domain coverage and consumer trace; old requirement classifications are not adopted.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1"
+      ],
+      "unresolvedQuestion": "The sample filter and prerequisite combinations require default-domain coverage and consumer trace; old requirement classifications are not adopted.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Feature availability, sample selection and prerequisite state",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_07",
+        "canonicalRecordSha256": "d42df8105ca33f21fe02ad223de16eb5e737d94ccc60739d3c951830b26034dc"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_08",
+      "description": "Exact semantic slice separating observation-snapshot production from subsequent history/species processing.",
+      "originalId": "output-boundary",
+      "sourceFunctions": "getOceanConditionsAtAssessment; snapshot/history/relationship builders",
+      "statedLimitation": "The discovered closure includes processing after observationSnapshot creation. A semantic slice must distinguish the requested current snapshot from later history/species outputs without silently excluding scientifically consumed dependencies.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [
+        "backend/server.js::getOceanConditions",
+        "backend/server.js::getOceanConditionsAtAssessment"
+      ],
+      "unresolvedQuestion": "The discovered closure includes processing after observationSnapshot creation. A semantic slice must distinguish the requested current snapshot from later history/species outputs without silently excluding scientifically consumed dependencies.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Current versus historical/species output consumption",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_08",
+        "canonicalRecordSha256": "9221d088592513695768c227165a40a21744f477d49dd71e6f72f9d48c3d0943"
+      }
+    },
+    {
+      "reviewId": "SEMANTIC_REVIEW_09",
+      "description": "Upstream static/candidate construction constraints, independent of the fixture's eligibility flag.",
+      "originalId": "static-caller-boundary",
+      "sourceFunctions": "production candidate construction and class dispatch",
+      "statedLimitation": "Coordinate validation is proven; candidate eligibility/static construction is not fully audited by the synthetic eligible candidate. No fixed fixture value is an unreachability invariant.",
+      "disposition": "BLOCKING_UNRESOLVED",
+      "status": "NOT_REQUALIFIED_AFTER_NEW_AREA_STOP",
+      "graphNodes": [],
+      "unresolvedQuestion": "Coordinate validation is proven; candidate eligibility/static construction is not fully audited by the synthetic eligible candidate. No fixed fixture value is an unreachability invariant.",
+      "currentEvidence": "Task 12B.6Q bounded diagnostic evidence only; preserved, not promoted to completeness.",
+      "testsNeeded": "Original source-predicate/effect and default-chain coverage work remains required after explicit new-area review.",
+      "potentialGovernedConsequence": "Candidate eligibility and static input boundary",
+      "immutableReference": {
+        "artifact": "docs/Default_Provider_Semantic_Review_v1.json",
+        "reviewId": "SEMANTIC_REVIEW_09",
+        "canonicalRecordSha256": "228bda4ca4df2d697608f5470911a00360faa6e2ad3ca3534f42c6c633a384e2"
+      }
+    }
+  ],
+  "astronomy": {
+    "id": "ASSESSMENT_DERIVED_ASTRONOMY",
+    "status": "QUALIFIED",
+    "scope": "Current DEFAULT production provider only",
+    "source": {
+      "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+      "sha256": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f"
+    },
+    "definition": {
+      "id": "ASSESSMENT_DERIVED_ASTRONOMY",
+      "scope": "Assessment-derived lunar phase/age/illumination and time/provenance retention in DEFAULT provider plus availability-to-quality effects.",
+      "nodes": [
+        "getOceanConditions",
+        "getOceanConditionsAtAssessment",
+        "getMoonConditions",
+        "classifyMoonPhase",
+        "requireScientificAssessmentV1",
+        "assertScientificInstantV1",
+        "buildObservationSnapshot",
+        "buildOceanSnapshot"
+      ],
+      "branches": "Eight phase intervals; validated input guards; finite normalization and rounding; available-to-quality/status; snapshot copies.",
+      "paths": [
+        "/moon",
+        "/source/moon",
+        "/status/moon",
+        "/dataQuality/layers/moon",
+        "/observationSnapshot/observations/moon",
+        "/observationSnapshot/dataQuality/layers/moon",
+        "/oceanSnapshot/observation/observations/moon",
+        "/oceanSnapshot/observation/dataQuality/layers/moon"
+      ],
+      "temporalAuthority": "Explicit assessment context only, unlike retained environmental sample time.",
+      "dependencies": [
+        "existing assessment validation",
+        "fixed lunar constants",
+        "existing clone/freeze snapshot mechanism",
+        "quality supporting-layer aggregation"
+      ],
+      "instruction": "Create an explicitly revised model containing original nine plus this area, then audit completeness before resolution. Do NOT append to or reinterpret the failed old ledger."
+    },
+    "output": {
+      "containers": [
+        "/moon",
+        "/moon/source"
+      ],
+      "leaves": [
+        {
+          "path": "/moon/phase",
+          "type": "STRING",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "Closed eight-label result of unrounded phase fraction. No direct phase-to-score consumer found."
+        },
+        {
+          "path": "/moon/phaseFraction",
+          "type": "NUMBER",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "Normalized age/period, rounded to four decimals for output only; classification uses unrounded fraction."
+        },
+        {
+          "path": "/moon/lunarAgeDays",
+          "type": "NUMBER",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "Normalized remainder, rounded to two decimals."
+        },
+        {
+          "path": "/moon/illuminationPercent",
+          "type": "NUMBER",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "(1-cos(2*pi*f))/2 * 100, rounded to one decimal."
+        },
+        {
+          "path": "/moon/observedAt",
+          "type": "STRING",
+          "classification": "SCIENTIFIC_CONSUMED",
+          "role": "Exact canonical assessment instant; copied into quality moon layer and snapshots. It is calculated-at assessment time, NOT an environmental sample timestamp."
+        },
+        {
+          "path": "/moon/source/provider",
+          "type": "STRING",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "Pelora provenance, retained in root source and snapshots."
+        },
+        {
+          "path": "/moon/source/classification",
+          "type": "STRING",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "astronomical-calculation provenance."
+        },
+        {
+          "path": "/moon/source/accuracy",
+          "type": "STRING",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "approximate method annotation; retained provenance, not a numeric accuracy/score input."
+        },
+        {
+          "path": "/moon/source/referenceEpoch",
+          "type": "STRING",
+          "classification": "SNAPSHOT_SCIENTIFIC",
+          "role": "2000-01-06T18:14:00.000Z fixed algorithm reference; not retrieval or assessment authority."
+        },
+        {
+          "path": "/moon/source/availability",
+          "type": "STRING",
+          "classification": "SCIENTIFIC_CONSUMED",
+          "role": "available; drives quality and status, indirectly supporting quality counts."
+        }
+      ],
+      "leafCount": 10,
+      "nonfiniteDefaultOutputs": false,
+      "unsupportedFields": "No rise/set, position, location, descriptive timing window or separate retrieval field is produced.",
+      "invalidStandaloneShape": "Not included: invalid-time fallback unreachable in validated default context. Export used outside active context is not qualified here."
+    },
+    "phaseVocabulary": [
+      "new-moon",
+      "waxing-crescent",
+      "first-quarter",
+      "waxing-gibbous",
+      "full-moon",
+      "waning-gibbous",
+      "last-quarter",
+      "waning-crescent"
+    ],
+    "branches": [
+      {
+        "id": "ASTRONOMY_PHASE_NEW_MOON",
+        "function": "classifyMoonPhase",
+        "predicate": "f < 0.03125 || f >= 0.96875",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "new-moon"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-09-12T18:38:41.966Z",
+            "offsetMilliseconds": -1,
+            "phase": "new-moon",
+            "phaseBranchCount": 7
+          },
+          {
+            "assessmentAt": "2026-10-10T11:04:59.664Z",
+            "offsetMilliseconds": 0,
+            "phase": "new-moon",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-10T11:04:59.665Z",
+            "offsetMilliseconds": 1,
+            "phase": "new-moon",
+            "phaseBranchCount": 1
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_PHASE_WAXING_CRESCENT",
+        "function": "classifyMoonPhase",
+        "predicate": "0.03125 <= f && f < 0.21875",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "waxing-crescent"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-09-12T18:38:41.967Z",
+            "offsetMilliseconds": 0,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-12T18:38:41.968Z",
+            "offsetMilliseconds": 1,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-18T07:31:57.506Z",
+            "offsetMilliseconds": -1,
+            "phase": "waxing-crescent",
+            "phaseBranchCount": 7
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_PHASE_FIRST_QUARTER",
+        "function": "classifyMoonPhase",
+        "predicate": "0.21875 <= f && f < 0.28125",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "first-quarter"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-09-18T07:31:57.507Z",
+            "offsetMilliseconds": 0,
+            "phase": "first-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-18T07:31:57.508Z",
+            "offsetMilliseconds": 1,
+            "phase": "first-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-20T03:49:42.685Z",
+            "offsetMilliseconds": -1,
+            "phase": "first-quarter",
+            "phaseBranchCount": 7
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_PHASE_WAXING_GIBBOUS",
+        "function": "classifyMoonPhase",
+        "predicate": "0.28125 <= f && f < 0.46875",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "waxing-gibbous"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-09-20T03:49:42.686Z",
+            "offsetMilliseconds": 0,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-20T03:49:42.687Z",
+            "offsetMilliseconds": 1,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-25T16:42:58.225Z",
+            "offsetMilliseconds": -1,
+            "phase": "waxing-gibbous",
+            "phaseBranchCount": 7
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_PHASE_FULL_MOON",
+        "function": "classifyMoonPhase",
+        "predicate": "0.46875 <= f && f < 0.53125",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "full-moon"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-09-25T16:42:58.226Z",
+            "offsetMilliseconds": 0,
+            "phase": "full-moon",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-25T16:42:58.227Z",
+            "offsetMilliseconds": 1,
+            "phase": "full-moon",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-27T13:00:43.405Z",
+            "offsetMilliseconds": -1,
+            "phase": "full-moon",
+            "phaseBranchCount": 7
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_PHASE_WANING_GIBBOUS",
+        "function": "classifyMoonPhase",
+        "predicate": "0.53125 <= f && f < 0.71875",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "waning-gibbous"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-09-27T13:00:43.406Z",
+            "offsetMilliseconds": 0,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-09-27T13:00:43.407Z",
+            "offsetMilliseconds": 1,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-03T01:53:58.944Z",
+            "offsetMilliseconds": -1,
+            "phase": "waning-gibbous",
+            "phaseBranchCount": 7
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_PHASE_LAST_QUARTER",
+        "function": "classifyMoonPhase",
+        "predicate": "0.71875 <= f && f < 0.78125",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "last-quarter"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-10-03T01:53:58.945Z",
+            "offsetMilliseconds": 0,
+            "phase": "last-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-03T01:53:58.946Z",
+            "offsetMilliseconds": 1,
+            "phase": "last-quarter",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-04T22:11:44.124Z",
+            "offsetMilliseconds": -1,
+            "phase": "last-quarter",
+            "phaseBranchCount": 7
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_PHASE_WANING_CRESCENT",
+        "function": "classifyMoonPhase",
+        "predicate": "0.78125 <= f && f < 0.96875",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": {
+          "phase": "waning-crescent"
+        },
+        "proof": "Actual default evaluation; V8 precise coverage at this return statement; nearest representable millisecond before/at/after transition",
+        "scenarios": [
+          {
+            "assessmentAt": "2026-10-04T22:11:44.125Z",
+            "offsetMilliseconds": 0,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-04T22:11:44.126Z",
+            "offsetMilliseconds": 1,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 1
+          },
+          {
+            "assessmentAt": "2026-10-10T11:04:59.663Z",
+            "offsetMilliseconds": -1,
+            "phase": "waning-crescent",
+            "phaseBranchCount": 7
+          }
+        ]
+      },
+      {
+        "id": "ASTRONOMY_EXPLICIT_TIME_REQUIRED",
+        "function": "getMoonConditions",
+        "predicate": "timestamp === undefined",
+        "disposition": "UNREACHABLE_CALLER_CONSTRUCTED",
+        "enforcement": "getOceanConditionsAtAssessment unconditionally passes assessment.assessmentAt after resolveScientificAssessmentV1; explicit null is rejected and outer omitted context captures once.",
+        "counterexample": "Missing outer context exercised: valid captured timestamp reaches astronomy; malformed explicit values reject before transport."
+      },
+      {
+        "id": "ASTRONOMY_DATE_OBJECT_INPUT",
+        "function": "getMoonConditions",
+        "predicate": "timestamp instanceof Date",
+        "disposition": "UNREACHABLE_UPSTREAM_VALIDATION",
+        "enforcement": "requireScientificAssessmentV1 accepts only a round-tripping UTC string; Date object rejected before provider.",
+        "consequence": "Default always constructs Date from the canonical explicit string."
+      },
+      {
+        "id": "ASTRONOMY_INVALID_TIME_FALLBACK",
+        "function": "getMoonConditions",
+        "predicate": "!Number.isFinite(date.getTime())",
+        "disposition": "UNREACHABLE_UPSTREAM_VALIDATION",
+        "enforcement": "Validated four-digit-year ISO UTC timestamp has finite Date.parse and exact ISO round trip.",
+        "counterexample": "Malformed, offset, precision, invalid calendar, NaN and infinities reject before transport; minimum/maximum accepted years produce finite astronomy.",
+        "consequence": "Standalone invalid-time return has nulls and omits lunarAgeDays/referenceEpoch; NOT a qualified default output shape."
+      },
+      {
+        "id": "ASTRONOMY_NONFINITE_PHASE_GUARD",
+        "function": "classifyMoonPhase",
+        "predicate": "!Number.isFinite(phaseFraction)",
+        "disposition": "UNREACHABLE_IMPOSSIBLE_STATE",
+        "enforcement": "Validated finite time minus finite private reference, divided by 86400000, has finite magnitude below 4 million days; positive finite period modulo normalization and division remain finite.",
+        "counterexample": "Year 0000 and 9999, exact epoch and adjacent milliseconds tested; no nonfinite result."
+      },
+      {
+        "id": "ASTRONOMY_QUALITY_AND_STATUS",
+        "function": "getOceanConditionsAtAssessment",
+        "predicate": "moon.source?.availability === \"available\"; moon.observedAt ?? null",
+        "disposition": "REACHABLE_DEFAULT_DOMAIN",
+        "consequence": "calculated, local-astronomical-calculation, assessment-derived observedAt; status.moon calculated. Moon contributes one calculated supporting layer.",
+        "oppositeEnforcement": "Default getMoonConditions always returns available and populated ISO observedAt for validated context; invalid-time path excluded above. Missing source/time requires bypassing default producer.",
+        "proof": "Every actual default scenario asserts available; demonstrated cases assert quality calculated and equal observedAt."
+      }
+    ],
+    "contexts": [
+      "pelora-scientific-assessment-v1",
+      "pelora-scheduled-scientific-assessment-v1"
+    ],
+    "qualificationReused": true
+  },
+  "proposedStartingAreas": [
+    {
+      "id": "SEMANTIC_REVIEW_01",
+      "description": "Accepted default transport-result and normalization branches, including fulfilled missing/partial responses and error/timeout handling.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_02",
+      "description": "SST coverage/orientation/confidence thresholds, compound predicates, time and signed-zero states through the default chain.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_03",
+      "description": "Direct/gap-filled chlorophyll selection, missingness and freshness branches.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_04",
+      "description": "Current vector/spatial/relationship and temporal branches.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_05",
+      "description": "Partial weather/marine inputs and quality aggregation effects.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_06",
+      "description": "Cache identity, in-flight and all missing/failure-state equivalence.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_07",
+      "description": "Feature sample filtering, prerequisites, combinations and downstream consumption.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_08",
+      "description": "Exact semantic slice separating observation-snapshot production from subsequent history/species processing.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "SEMANTIC_REVIEW_09",
+      "description": "Upstream static/candidate construction constraints, independent of the fixture's eligibility flag.",
+      "status": "BLOCKING_UNRESOLVED"
+    },
+    {
+      "id": "ASSESSMENT_DERIVED_ASTRONOMY",
+      "description": "Assessment-derived lunar phase/age/illumination and time/provenance retention in DEFAULT provider plus availability-to-quality effects.",
+      "status": "QUALIFIED"
+    }
+  ],
+  "newArea": {
+    "id": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+    "status": "NEW_AREA_REQUIRES_REVIEW",
+    "approved": false,
+    "appendedToApprovedModel": false,
+    "nodes": [
+      "assessOceanEvidence",
+      "buildSurfaceWaterCharacterAnalysis",
+      "buildWaterMassAnalysis",
+      "buildMixingZoneAnalysis",
+      "buildEnvironmentalTransitionAnalysis",
+      "buildOceanFrontAnalysis",
+      "buildOceanOrganizationAnalysis",
+      "buildOceanPhysicsExplainabilitySummary",
+      "buildOceanPhysicsExplainabilityLineage"
+    ],
+    "definition": "Species-neutral synthesis of temperature, productivity/clarity and current-derived evidence into water character, water-mass/boundary context, mixing/transition/front readiness, ocean organization and scientifically meaningful lineage before snapshot construction.",
+    "sourceChain": [
+      "default getOceanConditionsAtAssessment",
+      "assessOceanEvidence",
+      "family evidence builders",
+      "buildSurfaceWaterCharacterAnalysis",
+      "buildWaterMassAnalysis",
+      "buildMixingZoneAnalysis",
+      "buildEnvironmentalTransitionAnalysis",
+      "buildOceanFrontAnalysis",
+      "buildOceanOrganizationAnalysis / explainability",
+      "buildObservationSnapshot: oceanPhysics and oceanOrganization"
+    ],
+    "witness": {
+      "input": {
+        "candidate": [
+          25,
+          -90
+        ],
+        "assessmentAt": "2026-09-26T01:00:00Z",
+        "sourceTime": "2026-09-24T00:00:00Z",
+        "uniform": 25,
+        "thermal": {
+          "north": 28,
+          "south": 24,
+          "east": 27,
+          "west": 25
+        },
+        "transport": "Synthetic endpoint/coordinate keyed responses; no provider callback override."
+      },
+      "branchId": "buildEnvironmentalTransitionAnalysis::thermal-without-hydrodynamic-context",
+      "predicate": "thermalTransitionSupported && !hydrodynamicTransitionSupported",
+      "coverage": {
+        "uniform": 0,
+        "thermal": 1
+      },
+      "path": "/observationSnapshot/oceanPhysics/environmentalTransitionAnalysis/classification",
+      "before": "uniform-environmental-context",
+      "after": "thermal-transition-context",
+      "rootBefore": "uniform-environmental-context",
+      "rootAfter": "thermal-transition-context",
+      "astronomyUnchanged": true,
+      "requests": [
+        13,
+        13
+      ]
+    },
+    "separation": {
+      "authority": "Combined derived source-family evidence; not a new environmental acquisition or clock.",
+      "producer": "Dedicated analysis functions with separate versioned output contracts.",
+      "branchLogic": "Combined thermal/current predicates and explicit distinction/readiness limitations; downstream input changes alone do not qualify these interpretation rules.",
+      "consumer": "Subsequent combined physics stages plus governed observation snapshot; occurs before history/species processing.",
+      "replay": "Joint input evidence consistency; astronomy independence does not resolve it.",
+      "notArea02": "Area 02 defines SST coverage/orientation/confidence/time/signed-zero processing, not combined water/current interpretation.",
+      "notArea03": "Area 03 defines direct/gap-filled selection/missingness/freshness, not spatial water-mass synthesis.",
+      "notArea04": "Area 04 source/current relationship context concerns current organization/vector/temporal branches; cross-family water-character/front functions consume its results and different family results.",
+      "notArea05": "Marine quality aggregation is not the distinct water-character/mixing/front inference.",
+      "notArea07": "Feature prerequisites consume evidence; they do not qualify the producers of combined physics facts.",
+      "notArea08": "Determining the current-vs-history/species slice locates these functions inside current science; it does not qualify their independent scientific interpretation predicates. Treating 08 as every remaining function would erase its exact definition.",
+      "notArea09": "Static eligibility/location can supply inputs; it does not own cross-family dynamic interpretation.",
+      "notAstronomy": "Astronomy unchanged in witness; only environmental derived evidence feeds these stages."
+    },
+    "existingSemanticClassification": {
+      "artifact": "docs/Candidate_Semantic_Surfaces_v1.json",
+      "snapshotLine": 4141,
+      "rootLine": 4744,
+      "category": "currentOceanScientificEvidence",
+      "authorityExpanded": false
+    }
+  },
+  "temporalAuthorityMap": [
+    {
+      "authority": "SCIENTIFIC_ASSESSMENT_TIME",
+      "producer": "require/resolveScientificAssessmentV1; outer request capture or scheduled context",
+      "consumers": [
+        "getMoonConditions",
+        "scientificAgeHoursV1",
+        "SST confidence time validation",
+        "current reassessment"
+      ],
+      "role": "SCIENTIFIC",
+      "canAlterScience": true,
+      "owners": [
+        "ASSESSMENT_DERIVED_ASTRONOMY",
+        "SEMANTIC_REVIEW_02",
+        "SEMANTIC_REVIEW_03",
+        "SEMANTIC_REVIEW_04"
+      ],
+      "limitation": "One clock, distinct calculation versus environmental-age effects; original areas not resolved."
+    },
+    {
+      "authority": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "producer": "getMarineConditions provider current time; family parsers",
+      "consumers": [
+        "observationSnapshot.observedAt",
+        "snapshot metadata identity",
+        "family age governance"
+      ],
+      "role": "SCIENTIFIC_REPRESENTATION",
+      "canAlterScience": true,
+      "owners": [
+        "SEMANTIC_REVIEW_01",
+        "SEMANTIC_REVIEW_08"
+      ]
+    },
+    {
+      "authority": "FAMILY_SOURCE_TIME",
+      "producer": "SST sample time, NOAA chlorophyll/current parsed time",
+      "consumers": [
+        "sample age/confidence",
+        "chlorophyll freshness/selection",
+        "current age/spatial evidence"
+      ],
+      "role": "SCIENTIFIC",
+      "canAlterScience": true,
+      "owners": [
+        "SEMANTIC_REVIEW_02",
+        "SEMANTIC_REVIEW_03",
+        "SEMANTIC_REVIEW_04"
+      ]
+    },
+    {
+      "authority": "QUALITY_TIME",
+      "producer": "dataQuality layers copy their source time; moon layer copies assessment-derived time",
+      "consumers": [
+        "quality state/provenance",
+        "observationSnapshot.dataQuality"
+      ],
+      "role": "SCIENTIFIC_TIME_CARRY_FORWARD_NOT_AN_INDEPENDENT_CLOCK",
+      "canAlterScience": true,
+      "owners": [
+        "SEMANTIC_REVIEW_05",
+        "ASSESSMENT_DERIVED_ASTRONOMY"
+      ],
+      "limitation": "Do not infer uniform role for all quality fields; complete quality resolution remains open."
+    },
+    {
+      "authority": "RETAINED_FEATURE_OBSERVATION_TIME",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1 selects retained sample time",
+      "consumers": [
+        "feature observation output/reference content",
+        "subsequent documentary/history representation"
+      ],
+      "role": "SCIENTIFIC_SAMPLE_TIME_RETENTION",
+      "canAlterScience": true,
+      "owners": [
+        "SEMANTIC_REVIEW_07",
+        "SEMANTIC_REVIEW_08"
+      ],
+      "limitation": "No feature authority or combinations requalified."
+    },
+    {
+      "authority": "RETRIEVAL_SNAPSHOT_GENERATED_AT",
+      "producer": "getMarineConditions retrieval metadata -> buildObservationSnapshot/generatedAt",
+      "consumers": [
+        "snapshot metadata/consistency/retrieval",
+        "intelligence snapshot representation"
+      ],
+      "role": "RETRIEVAL_SNAPSHOT_METADATA",
+      "canAlterScience": "Not in bounded Q/S comparisons; broader consumer slicing remains unresolved",
+      "owners": [
+        "SEMANTIC_REVIEW_08"
+      ],
+      "crossCutting": "CROSS_CUTTING_OPERATIONAL"
+    },
+    {
+      "authority": "CACHE_OPERATIONAL_TIME",
+      "producer": "execution Date.now, TTL/cache status/ageSeconds",
+      "consumers": [
+        "cache hit/miss/in-flight selection",
+        "source reuse metadata"
+      ],
+      "role": "CROSS_CUTTING_OPERATIONAL",
+      "canAlterScience": "No observed difference in bounded comparisons; identity/collision/failure equivalence still open",
+      "owners": [
+        "SEMANTIC_REVIEW_06"
+      ],
+      "limitation": "No new scientific cache area or broad exclusion granted."
+    },
+    {
+      "authority": "PUBLICATION_TIME",
+      "producer": "assessmentContextV3 derives assessment from scheduledAt; worker attempt clocks are separate",
+      "consumers": [
+        "evaluation assessment port",
+        "publication provenance"
+      ],
+      "role": "SCHEDULED_SCIENTIFIC_ASSESSMENT_VS_OPERATIONAL_ATTEMPT_TIME",
+      "canAlterScience": "scheduled assessment can; attempt clocks are not astronomy authority",
+      "owners": [
+        "ASSESSMENT_DERIVED_ASTRONOMY"
+      ],
+      "limitation": "Publication outside model; no provider-identity binding or new publication contract inferred."
+    }
+  ],
+  "assessmentCrossCutting": {
+    "assessment": "2026-09-26T01:00:00Z -> 2026-10-03T01:00:00Z",
+    "astronomy": {
+      "owner": "ASSESSMENT_DERIVED_ASTRONOMY",
+      "changes": 6
+    },
+    "environmentalAge": {
+      "changes": 25,
+      "byOwner": {
+        "SEMANTIC_REVIEW_02": 2,
+        "SEMANTIC_REVIEW_03": 4,
+        "SEMANTIC_REVIEW_04": 19
+      },
+      "status": "Existing time/freshness definitions own these effects; original qualification unresolved"
+    },
+    "evidence": [
+      {
+        "path": "/dataQuality/layers/chlorophyll/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/dataQuality/layers/currents/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/dataQuality/layers/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z",
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/evidence/groups/clarity/values/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/spatialAnalysis/vectorProjection/projections/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/current/values/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/productivity/values/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/evidence/groups/temperature/confidence/sampleAgeHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "SST_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/generatedAt",
+        "left": "2026-09-27T21:32:27.710Z",
+        "right": "2026-09-27T21:32:27.722Z",
+        "subsystem": "RETRIEVAL_SNAPSHOT_METADATA"
+      },
+      {
+        "path": "/observations/chlorophyll/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CHLOROPHYLL_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/0/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/1/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/2/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/currents/derived/spatialAnalysis/vectorProjection/projections/3/ageHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "CURRENT_ASSESSMENT_AGE"
+      },
+      {
+        "path": "/observations/moon/illuminationPercent",
+        "left": 99.6,
+        "right": 60.1,
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/lunarAgeDays",
+        "left": 14.19,
+        "right": 21.19,
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/observedAt",
+        "left": "2026-09-26T01:00:00.000Z",
+        "right": "2026-10-03T01:00:00.000Z",
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/phase",
+        "left": "full-moon",
+        "right": "waning-gibbous",
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/moon/phaseFraction",
+        "left": 0.4804,
+        "right": 0.7175,
+        "subsystem": "ASSESSMENT_DERIVED_ASTRONOMY"
+      },
+      {
+        "path": "/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+        "left": 601,
+        "right": 769,
+        "subsystem": "SST_ASSESSMENT_AGE"
+      }
+    ]
+  },
+  "graph": {
+    "namedNodes": 154,
+    "referenceEdges": 267,
+    "nestedBindings": 33,
+    "semanticNodeCount": null,
+    "baselineReconciliation": "154/267/33 reproduced from current source and compared by node source hash. No named additions/removals in this bounded closure. Not a global semantic graph completeness claim.",
+    "nodes": [
+      {
+        "id": "backend/scientificAssessment.mjs::assertScientificInstantV1",
+        "function": "assertScientificInstantV1",
+        "file": "backend/scientificAssessment.mjs",
+        "line": 38,
+        "sourceHash": "5133f278d0783452e742204d72f3b39d8d9e01da24353d70fe655efa28c47cf8",
+        "primaryReviewArea": "ASSESSMENT_DERIVED_ASTRONOMY",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "ASSESSMENT_RELATIVE_ENVIRONMENTAL_AGE"
+        ]
+      },
+      {
+        "id": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+        "function": "reassessCurrentAgeV1",
+        "file": "backend/scientificAssessment.mjs",
+        "line": 29,
+        "sourceHash": "5f70f45a9de0c72d25b5105699b0bd52b30a8904025614852c7669b70d3e8dbc",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "ASSESSMENT_RELATIVE_ENVIRONMENTAL_AGE"
+        ]
+      },
+      {
+        "id": "backend/scientificAssessment.mjs::requireScientificAssessmentV1",
+        "function": "requireScientificAssessmentV1",
+        "file": "backend/scientificAssessment.mjs",
+        "line": 8,
+        "sourceHash": "64563764def55041354619f1eda677ba8e84ea170470691b18146068de713216",
+        "primaryReviewArea": "ASSESSMENT_DERIVED_ASTRONOMY",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "ASSESSMENT_RELATIVE_ENVIRONMENTAL_AGE"
+        ]
+      },
+      {
+        "id": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+        "function": "resolveScientificAssessmentV1",
+        "file": "backend/scientificAssessment.mjs",
+        "line": 21,
+        "sourceHash": "2682d927381f0418b4f1733d8b085535a7a9a61589a0199850bdef286ee8b1ef",
+        "primaryReviewArea": "ASSESSMENT_DERIVED_ASTRONOMY",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "ASSESSMENT_RELATIVE_ENVIRONMENTAL_AGE"
+        ]
+      },
+      {
+        "id": "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+        "function": "scientificAgeHoursV1",
+        "file": "backend/scientificAssessment.mjs",
+        "line": 22,
+        "sourceHash": "111805a451380c3f4ccb18f20328b87221b4d652986c6fc633b78b5350341b23",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "SEMANTIC_REVIEW_03",
+          "SEMANTIC_REVIEW_04",
+          "ASSESSMENT_CONTEXT"
+        ]
+      },
+      {
+        "id": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+        "function": "withScientificAssessmentV1",
+        "file": "backend/scientificAssessment.mjs",
+        "line": 36,
+        "sourceHash": "8e6974dc991fa043e2cb0d5bfa223d85fcaee408f89f24355876d0358720afed",
+        "primaryReviewArea": "ASSESSMENT_DERIVED_ASTRONOMY",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "ASSESSMENT_RELATIVE_ENVIRONMENTAL_AGE"
+        ]
+      },
+      {
+        "id": "backend/server.js::angularDifferenceDegrees",
+        "function": "angularDifferenceDegrees",
+        "file": "backend/server.js",
+        "line": 16383,
+        "sourceHash": "a7c00a508c80b40097c573fb4b42f8fec53e6d5019b15c94c9282ebf11f103ba",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::assessBlueMarlinHabitat",
+        "function": "assessBlueMarlinHabitat",
+        "file": "backend/server.js",
+        "line": 45430,
+        "sourceHash": "b066ccf3ce122ca17fa7cfe03ea83b68590e45704ca9eedb7fd4f438062bea4f",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::assessmentFromOptionsV1",
+        "function": "assessmentFromOptionsV1",
+        "file": "backend/server.js",
+        "line": 62287,
+        "sourceHash": "2438f0f937849e0d78a978e674fdc33ebf6f96c9af3e4f2862589ab79cefbba1",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::assessOceanConditions",
+        "function": "assessOceanConditions",
+        "file": "backend/server.js",
+        "line": 7861,
+        "sourceHash": "0811134005a7d27b83861c3f9118777a33ecdee10b377b6a1d02ac65b3c2eaae",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::assessOceanEvidence",
+        "function": "assessOceanEvidence",
+        "file": "backend/server.js",
+        "line": 9423,
+        "sourceHash": "61ed7533eec85d3a7dae13180ead821b4cfab1aed0258fcdb4d62bb60d350d5b",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::assessOceanOpportunity",
+        "function": "assessOceanOpportunity",
+        "file": "backend/server.js",
+        "line": 36567,
+        "sourceHash": "c7dbfc5996976edb463af5443a3f480dec2b8d4838015b7ddc75959e39049802",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::assessRelationships",
+        "function": "assessRelationships",
+        "file": "backend/server.js",
+        "line": 39597,
+        "sourceHash": "6803ba0100af6dd372da369fcd142b97f41eb1d9f0ff2d381df89db80f38c271",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::assessSstTransitionConfidence",
+        "function": "assessSstTransitionConfidence",
+        "file": "backend/server.js",
+        "line": 6498,
+        "sourceHash": "8aeceb4493958e3ca8d24ab751d511cdd7bbdc03158a368cf0e92299285569cb",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildAssessmentConfidence",
+        "function": "buildAssessmentConfidence",
+        "file": "backend/server.js",
+        "line": 7609,
+        "sourceHash": "a655f7ffb7822f56948ae815c65b5392ff52605fa6e787f9d2c774c061635552",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildBackendSupabaseConfiguration",
+        "function": "buildBackendSupabaseConfiguration",
+        "file": "backend/server.js",
+        "line": 60,
+        "sourceHash": "5e01f4afb98882699b98005d437b7837b2ffe731181d480b91dcdb9b6d5b6ed8",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildBlueMarlinHabitatLineage",
+        "function": "buildBlueMarlinHabitatLineage",
+        "file": "backend/server.js",
+        "line": 45303,
+        "sourceHash": "9d02ac47fb27755a861a7f02213c7622f8bd2ad2b5b011c74d99dd049653cdae",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildBlueMarlinPathwayLineage",
+        "function": "buildBlueMarlinPathwayLineage",
+        "file": "backend/server.js",
+        "line": 40109,
+        "sourceHash": "92592b4d3a4832e5c2677153567ce93c4e54097a3f2a9971e688af393261b267",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildClarityEvidence",
+        "function": "buildClarityEvidence",
+        "file": "backend/server.js",
+        "line": 21655,
+        "sourceHash": "ecb75c7faa902c82a7350a99a62a61d3c970af7d5eaf740cd2ffd6be23ac8771",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildClarityPersistence",
+        "function": "buildClarityPersistence",
+        "file": "backend/server.js",
+        "line": 33870,
+        "sourceHash": "e8a146f51b5cbe1acc696e926a82d2a64967c6fe7846b5edb7805da879ddd79f",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentConvergenceAnalysis",
+        "function": "buildCurrentConvergenceAnalysis",
+        "file": "backend/server.js",
+        "line": 5239,
+        "sourceHash": "a5c02eee575155cbd5e322c116dca858e708c9715b265e8f0b4d67fa1f4e4943",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentConvergencePersistence",
+        "function": "buildCurrentConvergencePersistence",
+        "file": "backend/server.js",
+        "line": 28707,
+        "sourceHash": "312f6236aca5a9f3e2816e2e00799e0e9cdac16395ed04ea891c3331d1878526",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentEdgeAnalysis",
+        "function": "buildCurrentEdgeAnalysis",
+        "file": "backend/server.js",
+        "line": 4841,
+        "sourceHash": "8d154a7f2ab75da0da32f91e367bd0183ef531d9f6d07908e75c18c6909b6ca0",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentEdgePersistence",
+        "function": "buildCurrentEdgePersistence",
+        "file": "backend/server.js",
+        "line": 27518,
+        "sourceHash": "cda93771364ca5039c192702d4f8bb1c049c50540c4060740da83183ee254a83",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentEvidence",
+        "function": "buildCurrentEvidence",
+        "file": "backend/server.js",
+        "line": 11245,
+        "sourceHash": "9aa8df1bf2e4a4063845246ac0122f6ba355dee23496da5a8e6a6fdfc376ab8a",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentGradientAnalysis",
+        "function": "buildCurrentGradientAnalysis",
+        "file": "backend/server.js",
+        "line": 3947,
+        "sourceHash": "d1a89d4ba26eb0dee3b1af2b4c412c08ad2a59a3e6c2e10ac8edd2f7930ffb98",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentOrganizationAnalysis",
+        "function": "buildCurrentOrganizationAnalysis",
+        "file": "backend/server.js",
+        "line": 3010,
+        "sourceHash": "c59234f2c297ef5635d916bdaf569ba53de635c89e8803323a27173fce79a2ad",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentPersistence",
+        "function": "buildCurrentPersistence",
+        "file": "backend/server.js",
+        "line": 26927,
+        "sourceHash": "29a8eca6c55abcd8a12e78ee75faad148d6533b3060ff5f002a48afbcb7d9374",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentRelationshipContext",
+        "function": "buildCurrentRelationshipContext",
+        "file": "backend/server.js",
+        "line": 3194,
+        "sourceHash": "3efc256e74ac86bda65a91cfe371932b41a48108b00ce379fdcb042121465a33",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentShearAnalysis",
+        "function": "buildCurrentShearAnalysis",
+        "file": "backend/server.js",
+        "line": 4448,
+        "sourceHash": "074d6b6f0ae1c35db8661eea5c0fe178806bad82a0f0d81b2ed2f1e548d7eab0",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentShearPersistence",
+        "function": "buildCurrentShearPersistence",
+        "file": "backend/server.js",
+        "line": 28091,
+        "sourceHash": "6210e0606f66a8896d545ec72d38d96a325f4edfe552f35fec35871ba57b5e8a",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentSpatialAnalysis",
+        "function": "buildCurrentSpatialAnalysis",
+        "file": "backend/server.js",
+        "line": 11181,
+        "sourceHash": "51f9edc192cdbc50ec2911d1b389d2ed90022a4a3229672dab1cbf1a8e111c7d",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentSpatialPatternAnalysis",
+        "function": "buildCurrentSpatialPatternAnalysis",
+        "file": "backend/server.js",
+        "line": 5630,
+        "sourceHash": "ee84899786aa65e3cb7f32274accb801b7bab8bb22e42afab44c8e2a4399e0ff",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildCurrentVectorProjectionAnalysis",
+        "function": "buildCurrentVectorProjectionAnalysis",
+        "file": "backend/server.js",
+        "line": 3503,
+        "sourceHash": "68d1363b5506ce06b8dcda8577ad6d89ccd5b6a08b33399da494cf307ab0e03e",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildEnvironmentalOpportunityEvidence",
+        "function": "buildEnvironmentalOpportunityEvidence",
+        "file": "backend/server.js",
+        "line": 22781,
+        "sourceHash": "16b8a0326761892feb318e6648375cc033cd5e3cde4f133207c6a20e3e491ca1",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildEnvironmentalTransitionAnalysis",
+        "function": "buildEnvironmentalTransitionAnalysis",
+        "file": "backend/server.js",
+        "line": 13275,
+        "sourceHash": "07460a0dd1d6fe71b4db0e3dfb67ccc79ac8739c58722b939b80596c12a68751",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildEnvironmentalTransitionPersistence",
+        "function": "buildEnvironmentalTransitionPersistence",
+        "file": "backend/server.js",
+        "line": 29368,
+        "sourceHash": "07ef104970fc81040e85c8f948517cbb36d5c70f380de76df771fa7163b553cf",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildFeaturePersistenceContract",
+        "function": "buildFeaturePersistenceContract",
+        "file": "backend/server.js",
+        "line": 23787,
+        "sourceHash": "2c59dd88be12903ddff6db95f809063b45034ae583e9edc7ccd848d92472a209",
+        "primaryReviewArea": "SEMANTIC_REVIEW_07",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "function": "buildGovernedEnvironmentalFeatureObservationV1",
+        "file": "backend/server.js",
+        "line": 23974,
+        "sourceHash": "4b812d96ec87e825294918498da64bd611bbb242a6041281c60cb47240301df6",
+        "primaryReviewArea": "SEMANTIC_REVIEW_07",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildHistoricalSnapshotQuery",
+        "function": "buildHistoricalSnapshotQuery",
+        "file": "backend/server.js",
+        "line": 18952,
+        "sourceHash": "39539c3d7bcdbbb3c0018f7da1ca59f7b633f1e436bb9d0dd904cfc1db303ecf",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildIntelligenceSnapshot",
+        "function": "buildIntelligenceSnapshot",
+        "file": "backend/server.js",
+        "line": 16087,
+        "sourceHash": "2c0424d61460adc4dfc77566b6e1335066e079a0645cabd51982fbf4d04ecf98",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildLineageUpstreamReference",
+        "function": "buildLineageUpstreamReference",
+        "file": "backend/server.js",
+        "line": 42510,
+        "sourceHash": "8e446ccfa7f37ca76b4484f1be48c1ef7fd04a9197511d117c24263ee6006f45",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildMixingZoneAnalysis",
+        "function": "buildMixingZoneAnalysis",
+        "file": "backend/server.js",
+        "line": 12807,
+        "sourceHash": "7260707aecaf1dbd7ba5f05934752a569acfc5b1445a23bf42ad3869587c0389",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildMixingZonePersistence",
+        "function": "buildMixingZonePersistence",
+        "file": "backend/server.js",
+        "line": 31540,
+        "sourceHash": "6780274d0fd47f57053cb2a5ca7fd839543b65bd31050687e0442d09f4e1a164",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildObservationSnapshot",
+        "function": "buildObservationSnapshot",
+        "file": "backend/server.js",
+        "line": 15727,
+        "sourceHash": "ac580cf88ab280d7d45fd74c45803102895dd762584ac03761b017830d5105ca",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanChangeAnalysis",
+        "function": "buildOceanChangeAnalysis",
+        "file": "backend/server.js",
+        "line": 16443,
+        "sourceHash": "e49d5c98f337d6d198025b75226bf9cdcfc4fff77f79ccd25e086dac0395575f",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanChangeFromTimeSeries",
+        "function": "buildOceanChangeFromTimeSeries",
+        "file": "backend/server.js",
+        "line": 21062,
+        "sourceHash": "83a9cf13afbb82b620766a71a961bc3c689161b2d0b87207505f8926b58b8390",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanEvidenceConfidence",
+        "function": "buildOceanEvidenceConfidence",
+        "file": "backend/server.js",
+        "line": 9977,
+        "sourceHash": "c624a8b892c2548e51c1d6dcdc3d8161cd9b5cf6c57f1df86892540d5eef655f",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanEvidenceLineage",
+        "function": "buildOceanEvidenceLineage",
+        "file": "backend/server.js",
+        "line": 9786,
+        "sourceHash": "ddae0d9f2de0b33296b9f82ebc42a96b98a8305f21da741421f694fbf85286d4",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanEvidenceSummary",
+        "function": "buildOceanEvidenceSummary",
+        "file": "backend/server.js",
+        "line": 10391,
+        "sourceHash": "07fa0823e592ae602b6bb452f7a267e3bd840a25d44d3e3184722801664a6a66",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanEvolution",
+        "function": "buildOceanEvolution",
+        "file": "backend/server.js",
+        "line": 35165,
+        "sourceHash": "9c21fc31461d777211fcfcd96846dc2552178975dad072fa86f83dfe2e6a5d16",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanFrontAnalysis",
+        "function": "buildOceanFrontAnalysis",
+        "file": "backend/server.js",
+        "line": 13940,
+        "sourceHash": "f52ae1012ff89e2bd05e32a657c8f20a0371f4bd7e8a08c06e816b3b6bae94f4",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanFrontPersistence",
+        "function": "buildOceanFrontPersistence",
+        "file": "backend/server.js",
+        "line": 32359,
+        "sourceHash": "e8497189bcb9b9b980757f29937039718c94dada703c25f7141df5043fdc76b0",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+        "function": "buildOceanMemoryStorageRecordFromRow",
+        "file": "backend/server.js",
+        "line": 18315,
+        "sourceHash": "690494040bd3ec2de75c179d1478d23519f7e928f58dea9dcf210a85f1bb27b3",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanMemoryTimeSeries",
+        "function": "buildOceanMemoryTimeSeries",
+        "file": "backend/server.js",
+        "line": 20780,
+        "sourceHash": "9a64acf5c9314c34d97f4d3f1dd8461295f694c148dbafc302456956ea017469",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanOpportunityLineage",
+        "function": "buildOceanOpportunityLineage",
+        "file": "backend/server.js",
+        "line": 36476,
+        "sourceHash": "5a691e06d3881ec37b2e305c828469f0222085c9020acd2ec3bef708190058fb",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanOrganizationAnalysis",
+        "function": "buildOceanOrganizationAnalysis",
+        "file": "backend/server.js",
+        "line": 14992,
+        "sourceHash": "87c706ecf4a9ded749627ffdb2705465d3c2a2121eb8b4f20a797333c51dc872",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanPersistence",
+        "function": "buildOceanPersistence",
+        "file": "backend/server.js",
+        "line": 34552,
+        "sourceHash": "02408b9525dbe739b5fa0bf02e0707990ea742db8794c7332a7c0664d57c17ad",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanPhysicsExplainabilityLineage",
+        "function": "buildOceanPhysicsExplainabilityLineage",
+        "file": "backend/server.js",
+        "line": 14796,
+        "sourceHash": "82187918981cca2dea42fc76c608f36f33e83825e60ad866dd0ce0caabc25a5a",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanPhysicsExplainabilitySummary",
+        "function": "buildOceanPhysicsExplainabilitySummary",
+        "file": "backend/server.js",
+        "line": 14446,
+        "sourceHash": "aed1c29d142ef26d64fc2a09ea9197f67829e7abbbd7d704dd1e13cf339fd017",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanSignalSelectionLineage",
+        "function": "buildOceanSignalSelectionLineage",
+        "file": "backend/server.js",
+        "line": 37612,
+        "sourceHash": "0e33e20837f055db5b7c68a1e99b4f378af4b03e6e4aff27303af6a633190109",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOceanSnapshot",
+        "function": "buildOceanSnapshot",
+        "file": "backend/server.js",
+        "line": 17794,
+        "sourceHash": "b7a55151eb91139b55937dc12b080fadf6da9d1712c00b8469212868b03482bf",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOpenWaterEvidence",
+        "function": "buildOpenWaterEvidence",
+        "file": "backend/server.js",
+        "line": 22518,
+        "sourceHash": "3d3b35eb5503f3f72d15c7de54653e1748aef1b1ce773debbb35df83a200e623",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildOpportunityTypeResolutionLineage",
+        "function": "buildOpportunityTypeResolutionLineage",
+        "file": "backend/server.js",
+        "line": 44273,
+        "sourceHash": "d05e4fde4ae07752fc1952fcd1f45cd8647778327c318792dc1970b957c5ed26",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildPersistenceEvidence",
+        "function": "buildPersistenceEvidence",
+        "file": "backend/server.js",
+        "line": 22930,
+        "sourceHash": "ce97f5ac227046a72d4b860c14320a3623904c0e11cba049908a96b828358448",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildProductivityEvidence",
+        "function": "buildProductivityEvidence",
+        "file": "backend/server.js",
+        "line": 11566,
+        "sourceHash": "ab9890c255c3d54c2a19a89b9ad12c569e8002e51a0fde1132f19ee7bf840f1f",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildProductivityPersistence",
+        "function": "buildProductivityPersistence",
+        "file": "backend/server.js",
+        "line": 33194,
+        "sourceHash": "945ac9782598621bcdb23a1e04d72c2cad6bc649214a01b43920718ef696562b",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildRelationshipAssessmentLineage",
+        "function": "buildRelationshipAssessmentLineage",
+        "file": "backend/server.js",
+        "line": 39473,
+        "sourceHash": "d449391ebcd62f04f7056f6799b75afade87ae19d12d237b020062cbb285cc53",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildRelationshipContext",
+        "function": "buildRelationshipContext",
+        "file": "backend/server.js",
+        "line": 39118,
+        "sourceHash": "9c906e66828dc2b17e90def498db6508cadac499aaef961d43d2afafc6b46c77",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildRelationshipContextLineage",
+        "function": "buildRelationshipContextLineage",
+        "file": "backend/server.js",
+        "line": 39016,
+        "sourceHash": "a4a54f981654ac9a36ed1e99b3551598fc74480d4c48bb5941a6bb14db362843",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildSeaSurfaceTemperaturePersistence",
+        "function": "buildSeaSurfaceTemperaturePersistence",
+        "file": "backend/server.js",
+        "line": 26462,
+        "sourceHash": "2d93daaf8d32b0fa6dae54ac5fb4b840ac2d9329124df7746747bc37f8552015",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildSnapshotMetadata",
+        "function": "buildSnapshotMetadata",
+        "file": "backend/server.js",
+        "line": 17259,
+        "sourceHash": "85f464dff0150298121e461bb9d76c5a0fffbde58c2966dea0c6e05cd18ec019",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildStructureConfidence",
+        "function": "buildStructureConfidence",
+        "file": "backend/server.js",
+        "line": 22178,
+        "sourceHash": "b1d0b7c98e146d1ef6a968e11bf60e84b87b6c2e0e5387b07d43de5c1116d3f4",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildStructureEvidence",
+        "function": "buildStructureEvidence",
+        "file": "backend/server.js",
+        "line": 22206,
+        "sourceHash": "d5ef42db9783f6a35b75021c5ec64e64bc82b664f6f7944ef8c1a497eae723aa",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildStructureMetadata",
+        "function": "buildStructureMetadata",
+        "file": "backend/server.js",
+        "line": 22059,
+        "sourceHash": "8523aaedc44f4aa0948ed2f2c445cbae0d27ccfbf10a0121639aafa5c09ed7ac",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildSurfaceWaterCharacterAnalysis",
+        "function": "buildSurfaceWaterCharacterAnalysis",
+        "file": "backend/server.js",
+        "line": 11811,
+        "sourceHash": "82f11931205ceb4809632b762bd8e254cc68d4bc8f3bc9521c5329789a049085",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildSurfaceWaterCharacterPersistence",
+        "function": "buildSurfaceWaterCharacterPersistence",
+        "file": "backend/server.js",
+        "line": 30075,
+        "sourceHash": "69078273d4bdd684e62a80c70d9aa6525376534954e584451d3927fa9a9c3ce7",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildTemperatureEvidence",
+        "function": "buildTemperatureEvidence",
+        "file": "backend/server.js",
+        "line": 10530,
+        "sourceHash": "fc05b0986dcbcee725ef94a0d4bc17703109a524d9923b63a668e6ff79b94609",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildTemperatureTransitionMapFeature",
+        "function": "buildTemperatureTransitionMapFeature",
+        "file": "backend/server.js",
+        "line": 10954,
+        "sourceHash": "14c743e53e9ba5c1dfd33fd776ab4ebb142a0a6247b4f4a915530699de812623",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildTemporalFeatureContinuity",
+        "function": "buildTemporalFeatureContinuity",
+        "file": "backend/server.js",
+        "line": 26071,
+        "sourceHash": "8544be7caa70d58739a4a828716d3a90871fcbb1bb1e02fa3710c33460242132",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildTemporalOceanExplainability",
+        "function": "buildTemporalOceanExplainability",
+        "file": "backend/server.js",
+        "line": 35659,
+        "sourceHash": "985d9fdd45e8d8a8fb0f4d4d222f7f9b60678b5f81e32bfe140e7f0d9ee25166",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildWaterMassAnalysis",
+        "function": "buildWaterMassAnalysis",
+        "file": "backend/server.js",
+        "line": 12315,
+        "sourceHash": "34ab91baf26c18322a31dc270c99acb98de18ac0827690dbaf7e47b2ef8bf772",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::buildWaterMassPersistence",
+        "function": "buildWaterMassPersistence",
+        "file": "backend/server.js",
+        "line": 30809,
+        "sourceHash": "ad9299d904f5944c343f9ef7dbb6b52715fa35b686f47e982b96f852b4e35d1f",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::celsiusToFahrenheit",
+        "function": "celsiusToFahrenheit",
+        "file": "backend/server.js",
+        "line": 848,
+        "sourceHash": "ef9dd1badb291930e63312146581953a044e9ea86889d080e9f77d7e2a8cedce",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::classifyChlorophyll",
+        "function": "classifyChlorophyll",
+        "file": "backend/server.js",
+        "line": 1430,
+        "sourceHash": "95e98d7045faa18aa05162b530162d3ef0f7551ff098071ea4aa9be462d8e2e5",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::classifyCurrentSpatialVariation",
+        "function": "classifyCurrentSpatialVariation",
+        "file": "backend/server.js",
+        "line": 1549,
+        "sourceHash": "0e0f4c0c26ac79559b7ba3c334cdc76266162b7a3d6453dfcab5807ab71720d1",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::classifyCurrentStrength",
+        "function": "classifyCurrentStrength",
+        "file": "backend/server.js",
+        "line": 1606,
+        "sourceHash": "3e731c8b27a2e7c4a7a6b0bff92c45617103ebb75b2efc1f7b754f75b3ea84d4",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::classifyMoonPhase",
+        "function": "classifyMoonPhase",
+        "file": "backend/server.js",
+        "line": 1684,
+        "sourceHash": "71c71cb4e3f6dca61a9aa0aead333aeddfedeef13660381e3489c0d2631926c1",
+        "primaryReviewArea": "ASSESSMENT_DERIVED_ASTRONOMY",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::classifyOceanOpportunity",
+        "function": "classifyOceanOpportunity",
+        "file": "backend/server.js",
+        "line": 36174,
+        "sourceHash": "3d6e222e9283c7c209f086ee7b0b4d33ed9a601e9ce2ea1385c7070fb68e7e30",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::classifySeaSurfaceTemperature",
+        "function": "classifySeaSurfaceTemperature",
+        "file": "backend/server.js",
+        "line": 1462,
+        "sourceHash": "a834eeadc509b8c6a47bf8c210eb48d2014f35d775ffaba1e7cfc40eb35dbb0a",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::classifySstSpatialRange",
+        "function": "classifySstSpatialRange",
+        "file": "backend/server.js",
+        "line": 6271,
+        "sourceHash": "0b2b09120965fc68e1f2d736349d5afcd7996b2b4b0cc79227a9ec5e28edc8e4",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::cloneSnapshotValue",
+        "function": "cloneSnapshotValue",
+        "file": "backend/server.js",
+        "line": 15679,
+        "sourceHash": "9caab626537a10f97dcc737f0b1fca7db8d563e2f7ab39fa588c9515a5416ccb",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::createCurrentPointCacheKey",
+        "function": "createCurrentPointCacheKey",
+        "file": "backend/server.js",
+        "line": 1239,
+        "sourceHash": "2164f4cd8a54d9900026ff4a9b0d68d6ca5d7915025f185dd43ab125d2b6e39a",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::createCurrentSpatialSamplePoints",
+        "function": "createCurrentSpatialSamplePoints",
+        "file": "backend/server.js",
+        "line": 1343,
+        "sourceHash": "d01ad1be2f85ce0bfb7349190b1f472ffc851fe3bfa9ff74b3acd90649974b6a",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::createSstPointCacheKey",
+        "function": "createSstPointCacheKey",
+        "file": "backend/server.js",
+        "line": 6004,
+        "sourceHash": "f2db338c9a6d551db8c18f2ad74bf002fd785459f977b949c7bcfeb7f9aab4ff",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::createSstSpatialSamplePoints",
+        "function": "createSstSpatialSamplePoints",
+        "file": "backend/server.js",
+        "line": 6104,
+        "sourceHash": "b85859c88ce28f874cf1512f369f1fecfad2e53fbf790000f7b65909989cc56f",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::currentCompassDirection",
+        "function": "currentCompassDirection",
+        "file": "backend/server.js",
+        "line": 1636,
+        "sourceHash": "9122ba0aa5db7df1d42db853f1a2158278d79016aa35b1cc7fe0a012e61d77ec",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::currentDirectionDegrees",
+        "function": "currentDirectionDegrees",
+        "file": "backend/server.js",
+        "line": 1493,
+        "sourceHash": "1477c260b70f57ff7b92e1a157238efa0de8a760efa3cc56ec25f43e44657f8a",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::deepFreezeSnapshotValue",
+        "function": "deepFreezeSnapshotValue",
+        "file": "backend/server.js",
+        "line": 15694,
+        "sourceHash": "dccfd3dd37596a29da18ab2ef2a3b52eeb2098e2a31b1a7cf204c753812fd0e9",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::deriveSstTransitionOrientation",
+        "function": "deriveSstTransitionOrientation",
+        "file": "backend/server.js",
+        "line": 6305,
+        "sourceHash": "8ae52ba99d185b76d3b4d16d821dbea2558348992e49b6265c3681d25d29af29",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::deterministicSnapshotHash",
+        "function": "deterministicSnapshotHash",
+        "file": "backend/server.js",
+        "line": 17222,
+        "sourceHash": "cdd2fa3a4fb4432a1158593481599c22772f159422f43a5755c4b550fb138bf2",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::evaluateCurrentInteraction",
+        "function": "evaluateCurrentInteraction",
+        "file": "backend/server.js",
+        "line": 22137,
+        "sourceHash": "f2cc9ffd67f5179c14cf82cc5e963fe43196743b518885ba540400618b6d30ab",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::evaluateProductivityInteraction",
+        "function": "evaluateProductivityInteraction",
+        "file": "backend/server.js",
+        "line": 22171,
+        "sourceHash": "d882031807bbe508b3a4395b0baf7b4f57c3acc93191afc2567bc3548c55b8d6",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::evaluateThermalInteraction",
+        "function": "evaluateThermalInteraction",
+        "file": "backend/server.js",
+        "line": 22164,
+        "sourceHash": "7376050d68e0670215d847d4ed96ce5def0d7a0f0af4f91c7f9661b5bea4389b",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::fetchJson",
+        "function": "fetchJson",
+        "file": "backend/server.js",
+        "line": 1096,
+        "sourceHash": "bce5f9a641b7fbda404c0ebf48083fd0908b4753b86112c1d8bb964d6d085a82",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::findNearestStructure",
+        "function": "findNearestStructure",
+        "file": "backend/server.js",
+        "line": 21916,
+        "sourceHash": "53b07d96d4729a94795ed0d76e92cc116c6843bbb9b6af1af734df0129348a6a",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getAgeHours",
+        "function": "getAgeHours",
+        "file": "backend/server.js",
+        "line": 1846,
+        "sourceHash": "cb215e3b4522b249777ff40371ccadd3d7ed6d15791692da03c19d50f8cbdc27",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCachedCurrentConditionsPoint",
+        "function": "getCachedCurrentConditionsPoint",
+        "file": "backend/server.js",
+        "line": 62270,
+        "sourceHash": "ffc9647b9af6dd0763acd684a0c77593201cea176e2d2e4e5cd16d44d68fbf11",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "function": "getCachedCurrentConditionsPointAtAssessment",
+        "file": "backend/server.js",
+        "line": 2544,
+        "sourceHash": "439b765813b872a4df4f27819dbaf410ec852112f3af950f238cb020d68609a4",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::getCachedCurrentPoint",
+        "function": "getCachedCurrentPoint",
+        "file": "backend/server.js",
+        "line": 1250,
+        "sourceHash": "5087952a111d22167ac7224a6f7effd195896ac8ffa3c8f2ecebcadc154036d3",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+        "function": "getCachedSeaSurfaceTemperaturePoint",
+        "file": "backend/server.js",
+        "line": 6892,
+        "sourceHash": "3f6c44931286a7e783c2d9f9f2a33d30b7deaf337fbbd14c94134ca91aa72218",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::getCachedSstPoint",
+        "function": "getCachedSstPoint",
+        "file": "backend/server.js",
+        "line": 6015,
+        "sourceHash": "5e274b88952a39fa5896ccc24dac878b9e4d5a7e5c351858380ea1b0654a19da",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::getChlorophyllConditions",
+        "function": "getChlorophyllConditions",
+        "file": "backend/server.js",
+        "line": 62258,
+        "sourceHash": "d310a882b2bb41555da39622808d9f1bca3470e50ef403f7e9d1f487cfd7247d",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "function": "getChlorophyllConditionsAtAssessment",
+        "file": "backend/server.js",
+        "line": 2045,
+        "sourceHash": "5d18e26b938315002c820eb3d5fb3f89738649524d7d367a803b48bd50bcbaf7",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCircularDirectionDifference",
+        "function": "getCircularDirectionDifference",
+        "file": "backend/server.js",
+        "line": 1520,
+        "sourceHash": "0bf8cf7f44558feee6c6604c2ade14a4f2bea4704ec6d0eabc6d3e145ef13612",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCurrentConditions",
+        "function": "getCurrentConditions",
+        "file": "backend/server.js",
+        "line": 5977,
+        "sourceHash": "4b32a4aa9b4efd55fb443bb49ff4b1efe82494f32d7ca21cd444e3f8d84851ee",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCurrentConditionsPoint",
+        "function": "getCurrentConditionsPoint",
+        "file": "backend/server.js",
+        "line": 62266,
+        "sourceHash": "490e6b0421d62ba0414e6f2ee387cde7b471e806c304292a4089e063840384b2",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "function": "getCurrentConditionsPointAtAssessment",
+        "file": "backend/server.js",
+        "line": 2345,
+        "sourceHash": "d7383f855e8c7a14179b92011d709a8f966f525ebd160d077537bdad2f2dae13",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCurrentProjectionAxes",
+        "function": "getCurrentProjectionAxes",
+        "file": "backend/server.js",
+        "line": 3424,
+        "sourceHash": "ac9992a8367c4ebe8dc5c60772aa62fb770b5e76dbf35678c9040911c57136c4",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCurrentSpatialStructure",
+        "function": "getCurrentSpatialStructure",
+        "file": "backend/server.js",
+        "line": 62274,
+        "sourceHash": "508701e332c525c4db015fbf08c9926310d1e90bb51552916014a5c5e645ba38",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "function": "getCurrentSpatialStructureAtAssessment",
+        "file": "backend/server.js",
+        "line": 2642,
+        "sourceHash": "29a248f9369e71b4a11b9301cd7f6b2d6bc7d62d7b01e0f28acaf47662ec62b2",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getGapFilledChlorophyllConditions",
+        "function": "getGapFilledChlorophyllConditions",
+        "file": "backend/server.js",
+        "line": 62262,
+        "sourceHash": "7cb9ecdc5e538a868ea9212a0cf843e2f16d416e642e905fb180c283e9289b43",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "function": "getGapFilledChlorophyllConditionsAtAssessment",
+        "file": "backend/server.js",
+        "line": 2168,
+        "sourceHash": "27d5906b1f7f79f61fbd3a1ba28a36dd22ebc25b0ca53f02a42d6244f1789344",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getMarineConditions",
+        "function": "getMarineConditions",
+        "file": "backend/server.js",
+        "line": 7204,
+        "sourceHash": "1b676328795ede935144e45c72aa4c989de3e2464a4fa1f34d361653f0558491",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "SEMANTIC_REVIEW_05",
+          "REPRESENTED_SOURCE_TIME"
+        ]
+      },
+      {
+        "id": "backend/server.js::getMoonConditions",
+        "function": "getMoonConditions",
+        "file": "backend/server.js",
+        "line": 1730,
+        "sourceHash": "ea6a44e7d52ab7e4ba604d9f18e0d51bb736586cc285d2c7dbe8f0631770927d",
+        "primaryReviewArea": "ASSESSMENT_DERIVED_ASTRONOMY",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getOceanConditions",
+        "function": "getOceanConditions",
+        "file": "backend/server.js",
+        "line": 62282,
+        "sourceHash": "b8c5b51d62a9d2710f5b4526c59cda205d3a653db361e60ecf70b9a769c1a920",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getOceanConditionsAtAssessment",
+        "function": "getOceanConditionsAtAssessment",
+        "file": "backend/server.js",
+        "line": 60099,
+        "sourceHash": "57e5ebef095fa663542ba33c1430aaeca1e3f6940985375a5ced9225d478834e",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getOpposingCurrentSampleDirection",
+        "function": "getOpposingCurrentSampleDirection",
+        "file": "backend/server.js",
+        "line": 3924,
+        "sourceHash": "4c58cd5389e7177af958fa9f6f9a1edca0464d2df9467118b7b14a6bd99e2b7a",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "function": "getSeaSurfaceTemperaturePoint",
+        "file": "backend/server.js",
+        "line": 6173,
+        "sourceHash": "a94d9216b963c8a5603f0474b076f505ee9a0e564fcd6170239afa013add7e50",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getSstSpatialStructure",
+        "function": "getSstSpatialStructure",
+        "file": "backend/server.js",
+        "line": 62278,
+        "sourceHash": "bf8f490fcf980efca834d57ca34afdfa02f321b399108700f99d2013c7ca14b4",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::getSstSpatialStructureAtAssessment",
+        "function": "getSstSpatialStructureAtAssessment",
+        "file": "backend/server.js",
+        "line": 6988,
+        "sourceHash": "d8231cd1c10f3f5061b0b210d85db044a76165ef1b74c2e04d992f10d21f1666",
+        "primaryReviewArea": "SEMANTIC_REVIEW_02",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::interpretBlueMarlinPathway",
+        "function": "interpretBlueMarlinPathway",
+        "file": "backend/server.js",
+        "line": 40213,
+        "sourceHash": "fe0c892000d46c8dc975361983e7097abdf431c933d6ef529907d62c7c5e8bca",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::kilometersBetween",
+        "function": "kilometersBetween",
+        "file": "backend/server.js",
+        "line": 987,
+        "sourceHash": "140d9e880ba8a6df2d14d7f42aee5b40c6f3f47f3aaace488c10e524c5fe8f84",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::metersPerSecondToKnots",
+        "function": "metersPerSecondToKnots",
+        "file": "backend/server.js",
+        "line": 816,
+        "sourceHash": "34b04f5ff49bc978e841d4fca13e32a35f208e5df60b90fc50c95a2cc00225b9",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::metersToFeet",
+        "function": "metersToFeet",
+        "file": "backend/server.js",
+        "line": 832,
+        "sourceHash": "796c238aaf543858e4e4f04e8b9b2ebb96bd30aa8b673562d76c188fbf069e88",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::nauticalMilesBetween",
+        "function": "nauticalMilesBetween",
+        "file": "backend/server.js",
+        "line": 876,
+        "sourceHash": "9118ce9f67e38a043d8026f8e75f8a33bae8be75354581189fb1c6e1fbbada70",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::normalizeSnapshotIdentityPart",
+        "function": "normalizeSnapshotIdentityPart",
+        "file": "backend/server.js",
+        "line": 17204,
+        "sourceHash": "fa0445d7a3c8296d0319ade0dae3c101880fb816d4eb30174b18ef13f9328aba",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::propagateEvidenceLineage",
+        "function": "propagateEvidenceLineage",
+        "file": "backend/server.js",
+        "line": 42553,
+        "sourceHash": "e85133b85d530594a9ff26c41bafedd1f744d8acccf7ae969c8c7a61502ee34f",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::resolveBlueMarlinOpportunityType",
+        "function": "resolveBlueMarlinOpportunityType",
+        "file": "backend/server.js",
+        "line": 45249,
+        "sourceHash": "64bc44102feffeea18d72cd033bbbdee71142c4c099941fba7d2f31241985075",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::resolveChlorophyllObservation",
+        "function": "resolveChlorophyllObservation",
+        "file": "backend/server.js",
+        "line": 1851,
+        "sourceHash": "15352e97596dcd42938c68e52902d2cdcfb6f2d9a4616fef2054721445df2789",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::resolveOceanSignals",
+        "function": "resolveOceanSignals",
+        "file": "backend/server.js",
+        "line": 37680,
+        "sourceHash": "63584804ee4ccb873cf78902fa47374ff93433a50ddbc3c45481a7af21e7d595",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::resolveProviderCoordinates",
+        "function": "resolveProviderCoordinates",
+        "file": "backend/server.js",
+        "line": 2036,
+        "sourceHash": "66e9eb2725906e022b1c1c561ad5f63b00495718d8632a1c40792906963b89a7",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::resolveRelationshipImportance",
+        "function": "resolveRelationshipImportance",
+        "file": "backend/server.js",
+        "line": 43237,
+        "sourceHash": "18c4849b30e7da22035aaf29b73b2b492fbd25ef7d8cf7acd0f23bd04dc6ec2f",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::resolveSpeciesOpportunityType",
+        "function": "resolveSpeciesOpportunityType",
+        "file": "backend/server.js",
+        "line": 44374,
+        "sourceHash": "f1295d589fa9eed529ac78a395216c66ae01185cd8273b85b619314516f4fc5e",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::retrieveOceanMemoryRows",
+        "function": "retrieveOceanMemoryRows",
+        "file": "backend/server.js",
+        "line": 365,
+        "sourceHash": "4bfec3ef45bd5e6eec23a63c3e9a4aa6757d944c1ab5a755b8cc76db5d5131fd",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::safeNumber",
+        "function": "safeNumber",
+        "file": "backend/server.js",
+        "line": 859,
+        "sourceHash": "116ff830ffb569c7ecf616c7b377d839fb55d0d8a962c8cafcd3faf6893e9163",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::setCachedCurrentPoint",
+        "function": "setCachedCurrentPoint",
+        "file": "backend/server.js",
+        "line": 1302,
+        "sourceHash": "63665ce758a08524ee84cff4a3773c1e047c06d11871f2142682974acace2827",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::setCachedSstPoint",
+        "function": "setCachedSstPoint",
+        "file": "backend/server.js",
+        "line": 6067,
+        "sourceHash": "68811d39ada0c0656c041f3db2b0d5d3c30e32466454fc9207cd5d9867b06d92",
+        "primaryReviewArea": "SEMANTIC_REVIEW_06",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": [
+          "CROSS_CUTTING_OPERATIONAL",
+          "DEFAULT_FAMILY_SOURCE_REUSE"
+        ]
+      },
+      {
+        "id": "backend/server.js::settleWithTiming",
+        "function": "settleWithTiming",
+        "file": "backend/server.js",
+        "line": 1049,
+        "sourceHash": "af6cd7eb8771f89b818baeddb0456d8c2881528bfc5ebe33ddfba5a17f5752bb",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::snapshotTimestampMilliseconds",
+        "function": "snapshotTimestampMilliseconds",
+        "file": "backend/server.js",
+        "line": 16413,
+        "sourceHash": "c8c4fc3ea404a1570b08ba9ebfc45e4737685a3b867141a3a2d2e7448f26f4e1",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::validateEvidenceLineage",
+        "function": "validateEvidenceLineage",
+        "file": "backend/server.js",
+        "line": 42920,
+        "sourceHash": "28ec5f620fa2f96ddd714ced7452685c20c4cd52daf32f5a116b1dab02a898b0",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::validateKnowledgeProvenance",
+        "function": "validateKnowledgeProvenance",
+        "file": "backend/server.js",
+        "line": 40671,
+        "sourceHash": "126892bbfabd8870e81250c839d9a104fb103782a1d9f5efc334a9472abffccc",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::validateLineageUpstreamReference",
+        "function": "validateLineageUpstreamReference",
+        "file": "backend/server.js",
+        "line": 42302,
+        "sourceHash": "b4c55f84aee5555f6e51e9475db7b28e2fd4b1b06f24a49833f67499155b8140",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      },
+      {
+        "id": "backend/server.js::validateSpeciesKnowledgeProfile",
+        "function": "validateSpeciesKnowledgeProfile",
+        "file": "backend/server.js",
+        "line": 43269,
+        "sourceHash": "35d9494f3f5572f7281d3d54c850fbb5694641caf91900595e3fd850a472d740",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "crossCuttingRelationships": []
+      }
+    ],
+    "edges": [
+      {
+        "from": "backend/scientificAssessment.mjs::assertScientificInstantV1",
+        "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1"
+      },
+      {
+        "from": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+        "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1"
+      },
+      {
+        "from": "backend/scientificAssessment.mjs::reassessCurrentAgeV1",
+        "to": "backend/scientificAssessment.mjs::scientificAgeHoursV1"
+      },
+      {
+        "from": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1",
+        "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1"
+      },
+      {
+        "from": "backend/scientificAssessment.mjs::scientificAgeHoursV1",
+        "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1"
+      },
+      {
+        "from": "backend/scientificAssessment.mjs::withScientificAssessmentV1",
+        "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::assessBlueMarlinHabitat",
+        "to": "backend/server.js::assessRelationships"
+      },
+      {
+        "from": "backend/server.js::assessBlueMarlinHabitat",
+        "to": "backend/server.js::buildBlueMarlinHabitatLineage"
+      },
+      {
+        "from": "backend/server.js::assessBlueMarlinHabitat",
+        "to": "backend/server.js::buildPersistenceEvidence"
+      },
+      {
+        "from": "backend/server.js::assessBlueMarlinHabitat",
+        "to": "backend/server.js::buildRelationshipContext"
+      },
+      {
+        "from": "backend/server.js::assessBlueMarlinHabitat",
+        "to": "backend/server.js::interpretBlueMarlinPathway"
+      },
+      {
+        "from": "backend/server.js::assessBlueMarlinHabitat",
+        "to": "backend/server.js::resolveBlueMarlinOpportunityType"
+      },
+      {
+        "from": "backend/server.js::assessmentFromOptionsV1",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::assessOceanConditions",
+        "to": "backend/server.js::buildAssessmentConfidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildClarityEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildCurrentEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildEnvironmentalOpportunityEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildEnvironmentalTransitionAnalysis"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildMixingZoneAnalysis"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOceanEvidenceConfidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOceanEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOceanEvidenceSummary"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOceanFrontAnalysis"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOceanOrganizationAnalysis"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOceanPhysicsExplainabilityLineage"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOceanPhysicsExplainabilitySummary"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildOpenWaterEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildPersistenceEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildProductivityEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildStructureEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildSurfaceWaterCharacterAnalysis"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildTemperatureEvidence"
+      },
+      {
+        "from": "backend/server.js::assessOceanEvidence",
+        "to": "backend/server.js::buildWaterMassAnalysis"
+      },
+      {
+        "from": "backend/server.js::assessOceanOpportunity",
+        "to": "backend/server.js::buildOceanOpportunityLineage"
+      },
+      {
+        "from": "backend/server.js::assessOceanOpportunity",
+        "to": "backend/server.js::classifyOceanOpportunity"
+      },
+      {
+        "from": "backend/server.js::assessRelationships",
+        "to": "backend/server.js::buildRelationshipAssessmentLineage"
+      },
+      {
+        "from": "backend/server.js::assessRelationships",
+        "to": "backend/server.js::buildRelationshipContext"
+      },
+      {
+        "from": "backend/server.js::assessSstTransitionConfidence",
+        "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::buildBackendSupabaseConfiguration",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildBlueMarlinHabitatLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildBlueMarlinPathwayLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildClarityEvidence",
+        "to": "backend/server.js::classifyChlorophyll"
+      },
+      {
+        "from": "backend/server.js::buildClarityPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildCurrentConvergenceAnalysis",
+        "to": "backend/server.js::getOpposingCurrentSampleDirection"
+      },
+      {
+        "from": "backend/server.js::buildCurrentConvergencePersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildCurrentEdgePersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildCurrentEvidence",
+        "to": "backend/server.js::buildCurrentSpatialAnalysis"
+      },
+      {
+        "from": "backend/server.js::buildCurrentEvidence",
+        "to": "backend/server.js::classifyCurrentStrength"
+      },
+      {
+        "from": "backend/server.js::buildCurrentEvidence",
+        "to": "backend/server.js::currentCompassDirection"
+      },
+      {
+        "from": "backend/server.js::buildCurrentGradientAnalysis",
+        "to": "backend/server.js::getCircularDirectionDifference"
+      },
+      {
+        "from": "backend/server.js::buildCurrentGradientAnalysis",
+        "to": "backend/server.js::nauticalMilesBetween"
+      },
+      {
+        "from": "backend/server.js::buildCurrentPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildCurrentShearPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildCurrentVectorProjectionAnalysis",
+        "to": "backend/server.js::getCurrentProjectionAxes"
+      },
+      {
+        "from": "backend/server.js::buildEnvironmentalTransitionPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildFeaturePersistenceContract",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildHistoricalSnapshotQuery",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildHistoricalSnapshotQuery",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildHistoricalSnapshotQuery",
+        "to": "backend/server.js::kilometersBetween"
+      },
+      {
+        "from": "backend/server.js::buildIntelligenceSnapshot",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildIntelligenceSnapshot",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildLineageUpstreamReference",
+        "to": "backend/server.js::validateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildMixingZonePersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildObservationSnapshot",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildObservationSnapshot",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanChangeAnalysis",
+        "to": "backend/server.js::angularDifferenceDegrees"
+      },
+      {
+        "from": "backend/server.js::buildOceanChangeAnalysis",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanChangeAnalysis",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanChangeAnalysis",
+        "to": "backend/server.js::snapshotTimestampMilliseconds"
+      },
+      {
+        "from": "backend/server.js::buildOceanChangeFromTimeSeries",
+        "to": "backend/server.js::buildOceanChangeAnalysis"
+      },
+      {
+        "from": "backend/server.js::buildOceanChangeFromTimeSeries",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanChangeFromTimeSeries",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanEvolution",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanEvolution",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanFrontPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanMemoryStorageRecordFromRow",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanMemoryTimeSeries",
+        "to": "backend/server.js::buildHistoricalSnapshotQuery"
+      },
+      {
+        "from": "backend/server.js::buildOceanMemoryTimeSeries",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanMemoryTimeSeries",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanOpportunityLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildClarityPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildCurrentConvergencePersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildCurrentEdgePersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildCurrentPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildCurrentShearPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildEnvironmentalTransitionPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildMixingZonePersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildOceanFrontPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildPersistenceEvidence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildProductivityPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildSeaSurfaceTemperaturePersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildSurfaceWaterCharacterPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildTemporalFeatureContinuity"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::buildWaterMassPersistence"
+      },
+      {
+        "from": "backend/server.js::buildOceanPersistence",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanPhysicsExplainabilityLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildOceanSignalSelectionLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildOceanSnapshot",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOceanSnapshot",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildOpportunityTypeResolutionLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildPersistenceEvidence",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildProductivityEvidence",
+        "to": "backend/server.js::classifyChlorophyll"
+      },
+      {
+        "from": "backend/server.js::buildProductivityPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildRelationshipAssessmentLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildRelationshipContext",
+        "to": "backend/server.js::buildRelationshipContextLineage"
+      },
+      {
+        "from": "backend/server.js::buildRelationshipContextLineage",
+        "to": "backend/server.js::propagateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::buildSeaSurfaceTemperaturePersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildSnapshotMetadata",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildSnapshotMetadata",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildSnapshotMetadata",
+        "to": "backend/server.js::deterministicSnapshotHash"
+      },
+      {
+        "from": "backend/server.js::buildSnapshotMetadata",
+        "to": "backend/server.js::normalizeSnapshotIdentityPart"
+      },
+      {
+        "from": "backend/server.js::buildStructureEvidence",
+        "to": "backend/server.js::buildStructureConfidence"
+      },
+      {
+        "from": "backend/server.js::buildStructureEvidence",
+        "to": "backend/server.js::buildStructureMetadata"
+      },
+      {
+        "from": "backend/server.js::buildStructureEvidence",
+        "to": "backend/server.js::evaluateCurrentInteraction"
+      },
+      {
+        "from": "backend/server.js::buildStructureEvidence",
+        "to": "backend/server.js::evaluateProductivityInteraction"
+      },
+      {
+        "from": "backend/server.js::buildStructureEvidence",
+        "to": "backend/server.js::evaluateThermalInteraction"
+      },
+      {
+        "from": "backend/server.js::buildStructureEvidence",
+        "to": "backend/server.js::findNearestStructure"
+      },
+      {
+        "from": "backend/server.js::buildStructureEvidence",
+        "to": "backend/server.js::safeNumber"
+      },
+      {
+        "from": "backend/server.js::buildStructureMetadata",
+        "to": "backend/server.js::safeNumber"
+      },
+      {
+        "from": "backend/server.js::buildSurfaceWaterCharacterPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::buildTemperatureEvidence",
+        "to": "backend/server.js::classifySeaSurfaceTemperature"
+      },
+      {
+        "from": "backend/server.js::buildTemporalFeatureContinuity",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildTemporalOceanExplainability",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildTemporalOceanExplainability",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::buildWaterMassPersistence",
+        "to": "backend/server.js::buildFeaturePersistenceContract"
+      },
+      {
+        "from": "backend/server.js::deepFreezeSnapshotValue",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::findNearestStructure",
+        "to": "backend/server.js::nauticalMilesBetween"
+      },
+      {
+        "from": "backend/server.js::getAgeHours",
+        "to": "backend/scientificAssessment.mjs::requireScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getAgeHours",
+        "to": "backend/scientificAssessment.mjs::scientificAgeHoursV1"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "to": "backend/scientificAssessment.mjs::reassessCurrentAgeV1"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::createCurrentPointCacheKey"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::getCachedCurrentPoint"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::getCurrentConditionsPoint"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::setCachedCurrentPoint"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPoint",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPoint",
+        "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentConditionsPoint",
+        "to": "backend/server.js::getCachedCurrentConditionsPointAtAssessment"
+      },
+      {
+        "from": "backend/server.js::getCachedCurrentPoint",
+        "to": "backend/server.js::createCurrentPointCacheKey"
+      },
+      {
+        "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::createSstPointCacheKey"
+      },
+      {
+        "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::getCachedSstPoint"
+      },
+      {
+        "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::getSeaSurfaceTemperaturePoint"
+      },
+      {
+        "from": "backend/server.js::getCachedSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::setCachedSstPoint"
+      },
+      {
+        "from": "backend/server.js::getCachedSstPoint",
+        "to": "backend/server.js::createSstPointCacheKey"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::classifyChlorophyll"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::fetchJson"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::getAgeHours"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::resolveProviderCoordinates"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::safeNumber"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditions",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditions",
+        "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getChlorophyllConditions",
+        "to": "backend/server.js::getChlorophyllConditionsAtAssessment"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditions",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditions",
+        "to": "backend/server.js::getCachedCurrentConditionsPoint"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::classifyCurrentStrength"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::currentCompassDirection"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::currentDirectionDegrees"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::fetchJson"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::getAgeHours"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::metersPerSecondToKnots"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::resolveProviderCoordinates"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "to": "backend/server.js::safeNumber"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPoint",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPoint",
+        "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCurrentConditionsPoint",
+        "to": "backend/server.js::getCurrentConditionsPointAtAssessment"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "to": "backend/server.js::classifyCurrentSpatialVariation"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "to": "backend/server.js::createCurrentSpatialSamplePoints"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "to": "backend/server.js::getCachedCurrentConditionsPoint"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructureAtAssessment",
+        "to": "backend/server.js::getCircularDirectionDifference"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructure",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructure",
+        "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getCurrentSpatialStructure",
+        "to": "backend/server.js::getCurrentSpatialStructureAtAssessment"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::classifyChlorophyll"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::fetchJson"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::getAgeHours"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::resolveProviderCoordinates"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "to": "backend/server.js::safeNumber"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditions",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditions",
+        "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getGapFilledChlorophyllConditions",
+        "to": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment"
+      },
+      {
+        "from": "backend/server.js::getMarineConditions",
+        "to": "backend/server.js::celsiusToFahrenheit"
+      },
+      {
+        "from": "backend/server.js::getMarineConditions",
+        "to": "backend/server.js::fetchJson"
+      },
+      {
+        "from": "backend/server.js::getMarineConditions",
+        "to": "backend/server.js::metersPerSecondToKnots"
+      },
+      {
+        "from": "backend/server.js::getMarineConditions",
+        "to": "backend/server.js::metersToFeet"
+      },
+      {
+        "from": "backend/server.js::getMarineConditions",
+        "to": "backend/server.js::resolveProviderCoordinates"
+      },
+      {
+        "from": "backend/server.js::getMarineConditions",
+        "to": "backend/server.js::safeNumber"
+      },
+      {
+        "from": "backend/server.js::getMarineConditions",
+        "to": "backend/server.js::settleWithTiming"
+      },
+      {
+        "from": "backend/server.js::getMoonConditions",
+        "to": "backend/scientificAssessment.mjs::assertScientificInstantV1"
+      },
+      {
+        "from": "backend/server.js::getMoonConditions",
+        "to": "backend/server.js::classifyMoonPhase"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::assessBlueMarlinHabitat"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::assessOceanConditions"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::assessOceanEvidence"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::assessOceanOpportunity"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::assessRelationships"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildBackendSupabaseConfiguration"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentConvergenceAnalysis"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentEdgeAnalysis"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentGradientAnalysis"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentOrganizationAnalysis"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentRelationshipContext"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentShearAnalysis"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentSpatialPatternAnalysis"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildCurrentVectorProjectionAnalysis"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildHistoricalSnapshotQuery"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildIntelligenceSnapshot"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildObservationSnapshot"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildOceanChangeFromTimeSeries"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildOceanEvolution"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildOceanMemoryStorageRecordFromRow"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildOceanMemoryTimeSeries"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildOceanPersistence"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildOceanSnapshot"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildRelationshipContext"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildSnapshotMetadata"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildTemperatureTransitionMapFeature"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::buildTemporalOceanExplainability"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::classifySeaSurfaceTemperature"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::getChlorophyllConditions"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::getCurrentConditions"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::getCurrentSpatialStructure"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::getGapFilledChlorophyllConditions"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::getMarineConditions"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::getMoonConditions"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::getSstSpatialStructure"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::resolveChlorophyllObservation"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::resolveOceanSignals"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::retrieveOceanMemoryRows"
+      },
+      {
+        "from": "backend/server.js::getOceanConditionsAtAssessment",
+        "to": "backend/server.js::settleWithTiming"
+      },
+      {
+        "from": "backend/server.js::getOceanConditions",
+        "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getOceanConditions",
+        "to": "backend/server.js::assessmentFromOptionsV1"
+      },
+      {
+        "from": "backend/server.js::getOceanConditions",
+        "to": "backend/server.js::getOceanConditionsAtAssessment"
+      },
+      {
+        "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::celsiusToFahrenheit"
+      },
+      {
+        "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::fetchJson"
+      },
+      {
+        "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::resolveProviderCoordinates"
+      },
+      {
+        "from": "backend/server.js::getSeaSurfaceTemperaturePoint",
+        "to": "backend/server.js::safeNumber"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+        "to": "backend/server.js::assessSstTransitionConfidence"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+        "to": "backend/server.js::classifySstSpatialRange"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+        "to": "backend/server.js::createSstSpatialSamplePoints"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+        "to": "backend/server.js::deriveSstTransitionOrientation"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructureAtAssessment",
+        "to": "backend/server.js::getCachedSeaSurfaceTemperaturePoint"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructure",
+        "to": "backend/scientificAssessment.mjs::resolveScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructure",
+        "to": "backend/scientificAssessment.mjs::withScientificAssessmentV1"
+      },
+      {
+        "from": "backend/server.js::getSstSpatialStructure",
+        "to": "backend/server.js::getSstSpatialStructureAtAssessment"
+      },
+      {
+        "from": "backend/server.js::interpretBlueMarlinPathway",
+        "to": "backend/server.js::buildBlueMarlinPathwayLineage"
+      },
+      {
+        "from": "backend/server.js::kilometersBetween",
+        "to": "backend/server.js::nauticalMilesBetween"
+      },
+      {
+        "from": "backend/server.js::propagateEvidenceLineage",
+        "to": "backend/server.js::buildLineageUpstreamReference"
+      },
+      {
+        "from": "backend/server.js::propagateEvidenceLineage",
+        "to": "backend/server.js::validateEvidenceLineage"
+      },
+      {
+        "from": "backend/server.js::resolveBlueMarlinOpportunityType",
+        "to": "backend/server.js::resolveSpeciesOpportunityType"
+      },
+      {
+        "from": "backend/server.js::resolveOceanSignals",
+        "to": "backend/server.js::buildOceanSignalSelectionLineage"
+      },
+      {
+        "from": "backend/server.js::resolveSpeciesOpportunityType",
+        "to": "backend/server.js::buildOpportunityTypeResolutionLineage"
+      },
+      {
+        "from": "backend/server.js::resolveSpeciesOpportunityType",
+        "to": "backend/server.js::resolveRelationshipImportance"
+      },
+      {
+        "from": "backend/server.js::resolveSpeciesOpportunityType",
+        "to": "backend/server.js::validateSpeciesKnowledgeProfile"
+      },
+      {
+        "from": "backend/server.js::retrieveOceanMemoryRows",
+        "to": "backend/server.js::cloneSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::retrieveOceanMemoryRows",
+        "to": "backend/server.js::deepFreezeSnapshotValue"
+      },
+      {
+        "from": "backend/server.js::setCachedCurrentPoint",
+        "to": "backend/server.js::createCurrentPointCacheKey"
+      },
+      {
+        "from": "backend/server.js::setCachedSstPoint",
+        "to": "backend/server.js::createSstPointCacheKey"
+      },
+      {
+        "from": "backend/server.js::validateEvidenceLineage",
+        "to": "backend/server.js::validateLineageUpstreamReference"
+      },
+      {
+        "from": "backend/server.js::validateSpeciesKnowledgeProfile",
+        "to": "backend/server.js::validateKnowledgeProvenance"
+      }
+    ],
+    "nested": [
+      {
+        "caller": "backend/server.js::assessBlueMarlinHabitat",
+        "target": "hasOpportunityType",
+        "line": 45506,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "assessDirectionalInteraction",
+        "line": 8441,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "assessSeaStateInteraction",
+        "line": 8694,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "assessSwell",
+        "line": 8279,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "assessWaves",
+        "line": 8110,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "assessWind",
+        "line": 7998,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "classifyDirectionalDifference",
+        "line": 7933,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "classifySwellPeriod",
+        "line": 8247,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "classifyWavePeriod",
+        "line": 7966,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "directionDifference",
+        "line": 7895,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "formatFactorList",
+        "line": 9103,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanConditions",
+        "target": "normalizeDirection",
+        "line": 7874,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_05",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanOpportunity",
+        "target": "addOpportunity",
+        "line": 36829,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanOpportunity",
+        "target": "buildObservationProvenanceContribution",
+        "line": 36723,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessOceanOpportunity",
+        "target": "confidenceLevel",
+        "line": 36705,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::assessRelationships",
+        "target": "confidenceLevelForValue",
+        "line": 39640,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::buildCurrentPersistence",
+        "target": "calculateDirectionDifference",
+        "line": 26957,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::buildCurrentPersistence",
+        "target": "normalizeDirectionDegrees",
+        "line": 26937,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "target": "freezeDeep",
+        "line": 24385,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_07",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "target": "isValidLatitude",
+        "line": 24079,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_07",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::buildGovernedEnvironmentalFeatureObservationV1",
+        "target": "isValidLongitude",
+        "line": 24089,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_07",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::buildOceanPersistence",
+        "target": "buildUnavailableFeature",
+        "line": 34650,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::buildOceanPhysicsExplainabilitySummary",
+        "target": "normalizeStage",
+        "line": 14453,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "UNASSIGNED_NEW_AREA_REQUIRED",
+        "candidateArea": "CROSS_FAMILY_OCEAN_PHYSICS_INTERPRETATION",
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::getChlorophyllConditionsAtAssessment",
+        "target": "valueAt",
+        "line": 2099,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::getCurrentConditionsPointAtAssessment",
+        "target": "valueAt",
+        "line": 2417,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_04",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::getGapFilledChlorophyllConditionsAtAssessment",
+        "target": "valueAt",
+        "line": 2257,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::getOceanConditionsAtAssessment",
+        "target": "formatLayerList",
+        "line": 61051,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_08",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::nauticalMilesBetween",
+        "target": "radians",
+        "line": 882,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_09",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::propagateEvidenceLineage",
+        "target": "cleanUniqueStrings",
+        "line": 42814,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::resolveChlorophyllObservation",
+        "target": "observationQualityRank",
+        "line": 1908,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": "SEMANTIC_REVIEW_03",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::resolveOceanSignals",
+        "target": "buildSignal",
+        "line": 37748,
+        "resolution": "LEXICAL_TARGET",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "LEXICALLY_BOUND"
+      },
+      {
+        "caller": "backend/server.js::retrieveOceanMemoryRows",
+        "target": "fetchImplementation",
+        "line": 669,
+        "resolution": "HISTORY_DEFAULT_FETCH",
+        "primaryReviewArea": null,
+        "ownershipStatus": "NOT_REVIEWED_AFTER_STOP",
+        "candidateArea": null,
+        "scope": "HISTORY_DOCUMENTARY_DEFAULT_FETCH_NOT_ARBITRARY_OCEAN_PROVIDER"
+      },
+      {
+        "caller": "backend/server.js::settleWithTiming",
+        "target": "operation",
+        "line": 1057,
+        "resolution": "CLOSED_ACQUISITION_CLOSURES",
+        "primaryReviewArea": "SEMANTIC_REVIEW_01",
+        "ownershipStatus": "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION",
+        "candidateArea": null,
+        "scope": "CLOSED_CURRENT_ACQUISITION_CLOSURES"
+      }
+    ],
+    "ownershipCounts": {
+      "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION": 91,
+      "NOT_REVIEWED_AFTER_STOP": 54,
+      "UNASSIGNED_NEW_AREA_REQUIRED": 9
+    },
+    "bindingOwnershipCounts": {
+      "NOT_REVIEWED_AFTER_STOP": 11,
+      "PROVISIONAL_SCOPE_MAPPING_NOT_RESOLUTION": 21,
+      "UNASSIGNED_NEW_AREA_REQUIRED": 1
+    },
+    "definiteUnassignedNamedNodes": 9,
+    "totalUnassignedSemanticNodes": "NOT_ESTABLISHED_AFTER_STOP; at least the witnessed interpretation and its candidate subsystem require ownership.",
+    "imports": "Six named scientificAssessment functions reproduced; typed context/age relationships mapped. Other transitive/import/member target closure not approved after STOP.",
+    "dynamic": "Zero unresolved named callback targets in bounded reference traversal. Member/inline semantic effect closure remains unaudited; cannot claim zero unresolved semantic targets."
+  },
+  "fallbacks": [
+    {
+      "path": "empty chlorophyll / no-valid-pixel",
+      "primaryReviewArea": "SEMANTIC_REVIEW_01",
+      "crossCutting": [
+        "SEMANTIC_REVIEW_03"
+      ],
+      "status": "Existing positive coverage retained; no exhaustive reachability resolution here."
+    },
+    {
+      "path": "rejected SST assembly",
+      "primaryReviewArea": "SEMANTIC_REVIEW_02",
+      "crossCutting": [
+        "SEMANTIC_REVIEW_01"
+      ],
+      "status": "Existing positive coverage retained; no exhaustive reachability resolution here."
+    },
+    {
+      "path": "rejected individual SST requests",
+      "primaryReviewArea": "SEMANTIC_REVIEW_01",
+      "crossCutting": [
+        "SEMANTIC_REVIEW_02"
+      ],
+      "status": "Existing positive coverage retained; no exhaustive reachability resolution here."
+    },
+    {
+      "path": "empty currents",
+      "primaryReviewArea": "SEMANTIC_REVIEW_01",
+      "crossCutting": [
+        "SEMANTIC_REVIEW_04"
+      ],
+      "status": "Existing positive coverage retained; no exhaustive reachability resolution here."
+    },
+    {
+      "path": "rejected weather",
+      "primaryReviewArea": "SEMANTIC_REVIEW_01",
+      "crossCutting": [
+        "SEMANTIC_REVIEW_05"
+      ],
+      "status": "Existing positive coverage retained; no exhaustive reachability resolution here."
+    }
+  ],
+  "staticContext": {
+    "owner": "SEMANTIC_REVIEW_09",
+    "evidence": "buildStructureEvidence reads valid location, nearest structure and current interaction. Upstream candidate eligibility/water-mask/bathymetry constraints remain in the exact original obligation.",
+    "limit": "This is ownership, not proof that all static enforcement or static inputs are audited; synthetic eligibility is not a caller invariant."
+  },
+  "candidateBinding": {
+    "owner": "SEMANTIC_REVIEW_09",
+    "crossCutting": [
+      "SEMANTIC_REVIEW_02",
+      "SEMANTIC_REVIEW_04",
+      "SEMANTIC_REVIEW_08"
+    ],
+    "authority": "Accepted location controls sample requests, static proximity and snapshot location; astronomy remains independent."
+  },
+  "featureConstruction": {
+    "owner": "SEMANTIC_REVIEW_07",
+    "members": [
+      "missingRequirements",
+      "observationReference",
+      "observedAt",
+      "availability"
+    ],
+    "limit": "Only ownership assigned; no requirement categories, combinations or optionality requalified."
+  },
+  "snapshotConstruction": {
+    "owner": "SEMANTIC_REVIEW_08",
+    "representationOnly": false,
+    "sourceFacts": [
+      "validLocation finite coordinate checks",
+      "evidenceAvailable non-null non-array object check",
+      "available = validLocation && evidenceAvailable",
+      "object/field null/default selection",
+      "structuredClone and deep freeze"
+    ],
+    "limit": "Representation/source-boundary obligation can own these decisions, but cannot absorb independent pre-snapshot physics algorithms."
+  },
+  "provenance": {
+    "familySource": [
+      "SEMANTIC_REVIEW_01",
+      "SEMANTIC_REVIEW_03",
+      "SEMANTIC_REVIEW_04",
+      "SEMANTIC_REVIEW_05"
+    ],
+    "retention": "SEMANTIC_REVIEW_08",
+    "unowned": "Cross-family physics lineage includes stage input/state/reference assertions and needs candidate-area review; not silently documentary.",
+    "warningText": "Explanation-only text is distinct; no new semantic classification granted."
+  },
+  "outputOwnership": [
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure",
+      "primaryReviewArea": "SEMANTIC_REVIEW_02",
+      "reason": "SST producer to retained spatial facts",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/productivity",
+      "primaryReviewArea": "SEMANTIC_REVIEW_03",
+      "reason": "Chlorophyll selection to productivity evidence",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/clarity",
+      "primaryReviewArea": "SEMANTIC_REVIEW_03",
+      "reason": "Chlorophyll-derived clarity; source distinction retained",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current",
+      "primaryReviewArea": "SEMANTIC_REVIEW_04",
+      "reason": "Current vector/spatial interpretation",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/observations/wind",
+      "primaryReviewArea": "SEMANTIC_REVIEW_05",
+      "reason": "Weather/marine evidence and quality, transport shared with 01",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/observations/moon",
+      "primaryReviewArea": "ASSESSMENT_DERIVED_ASTRONOMY",
+      "reason": "Qualified calculation and snapshot copy",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality",
+      "primaryReviewArea": "SEMANTIC_REVIEW_05",
+      "reason": "Family quality aggregation; time relationships listed separately",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/structure",
+      "primaryReviewArea": "SEMANTIC_REVIEW_09",
+      "reason": "Nearest structure/location/static evidence",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/location",
+      "primaryReviewArea": "SEMANTIC_REVIEW_09",
+      "reason": "Candidate/provider location binding with representation cross-cutting 08",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/available",
+      "primaryReviewArea": "SEMANTIC_REVIEW_08",
+      "reason": "Finite location and object evidence checks; not arbitrary descendant authority",
+      "status": "PROVISIONAL_SCOPE_MAPPING"
+    },
+    {
+      "path": "/observationSnapshot/lineage/oceanPhysicsExplainability",
+      "primaryReviewArea": null,
+      "reason": "New cross-family interpretation lineage, not merely documentary warnings",
+      "status": "ORPHAN_NEW_AREA_REQUIRED"
+    },
+    {
+      "path": "/observationSnapshot/oceanPhysics/environmentalTransitionAnalysis/classification",
+      "primaryReviewArea": null,
+      "reason": "Witnessed orphan combined scientific interpretation",
+      "status": "ORPHAN_NEW_AREA_REQUIRED"
+    },
+    {
+      "path": "/observationSnapshot/oceanOrganization",
+      "primaryReviewArea": null,
+      "reason": "Combined water/temperature/current analysis sibling requiring new-area review",
+      "status": "ORPHAN_NEW_AREA_REQUIRED"
+    }
+  ],
+  "authoritySources": [
+    {
+      "source": "provider evidence",
+      "feeds": [
+        "SEMANTIC_REVIEW_01",
+        "SEMANTIC_REVIEW_02",
+        "SEMANTIC_REVIEW_03",
+        "SEMANTIC_REVIEW_04",
+        "SEMANTIC_REVIEW_05"
+      ],
+      "orphanEffect": "Cross-family physics interpretation"
+    },
+    {
+      "source": "assessment context",
+      "feeds": [
+        "ASSESSMENT_DERIVED_ASTRONOMY",
+        "SEMANTIC_REVIEW_02",
+        "SEMANTIC_REVIEW_03",
+        "SEMANTIC_REVIEW_04"
+      ]
+    },
+    {
+      "source": "represented time",
+      "feeds": [
+        "SEMANTIC_REVIEW_01",
+        "SEMANTIC_REVIEW_08"
+      ]
+    },
+    {
+      "source": "static context / candidate location",
+      "feeds": [
+        "SEMANTIC_REVIEW_09"
+      ],
+      "crossCutting": [
+        "SEMANTIC_REVIEW_02",
+        "SEMANTIC_REVIEW_04",
+        "SEMANTIC_REVIEW_08"
+      ]
+    },
+    {
+      "source": "existing governed references",
+      "feeds": [
+        "SEMANTIC_REVIEW_07",
+        "SEMANTIC_REVIEW_08"
+      ],
+      "limit": "Shape/placement/retention ownership only, no authentication claim."
+    }
+  ],
+  "boundaries": {
+    "injectedProvider": "OUTSIDE_CURRENT_DEFAULT_PROVIDER_MODEL; DEFAULT_PROVIDER_DOMAIN_QUALIFIABLE_SEPARATELY preserved.",
+    "species": "DOWNSTREAM_OUTSIDE_CURRENT_MODEL; no Blue Marlin area.",
+    "history": "Outside current-evidence qualification except retained documentary/history context and current-vs-history separation under 08. No history selection reopened.",
+    "cache": "CROSS_CUTTING_OPERATIONAL with original 06 equivalence questions still BLOCKING_UNRESOLVED.",
+    "generatedAt": "Retrieval/snapshot metadata, existing bounded comparison only; complete consumer slicing remains 08."
+  },
+  "blockingModelGaps": [
+    "New cross-family ocean-physics interpretation area is not owned by unchanged nine plus astronomy.",
+    "Remaining node/member/inline/authority coverage is NOT REQUALIFIED AFTER STOP."
+  ],
+  "modelCandidateArtifactCreated": false,
+  "modelFrozen": false,
+  "diagnosticOnly": true,
+  "nextGate": "QUALIFY CROSS-FAMILY OCEAN-PHYSICS INTERPRETATION SEMANTIC BOUNDARY; then explicitly revise the model and repeat completeness audit before resolving the original nine.",
+  "noWork": {
+    "originalNineResolution": true,
+    "optionality": true,
+    "requirementAuthority": true,
+    "projectionAuthorityProposal": true,
+    "authorityFreeze": true,
+    "projectionV3": true,
+    "productionChanges": true
+  },
+  "preservation": {
+    "files": 58,
+    "allUnchanged": true,
+    "manifest": "Revised_Default_Provider_Model_Preservation_v1.json"
+  },
+  "verification": {
+    "focused": 7,
+    "regressions": {
+      "scripts": 63,
+      "failures": 0,
+      "draftV3Excluded": true,
+      "note": "Discovery run passed the initial five completeness tests; final focused rerun passed seven after artifact/preservation and representative path checks were added.",
+      "entries": [
+        {
+          "file": "backend/tests/archiveBoundScienceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 14
+        },
+        {
+          "file": "backend/tests/assessmentAstronomy.test.js",
+          "exitCode": 0,
+          "tests": 11
+        },
+        {
+          "file": "backend/tests/bathymetryEvidence.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+          "exitCode": 0,
+          "tests": 11
+        },
+        {
+          "file": "backend/tests/candidateCaptureAssemblyBoundary.test.js",
+          "exitCode": 0,
+          "tests": 8
+        },
+        {
+          "file": "backend/tests/candidateCaptureResumptionBoundary.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/candidateEvidenceSourceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 7
+        },
+        {
+          "file": "backend/tests/candidateSemanticProjection.test.js",
+          "exitCode": 0,
+          "tests": 113
+        },
+        {
+          "file": "backend/tests/candidateSemanticProjectionV2.test.js",
+          "exitCode": 0,
+          "tests": 100
+        },
+        {
+          "file": "backend/tests/candidateSnapshotProducerSurface.test.js",
+          "exitCode": 0,
+          "tests": 6
+        },
+        {
+          "file": "backend/tests/captureDerivedScientificBoundary.test.js",
+          "exitCode": 0,
+          "tests": 17
+        },
+        {
+          "file": "backend/tests/clientPrivilegeHardening.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/completeCandidateEvidenceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/currentEvidenceCapture.test.js",
+          "exitCode": 0,
+          "tests": 96
+        },
+        {
+          "file": "backend/tests/currentScientificReconstructionBoundary.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/defaultProviderSemanticReview.test.js",
+          "exitCode": 0,
+          "tests": 6
+        },
+        {
+          "file": "backend/tests/defaultProviderTransitive.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/dynamicOpportunityFailure.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/environmentalObservationMetadata.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/exactCandidateSnapshotBoundary.test.js",
+          "exitCode": 0,
+          "tests": 18
+        },
+        {
+          "file": "backend/tests/exactMarineCapture.test.js",
+          "exitCode": 0,
+          "tests": 152
+        },
+        {
+          "file": "backend/tests/exactScientificEvidence.test.js",
+          "exitCode": 0,
+          "tests": 160
+        },
+        {
+          "file": "backend/tests/fishingDayReportSchema.test.js",
+          "exitCode": 0,
+          "tests": 6
+        },
+        {
+          "file": "backend/tests/fishingLocationSpatialEvidence.test.js",
+          "exitCode": 0,
+          "tests": 8
+        },
+        {
+          "file": "backend/tests/fishingLogAssociationReadiness.test.js",
+          "exitCode": 0,
+          "tests": 14
+        },
+        {
+          "file": "backend/tests/fishingLogEvidenceCapture.test.js",
+          "exitCode": 0,
+          "tests": 18
+        },
+        {
+          "file": "backend/tests/fishingLogEvidenceStorage.test.js",
+          "exitCode": 0,
+          "tests": 4
+        },
+        {
+          "file": "backend/tests/fishingLogTemporalEvidence.test.js",
+          "exitCode": 0,
+          "tests": 17
+        },
+        {
+          "file": "backend/tests/governedPlace.test.js",
+          "exitCode": 0,
+          "tests": 26
+        },
+        {
+          "file": "backend/tests/historicalOceanRequirements.test.js",
+          "exitCode": 0,
+          "tests": 13
+        },
+        {
+          "file": "backend/tests/marineAssessorCompanionCapture.test.js",
+          "exitCode": 0,
+          "tests": 108
+        },
+        {
+          "file": "backend/tests/noaaSstDisplayScale.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/noaaSstPilot.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/oceanConditions.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/oceanFields.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/oceanProductArchive.test.js",
+          "exitCode": 0,
+          "tests": 36
+        },
+        {
+          "file": "backend/tests/oceanProductFrame.test.js",
+          "exitCode": 0,
+          "tests": 17
+        },
+        {
+          "file": "backend/tests/oceanProviderBoundary.test.js",
+          "exitCode": 0,
+          "tests": 11
+        },
+        {
+          "file": "backend/tests/oceanPublication.test.js",
+          "exitCode": 0,
+          "tests": 57
+        },
+        {
+          "file": "backend/tests/oceanPublicationAssessment.test.js",
+          "exitCode": 0,
+          "tests": 75
+        },
+        {
+          "file": "backend/tests/oceanPublicationHistory.test.js",
+          "exitCode": 0,
+          "tests": 87
+        },
+        {
+          "file": "backend/tests/oceanScalarFieldDelivery.test.js",
+          "exitCode": 0,
+          "tests": 44
+        },
+        {
+          "file": "backend/tests/oceanSnapshotPrivileges.test.js",
+          "exitCode": 0,
+          "tests": 4
+        },
+        {
+          "file": "backend/tests/opportunityEvaluationState.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/persistenceEnvironment.test.js",
+          "exitCode": 0,
+          "tests": null
+        },
+        {
+          "file": "backend/tests/placeIngestion.test.js",
+          "exitCode": 0,
+          "tests": 22
+        },
+        {
+          "file": "backend/tests/revisedSemanticModel.test.js",
+          "exitCode": 0,
+          "tests": 5
+        },
+        {
+          "file": "backend/tests/scalarRuntime.test.js",
+          "exitCode": 0,
+          "tests": 22
+        },
+        {
+          "file": "backend/tests/scientificAssessment.test.js",
+          "exitCode": 0,
+          "tests": 42
+        },
+        {
+          "file": "backend/tests/scientificHistoryBoundary.test.js",
+          "exitCode": 0,
+          "tests": 9
+        },
+        {
+          "file": "backend/tests/sharedScienceBoundary.test.js",
+          "exitCode": 0,
+          "tests": 9
+        },
+        {
+          "file": "backend/tests/signedZeroQualification.test.js",
+          "exitCode": 0,
+          "tests": 40
+        },
+        {
+          "file": "backend/tests/snapshotBranchOptionality.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+          "exitCode": 0,
+          "tests": 4
+        },
+        {
+          "file": "backend/tests/snapshotProducerQualificationV2.test.js",
+          "exitCode": 0,
+          "tests": 12
+        },
+        {
+          "file": "backend/tests/snapshotShapeAuthorityBoundary.test.js",
+          "exitCode": 0,
+          "tests": 18
+        },
+        {
+          "file": "backend/tests/sstNumericIntegrity.test.js",
+          "exitCode": 0,
+          "tests": 19
+        },
+        {
+          "file": "backend/tests/sstProductAdapter.test.js",
+          "exitCode": 0,
+          "tests": 19
+        },
+        {
+          "file": "backend/tests/sstWorker.test.js",
+          "exitCode": 0,
+          "tests": 56
+        },
+        {
+          "file": "backend/tests/temporalEvidencePrimitives.test.js",
+          "exitCode": 0,
+          "tests": 100
+        },
+        {
+          "file": "backend/tests/temporalHistorySelection.test.js",
+          "exitCode": 0,
+          "tests": 13
+        },
+        {
+          "file": "backend/tests/transitiveProducerBoundary.test.js",
+          "exitCode": 0,
+          "tests": 10
+        },
+        {
+          "file": "backend/tests/weatherMarineQualityCapture.test.js",
+          "exitCode": 0,
+          "tests": 80
+        }
+      ]
+    },
+    "syntax": {
+      "modules": 121,
+      "failures": []
+    },
+    "json": {
+      "files": 52,
+      "failures": []
+    },
+    "protectedUnchanged": 58,
+    "git": {
+      "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+      "branch": "codex/pelora-remote-setup",
+      "trackedDiffEmpty": true,
+      "stagedDiffEmpty": true,
+      "untracked": 65,
+      "newDeliverables": 5
+    },
+    "whitespace": "New files checked; git diff --check and staged check pass"
+  },
+  "state": {
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "upstream": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED"
+  },
+  "restrictions": "No actual provider/database/Auth/Supabase access or environmental acquisition; no staging/commit/tag/push/deployment."
+}

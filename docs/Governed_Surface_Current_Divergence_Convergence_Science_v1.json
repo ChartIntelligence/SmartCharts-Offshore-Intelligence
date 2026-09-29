@@ -1,0 +1,761 @@
+{
+  "documentVersion": "pelora-surface-current-divergence-convergence-science-review-v1",
+  "task": "12B.6Y",
+  "date": "2026-09-28",
+  "scope": "Current default production provider; scientific review only",
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "branch": "codex/pelora-remote-setup",
+  "primaryScientificResult": "CONVERGENCE_CANDIDATE_ONLY_SUPPORTED",
+  "additionalScientificResult": "PRODUCT_SPECIFIC_DIVERGENCE_INTERPRETATION_AND_UNCERTAINTY_QUALIFICATION_REQUIRED",
+  "repositoryContractVerdictPreserved": "CONVERGENCE_CONTRACT_DECISION_REQUIRES_SCIENCE_REVIEW",
+  "humanReport": "Governed_Surface_Current_Divergence_Convergence_Science_v1.md",
+  "sources": [
+    {
+      "id": "P1",
+      "title": "ERDDAP information: noaacwBLENDEDNRTcurrentsDaily",
+      "authorsOrOrganization": "NOAA NESDIS CoastWatch; metadata creator Eric Leuliette",
+      "publicationOrDocumentDate": "Dynamic metadata; date_modified 2026-09-26T11:32:43.834102Z",
+      "url": "https://coastwatch.noaa.gov/erddap/info/noaacwBLENDEDNRTcurrentsDaily/index.html",
+      "evidenceCategory": "AUTHORITATIVE PRODUCT FACT",
+      "productVersionApplicability": "Exact configured endpoint; no science release number supplied",
+      "exactPropositionSupported": "Surface geostrophic east/north velocity, geographic quarter-degree grid, m/s, MDT identification and fill/time attributes.",
+      "limitation": "Metadata does not establish effective resolution, error covariance, numeric vertical support or time-window bounds.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "P2",
+      "title": "Sea level Anomaly and Geostrophic Currents, multi-mission, global, optimal interpolation, gridded",
+      "authorsOrOrganization": "NOAA CoastWatch / NOAA NESDIS STAR Laboratory for Satellite Altimetry",
+      "publicationOrDocumentDate": "Undated live product page",
+      "url": "https://coastwatch.noaa.gov/cwn/products/sea-level-anomaly-and-geostrophic-currents-multi-mission-global-optimal-interpolation.html",
+      "evidenceCategory": "AUTHORITATIVE PRODUCT FACT",
+      "productVersionApplicability": "NOAA RADS mapped NRT product family; not evidence of a pinned release",
+      "exactPropositionSupported": "Altimetry mapping and geostrophic derivation; distinguishes derived currents from total-current forecast.",
+      "limitation": "Processing-level and latency wording differ within page; no precise support kernel or endpoint velocity-error statistics.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "P3",
+      "title": "ERDDAP griddap Documentation",
+      "authorsOrOrganization": "NOAA ERDDAP",
+      "publicationOrDocumentDate": "Undated live documentation",
+      "url": "https://coastwatch.noaa.gov/erddap/griddap/documentation.html",
+      "evidenceCategory": "AUTHORITATIVE PRODUCT FACT",
+      "productVersionApplicability": "Coordinate-value request syntax used by production",
+      "exactPropositionSupported": "Parenthesized coordinates use the closest dimension value.",
+      "limitation": "Does not specify the native product mapping kernel or qualify derivative accuracy; tie behavior should be verified from resolved positions.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "A1",
+      "title": "The equations of fluid motion, chapter 6, section 6.3",
+      "authorsOrOrganization": "John Marshall and R. Alan Plumb, MIT",
+      "publicationOrDocumentDate": "MIT-hosted draft text; introduction dated 2007-01-28",
+      "url": "https://weathertank.mit.edu/wp-content/uploads/2017/04/chap6.pdf",
+      "evidenceCategory": "AUTHORITATIVE SCIENTIFIC REFERENCE",
+      "productVersionApplicability": "General ocean-fluid continuity; not product validation",
+      "exactPropositionSupported": "Horizontal derivative sum and incompressible continuity distinguish divergence from vertical velocity.",
+      "limitation": "Coordinate/approximation assumptions apply; no Pelora estimator or threshold supplied.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "A2",
+      "title": "Balanced flow, chapter 7, section 7.1",
+      "authorsOrOrganization": "John Marshall and R. Alan Plumb, MIT",
+      "publicationOrDocumentDate": "MIT-hosted draft text; introduction dated 2007-01-28",
+      "url": "https://weathertank.mit.edu/wp-content/uploads/2017/04/chap7.pdf",
+      "evidenceCategory": "AUTHORITATIVE SCIENTIFIC REFERENCE",
+      "productVersionApplicability": "Ideal constant-f geostrophic balance",
+      "exactPropositionSupported": "Horizontal geostrophic nondivergence under the stated approximation.",
+      "limitation": "Not a claim that variable-f, spherical or discretely mapped velocity has exactly zero computed divergence.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "A3",
+      "title": "Guidelines for Evaluating and Expressing the Uncertainty of NIST Measurement Results: TN1297 Appendix A",
+      "authorsOrOrganization": "Barry N. Taylor and Chris E. Kuyatt / NIST",
+      "publicationOrDocumentDate": "1994 technical note; live web appendix",
+      "url": "https://www.nist.gov/pml/nist-technical-note-1297/nist-tn-1297-appendix-law-propagation-uncertainty",
+      "evidenceCategory": "AUTHORITATIVE SCIENTIFIC REFERENCE",
+      "productVersionApplicability": "General measurement uncertainty, not current-product error values",
+      "exactPropositionSupported": "Propagation requires sensitivities and covariance as well as individual uncertainties.",
+      "limitation": "No uncertainty distribution, numerical error or confidence rule for this product is provided.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "S1",
+      "title": "On the resolutions of ocean altimetry maps",
+      "authorsOrOrganization": "Maxime Ballarotta et al.",
+      "publicationOrDocumentDate": "2019-08-20",
+      "url": "https://doi.org/10.5194/os-15-1091-2019",
+      "evidenceCategory": "PEER_REVIEWED SCIENTIFIC FACT",
+      "productVersionApplicability": "DUACS-DT2018; general mapping caution only",
+      "exactPropositionSupported": "Grid interval and effective spatiotemporal resolution are different.",
+      "limitation": "No DUACS numerical scale/error is transferred to NOAA RADS currents.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "S2",
+      "title": "Submesoscale currents in the ocean",
+      "authorsOrOrganization": "James C. McWilliams",
+      "publicationOrDocumentDate": "2016; accepted 2016-04-21",
+      "url": "https://doi.org/10.1098/rspa.2016.0117",
+      "evidenceCategory": "PEER_REVIEWED SCIENTIFIC FACT",
+      "productVersionApplicability": "General dynamics, especially section 5b; no endpoint validation",
+      "exactPropositionSupported": "Frontogenesis can combine shear/deformation with convergent ageostrophic secondary circulation.",
+      "limitation": "No evidence that this NOAA grid resolves the described small-scale dynamics.",
+      "accessDate": "2026-09-28"
+    },
+    {
+      "id": "S3",
+      "title": "Generation of Finite Difference Formulas on Arbitrarily Spaced Grids",
+      "authorsOrOrganization": "Bengt Fornberg",
+      "publicationOrDocumentDate": "1988-10",
+      "url": "https://www.colorado.edu/amath/sites/default/files/attached-files/mathcomp_88_fd_formulas.pdf",
+      "evidenceCategory": "PEER_REVIEWED SCIENTIFIC FACT",
+      "productVersionApplicability": "General numerical differentiation; DOI 10.1090/S0025-5718-1988-0935077-0",
+      "exactPropositionSupported": "Derivative approximations depend on node positions and available stencil; centered and one-sided cases differ.",
+      "limitation": "Does not select a Pelora estimator or establish product representativeness.",
+      "accessDate": "2026-09-28"
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "Y01",
+      "category": "REPOSITORY FACT",
+      "result": "CURRENT_PRODUCT_IDENTITY_RESOLVED",
+      "support": [
+        "backend/server.js:getCurrentConditionsPointAtAssessment",
+        "P1"
+      ],
+      "scope": "Exact configured dataset, not pinned science release."
+    },
+    {
+      "id": "Y02",
+      "category": "INFERENCE",
+      "result": "RADIAL_INWARD_GEOMETRY_IN_GEOSTROPHIC_PRODUCT",
+      "support": [
+        "backend/server.js:buildCurrentConvergenceAnalysis",
+        "P1"
+      ],
+      "scope": "Strongest existing candidate claim; no detected total-current convergence."
+    },
+    {
+      "id": "Y03",
+      "category": "INFERENCE",
+      "result": "DIVERGENCE_ESTIMATION_FEASIBLE_WITH_CONDITIONS",
+      "support": [
+        "P1",
+        "P3",
+        "A1",
+        "A2",
+        "S3"
+      ],
+      "scope": "Numerical diagnostic of resolved geostrophic field only; product support, metrics and errors must be qualified."
+    },
+    {
+      "id": "Y04",
+      "category": "UNRESOLVED",
+      "result": "SCIENTIFIC_SUFFICIENCY_UNRESOLVED",
+      "support": [
+        "A2",
+        "P2"
+      ],
+      "scope": "Total surface-current convergence cannot be established by this product plus a derivative alone."
+    },
+    {
+      "id": "Y05",
+      "category": "DESIGN RECOMMENDATION",
+      "result": "DEDICATED_TEMPORAL_COHERENCE_POLICY_REQUIRED",
+      "support": [
+        "backend/scientificAssessment.mjs",
+        "A1"
+      ],
+      "scope": "No maximum time separation or alignment algorithm selected."
+    },
+    {
+      "id": "Y06",
+      "category": "UNRESOLVED",
+      "result": "CURRENT_QUALITY_EVIDENCE_INSUFFICIENT",
+      "support": [
+        "P1",
+        "backend/currentEvidenceCapture.mjs"
+      ],
+      "scope": "Insufficient for detection significance; product identity/finite validity alone do not establish physical reliability."
+    },
+    {
+      "id": "Y07",
+      "category": "UNRESOLVED",
+      "result": "UNCERTAINTY_QUALIFICATION_REQUIRED",
+      "support": [
+        "A3",
+        "P1"
+      ],
+      "scope": "No component covariance, representation error or numeric threshold adopted."
+    },
+    {
+      "id": "Y08",
+      "category": "DESIGN RECOMMENDATION",
+      "result": "TOO_LOSSY",
+      "support": [
+        "docs/Current_Convergence_Science_Review_Package_v1.json"
+      ],
+      "scope": "Boolean alone conflates unavailable, insufficient and evaluated states. No enum implemented."
+    },
+    {
+      "id": "Y09",
+      "category": "DESIGN RECOMMENDATION",
+      "result": "NOT_YET_QUALIFIED",
+      "support": [
+        "Y02",
+        "Y04",
+        "Y06",
+        "Y07"
+      ],
+      "scope": "Ocean Physics convergence consumption remains withheld from qualification."
+    },
+    {
+      "id": "Y10",
+      "category": "DESIGN RECOMMENDATION",
+      "result": "MAY_RESUME_AFTER_DIVERGENCE_SCIENCE_QUALIFICATION",
+      "support": [
+        "Y03",
+        "Y04",
+        "Y05",
+        "Y06",
+        "Y07"
+      ],
+      "scope": "Then separate contract/amendment approval if needed; no resumption in this task."
+    }
+  ],
+  "productUnknowns": [
+    "Science release/version",
+    "Effective horizontal resolving scale",
+    "Exact temporal averaging/optimal-mapping kernel and bounds",
+    "Numeric depth support beyond surface geostrophic quantity",
+    "Endpoint vector covariance and derivative validation",
+    "Coastal/mask-specific accuracy",
+    "Exact publication SLA; inconsistent descriptive metadata"
+  ],
+  "stateInterpretation": {
+    "category": "INFERENCE",
+    "allFour": "Both horizontal directions potentially estimable; interpretation/significance still unqualified.",
+    "centerMissing": "Not mathematically required for opposing-pair derivatives.",
+    "oneMissingWithCenter": "One-sided or uneven stencil may exist but requires separate accuracy/support review.",
+    "oneMissingWithoutCenter": "Affine fit possible with noncollinear vectors; assumed model is unqualified.",
+    "oppositePairMissing": "Collinear remainder cannot establish general two-dimensional divergence.",
+    "mixedTimes": "No single-time derivative without justified temporal alignment/stationarity.",
+    "untimed": "No temporal coherence claim; default available-point validation rejects.",
+    "future": "Rejected under explicit assessment; do not borrow future vectors.",
+    "unavailable": "Unknown/insufficient, not evidence of no convergence.",
+    "sameCell": "No additional spatial support.",
+    "unequalMagnitudes": "Not intrinsically disqualifying; sign depends on differences.",
+    "shearEdgeOverlap": "Can coexist; shared samples are not independent confirmation.",
+    "persistence": "Separate from present-state derivative, no duration selected."
+  },
+  "options": {
+    "category": "DESIGN RECOMMENDATION",
+    "A": "Existing candidate as detection unsupported.",
+    "B": "Further estimator science possible only after defining geostrophic diagnostic versus total-current target; no automatic candidate prefilter.",
+    "C": "Limited context may be describable, but current consumers are not qualified to consume that weaker state.",
+    "D": "Withhold qualified Ocean Physics convergence support pending science/contract work; unknown is not measured absence.",
+    "richState": "Retain evidence distinctions; no representation adopted."
+  },
+  "nextScienceWork": [
+    "Define physical measurand and component limitations",
+    "Resolve generation kernel/release and effective scale",
+    "Qualify resolved-grid metrics and coastline/mask behavior",
+    "Qualify temporal support/coherence",
+    "Obtain or justify product-specific uncertainty/covariance evidence",
+    "Compare missing-sample estimators and false-sign sensitivity",
+    "Qualify significance without arbitrary thresholds",
+    "Review state semantics, consumer effects and contract versioning separately"
+  ],
+  "historicalBoundary": "Never relabel historical candidates, exact captures or published records as detected convergence.",
+  "status": {
+    "oceanPhysics": "PAUSED",
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "originalNine": "BLOCKING_UNRESOLVED",
+    "astronomy": "QUALIFIED_UNCHANGED",
+    "injectedProviders": "UNQUALIFIED",
+    "normalization": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED"
+  },
+  "repositorySources": [
+    {
+      "path": "backend/server.js",
+      "sha256": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06"
+    },
+    {
+      "path": "backend/scientificAssessment.mjs",
+      "sha256": "b27a04f6c74fab51e54998301c6c03d6dfd6a1ae3cbd4787089c4a04e41e7a9f"
+    },
+    {
+      "path": "backend/fields/datasetRegistry.js",
+      "sha256": "dcddcb14a60230cc3ed209555b25dae4b20f56d566db781bb24ae201fcee638c"
+    },
+    {
+      "path": "backend/currentEvidenceCapture.mjs",
+      "sha256": "5171835f5cfaf676b13ab6861b0a6eb25acb9f05fdaf73f3537ab90d7e1b4c18"
+    },
+    {
+      "path": "backend/currentEvidenceCaptureV2.mjs",
+      "sha256": "629cdf651f760a68c0e638a198110248858333c7c5ac8d1e51c647de2f7c6018"
+    },
+    {
+      "path": "backend/tests/convergenceDecision.test.js",
+      "sha256": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a"
+    },
+    {
+      "path": "backend/tests/convergenceContract.test.js",
+      "sha256": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd"
+    },
+    {
+      "path": "docs/Current_Convergence_Science_Review_Package_v1.md",
+      "sha256": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9"
+    },
+    {
+      "path": "docs/Current_Convergence_Science_Review_Package_v1.json",
+      "sha256": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361"
+    }
+  ],
+  "verification": {
+    "networkBlockedDiagnostics": [
+      {
+        "path": "backend/tests/convergenceDecision.test.js",
+        "passed": 5,
+        "logSha256": "dfb588ab1eb13938a2067911c00db680d27842776b006f56cfd7323e91531377"
+      },
+      {
+        "path": "backend/tests/convergenceContract.test.js",
+        "passed": 6,
+        "logSha256": "4f2ba1e77f12e209516b598bf2c3421fd79706035d8b76f066e8084b11df2579"
+      }
+    ],
+    "fullRegressionRerun": false,
+    "reason": "Documentation and source research only; no runtime or test changes.",
+    "protectedFiles": [
+      {
+        "path": "backend/candidateSemanticProjectionV3.mjs",
+        "before": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+        "after": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e"
+      },
+      {
+        "path": "backend/tests/assessmentAstronomy.test.js",
+        "before": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c",
+        "after": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c"
+      },
+      {
+        "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+        "before": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+        "after": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00"
+      },
+      {
+        "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+        "before": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+        "after": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab"
+      },
+      {
+        "path": "backend/tests/convergenceContract.test.js",
+        "before": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd",
+        "after": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd"
+      },
+      {
+        "path": "backend/tests/convergenceDecision.test.js",
+        "before": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a",
+        "after": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a"
+      },
+      {
+        "path": "backend/tests/defaultProviderSemanticReview.test.js",
+        "before": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb",
+        "after": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb"
+      },
+      {
+        "path": "backend/tests/defaultProviderTransitive.test.js",
+        "before": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28",
+        "after": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28"
+      },
+      {
+        "path": "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+        "before": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a",
+        "after": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a"
+      },
+      {
+        "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+        "before": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+        "after": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceContractFixture.mjs",
+        "before": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef",
+        "after": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+        "before": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a",
+        "after": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+        "before": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef",
+        "after": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+        "before": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba",
+        "after": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+        "before": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138",
+        "after": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+        "before": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1",
+        "after": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+        "before": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade",
+        "after": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade"
+      },
+      {
+        "path": "backend/tests/fixtures/revisedSemanticModelFixture.mjs",
+        "before": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde",
+        "after": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+        "before": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+        "after": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+        "before": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+        "after": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+        "before": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+        "after": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+        "before": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+        "after": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+        "before": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+        "after": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43"
+      },
+      {
+        "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+        "before": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+        "after": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0"
+      },
+      {
+        "path": "backend/tests/oceanPhysicsBoundary.test.js",
+        "before": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a",
+        "after": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a"
+      },
+      {
+        "path": "backend/tests/oceanProviderBoundary.test.js",
+        "before": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f",
+        "after": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f"
+      },
+      {
+        "path": "backend/tests/revisedSemanticModel.test.js",
+        "before": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958",
+        "after": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionality.test.js",
+        "before": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+        "after": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+        "before": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+        "after": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990"
+      },
+      {
+        "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+        "before": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+        "after": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4"
+      },
+      {
+        "path": "backend/tests/transitiveProducerBoundary.test.js",
+        "before": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+        "after": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+        "before": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42",
+        "after": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+        "before": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699",
+        "after": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+        "before": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f",
+        "after": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+        "before": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691",
+        "after": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+        "before": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985",
+        "after": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985"
+      },
+      {
+        "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+        "before": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+        "after": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+        "before": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+        "after": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Shapes_v3.json",
+        "before": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+        "after": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+        "before": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+        "after": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+        "before": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+        "after": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+        "before": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+        "after": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+        "before": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+        "after": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+        "before": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+        "after": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+        "before": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+        "after": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+        "before": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+        "after": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+        "before": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+        "after": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+        "before": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+        "after": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+        "before": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+        "after": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+        "before": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+        "after": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Preservation_v1.json",
+        "before": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc",
+        "after": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.json",
+        "before": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9",
+        "after": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.md",
+        "before": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5",
+        "after": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.json",
+        "before": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361",
+        "after": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.md",
+        "before": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9",
+        "after": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+        "before": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13",
+        "after": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+        "before": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a",
+        "after": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+        "before": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034",
+        "after": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.json",
+        "before": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf",
+        "after": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.md",
+        "before": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154",
+        "after": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Discovery_v2.json",
+        "before": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56",
+        "after": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Preservation_v1.json",
+        "before": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11",
+        "after": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.json",
+        "before": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5",
+        "after": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.md",
+        "before": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81",
+        "after": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.json",
+        "before": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b",
+        "after": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.md",
+        "before": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd",
+        "after": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Preservation_v1.json",
+        "before": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60",
+        "after": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60"
+      },
+      {
+        "path": "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+        "before": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69",
+        "after": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+        "before": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9",
+        "after": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.md",
+        "before": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f",
+        "after": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+        "before": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd",
+        "after": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.json",
+        "before": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2",
+        "after": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.md",
+        "before": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d",
+        "after": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+        "before": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+        "after": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+        "before": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+        "after": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61"
+      },
+      {
+        "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+        "before": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+        "after": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+        "before": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+        "after": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+        "before": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+        "after": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+        "before": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+        "after": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+        "before": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+        "after": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f"
+      },
+      {
+        "path": "supabase/.gitignore",
+        "before": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+        "after": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+      },
+      {
+        "path": "supabase/config.toml",
+        "before": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2",
+        "after": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2"
+      }
+    ],
+    "protectedCount": 82,
+    "productionChanges": false,
+    "newEnvironmentalAcquisition": false,
+    "metadataDocumentationResearch": true,
+    "noDatabaseAuthSupabaseServiceAccess": true,
+    "noStagingCommitTagPushDeployment": true,
+    "noEstimatorImplementation": true,
+    "noFormulaThresholdChange": true,
+    "noDetectionFieldAdded": true,
+    "noAlias": true,
+    "noAuthorityProposalFreezeV3": true
+  }
+}

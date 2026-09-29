@@ -1,0 +1,4914 @@
+{
+  "version": "pelora-governed-convergence-decision-review-v1",
+  "task": "12B.6W",
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "verdict": "CONVERGENCE_CONTRACT_DECISION_REQUIRES_SCIENCE_REVIEW",
+  "selectedAmendment": null,
+  "supportedStatement": "The accepted directional surface-current samples satisfy the existing meaningful inward radial geometry rule within the requested sampling field. This is governed candidate support, not proof of a simultaneous persistent physical convergence feature.",
+  "notEstablished": [
+    "same represented instant or defined compatibility window",
+    "provider uncertainty/noise discrimination or cross-source agreement",
+    "spatial coherence outside the sampled geometry",
+    "persistence or tracked feature identity",
+    "water-mass accumulation/identity",
+    "vertical motion",
+    "biological effect/fish presence/habitat or catch probability"
+  ],
+  "science": {
+    "producer": "backend/server.js buildCurrentConvergenceAnalysis:5239",
+    "geometryProducer": "createCurrentSpatialSamplePoints:1343; buildCurrentVectorProjectionAnalysis:3503",
+    "radialFormula": "u*inwardEast + v*inwardNorth; inward=max(radial,0), outward=max(-radial,0)",
+    "candidateRule": "sufficientCoverage and >=3 finite available projections; >=3 inward projections >=0.05 m/s and >=1 opposing pair",
+    "pronouncedRule": "complete inward coverage; >=3 projections >=0.15 m/s and mean meaningful inward >=0.15 m/s",
+    "quality": "Finite/available projections and coverage only inside convergence; no independent confidence, noise, freshness, temporal-coherence or provenance compatibility gate.",
+    "output": "pelora-current-convergence-v1; type/state/strength/evidence/thresholds/interpretation/limitations/upstreamContract; no detected Boolean or confidence."
+  },
+  "geometry": {
+    "radiusNauticalMiles": 15,
+    "directions": [
+      "north",
+      "east",
+      "south",
+      "west"
+    ],
+    "latitudeOffsetDegrees": 0.25,
+    "longitudeOffset": "15/(60*cos(latitude))",
+    "center": "Separate point observation; not an input to radial candidate geometry.",
+    "requestedVersusResolved": "Projection axes derive from requested direction labels. Resolved coordinates are retained; the convergence function does not validate resolved-cell separation or prove field-scale divergence.",
+    "gridEvidence": "backend/fields/datasetRegistry.js declares nativeResolutionDegrees 0.25 for noaacwBLENDEDNRTcurrentsDaily. Registry metadata is not independent source/noise qualification.",
+    "temporalResolution": "Daily product name; exact averaging/support window unspecified in repository archive inventory. Do not infer simultaneous instantaneous vectors from that name."
+  },
+  "coherence": {
+    "time": "Individual timestamps are assessed; future/untimed available samples reject upstream. Remaining >=3 samples can still produce a candidate. No cross-vector equality or compatibility test in convergence.",
+    "source": "Default endpoint and dataset are caller-constructed and shared. Convergence itself does not compare per-sample source, release or quality flags. No arbitrary alternate provider was injected.",
+    "magnitude": "Each meaningful inward value meets the floor; no pairwise magnitude-balance or variance gate. Pronounced classification uses stronger counts and mean.",
+    "axes": "At least one opposing pair and >=3 inward samples. Both complete opposing pairs are not necessary.",
+    "shearAndEdge": "Separate gradient/shear/edge classifiers; convergence does not consume them. Co-occurrence is possible and not mutual exclusion.",
+    "persistence": "Current candidate uses a single assembled sample set. Historical convergence persistence is a later separate consumer, not a confirmation stage."
+  },
+  "runtimeEvidence": [
+    {
+      "id": "all",
+      "configuration": {},
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "one-missing",
+      "configuration": {
+        "missingRoles": [
+          "east"
+        ]
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "partial",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 3,
+          "meaningfulInwardCount": 3,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "1 current vector projection could not be calculated.",
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 3,
+        "coverage": "partial",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": null,
+            "resolvedLongitude": null,
+            "speedKnots": null,
+            "directionDegrees": null,
+            "eastwardMetersPerSecond": null,
+            "northwardMetersPerSecond": null,
+            "observedAt": null,
+            "ageHours": null,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "classification": "altimetry-derived-geostrophic-current",
+              "availability": "no-valid-pixel"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": false,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "reason": "missing-current-vector-components"
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "two-missing",
+      "configuration": {
+        "missingRoles": [
+          "east",
+          "west"
+        ]
+      },
+      "convergence": {
+        "available": false,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "unavailable",
+        "convergenceState": "insufficient-evidence",
+        "convergenceStrength": "unknown",
+        "evidence": {
+          "coverage": "insufficient",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 2,
+          "meaningfulInwardCount": 2,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "south"
+          ],
+          "opposingInwardPairs": [
+            "north-south"
+          ],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Convergence cannot be evaluated from the available current-vector projections.",
+        "limitations": [
+          "Fewer than three valid current-vector projections were available.",
+          "2 current vector projections could not be calculated.",
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "strong"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 2,
+        "coverage": "insufficient",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": null,
+            "resolvedLongitude": null,
+            "speedKnots": null,
+            "directionDegrees": null,
+            "eastwardMetersPerSecond": null,
+            "northwardMetersPerSecond": null,
+            "observedAt": null,
+            "ageHours": null,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "classification": "altimetry-derived-geostrophic-current",
+              "availability": "no-valid-pixel"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": null,
+            "resolvedLongitude": null,
+            "speedKnots": null,
+            "directionDegrees": null,
+            "eastwardMetersPerSecond": null,
+            "northwardMetersPerSecond": null,
+            "observedAt": null,
+            "ageHours": null,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "classification": "altimetry-derived-geostrophic-current",
+              "availability": "no-valid-pixel"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": false,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "reason": "missing-current-vector-components"
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": false,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "reason": "missing-current-vector-components"
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 0
+      }
+    },
+    {
+      "id": "center-missing",
+      "configuration": {
+        "missingRoles": [
+          "center"
+        ]
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": false,
+        "classification": "unavailable"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "unavailable",
+      "configuration": {
+        "currentRejected": true
+      },
+      "convergence": {
+        "available": false,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "unavailable",
+        "convergenceState": "insufficient-evidence",
+        "convergenceStrength": "unknown",
+        "evidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Convergence cannot be evaluated from the available current-vector projections.",
+        "limitations": [
+          "Fewer than three valid current-vector projections were available.",
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": false,
+        "classification": "unavailable"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 0,
+        "coverage": "unavailable",
+        "radius": 15,
+        "vectors": []
+      },
+      "projections": [],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 0
+      }
+    },
+    {
+      "id": "future-one",
+      "configuration": {
+        "currentTimes": {
+          "north": "2026-09-27T00:00:00Z"
+        }
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 3,
+          "validProjectionCount": 3,
+          "meaningfulInwardCount": 3,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 3,
+        "coverage": "partial",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "untimed-one",
+      "configuration": {
+        "currentTimes": {
+          "north": null
+        }
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 3,
+          "validProjectionCount": 3,
+          "meaningfulInwardCount": 3,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 3,
+        "coverage": "partial",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "future-all",
+      "configuration": {
+        "currentTime": "2026-09-27T00:00:00Z"
+      },
+      "convergence": {
+        "available": false,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "unavailable",
+        "convergenceState": "insufficient-evidence",
+        "convergenceStrength": "unknown",
+        "evidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Convergence cannot be evaluated from the available current-vector projections.",
+        "limitations": [
+          "Fewer than three valid current-vector projections were available.",
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": false,
+        "classification": "unavailable"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 0,
+        "coverage": "unavailable",
+        "radius": 15,
+        "vectors": []
+      },
+      "projections": [],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 0
+      }
+    },
+    {
+      "id": "untimed-all",
+      "configuration": {
+        "currentTime": null
+      },
+      "convergence": {
+        "available": false,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "unavailable",
+        "convergenceState": "insufficient-evidence",
+        "convergenceStrength": "unknown",
+        "evidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Convergence cannot be evaluated from the available current-vector projections.",
+        "limitations": [
+          "Fewer than three valid current-vector projections were available.",
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": false,
+        "classification": "unavailable"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 0,
+        "coverage": "unavailable",
+        "radius": 15,
+        "vectors": []
+      },
+      "projections": [],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 0
+      }
+    },
+    {
+      "id": "heterogeneous-times",
+      "configuration": {
+        "currentTimes": {
+          "north": "2026-09-24T00:00:00Z",
+          "east": "2026-09-25T00:00:00Z",
+          "south": "2020-01-01T00:00:00Z",
+          "west": "2026-09-26T00:00:00Z"
+        }
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-25T00:00:00Z",
+            "ageHours": 25,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2020-01-01T00:00:00Z",
+            "ageHours": 59041,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-26T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-25T00:00:00Z",
+          "ageHours": 25
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2020-01-01T00:00:00Z",
+          "ageHours": 59041
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-26T00:00:00Z",
+          "ageHours": 1
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "adjacent-represented-times",
+      "configuration": {
+        "currentTimes": {
+          "north": "2026-09-24T00:00:00Z",
+          "east": "2026-09-25T00:00:00Z",
+          "south": "2026-09-24T00:00:00Z",
+          "west": "2026-09-25T00:00:00Z"
+        }
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-25T00:00:00Z",
+            "ageHours": 25,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-25T00:00:00Z",
+            "ageHours": 25,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-25T00:00:00Z",
+          "ageHours": 25
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-25T00:00:00Z",
+          "ageHours": 25
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "unequal-magnitudes",
+      "configuration": {
+        "vectors": {
+          "north": [
+            0,
+            -0.06
+          ],
+          "east": [
+            -1,
+            0
+          ],
+          "south": [
+            0,
+            0.06
+          ],
+          "west": [
+            0.2,
+            0
+          ]
+        }
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 2,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.33,
+          "maximumInwardMetersPerSecond": 1,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 1.9,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -1,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.4,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.2,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 1.9,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -1,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 1,
+          "signedRadialMetersPerSecond": 1,
+          "inwardMetersPerSecond": 1,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.4,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.2,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.2,
+          "signedRadialMetersPerSecond": 0.2,
+          "inwardMetersPerSecond": 0.2,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": true,
+        "edge": true
+      },
+      "physics": {
+        "transition": "hydrodynamic-transition-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 2,
+        "organizationIndex": 3
+      }
+    },
+    {
+      "id": "low-inward",
+      "configuration": {},
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "strong-inward",
+      "configuration": {
+        "vectors": {
+          "north": [
+            0,
+            -1
+          ],
+          "east": [
+            -1,
+            0
+          ],
+          "south": [
+            0,
+            1
+          ],
+          "west": [
+            1,
+            0
+          ]
+        }
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "pronounced-convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "pronounced",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 4,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 1,
+          "maximumInwardMetersPerSecond": 1,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Current vectors from all available sides show strong inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "pronounced-convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 1.9,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -1,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 1.9,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -1,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 1.9,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 1,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 1.9,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 1,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 1.9,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -1,
+          "vectorMagnitudeMetersPerSecond": 1,
+          "signedRadialMetersPerSecond": 1,
+          "inwardMetersPerSecond": 1,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 1.9,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -1,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 1,
+          "signedRadialMetersPerSecond": 1,
+          "inwardMetersPerSecond": 1,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 1.9,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 1,
+          "vectorMagnitudeMetersPerSecond": 1,
+          "signedRadialMetersPerSecond": 1,
+          "inwardMetersPerSecond": 1,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 1.9,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 1,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 1,
+          "signedRadialMetersPerSecond": 1,
+          "inwardMetersPerSecond": 1,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": true,
+        "edge": true
+      },
+      "physics": {
+        "transition": "hydrodynamic-transition-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 2,
+        "organizationIndex": 3
+      }
+    },
+    {
+      "id": "shear-only",
+      "configuration": {
+        "current": "shear"
+      },
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "localized-inward-flow",
+        "convergenceState": "incomplete-support",
+        "convergenceStrength": "localized",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 1,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 1,
+          "meaningfulInwardDirections": [
+            "west"
+          ],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.1,
+          "maximumInwardMetersPerSecond": 0.1,
+          "maximumOutwardMetersPerSecond": 0.1
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Inward radial movement is present in part of the sampling field, but it is not distributed broadly enough to support a convergence candidate.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "strong"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 1.9,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 1,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.2,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.1,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 1.9,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -1,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.2,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.1,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 1.9,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 1,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 1,
+          "signedRadialMetersPerSecond": 0,
+          "inwardMetersPerSecond": 0,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 1,
+          "absoluteTangentialMetersPerSecond": 1,
+          "inwardAlignmentDegrees": 90,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.2,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.1,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.1,
+          "signedRadialMetersPerSecond": -0.1,
+          "inwardMetersPerSecond": 0,
+          "outwardMetersPerSecond": 0.1,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 180,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 1.9,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -1,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 1,
+          "signedRadialMetersPerSecond": 0,
+          "inwardMetersPerSecond": 0,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 1,
+          "absoluteTangentialMetersPerSecond": 1,
+          "inwardAlignmentDegrees": 90,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.2,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.1,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.1,
+          "signedRadialMetersPerSecond": 0.1,
+          "inwardMetersPerSecond": 0.1,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": true,
+        "edge": true
+      },
+      "physics": {
+        "transition": "hydrodynamic-transition-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 2,
+        "organizationIndex": 3
+      }
+    },
+    {
+      "id": "replay-cold",
+      "configuration": {},
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "replay-warm",
+      "configuration": {},
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "hit",
+              "ageSeconds": 1,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "hit",
+              "ageSeconds": 1,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "hit",
+              "ageSeconds": 1,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "hit",
+              "ageSeconds": 1,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    },
+    {
+      "id": "replay-later",
+      "configuration": {},
+      "convergence": {
+        "available": true,
+        "analysisType": "current-convergence-analysis",
+        "convergenceType": "convergence-candidate",
+        "convergenceState": "candidate",
+        "convergenceStrength": "measurable",
+        "evidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        },
+        "thresholds": {
+          "meaningfulRadialMetersPerSecond": 0.05,
+          "strongRadialMetersPerSecond": 0.15,
+          "minimumMeaningfulInwardSamples": 3,
+          "minimumOpposingInwardPairs": 1
+        },
+        "interpretation": "Multiple current vectors, including at least one opposing pair, show meaningful inward radial movement toward the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Convergence requires meaningful inward radial movement from at least three sampled sides and support from at least one opposing pair.",
+          "A single inward current vector or inward movement confined to one side of the sample field is not classified as convergence.",
+          "This analysis describes horizontal surface-current geometry within the sampled radius only.",
+          "No divergence classification is produced by this engine.",
+          "No vertical motion, water-mass accumulation, current edge, shear, rotation, eddy, persistence, prey concentration, habitat quality, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-convergence-v1"
+      },
+      "currentGroup": {
+        "available": true,
+        "classification": "convergence-candidate"
+      },
+      "geometry": {
+        "requested": 4,
+        "valid": 4,
+        "coverage": "complete",
+        "radius": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 180,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": -0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 0.1,
+            "directionDegrees": 270,
+            "eastwardMetersPerSecond": -0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 0.1,
+            "directionDegrees": 0,
+            "eastwardMetersPerSecond": 0,
+            "northwardMetersPerSecond": 0.06,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 0.1,
+            "directionDegrees": 90,
+            "eastwardMetersPerSecond": 0.06,
+            "northwardMetersPerSecond": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ]
+      },
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25.25,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 180,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": -0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -89.72415552025937,
+          "speedKnots": 0.1,
+          "directionDegrees": 270,
+          "eastwardMetersPerSecond": -0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 24.75,
+          "resolvedLongitude": -90,
+          "speedKnots": 0.1,
+          "directionDegrees": 0,
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0.06,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90.27584447974063,
+          "speedKnots": 0.1,
+          "directionDegrees": 90,
+          "eastwardMetersPerSecond": 0.06,
+          "northwardMetersPerSecond": 0,
+          "vectorMagnitudeMetersPerSecond": 0.06,
+          "signedRadialMetersPerSecond": 0.06,
+          "inwardMetersPerSecond": 0.06,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 0,
+          "absoluteTangentialMetersPerSecond": 0,
+          "inwardAlignmentDegrees": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 49
+        }
+      ],
+      "otherStructures": {
+        "shear": false,
+        "edge": false
+      },
+      "physics": {
+        "transition": "uniform-environmental-context",
+        "convergenceDetected": false,
+        "hydrodynamicCount": 0,
+        "organizationIndex": 1
+      }
+    }
+  ],
+  "governance": {
+    "signals": "resolveOceanSignals runs after current physics/snapshot construction; it selects supported feature signals and refuses composite support as a substitute primary physical feature. Not an intermediate candidate-to-detection translator.",
+    "association": "buildGovernedOceanSignalFeatureAssociationV1 requires explicit identity evidence and forbids current-supported-transition -> currentConvergence inference from terminology. No automatic convergence identity/promotion.",
+    "definitions": "No repository definition found that uniquely resolves currentConvergenceDetected on this producer object. Same-named summary fields and historical local convergenceDetected are different contracts.",
+    "vertical": "Producer explicitly disclaims vertical motion; no reviewed current path derives vertical velocity/downwelling/upwelling from this candidate."
+  },
+  "options": [
+    {
+      "id": "A",
+      "name": "CANDIDATE_IS_THE_DETECTION",
+      "decision": "NOT_ESTABLISHED",
+      "support": "Existing radial rule deterministically identifies a candidate; consumer tests accept true together with candidate state.",
+      "missing": "No definition equates that sampled signature to the intended detected-convergence claim; temporal/quality/representativeness scope is not settled.",
+      "falsePositive": "Promotes temporally heterogeneous or stale sampled geometry to an unqualified detection label.",
+      "falseNegative": "Retains existing coverage/threshold limits; can omit weaker or undersampled real structures."
+    },
+    {
+      "id": "B",
+      "name": "SECOND_STAGE_GOVERNANCE_REQUIRED",
+      "decision": "NOT_ESTABLISHED",
+      "support": "Existing signal/feature architecture distinguishes support from governed physical identity.",
+      "missing": "No executable intervening convergence confirmation gate or specified confirmation evidence found; cannot invent persistence or another threshold.",
+      "falsePositive": "A nominal gate could merely relabel the same correlated evidence.",
+      "falseNegative": "Invented confirmation/persistence requirements could exclude transient or otherwise valid candidate geometry."
+    },
+    {
+      "id": "C",
+      "name": "CONSUMERS_SHOULD_CONSUME_CANDIDATE_STATE",
+      "decision": "PLAUSIBLE_CONTEXT_DESIGN_NOT_SELECTED",
+      "support": "Mixing/transition outputs explicitly describe candidate context, not verified fronts/mixing; organization index is corroborating support.",
+      "missing": "No versioned handoff policy establishes which temporally/qualitatively mixed candidates may contribute; changing contribution is still a scientific behavior amendment.",
+      "falsePositive": "Candidate support may be mistaken for confirmed detection or independent corroboration, especially with shared upstream ancestry.",
+      "falseNegative": "Could preserve cautious labeling while still missing structures outside the existing rule; rejecting all candidate support suppresses current geometric evidence."
+    },
+    {
+      "id": "D",
+      "name": "REMOVE_OR_IGNORE_FOR_NOW",
+      "decision": "CURRENT_EFFECTIVE_HOLD_NOT_FINAL_SCIENCE_CONTRACT",
+      "support": "No produced nested Boolean; no automatic upgrade is justified while its meaning is unresolved.",
+      "missing": "Current effective omission does not prove intentional permanent suppression.",
+      "falsePositive": "Avoids new positive support, but uniform/no-context language can overstate a negative conclusion.",
+      "falseNegative": "Demonstrated candidate geometry contributes zero convergence signals even when supported by current rule."
+    },
+    {
+      "id": "E",
+      "name": "PRESERVE_RICH_CANDIDATE_EVIDENCE_PENDING_SCIENCE_DECISION",
+      "decision": "REVIEW_POSTURE_ONLY_NOT_A_NEW_CONTRACT",
+      "support": "Existing object retains unavailable/not-supported/incomplete-support/candidate, strength, counts and limitations.",
+      "missing": "Still requires a defined meaning and acceptance rule for a future detected flag or candidate contribution.",
+      "falsePositive": "Low if scope is explicit; candidate wording alone does not prevent downstream overinterpretation.",
+      "falseNegative": "No new support path is activated until reviewed."
+    }
+  ],
+  "consumers": {
+    "need": "Code requires true plus candidate state; downstream purpose is supporting hydrodynamic/candidate context rather than verified persistent feature detection. This tension does not itself authorize a new input contract.",
+    "signalCount": "Count of Boolean support conditions (convergence/shear/edge), not Ocean Signal publication, independent measurements or a probability.",
+    "organization": "Transparent additive corroboration; prior isolated diagnostic 1->2 is an extra support contribution, not confidence/habitat/fishing probability.",
+    "transition": "hydrodynamic-transition-context is candidate-context with explicit limitations; no verified front/mixing/persistence or biology.",
+    "species": "Producer and interpretation are species-neutral. Prior diagnostic left confidence, summary and environmentalOpportunityEvidence unchanged. No direct nested-Boolean score/gate/ranking reader found; no blanket transitive-score equivalence claim."
+  },
+  "boolean": {
+    "conclusion": "A Boolean may be valid with an explicit scoped predicate and retained rich state. Alone it collapses unavailable, insufficient, not-supported and unconfirmed candidate evidence; false must not silently mean measured absence. No new enum introduced."
+  },
+  "dataSufficiency": {
+    "answer": "Repository evidence is insufficient to validate an honest unqualified detected-convergence Boolean. It is sufficient to reproduce the bounded candidate statement.",
+    "uncertainty": "Native grid metadata, provider version/uncertainty and exact temporal support do not establish error/noise discrimination at 0.06 m/s. No external oceanography was researched or new thresholds imposed."
+  },
+  "snapshot": {
+    "candidate": "Retained candidate type/state/strength/evidence/limitations; current-group narrative describes horizontal geometry with explicit limits.",
+    "unavailable": "Unavailable/insufficient-evidence with explanatory limitations, not proof of absence.",
+    "detected": "No production default detected-Boolean case. Prior manually true diagnostic is not a real captain-facing result.",
+    "captain": "Internal Ocean Physics headline/detail are expressly not final captain narrative. No promise of rendered UI text or new UI design."
+  },
+  "future": {
+    "resumption": "AFTER_SCIENCE_REVIEW_AND_ANY_SEPARATELY_APPROVED_CONTRACT_AMENDMENT",
+    "nextGate": "Define the exact convergence claim and evidence-sufficiency/coherence policy from science review before choosing producer/consumer/state-model amendment.",
+    "minimumAmendment": "Undetermined until claim selected; no alias or threshold assumed.",
+    "versionImpact": [
+      "If producer meaning/shape changes: pelora-current-convergence-v1 successor required; retain old records as old meaning.",
+      "If consumers admit candidate support: review/version affected pelora-mixing-zone-analysis-v1, pelora-environmental-transition-analysis-v1, pelora-ocean-organization-v1 and derived front/explainability contracts as effects require.",
+      "Adding nested Boolean may also affect pelora-current-edge-v1; audit that consumer.",
+      "Snapshot/evaluator/identity compatibility must be reviewed if derived content changes; no automatic serializer, projection or publication amendment here."
+    ],
+    "history": "Do not rewrite/backfill old candidate evidence as detected. Existing history type/state readers and retained snapshots must keep original version/meaning; any recomputation needs explicit versioned semantics."
+  },
+  "boundaries": {
+    "originalNine": "BLOCKING_UNRESOLVED",
+    "astronomy": "QUALIFIED",
+    "oceanPhysics": "PAUSED_UNQUALIFIED",
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "upstreamNormalization": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+    "injectedProviders": "UNQUALIFIED"
+  },
+  "implementation": false,
+  "authorityWork": false,
+  "externalResearch": false,
+  "verification": {
+    "networkBlocked": true,
+    "scripts": 66,
+    "failures": 0,
+    "records": [
+      {
+        "file": "backend/tests/archiveBoundScienceBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "f1191e28704d40a4df6dd1f7fb6f6ca2a627b31b62b6fba2848e8bb7045c9b30"
+      },
+      {
+        "file": "backend/tests/assessmentAstronomy.test.js",
+        "exitCode": 0,
+        "logSha256": "c6c0b0bc13a6b287708b3353947f1876eab9d70a34638a111c253f9c32cddcc7"
+      },
+      {
+        "file": "backend/tests/bathymetryEvidence.test.js",
+        "exitCode": 0,
+        "logSha256": "b88c79a1f782f191c79ab8dc1de40760bfaeeea801b100f76972838509d8fcd6"
+      },
+      {
+        "file": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+        "exitCode": 0,
+        "logSha256": "c45a751b2ed1ba35aa25669f1cd67dc926d971e770ee48a722a4274e85363f11"
+      },
+      {
+        "file": "backend/tests/candidateCaptureAssemblyBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "77203ab87c6b8d240a155cf2a64bc787591b0c5214015bf5d7cdbc2ca3c1a895"
+      },
+      {
+        "file": "backend/tests/candidateCaptureResumptionBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "6e7175b135b39195c8d0a7a326a6198a65e52232f4d4c1825ee23e51462e8c4d"
+      },
+      {
+        "file": "backend/tests/candidateEvidenceSourceBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "400a1d5adb4c98809f40f1de603f63eab354ca08a3702c5ccbc0d23ccc8346f3"
+      },
+      {
+        "file": "backend/tests/candidateSemanticProjection.test.js",
+        "exitCode": 0,
+        "logSha256": "41cb88e0151da0a4e37e88b67056b36f3dd49eb49360b023f70a5c53c1b064d1"
+      },
+      {
+        "file": "backend/tests/candidateSemanticProjectionV2.test.js",
+        "exitCode": 0,
+        "logSha256": "1739b36ca9d940edeb6681ddab8b62d65970b2f06d5f74fc6da7f94bcccc1d70"
+      },
+      {
+        "file": "backend/tests/candidateSnapshotProducerSurface.test.js",
+        "exitCode": 0,
+        "logSha256": "3f1db72a4960100749f8d7e360f9159b588f271767a66423ba5b541ef97d359a"
+      },
+      {
+        "file": "backend/tests/captureDerivedScientificBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "64278a24a4c7e773ac0c4315bdd3659fb9ee5a1c111af4cac25a19e1b9b0a2d8"
+      },
+      {
+        "file": "backend/tests/clientPrivilegeHardening.test.js",
+        "exitCode": 0,
+        "logSha256": "d55ee2152119d92b7790dc72faaf1de22c8311ae335db13c5f0adb8f3d30997e"
+      },
+      {
+        "file": "backend/tests/completeCandidateEvidenceBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "c5f301957799718e02ce936a436e8fdd2db21e42a5374e3ffe5658632f2f9120"
+      },
+      {
+        "file": "backend/tests/convergenceContract.test.js",
+        "exitCode": 0,
+        "logSha256": "f152a2d023af9c0fc642d26aa272fdb2457afa240aead90f8b6f580915d1d45d"
+      },
+      {
+        "file": "backend/tests/convergenceDecision.test.js",
+        "exitCode": 0,
+        "logSha256": "90679d3be6cb64cac887867a9135a26105d05d7cfaf2e80fef5caed34c8c88d9"
+      },
+      {
+        "file": "backend/tests/currentEvidenceCapture.test.js",
+        "exitCode": 0,
+        "logSha256": "d0cf2d83c7c266d9be97daf0f83b772971d4103374e6b53cc937ab3b07a78dc1"
+      },
+      {
+        "file": "backend/tests/currentScientificReconstructionBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "a7844faf8ade38368a750652e61efa6916af42ec59b034fd20d5d0a7a6c42c2e"
+      },
+      {
+        "file": "backend/tests/defaultProviderSemanticReview.test.js",
+        "exitCode": 0,
+        "logSha256": "5d49398d0761ddb7abf18eb616237c6661d78139c6eb281255610aa78341148c"
+      },
+      {
+        "file": "backend/tests/defaultProviderTransitive.test.js",
+        "exitCode": 0,
+        "logSha256": "fcc07c9fe4fb3648081aa1bac23f8521b23a44b683f9a32f3cfa177881f3aea6"
+      },
+      {
+        "file": "backend/tests/dynamicOpportunityFailure.test.js",
+        "exitCode": 0,
+        "logSha256": "0b238b7ce1441000fea100fa81dcd529cdf04cb078c9f403d438c856a5c2965a"
+      },
+      {
+        "file": "backend/tests/environmentalObservationMetadata.test.js",
+        "exitCode": 0,
+        "logSha256": "3de96745188590834175f4af8003de91098909ada280dd5dea46e6cd1f6f0346"
+      },
+      {
+        "file": "backend/tests/exactCandidateSnapshotBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "37b723214e7e8809e2b9eca280245e81850101ebb0d0ab618a4fc6700ad225aa"
+      },
+      {
+        "file": "backend/tests/exactMarineCapture.test.js",
+        "exitCode": 0,
+        "logSha256": "1878c65888f8117ed4e43acd08bbb8a318af7abb56598f99d975b9c9e24c324a"
+      },
+      {
+        "file": "backend/tests/exactScientificEvidence.test.js",
+        "exitCode": 0,
+        "logSha256": "19674302b513ce89c3cae6d6c31f6f8970ee45a33434369da9b819ebc309ec47"
+      },
+      {
+        "file": "backend/tests/fishingDayReportSchema.test.js",
+        "exitCode": 0,
+        "logSha256": "dc0d94cf6d198d0bc5ab82b2532b4aa00ca1c710c995ab854180a0a0497b0e3e"
+      },
+      {
+        "file": "backend/tests/fishingLocationSpatialEvidence.test.js",
+        "exitCode": 0,
+        "logSha256": "f8255e453733f8f72a60f73ac14c7931042716cb191b081fd4e86372a6017cb5"
+      },
+      {
+        "file": "backend/tests/fishingLogAssociationReadiness.test.js",
+        "exitCode": 0,
+        "logSha256": "7afc8d817da21ad96b32eb96f6f77f676d8132fb67cb12be32136dd97eb114aa"
+      },
+      {
+        "file": "backend/tests/fishingLogEvidenceCapture.test.js",
+        "exitCode": 0,
+        "logSha256": "40bcd7221867515a9d2c231224a420bcbeee1effdfa2dfc78741d1c671172eda"
+      },
+      {
+        "file": "backend/tests/fishingLogEvidenceStorage.test.js",
+        "exitCode": 0,
+        "logSha256": "d4c9171bafac84cd2c73e9cf1ee701dad0fe102ac271dcf8059d53f4c2bdc0ae"
+      },
+      {
+        "file": "backend/tests/fishingLogTemporalEvidence.test.js",
+        "exitCode": 0,
+        "logSha256": "b14793010058068fd010465f6df46f7f31ca47cb74c2ad852c7361a1055e5934"
+      },
+      {
+        "file": "backend/tests/governedPlace.test.js",
+        "exitCode": 0,
+        "logSha256": "72fa716151923dbd0dc30db647da0dbc8916ffeee934abc0ba0ecca9c2caedf2"
+      },
+      {
+        "file": "backend/tests/historicalOceanRequirements.test.js",
+        "exitCode": 0,
+        "logSha256": "a2ac14ee803d2674ebf59f495825de6da44a35a09f15ea6056155cbc564564b5"
+      },
+      {
+        "file": "backend/tests/marineAssessorCompanionCapture.test.js",
+        "exitCode": 0,
+        "logSha256": "cc5de3601fb6f85b271257b4abcd487a9eb8e89dab86052f532bd55110ad14ae"
+      },
+      {
+        "file": "backend/tests/noaaSstDisplayScale.test.js",
+        "exitCode": 0,
+        "logSha256": "92e23b40bdf581372db94fed657b2687330bc543ee79bea42681b051984eb083"
+      },
+      {
+        "file": "backend/tests/noaaSstPilot.test.js",
+        "exitCode": 0,
+        "logSha256": "3537da9a35ef906bc03ed16af7acc19899e8ee0b86ab23fdb794472289a57f74"
+      },
+      {
+        "file": "backend/tests/oceanConditions.test.js",
+        "exitCode": 0,
+        "logSha256": "14934228a09b2a638f6c1d68008be26b8bf879ec335c2708457400f488ad2f44"
+      },
+      {
+        "file": "backend/tests/oceanFields.test.js",
+        "exitCode": 0,
+        "logSha256": "fb1825a3cb2154ffa57a19a6be418f1257c1d60a3f05f21ae1c288151c1f0740"
+      },
+      {
+        "file": "backend/tests/oceanPhysicsBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "36d458ad9d2b0d61ea766e25eb17a2a4f83671fa26ae9be5f7bd5a9d758a9d9e"
+      },
+      {
+        "file": "backend/tests/oceanProductArchive.test.js",
+        "exitCode": 0,
+        "logSha256": "3e01f265fa8999879e73021ffb85eb8542adabe9b54da0a8332d9fbf6c34998b"
+      },
+      {
+        "file": "backend/tests/oceanProductFrame.test.js",
+        "exitCode": 0,
+        "logSha256": "caa7026abe49aeb64a052cb8db5cdb6ed3df5a22a76d00d61787517965468f4d"
+      },
+      {
+        "file": "backend/tests/oceanProviderBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "6b15439145ac37a58029275288f1787cc825964cd34d0bf90eaf0c9dbc2ed210"
+      },
+      {
+        "file": "backend/tests/oceanPublication.test.js",
+        "exitCode": 0,
+        "logSha256": "350cde469707a51532330c49ef993d9e220fa43618f1f361644c739ce15e52db"
+      },
+      {
+        "file": "backend/tests/oceanPublicationAssessment.test.js",
+        "exitCode": 0,
+        "logSha256": "d855891bcee9f2b4013c894c927c8fd0f89c117a393c0ba064ff1cf8708503a6"
+      },
+      {
+        "file": "backend/tests/oceanPublicationHistory.test.js",
+        "exitCode": 0,
+        "logSha256": "924b1998530ba113467b856281928be38a42d243a4f0f981041f390b1b8323b2"
+      },
+      {
+        "file": "backend/tests/oceanScalarFieldDelivery.test.js",
+        "exitCode": 0,
+        "logSha256": "278a8b26ed5ac93962ef351d97e7df82e926a65c335516c1c4b8715291a2e0f5"
+      },
+      {
+        "file": "backend/tests/oceanSnapshotPrivileges.test.js",
+        "exitCode": 0,
+        "logSha256": "a5eb58469f62bd14ac7b7192b7baa631a938cf5269dee1db44595f9e3dec2e7a"
+      },
+      {
+        "file": "backend/tests/opportunityEvaluationState.test.js",
+        "exitCode": 0,
+        "logSha256": "e03502bc7eeb841e11fb0f25f5e267e1bb7e31f56b2b2e07479b1262f076cf33"
+      },
+      {
+        "file": "backend/tests/persistenceEnvironment.test.js",
+        "exitCode": 0,
+        "logSha256": "980cf6766a377eac5e7069999fea5cb6a793ff1496d4fd83ff3c3ba30a22469b"
+      },
+      {
+        "file": "backend/tests/placeIngestion.test.js",
+        "exitCode": 0,
+        "logSha256": "7363ee1b0833e360f53670af7fc6c30dc84428a3f90a3c77e9c29c9167587bd9"
+      },
+      {
+        "file": "backend/tests/revisedSemanticModel.test.js",
+        "exitCode": 0,
+        "logSha256": "c9e521d89a77a5cb10922bf980facdcee15ad31ed0d27529e6f7749c6184e752"
+      },
+      {
+        "file": "backend/tests/scalarRuntime.test.js",
+        "exitCode": 0,
+        "logSha256": "5e1de5f42241d135a9d01c93ca8414ef3d46d06357af4e659da201991f2aa14f"
+      },
+      {
+        "file": "backend/tests/scientificAssessment.test.js",
+        "exitCode": 0,
+        "logSha256": "87e13bddf2a1b4098c455df3d0a31651f05779f784bd80ea5acc420f89d28c7b"
+      },
+      {
+        "file": "backend/tests/scientificHistoryBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "e568d4fabb0a12d136bd5b05a8a016e01906e65241a8510c74b604e3258e2c11"
+      },
+      {
+        "file": "backend/tests/sharedScienceBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "6992f9560896b041a0ebab80627e9b5d5836817a33c8dc866892ab97a47d3549"
+      },
+      {
+        "file": "backend/tests/signedZeroQualification.test.js",
+        "exitCode": 0,
+        "logSha256": "ba67f3094e245ea18f352d3d93067df772221506fb55e3f7ef3a1d96fa102fe9"
+      },
+      {
+        "file": "backend/tests/snapshotBranchOptionality.test.js",
+        "exitCode": 0,
+        "logSha256": "ada3acc5e45469d4183923a39b80e254000819a0749371c5d49201540c31c27b"
+      },
+      {
+        "file": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+        "exitCode": 0,
+        "logSha256": "1325106dcc2d92cbdd115980c1187a5a23a9d985796c44ec5f89111d0234bd87"
+      },
+      {
+        "file": "backend/tests/snapshotProducerQualificationV2.test.js",
+        "exitCode": 0,
+        "logSha256": "61cf79eb84fe4ed4876110ed175f780e29fa5b912511a86e435a472f6c99156c"
+      },
+      {
+        "file": "backend/tests/snapshotShapeAuthorityBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "5e14411d447a11f090413d627a63e1048968e14c9c55b6698b12f04c966a9389"
+      },
+      {
+        "file": "backend/tests/sstNumericIntegrity.test.js",
+        "exitCode": 0,
+        "logSha256": "76ac409cd1da292e9ae83ad21b62445a01c3e7113c0d27fc0564dba1c83b30f0"
+      },
+      {
+        "file": "backend/tests/sstProductAdapter.test.js",
+        "exitCode": 0,
+        "logSha256": "861cc530cce052f7e2e92a5b51e06d5902a419dafac875024726404bbf9a13a9"
+      },
+      {
+        "file": "backend/tests/sstWorker.test.js",
+        "exitCode": 0,
+        "logSha256": "f02a6c7f4a2274a572948549d7ef9ad0b4117e47867efb3a4ea0c90cbbb3e02b"
+      },
+      {
+        "file": "backend/tests/temporalEvidencePrimitives.test.js",
+        "exitCode": 0,
+        "logSha256": "387df094ad7cc17f8ec7f3bd4fe33da67fd8d769a35a58bb16eba2b500770482"
+      },
+      {
+        "file": "backend/tests/temporalHistorySelection.test.js",
+        "exitCode": 0,
+        "logSha256": "eae9fec9a50907c5feb23e89fc82124c689cea4f3c8bb56c1e29e21c0c5f0aad"
+      },
+      {
+        "file": "backend/tests/transitiveProducerBoundary.test.js",
+        "exitCode": 0,
+        "logSha256": "d5fac08d016dd6e21a11fff769a76f05be0b0e2b3bf868daad122478d4c85628"
+      },
+      {
+        "file": "backend/tests/weatherMarineQualityCapture.test.js",
+        "exitCode": 0,
+        "logSha256": "4f9091b38305447904f455b00b95da4b9a2a4b50adb75349d7b5cdd926a3cc6e"
+      }
+    ],
+    "finalFocused": {
+      "tests": 5,
+      "pass": 5,
+      "executions": 18,
+      "logSha256": "cdf450fac80dd03399e4e4a009c89d0719f19c06e340c1704550f8537c245080",
+      "note": "Final focused rerun includes adjacent represented-time probe added after initial full-suite invocation."
+    },
+    "syntaxModules": 127,
+    "jsonFiles": 58,
+    "staticFailures": 0,
+    "draftV3TestsExcluded": true,
+    "trackedAndStagedDiff": "EMPTY",
+    "newFileWhitespace": "PASS"
+  }
+}

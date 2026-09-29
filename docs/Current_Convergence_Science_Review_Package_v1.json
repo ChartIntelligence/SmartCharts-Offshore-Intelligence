@@ -1,0 +1,2337 @@
+{
+  "packageVersion": "current-convergence-science-review-package-v1",
+  "purpose": "Human/external scientific review preparation; not a scientific contract, decision, authority proposal or freeze.",
+  "verdict": "CONVERGENCE_CONTRACT_DECISION_REQUIRES_SCIENCE_REVIEW",
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "question": "What scientific statement, if any, may Pelora truthfully make from its existing horizontal radial-geometry candidate, and what evidence (if any) is necessary before that statement may be represented as currentConvergenceDetected=true or contribute convergence support to Ocean Physics?",
+  "algorithm": {
+    "producer": "backend/server.js:5239 buildCurrentConvergenceAnalysis",
+    "axes": {
+      "north": [
+        0,
+        -1
+      ],
+      "east": [
+        -1,
+        0
+      ],
+      "south": [
+        0,
+        1
+      ],
+      "west": [
+        1,
+        0
+      ]
+    },
+    "layout": {
+      "center": [
+        25,
+        -90
+      ],
+      "radiusNm": 15,
+      "latitudeOffset": "15/60 degrees",
+      "longitudeOffset": "15/(60*cos(latitude*pi/180)) degrees",
+      "longitudeGuard": "abs(cos(latitude)) > 0.01; otherwise no sample points",
+      "samples": {
+        "north": [
+          25.25,
+          -90
+        ],
+        "east": [
+          25,
+          -89.72415552025937
+        ],
+        "south": [
+          24.75,
+          -90
+        ],
+        "west": [
+          25,
+          -90.27584447974063
+        ]
+      }
+    },
+    "centerCurrent": "Separately acquired, not used in candidate radial predicate.",
+    "formulas": [
+      "r = u*inwardEast + v*inwardNorth",
+      "inward = max(r,0); outward = max(-r,0)",
+      "projection values passed to convergence = Number(value.toFixed(4))",
+      "M = valid projections with rounded inward >= 0.05",
+      "S = valid projections with rounded inward >= 0.15",
+      "O = valid projections with rounded outward >= 0.05",
+      "P = unique opposing direction pairs in M",
+      "mean = sum(inward in M)/M.length, or null"
+    ],
+    "availability": "projection.sufficientCoverage === true and >=3 available projections with finite signedRadial/inward/outward. Projection sufficientCoverage is validProjectionCount>=3.",
+    "candidate": "available AND |M|>=3 AND |P|>=1",
+    "pronounced": "candidate AND |valid|>=4 AND |M|=|valid| AND |O|=0 AND |S|>=3 AND finite(mean) AND mean>=0.15",
+    "outputRounding": "Returned mean/max values are again rounded to 4 decimals after classification. Thresholds do not compare raw provider components or rounded speedKnots.",
+    "quality": "Finite components/available projections/coverage; no confidence estimate, uncertainty test, magnitude-balance or gradient gate inside convergence.",
+    "temporal": "Individual upstream explicit-assessment age validation; future and available-but-untimed points reject. No convergence cross-vector time equality, compatibility or age cutoff.",
+    "provenance": "Default caller fixes NOAA CoastWatch/noaacwBLENDEDNRTcurrentsDaily and u_current/v_current. Convergence retains upstream contract/limitations, does not compare source release/quality consistency.",
+    "coverageCaution": "Projection requested count is the number of vectors passed in after rejected requests are filtered; complete projection coverage is not automatically four original successful requests."
+  },
+  "evidence": {
+    "kind": "SYNTHETIC_TRANSPORT_THROUGH_ACTUAL_DEFAULT_CHAIN",
+    "recordCount": 33,
+    "notLiveProviderObservation": true,
+    "inputDefaults": {
+      "assessmentAt": "2026-09-26T01:00:00Z",
+      "representedTime": "2026-09-24T00:00:00Z",
+      "coordinates": [
+        25,
+        -90
+      ],
+      "centerCurrent": [
+        0.5,
+        0.2
+      ],
+      "V": {
+        "current": "uniform",
+        "vectors": {
+          "north": [
+            0.5,
+            0.2
+          ],
+          "east": [
+            0.5,
+            0.2
+          ],
+          "south": [
+            0.5,
+            0.2
+          ],
+          "west": [
+            0.5,
+            0.2
+          ]
+        }
+      },
+      "W": {
+        "current": "convergenceOnly",
+        "vectors": {
+          "north": [
+            0,
+            -0.06
+          ],
+          "east": [
+            -0.06,
+            0
+          ],
+          "south": [
+            0,
+            0.06
+          ],
+          "west": [
+            0.06,
+            0
+          ]
+        }
+      },
+      "namedModes": {
+        "convergenceOnly": {
+          "north": [
+            0,
+            -0.06
+          ],
+          "east": [
+            -0.06,
+            0
+          ],
+          "south": [
+            0,
+            0.06
+          ],
+          "west": [
+            0.06,
+            0
+          ]
+        },
+        "shear": {
+          "north": [
+            1,
+            0
+          ],
+          "east": [
+            0.1,
+            0
+          ],
+          "south": [
+            -1,
+            0
+          ],
+          "west": [
+            0.1,
+            0
+          ]
+        },
+        "missing": "Empty current rows; unavailable vectors"
+      }
+    },
+    "cases": [
+      {
+        "id": "V:empty",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "current": "missing"
+        },
+        "defaults": "V",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 0,
+          "sourceAvailability": "no-valid-pixel",
+          "currentGroupAvailable": false,
+          "freshness": "unknown",
+          "ageHours": null
+        },
+        "geometryEvidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        }
+      },
+      {
+        "id": "V:rejected",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "currentRejected": true
+        },
+        "defaults": "V",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 0,
+          "sourceAvailability": "provider-unavailable",
+          "currentGroupAvailable": false,
+          "freshness": "unknown",
+          "ageHours": null
+        },
+        "geometryEvidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        }
+      },
+      {
+        "id": "V:uniform",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {},
+        "defaults": "V",
+        "result": {
+          "type": "localized-inward-flow",
+          "state": "incomplete-support",
+          "strength": "localized",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 2,
+          "strongInwardCount": 2,
+          "meaningfulOutwardCount": 2,
+          "meaningfulInwardDirections": [
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.35,
+          "maximumInwardMetersPerSecond": 0.5,
+          "maximumOutwardMetersPerSecond": 0.5
+        }
+      },
+      {
+        "id": "V:candidate",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "current": "convergenceOnly"
+        },
+        "defaults": "V",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:pronounced",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.2
+            ],
+            "east": [
+              -0.2,
+              0
+            ],
+            "south": [
+              0,
+              0.2
+            ],
+            "west": [
+              0.2,
+              0
+            ]
+          }
+        },
+        "defaults": "V",
+        "result": {
+          "type": "pronounced-convergence-candidate",
+          "state": "candidate",
+          "strength": "pronounced",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 4,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.2,
+          "maximumInwardMetersPerSecond": 0.2,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:partial",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "current": "convergenceOnly",
+          "missingRoles": [
+            "east",
+            "west"
+          ]
+        },
+        "defaults": "V",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 2,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "insufficient",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 2,
+          "meaningfulInwardCount": 2,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "south"
+          ],
+          "opposingInwardPairs": [
+            "north-south"
+          ],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:missing-time",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "current": "convergenceOnly",
+          "currentTime": null
+        },
+        "defaults": "V",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 0,
+          "sourceAvailability": "provider-unavailable",
+          "currentGroupAvailable": false,
+          "freshness": "unknown",
+          "ageHours": null
+        },
+        "geometryEvidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        }
+      },
+      {
+        "id": "V:future-time",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "current": "convergenceOnly",
+          "currentTime": "2026-09-27T00:00:00Z"
+        },
+        "defaults": "V",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 0,
+          "sourceAvailability": "provider-unavailable",
+          "currentGroupAvailable": false,
+          "freshness": "unknown",
+          "ageHours": null
+        },
+        "geometryEvidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        }
+      },
+      {
+        "id": "V:stale",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "current": "convergenceOnly",
+          "currentTime": "2020-01-01T00:00:00Z"
+        },
+        "defaults": "V",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "stale",
+          "ageHours": 59041
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:radial-0.0499",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.0499
+            ],
+            "east": [
+              -0.0499,
+              0
+            ],
+            "south": [
+              0,
+              0.0499
+            ],
+            "west": [
+              0.0499,
+              0
+            ]
+          }
+        },
+        "defaults": "V",
+        "result": {
+          "type": "no-convergence-candidate",
+          "state": "not-supported",
+          "strength": "none",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": 0.0499,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:radial-0.05",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.05
+            ],
+            "east": [
+              -0.05,
+              0
+            ],
+            "south": [
+              0,
+              0.05
+            ],
+            "west": [
+              0.05,
+              0
+            ]
+          }
+        },
+        "defaults": "V",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.05,
+          "maximumInwardMetersPerSecond": 0.05,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:radial-0.0501",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.0501
+            ],
+            "east": [
+              -0.0501,
+              0
+            ],
+            "south": [
+              0,
+              0.0501
+            ],
+            "west": [
+              0.0501,
+              0
+            ]
+          }
+        },
+        "defaults": "V",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.0501,
+          "maximumInwardMetersPerSecond": 0.0501,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:radial-0.1499",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.1499
+            ],
+            "east": [
+              -0.1499,
+              0
+            ],
+            "south": [
+              0,
+              0.1499
+            ],
+            "west": [
+              0.1499,
+              0
+            ]
+          }
+        },
+        "defaults": "V",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.1499,
+          "maximumInwardMetersPerSecond": 0.1499,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:radial-0.15",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.15
+            ],
+            "east": [
+              -0.15,
+              0
+            ],
+            "south": [
+              0,
+              0.15
+            ],
+            "west": [
+              0.15,
+              0
+            ]
+          }
+        },
+        "defaults": "V",
+        "result": {
+          "type": "pronounced-convergence-candidate",
+          "state": "candidate",
+          "strength": "pronounced",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 4,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.15,
+          "maximumInwardMetersPerSecond": 0.15,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "V:radial-0.1501",
+        "source": "docs/Current_Convergence_Contract_Review_v1.json#/matrix",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.1501
+            ],
+            "east": [
+              -0.1501,
+              0
+            ],
+            "south": [
+              0,
+              0.1501
+            ],
+            "west": [
+              0.1501,
+              0
+            ]
+          }
+        },
+        "defaults": "V",
+        "result": {
+          "type": "pronounced-convergence-candidate",
+          "state": "candidate",
+          "strength": "pronounced",
+          "analysisAvailable": true,
+          "valid": 4,
+          "sourceAvailability": "available",
+          "currentGroupAvailable": true,
+          "freshness": "aging",
+          "ageHours": 49
+        },
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 4,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.1501,
+          "maximumInwardMetersPerSecond": 0.1501,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:all",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {},
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:one-missing",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "missingRoles": [
+            "east"
+          ]
+        },
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 3,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": false
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "partial",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 3,
+          "meaningfulInwardCount": 3,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:two-missing",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "missingRoles": [
+            "east",
+            "west"
+          ]
+        },
+        "defaults": "W",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 2,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": false
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": false
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "insufficient",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 2,
+          "meaningfulInwardCount": 2,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "south"
+          ],
+          "opposingInwardPairs": [
+            "north-south"
+          ],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:center-missing",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "missingRoles": [
+            "center"
+          ]
+        },
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": false,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:unavailable",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "currentRejected": true
+        },
+        "defaults": "W",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 0,
+          "currentGroupAvailable": false,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [],
+        "geometryEvidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        }
+      },
+      {
+        "id": "W:future-one",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "currentTimes": {
+            "north": "2026-09-27T00:00:00Z"
+          }
+        },
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 3,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 3,
+          "validProjectionCount": 3,
+          "meaningfulInwardCount": 3,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:untimed-one",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "currentTimes": {
+            "north": null
+          }
+        },
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 3,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 3,
+          "validProjectionCount": 3,
+          "meaningfulInwardCount": 3,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:future-all",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "currentTime": "2026-09-27T00:00:00Z"
+        },
+        "defaults": "W",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 0,
+          "currentGroupAvailable": false,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [],
+        "geometryEvidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        }
+      },
+      {
+        "id": "W:untimed-all",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "currentTime": null
+        },
+        "defaults": "W",
+        "result": {
+          "type": "unavailable",
+          "state": "insufficient-evidence",
+          "strength": "unknown",
+          "analysisAvailable": false,
+          "valid": 0,
+          "currentGroupAvailable": false,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [],
+        "geometryEvidence": {
+          "coverage": "unavailable",
+          "sufficientCoverage": false,
+          "requestedProjectionCount": 0,
+          "validProjectionCount": 0,
+          "meaningfulInwardCount": 0,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": null,
+          "maximumInwardMetersPerSecond": null,
+          "maximumOutwardMetersPerSecond": null
+        }
+      },
+      {
+        "id": "W:heterogeneous-times",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "currentTimes": {
+            "north": "2026-09-24T00:00:00Z",
+            "east": "2026-09-25T00:00:00Z",
+            "south": "2020-01-01T00:00:00Z",
+            "west": "2026-09-26T00:00:00Z"
+          }
+        },
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-25T00:00:00Z",
+            "ageHours": 25,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2020-01-01T00:00:00Z",
+            "ageHours": 59041,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-26T00:00:00Z",
+            "ageHours": 1,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:adjacent-represented-times",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "currentTimes": {
+            "north": "2026-09-24T00:00:00Z",
+            "east": "2026-09-25T00:00:00Z",
+            "south": "2026-09-24T00:00:00Z",
+            "west": "2026-09-25T00:00:00Z"
+          }
+        },
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-25T00:00:00Z",
+            "ageHours": 25,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-25T00:00:00Z",
+            "ageHours": 25,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:unequal-magnitudes",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -0.06
+            ],
+            "east": [
+              -1,
+              0
+            ],
+            "south": [
+              0,
+              0.06
+            ],
+            "west": [
+              0.2,
+              0
+            ]
+          }
+        },
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": true,
+          "edge": true
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 1
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.2
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 2,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.33,
+          "maximumInwardMetersPerSecond": 1,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:low-inward",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {},
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:strong-inward",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "vectors": {
+            "north": [
+              0,
+              -1
+            ],
+            "east": [
+              -1,
+              0
+            ],
+            "south": [
+              0,
+              1
+            ],
+            "west": [
+              1,
+              0
+            ]
+          }
+        },
+        "defaults": "W",
+        "result": {
+          "type": "pronounced-convergence-candidate",
+          "state": "candidate",
+          "strength": "pronounced",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": true,
+          "edge": true
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 1
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 1
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 1
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 1
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 4,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 1,
+          "maximumInwardMetersPerSecond": 1,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:shear-only",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {
+          "current": "shear"
+        },
+        "defaults": "W",
+        "result": {
+          "type": "localized-inward-flow",
+          "state": "incomplete-support",
+          "strength": "localized",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": true,
+          "edge": true
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.1
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 1,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 1,
+          "meaningfulInwardDirections": [
+            "west"
+          ],
+          "opposingInwardPairs": [],
+          "distributedInwardSupport": false,
+          "completeInwardSupport": false,
+          "meanMeaningfulInwardMetersPerSecond": 0.1,
+          "maximumInwardMetersPerSecond": 0.1,
+          "maximumOutwardMetersPerSecond": 0.1
+        }
+      },
+      {
+        "id": "W:replay-cold",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {},
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:replay-warm",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {},
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      },
+      {
+        "id": "W:replay-later",
+        "source": "docs/Governed_Current_Convergence_Decision_v1.json#/runtimeEvidence",
+        "inputs": {},
+        "defaults": "W",
+        "result": {
+          "type": "convergence-candidate",
+          "state": "candidate",
+          "strength": "measurable",
+          "analysisAvailable": true,
+          "valid": 4,
+          "currentGroupAvailable": true,
+          "shear": false,
+          "edge": false
+        },
+        "representedSamples": [
+          {
+            "direction": "north",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "east",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "south",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          },
+          {
+            "direction": "west",
+            "available": true,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 49,
+            "inward": 0.06
+          }
+        ],
+        "geometryEvidence": {
+          "coverage": "complete",
+          "sufficientCoverage": true,
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "meaningfulInwardCount": 4,
+          "strongInwardCount": 0,
+          "meaningfulOutwardCount": 0,
+          "meaningfulInwardDirections": [
+            "north",
+            "east",
+            "south",
+            "west"
+          ],
+          "opposingInwardPairs": [
+            "north-south",
+            "east-west"
+          ],
+          "distributedInwardSupport": true,
+          "completeInwardSupport": true,
+          "meanMeaningfulInwardMetersPerSecond": 0.06,
+          "maximumInwardMetersPerSecond": 0.06,
+          "maximumOutwardMetersPerSecond": 0
+        }
+      }
+    ]
+  },
+  "supported": [
+    "Existing accepted samples meet the stated inward radial support rule.",
+    "Candidate/measurable or pronounced describes that sampled horizontal geometry and existing strength rule.",
+    "Missingness and type/state/strength remain distinguishable; availability means evaluable coverage, not candidate presence."
+  ],
+  "notEstablished": [
+    "Simultaneous or persistent physical convergence feature",
+    "Vertical velocity/downwelling/upwelling or water-mass accumulation",
+    "Spatial coherence beyond sampled geometry or independent source agreement",
+    "Calibrated confidence/probability/noise discrimination",
+    "Automatic Ocean Signal/feature identity/Opportunity",
+    "Fish presence, biological effect, habitat quality or catch probability"
+  ],
+  "limitations": [
+    "Registry declares 0.25-degree grid; exact averaging/support window and provider release/uncertainty are not established for this claim.",
+    "Requested geometry is not proof of distinct resolved cells; projection uses cardinal labels.",
+    "Mixed represented times and stale components can remain accepted; no currentness upgrade follows.",
+    "Three directions suffice; no pairwise magnitude-balance check.",
+    "Derived shear/edge/convergence can share observations and overlap.",
+    "Synthetic accepted cases do not establish live provider frequency or physical plausibility of every adversarial combination."
+  ],
+  "mismatch": {
+    "producer": "convergence-candidate / candidate / measurable; no nested currentConvergenceDetected",
+    "consumers": [
+      {
+        "function": "buildMixingZoneAnalysis",
+        "line": 12881
+      },
+      {
+        "function": "buildEnvironmentalTransitionAnalysis",
+        "line": 13388
+      },
+      {
+        "function": "buildOceanOrganizationAnalysis",
+        "line": 15062
+      }
+    ],
+    "predicate": "currentConvergence?.currentConvergenceDetected === true && currentConvergence?.convergenceState === \"candidate\"",
+    "otherRead": "buildCurrentEdgeAnalysis:4921 also reads Boolean without state conjunct; not an intermediate translator.",
+    "diagnostic": {
+      "label": "NON-PRODUCER DIAGNOSTIC EVIDENCE",
+      "operation": "Add Boolean true to a clone after actual production trace; direct consumer substitution only.",
+      "isolatedConsequences": {
+        "hydrodynamicCount": [
+          0,
+          1
+        ],
+        "organizationIndex": [
+          1,
+          2
+        ],
+        "classification": [
+          "uniform-environmental-context",
+          "hydrodynamic-transition-context"
+        ]
+      },
+      "limits": "No producer reachability, scientific intent, probability or score benefit inferred. Prior recomposed confidence/summary/environmentalOpportunityEvidence stayed equal."
+    }
+  },
+  "questions": [
+    {
+      "id": "Q01",
+      "topic": "Terminology",
+      "question": "Define the exact claim supported by candidate and by detected, if detected is justified; distinguish sampled signature from physical feature."
+    },
+    {
+      "id": "Q02",
+      "topic": "Spatial sufficiency",
+      "question": "Are the requested 15-nm cardinal geometry, retained resolved coordinates and declared 0.25-degree product grid sufficient for that claim? What spatial limitations must remain explicit?"
+    },
+    {
+      "id": "Q03",
+      "topic": "Temporal coherence",
+      "question": "What represented-time relationship is defensible? Address adjacent/mixed dates, stale components, independently requested last values and partial rejection without inventing a rule here."
+    },
+    {
+      "id": "Q04",
+      "topic": "Magnitude and coherence",
+      "question": "What do the existing rounded-projection 0.05/0.15 m/s rules establish? Does available source uncertainty support their intended interpretation? Address unequal magnitudes and opposing-pair support."
+    },
+    {
+      "id": "Q05",
+      "topic": "Missingness",
+      "question": "How should three directions, absent center, failed requests and unavailable evidence constrain the claim? Does projection coverage describe original requests adequately?"
+    },
+    {
+      "id": "Q06",
+      "topic": "Overlapping structures",
+      "question": "How should candidate convergence overlapping shear/edge be explained without treating correlated outputs as independent confirmation?"
+    },
+    {
+      "id": "Q07",
+      "topic": "Persistence and identity",
+      "question": "Is persistence/continuity necessary for the particular claim, or only for a stronger claim? Specify evidence-based reasoning rather than assuming it is required."
+    },
+    {
+      "id": "Q08",
+      "topic": "State representation",
+      "question": "Can a scoped Boolean convey the claim while retaining unavailable/insufficient/not-supported/candidate states, or is another representation needed? No representation selected here."
+    },
+    {
+      "id": "Q09",
+      "topic": "Consumer meaning",
+      "question": "What evidence may justify one convergence contribution, hydrodynamic-transition-context and an organization-index increment? Distinguish contextual support from an Ocean Signal or Opportunity."
+    },
+    {
+      "id": "Q10",
+      "topic": "Captain-facing claims",
+      "question": "Specify defensible wording and uncertainty for candidate, unavailable and any scientifically justified detected state; exclude vertical/biological/catch claims not established by evidence."
+    },
+    {
+      "id": "Q11",
+      "topic": "Review sufficiency",
+      "question": "What existing evidence supports each conclusion, what remains uncertain, and is any additional validation necessary before a contract decision? No literature or acquisition is selected here."
+    },
+    {
+      "id": "Q12",
+      "topic": "Handoff to software",
+      "question": "Provide an explicit reviewed claim, evidence limits, examples/counterexamples and unresolved issues. Only then can a separate contract/versioning/amendment review define software scope."
+    }
+  ],
+  "prohibitedAssumptions": [
+    "candidate == detected",
+    "candidate != detected as an unreviewed permanent scientific axiom",
+    "horizontal convergence == downwelling",
+    "convergence == fish presence",
+    "convergence == Opportunity",
+    "convergence == catch probability",
+    "persistence required without scientific justification",
+    "arbitrary new threshold",
+    "daily timestamp == instantaneous simultaneous measurement",
+    "manual true substitution == producer evidence"
+  ],
+  "governance": [
+    "Evidence before conclusion",
+    "Ocean Signals distinct from Opportunities",
+    "Species-neutral environmental interpretation",
+    "Fail closed without converting unavailable/uncertain to positive support or false to measured absence",
+    "Explicit uncertainty; no invented confidence",
+    "Do not let stale/mixed evidence masquerade as current/coherent",
+    "Captain decides; product supports rather than replaces judgment"
+  ],
+  "blockedGates": [
+    "Scientific claim/evidence sufficiency review (this package makes no decision)",
+    "Separate contract decision and versioning/compatibility review",
+    "Any separately authorized producer/consumer/governance amendment and validation",
+    "Renewed Ocean Physics area qualification",
+    "Subsequent revised-model completeness/qualification and downstream authority gates; no automatic resumption"
+  ],
+  "status": {
+    "oceanPhysics": "PAUSED",
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "astronomy": "QUALIFIED_UNCHANGED",
+    "originalNine": "BLOCKING_UNRESOLVED",
+    "normalization": "UPSTREAM_SOURCE_NORMALIZATION_REVIEW_REQUIRED",
+    "injectedProviders": "UNQUALIFIED"
+  },
+  "sources": [
+    {
+      "path": "backend/server.js",
+      "sha256": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06"
+    },
+    {
+      "path": "backend/scientificAssessment.mjs",
+      "sha256": "b27a04f6c74fab51e54998301c6c03d6dfd6a1ae3cbd4787089c4a04e41e7a9f"
+    },
+    {
+      "path": "backend/fields/datasetRegistry.js",
+      "sha256": "dcddcb14a60230cc3ed209555b25dae4b20f56d566db781bb24ae201fcee638c"
+    },
+    {
+      "path": "backend/tests/convergenceDecision.test.js",
+      "sha256": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a"
+    },
+    {
+      "path": "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+      "sha256": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a"
+    },
+    {
+      "path": "backend/tests/convergenceContract.test.js",
+      "sha256": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd"
+    },
+    {
+      "path": "backend/tests/fixtures/convergenceContractFixture.mjs",
+      "sha256": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef"
+    },
+    {
+      "path": "backend/tests/oceanPhysicsBoundary.test.js",
+      "sha256": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a"
+    },
+    {
+      "path": "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+      "sha256": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1"
+    },
+    {
+      "path": "docs/Current_Convergence_Contract_Review_v1.json",
+      "sha256": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9"
+    },
+    {
+      "path": "docs/Governed_Current_Convergence_Decision_v1.json",
+      "sha256": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b"
+    },
+    {
+      "path": "docs/Ocean_Product_Archive_Foundation_v1.md",
+      "sha256": "188bc773f35aaa23282b998f397044313b24ff56e80f8b8a545f10bde7d0b351"
+    },
+    {
+      "path": "docs/Four_Hour_Governed_Publication_v1.md",
+      "sha256": "e913e2e692338ce64f49832e331d0fc10702c5578bde5c975745caaa68b2aab3"
+    },
+    {
+      "path": "docs/SmartCharts-Vision.md",
+      "sha256": "0d55b1314bdb8745161d72a3b3595e97e926dd41ebc8540774731eeb96f187f7"
+    }
+  ],
+  "verification": {
+    "sourceReinspection": true,
+    "focusedNetworkBlocked": [
+      {
+        "file": "backend/tests/convergenceDecision.test.js",
+        "passed": 5,
+        "logSha256": "05bef4469a874438ee4460436362a7d01e9593a036d54a36d67fd73fcfce0903"
+      },
+      {
+        "file": "backend/tests/convergenceContract.test.js",
+        "passed": 6,
+        "logSha256": "ed88123109ee5ab9f70c52d4fbe655af9bddd61074b87b335ee3e321996b55d5"
+      },
+      {
+        "file": "backend/tests/oceanPhysicsBoundary.test.js",
+        "passed": 6,
+        "logSha256": "53ca0131e46c6068f510d9f975ffdce83cfa9e729a4164579346e3d9cff4e5d7"
+      }
+    ],
+    "noWebResearch": true,
+    "noLiteratureSelection": true,
+    "noNewExperiments": true,
+    "noProductionChanges": true,
+    "preservation": {
+      "existingUntrackedFiles": 80,
+      "unchanged": 80,
+      "manifestDigestAlgorithm": "SHA-256 of JSON.stringify(path/sha256 array in preflight order)",
+      "beforeManifestDigest": "4fcb02b7910af20180b19d56794c4c71d2a59806ed2f97fa8336b37445f5624a",
+      "afterManifestDigest": "4fcb02b7910af20180b19d56794c4c71d2a59806ed2f97fa8336b37445f5624a"
+    },
+    "fullRegressionRerun": false,
+    "reason": "Documentation-only package; existing focused diagnostics rerun, no runtime/test changes."
+  }
+}

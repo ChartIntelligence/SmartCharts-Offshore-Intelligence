@@ -1,0 +1,354 @@
+{
+  "version": "pelora-revised-model-preservation-v1",
+  "purpose": "Preservation manifest, NOT a semantic/authority freeze",
+  "files": [
+    {
+      "path": "backend/candidateSemanticProjectionV3.mjs",
+      "before": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+      "after": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/assessmentAstronomy.test.js",
+      "before": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c",
+      "after": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "before": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+      "after": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+      "before": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+      "after": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/defaultProviderSemanticReview.test.js",
+      "before": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb",
+      "after": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/defaultProviderTransitive.test.js",
+      "before": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28",
+      "after": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+      "before": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a",
+      "after": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+      "before": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+      "after": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+      "before": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef",
+      "after": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+      "before": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba",
+      "after": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+      "before": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138",
+      "after": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+      "before": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade",
+      "after": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+      "before": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+      "after": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+      "before": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+      "after": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+      "before": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+      "after": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+      "before": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+      "after": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+      "before": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+      "after": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+      "before": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+      "after": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/oceanProviderBoundary.test.js",
+      "before": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f",
+      "after": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/snapshotBranchOptionality.test.js",
+      "before": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+      "after": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "before": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+      "after": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+      "before": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+      "after": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+      "unchanged": true
+    },
+    {
+      "path": "backend/tests/transitiveProducerBoundary.test.js",
+      "before": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+      "after": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+      "before": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42",
+      "after": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+      "before": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699",
+      "after": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+      "before": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f",
+      "after": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+      "before": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691",
+      "after": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+      "before": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985",
+      "after": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+      "before": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+      "after": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+      "before": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+      "after": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Semantic_Shapes_v3.json",
+      "before": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+      "after": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+      "before": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+      "after": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+      "before": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+      "after": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+      "before": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+      "after": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+      "before": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+      "after": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+      "before": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+      "after": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+      "before": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+      "after": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+      "before": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+      "after": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+      "before": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+      "after": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+      "before": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+      "after": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+      "before": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+      "after": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+      "before": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+      "after": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+      "before": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13",
+      "after": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+      "before": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a",
+      "after": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+      "before": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034",
+      "after": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Provider_Semantic_Review_v1.json",
+      "before": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf",
+      "after": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Provider_Semantic_Review_v1.md",
+      "before": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154",
+      "after": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Discovery_v2.json",
+      "before": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56",
+      "after": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Preservation_v1.json",
+      "before": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11",
+      "after": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Review_v1.json",
+      "before": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5",
+      "after": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Review_v1.md",
+      "before": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81",
+      "after": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+      "before": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+      "after": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+      "before": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+      "after": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+      "before": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+      "after": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+      "before": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+      "after": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+      "before": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+      "after": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+      "before": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+      "after": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+      "before": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+      "after": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+      "unchanged": true
+    }
+  ]
+}
