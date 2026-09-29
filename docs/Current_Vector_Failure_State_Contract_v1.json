@@ -1,0 +1,4219 @@
+{
+  "task": "12B.7F",
+  "verdict": "CURRENT_VECTOR_FAILURE_STATE_REQUIRES_NEW_CONTRACT",
+  "secondaryFinding": "NEW_FAILURE_STATE_CONTRACT_REQUIRED",
+  "passClaimed": false,
+  "newEnumRequired": false,
+  "meaning": "Normative failure locality, permitted consumers and state transition/admission mapping are not established; a new field or enum is not demonstrated necessary.",
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "branch": "codex/pelora-remote-setup",
+  "authority": "Repository contracts and unchanged production code under synthetic transport; no external science or acquisition.",
+  "scientificLayers": {
+    "A": "Normalized source-derived u/v components; source validity does not certify all derived facts.",
+    "B": "Speed/direction and components; requirements differ between consumers.",
+    "C": "Projection, alignment, difference, gradient and aggregate facts have local admission predicates.",
+    "D": "Higher-order convergence/Ocean Physics quarantined."
+  },
+  "requiredRepresentationLedger": [
+    {
+      "representation": "u",
+      "classification": "SOURCE_REQUIRED",
+      "evidence": "Finite eastward component required for a complete source vector, cache admission, component projection and available capture. An unavailable point may retain only the other component."
+    },
+    {
+      "representation": "v",
+      "classification": "SOURCE_REQUIRED",
+      "evidence": "Same northward requirement."
+    },
+    {
+      "representation": "Speed",
+      "classification": "DERIVED_REQUIRED_FOR_SPECIFIC_CONSUMER",
+      "evidence": "Required by available capture, speed-based current evidence, spatial aggregate validity and current quality; not required by component projection. Universal membership remains unresolved."
+    },
+    {
+      "representation": "Direction",
+      "classification": "DERIVED_REQUIRED_FOR_SPECIFIC_CONSUMER",
+      "evidence": "Required by available capture, current evidence/quality and directional comparisons. No heading-optional global contract exists."
+    },
+    {
+      "representation": "Projection magnitude",
+      "classification": "DERIVED_REQUIRED_FOR_SPECIFIC_CONSUMER",
+      "evidence": "Used as alignment denominator for positive norm; independently emitted scientific fact. Gradient does not require this field. Current finite-output admission is incomplete."
+    },
+    {
+      "representation": "Radial/tangential projections",
+      "classification": "DERIVED_REQUIRED_FOR_SPECIFIC_CONSUMER",
+      "evidence": "Gradient input predicates require finite projection values. No convergence semantics reviewed."
+    },
+    {
+      "representation": "Component differences / total difference norm",
+      "classification": "DERIVED_REQUIRED_FOR_SPECIFIC_CONSUMER",
+      "evidence": "Inputs to the corresponding spatial gradient facts."
+    },
+    {
+      "representation": "Gradient values",
+      "classification": "DERIVED_REQUIRED_FOR_SPECIFIC_CONSUMER",
+      "evidence": "Finite gradient quantities required by downstream shear admission; axes currently lack complete output-finiteness checks."
+    },
+    {
+      "representation": "Aggregate maxima",
+      "classification": "DERIVED_REQUIRED_FOR_SPECIFIC_CONSUMER",
+      "evidence": "Nullable summaries of admitted axis facts; their nullness does not erase retained axes. No universal optionality claim."
+    },
+    {
+      "representation": "Strength/compass explanatory labels and method descriptions",
+      "classification": "DOCUMENTARY",
+      "evidence": "Descriptive representations derived from speed/direction, not independent component measurements. This does not claim all readers ignore them."
+    },
+    {
+      "representation": "Universal required vector set; component retention after required failure",
+      "classification": "UNRESOLVED",
+      "evidence": "Capture, component and speed-based boundaries impose different requirements; no precedence rule resolves them."
+    }
+  ],
+  "consumerRequirementMap": [
+    {
+      "consumer": "Point parser, currentDirectionDegrees",
+      "requires": "Finite u and v",
+      "behavior": "Source availability follows components; nonfinite norm rejected by knots helper to null; heading computed separately."
+    },
+    {
+      "consumer": "setCachedCurrentPoint",
+      "requires": "Finite u and v",
+      "behavior": "Retains a partial derived point; no speed requirement."
+    },
+    {
+      "consumer": "Current spatial aggregate",
+      "requires": "Finite u/v/speed/direction",
+      "behavior": "Null speed/heading excluded from valid-vector counts; original finite fields remain in retained vectors."
+    },
+    {
+      "consumer": "Vector projection",
+      "requires": "Known cardinal role and finite u/v",
+      "behavior": "Recomputes norm/projections independently; infinite magnitude can still be marked available. Null speed alone does not block it."
+    },
+    {
+      "consumer": "Gradient",
+      "requires": "Available projection, finite components/radial/tangential/coordinates, positive finite separation",
+      "behavior": "Does not require finite projection norm. Can emit nonfinite deltas/ratios in available axes; guarded aggregate maxima become null."
+    },
+    {
+      "consumer": "Shear admission",
+      "requires": "Finite required axis gradients and coverage predicates",
+      "behavior": "Nonfinite gradient axes excluded. No threshold or interpretation is amended."
+    },
+    {
+      "consumer": "buildCurrentSpatialAnalysis, buildCurrentEvidence",
+      "requires": "Finite speed/direction for current evidence",
+      "behavior": "Null speed/heading means unavailable at this level; supplied spatialAnalysis may still be retained."
+    },
+    {
+      "consumer": "Strength/compass helpers",
+      "requires": "Respective finite speed/heading",
+      "behavior": "Missing input gives unavailable/null description; no recomputation from u/v."
+    },
+    {
+      "consumer": "Current quality layer",
+      "requires": "Finite center speed/heading and existing age governance",
+      "behavior": "Overflow-null center speed does not supply live quality. This layer does not inspect every spatial derivative."
+    },
+    {
+      "consumer": "Change/history/persistence readers",
+      "requires": "Governed speed/heading/time inputs",
+      "behavior": "Existing finite guards and bounded direction normalization; no u/v reconstruction found. No history-policy qualification here."
+    },
+    {
+      "consumer": "Candidate negative-conclusion adequacy",
+      "requires": "Finite speed/heading/u/v plus source/time and other predicates",
+      "behavior": "Component-only extreme does not satisfy finite-speed prerequisite. No eligibility/scoring execution or impact claim."
+    },
+    {
+      "consumer": "Existing species habitat reader",
+      "requires": "Normalized evidence speed/heading",
+      "behavior": "Recorded as downstream boundary only. No species-specific contract or repair is selected."
+    },
+    {
+      "consumer": "Current capture v1/v2",
+      "requires": "Finite-or-null fields; all four finite for source available",
+      "behavior": "Available-source partial point rejected. Unavailable-state partial shape can be represented; that is not authorization to relabel source truth."
+    },
+    {
+      "consumer": "Snapshot representation",
+      "requires": "Container inputs",
+      "behavior": "Structured clone preserves numeric values, including invalid derivatives; not numeric qualification."
+    },
+    {
+      "consumer": "Exact serialization, semantic v1/v2 strict copy, publication strict copy",
+      "requires": "Finite numeric content",
+      "behavior": "Nonfinite content rejected. Later rejection does not validate upstream admission."
+    }
+  ],
+  "sourceBindings": {
+    "file": "backend/server.js",
+    "occurrences": {
+      "components": {
+        "setCachedCurrentPoint": [
+          1309,
+          1312
+        ],
+        "getCurrentConditionsPointAtAssessment": [
+          2394,
+          2395,
+          2496,
+          2503
+        ],
+        "getCurrentSpatialStructureAtAssessment": [
+          2775,
+          2778,
+          2781,
+          2784,
+          2787,
+          2790,
+          2827,
+          2830
+        ],
+        "buildCurrentVectorProjectionAnalysis": [
+          3524,
+          3527,
+          3530,
+          3533,
+          3536,
+          3539,
+          3545,
+          3548,
+          3587,
+          3588,
+          3597,
+          3601,
+          3612,
+          3617,
+          3727,
+          3729,
+          3733,
+          3735
+        ],
+        "buildCurrentGradientAnalysis": [
+          3970,
+          3974,
+          4101,
+          4103,
+          4107,
+          4109
+        ],
+        "buildCurrentEvidence": [
+          11530,
+          11532,
+          11535,
+          11537,
+          11539,
+          11542
+        ],
+        "buildCandidateNegativeConclusionAdequacyV1AtAssessment": [
+          48661,
+          48662
+        ],
+        "getOceanConditionsAtAssessment": [
+          60468,
+          60469
+        ]
+      },
+      "speed": {
+        "classifyCurrentStrength": [
+          1607,
+          1611,
+          1617,
+          1621,
+          1625
+        ],
+        "getCurrentConditionsPointAtAssessment": [
+          2392,
+          2455,
+          2474,
+          2481
+        ],
+        "getCurrentSpatialStructureAtAssessment": [
+          2757,
+          2760,
+          2763,
+          2821,
+          2837
+        ],
+        "buildCurrentVectorProjectionAnalysis": [
+          3709,
+          3712,
+          3715
+        ],
+        "buildCurrentGradientAnalysis": [
+          4154,
+          4158,
+          4162,
+          4164
+        ],
+        "getMarineConditions": [
+          7465
+        ],
+        "buildAssessmentConfidence": [
+          7625
+        ],
+        "assessOceanConditions": [
+          7999,
+          8001,
+          8003,
+          8015,
+          8029,
+          8038,
+          8039,
+          8057,
+          8066,
+          8067,
+          8085,
+          8103
+        ],
+        "buildCurrentSpatialAnalysis": [
+          11187
+        ],
+        "buildCurrentEvidence": [
+          11248,
+          11250,
+          11252,
+          11266,
+          11293,
+          11320,
+          11397,
+          11427,
+          11430,
+          11522
+        ],
+        "buildOceanChangeAnalysis": [
+          16574,
+          16576,
+          16582,
+          16584
+        ],
+        "buildCurrentPersistence": [
+          27020,
+          27026,
+          27032,
+          27070,
+          27081,
+          27173,
+          27178
+        ],
+        "assessBlueMarlinHabitat": [
+          45588,
+          45590
+        ],
+        "buildCandidateNegativeConclusionAdequacyV1AtAssessment": [
+          48661
+        ],
+        "getOceanConditionsAtAssessment": [
+          60466,
+          60628,
+          60662,
+          60672,
+          61564
+        ]
+      },
+      "direction": {
+        "currentCompassDirection": [
+          1637,
+          1641,
+          1649
+        ],
+        "getCurrentConditionsPointAtAssessment": [
+          2393,
+          2460,
+          2476,
+          2486
+        ],
+        "getCurrentSpatialStructureAtAssessment": [
+          2766,
+          2769,
+          2772,
+          2824,
+          2884,
+          2886
+        ],
+        "buildCurrentVectorProjectionAnalysis": [
+          3718,
+          3721,
+          3724
+        ],
+        "buildCurrentGradientAnalysis": [
+          4171,
+          4175,
+          4179,
+          4181
+        ],
+        "getMarineConditions": [
+          7468,
+          7492,
+          7509
+        ],
+        "buildAssessmentConfidence": [
+          7633,
+          7648,
+          7663
+        ],
+        "assessOceanConditions": [
+          7875,
+          7878,
+          7886,
+          8445,
+          8447,
+          8452,
+          8454,
+          8459,
+          8461
+        ],
+        "buildCurrentSpatialAnalysis": [
+          11190
+        ],
+        "buildCurrentEvidence": [
+          11255,
+          11257,
+          11259,
+          11273,
+          11294,
+          11328,
+          11399,
+          11524
+        ],
+        "buildOceanChangeAnalysis": [
+          16599,
+          16601,
+          16769,
+          16774
+        ],
+        "buildCurrentPersistence": [
+          26938,
+          26941,
+          26949,
+          27035,
+          27041,
+          27072,
+          27083,
+          27192,
+          27197
+        ],
+        "assessBlueMarlinHabitat": [
+          45609
+        ],
+        "buildCandidateNegativeConclusionAdequacyV1AtAssessment": [
+          48661
+        ],
+        "getOceanConditionsAtAssessment": [
+          60467,
+          60631
+        ]
+      }
+    },
+    "previousAuditDiscoveryAndCurrentPredicateReview": [
+      {
+        "consumer": "getCurrentConditionsPointAtAssessment",
+        "classification": [
+          "DERIVES_MAGNITUDE",
+          "DERIVES_DIRECTION"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [
+          2394,
+          2395,
+          2496,
+          2503
+        ],
+        "finiteGuard": "finite u/v before square-sum-sqrt; knots helper rejects nonfinite norm",
+        "availability": "components finite => source available",
+        "coverage": "point only",
+        "outcome": "finite components and direction retained; speed null"
+      },
+      {
+        "consumer": "currentDirectionDegrees",
+        "classification": [
+          "DERIVES_DIRECTION"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [],
+        "finiteGuard": "finite u/v before atan2 and bounded modulo",
+        "availability": "no availability decision",
+        "coverage": "none",
+        "outcome": "finite bounded heading"
+      },
+      {
+        "consumer": "setCachedCurrentPoint",
+        "classification": [
+          "USES_COMPONENT_DIRECTLY"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [
+          1309,
+          1312
+        ],
+        "finiteGuard": "finite u/v only",
+        "availability": "cache stores partial derived object",
+        "coverage": "none",
+        "outcome": "admitted to normalized cache"
+      },
+      {
+        "consumer": "getCurrentSpatialStructureAtAssessment",
+        "classification": [
+          "USES_COMPONENT_DIRECTLY"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [
+          2775,
+          2778,
+          2781,
+          2784,
+          2787,
+          2790,
+          2827,
+          2830
+        ],
+        "finiteGuard": "finite fields individually; aggregate requires speed/direction/u/v",
+        "availability": "speed-null vector excluded from aggregate",
+        "coverage": "valid vectors require all four finite",
+        "outcome": "raw partial vectors retained"
+      },
+      {
+        "consumer": "buildCurrentVectorProjectionAnalysis",
+        "classification": [
+          "DERIVES_MAGNITUDE",
+          "DERIVES_PROJECTION"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [
+          3524,
+          3527,
+          3530,
+          3533,
+          3536,
+          3539,
+          3545,
+          3548,
+          3587,
+          3588,
+          3597,
+          3601,
+          3612,
+          3617,
+          3727,
+          3729,
+          3733,
+          3735
+        ],
+        "finiteGuard": "known axis + finite u/v; norm>0 for alignment; no finite output magnitude guard",
+        "availability": "available true after component guard",
+        "coverage": "complete when all projections admitted",
+        "outcome": "Infinity magnitude admitted"
+      },
+      {
+        "consumer": "buildCurrentGradientAnalysis",
+        "classification": [
+          "DERIVES_DIFFERENCE",
+          "DERIVES_GRADIENT"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [
+          3970,
+          3974,
+          4101,
+          4103,
+          4107,
+          4109
+        ],
+        "finiteGuard": "finite components/radial/tangential/coordinates, positive finite separation; maxima guarded after arithmetic",
+        "availability": "axis available despite overflow",
+        "coverage": "count of admitted axis pairs",
+        "outcome": "nonfinite axis deltas/gradients retained; aggregate maxima null"
+      },
+      {
+        "consumer": "buildCurrentEvidence",
+        "classification": [
+          "USES_COMPONENT_DIRECTLY"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [
+          11530,
+          11532,
+          11535,
+          11537,
+          11539,
+          11542
+        ],
+        "finiteGuard": "speed and direction required; finite components copied in available branch",
+        "availability": "speed null => top group unavailable",
+        "coverage": "supplied spatialAnalysis retained",
+        "outcome": "unavailable group may retain derived spatial payload"
+      },
+      {
+        "consumer": "buildCandidateNegativeConclusionAdequacyV1AtAssessment",
+        "classification": [
+          "USES_COMPONENT_DIRECTLY"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [
+          48661,
+          48662
+        ],
+        "finiteGuard": "speed/direction/u/v finite plus source/age/other checks",
+        "availability": "eligibility predicates not executed",
+        "coverage": "source vector count checked",
+        "outcome": "component-only extreme fails finite-speed prerequisite; no ranking-impact claim"
+      },
+      {
+        "consumer": "currentEvidenceCaptureV1/V2",
+        "classification": [
+          "USES_COMPONENT_DIRECTLY"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [],
+        "finiteGuard": "finite-or-null values; available source requires all numeric fields finite",
+        "availability": "source available partial rejected",
+        "coverage": "capture roles separate from spatial coverage",
+        "outcome": "unavailable-state schema diagnostic accepts finite components with null speed"
+      },
+      {
+        "consumer": "buildObservationSnapshot",
+        "classification": [
+          "REPRESENTATION_RETENTION"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [],
+        "finiteGuard": "structuredClone; no recursive finite guard",
+        "availability": "isolated probe unavailable without full oceanEvidence",
+        "coverage": "not vector coverage",
+        "outcome": "Infinity retained in cloned observations"
+      },
+      {
+        "consumer": "projectCandidateSemanticSurfacesV1/V2",
+        "classification": [
+          "STRUCTURAL_ADMISSION"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [],
+        "finiteGuard": "strict recursive numeric copy",
+        "availability": "rejects nonfinite input",
+        "coverage": "not vector coverage",
+        "outcome": "rejected"
+      },
+      {
+        "consumer": "exactJson / Frame / archive / scalar / publication",
+        "classification": [
+          "STRUCTURAL_ADMISSION"
+        ],
+        "sourceFields": [
+          "eastwardMetersPerSecond",
+          "northwardMetersPerSecond"
+        ],
+        "locations": [],
+        "finiteGuard": "finite numeric contract boundaries",
+        "availability": "nonfinite content rejected at applicable entry",
+        "coverage": "not vector coverage",
+        "outcome": "later rejection does not qualify upstream"
+      }
+    ],
+    "additional": [
+      {
+        "function": "currentDirectionDegrees",
+        "line": 1493
+      },
+      {
+        "function": "buildCurrentSpatialAnalysis",
+        "line": 11181
+      },
+      {
+        "function": "currentQualityInlineAssembly",
+        "line": 60628
+      },
+      {
+        "function": "overallQualityInlineAssembly",
+        "line": 60923
+      },
+      {
+        "file": "backend/currentEvidenceCapture.mjs",
+        "contract": "available source requires all four finite fields; finite-or-null otherwise"
+      },
+      {
+        "file": "shared/oceanPublication.mjs",
+        "line": 10,
+        "contract": "strict copy rejects nonfinite"
+      }
+    ]
+  },
+  "controls": {
+    "ordinary": {
+      "requests": [
+        {
+          "role": "center",
+          "latitude": 25,
+          "longitude": -90,
+          "u": 0.5,
+          "v": 0.2
+        },
+        {
+          "role": "north",
+          "latitude": 25.25,
+          "longitude": -90,
+          "u": 0.5,
+          "v": 0.2
+        },
+        {
+          "role": "east",
+          "latitude": 25,
+          "longitude": -89.72415552025937,
+          "u": 0.5,
+          "v": 0.2
+        },
+        {
+          "role": "south",
+          "latitude": 24.75,
+          "longitude": -90,
+          "u": 0.5,
+          "v": 0.2
+        },
+        {
+          "role": "west",
+          "latitude": 25,
+          "longitude": -90.27584447974063,
+          "u": 0.5,
+          "v": 0.2
+        }
+      ],
+      "point": {
+        "resolvedLatitude": 25,
+        "resolvedLongitude": -90,
+        "requestedLatitude": 25,
+        "requestedLongitude": -90,
+        "speedKnots": 1,
+        "directionDegrees": 68,
+        "derived": {
+          "strength": "strong",
+          "compassDirection": "E",
+          "interpretation": "operational-current-description",
+          "thresholdVersion": "pelora-current-strength-v1"
+        },
+        "eastwardMetersPerSecond": 0.5,
+        "northwardMetersPerSecond": 0.2,
+        "observedAt": "2026-09-24T00:00:00Z",
+        "ageHours": 1,
+        "source": {
+          "provider": "NOAA CoastWatch",
+          "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+          "variables": [
+            "u_current",
+            "v_current"
+          ],
+          "units": "m/s",
+          "classification": "altimetry-derived-geostrophic-current",
+          "directionConvention": "degrees-toward",
+          "availability": "available"
+        }
+      },
+      "spatial": {
+        "available": true,
+        "observationType": "spatial-current-sampling",
+        "coverage": "complete",
+        "requestedSampleCount": 4,
+        "validSampleCount": 4,
+        "failedSampleCount": 0,
+        "sufficientCoverage": true,
+        "sampleRadiusNauticalMiles": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ],
+        "measurements": {
+          "minimumSpeedKnots": 1,
+          "maximumSpeedKnots": 1,
+          "speedRangeKnots": 0,
+          "maximumDirectionDifferenceDegrees": 0,
+          "spatialVariation": "uniform-current-field"
+        },
+        "limitations": []
+      },
+      "projection": {
+        "available": true,
+        "analysisType": "current-vector-projection",
+        "coverage": "complete",
+        "requestedProjectionCount": 4,
+        "validProjectionCount": 4,
+        "failedProjectionCount": 0,
+        "sufficientCoverage": true,
+        "sampleRadiusNauticalMiles": 15,
+        "projections": [
+          {
+            "sampleDirection": "north",
+            "available": true,
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "vectorMagnitudeMetersPerSecond": 0.5385,
+            "signedRadialMetersPerSecond": -0.2,
+            "inwardMetersPerSecond": 0,
+            "outwardMetersPerSecond": 0.2,
+            "signedClockwiseTangentialMetersPerSecond": 0.5,
+            "absoluteTangentialMetersPerSecond": 0.5,
+            "inwardAlignmentDegrees": 111.8,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          },
+          {
+            "sampleDirection": "east",
+            "available": true,
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "vectorMagnitudeMetersPerSecond": 0.5385,
+            "signedRadialMetersPerSecond": -0.5,
+            "inwardMetersPerSecond": 0,
+            "outwardMetersPerSecond": 0.5,
+            "signedClockwiseTangentialMetersPerSecond": -0.2,
+            "absoluteTangentialMetersPerSecond": 0.2,
+            "inwardAlignmentDegrees": 158.2,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          },
+          {
+            "sampleDirection": "south",
+            "available": true,
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "vectorMagnitudeMetersPerSecond": 0.5385,
+            "signedRadialMetersPerSecond": 0.2,
+            "inwardMetersPerSecond": 0.2,
+            "outwardMetersPerSecond": 0,
+            "signedClockwiseTangentialMetersPerSecond": -0.5,
+            "absoluteTangentialMetersPerSecond": 0.5,
+            "inwardAlignmentDegrees": 68.2,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          },
+          {
+            "sampleDirection": "west",
+            "available": true,
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": 1,
+            "directionDegrees": 68,
+            "eastwardMetersPerSecond": 0.5,
+            "northwardMetersPerSecond": 0.2,
+            "vectorMagnitudeMetersPerSecond": 0.5385,
+            "signedRadialMetersPerSecond": 0.5,
+            "inwardMetersPerSecond": 0.5,
+            "outwardMetersPerSecond": 0,
+            "signedClockwiseTangentialMetersPerSecond": 0.2,
+            "absoluteTangentialMetersPerSecond": 0.2,
+            "inwardAlignmentDegrees": 21.8,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          }
+        ],
+        "interpretation": "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-spatial-structure",
+          "version": null
+        },
+        "contractVersion": "pelora-current-vector-projection-v1"
+      },
+      "gradient": {
+        "available": true,
+        "analysisType": "current-gradient-analysis",
+        "coverage": "complete",
+        "requestedAxisCount": 2,
+        "validAxisCount": 2,
+        "failedAxisCount": 0,
+        "sufficientCoverage": true,
+        "sampleRadiusNauticalMiles": 15,
+        "axisComparisons": [
+          {
+            "axis": "north-south",
+            "available": true,
+            "firstDirection": "north",
+            "secondDirection": "south",
+            "separationNauticalMiles": 30.02,
+            "eastwardDifferenceMetersPerSecond": 0,
+            "northwardDifferenceMetersPerSecond": 0,
+            "totalVectorDifferenceMetersPerSecond": 0,
+            "totalVectorGradientMetersPerSecondPerNauticalMile": 0,
+            "opposingRadialSumMetersPerSecond": 0,
+            "radialAsymmetryMetersPerSecond": 0.4,
+            "radialAsymmetryGradientMetersPerSecondPerNauticalMile": 0.01332,
+            "tangentialDifferenceMetersPerSecond": 1,
+            "tangentialGradientMetersPerSecondPerNauticalMile": 0.03331,
+            "speedDifferenceKnots": 0,
+            "directionDifferenceDegrees": 0
+          },
+          {
+            "axis": "east-west",
+            "available": true,
+            "firstDirection": "east",
+            "secondDirection": "west",
+            "separationNauticalMiles": 30.02,
+            "eastwardDifferenceMetersPerSecond": 0,
+            "northwardDifferenceMetersPerSecond": 0,
+            "totalVectorDifferenceMetersPerSecond": 0,
+            "totalVectorGradientMetersPerSecondPerNauticalMile": 0,
+            "opposingRadialSumMetersPerSecond": 0,
+            "radialAsymmetryMetersPerSecond": 1,
+            "radialAsymmetryGradientMetersPerSecondPerNauticalMile": 0.03331,
+            "tangentialDifferenceMetersPerSecond": 0.4,
+            "tangentialGradientMetersPerSecondPerNauticalMile": 0.01332,
+            "speedDifferenceKnots": 0,
+            "directionDifferenceDegrees": 0
+          }
+        ],
+        "measurements": {
+          "maximumTotalVectorGradientMetersPerSecondPerNauticalMile": 0,
+          "maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile": 0.03331,
+          "maximumTangentialGradientMetersPerSecondPerNauticalMile": 0.03331
+        },
+        "interpretation": "Opposing current samples were compared to measure radial, tangential, and total horizontal velocity change across the spatial field.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+          "The analysis describes horizontal surface-current variation within the sampled radius only.",
+          "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+          "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-gradient-v1"
+      },
+      "shear": {
+        "available": true,
+        "analysisType": "current-shear-analysis",
+        "currentShearDetected": false,
+        "shearType": "no-shear-candidate",
+        "shearState": "not-supported",
+        "shearStrength": "none",
+        "evidence": {
+          "gradientAvailable": true,
+          "gradientCoverage": "complete",
+          "sufficientCoverage": true,
+          "completeAxisCoverage": true,
+          "requestedAxisCount": 2,
+          "validAxisCount": 2,
+          "meaningfulAxisCount": 0,
+          "strongAxisCount": 0,
+          "supportingAxes": [],
+          "maximumTotalVectorGradientMetersPerSecondPerNauticalMile": 0,
+          "maximumTangentialGradientMetersPerSecondPerNauticalMile": 0.03331,
+          "maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile": 0.03331,
+          "axisSupport": [
+            {
+              "axis": "north-south",
+              "totalVectorGradientMetersPerSecondPerNauticalMile": 0,
+              "tangentialGradientMetersPerSecondPerNauticalMile": 0.03331,
+              "radialAsymmetryGradientMetersPerSecondPerNauticalMile": 0.01332,
+              "meaningful": false,
+              "strong": false
+            },
+            {
+              "axis": "east-west",
+              "totalVectorGradientMetersPerSecondPerNauticalMile": 0,
+              "tangentialGradientMetersPerSecondPerNauticalMile": 0.01332,
+              "radialAsymmetryGradientMetersPerSecondPerNauticalMile": 0.03331,
+              "meaningful": false,
+              "strong": false
+            }
+          ]
+        },
+        "thresholds": {
+          "meaningfulTotalVectorGradientMetersPerSecondPerNauticalMile": 0.01,
+          "strongTotalVectorGradientMetersPerSecondPerNauticalMile": 0.02,
+          "minimumCompleteAxisCount": 2,
+          "minimumMeaningfulAxesForCandidate": 1,
+          "minimumMeaningfulAxesForPronounced": 2,
+          "minimumStrongAxesForPronounced": 1
+        },
+        "interpretation": "The available opposing-axis measurements do not show a sufficiently strong horizontal velocity gradient to support a current-shear candidate.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+          "The analysis describes horizontal surface-current variation within the sampled radius only.",
+          "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+          "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance.",
+          "Current Shear Analysis consumes finite-difference measurements from Current Gradient Analysis.",
+          "A shear candidate requires complete north-south and east-west gradient coverage.",
+          "Partial coverage may identify localized horizontal velocity change but does not support a shear candidate.",
+          "This engine evaluates horizontal surface-current shear only; vertical shear and subsurface structure are unavailable.",
+          "A current-shear candidate is not proof of a current edge, front, convergence zone, eddy boundary, turbulence, persistence, prey concentration, habitat quality, fish presence, or biological significance."
+        ],
+        "upstreamContract": {
+          "engine": "current-gradient-analysis",
+          "version": "pelora-current-gradient-v1"
+        },
+        "contractVersion": "pelora-current-shear-v1"
+      }
+    },
+    "zeros": [
+      {
+        "input": [
+          0,
+          0
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 0,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "N",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "projection": {
+          "available": true,
+          "analysisType": "current-vector-projection",
+          "coverage": "complete",
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "failedProjectionCount": 0,
+          "sufficientCoverage": true,
+          "sampleRadiusNauticalMiles": 15,
+          "projections": [
+            {
+              "sampleDirection": "north",
+              "available": true,
+              "requestedLatitude": 25.25,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 25.25,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "east",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -89.72415552025937,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -89.72415552025937,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "south",
+              "available": true,
+              "requestedLatitude": 24.75,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 24.75,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "west",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -90.27584447974063,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -90.27584447974063,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            }
+          ],
+          "interpretation": "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample.",
+          "limitations": [
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+          ],
+          "upstreamContract": {
+            "engine": "current-spatial-structure",
+            "version": null
+          },
+          "contractVersion": "pelora-current-vector-projection-v1"
+        }
+      },
+      {
+        "input": [
+          0,
+          {
+            "signedZero": "-0"
+          }
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 180,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "S",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "projection": {
+          "available": true,
+          "analysisType": "current-vector-projection",
+          "coverage": "complete",
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "failedProjectionCount": 0,
+          "sufficientCoverage": true,
+          "sampleRadiusNauticalMiles": 15,
+          "projections": [
+            {
+              "sampleDirection": "north",
+              "available": true,
+              "requestedLatitude": 25.25,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 25.25,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "east",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -89.72415552025937,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -89.72415552025937,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "south",
+              "available": true,
+              "requestedLatitude": 24.75,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 24.75,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "west",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -90.27584447974063,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -90.27584447974063,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            }
+          ],
+          "interpretation": "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample.",
+          "limitations": [
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+          ],
+          "upstreamContract": {
+            "engine": "current-spatial-structure",
+            "version": null
+          },
+          "contractVersion": "pelora-current-vector-projection-v1"
+        }
+      },
+      {
+        "input": [
+          {
+            "signedZero": "-0"
+          },
+          0
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 0,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "N",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "projection": {
+          "available": true,
+          "analysisType": "current-vector-projection",
+          "coverage": "complete",
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "failedProjectionCount": 0,
+          "sufficientCoverage": true,
+          "sampleRadiusNauticalMiles": 15,
+          "projections": [
+            {
+              "sampleDirection": "north",
+              "available": true,
+              "requestedLatitude": 25.25,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 25.25,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "east",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -89.72415552025937,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -89.72415552025937,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "south",
+              "available": true,
+              "requestedLatitude": 24.75,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 24.75,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "west",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -90.27584447974063,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -90.27584447974063,
+              "speedKnots": 0,
+              "directionDegrees": 0,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            }
+          ],
+          "interpretation": "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample.",
+          "limitations": [
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+          ],
+          "upstreamContract": {
+            "engine": "current-spatial-structure",
+            "version": null
+          },
+          "contractVersion": "pelora-current-vector-projection-v1"
+        }
+      },
+      {
+        "input": [
+          {
+            "signedZero": "-0"
+          },
+          {
+            "signedZero": "-0"
+          }
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 180,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "S",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "projection": {
+          "available": true,
+          "analysisType": "current-vector-projection",
+          "coverage": "complete",
+          "requestedProjectionCount": 4,
+          "validProjectionCount": 4,
+          "failedProjectionCount": 0,
+          "sufficientCoverage": true,
+          "sampleRadiusNauticalMiles": 15,
+          "projections": [
+            {
+              "sampleDirection": "north",
+              "available": true,
+              "requestedLatitude": 25.25,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 25.25,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "east",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -89.72415552025937,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -89.72415552025937,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "south",
+              "available": true,
+              "requestedLatitude": 24.75,
+              "requestedLongitude": -90,
+              "resolvedLatitude": 24.75,
+              "resolvedLongitude": -90,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            },
+            {
+              "sampleDirection": "west",
+              "available": true,
+              "requestedLatitude": 25,
+              "requestedLongitude": -90.27584447974063,
+              "resolvedLatitude": 25,
+              "resolvedLongitude": -90.27584447974063,
+              "speedKnots": 0,
+              "directionDegrees": 180,
+              "eastwardMetersPerSecond": 0,
+              "northwardMetersPerSecond": 0,
+              "vectorMagnitudeMetersPerSecond": 0,
+              "signedRadialMetersPerSecond": 0,
+              "inwardMetersPerSecond": 0,
+              "outwardMetersPerSecond": 0,
+              "signedClockwiseTangentialMetersPerSecond": 0,
+              "absoluteTangentialMetersPerSecond": 0,
+              "inwardAlignmentDegrees": null,
+              "observedAt": "2026-09-24T00:00:00Z",
+              "ageHours": 1
+            }
+          ],
+          "interpretation": "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample.",
+          "limitations": [
+            "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+            "Positive radial movement is inward and negative radial movement is outward.",
+            "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+            "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+          ],
+          "upstreamContract": {
+            "engine": "current-spatial-structure",
+            "version": null
+          },
+          "contractVersion": "pelora-current-vector-projection-v1"
+        }
+      }
+    ],
+    "controls": [
+      {
+        "id": "u-missing",
+        "transportClass": "TRANSPORT_REPRESENTABLE",
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": null,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        }
+      },
+      {
+        "id": "v-missing",
+        "transportClass": "TRANSPORT_REPRESENTABLE",
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": null,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": null,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        }
+      },
+      {
+        "id": "both-missing",
+        "transportClass": "TRANSPORT_REPRESENTABLE",
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": null,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": null,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        }
+      },
+      {
+        "id": "u-infinity",
+        "transportClass": "INTERNAL_ONLY",
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": null,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        }
+      },
+      {
+        "id": "u-negative-infinity",
+        "transportClass": "INTERNAL_ONLY",
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": null,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        }
+      },
+      {
+        "id": "u-nan",
+        "transportClass": "INTERNAL_ONLY",
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": null,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        }
+      },
+      {
+        "id": "finite-source-derivation-failure",
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": null,
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 1e+200,
+          "northwardMetersPerSecond": 1,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        }
+      }
+    ],
+    "partial": {
+      "requests": [
+        {
+          "role": "center",
+          "latitude": 25,
+          "longitude": -90,
+          "u": 1.7976931348623157e+308,
+          "v": 1.7976931348623157e+308
+        },
+        {
+          "role": "north",
+          "latitude": 25.25,
+          "longitude": -90,
+          "u": 1.7976931348623157e+308,
+          "v": 1.7976931348623157e+308
+        },
+        {
+          "role": "east",
+          "latitude": 25,
+          "longitude": -89.72415552025937,
+          "u": 1.7976931348623157e+308,
+          "v": 1.7976931348623157e+308
+        },
+        {
+          "role": "south",
+          "latitude": 24.75,
+          "longitude": -90,
+          "u": 1.7976931348623157e+308,
+          "v": 1.7976931348623157e+308
+        },
+        {
+          "role": "west",
+          "latitude": 25,
+          "longitude": -90.27584447974063,
+          "u": 1.7976931348623157e+308,
+          "v": 1.7976931348623157e+308
+        }
+      ],
+      "point": {
+        "resolvedLatitude": 25,
+        "resolvedLongitude": -90,
+        "requestedLatitude": 25,
+        "requestedLongitude": -90,
+        "speedKnots": null,
+        "directionDegrees": 45,
+        "derived": {
+          "strength": null,
+          "compassDirection": "NE",
+          "interpretation": "operational-current-description",
+          "thresholdVersion": "pelora-current-strength-v1"
+        },
+        "eastwardMetersPerSecond": 1.7976931348623157e+308,
+        "northwardMetersPerSecond": 1.7976931348623157e+308,
+        "observedAt": "2026-09-24T00:00:00Z",
+        "ageHours": 1,
+        "source": {
+          "provider": "NOAA CoastWatch",
+          "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+          "variables": [
+            "u_current",
+            "v_current"
+          ],
+          "units": "m/s",
+          "classification": "altimetry-derived-geostrophic-current",
+          "directionConvention": "degrees-toward",
+          "availability": "available"
+        }
+      },
+      "spatial": {
+        "available": false,
+        "observationType": "spatial-current-sampling",
+        "coverage": "unavailable",
+        "requestedSampleCount": 4,
+        "validSampleCount": 0,
+        "failedSampleCount": 4,
+        "sufficientCoverage": false,
+        "sampleRadiusNauticalMiles": 15,
+        "vectors": [
+          {
+            "direction": "north",
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "east",
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "south",
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          },
+          {
+            "direction": "west",
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": {
+              "provider": "NOAA CoastWatch",
+              "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+              "variables": [
+                "u_current",
+                "v_current"
+              ],
+              "units": "m/s",
+              "classification": "altimetry-derived-geostrophic-current",
+              "directionConvention": "degrees-toward",
+              "availability": "available"
+            },
+            "cache": {
+              "status": "miss",
+              "ageSeconds": 0,
+              "ttlSeconds": 300
+            }
+          }
+        ],
+        "measurements": {
+          "minimumSpeedKnots": null,
+          "maximumSpeedKnots": null,
+          "speedRangeKnots": null,
+          "maximumDirectionDifferenceDegrees": null,
+          "spatialVariation": "insufficient-spatial-current-data"
+        },
+        "limitations": [
+          "Fewer than three valid surrounding current vectors were available.",
+          "4 surrounding current samples did not produce a valid vector."
+        ]
+      },
+      "projection": {
+        "available": true,
+        "analysisType": "current-vector-projection",
+        "coverage": "complete",
+        "requestedProjectionCount": 4,
+        "validProjectionCount": 4,
+        "failedProjectionCount": 0,
+        "sufficientCoverage": true,
+        "sampleRadiusNauticalMiles": 15,
+        "projections": [
+          {
+            "sampleDirection": "north",
+            "available": true,
+            "requestedLatitude": 25.25,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 25.25,
+            "resolvedLongitude": -90,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "vectorMagnitudeMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "signedRadialMetersPerSecond": -1.7976931348623157e+308,
+            "inwardMetersPerSecond": 0,
+            "outwardMetersPerSecond": 1.7976931348623157e+308,
+            "signedClockwiseTangentialMetersPerSecond": 1.7976931348623157e+308,
+            "absoluteTangentialMetersPerSecond": 1.7976931348623157e+308,
+            "inwardAlignmentDegrees": 90,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          },
+          {
+            "sampleDirection": "east",
+            "available": true,
+            "requestedLatitude": 25,
+            "requestedLongitude": -89.72415552025937,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -89.72415552025937,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "vectorMagnitudeMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "signedRadialMetersPerSecond": -1.7976931348623157e+308,
+            "inwardMetersPerSecond": 0,
+            "outwardMetersPerSecond": 1.7976931348623157e+308,
+            "signedClockwiseTangentialMetersPerSecond": -1.7976931348623157e+308,
+            "absoluteTangentialMetersPerSecond": 1.7976931348623157e+308,
+            "inwardAlignmentDegrees": 90,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          },
+          {
+            "sampleDirection": "south",
+            "available": true,
+            "requestedLatitude": 24.75,
+            "requestedLongitude": -90,
+            "resolvedLatitude": 24.75,
+            "resolvedLongitude": -90,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "vectorMagnitudeMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "signedRadialMetersPerSecond": 1.7976931348623157e+308,
+            "inwardMetersPerSecond": 1.7976931348623157e+308,
+            "outwardMetersPerSecond": 0,
+            "signedClockwiseTangentialMetersPerSecond": -1.7976931348623157e+308,
+            "absoluteTangentialMetersPerSecond": 1.7976931348623157e+308,
+            "inwardAlignmentDegrees": 90,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          },
+          {
+            "sampleDirection": "west",
+            "available": true,
+            "requestedLatitude": 25,
+            "requestedLongitude": -90.27584447974063,
+            "resolvedLatitude": 25,
+            "resolvedLongitude": -90.27584447974063,
+            "speedKnots": null,
+            "directionDegrees": 45,
+            "eastwardMetersPerSecond": 1.7976931348623157e+308,
+            "northwardMetersPerSecond": 1.7976931348623157e+308,
+            "vectorMagnitudeMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "signedRadialMetersPerSecond": 1.7976931348623157e+308,
+            "inwardMetersPerSecond": 1.7976931348623157e+308,
+            "outwardMetersPerSecond": 0,
+            "signedClockwiseTangentialMetersPerSecond": 1.7976931348623157e+308,
+            "absoluteTangentialMetersPerSecond": 1.7976931348623157e+308,
+            "inwardAlignmentDegrees": 90,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1
+          }
+        ],
+        "interpretation": "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+        ],
+        "upstreamContract": {
+          "engine": "current-spatial-structure",
+          "version": null
+        },
+        "contractVersion": "pelora-current-vector-projection-v1"
+      },
+      "gradient": {
+        "available": true,
+        "analysisType": "current-gradient-analysis",
+        "coverage": "complete",
+        "requestedAxisCount": 2,
+        "validAxisCount": 2,
+        "failedAxisCount": 0,
+        "sufficientCoverage": true,
+        "sampleRadiusNauticalMiles": 15,
+        "axisComparisons": [
+          {
+            "axis": "north-south",
+            "available": true,
+            "firstDirection": "north",
+            "secondDirection": "south",
+            "separationNauticalMiles": 30.02,
+            "eastwardDifferenceMetersPerSecond": 0,
+            "northwardDifferenceMetersPerSecond": 0,
+            "totalVectorDifferenceMetersPerSecond": 0,
+            "totalVectorGradientMetersPerSecondPerNauticalMile": 0,
+            "opposingRadialSumMetersPerSecond": 0,
+            "radialAsymmetryMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "radialAsymmetryGradientMetersPerSecondPerNauticalMile": {
+              "nonfinite": "Infinity"
+            },
+            "tangentialDifferenceMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "tangentialGradientMetersPerSecondPerNauticalMile": {
+              "nonfinite": "Infinity"
+            },
+            "speedDifferenceKnots": null,
+            "directionDifferenceDegrees": 0
+          },
+          {
+            "axis": "east-west",
+            "available": true,
+            "firstDirection": "east",
+            "secondDirection": "west",
+            "separationNauticalMiles": 30.02,
+            "eastwardDifferenceMetersPerSecond": 0,
+            "northwardDifferenceMetersPerSecond": 0,
+            "totalVectorDifferenceMetersPerSecond": 0,
+            "totalVectorGradientMetersPerSecondPerNauticalMile": 0,
+            "opposingRadialSumMetersPerSecond": 0,
+            "radialAsymmetryMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "radialAsymmetryGradientMetersPerSecondPerNauticalMile": {
+              "nonfinite": "Infinity"
+            },
+            "tangentialDifferenceMetersPerSecond": {
+              "nonfinite": "Infinity"
+            },
+            "tangentialGradientMetersPerSecondPerNauticalMile": {
+              "nonfinite": "Infinity"
+            },
+            "speedDifferenceKnots": null,
+            "directionDifferenceDegrees": 0
+          }
+        ],
+        "measurements": {
+          "maximumTotalVectorGradientMetersPerSecondPerNauticalMile": 0,
+          "maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile": null,
+          "maximumTangentialGradientMetersPerSecondPerNauticalMile": null
+        },
+        "interpretation": "Opposing current samples were compared to measure radial, tangential, and total horizontal velocity change across the spatial field.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+          "The analysis describes horizontal surface-current variation within the sampled radius only.",
+          "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+          "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance."
+        ],
+        "upstreamContract": {
+          "engine": "current-vector-projection",
+          "version": "pelora-current-vector-projection-v1"
+        },
+        "contractVersion": "pelora-current-gradient-v1"
+      },
+      "shear": {
+        "available": false,
+        "analysisType": "current-shear-analysis",
+        "currentShearDetected": false,
+        "shearType": "unavailable",
+        "shearState": "insufficient-evidence",
+        "shearStrength": "unknown",
+        "evidence": {
+          "gradientAvailable": true,
+          "gradientCoverage": "complete",
+          "sufficientCoverage": false,
+          "completeAxisCoverage": false,
+          "requestedAxisCount": 2,
+          "validAxisCount": 0,
+          "meaningfulAxisCount": 0,
+          "strongAxisCount": 0,
+          "supportingAxes": [],
+          "maximumTotalVectorGradientMetersPerSecondPerNauticalMile": null,
+          "maximumTangentialGradientMetersPerSecondPerNauticalMile": null,
+          "maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile": null,
+          "axisSupport": []
+        },
+        "thresholds": {
+          "meaningfulTotalVectorGradientMetersPerSecondPerNauticalMile": 0.01,
+          "strongTotalVectorGradientMetersPerSecondPerNauticalMile": 0.02,
+          "minimumCompleteAxisCount": 2,
+          "minimumMeaningfulAxesForCandidate": 1,
+          "minimumMeaningfulAxesForPronounced": 2,
+          "minimumStrongAxesForPronounced": 1
+        },
+        "interpretation": "Horizontal current shear cannot be evaluated from the available Current Gradient Analysis.",
+        "limitations": [
+          "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+          "Positive radial movement is inward and negative radial movement is outward.",
+          "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+          "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred.",
+          "Gradient values are finite-difference measurements across the north-south and east-west opposing sample axes.",
+          "The analysis describes horizontal surface-current variation within the sampled radius only.",
+          "Radial asymmetry, opposing radial support, tangential change, and total vector change are reported separately.",
+          "This engine measures current gradients but does not classify convergence, divergence, shear, a current edge, rotation, an eddy boundary, persistence, habitat quality, prey concentration, fish presence, or biological significance.",
+          "Current Shear Analysis consumes finite-difference measurements from Current Gradient Analysis.",
+          "A shear candidate requires complete north-south and east-west gradient coverage.",
+          "Partial coverage may identify localized horizontal velocity change but does not support a shear candidate.",
+          "This engine evaluates horizontal surface-current shear only; vertical shear and subsurface structure are unavailable.",
+          "A current-shear candidate is not proof of a current edge, front, convergence zone, eddy boundary, turbulence, persistence, prey concentration, habitat quality, fish presence, or biological significance."
+        ],
+        "upstreamContract": {
+          "engine": "current-gradient-analysis",
+          "version": "pelora-current-gradient-v1"
+        },
+        "contractVersion": "pelora-current-shear-v1"
+      }
+    },
+    "capture": {
+      "ordinaryReplay": "EXACT",
+      "availablePartial": "REJECTED_V1_V2",
+      "unavailablePartial": "SCHEMA_ONLY_DIAGNOSTIC_ACCEPTED",
+      "changedSourceAvailabilityIsNotProducerEvidence": true
+    },
+    "analogy": {
+      "wind": {
+        "speedKnots": null,
+        "directionDegrees": 90,
+        "gustKnots": 11.7,
+        "source": {
+          "provider": "Open-Meteo Weather API",
+          "classification": "forecast-model",
+          "availability": "available"
+        }
+      },
+      "scope": "Independent family fields, not proof that vector norm is optional"
+    },
+    "quality": {
+      "quality": {
+        "overall": {
+          "classification": "complete",
+          "reason": "all-core-and-supporting-layers-available",
+          "headline": "Current ocean data is fully available.",
+          "detail": "Core ocean conditions and supporting evidence are available for this location.",
+          "coreOperationalCoverage": {
+            "available": 4,
+            "total": 4
+          },
+          "supportingEvidenceCoverage": {
+            "available": 3,
+            "total": 3
+          },
+          "interpretation": "overall-usability-of-current-ocean-inputs"
+        },
+        "layers": {
+          "wind": {
+            "state": "live",
+            "reason": "current-model-value-available",
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": "Open-Meteo Weather API"
+          },
+          "waves": {
+            "state": "live",
+            "reason": "current-model-value-available",
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": "Open-Meteo Marine API"
+          },
+          "swell": {
+            "state": "live",
+            "reason": "current-model-value-available",
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": "Open-Meteo Marine API"
+          },
+          "sst": {
+            "state": "live",
+            "reason": "current-model-value-available",
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": "Open-Meteo Marine API"
+          },
+          "chlorophyll": {
+            "state": "live",
+            "reason": "current-satellite-observation",
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": "NOAA CoastWatch",
+            "observationType": null
+          },
+          "currents": {
+            "state": "live",
+            "reason": "current-derived-observation",
+            "observedAt": "2026-09-24T00:00:00Z",
+            "ageHours": 1,
+            "source": "NOAA CoastWatch"
+          },
+          "moon": {
+            "state": "calculated",
+            "reason": "local-astronomical-calculation",
+            "observedAt": "2026-09-24T01:00:00.000Z",
+            "source": "Pelora"
+          }
+        },
+        "summary": {
+          "live": 6,
+          "calculated": 1,
+          "stale": 0,
+          "degraded": 0,
+          "unavailable": 0,
+          "total": 7
+        },
+        "interpretation": "availability-and-freshness-of-input-data",
+        "methodVersion": "pelora-data-quality-v2"
+      },
+      "projectionNonfinite": [
+        {
+          "path": "/projections/0/vectorMagnitudeMetersPerSecond",
+          "value": "Infinity"
+        },
+        {
+          "path": "/projections/1/vectorMagnitudeMetersPerSecond",
+          "value": "Infinity"
+        },
+        {
+          "path": "/projections/2/vectorMagnitudeMetersPerSecond",
+          "value": "Infinity"
+        },
+        {
+          "path": "/projections/3/vectorMagnitudeMetersPerSecond",
+          "value": "Infinity"
+        }
+      ],
+      "boundary": "Unchanged inline quality block with controlled companion context; not whole default evaluation"
+    }
+  },
+  "controlLimitations": [
+    "Internal nonfinite input is not JSON-number transport.",
+    "Unavailable-source capture substitution is schema diagnostic only, not producer qualification.",
+    "Quality control executes unchanged inline assembly with controlled supporting inputs; not a full default evaluation.",
+    "Signed-zero producer rounding behavior is observed, not repaired."
+  ],
+  "options": [
+    {
+      "option": "A",
+      "contract": "WHOLE_VECTOR_ATOMIC",
+      "assessment": "Some capture/evidence requirements support complete vectors, but universal invalidation/source erasure is not established."
+    },
+    {
+      "option": "B",
+      "contract": "DERIVATION_LOCAL_FAILURE",
+      "assessment": "Layered execution supports separate admission; no universal authority makes speed optional or licenses all partial states."
+    },
+    {
+      "option": "C",
+      "contract": "EXPLICIT_PARTIAL_VECTOR",
+      "assessment": "No governed global partial-state transition or permitted consumer set found."
+    }
+  ],
+  "selectedOption": null,
+  "failureVocabulary": {
+    "source": [
+      "available",
+      "no-valid-pixel",
+      "unavailable",
+      "provider-unavailable",
+      "request-failed"
+    ],
+    "coverage": [
+      "complete",
+      "partial",
+      "insufficient",
+      "unavailable"
+    ],
+    "quality": [
+      "live",
+      "stale",
+      "unavailable",
+      "degraded",
+      "complete",
+      "usable-with-gaps",
+      "insufficient"
+    ],
+    "caution": "These are context-specific states, not interchangeable failure causes. Null speed does not encode a global failure-locality decision. Frame invalid-observation cannot automatically be transplanted."
+  },
+  "coverageContract": "Counts admitted samples/projections/axis pairs, with local prerequisites; not proof of finite derived outputs.",
+  "qualityContract": "Core/supporting layer aggregation; complete may coexist with failed neighbor projection when center and supporting layer predicates pass.",
+  "partialValidity": "Observed separate layers and weather independent-field analogy do not normatively resolve vector atomicity.",
+  "sourceVsDerived": "Retaining finite source truth is distinct from licensing each downstream scientific use.",
+  "numericFailureVsMissing": "Different conditions; no permission to relabel arithmetic failure as provider missingness.",
+  "captureContract": "Available-source capture requires finite u/v/speed/direction. Actual partial available point rejected; unavailable-state partial schema diagnostic accepted. Capture is not responsible for every future calculation.",
+  "replayContract": "Exact replay preserves accepted bytes; diagnostic replay can recreate invalid derivatives. Determinism does not confer scientific admissibility.",
+  "historicalEvidence": "Do not rewrite old u/v, derived values or identities; preserve ambiguity.",
+  "publication": "Nonfinite scientific content is rejected by strict copy/exact serialization. Snapshot retention before rejection does not qualify admission.",
+  "candidateBoundary": "Source/vector/spatial payloads can be retained before species; unavailable speed-based evidence can retain spatial payload. No species consequence established.",
+  "futureInvariants": [
+    "Finite source numeric components before numeric admission.",
+    "Validate each derived numeric scientific result finite before admission; rejected intermediate overflow need not be eliminated by formula change.",
+    "Recomputation must independently validate outputs.",
+    "Consumer-specific required representations must pass; availability/coverage/quality cannot certify unrelated derivatives.",
+    "Preserve source/history truth; retention is not automatic scientific permission.",
+    "Preserve legitimate zero and exact signed zero at sign-preserving boundaries."
+  ],
+  "enforcementScope": "UPSTREAM_NORMALIZATION_PLUS_DERIVED_SCIENCE_FINITE_ADMISSION_CONTRACT",
+  "scopeDelta": [
+    "Per-consumer required-representation ledger.",
+    "Explicit source retention versus allowed use.",
+    "Failure-locality/state transition decision.",
+    "Capture available-state and quality compatibility.",
+    "Point representations, projection norm/alignment, differences and gradients."
+  ],
+  "blockingItems": [
+    "Universal required vector set and component retention/consumption after failed derivation unresolved.",
+    "Failure-state cause/admission mapping not established by existing vocabulary."
+  ],
+  "nextGate": "EXPLICIT CURRENT-VECTOR FAILURE-LOCALITY CONTRACT AUTHORING AND APPROVAL",
+  "nextGateQuestions": [
+    "Choose whole-vector, local or explicit partial validity with scientific authority.",
+    "Define allowed component consumers after required failure.",
+    "Define representation distinct from missing source without silently changing availability.",
+    "Reconcile capture and quality requirements."
+  ],
+  "afterGate": "Then return to CROSS-ROUTE POST-CONVERSION FINITENESS & FAILURE-ATOMICITY REVIEW; not resumed here.",
+  "verification": {
+    "focusedTests": 8,
+    "regressions": [
+      {
+        "file": "backend\\tests\\weatherMarineQualityCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/weatherMarineQualityCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\transitiveProducerBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/transitiveProducerBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\temporalHistorySelection.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/temporalHistorySelection.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\temporalEvidencePrimitives.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/temporalEvidencePrimitives.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstWorker.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/sstWorker.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstProductAdapter.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/sstProductAdapter.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstPostConversionFiniteness.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/sstPostConversionFiniteness.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstNumericIntegrity.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/sstNumericIntegrity.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sourceNormalizationBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/sourceNormalizationBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sourceNormalizationAmendmentAdversarial.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/sourceNormalizationAmendmentAdversarial.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotShapeAuthorityBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/snapshotShapeAuthorityBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotProducerQualificationV2.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/snapshotProducerQualificationV2.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotBranchOptionalityAdversarial.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/snapshotBranchOptionalityAdversarial.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotBranchOptionality.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/snapshotBranchOptionality.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\signedZeroQualification.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/signedZeroQualification.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sharedScienceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/sharedScienceBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\scientificHistoryBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/scientificHistoryBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\scientificAssessment.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/scientificAssessment.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\scalarRuntime.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/scalarRuntime.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\revisedSemanticModel.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/revisedSemanticModel.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\placeIngestion.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/placeIngestion.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\persistenceEnvironment.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/persistenceEnvironment.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\opportunityEvaluationState.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/opportunityEvaluationState.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanSnapshotPrivileges.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanSnapshotPrivileges.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanScalarFieldDelivery.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanScalarFieldDelivery.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPublicationHistory.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanPublicationHistory.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPublicationAssessment.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanPublicationAssessment.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPublication.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanPublication.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanProviderBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanProviderBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanProductFrame.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanProductFrame.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanProductArchive.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanProductArchive.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPhysicsBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanPhysicsBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanFields.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanFields.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanConditions.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/oceanConditions.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\noaaSstPilot.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/noaaSstPilot.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\noaaSstDisplayScale.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/noaaSstDisplayScale.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\marineAssessorCompanionCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/marineAssessorCompanionCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\historicalOceanRequirements.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/historicalOceanRequirements.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\governedPlace.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/governedPlace.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogTemporalEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/fishingLogTemporalEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogEvidenceStorage.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/fishingLogEvidenceStorage.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogEvidenceCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/fishingLogEvidenceCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogAssociationReadiness.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/fishingLogAssociationReadiness.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLocationSpatialEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/fishingLocationSpatialEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingDayReportSchema.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/fishingDayReportSchema.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\exactScientificEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/exactScientificEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\exactMarineCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/exactMarineCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\exactCandidateSnapshotBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/exactCandidateSnapshotBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\environmentalObservationMetadata.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/environmentalObservationMetadata.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\dynamicOpportunityFailure.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/dynamicOpportunityFailure.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\defaultProviderTransitive.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/defaultProviderTransitive.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\defaultProviderSemanticReview.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/defaultProviderSemanticReview.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentVectorFailureContract.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/currentVectorFailureContract.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentVectorDerivedFiniteness.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/currentVectorDerivedFiniteness.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentScientificReconstructionBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/currentScientificReconstructionBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentEvidenceCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/currentEvidenceCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\crossRouteFinitenessAtomicity.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/crossRouteFinitenessAtomicity.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\convergenceDecision.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/convergenceDecision.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\convergenceContract.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/convergenceContract.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\completeCandidateEvidenceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/completeCandidateEvidenceBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\clientPrivilegeHardening.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/clientPrivilegeHardening.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\captureDerivedScientificBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/captureDerivedScientificBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateSnapshotProducerSurface.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/candidateSnapshotProducerSurface.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateSemanticProjectionV2.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/candidateSemanticProjectionV2.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateSemanticProjection.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/candidateSemanticProjection.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateEvidenceSourceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/candidateEvidenceSourceBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateCaptureResumptionBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/candidateCaptureResumptionBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateCaptureAssemblyBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/candidateCaptureAssemblyBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\cacheIsolatedSnapshotProducer.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/cacheIsolatedSnapshotProducer.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\bathymetryEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/bathymetryEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\assessmentAstronomy.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/assessmentAstronomy.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\archiveBoundScienceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/task12b7f/archiveBoundScienceBoundary.test.js.log"
+      }
+    ],
+    "syntax": [
+      {
+        "file": "shared\\sstProductAdapter.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\persistenceEnvironment.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\oceanScalarFieldDelivery.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\oceanPublication.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\oceanProductFrame.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\oceanProductArchive.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\governedPlace.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\fishingLogTemporalEvidence.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\fishingLogEvidenceCapture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\fishingLogAssociationReadiness.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "shared\\fishingLocationSpatialEvidence.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\weatherMarineQualityCaptureV2.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\weatherMarineQualityCapture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\bathymetryEvidence.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\currentEvidenceCapture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\candidateSemanticProjectionV3.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\candidateSemanticProjectionV2.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\candidateSemanticProjection.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\fields\\scalarRuntime.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\fields\\fieldService.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\fields\\erddapAdapter.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\fields\\datasetRegistry.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\exactScientificEvidence.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\scientificAssessment.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\persistenceEnvironment.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\opportunityEvaluationState.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\currentEvidenceCaptureV2.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\marineAssessorCompanionCapture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\marineAssessorCompanionCaptureV2.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\cacheIsolatedSnapshotProducer.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\bathymetryEvidence.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\assessmentAstronomy.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\archiveBoundScienceBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\temporalEvidencePrimitives.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\server.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\candidateSemanticProjection.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\candidateEvidenceSourceBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\candidateCaptureResumptionBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\candidateCaptureAssemblyBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\candidateSemanticProjectionV3.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\candidateSemanticProjectionV2.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\candidateSnapshotProducerSurface.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\captureDerivedScientificBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\oceanState\\sstWorker.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\oceanState\\publicationWorker.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\oceanState\\noaaSstSource.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\oceanState\\noaaNetcdf.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\weatherMarineQualityCapture.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\transitiveProducerBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\temporalHistorySelection.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\temporalEvidencePrimitives.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\sstWorker.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\sstProductAdapter.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\sstPostConversionFiniteness.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\sstNumericIntegrity.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\sourceNormalizationBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\sourceNormalizationAmendmentAdversarial.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\snapshotShapeAuthorityBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\snapshotProducerQualificationV2.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\snapshotBranchOptionalityAdversarial.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\snapshotBranchOptionality.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\signedZeroQualification.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\sharedScienceBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\scientificHistoryBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\scientificAssessment.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\scalarRuntime.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\revisedSemanticModel.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\placeIngestion.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\persistenceEnvironment.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\opportunityEvaluationState.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanSnapshotPrivileges.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanScalarFieldDelivery.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanPublicationHistory.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanPublicationAssessment.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanPublication.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanProviderBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanProductFrame.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanProductArchive.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanPhysicsBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanFields.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\oceanConditions.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\noaaSstPilot.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\noaaSstDisplayScale.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\marineAssessorCompanionCapture.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\historicalOceanRequirements.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\governedPlace.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\defaultProviderTransitive.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\defaultProviderSemanticReview.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\currentVectorFailureContract.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\currentVectorDerivedFiniteness.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\currentScientificReconstructionBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\currentEvidenceCapture.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\crossRouteFinitenessAtomicity.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\convergenceDecision.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\convergenceContract.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\completeCandidateEvidenceBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\clientPrivilegeHardening.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fishingDayReportSchema.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\exactScientificEvidence.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\exactMarineCapture.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\exactCandidateSnapshotBoundary.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\environmentalObservationMetadata.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\dynamicOpportunityFailure.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fishingLogEvidenceCapture.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fishingLogAssociationReadiness.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fishingLocationSpatialEvidence.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fishingLogEvidenceStorage.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fishingLogTemporalEvidence.test.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\weatherMarineQualityFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\transitiveProducerBoundaryFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\temporalEvidenceFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\syntheticScalarFrame.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\sourceNormalizationFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\snapshotProducerSurfaceFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\snapshotProducerQualificationV2Fixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\snapshotProducerInventoryV2.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\snapshotProducerBranchAuditV2.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\snapshotProducerBranchAudit.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\snapshotBranchReachabilityReview.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\scientificAssessmentFixture.js",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\revisedSemanticModelFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\oceanProviderBoundaryFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\oceanPhysicsBoundaryFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\marineAssessorCompanionFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\exactMarineCaptureFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\exactCurrentV2ExtractionGolden.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\exactCurrentEvidenceFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\defaultProviderTransitiveFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\defaultProviderSemanticReviewFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\defaultProviderGraphReview.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\currentVectorDerivedFinitenessFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\currentEvidenceCaptureFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\crossRouteFinitenessFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\convergenceDecisionFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\convergenceContractFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\candidateSemanticFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\cacheIsolatedSnapshotFixture.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "backend\\tests\\fixtures\\assessmentAstronomyFixture.mjs",
+        "exitCode": 0
+      }
+    ],
+    "networkBlocker": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/block-network.mjs",
+    "excludedRegression": "Quarantined candidateSemanticProjectionV3 draft; not executed or requalified.",
+    "complete": true,
+    "regressionScripts": 72,
+    "regressionFailures": 0,
+    "syntaxFiles": 138,
+    "documentChecks": {
+      "jsonParsed": 70,
+      "files": [
+        "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+        "docs/Archive_Bound_Blue_Marlin_Boundary_v1.json",
+        "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+        "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+        "docs/Blue_Marlin_Temporal_Primitives_v1.json",
+        "docs/Candidate_Capture_Assembly_Boundary_v1.json",
+        "docs/Candidate_Capture_Resumption_Field_Map_v1.json",
+        "docs/Candidate_Current_Evidence_Source_Map_v1.json",
+        "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+        "docs/Candidate_Semantic_Shapes_v2.json",
+        "docs/Candidate_Semantic_Shapes_v3.json",
+        "docs/Candidate_Semantic_Surfaces_v1.json",
+        "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+        "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+        "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+        "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+        "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+        "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+        "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+        "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+        "docs/Candidate_Snapshot_Producer_Surface_v1.json",
+        "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+        "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+        "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+        "docs/Candidate_Snapshot_Shape_Authority_Boundary_v1.json",
+        "docs/Capture_Derived_Scientific_Boundary_v1.json",
+        "docs/Complete_Candidate_Evidence_Boundary_v1.json",
+        "docs/Cross_Route_Finiteness_Atomicity_v1.json",
+        "docs/Current_Convergence_Contract_Preservation_v1.json",
+        "docs/Current_Convergence_Contract_Review_v1.json",
+        "docs/Current_Convergence_Science_Review_Package_v1.json",
+        "docs/Current_Product_Capture_Matrix_v1.json",
+        "docs/Current_Scientific_Reconstruction_Boundary_v1.json",
+        "docs/Current_Vector_Derived_Finiteness_v1.json",
+        "docs/Current_Vector_Failure_State_Contract_v1.json",
+        "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+        "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+        "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+        "docs/Default_Provider_Semantic_Review_v1.json",
+        "docs/Default_Provider_Transitive_Discovery_v2.json",
+        "docs/Default_Provider_Transitive_Preservation_v1.json",
+        "docs/Default_Provider_Transitive_Review_v1.json",
+        "docs/Exact_Candidate_Snapshot_Boundary_v1.json",
+        "docs/Exact_Marine_Capture_Inventory_v2.json",
+        "docs/Exact_Scientific_Evidence_Serialization_v1.json",
+        "docs/Governed_Current_Convergence_Decision_v1.json",
+        "docs/Governed_Current_Convergence_Preservation_v1.json",
+        "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.json",
+        "docs/Marine_Assessor_Companion_Capture_Matrix_v1.json",
+        "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.json",
+        "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.json",
+        "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+        "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+        "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+        "docs/Revised_Default_Provider_Model_Stop_v1.json",
+        "docs/Signed_Zero_Qualification_v1.json",
+        "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+        "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.json",
+        "docs/Source_Normalization_Amendment_Review_v1.json",
+        "docs/Source_Normalization_Boundary_v1.json",
+        "docs/SST_Post_Conversion_Finiteness_Boundary_v1.json",
+        "docs/Temporal_History_Requirements_v1.json",
+        "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+        "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+        "docs/Transitive_Producer_Boundary_Stop_v1.json",
+        "docs/Weather_Marine_Quality_Capture_Matrix_v1.json",
+        "backend/data/boemPlatformsImported.json",
+        "backend/data/fads.json",
+        "backend/data/gulf-water-mask-v1.json",
+        "backend/package.json"
+      ],
+      "newFileWhitespace": "PASS",
+      "repositoryReferences": [
+        "backend/server.js",
+        "backend/currentEvidenceCapture.mjs",
+        "shared/oceanPublication.mjs",
+        "docs/Governed_Current_Product_Evidence_Capture_v1.md",
+        "docs/Exact_Scientific_Evidence_Serialization_v1.md",
+        "backend/tests/currentVectorFailureContract.test.js",
+        "docs/Current_Vector_Failure_State_Contract_v1.md",
+        "docs/Current_Vector_Failure_State_Contract_v1.json"
+      ],
+      "referencesResolve": true
+    },
+    "priorFocusedCounts": {
+      "12B.7E": 20,
+      "12B.7D": 7,
+      "12B.7C": 6,
+      "12B.7B": 4,
+      "12B.7A": 10,
+      "transportStateCases": 450
+    },
+    "finalEditedTestRerun": "8/8 PASS; exact whole captured point equality verified",
+    "gitDiffCheck": "PASS",
+    "trackedDiff": "EMPTY",
+    "stagedDiff": "EMPTY",
+    "untrackedCount": 112,
+    "exactAdditiveDiff": ".local/ocean-quarantine/task12b7f/new-files.diff",
+    "gitStatusRecord": ".local/ocean-quarantine/task12b7f/git-status.txt"
+  },
+  "preservation": {
+    "count": 109,
+    "allUnchanged": true,
+    "files": [
+      {
+        "path": "backend/candidateSemanticProjectionV3.mjs",
+        "sha256": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+        "afterSha256": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e"
+      },
+      {
+        "path": "backend/tests/assessmentAstronomy.test.js",
+        "sha256": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c",
+        "afterSha256": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c"
+      },
+      {
+        "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+        "sha256": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+        "afterSha256": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00"
+      },
+      {
+        "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+        "sha256": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+        "afterSha256": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab"
+      },
+      {
+        "path": "backend/tests/convergenceContract.test.js",
+        "sha256": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd",
+        "afterSha256": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd"
+      },
+      {
+        "path": "backend/tests/convergenceDecision.test.js",
+        "sha256": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a",
+        "afterSha256": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a"
+      },
+      {
+        "path": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+        "sha256": "c860e2a129d4bb33431ac0876f9e319aae2367d1173c31ad2007b89a1e458635",
+        "afterSha256": "c860e2a129d4bb33431ac0876f9e319aae2367d1173c31ad2007b89a1e458635"
+      },
+      {
+        "path": "backend/tests/currentVectorDerivedFiniteness.test.js",
+        "sha256": "b7114c29df3bb6f2e126ce9aeceaebc141dceef46ad29882e4a1231b860833a6",
+        "afterSha256": "b7114c29df3bb6f2e126ce9aeceaebc141dceef46ad29882e4a1231b860833a6"
+      },
+      {
+        "path": "backend/tests/defaultProviderSemanticReview.test.js",
+        "sha256": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb",
+        "afterSha256": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb"
+      },
+      {
+        "path": "backend/tests/defaultProviderTransitive.test.js",
+        "sha256": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28",
+        "afterSha256": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28"
+      },
+      {
+        "path": "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+        "sha256": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a",
+        "afterSha256": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a"
+      },
+      {
+        "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+        "sha256": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+        "afterSha256": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceContractFixture.mjs",
+        "sha256": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef",
+        "afterSha256": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+        "sha256": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a",
+        "afterSha256": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a"
+      },
+      {
+        "path": "backend/tests/fixtures/crossRouteFinitenessFixture.mjs",
+        "sha256": "5d985f8cf1c02ae0674a5eef06e368ac305ced93758dc5d9931efe3fa306933f",
+        "afterSha256": "5d985f8cf1c02ae0674a5eef06e368ac305ced93758dc5d9931efe3fa306933f"
+      },
+      {
+        "path": "backend/tests/fixtures/currentVectorDerivedFinitenessFixture.mjs",
+        "sha256": "0336544a849e27e970c03458a13d3b2c8da22d14c50150a7ab2fb9b189e5ba2e",
+        "afterSha256": "0336544a849e27e970c03458a13d3b2c8da22d14c50150a7ab2fb9b189e5ba2e"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+        "sha256": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef",
+        "afterSha256": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+        "sha256": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba",
+        "afterSha256": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+        "sha256": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138",
+        "afterSha256": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+        "sha256": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1",
+        "afterSha256": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+        "sha256": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade",
+        "afterSha256": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade"
+      },
+      {
+        "path": "backend/tests/fixtures/revisedSemanticModelFixture.mjs",
+        "sha256": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde",
+        "afterSha256": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+        "sha256": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+        "afterSha256": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+        "sha256": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+        "afterSha256": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+        "sha256": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+        "afterSha256": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+        "sha256": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+        "afterSha256": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+        "sha256": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+        "afterSha256": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43"
+      },
+      {
+        "path": "backend/tests/fixtures/sourceNormalizationFixture.mjs",
+        "sha256": "b6bf2800beb6aa5447bb0d81733a9c13b6b5576eda19f715e3c5349ec82feed0",
+        "afterSha256": "b6bf2800beb6aa5447bb0d81733a9c13b6b5576eda19f715e3c5349ec82feed0"
+      },
+      {
+        "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+        "sha256": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+        "afterSha256": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0"
+      },
+      {
+        "path": "backend/tests/oceanPhysicsBoundary.test.js",
+        "sha256": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a",
+        "afterSha256": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a"
+      },
+      {
+        "path": "backend/tests/oceanProviderBoundary.test.js",
+        "sha256": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f",
+        "afterSha256": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f"
+      },
+      {
+        "path": "backend/tests/revisedSemanticModel.test.js",
+        "sha256": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958",
+        "afterSha256": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionality.test.js",
+        "sha256": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+        "afterSha256": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+        "sha256": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+        "afterSha256": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990"
+      },
+      {
+        "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+        "sha256": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+        "afterSha256": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4"
+      },
+      {
+        "path": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+        "sha256": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725",
+        "afterSha256": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725"
+      },
+      {
+        "path": "backend/tests/sourceNormalizationBoundary.test.js",
+        "sha256": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6",
+        "afterSha256": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6"
+      },
+      {
+        "path": "backend/tests/sstPostConversionFiniteness.test.js",
+        "sha256": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065",
+        "afterSha256": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065"
+      },
+      {
+        "path": "backend/tests/transitiveProducerBoundary.test.js",
+        "sha256": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+        "afterSha256": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+        "sha256": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42",
+        "afterSha256": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+        "sha256": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699",
+        "afterSha256": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+        "sha256": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f",
+        "afterSha256": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+        "sha256": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691",
+        "afterSha256": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+        "sha256": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985",
+        "afterSha256": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985"
+      },
+      {
+        "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+        "sha256": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+        "afterSha256": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+        "sha256": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+        "afterSha256": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Shapes_v3.json",
+        "sha256": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+        "afterSha256": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+        "sha256": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+        "afterSha256": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+        "sha256": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+        "afterSha256": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+        "sha256": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+        "afterSha256": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+        "sha256": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+        "afterSha256": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+        "sha256": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+        "afterSha256": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+        "sha256": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+        "afterSha256": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+        "sha256": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+        "afterSha256": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+        "sha256": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+        "afterSha256": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+        "sha256": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+        "afterSha256": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+        "sha256": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+        "afterSha256": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+        "sha256": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+        "afterSha256": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_v1.json",
+        "sha256": "81660589e40fd815d4eb161ed9d666fc2c769945cb9ca8132cd544756464ba8b",
+        "afterSha256": "81660589e40fd815d4eb161ed9d666fc2c769945cb9ca8132cd544756464ba8b"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_v1.md",
+        "sha256": "3a48f2b184aab045088dc36fd2bd5b6bfaddde362a8e657747dacedd92345dbf",
+        "afterSha256": "3a48f2b184aab045088dc36fd2bd5b6bfaddde362a8e657747dacedd92345dbf"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Preservation_v1.json",
+        "sha256": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc",
+        "afterSha256": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.json",
+        "sha256": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9",
+        "afterSha256": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.md",
+        "sha256": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5",
+        "afterSha256": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.json",
+        "sha256": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361",
+        "afterSha256": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.md",
+        "sha256": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9",
+        "afterSha256": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9"
+      },
+      {
+        "path": "docs/Current_Vector_Derived_Finiteness_v1.json",
+        "sha256": "677ab7f88704de343090b2bd9f09416373070d26eca58f0a7cf8d24e5695906f",
+        "afterSha256": "677ab7f88704de343090b2bd9f09416373070d26eca58f0a7cf8d24e5695906f"
+      },
+      {
+        "path": "docs/Current_Vector_Derived_Finiteness_v1.md",
+        "sha256": "efc0ce41e502b91d3c33c90facad14fd8a269fb2f765856aba7633cc7bc381f1",
+        "afterSha256": "efc0ce41e502b91d3c33c90facad14fd8a269fb2f765856aba7633cc7bc381f1"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+        "sha256": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13",
+        "afterSha256": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+        "sha256": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a",
+        "afterSha256": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+        "sha256": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034",
+        "afterSha256": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.json",
+        "sha256": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf",
+        "afterSha256": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.md",
+        "sha256": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154",
+        "afterSha256": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Discovery_v2.json",
+        "sha256": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56",
+        "afterSha256": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Preservation_v1.json",
+        "sha256": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11",
+        "afterSha256": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.json",
+        "sha256": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5",
+        "afterSha256": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.md",
+        "sha256": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81",
+        "afterSha256": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.json",
+        "sha256": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b",
+        "afterSha256": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.md",
+        "sha256": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd",
+        "afterSha256": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Preservation_v1.json",
+        "sha256": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60",
+        "afterSha256": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60"
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.json",
+        "sha256": "7d239af5dd6a72d2565f92b749515f9994104715f9218bde75a593a4e797b7d9",
+        "afterSha256": "7d239af5dd6a72d2565f92b749515f9994104715f9218bde75a593a4e797b7d9"
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.md",
+        "sha256": "f9653f531c023dc75e76c423742f6933e629eaf7dcf8eb8b12a89d7d8ed49f52",
+        "afterSha256": "f9653f531c023dc75e76c423742f6933e629eaf7dcf8eb8b12a89d7d8ed49f52"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.json",
+        "sha256": "4ef7a5d805629d687a7f73d80968bfd6b5323d258249d3c1c199a4fe59c57cd5",
+        "afterSha256": "4ef7a5d805629d687a7f73d80968bfd6b5323d258249d3c1c199a4fe59c57cd5"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.md",
+        "sha256": "30ccb4bcd431ee2de07dedda8ab799facedd35a2c242cf15425fa1143dd26836",
+        "afterSha256": "30ccb4bcd431ee2de07dedda8ab799facedd35a2c242cf15425fa1143dd26836"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.json",
+        "sha256": "a1d2533b445d53daa7d2d85d2807e5504e33f05ba120640fd365675c07eeeb08",
+        "afterSha256": "a1d2533b445d53daa7d2d85d2807e5504e33f05ba120640fd365675c07eeeb08"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+        "sha256": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798",
+        "afterSha256": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md",
+        "sha256": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455",
+        "afterSha256": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455"
+      },
+      {
+        "path": "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+        "sha256": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69",
+        "afterSha256": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+        "sha256": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9",
+        "afterSha256": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.md",
+        "sha256": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f",
+        "afterSha256": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+        "sha256": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd",
+        "afterSha256": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.json",
+        "sha256": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2",
+        "afterSha256": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.md",
+        "sha256": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d",
+        "afterSha256": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d"
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.json",
+        "sha256": "ad9871e9e8ddaf2da2a9f067e5da908da41e035745c3082b546d4b8d417e239c",
+        "afterSha256": "ad9871e9e8ddaf2da2a9f067e5da908da41e035745c3082b546d4b8d417e239c"
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.md",
+        "sha256": "399eea9f9ea2a88b0ff066c24527a811a68168c064cf2a1f27c30c7e9ca96ef0",
+        "afterSha256": "399eea9f9ea2a88b0ff066c24527a811a68168c064cf2a1f27c30c7e9ca96ef0"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+        "sha256": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+        "afterSha256": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+        "sha256": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+        "afterSha256": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61"
+      },
+      {
+        "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+        "sha256": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+        "afterSha256": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.json",
+        "sha256": "a5e9ae789c3e647b106539a02dcd8b05decb7d6d339b983cbfc01f0e4172115b",
+        "afterSha256": "a5e9ae789c3e647b106539a02dcd8b05decb7d6d339b983cbfc01f0e4172115b"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.md",
+        "sha256": "dd03ad74610801786b3d0f69d14c4ebddcb63b2b0f7dbdfe2eed19f6fc69055a",
+        "afterSha256": "dd03ad74610801786b3d0f69d14c4ebddcb63b2b0f7dbdfe2eed19f6fc69055a"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.json",
+        "sha256": "44e9d432329a46888b671dc651b3141afae5a6e36c271223da88cf2f3a2b762a",
+        "afterSha256": "44e9d432329a46888b671dc651b3141afae5a6e36c271223da88cf2f3a2b762a"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.md",
+        "sha256": "aff3dc65cd2509ea79fab7a6037599cd9a5b9a4bc5a9cf7597163709d6335aef",
+        "afterSha256": "aff3dc65cd2509ea79fab7a6037599cd9a5b9a4bc5a9cf7597163709d6335aef"
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.json",
+        "sha256": "8dc9a822ec1127c89b3928903291587747be9cbb67aade535a07fb4aee2d9af0",
+        "afterSha256": "8dc9a822ec1127c89b3928903291587747be9cbb67aade535a07fb4aee2d9af0"
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.md",
+        "sha256": "c4e2dde4d318db30e0a570c389ac8d2d48fd599252311eb6204d856324ea402b",
+        "afterSha256": "c4e2dde4d318db30e0a570c389ac8d2d48fd599252311eb6204d856324ea402b"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+        "sha256": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+        "afterSha256": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+        "sha256": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+        "afterSha256": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+        "sha256": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+        "afterSha256": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+        "sha256": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+        "afterSha256": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f"
+      },
+      {
+        "path": "supabase/.gitignore",
+        "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+        "afterSha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+      },
+      {
+        "path": "supabase/config.toml",
+        "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2",
+        "afterSha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2"
+      }
+    ]
+  },
+  "filesCreated": [
+    "backend/tests/currentVectorFailureContract.test.js",
+    "docs/Current_Vector_Failure_State_Contract_v1.md",
+    "docs/Current_Vector_Failure_State_Contract_v1.json"
+  ],
+  "productionUnchanged": true,
+  "task12B6C": "PAUSED",
+  "task9ED": "PAUSED",
+  "convergenceOceanPhysics": "PAUSED; untouched",
+  "numericStrings": "OPEN",
+  "providerFill": "OPEN",
+  "legacySstCoordinates": "OPEN separate gate",
+  "noaaSME": "PENDING externally per user",
+  "environmentalAcquisition": false,
+  "providerDatabaseAuthSupabaseAccess": false,
+  "stagingCommitTagPushDeployment": false
+}

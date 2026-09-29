@@ -1,0 +1,5539 @@
+{
+  "task": "12B.7D",
+  "verdict": "SOURCE_NORMALIZATION_FINITE_SCOPE_REMAINS_INCOMPLETE",
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "branch": "codex/pelora-remote-setup",
+  "routeCount": 25,
+  "targetedStatesPerRoute": 6,
+  "arithmeticLedger": [
+    {
+      "id": "marine:wind_speed_10m",
+      "transport": "current.wind_speed_10m",
+      "parser": "marine",
+      "primary": "wind.speedKnots",
+      "converter": "knots",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/wind/speedKnots",
+              "value": "Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "-Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/wind/speedKnots",
+              "value": "-Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "Number(value), Number.isFinite",
+        "arithmetic": "multiply 1.94384",
+        "rounding": "Number(toFixed(1))",
+        "derived": [
+          "knots"
+        ],
+        "availability": "any finite wind speed/gust/direction",
+        "quality": "finite wind speed",
+        "consumer": "assessOceanConditions finite guards",
+        "source": "backend/server.js:816"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:wind_speed_10m#transport",
+            "role": "transport",
+            "description": "current.wind_speed_10m"
+          },
+          {
+            "id": "marine:wind_speed_10m#validation",
+            "role": "validation",
+            "description": "Number(value), Number.isFinite"
+          },
+          {
+            "id": "marine:wind_speed_10m#arithmetic",
+            "role": "arithmetic",
+            "description": "multiply 1.94384"
+          },
+          {
+            "id": "marine:wind_speed_10m#rounding",
+            "role": "rounding",
+            "description": "Number(toFixed(1))"
+          },
+          {
+            "id": "marine:wind_speed_10m#normalized",
+            "role": "normalized",
+            "description": "wind.speedKnots"
+          },
+          {
+            "id": "marine:wind_speed_10m#availability",
+            "role": "availability",
+            "description": "any finite wind speed/gust/direction"
+          },
+          {
+            "id": "marine:wind_speed_10m#quality",
+            "role": "quality",
+            "description": "finite wind speed"
+          },
+          {
+            "id": "marine:wind_speed_10m#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions finite guards"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:wind_speed_10m#transport",
+            "to": "marine:wind_speed_10m#validation"
+          },
+          {
+            "from": "marine:wind_speed_10m#validation",
+            "to": "marine:wind_speed_10m#arithmetic"
+          },
+          {
+            "from": "marine:wind_speed_10m#arithmetic",
+            "to": "marine:wind_speed_10m#rounding"
+          },
+          {
+            "from": "marine:wind_speed_10m#rounding",
+            "to": "marine:wind_speed_10m#normalized"
+          },
+          {
+            "from": "marine:wind_speed_10m#normalized",
+            "to": "marine:wind_speed_10m#availability"
+          },
+          {
+            "from": "marine:wind_speed_10m#normalized",
+            "to": "marine:wind_speed_10m#quality"
+          },
+          {
+            "from": "marine:wind_speed_10m#normalized",
+            "to": "marine:wind_speed_10m#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:wind_gusts_10m",
+      "transport": "current.wind_gusts_10m",
+      "parser": "marine",
+      "primary": "wind.gustKnots",
+      "converter": "knots",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/wind/gustKnots",
+              "value": "Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "-Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/wind/gustKnots",
+              "value": "-Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "Number(value), Number.isFinite",
+        "arithmetic": "multiply 1.94384",
+        "rounding": "Number(toFixed(1))",
+        "derived": [
+          "knots"
+        ],
+        "availability": "any finite wind speed/gust/direction",
+        "quality": "finite wind speed",
+        "consumer": "assessOceanConditions finite guards",
+        "source": "backend/server.js:816"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:wind_gusts_10m#transport",
+            "role": "transport",
+            "description": "current.wind_gusts_10m"
+          },
+          {
+            "id": "marine:wind_gusts_10m#validation",
+            "role": "validation",
+            "description": "Number(value), Number.isFinite"
+          },
+          {
+            "id": "marine:wind_gusts_10m#arithmetic",
+            "role": "arithmetic",
+            "description": "multiply 1.94384"
+          },
+          {
+            "id": "marine:wind_gusts_10m#rounding",
+            "role": "rounding",
+            "description": "Number(toFixed(1))"
+          },
+          {
+            "id": "marine:wind_gusts_10m#normalized",
+            "role": "normalized",
+            "description": "wind.gustKnots"
+          },
+          {
+            "id": "marine:wind_gusts_10m#availability",
+            "role": "availability",
+            "description": "any finite wind speed/gust/direction"
+          },
+          {
+            "id": "marine:wind_gusts_10m#quality",
+            "role": "quality",
+            "description": "finite wind speed"
+          },
+          {
+            "id": "marine:wind_gusts_10m#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions finite guards"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:wind_gusts_10m#transport",
+            "to": "marine:wind_gusts_10m#validation"
+          },
+          {
+            "from": "marine:wind_gusts_10m#validation",
+            "to": "marine:wind_gusts_10m#arithmetic"
+          },
+          {
+            "from": "marine:wind_gusts_10m#arithmetic",
+            "to": "marine:wind_gusts_10m#rounding"
+          },
+          {
+            "from": "marine:wind_gusts_10m#rounding",
+            "to": "marine:wind_gusts_10m#normalized"
+          },
+          {
+            "from": "marine:wind_gusts_10m#normalized",
+            "to": "marine:wind_gusts_10m#availability"
+          },
+          {
+            "from": "marine:wind_gusts_10m#normalized",
+            "to": "marine:wind_gusts_10m#quality"
+          },
+          {
+            "from": "marine:wind_gusts_10m#normalized",
+            "to": "marine:wind_gusts_10m#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:wind_direction_10m",
+      "transport": "current.wind_direction_10m",
+      "parser": "marine",
+      "primary": "wind.directionDegrees",
+      "converter": "safe",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "safeNumber null/undefined/empty then Number and finite",
+        "arithmetic": "parser none; direction assessor ((d%360)+360)%360; periods comparisons",
+        "rounding": "none at parser",
+        "derived": [
+          "directionDegrees or periodSeconds",
+          "bounded direction differences or period labels"
+        ],
+        "availability": "wind any-finite predicate; marine field-independent retention",
+        "quality": "height/speed determine layer quality, not periods/directions alone",
+        "consumer": "assessOceanConditions",
+        "source": "backend/server.js:859"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:wind_direction_10m#transport",
+            "role": "transport",
+            "description": "current.wind_direction_10m"
+          },
+          {
+            "id": "marine:wind_direction_10m#validation",
+            "role": "validation",
+            "description": "safeNumber null/undefined/empty then Number and finite"
+          },
+          {
+            "id": "marine:wind_direction_10m#arithmetic",
+            "role": "arithmetic",
+            "description": "parser none; direction assessor ((d%360)+360)%360; periods comparisons"
+          },
+          {
+            "id": "marine:wind_direction_10m#rounding",
+            "role": "rounding",
+            "description": "none at parser"
+          },
+          {
+            "id": "marine:wind_direction_10m#normalized",
+            "role": "normalized",
+            "description": "wind.directionDegrees"
+          },
+          {
+            "id": "marine:wind_direction_10m#availability",
+            "role": "availability",
+            "description": "wind any-finite predicate; marine field-independent retention"
+          },
+          {
+            "id": "marine:wind_direction_10m#quality",
+            "role": "quality",
+            "description": "height/speed determine layer quality, not periods/directions alone"
+          },
+          {
+            "id": "marine:wind_direction_10m#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:wind_direction_10m#transport",
+            "to": "marine:wind_direction_10m#validation"
+          },
+          {
+            "from": "marine:wind_direction_10m#validation",
+            "to": "marine:wind_direction_10m#arithmetic"
+          },
+          {
+            "from": "marine:wind_direction_10m#arithmetic",
+            "to": "marine:wind_direction_10m#rounding"
+          },
+          {
+            "from": "marine:wind_direction_10m#rounding",
+            "to": "marine:wind_direction_10m#normalized"
+          },
+          {
+            "from": "marine:wind_direction_10m#normalized",
+            "to": "marine:wind_direction_10m#availability"
+          },
+          {
+            "from": "marine:wind_direction_10m#normalized",
+            "to": "marine:wind_direction_10m#quality"
+          },
+          {
+            "from": "marine:wind_direction_10m#normalized",
+            "to": "marine:wind_direction_10m#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:wave_height",
+      "transport": "current.wave_height",
+      "parser": "marine",
+      "primary": "waves.heightFeet",
+      "converter": "feet",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/waves/heightFeet",
+              "value": "Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "-Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/waves/heightFeet",
+              "value": "-Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "Number(value), Number.isFinite",
+        "arithmetic": "multiply 3.28084",
+        "rounding": "Number(toFixed(1))",
+        "derived": [
+          "heightFeet"
+        ],
+        "availability": "family source status separate from height validity",
+        "quality": "finite heightFeet",
+        "consumer": "assessOceanConditions height finite guard",
+        "source": "backend/server.js:832"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:wave_height#transport",
+            "role": "transport",
+            "description": "current.wave_height"
+          },
+          {
+            "id": "marine:wave_height#validation",
+            "role": "validation",
+            "description": "Number(value), Number.isFinite"
+          },
+          {
+            "id": "marine:wave_height#arithmetic",
+            "role": "arithmetic",
+            "description": "multiply 3.28084"
+          },
+          {
+            "id": "marine:wave_height#rounding",
+            "role": "rounding",
+            "description": "Number(toFixed(1))"
+          },
+          {
+            "id": "marine:wave_height#normalized",
+            "role": "normalized",
+            "description": "waves.heightFeet"
+          },
+          {
+            "id": "marine:wave_height#availability",
+            "role": "availability",
+            "description": "family source status separate from height validity"
+          },
+          {
+            "id": "marine:wave_height#quality",
+            "role": "quality",
+            "description": "finite heightFeet"
+          },
+          {
+            "id": "marine:wave_height#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions height finite guard"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:wave_height#transport",
+            "to": "marine:wave_height#validation"
+          },
+          {
+            "from": "marine:wave_height#validation",
+            "to": "marine:wave_height#arithmetic"
+          },
+          {
+            "from": "marine:wave_height#arithmetic",
+            "to": "marine:wave_height#rounding"
+          },
+          {
+            "from": "marine:wave_height#rounding",
+            "to": "marine:wave_height#normalized"
+          },
+          {
+            "from": "marine:wave_height#normalized",
+            "to": "marine:wave_height#availability"
+          },
+          {
+            "from": "marine:wave_height#normalized",
+            "to": "marine:wave_height#quality"
+          },
+          {
+            "from": "marine:wave_height#normalized",
+            "to": "marine:wave_height#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:wave_direction",
+      "transport": "current.wave_direction",
+      "parser": "marine",
+      "primary": "waves.directionDegrees",
+      "converter": "safe",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "safeNumber null/undefined/empty then Number and finite",
+        "arithmetic": "parser none; direction assessor ((d%360)+360)%360; periods comparisons",
+        "rounding": "none at parser",
+        "derived": [
+          "directionDegrees or periodSeconds",
+          "bounded direction differences or period labels"
+        ],
+        "availability": "wind any-finite predicate; marine field-independent retention",
+        "quality": "height/speed determine layer quality, not periods/directions alone",
+        "consumer": "assessOceanConditions",
+        "source": "backend/server.js:859"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:wave_direction#transport",
+            "role": "transport",
+            "description": "current.wave_direction"
+          },
+          {
+            "id": "marine:wave_direction#validation",
+            "role": "validation",
+            "description": "safeNumber null/undefined/empty then Number and finite"
+          },
+          {
+            "id": "marine:wave_direction#arithmetic",
+            "role": "arithmetic",
+            "description": "parser none; direction assessor ((d%360)+360)%360; periods comparisons"
+          },
+          {
+            "id": "marine:wave_direction#rounding",
+            "role": "rounding",
+            "description": "none at parser"
+          },
+          {
+            "id": "marine:wave_direction#normalized",
+            "role": "normalized",
+            "description": "waves.directionDegrees"
+          },
+          {
+            "id": "marine:wave_direction#availability",
+            "role": "availability",
+            "description": "wind any-finite predicate; marine field-independent retention"
+          },
+          {
+            "id": "marine:wave_direction#quality",
+            "role": "quality",
+            "description": "height/speed determine layer quality, not periods/directions alone"
+          },
+          {
+            "id": "marine:wave_direction#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:wave_direction#transport",
+            "to": "marine:wave_direction#validation"
+          },
+          {
+            "from": "marine:wave_direction#validation",
+            "to": "marine:wave_direction#arithmetic"
+          },
+          {
+            "from": "marine:wave_direction#arithmetic",
+            "to": "marine:wave_direction#rounding"
+          },
+          {
+            "from": "marine:wave_direction#rounding",
+            "to": "marine:wave_direction#normalized"
+          },
+          {
+            "from": "marine:wave_direction#normalized",
+            "to": "marine:wave_direction#availability"
+          },
+          {
+            "from": "marine:wave_direction#normalized",
+            "to": "marine:wave_direction#quality"
+          },
+          {
+            "from": "marine:wave_direction#normalized",
+            "to": "marine:wave_direction#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:wave_period",
+      "transport": "current.wave_period",
+      "parser": "marine",
+      "primary": "waves.periodSeconds",
+      "converter": "safe",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "safeNumber null/undefined/empty then Number and finite",
+        "arithmetic": "parser none; direction assessor ((d%360)+360)%360; periods comparisons",
+        "rounding": "none at parser",
+        "derived": [
+          "directionDegrees or periodSeconds",
+          "bounded direction differences or period labels"
+        ],
+        "availability": "wind any-finite predicate; marine field-independent retention",
+        "quality": "height/speed determine layer quality, not periods/directions alone",
+        "consumer": "assessOceanConditions",
+        "source": "backend/server.js:859"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:wave_period#transport",
+            "role": "transport",
+            "description": "current.wave_period"
+          },
+          {
+            "id": "marine:wave_period#validation",
+            "role": "validation",
+            "description": "safeNumber null/undefined/empty then Number and finite"
+          },
+          {
+            "id": "marine:wave_period#arithmetic",
+            "role": "arithmetic",
+            "description": "parser none; direction assessor ((d%360)+360)%360; periods comparisons"
+          },
+          {
+            "id": "marine:wave_period#rounding",
+            "role": "rounding",
+            "description": "none at parser"
+          },
+          {
+            "id": "marine:wave_period#normalized",
+            "role": "normalized",
+            "description": "waves.periodSeconds"
+          },
+          {
+            "id": "marine:wave_period#availability",
+            "role": "availability",
+            "description": "wind any-finite predicate; marine field-independent retention"
+          },
+          {
+            "id": "marine:wave_period#quality",
+            "role": "quality",
+            "description": "height/speed determine layer quality, not periods/directions alone"
+          },
+          {
+            "id": "marine:wave_period#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:wave_period#transport",
+            "to": "marine:wave_period#validation"
+          },
+          {
+            "from": "marine:wave_period#validation",
+            "to": "marine:wave_period#arithmetic"
+          },
+          {
+            "from": "marine:wave_period#arithmetic",
+            "to": "marine:wave_period#rounding"
+          },
+          {
+            "from": "marine:wave_period#rounding",
+            "to": "marine:wave_period#normalized"
+          },
+          {
+            "from": "marine:wave_period#normalized",
+            "to": "marine:wave_period#availability"
+          },
+          {
+            "from": "marine:wave_period#normalized",
+            "to": "marine:wave_period#quality"
+          },
+          {
+            "from": "marine:wave_period#normalized",
+            "to": "marine:wave_period#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:swell_wave_height",
+      "transport": "current.swell_wave_height",
+      "parser": "marine",
+      "primary": "swell.heightFeet",
+      "converter": "feet",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/swell/heightFeet",
+              "value": "Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NONFINITE",
+            "value": "-Infinity"
+          },
+          "nonfinite": [
+            {
+              "path": "/swell/heightFeet",
+              "value": "-Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "Number(value), Number.isFinite",
+        "arithmetic": "multiply 3.28084",
+        "rounding": "Number(toFixed(1))",
+        "derived": [
+          "heightFeet"
+        ],
+        "availability": "family source status separate from height validity",
+        "quality": "finite heightFeet",
+        "consumer": "assessOceanConditions height finite guard",
+        "source": "backend/server.js:832"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:swell_wave_height#transport",
+            "role": "transport",
+            "description": "current.swell_wave_height"
+          },
+          {
+            "id": "marine:swell_wave_height#validation",
+            "role": "validation",
+            "description": "Number(value), Number.isFinite"
+          },
+          {
+            "id": "marine:swell_wave_height#arithmetic",
+            "role": "arithmetic",
+            "description": "multiply 3.28084"
+          },
+          {
+            "id": "marine:swell_wave_height#rounding",
+            "role": "rounding",
+            "description": "Number(toFixed(1))"
+          },
+          {
+            "id": "marine:swell_wave_height#normalized",
+            "role": "normalized",
+            "description": "swell.heightFeet"
+          },
+          {
+            "id": "marine:swell_wave_height#availability",
+            "role": "availability",
+            "description": "family source status separate from height validity"
+          },
+          {
+            "id": "marine:swell_wave_height#quality",
+            "role": "quality",
+            "description": "finite heightFeet"
+          },
+          {
+            "id": "marine:swell_wave_height#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions height finite guard"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:swell_wave_height#transport",
+            "to": "marine:swell_wave_height#validation"
+          },
+          {
+            "from": "marine:swell_wave_height#validation",
+            "to": "marine:swell_wave_height#arithmetic"
+          },
+          {
+            "from": "marine:swell_wave_height#arithmetic",
+            "to": "marine:swell_wave_height#rounding"
+          },
+          {
+            "from": "marine:swell_wave_height#rounding",
+            "to": "marine:swell_wave_height#normalized"
+          },
+          {
+            "from": "marine:swell_wave_height#normalized",
+            "to": "marine:swell_wave_height#availability"
+          },
+          {
+            "from": "marine:swell_wave_height#normalized",
+            "to": "marine:swell_wave_height#quality"
+          },
+          {
+            "from": "marine:swell_wave_height#normalized",
+            "to": "marine:swell_wave_height#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:swell_wave_direction",
+      "transport": "current.swell_wave_direction",
+      "parser": "marine",
+      "primary": "swell.directionDegrees",
+      "converter": "safe",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "safeNumber null/undefined/empty then Number and finite",
+        "arithmetic": "parser none; direction assessor ((d%360)+360)%360; periods comparisons",
+        "rounding": "none at parser",
+        "derived": [
+          "directionDegrees or periodSeconds",
+          "bounded direction differences or period labels"
+        ],
+        "availability": "wind any-finite predicate; marine field-independent retention",
+        "quality": "height/speed determine layer quality, not periods/directions alone",
+        "consumer": "assessOceanConditions",
+        "source": "backend/server.js:859"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:swell_wave_direction#transport",
+            "role": "transport",
+            "description": "current.swell_wave_direction"
+          },
+          {
+            "id": "marine:swell_wave_direction#validation",
+            "role": "validation",
+            "description": "safeNumber null/undefined/empty then Number and finite"
+          },
+          {
+            "id": "marine:swell_wave_direction#arithmetic",
+            "role": "arithmetic",
+            "description": "parser none; direction assessor ((d%360)+360)%360; periods comparisons"
+          },
+          {
+            "id": "marine:swell_wave_direction#rounding",
+            "role": "rounding",
+            "description": "none at parser"
+          },
+          {
+            "id": "marine:swell_wave_direction#normalized",
+            "role": "normalized",
+            "description": "swell.directionDegrees"
+          },
+          {
+            "id": "marine:swell_wave_direction#availability",
+            "role": "availability",
+            "description": "wind any-finite predicate; marine field-independent retention"
+          },
+          {
+            "id": "marine:swell_wave_direction#quality",
+            "role": "quality",
+            "description": "height/speed determine layer quality, not periods/directions alone"
+          },
+          {
+            "id": "marine:swell_wave_direction#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:swell_wave_direction#transport",
+            "to": "marine:swell_wave_direction#validation"
+          },
+          {
+            "from": "marine:swell_wave_direction#validation",
+            "to": "marine:swell_wave_direction#arithmetic"
+          },
+          {
+            "from": "marine:swell_wave_direction#arithmetic",
+            "to": "marine:swell_wave_direction#rounding"
+          },
+          {
+            "from": "marine:swell_wave_direction#rounding",
+            "to": "marine:swell_wave_direction#normalized"
+          },
+          {
+            "from": "marine:swell_wave_direction#normalized",
+            "to": "marine:swell_wave_direction#availability"
+          },
+          {
+            "from": "marine:swell_wave_direction#normalized",
+            "to": "marine:swell_wave_direction#quality"
+          },
+          {
+            "from": "marine:swell_wave_direction#normalized",
+            "to": "marine:swell_wave_direction#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:swell_wave_period",
+      "transport": "current.swell_wave_period",
+      "parser": "marine",
+      "primary": "swell.periodSeconds",
+      "converter": "safe",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "safeNumber null/undefined/empty then Number and finite",
+        "arithmetic": "parser none; direction assessor ((d%360)+360)%360; periods comparisons",
+        "rounding": "none at parser",
+        "derived": [
+          "directionDegrees or periodSeconds",
+          "bounded direction differences or period labels"
+        ],
+        "availability": "wind any-finite predicate; marine field-independent retention",
+        "quality": "height/speed determine layer quality, not periods/directions alone",
+        "consumer": "assessOceanConditions",
+        "source": "backend/server.js:859"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:swell_wave_period#transport",
+            "role": "transport",
+            "description": "current.swell_wave_period"
+          },
+          {
+            "id": "marine:swell_wave_period#validation",
+            "role": "validation",
+            "description": "safeNumber null/undefined/empty then Number and finite"
+          },
+          {
+            "id": "marine:swell_wave_period#arithmetic",
+            "role": "arithmetic",
+            "description": "parser none; direction assessor ((d%360)+360)%360; periods comparisons"
+          },
+          {
+            "id": "marine:swell_wave_period#rounding",
+            "role": "rounding",
+            "description": "none at parser"
+          },
+          {
+            "id": "marine:swell_wave_period#normalized",
+            "role": "normalized",
+            "description": "swell.periodSeconds"
+          },
+          {
+            "id": "marine:swell_wave_period#availability",
+            "role": "availability",
+            "description": "wind any-finite predicate; marine field-independent retention"
+          },
+          {
+            "id": "marine:swell_wave_period#quality",
+            "role": "quality",
+            "description": "height/speed determine layer quality, not periods/directions alone"
+          },
+          {
+            "id": "marine:swell_wave_period#consumer",
+            "role": "consumer",
+            "description": "assessOceanConditions"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:swell_wave_period#transport",
+            "to": "marine:swell_wave_period#validation"
+          },
+          {
+            "from": "marine:swell_wave_period#validation",
+            "to": "marine:swell_wave_period#arithmetic"
+          },
+          {
+            "from": "marine:swell_wave_period#arithmetic",
+            "to": "marine:swell_wave_period#rounding"
+          },
+          {
+            "from": "marine:swell_wave_period#rounding",
+            "to": "marine:swell_wave_period#normalized"
+          },
+          {
+            "from": "marine:swell_wave_period#normalized",
+            "to": "marine:swell_wave_period#availability"
+          },
+          {
+            "from": "marine:swell_wave_period#normalized",
+            "to": "marine:swell_wave_period#quality"
+          },
+          {
+            "from": "marine:swell_wave_period#normalized",
+            "to": "marine:swell_wave_period#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:sea_surface_temperature",
+      "transport": "current.sea_surface_temperature",
+      "parser": "marine",
+      "primary": "sst.temperatureCelsius",
+      "converter": "strict",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": [
+            {
+              "path": "/sst/temperatureFahrenheit",
+              "value": "Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": [
+            {
+              "path": "/sst/temperatureFahrenheit",
+              "value": "-Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number",
+        "arithmetic": "((C * 9) / 5 + 32)",
+        "rounding": "F: Number(toFixed(1)); C unchanged",
+        "derived": [
+          "temperatureCelsius",
+          "temperatureFahrenheit"
+        ],
+        "availability": "directional source C nullness; center no SST-specific source status",
+        "quality": "downstream F finite checks",
+        "consumer": "C cache/source status; F spatial aggregation; retained snapshot",
+        "source": "backend/server.js:848"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:sea_surface_temperature#transport",
+            "role": "transport",
+            "description": "current.sea_surface_temperature"
+          },
+          {
+            "id": "marine:sea_surface_temperature#validation",
+            "role": "validation",
+            "description": "actual finite number"
+          },
+          {
+            "id": "marine:sea_surface_temperature#arithmetic",
+            "role": "arithmetic",
+            "description": "((C * 9) / 5 + 32)"
+          },
+          {
+            "id": "marine:sea_surface_temperature#rounding",
+            "role": "rounding",
+            "description": "F: Number(toFixed(1)); C unchanged"
+          },
+          {
+            "id": "marine:sea_surface_temperature#normalized",
+            "role": "normalized",
+            "description": "sst.temperatureCelsius"
+          },
+          {
+            "id": "marine:sea_surface_temperature#availability",
+            "role": "availability",
+            "description": "directional source C nullness; center no SST-specific source status"
+          },
+          {
+            "id": "marine:sea_surface_temperature#quality",
+            "role": "quality",
+            "description": "downstream F finite checks"
+          },
+          {
+            "id": "marine:sea_surface_temperature#consumer",
+            "role": "consumer",
+            "description": "C cache/source status; F spatial aggregation; retained snapshot"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:sea_surface_temperature#transport",
+            "to": "marine:sea_surface_temperature#validation"
+          },
+          {
+            "from": "marine:sea_surface_temperature#validation",
+            "to": "marine:sea_surface_temperature#arithmetic"
+          },
+          {
+            "from": "marine:sea_surface_temperature#arithmetic",
+            "to": "marine:sea_surface_temperature#rounding"
+          },
+          {
+            "from": "marine:sea_surface_temperature#rounding",
+            "to": "marine:sea_surface_temperature#normalized"
+          },
+          {
+            "from": "marine:sea_surface_temperature#normalized",
+            "to": "marine:sea_surface_temperature#availability"
+          },
+          {
+            "from": "marine:sea_surface_temperature#normalized",
+            "to": "marine:sea_surface_temperature#quality"
+          },
+          {
+            "from": "marine:sea_surface_temperature#normalized",
+            "to": "marine:sea_surface_temperature#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "direct:chlor_a",
+      "transport": "table.rows[0][columnNames.indexOf(chlor_a)]",
+      "parser": "direct",
+      "primary": "concentrationMgM3",
+      "converter": "safe-rounded",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BOTH",
+        "validation": "safeNumber, finite concentration availability",
+        "arithmetic": "no unit conversion; classification comparisons",
+        "rounding": "Number(toFixed(4))",
+        "derived": [
+          "concentrationMgM3",
+          "waterClassification"
+        ],
+        "availability": "finite concentration",
+        "quality": "observation selection and age; not requalified",
+        "consumer": "resolveChlorophyllObservation",
+        "source": "backend/server.js:2045;2169"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "direct:chlor_a#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(chlor_a)]"
+          },
+          {
+            "id": "direct:chlor_a#validation",
+            "role": "validation",
+            "description": "safeNumber, finite concentration availability"
+          },
+          {
+            "id": "direct:chlor_a#arithmetic",
+            "role": "arithmetic",
+            "description": "no unit conversion; classification comparisons"
+          },
+          {
+            "id": "direct:chlor_a#rounding",
+            "role": "rounding",
+            "description": "Number(toFixed(4))"
+          },
+          {
+            "id": "direct:chlor_a#normalized",
+            "role": "normalized",
+            "description": "concentrationMgM3"
+          },
+          {
+            "id": "direct:chlor_a#availability",
+            "role": "availability",
+            "description": "finite concentration"
+          },
+          {
+            "id": "direct:chlor_a#quality",
+            "role": "quality",
+            "description": "observation selection and age; not requalified"
+          },
+          {
+            "id": "direct:chlor_a#consumer",
+            "role": "consumer",
+            "description": "resolveChlorophyllObservation"
+          }
+        ],
+        "edges": [
+          {
+            "from": "direct:chlor_a#transport",
+            "to": "direct:chlor_a#validation"
+          },
+          {
+            "from": "direct:chlor_a#validation",
+            "to": "direct:chlor_a#arithmetic"
+          },
+          {
+            "from": "direct:chlor_a#arithmetic",
+            "to": "direct:chlor_a#rounding"
+          },
+          {
+            "from": "direct:chlor_a#rounding",
+            "to": "direct:chlor_a#normalized"
+          },
+          {
+            "from": "direct:chlor_a#normalized",
+            "to": "direct:chlor_a#availability"
+          },
+          {
+            "from": "direct:chlor_a#normalized",
+            "to": "direct:chlor_a#quality"
+          },
+          {
+            "from": "direct:chlor_a#normalized",
+            "to": "direct:chlor_a#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gap:chlor_a",
+      "transport": "table.rows[0][columnNames.indexOf(chlor_a)]",
+      "parser": "gap",
+      "primary": "concentrationMgM3",
+      "converter": "safe-rounded",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BOTH",
+        "validation": "safeNumber, finite concentration availability",
+        "arithmetic": "no unit conversion; classification comparisons",
+        "rounding": "Number(toFixed(4))",
+        "derived": [
+          "concentrationMgM3",
+          "waterClassification"
+        ],
+        "availability": "finite concentration",
+        "quality": "observation selection and age; not requalified",
+        "consumer": "resolveChlorophyllObservation",
+        "source": "backend/server.js:2045;2169"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "gap:chlor_a#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(chlor_a)]"
+          },
+          {
+            "id": "gap:chlor_a#validation",
+            "role": "validation",
+            "description": "safeNumber, finite concentration availability"
+          },
+          {
+            "id": "gap:chlor_a#arithmetic",
+            "role": "arithmetic",
+            "description": "no unit conversion; classification comparisons"
+          },
+          {
+            "id": "gap:chlor_a#rounding",
+            "role": "rounding",
+            "description": "Number(toFixed(4))"
+          },
+          {
+            "id": "gap:chlor_a#normalized",
+            "role": "normalized",
+            "description": "concentrationMgM3"
+          },
+          {
+            "id": "gap:chlor_a#availability",
+            "role": "availability",
+            "description": "finite concentration"
+          },
+          {
+            "id": "gap:chlor_a#quality",
+            "role": "quality",
+            "description": "observation selection and age; not requalified"
+          },
+          {
+            "id": "gap:chlor_a#consumer",
+            "role": "consumer",
+            "description": "resolveChlorophyllObservation"
+          }
+        ],
+        "edges": [
+          {
+            "from": "gap:chlor_a#transport",
+            "to": "gap:chlor_a#validation"
+          },
+          {
+            "from": "gap:chlor_a#validation",
+            "to": "gap:chlor_a#arithmetic"
+          },
+          {
+            "from": "gap:chlor_a#arithmetic",
+            "to": "gap:chlor_a#rounding"
+          },
+          {
+            "from": "gap:chlor_a#rounding",
+            "to": "gap:chlor_a#normalized"
+          },
+          {
+            "from": "gap:chlor_a#normalized",
+            "to": "gap:chlor_a#availability"
+          },
+          {
+            "from": "gap:chlor_a#normalized",
+            "to": "gap:chlor_a#quality"
+          },
+          {
+            "from": "gap:chlor_a#normalized",
+            "to": "gap:chlor_a#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "current:u_current",
+      "transport": "table.rows[0][columnNames.indexOf(u_current)]",
+      "parser": "current",
+      "primary": "eastwardMetersPerSecond",
+      "converter": "safe-rounded",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "MIXED",
+        "validation": "safeNumber then both components finite",
+        "arithmetic": "u**2 + v**2; sqrt; knots input guard; atan2 then degrees; projection hypot later",
+        "rounding": "components four decimals; knots one decimal; direction zero decimals; projection four decimals",
+        "derived": [
+          "u",
+          "v",
+          "speedKnots",
+          "directionDegrees",
+          "projection.vectorMagnitudeMetersPerSecond"
+        ],
+        "availability": "component-finite source and projection; speed-finite spatial aggregates",
+        "quality": "speed and direction finite",
+        "consumer": "spatial assembly then component-based vector projection",
+        "source": "backend/server.js:2443;3503"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "current:u_current#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(u_current)]"
+          },
+          {
+            "id": "current:u_current#validation",
+            "role": "validation",
+            "description": "safeNumber then both components finite"
+          },
+          {
+            "id": "current:u_current#arithmetic",
+            "role": "arithmetic",
+            "description": "u**2 + v**2; sqrt; knots input guard; atan2 then degrees; projection hypot later"
+          },
+          {
+            "id": "current:u_current#rounding",
+            "role": "rounding",
+            "description": "components four decimals; knots one decimal; direction zero decimals; projection four decimals"
+          },
+          {
+            "id": "current:u_current#normalized",
+            "role": "normalized",
+            "description": "eastwardMetersPerSecond"
+          },
+          {
+            "id": "current:u_current#availability",
+            "role": "availability",
+            "description": "component-finite source and projection; speed-finite spatial aggregates"
+          },
+          {
+            "id": "current:u_current#quality",
+            "role": "quality",
+            "description": "speed and direction finite"
+          },
+          {
+            "id": "current:u_current#consumer",
+            "role": "consumer",
+            "description": "spatial assembly then component-based vector projection"
+          }
+        ],
+        "edges": [
+          {
+            "from": "current:u_current#transport",
+            "to": "current:u_current#validation"
+          },
+          {
+            "from": "current:u_current#validation",
+            "to": "current:u_current#arithmetic"
+          },
+          {
+            "from": "current:u_current#arithmetic",
+            "to": "current:u_current#rounding"
+          },
+          {
+            "from": "current:u_current#rounding",
+            "to": "current:u_current#normalized"
+          },
+          {
+            "from": "current:u_current#normalized",
+            "to": "current:u_current#availability"
+          },
+          {
+            "from": "current:u_current#normalized",
+            "to": "current:u_current#quality"
+          },
+          {
+            "from": "current:u_current#normalized",
+            "to": "current:u_current#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "current:v_current",
+      "transport": "table.rows[0][columnNames.indexOf(v_current)]",
+      "parser": "current",
+      "primary": "northwardMetersPerSecond",
+      "converter": "safe-rounded",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "MIXED",
+        "validation": "safeNumber then both components finite",
+        "arithmetic": "u**2 + v**2; sqrt; knots input guard; atan2 then degrees; projection hypot later",
+        "rounding": "components four decimals; knots one decimal; direction zero decimals; projection four decimals",
+        "derived": [
+          "u",
+          "v",
+          "speedKnots",
+          "directionDegrees",
+          "projection.vectorMagnitudeMetersPerSecond"
+        ],
+        "availability": "component-finite source and projection; speed-finite spatial aggregates",
+        "quality": "speed and direction finite",
+        "consumer": "spatial assembly then component-based vector projection",
+        "source": "backend/server.js:2443;3503"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "current:v_current#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(v_current)]"
+          },
+          {
+            "id": "current:v_current#validation",
+            "role": "validation",
+            "description": "safeNumber then both components finite"
+          },
+          {
+            "id": "current:v_current#arithmetic",
+            "role": "arithmetic",
+            "description": "u**2 + v**2; sqrt; knots input guard; atan2 then degrees; projection hypot later"
+          },
+          {
+            "id": "current:v_current#rounding",
+            "role": "rounding",
+            "description": "components four decimals; knots one decimal; direction zero decimals; projection four decimals"
+          },
+          {
+            "id": "current:v_current#normalized",
+            "role": "normalized",
+            "description": "northwardMetersPerSecond"
+          },
+          {
+            "id": "current:v_current#availability",
+            "role": "availability",
+            "description": "component-finite source and projection; speed-finite spatial aggregates"
+          },
+          {
+            "id": "current:v_current#quality",
+            "role": "quality",
+            "description": "speed and direction finite"
+          },
+          {
+            "id": "current:v_current#consumer",
+            "role": "consumer",
+            "description": "spatial assembly then component-based vector projection"
+          }
+        ],
+        "edges": [
+          {
+            "from": "current:v_current#transport",
+            "to": "current:v_current#validation"
+          },
+          {
+            "from": "current:v_current#validation",
+            "to": "current:v_current#arithmetic"
+          },
+          {
+            "from": "current:v_current#arithmetic",
+            "to": "current:v_current#rounding"
+          },
+          {
+            "from": "current:v_current#rounding",
+            "to": "current:v_current#normalized"
+          },
+          {
+            "from": "current:v_current#normalized",
+            "to": "current:v_current#availability"
+          },
+          {
+            "from": "current:v_current#normalized",
+            "to": "current:v_current#quality"
+          },
+          {
+            "from": "current:v_current#normalized",
+            "to": "current:v_current#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sst:directional",
+      "transport": "current.sea_surface_temperature",
+      "parser": "sst",
+      "primary": "samples.0.temperatureCelsius",
+      "converter": "strict",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "nonfinite": [
+            {
+              "path": "/samples/0/temperatureFahrenheit",
+              "value": "Infinity"
+            },
+            {
+              "path": "/samples/1/temperatureFahrenheit",
+              "value": "Infinity"
+            },
+            {
+              "path": "/samples/2/temperatureFahrenheit",
+              "value": "Infinity"
+            },
+            {
+              "path": "/samples/3/temperatureFahrenheit",
+              "value": "Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "nonfinite": [
+            {
+              "path": "/samples/0/temperatureFahrenheit",
+              "value": "-Infinity"
+            },
+            {
+              "path": "/samples/1/temperatureFahrenheit",
+              "value": "-Infinity"
+            },
+            {
+              "path": "/samples/2/temperatureFahrenheit",
+              "value": "-Infinity"
+            },
+            {
+              "path": "/samples/3/temperatureFahrenheit",
+              "value": "-Infinity"
+            }
+          ]
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number",
+        "arithmetic": "((C * 9) / 5 + 32)",
+        "rounding": "F: Number(toFixed(1)); C unchanged",
+        "derived": [
+          "temperatureCelsius",
+          "temperatureFahrenheit"
+        ],
+        "availability": "directional source C nullness; center no SST-specific source status",
+        "quality": "downstream F finite checks",
+        "consumer": "C cache/source status; F spatial aggregation; retained snapshot",
+        "source": "backend/server.js:848"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "sst:directional#transport",
+            "role": "transport",
+            "description": "current.sea_surface_temperature"
+          },
+          {
+            "id": "sst:directional#validation",
+            "role": "validation",
+            "description": "actual finite number"
+          },
+          {
+            "id": "sst:directional#arithmetic",
+            "role": "arithmetic",
+            "description": "((C * 9) / 5 + 32)"
+          },
+          {
+            "id": "sst:directional#rounding",
+            "role": "rounding",
+            "description": "F: Number(toFixed(1)); C unchanged"
+          },
+          {
+            "id": "sst:directional#normalized",
+            "role": "normalized",
+            "description": "samples.0.temperatureCelsius"
+          },
+          {
+            "id": "sst:directional#availability",
+            "role": "availability",
+            "description": "directional source C nullness; center no SST-specific source status"
+          },
+          {
+            "id": "sst:directional#quality",
+            "role": "quality",
+            "description": "downstream F finite checks"
+          },
+          {
+            "id": "sst:directional#consumer",
+            "role": "consumer",
+            "description": "C cache/source status; F spatial aggregation; retained snapshot"
+          }
+        ],
+        "edges": [
+          {
+            "from": "sst:directional#transport",
+            "to": "sst:directional#validation"
+          },
+          {
+            "from": "sst:directional#validation",
+            "to": "sst:directional#arithmetic"
+          },
+          {
+            "from": "sst:directional#arithmetic",
+            "to": "sst:directional#rounding"
+          },
+          {
+            "from": "sst:directional#rounding",
+            "to": "sst:directional#normalized"
+          },
+          {
+            "from": "sst:directional#normalized",
+            "to": "sst:directional#availability"
+          },
+          {
+            "from": "sst:directional#normalized",
+            "to": "sst:directional#quality"
+          },
+          {
+            "from": "sst:directional#normalized",
+            "to": "sst:directional#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:latitude",
+      "transport": "latitude",
+      "parser": "marine",
+      "primary": "sst.resolvedLatitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:latitude#transport",
+            "role": "transport",
+            "description": "latitude"
+          },
+          {
+            "id": "marine:latitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "marine:latitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "marine:latitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "marine:latitude#normalized",
+            "role": "normalized",
+            "description": "sst.resolvedLatitude"
+          },
+          {
+            "id": "marine:latitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "marine:latitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "marine:latitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:latitude#transport",
+            "to": "marine:latitude#validation"
+          },
+          {
+            "from": "marine:latitude#validation",
+            "to": "marine:latitude#arithmetic"
+          },
+          {
+            "from": "marine:latitude#arithmetic",
+            "to": "marine:latitude#rounding"
+          },
+          {
+            "from": "marine:latitude#rounding",
+            "to": "marine:latitude#normalized"
+          },
+          {
+            "from": "marine:latitude#normalized",
+            "to": "marine:latitude#availability"
+          },
+          {
+            "from": "marine:latitude#normalized",
+            "to": "marine:latitude#quality"
+          },
+          {
+            "from": "marine:latitude#normalized",
+            "to": "marine:latitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "marine:longitude",
+      "transport": "longitude",
+      "parser": "marine",
+      "primary": "sst.resolvedLongitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "marine:longitude#transport",
+            "role": "transport",
+            "description": "longitude"
+          },
+          {
+            "id": "marine:longitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "marine:longitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "marine:longitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "marine:longitude#normalized",
+            "role": "normalized",
+            "description": "sst.resolvedLongitude"
+          },
+          {
+            "id": "marine:longitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "marine:longitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "marine:longitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "marine:longitude#transport",
+            "to": "marine:longitude#validation"
+          },
+          {
+            "from": "marine:longitude#validation",
+            "to": "marine:longitude#arithmetic"
+          },
+          {
+            "from": "marine:longitude#arithmetic",
+            "to": "marine:longitude#rounding"
+          },
+          {
+            "from": "marine:longitude#rounding",
+            "to": "marine:longitude#normalized"
+          },
+          {
+            "from": "marine:longitude#normalized",
+            "to": "marine:longitude#availability"
+          },
+          {
+            "from": "marine:longitude#normalized",
+            "to": "marine:longitude#quality"
+          },
+          {
+            "from": "marine:longitude#normalized",
+            "to": "marine:longitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "direct:latitude",
+      "transport": "table.rows[0][columnNames.indexOf(latitude)]",
+      "parser": "direct",
+      "primary": "resolvedLatitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "direct:latitude#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(latitude)]"
+          },
+          {
+            "id": "direct:latitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "direct:latitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "direct:latitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "direct:latitude#normalized",
+            "role": "normalized",
+            "description": "resolvedLatitude"
+          },
+          {
+            "id": "direct:latitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "direct:latitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "direct:latitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "direct:latitude#transport",
+            "to": "direct:latitude#validation"
+          },
+          {
+            "from": "direct:latitude#validation",
+            "to": "direct:latitude#arithmetic"
+          },
+          {
+            "from": "direct:latitude#arithmetic",
+            "to": "direct:latitude#rounding"
+          },
+          {
+            "from": "direct:latitude#rounding",
+            "to": "direct:latitude#normalized"
+          },
+          {
+            "from": "direct:latitude#normalized",
+            "to": "direct:latitude#availability"
+          },
+          {
+            "from": "direct:latitude#normalized",
+            "to": "direct:latitude#quality"
+          },
+          {
+            "from": "direct:latitude#normalized",
+            "to": "direct:latitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "direct:longitude",
+      "transport": "table.rows[0][columnNames.indexOf(longitude)]",
+      "parser": "direct",
+      "primary": "resolvedLongitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "direct:longitude#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(longitude)]"
+          },
+          {
+            "id": "direct:longitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "direct:longitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "direct:longitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "direct:longitude#normalized",
+            "role": "normalized",
+            "description": "resolvedLongitude"
+          },
+          {
+            "id": "direct:longitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "direct:longitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "direct:longitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "direct:longitude#transport",
+            "to": "direct:longitude#validation"
+          },
+          {
+            "from": "direct:longitude#validation",
+            "to": "direct:longitude#arithmetic"
+          },
+          {
+            "from": "direct:longitude#arithmetic",
+            "to": "direct:longitude#rounding"
+          },
+          {
+            "from": "direct:longitude#rounding",
+            "to": "direct:longitude#normalized"
+          },
+          {
+            "from": "direct:longitude#normalized",
+            "to": "direct:longitude#availability"
+          },
+          {
+            "from": "direct:longitude#normalized",
+            "to": "direct:longitude#quality"
+          },
+          {
+            "from": "direct:longitude#normalized",
+            "to": "direct:longitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gap:latitude",
+      "transport": "table.rows[0][columnNames.indexOf(latitude)]",
+      "parser": "gap",
+      "primary": "resolvedLatitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "gap:latitude#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(latitude)]"
+          },
+          {
+            "id": "gap:latitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "gap:latitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "gap:latitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "gap:latitude#normalized",
+            "role": "normalized",
+            "description": "resolvedLatitude"
+          },
+          {
+            "id": "gap:latitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "gap:latitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "gap:latitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "gap:latitude#transport",
+            "to": "gap:latitude#validation"
+          },
+          {
+            "from": "gap:latitude#validation",
+            "to": "gap:latitude#arithmetic"
+          },
+          {
+            "from": "gap:latitude#arithmetic",
+            "to": "gap:latitude#rounding"
+          },
+          {
+            "from": "gap:latitude#rounding",
+            "to": "gap:latitude#normalized"
+          },
+          {
+            "from": "gap:latitude#normalized",
+            "to": "gap:latitude#availability"
+          },
+          {
+            "from": "gap:latitude#normalized",
+            "to": "gap:latitude#quality"
+          },
+          {
+            "from": "gap:latitude#normalized",
+            "to": "gap:latitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gap:longitude",
+      "transport": "table.rows[0][columnNames.indexOf(longitude)]",
+      "parser": "gap",
+      "primary": "resolvedLongitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "gap:longitude#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(longitude)]"
+          },
+          {
+            "id": "gap:longitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "gap:longitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "gap:longitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "gap:longitude#normalized",
+            "role": "normalized",
+            "description": "resolvedLongitude"
+          },
+          {
+            "id": "gap:longitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "gap:longitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "gap:longitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "gap:longitude#transport",
+            "to": "gap:longitude#validation"
+          },
+          {
+            "from": "gap:longitude#validation",
+            "to": "gap:longitude#arithmetic"
+          },
+          {
+            "from": "gap:longitude#arithmetic",
+            "to": "gap:longitude#rounding"
+          },
+          {
+            "from": "gap:longitude#rounding",
+            "to": "gap:longitude#normalized"
+          },
+          {
+            "from": "gap:longitude#normalized",
+            "to": "gap:longitude#availability"
+          },
+          {
+            "from": "gap:longitude#normalized",
+            "to": "gap:longitude#quality"
+          },
+          {
+            "from": "gap:longitude#normalized",
+            "to": "gap:longitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "current:latitude",
+      "transport": "table.rows[0][columnNames.indexOf(latitude)]",
+      "parser": "current",
+      "primary": "resolvedLatitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "current:latitude#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(latitude)]"
+          },
+          {
+            "id": "current:latitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "current:latitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "current:latitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "current:latitude#normalized",
+            "role": "normalized",
+            "description": "resolvedLatitude"
+          },
+          {
+            "id": "current:latitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "current:latitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "current:latitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "current:latitude#transport",
+            "to": "current:latitude#validation"
+          },
+          {
+            "from": "current:latitude#validation",
+            "to": "current:latitude#arithmetic"
+          },
+          {
+            "from": "current:latitude#arithmetic",
+            "to": "current:latitude#rounding"
+          },
+          {
+            "from": "current:latitude#rounding",
+            "to": "current:latitude#normalized"
+          },
+          {
+            "from": "current:latitude#normalized",
+            "to": "current:latitude#availability"
+          },
+          {
+            "from": "current:latitude#normalized",
+            "to": "current:latitude#quality"
+          },
+          {
+            "from": "current:latitude#normalized",
+            "to": "current:latitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "current:longitude",
+      "transport": "table.rows[0][columnNames.indexOf(longitude)]",
+      "parser": "current",
+      "primary": "resolvedLongitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "current:longitude#transport",
+            "role": "transport",
+            "description": "table.rows[0][columnNames.indexOf(longitude)]"
+          },
+          {
+            "id": "current:longitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "current:longitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "current:longitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "current:longitude#normalized",
+            "role": "normalized",
+            "description": "resolvedLongitude"
+          },
+          {
+            "id": "current:longitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "current:longitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "current:longitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "current:longitude#transport",
+            "to": "current:longitude#validation"
+          },
+          {
+            "from": "current:longitude#validation",
+            "to": "current:longitude#arithmetic"
+          },
+          {
+            "from": "current:longitude#arithmetic",
+            "to": "current:longitude#rounding"
+          },
+          {
+            "from": "current:longitude#rounding",
+            "to": "current:longitude#normalized"
+          },
+          {
+            "from": "current:longitude#normalized",
+            "to": "current:longitude#availability"
+          },
+          {
+            "from": "current:longitude#normalized",
+            "to": "current:longitude#quality"
+          },
+          {
+            "from": "current:longitude#normalized",
+            "to": "current:longitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sst:latitude",
+      "transport": "latitude",
+      "parser": "sst",
+      "primary": "samples.0.providerCoordinates.resolvedLatitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "sst:latitude#transport",
+            "role": "transport",
+            "description": "latitude"
+          },
+          {
+            "id": "sst:latitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "sst:latitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "sst:latitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "sst:latitude#normalized",
+            "role": "normalized",
+            "description": "samples.0.providerCoordinates.resolvedLatitude"
+          },
+          {
+            "id": "sst:latitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "sst:latitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "sst:latitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "sst:latitude#transport",
+            "to": "sst:latitude#validation"
+          },
+          {
+            "from": "sst:latitude#validation",
+            "to": "sst:latitude#arithmetic"
+          },
+          {
+            "from": "sst:latitude#arithmetic",
+            "to": "sst:latitude#rounding"
+          },
+          {
+            "from": "sst:latitude#rounding",
+            "to": "sst:latitude#normalized"
+          },
+          {
+            "from": "sst:latitude#normalized",
+            "to": "sst:latitude#availability"
+          },
+          {
+            "from": "sst:latitude#normalized",
+            "to": "sst:latitude#quality"
+          },
+          {
+            "from": "sst:latitude#normalized",
+            "to": "sst:latitude#consumer"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sst:longitude",
+      "transport": "longitude",
+      "parser": "sst",
+      "primary": "samples.0.providerCoordinates.resolvedLongitude",
+      "converter": "coordinate",
+      "states": [
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -1E+308
+          },
+          "primary": {
+            "type": "NULL",
+            "value": null
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": -5E-324
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": 0
+          },
+          "nonfinite": []
+        },
+        {
+          "input": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "primary": {
+            "type": "NUMBER",
+            "value": "-0"
+          },
+          "nonfinite": []
+        }
+      ],
+      "arithmeticReview": {
+        "guard": "BEFORE_ARITHMETIC",
+        "validation": "actual finite number AND geographic bounds",
+        "arithmetic": "longitude >180 ? longitude-360 : longitude; latitude unchanged",
+        "rounding": "none",
+        "derived": [
+          "resolvedLatitude or resolvedLongitude"
+        ],
+        "availability": "nullable independent coordinate fields",
+        "quality": "location authority separate",
+        "consumer": "spatial evidence; legacy fallback excluded",
+        "source": "backend/server.js:2036"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "sst:longitude#transport",
+            "role": "transport",
+            "description": "longitude"
+          },
+          {
+            "id": "sst:longitude#validation",
+            "role": "validation",
+            "description": "actual finite number AND geographic bounds"
+          },
+          {
+            "id": "sst:longitude#arithmetic",
+            "role": "arithmetic",
+            "description": "longitude >180 ? longitude-360 : longitude; latitude unchanged"
+          },
+          {
+            "id": "sst:longitude#rounding",
+            "role": "rounding",
+            "description": "none"
+          },
+          {
+            "id": "sst:longitude#normalized",
+            "role": "normalized",
+            "description": "samples.0.providerCoordinates.resolvedLongitude"
+          },
+          {
+            "id": "sst:longitude#availability",
+            "role": "availability",
+            "description": "nullable independent coordinate fields"
+          },
+          {
+            "id": "sst:longitude#quality",
+            "role": "quality",
+            "description": "location authority separate"
+          },
+          {
+            "id": "sst:longitude#consumer",
+            "role": "consumer",
+            "description": "spatial evidence; legacy fallback excluded"
+          }
+        ],
+        "edges": [
+          {
+            "from": "sst:longitude#transport",
+            "to": "sst:longitude#validation"
+          },
+          {
+            "from": "sst:longitude#validation",
+            "to": "sst:longitude#arithmetic"
+          },
+          {
+            "from": "sst:longitude#arithmetic",
+            "to": "sst:longitude#rounding"
+          },
+          {
+            "from": "sst:longitude#rounding",
+            "to": "sst:longitude#normalized"
+          },
+          {
+            "from": "sst:longitude#normalized",
+            "to": "sst:longitude#availability"
+          },
+          {
+            "from": "sst:longitude#normalized",
+            "to": "sst:longitude#quality"
+          },
+          {
+            "from": "sst:longitude#normalized",
+            "to": "sst:longitude#consumer"
+          }
+        ]
+      }
+    }
+  ],
+  "knownOverflow": [
+    {
+      "id": "marine:sea_surface_temperature",
+      "nonfinite": [
+        {
+          "path": "/sst/temperatureFahrenheit",
+          "value": "Infinity"
+        }
+      ]
+    },
+    {
+      "id": "sst:directional",
+      "nonfinite": [
+        {
+          "path": "/samples/0/temperatureFahrenheit",
+          "value": "Infinity"
+        },
+        {
+          "path": "/samples/1/temperatureFahrenheit",
+          "value": "Infinity"
+        },
+        {
+          "path": "/samples/2/temperatureFahrenheit",
+          "value": "Infinity"
+        },
+        {
+          "path": "/samples/3/temperatureFahrenheit",
+          "value": "Infinity"
+        }
+      ]
+    },
+    {
+      "id": "marine:wind_speed_10m",
+      "nonfinite": [
+        {
+          "path": "/wind/speedKnots",
+          "value": "Infinity"
+        }
+      ]
+    },
+    {
+      "id": "marine:wind_gusts_10m",
+      "nonfinite": [
+        {
+          "path": "/wind/gustKnots",
+          "value": "Infinity"
+        }
+      ]
+    },
+    {
+      "id": "marine:wave_height",
+      "nonfinite": [
+        {
+          "path": "/waves/heightFeet",
+          "value": "Infinity"
+        }
+      ]
+    },
+    {
+      "id": "marine:swell_wave_height",
+      "nonfinite": [
+        {
+          "path": "/swell/heightFeet",
+          "value": "Infinity"
+        }
+      ]
+    }
+  ],
+  "newFinding": {
+    "requests": [
+      "/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json",
+      "/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json",
+      "/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json",
+      "/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json"
+    ],
+    "spatial": {
+      "available": false,
+      "observationType": "spatial-current-sampling",
+      "coverage": "unavailable",
+      "requestedSampleCount": 4,
+      "validSampleCount": 0,
+      "failedSampleCount": 4,
+      "sufficientCoverage": false,
+      "sampleRadiusNauticalMiles": 15,
+      "vectors": [
+        {
+          "direction": "north",
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          },
+          "cache": {
+            "status": "miss",
+            "ageSeconds": 0,
+            "ttlSeconds": 300
+          }
+        },
+        {
+          "direction": "east",
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          },
+          "cache": {
+            "status": "miss",
+            "ageSeconds": 0,
+            "ttlSeconds": 300
+          }
+        },
+        {
+          "direction": "south",
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          },
+          "cache": {
+            "status": "miss",
+            "ageSeconds": 0,
+            "ttlSeconds": 300
+          }
+        },
+        {
+          "direction": "west",
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          },
+          "cache": {
+            "status": "miss",
+            "ageSeconds": 0,
+            "ttlSeconds": 300
+          }
+        }
+      ],
+      "measurements": {
+        "minimumSpeedKnots": null,
+        "maximumSpeedKnots": null,
+        "speedRangeKnots": null,
+        "maximumDirectionDifferenceDegrees": null,
+        "spatialVariation": "insufficient-spatial-current-data"
+      },
+      "limitations": [
+        "Fewer than three valid surrounding current vectors were available.",
+        "4 surrounding current samples did not produce a valid vector."
+      ]
+    },
+    "projection": {
+      "available": true,
+      "analysisType": "current-vector-projection",
+      "coverage": "complete",
+      "requestedProjectionCount": 4,
+      "validProjectionCount": 4,
+      "failedProjectionCount": 0,
+      "sufficientCoverage": true,
+      "sampleRadiusNauticalMiles": 15,
+      "projections": [
+        {
+          "sampleDirection": "north",
+          "available": true,
+          "requestedLatitude": 25.25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "vectorMagnitudeMetersPerSecond": {
+            "nonfinite": "Infinity"
+          },
+          "signedRadialMetersPerSecond": -1.7976931348623157E+308,
+          "inwardMetersPerSecond": 0,
+          "outwardMetersPerSecond": 1.7976931348623157E+308,
+          "signedClockwiseTangentialMetersPerSecond": 1.7976931348623157E+308,
+          "absoluteTangentialMetersPerSecond": 1.7976931348623157E+308,
+          "inwardAlignmentDegrees": 90,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1
+        },
+        {
+          "sampleDirection": "east",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -89.72415552025937,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "vectorMagnitudeMetersPerSecond": {
+            "nonfinite": "Infinity"
+          },
+          "signedRadialMetersPerSecond": -1.7976931348623157E+308,
+          "inwardMetersPerSecond": 0,
+          "outwardMetersPerSecond": 1.7976931348623157E+308,
+          "signedClockwiseTangentialMetersPerSecond": -1.7976931348623157E+308,
+          "absoluteTangentialMetersPerSecond": 1.7976931348623157E+308,
+          "inwardAlignmentDegrees": 90,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1
+        },
+        {
+          "sampleDirection": "south",
+          "available": true,
+          "requestedLatitude": 24.75,
+          "requestedLongitude": -90,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "vectorMagnitudeMetersPerSecond": {
+            "nonfinite": "Infinity"
+          },
+          "signedRadialMetersPerSecond": 1.7976931348623157E+308,
+          "inwardMetersPerSecond": 1.7976931348623157E+308,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": -1.7976931348623157E+308,
+          "absoluteTangentialMetersPerSecond": 1.7976931348623157E+308,
+          "inwardAlignmentDegrees": 90,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1
+        },
+        {
+          "sampleDirection": "west",
+          "available": true,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90.27584447974063,
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "eastwardMetersPerSecond": 1.7976931348623157E+308,
+          "northwardMetersPerSecond": 1.7976931348623157E+308,
+          "vectorMagnitudeMetersPerSecond": {
+            "nonfinite": "Infinity"
+          },
+          "signedRadialMetersPerSecond": 1.7976931348623157E+308,
+          "inwardMetersPerSecond": 1.7976931348623157E+308,
+          "outwardMetersPerSecond": 0,
+          "signedClockwiseTangentialMetersPerSecond": 1.7976931348623157E+308,
+          "absoluteTangentialMetersPerSecond": 1.7976931348623157E+308,
+          "inwardAlignmentDegrees": 90,
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1
+        }
+      ],
+      "interpretation": "Current vectors were projected into radial and tangential movement relative to the center of the spatial sample.",
+      "limitations": [
+        "Vector projections describe mathematical movement relative to the center of the sampling field only.",
+        "Positive radial movement is inward and negative radial movement is outward.",
+        "Positive tangential movement is clockwise and negative tangential movement is counterclockwise.",
+        "No convergence, divergence, shear, current edge, rotation, eddy, persistence, habitat, or biological significance is inferred."
+      ],
+      "upstreamContract": {
+        "engine": "current-spatial-structure",
+        "version": null
+      },
+      "contractVersion": "pelora-current-vector-projection-v1"
+    },
+    "nonfinite": [
+      {
+        "path": "/projections/0/vectorMagnitudeMetersPerSecond",
+        "value": "Infinity"
+      },
+      {
+        "path": "/projections/1/vectorMagnitudeMetersPerSecond",
+        "value": "Infinity"
+      },
+      {
+        "path": "/projections/2/vectorMagnitudeMetersPerSecond",
+        "value": "Infinity"
+      },
+      {
+        "path": "/projections/3/vectorMagnitudeMetersPerSecond",
+        "value": "Infinity"
+      }
+    ]
+  },
+  "graphScope": "25 reviewed transport routes plus explicit current projection consumer; not complete consumer closure",
+  "newRoutes": [
+    "current:u_current",
+    "current:v_current"
+  ],
+  "newDerivedField": "projections[].vectorMagnitudeMetersPerSecond",
+  "scientificClaim": "Finite component admission permits nonfinite projected magnitude with available/complete projection state",
+  "speciesScoreOrRankingImpactDemonstrated": false,
+  "completeSixRouteConsumerInventory": false,
+  "unknownConsumersRemain": true,
+  "atomicity": {
+    "sst": "FAILURE_ATOMICITY_UNRESOLVED",
+    "wind": "INDEPENDENT_COMPONENTS",
+    "waves": "INDEPENDENT_COMPONENTS",
+    "swell": "INDEPENDENT_COMPONENTS",
+    "directionsPeriods": "INDEPENDENT_COMPONENTS",
+    "chlorophyll": "ATOMIC_REJECT",
+    "currents": "FAILURE_ATOMICITY_UNRESOLVED",
+    "strictCoordinates": "INDEPENDENT_COMPONENTS"
+  },
+  "failureStateContract": "NOT_QUALIFIED_AFTER_ADDITIONAL_ROUTE_STOP",
+  "candidateDelta": "NONE_APPROVED",
+  "nextGate": "CURRENT VECTOR DERIVED-REPRESENTATION FINITENESS AND ADMISSION SCOPE REVIEW",
+  "openGates": [
+    "numeric-string compatibility",
+    "provider-fill qualification",
+    "legacy SST coordinate fallback",
+    "complete six-route consumer admission",
+    "per-group failure-state policy"
+  ],
+  "verification": {
+    "focusedTests": 7,
+    "regressions": {
+      "scriptCount": 70,
+      "failures": 0,
+      "executions": [
+        {
+          "file": "backend\\tests\\weatherMarineQualityCapture.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/weatherMarineQualityCapture.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\fishingLogAssociationReadiness.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/fishingLogAssociationReadiness.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\transitiveProducerBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/transitiveProducerBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\fishingLocationSpatialEvidence.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/fishingLocationSpatialEvidence.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\temporalHistorySelection.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/temporalHistorySelection.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\fishingDayReportSchema.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/fishingDayReportSchema.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\temporalEvidencePrimitives.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/temporalEvidencePrimitives.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\exactScientificEvidence.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/exactScientificEvidence.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\sstWorker.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/sstWorker.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\exactMarineCapture.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/exactMarineCapture.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\sstProductAdapter.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/sstProductAdapter.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\exactCandidateSnapshotBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/exactCandidateSnapshotBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\sstPostConversionFiniteness.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/sstPostConversionFiniteness.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\environmentalObservationMetadata.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/environmentalObservationMetadata.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\sstNumericIntegrity.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/sstNumericIntegrity.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\dynamicOpportunityFailure.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/dynamicOpportunityFailure.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\sourceNormalizationBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/sourceNormalizationBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\defaultProviderTransitive.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/defaultProviderTransitive.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\sourceNormalizationAmendmentAdversarial.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/sourceNormalizationAmendmentAdversarial.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\defaultProviderSemanticReview.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/defaultProviderSemanticReview.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\snapshotShapeAuthorityBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/snapshotShapeAuthorityBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\currentScientificReconstructionBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/currentScientificReconstructionBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\currentEvidenceCapture.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/currentEvidenceCapture.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\crossRouteFinitenessAtomicity.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/crossRouteFinitenessAtomicity.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\convergenceDecision.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/convergenceDecision.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\convergenceContract.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/convergenceContract.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\completeCandidateEvidenceBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/completeCandidateEvidenceBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\clientPrivilegeHardening.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/clientPrivilegeHardening.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\captureDerivedScientificBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/captureDerivedScientificBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\candidateSnapshotProducerSurface.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/candidateSnapshotProducerSurface.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\candidateSemanticProjectionV2.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/candidateSemanticProjectionV2.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\candidateSemanticProjection.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/candidateSemanticProjection.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\candidateEvidenceSourceBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/candidateEvidenceSourceBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\candidateCaptureResumptionBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/candidateCaptureResumptionBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\candidateCaptureAssemblyBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/candidateCaptureAssemblyBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\cacheIsolatedSnapshotProducer.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/cacheIsolatedSnapshotProducer.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\bathymetryEvidence.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/bathymetryEvidence.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\assessmentAstronomy.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/assessmentAstronomy.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\archiveBoundScienceBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/archiveBoundScienceBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\snapshotProducerQualificationV2.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/snapshotProducerQualificationV2.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\snapshotBranchOptionalityAdversarial.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/snapshotBranchOptionalityAdversarial.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\snapshotBranchOptionality.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/snapshotBranchOptionality.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\signedZeroQualification.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/signedZeroQualification.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\sharedScienceBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/sharedScienceBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\scientificHistoryBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/scientificHistoryBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\scientificAssessment.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/scientificAssessment.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\scalarRuntime.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/scalarRuntime.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\revisedSemanticModel.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/revisedSemanticModel.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\placeIngestion.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/placeIngestion.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\persistenceEnvironment.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/persistenceEnvironment.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\opportunityEvaluationState.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/opportunityEvaluationState.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanSnapshotPrivileges.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanSnapshotPrivileges.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanScalarFieldDelivery.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanScalarFieldDelivery.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanPublicationHistory.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanPublicationHistory.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanPublicationAssessment.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanPublicationAssessment.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanPublication.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanPublication.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanProviderBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanProviderBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanProductFrame.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanProductFrame.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanProductArchive.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanProductArchive.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanPhysicsBoundary.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanPhysicsBoundary.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanFields.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanFields.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\oceanConditions.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/oceanConditions.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\noaaSstPilot.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/noaaSstPilot.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\noaaSstDisplayScale.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/noaaSstDisplayScale.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\marineAssessorCompanionCapture.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/marineAssessorCompanionCapture.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\historicalOceanRequirements.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/historicalOceanRequirements.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\governedPlace.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/governedPlace.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\fishingLogTemporalEvidence.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/fishingLogTemporalEvidence.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\fishingLogEvidenceStorage.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/fishingLogEvidenceStorage.test.js.log"
+        },
+        {
+          "file": "backend\\tests\\fishingLogEvidenceCapture.test.js",
+          "exitCode": 0,
+          "log": ".local/ocean-quarantine/task12b7d/fishingLogEvidenceCapture.test.js.log"
+        }
+      ],
+      "excluded": {
+        "reason": "QUARANTINED_DRAFT",
+        "file": "backend/tests/candidateSemanticProjectionV3.test.js"
+      }
+    },
+    "networkBlocked": true,
+    "syntax": {
+      "failures": 0,
+      "files": 135
+    },
+    "jsonFiles": 68,
+    "whitespaceAndGitDiffCheck": "PASS"
+  },
+  "preservation": {
+    "count": 101,
+    "files": [
+      {
+        "path": "backend/candidateSemanticProjectionV3.mjs",
+        "before": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+        "after": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/assessmentAstronomy.test.js",
+        "before": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c",
+        "after": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+        "before": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+        "after": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+        "before": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+        "after": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/convergenceContract.test.js",
+        "before": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd",
+        "after": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/convergenceDecision.test.js",
+        "before": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a",
+        "after": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/defaultProviderSemanticReview.test.js",
+        "before": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb",
+        "after": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/defaultProviderTransitive.test.js",
+        "before": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28",
+        "after": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+        "before": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a",
+        "after": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+        "before": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+        "after": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceContractFixture.mjs",
+        "before": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef",
+        "after": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+        "before": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a",
+        "after": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+        "before": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef",
+        "after": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+        "before": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba",
+        "after": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+        "before": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138",
+        "after": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+        "before": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1",
+        "after": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+        "before": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade",
+        "after": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/revisedSemanticModelFixture.mjs",
+        "before": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde",
+        "after": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+        "before": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+        "after": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+        "before": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+        "after": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+        "before": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+        "after": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+        "before": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+        "after": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+        "before": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+        "after": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/sourceNormalizationFixture.mjs",
+        "before": "b6bf2800beb6aa5447bb0d81733a9c13b6b5576eda19f715e3c5349ec82feed0",
+        "after": "b6bf2800beb6aa5447bb0d81733a9c13b6b5576eda19f715e3c5349ec82feed0",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+        "before": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+        "after": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/oceanPhysicsBoundary.test.js",
+        "before": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a",
+        "after": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/oceanProviderBoundary.test.js",
+        "before": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f",
+        "after": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/revisedSemanticModel.test.js",
+        "before": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958",
+        "after": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionality.test.js",
+        "before": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+        "after": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+        "before": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+        "after": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+        "before": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+        "after": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+        "before": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725",
+        "after": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/sourceNormalizationBoundary.test.js",
+        "before": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6",
+        "after": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/sstPostConversionFiniteness.test.js",
+        "before": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065",
+        "after": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065",
+        "unchanged": true
+      },
+      {
+        "path": "backend/tests/transitiveProducerBoundary.test.js",
+        "before": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+        "after": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+        "before": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42",
+        "after": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+        "before": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699",
+        "after": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+        "before": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f",
+        "after": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+        "before": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691",
+        "after": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+        "before": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985",
+        "after": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+        "before": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+        "after": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+        "before": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+        "after": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Semantic_Shapes_v3.json",
+        "before": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+        "after": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+        "before": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+        "after": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+        "before": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+        "after": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+        "before": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+        "after": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+        "before": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+        "after": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+        "before": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+        "after": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+        "before": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+        "after": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+        "before": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+        "after": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+        "before": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+        "after": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+        "before": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+        "after": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+        "before": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+        "after": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+        "before": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+        "after": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Preservation_v1.json",
+        "before": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc",
+        "after": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.json",
+        "before": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9",
+        "after": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.md",
+        "before": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5",
+        "after": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.json",
+        "before": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361",
+        "after": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.md",
+        "before": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9",
+        "after": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+        "before": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13",
+        "after": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+        "before": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a",
+        "after": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+        "before": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034",
+        "after": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.json",
+        "before": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf",
+        "after": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.md",
+        "before": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154",
+        "after": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Discovery_v2.json",
+        "before": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56",
+        "after": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Preservation_v1.json",
+        "before": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11",
+        "after": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.json",
+        "before": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5",
+        "after": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.md",
+        "before": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81",
+        "after": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.json",
+        "before": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b",
+        "after": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.md",
+        "before": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd",
+        "after": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Preservation_v1.json",
+        "before": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60",
+        "after": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.json",
+        "before": "7d239af5dd6a72d2565f92b749515f9994104715f9218bde75a593a4e797b7d9",
+        "after": "7d239af5dd6a72d2565f92b749515f9994104715f9218bde75a593a4e797b7d9",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.md",
+        "before": "f9653f531c023dc75e76c423742f6933e629eaf7dcf8eb8b12a89d7d8ed49f52",
+        "after": "f9653f531c023dc75e76c423742f6933e629eaf7dcf8eb8b12a89d7d8ed49f52",
+        "unchanged": true
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.json",
+        "before": "4ef7a5d805629d687a7f73d80968bfd6b5323d258249d3c1c199a4fe59c57cd5",
+        "after": "4ef7a5d805629d687a7f73d80968bfd6b5323d258249d3c1c199a4fe59c57cd5",
+        "unchanged": true
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.md",
+        "before": "30ccb4bcd431ee2de07dedda8ab799facedd35a2c242cf15425fa1143dd26836",
+        "after": "30ccb4bcd431ee2de07dedda8ab799facedd35a2c242cf15425fa1143dd26836",
+        "unchanged": true
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.json",
+        "before": "a1d2533b445d53daa7d2d85d2807e5504e33f05ba120640fd365675c07eeeb08",
+        "after": "a1d2533b445d53daa7d2d85d2807e5504e33f05ba120640fd365675c07eeeb08",
+        "unchanged": true
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+        "before": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798",
+        "after": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798",
+        "unchanged": true
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md",
+        "before": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455",
+        "after": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+        "before": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69",
+        "after": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+        "before": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9",
+        "after": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.md",
+        "before": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f",
+        "after": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+        "before": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd",
+        "after": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.json",
+        "before": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2",
+        "after": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.md",
+        "before": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d",
+        "after": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d",
+        "unchanged": true
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.json",
+        "before": "ad9871e9e8ddaf2da2a9f067e5da908da41e035745c3082b546d4b8d417e239c",
+        "after": "ad9871e9e8ddaf2da2a9f067e5da908da41e035745c3082b546d4b8d417e239c",
+        "unchanged": true
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.md",
+        "before": "399eea9f9ea2a88b0ff066c24527a811a68168c064cf2a1f27c30c7e9ca96ef0",
+        "after": "399eea9f9ea2a88b0ff066c24527a811a68168c064cf2a1f27c30c7e9ca96ef0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+        "before": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+        "after": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+        "before": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+        "after": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+        "before": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+        "after": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.json",
+        "before": "a5e9ae789c3e647b106539a02dcd8b05decb7d6d339b983cbfc01f0e4172115b",
+        "after": "a5e9ae789c3e647b106539a02dcd8b05decb7d6d339b983cbfc01f0e4172115b",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.md",
+        "before": "dd03ad74610801786b3d0f69d14c4ebddcb63b2b0f7dbdfe2eed19f6fc69055a",
+        "after": "dd03ad74610801786b3d0f69d14c4ebddcb63b2b0f7dbdfe2eed19f6fc69055a",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.json",
+        "before": "44e9d432329a46888b671dc651b3141afae5a6e36c271223da88cf2f3a2b762a",
+        "after": "44e9d432329a46888b671dc651b3141afae5a6e36c271223da88cf2f3a2b762a",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.md",
+        "before": "aff3dc65cd2509ea79fab7a6037599cd9a5b9a4bc5a9cf7597163709d6335aef",
+        "after": "aff3dc65cd2509ea79fab7a6037599cd9a5b9a4bc5a9cf7597163709d6335aef",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.json",
+        "before": "8dc9a822ec1127c89b3928903291587747be9cbb67aade535a07fb4aee2d9af0",
+        "after": "8dc9a822ec1127c89b3928903291587747be9cbb67aade535a07fb4aee2d9af0",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.md",
+        "before": "c4e2dde4d318db30e0a570c389ac8d2d48fd599252311eb6204d856324ea402b",
+        "after": "c4e2dde4d318db30e0a570c389ac8d2d48fd599252311eb6204d856324ea402b",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+        "before": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+        "after": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+        "before": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+        "after": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+        "before": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+        "after": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7",
+        "unchanged": true
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+        "before": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+        "after": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f",
+        "unchanged": true
+      },
+      {
+        "path": "supabase/.gitignore",
+        "before": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+        "after": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+        "unchanged": true
+      },
+      {
+        "path": "supabase/config.toml",
+        "before": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2",
+        "after": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2",
+        "unchanged": true
+      }
+    ]
+  },
+  "filesCreated": [
+    "backend/tests/crossRouteFinitenessAtomicity.test.js",
+    "backend/tests/fixtures/crossRouteFinitenessFixture.mjs",
+    "docs/Cross_Route_Finiteness_Atomicity_v1.json",
+    "docs/Cross_Route_Finiteness_Atomicity_v1.md"
+  ],
+  "productionUnchanged": true,
+  "task12B6C": "PAUSED",
+  "task9ED": "PAUSED",
+  "oceanPhysics": "PAUSED",
+  "noaaSME": "PENDING_PER_USER_CONTEXT",
+  "providerDatabaseAuthSupabaseAccess": false,
+  "environmentalAcquisition": false,
+  "stagingCommitTagPushDeployment": false
+}
