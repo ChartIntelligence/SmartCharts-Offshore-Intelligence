@@ -1,0 +1,1585 @@
+{
+  "contractVersion": "pelora-candidate-semantic-projection-v3",
+  "predecessor": "pelora-candidate-semantic-projection-v2",
+  "frozenDeltaSha256": "411cad24daa77e21c9227185ce1b093a10d91d431efdb12bf8d6582fed29878a",
+  "delta": [
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/confidence/axisSeparationFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/confidence/axisSeparationFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/confidence/dominantDirectionalDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/confidence/dominantDirectionalDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/confidence/reasons/*",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "string"
+      ],
+      "stringValues": [
+        "minimal-total-temperature-range",
+        "moderate-total-temperature-range",
+        "weak-total-temperature-range"
+      ],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/confidence/reasons/1"
+      ],
+      "scenarios": [
+        "mixed-signed-zero",
+        "moderate-range",
+        "negative-zero",
+        "positive-zero",
+        "uniform",
+        "weak-range"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/reasons/*",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/confidence/sampleAgeHours",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/confidence/sampleAgeHours"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "missing-time"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/confidence/secondaryDirectionalDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/orientation/coolSide",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/orientation/coolSide"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/coolSide",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/orientation/dominantAxis",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/orientation/dominantAxis"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/dominantAxis",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/orientation/dominantDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/orientation/dominantDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/orientation/eastWestDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/orientation/eastWestDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/orientation/northSouthDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/orientation/northSouthDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/orientation/warmSide",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/evidence/groups/temperature/orientation/warmSide"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/warmSide",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildTemperatureEvidence -> buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "string"
+      ],
+      "stringValues": [
+        "at-least-three-valid-spatial-samples",
+        "consistent-spatial-sample-observation-time",
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification"
+      ],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/0",
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/1",
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/2",
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/3"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "missing-time",
+        "mixed-represented-times",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_SCIENTIFIC_SHAPE",
+      "source": "/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "missing-time",
+        "mixed-represented-times",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_SCIENTIFIC_SHAPE",
+      "source": "/sst/derived/governedEnvironmentalFeatureObservation/observationReference",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "missing-time",
+        "mixed-represented-times"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_SCIENTIFIC_SHAPE",
+      "source": "/sst/derived/governedEnvironmentalFeatureObservation/observedAt",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/classification"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/classification",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "string"
+      ],
+      "stringValues": [
+        "minimal-total-temperature-range",
+        "moderate-total-temperature-range",
+        "weak-total-temperature-range"
+      ],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/1"
+      ],
+      "scenarios": [
+        "mixed-signed-zero",
+        "moderate-range",
+        "negative-zero",
+        "positive-zero",
+        "uniform",
+        "weak-range"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/reasons/*",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "missing-time"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/maximumFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/minimumFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/coolSide",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantAxis",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantAxis"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/dominantAxis",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "mixed-signed-zero",
+        "negative-zero",
+        "positive-zero",
+        "uniform"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/orientation/warmSide",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-12",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/rangeFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/observedAt",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/observedAt",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/observedAt",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/observedAt",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/observedAt"
+      ],
+      "scenarios": [
+        "missing-time"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/samples/*/observedAt",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/temperatureCelsius",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureCelsius",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/temperatureCelsius",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureCelsius"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/samples/*/temperatureCelsius",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/temperatureFahrenheit",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0/temperatureFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1/temperatureFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2/temperatureFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3/temperatureFahrenheit"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_ALIAS",
+      "source": "/sst/derived/spatialStructure/samples/*/temperatureFahrenheit",
+      "producer": "getSstSpatialStructureAtAssessment / assessSstTransitionConfidence",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/temperatureBand",
+      "kinds": [
+        "value"
+      ],
+      "types": [
+        "null"
+      ],
+      "stringValues": [],
+      "concretePaths": [
+        "/observationSnapshot/observations/sst/derived/temperatureBand"
+      ],
+      "scenarios": [
+        "center-and-directions-missing",
+        "center-missing-directions-present"
+      ],
+      "disposition": "QUALIFIED_SNAPSHOT_SCIENTIFIC_SHAPE",
+      "source": "/sst/derived/temperatureBand",
+      "producer": "classifySeaSurfaceTemperature",
+      "carrier": "buildObservationSnapshot structuredClone",
+      "authority": "CURRENT_OCEAN_SCIENTIFIC_EVIDENCE"
+    }
+  ],
+  "confidenceVocabulary": [
+    "clear-dominant-axis",
+    "competing-directional-signals",
+    "complete-four-point-coverage",
+    "insufficient-spatial-coverage",
+    "minimal-total-temperature-range",
+    "moderate-directional-difference",
+    "moderate-total-temperature-range",
+    "moderately-distinct-axis",
+    "no-clear-directional-orientation",
+    "partial-but-sufficient-coverage",
+    "recent-samples",
+    "same-day-samples",
+    "sample-time-unavailable",
+    "samples-within-24-hours",
+    "single-axis-only",
+    "stale-samples",
+    "strong-directional-difference",
+    "strong-total-temperature-range",
+    "weak-directional-difference",
+    "weak-total-temperature-range"
+  ],
+  "requirementVocabulary": [
+    "at-least-three-valid-spatial-samples",
+    "consistent-spatial-sample-observation-time",
+    "sufficient-spatial-coverage",
+    "supported-temperature-transition-classification"
+  ],
+  "confidenceArrays": [
+    [
+      "insufficient-spatial-coverage",
+      "no-clear-directional-orientation",
+      "single-axis-only",
+      "sample-time-unavailable"
+    ],
+    [
+      "insufficient-spatial-coverage",
+      "no-clear-directional-orientation",
+      "single-axis-only",
+      "recent-samples"
+    ],
+    [
+      "insufficient-spatial-coverage",
+      "strong-directional-difference",
+      "single-axis-only",
+      "recent-samples"
+    ],
+    [
+      "partial-but-sufficient-coverage",
+      "strong-total-temperature-range",
+      "strong-directional-difference",
+      "single-axis-only",
+      "recent-samples"
+    ],
+    [
+      "complete-four-point-coverage",
+      "strong-total-temperature-range",
+      "strong-directional-difference",
+      "competing-directional-signals",
+      "recent-samples"
+    ],
+    [
+      "complete-four-point-coverage",
+      "minimal-total-temperature-range",
+      "no-clear-directional-orientation",
+      "competing-directional-signals",
+      "recent-samples"
+    ],
+    [
+      "complete-four-point-coverage",
+      "strong-total-temperature-range",
+      "strong-directional-difference",
+      "competing-directional-signals",
+      "sample-time-unavailable"
+    ],
+    [
+      "complete-four-point-coverage",
+      "weak-total-temperature-range",
+      "weak-directional-difference",
+      "moderately-distinct-axis",
+      "recent-samples"
+    ],
+    [
+      "complete-four-point-coverage",
+      "moderate-total-temperature-range",
+      "moderate-directional-difference",
+      "clear-dominant-axis",
+      "recent-samples"
+    ],
+    [
+      "complete-four-point-coverage",
+      "strong-total-temperature-range",
+      "strong-directional-difference",
+      "competing-directional-signals",
+      "same-day-samples"
+    ],
+    [
+      "complete-four-point-coverage",
+      "strong-total-temperature-range",
+      "strong-directional-difference",
+      "competing-directional-signals",
+      "samples-within-24-hours"
+    ],
+    [
+      "complete-four-point-coverage",
+      "strong-total-temperature-range",
+      "strong-directional-difference",
+      "competing-directional-signals",
+      "stale-samples"
+    ]
+  ],
+  "featureStates": [
+    [
+      "insufficient",
+      null,
+      0,
+      0,
+      false,
+      [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples",
+        "consistent-spatial-sample-observation-time"
+      ],
+      true,
+      true
+    ],
+    [
+      "insufficient",
+      null,
+      1,
+      1,
+      false,
+      [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      true,
+      false
+    ],
+    [
+      "insufficient",
+      null,
+      2,
+      2,
+      false,
+      [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      true,
+      false
+    ],
+    [
+      "sufficient",
+      "strong-temperature-break-candidate",
+      3,
+      3,
+      true,
+      [],
+      false,
+      false
+    ],
+    [
+      "sufficient",
+      "strong-temperature-break-candidate",
+      4,
+      4,
+      true,
+      [],
+      false,
+      false
+    ],
+    [
+      "sufficient",
+      "uniform-water",
+      4,
+      4,
+      false,
+      [
+        "supported-temperature-transition-classification"
+      ],
+      true,
+      false
+    ],
+    [
+      "sufficient",
+      "strong-temperature-break-candidate",
+      4,
+      0,
+      false,
+      [
+        "at-least-three-valid-spatial-samples",
+        "consistent-spatial-sample-observation-time"
+      ],
+      true,
+      true
+    ],
+    [
+      "sufficient",
+      "weak-temperature-transition",
+      4,
+      4,
+      true,
+      [],
+      false,
+      false
+    ],
+    [
+      "sufficient",
+      "moderate-temperature-transition",
+      4,
+      4,
+      true,
+      [],
+      false,
+      false
+    ],
+    [
+      "sufficient",
+      "strong-temperature-break-candidate",
+      4,
+      4,
+      false,
+      [
+        "consistent-spatial-sample-observation-time"
+      ],
+      true,
+      true
+    ]
+  ],
+  "limitations": [
+    "Controlled producer shape authority only",
+    "No numeric or reference-content recomputation/authentication",
+    "A shape-valid changed reference remains a scientific comparison difference",
+    "No candidate reconstruction qualification"
+  ],
+  "reviewedTemporalAuthority": [
+    {
+      "path": "/observationSnapshot/dataQuality/layers/chlorophyll/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/chlorophyll/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/currents/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/currents/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/moon/observedAt",
+      "role": "SCIENTIFIC_ASSESSMENT_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/sst/observedAt",
+      "role": "QUALITY_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/swell/observedAt",
+      "role": "QUALITY_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/waves/observedAt",
+      "role": "QUALITY_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/dataQuality/layers/wind/observedAt",
+      "role": "QUALITY_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/clarity/values/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/clarity/values/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/*/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/*/cache/ageSeconds",
+      "role": "OPERATIONAL_EXECUTION_TIME",
+      "note": "Cache duration/TTL, not environmental represented time or scientific age."
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/*/cache/ttlSeconds",
+      "role": "OPERATIONAL_EXECUTION_TIME",
+      "note": "Cache duration/TTL, not environmental represented time or scientific age."
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/spatialAnalysis/spatialStructure/vectors/*/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/spatialAnalysis/vectorProjection/projections/*/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/spatialAnalysis/vectorProjection/projections/*/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/values/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/current/values/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/productivity/values/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/productivity/values/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/structure/values/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/structure/values/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/confidence/sampleAgeHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/evidence/groups/temperature/observationProvenance/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/generatedAt",
+      "role": "RETRIEVAL_SNAPSHOT_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/chlorophyll/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/observations/chlorophyll/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/*/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/*/cache/ageSeconds",
+      "role": "OPERATIONAL_EXECUTION_TIME",
+      "note": "Cache duration/TTL, not environmental represented time or scientific age."
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/*/cache/ttlSeconds",
+      "role": "OPERATIONAL_EXECUTION_TIME",
+      "note": "Cache duration/TTL, not environmental represented time or scientific age."
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/derived/spatialAnalysis/spatialStructure/vectors/*/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/derived/spatialAnalysis/vectorProjection/projections/*/ageHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/derived/spatialAnalysis/vectorProjection/projections/*/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/currents/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/samplingFootprint/samples/*/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours",
+      "role": [
+        "REPRESENTED_ENVIRONMENTAL_TIME",
+        "SCIENTIFIC_ASSESSMENT_TIME"
+      ],
+      "note": "Derived duration, not a timestamp; retained without recalculation"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/cache/ageSeconds",
+      "role": "OPERATIONAL_EXECUTION_TIME",
+      "note": "Cache duration/TTL, not environmental represented time or scientific age."
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/cache/ttlSeconds",
+      "role": "OPERATIONAL_EXECUTION_TIME",
+      "note": "Cache duration/TTL, not environmental represented time or scientific age."
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observations/sst/observedAt",
+      "role": "REPRESENTED_ENVIRONMENTAL_TIME",
+      "note": "Exact producer field retained; no substitution"
+    },
+    {
+      "path": "/observationSnapshot/observedAt",
+      "role": "QUALITY_TIME",
+      "note": "Exact producer field retained; no substitution"
+    }
+  ],
+  "temporalAuditNote": "Phase A temporalRole is a lexical discovery hint, not authority. This reviewed map preserves the locked exact-path temporal roles, including QUALITY_TIME and operational cache durations. No delta path, type, or semantic surface changes."
+}
