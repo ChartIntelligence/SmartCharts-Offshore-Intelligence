@@ -1,0 +1,18 @@
+{
+  "expectedHashes": {
+    "backend/candidateSemanticProjectionV3.mjs": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e",
+    "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09",
+    "backend/tests/candidateSemanticProjectionV3.test.js": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab",
+    "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe",
+    "backend/tests/cacheIsolatedSnapshotProducer.test.js": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+    "docs/Candidate_Semantic_Shapes_v3.json": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c",
+    "docs/Candidate_Snapshot_Producer_Surface_v2.json": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03",
+    "docs/Candidate_Snapshot_Authority_Freeze_v1.json": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852",
+    "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+    "docs/Candidate_Snapshot_Producer_Branches_v1.json": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5",
+    "docs/Candidate_Snapshot_Producer_Scenarios_v1.json": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e",
+    "backend/tests/fixtures/snapshotProducerBranchAudit.mjs": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d"
+  },
+  "status": "BEFORE_AFTER_BYTE_GUARD_ONLY_NOT_AUTHORITY",
+  "version": "pelora-snapshot-harness-v2-preservation-v1"
+}

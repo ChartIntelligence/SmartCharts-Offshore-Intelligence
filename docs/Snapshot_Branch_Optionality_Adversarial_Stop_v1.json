@@ -1,0 +1,499 @@
+{
+  "version": "pelora-snapshot-branch-optionality-adversarial-stop-v1",
+  "verdict": "CALLER_CONTRACT_EXCLUSION_NOT_ENFORCED",
+  "withdrawn": "SNAPSHOT_PRODUCER_BRANCH_AUTHORITY_QUALIFIED",
+  "domainConstraints": [
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "location",
+      "production": "Caller accepts other valid locations; no fixed 25,-91 invariant.",
+      "predicateDescription": "latitude === 25 && longitude === -91"
+    },
+    {
+      "origin": "UPSTREAM_GOVERNED",
+      "id": "nonpolar",
+      "production": "Sampler branch predicate is code-defined; production does not require callers to stay inside it. Fixed latitude 25 is a test restriction.",
+      "predicateDescription": "Math.abs(Math.cos(latitude * Math.PI / 180)) > 0.01"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "auxiliary-source-location",
+      "production": "Fixture spatialCorpus queries this location; not a production global source location.",
+      "predicateDescription": "auxiliary latitude === 25 && auxiliary longitude === -90"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "chlorophyll",
+      "production": "getChlorophyllConditionsAtAssessment explicitly accepts no-valid-pixel.",
+      "predicateDescription": "concentrationMgM3 === 0.1 && source available"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "currents",
+      "production": "Production samples provider currents; no schema enforces uniform .5/.2.",
+      "predicateDescription": "u_current === 0.5 && v_current === 0.2 at every sample"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "weather",
+      "production": "parsed fixture defaults; actual parsers admit other values/missing states.",
+      "predicateDescription": "raw wind_speed_10m === 4 && wind_gusts_10m === 6 && wind_direction_10m === 90"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "marine",
+      "production": "parsed fixture defaults, not fixed production weather/marine science.",
+      "predicateDescription": "raw wave_height === 1 && wave_direction === 90 && wave_period === 7 && swell_wave_height === 0.5 && swell_wave_direction === 90 && swell_wave_period === 8"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "sst",
+      "production": "Actual parser maps unsupported temperature values to missing; fixture domain is narrower than all transport forms.",
+      "predicateDescription": "center and four directional inputs are finite numbers or null"
+    },
+    {
+      "origin": "UPSTREAM_GOVERNED",
+      "id": "sample-count",
+      "production": "Normal sampler path only; actual request caller also has rejected-assembly fallback samples: [].",
+      "predicateDescription": "nonpolar sampler yields four cardinal roles"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "time",
+      "production": "Explicit assessment and future-evidence guard are governed; these exact literals are fixture values.",
+      "predicateDescription": "assessmentAt === 2026-09-24T01:00:00Z; sample times are past UTC or null"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "static-candidate",
+      "production": "No global candidate/static identity qualification from this selection.",
+      "predicateDescription": "composite uses first governed fixture candidate; candidateContext is outside observationSnapshot input"
+    },
+    {
+      "origin": "TEST_FIXTURE_ONLY",
+      "id": "caller-structures",
+      "production": "Actual getOceanConditionsAtAssessment settles calls and constructs fallbacks; this transitive caller is absent from the range allowlist.",
+      "predicateDescription": "composite directly supplies successful assembler objects"
+    }
+  ],
+  "counterexample": {
+    "snapshotAvailable": true,
+    "normalizedConcentration": null,
+    "transport": "chlorophyll table with correct columns and rows: []",
+    "oppositeCoverageScenario": "finite-chlorophyll-control",
+    "rangeId": "buildSurfaceWaterCharacterAnalysis:232417:232423",
+    "positiveCoverageScenario": "fulfilled-no-valid-chlorophyll-pixel",
+    "normalizedAvailability": "no-valid-pixel",
+    "sourceFile": "backend/server.js",
+    "line": 11928,
+    "distinction": "Accepted production input; excluded only by the finite-chlorophyll fixture restriction.",
+    "location": {
+      "latitude": 25,
+      "longitude": -90
+    }
+  },
+  "extractionDefect": {
+    "status": "TRANSITIVE_CALLER_PREDICATE_MISSING_FROM_SELECTED_RANGE_AUDIT",
+    "predicate": "sstSpatialResult.status === fulfilled",
+    "fallback": "samples: [], classification: null, coverage: unavailable, without orientation/confidence",
+    "omittedFunction": "getOceanConditionsAtAssessment"
+  },
+  "callerExclusionGroups": [
+    {
+      "count": 32,
+      "claimedInvariant": "assessOceanEvidence unconditionally returns its groups, physics, organization, confidence, summary and lineage contracts, including unavailable temperature states. Their return literals contain the version/interpretation labels copied here. Snapshot arguments include observations and quality; limitations remains an array.",
+      "rangeIds": [
+        "buildObservationSnapshot:314360:314369",
+        "buildObservationSnapshot:314476:314489",
+        "buildObservationSnapshot:314563:314576",
+        "buildObservationSnapshot:314652:314665",
+        "buildObservationSnapshot:314767:314780",
+        "buildObservationSnapshot:314856:314869",
+        "buildObservationSnapshot:314949:314962",
+        "buildObservationSnapshot:315041:315052",
+        "buildObservationSnapshot:315147:315160",
+        "buildObservationSnapshot:315248:315261",
+        "buildObservationSnapshot:315341:315354",
+        "buildObservationSnapshot:315444:315457",
+        "buildObservationSnapshot:315537:315550",
+        "buildObservationSnapshot:315694:315707",
+        "buildObservationSnapshot:315813:315826",
+        "buildObservationSnapshot:315924:315937",
+        "buildObservationSnapshot:316037:316050",
+        "buildObservationSnapshot:316176:316189",
+        "buildObservationSnapshot:316289:316302",
+        "buildObservationSnapshot:316406:316419",
+        "buildObservationSnapshot:316546:316559",
+        "buildObservationSnapshot:316635:316648",
+        "buildObservationSnapshot:316739:316752",
+        "buildObservationSnapshot:316814:316827",
+        "buildObservationSnapshot:317088:317166",
+        "buildObservationSnapshot:317375:317379",
+        "buildObservationSnapshot:317619:317679",
+        "buildObservationSnapshot:318602:318607",
+        "buildObservationSnapshot:318723:318740",
+        "buildObservationSnapshot:319077:319092",
+        "buildObservationSnapshot:319286:319303",
+        "buildObservationSnapshot:319451:319468"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 9,
+      "claimedInvariant": "Caller passes only the actual spatialStructure, with fixed thresholdVersion, radius 15 and four-entry samples array. Feature/source/type overrides are omitted, so producer defaults apply. None of these fallbacks can be reached by varying SST values, times or transport rejection.",
+      "rangeIds": [
+        "buildGovernedEnvironmentalFeatureObservationV1:482468:482474",
+        "buildGovernedEnvironmentalFeatureObservationV1:482571:482637",
+        "buildGovernedEnvironmentalFeatureObservationV1:482644:482667",
+        "buildGovernedEnvironmentalFeatureObservationV1:483139:483145",
+        "buildGovernedEnvironmentalFeatureObservationV1:484017:484021",
+        "buildGovernedEnvironmentalFeatureObservationV1:490295:490301",
+        "buildGovernedEnvironmentalFeatureObservationV1:490388:490394",
+        "buildGovernedEnvironmentalFeatureObservationV1:490605:490611",
+        "buildGovernedEnvironmentalFeatureObservationV1:490726:490732"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 1,
+      "claimedInvariant": "dataQuality.lineage.warnings is an array from the unchanged quality assembler for the fixed marine input. The array fallback requires a different caller shape.",
+      "rangeIds": [
+        "assessOceanEvidence:186111:186115"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 1,
+      "claimedInvariant": "Every cloneSnapshotValue call in buildObservationSnapshot supplies a concrete assembled object or explicitly coalesces to null/{}. dataQuality is the fixed quality-assembler object. No argument can be undefined.",
+      "rangeIds": [
+        "cloneSnapshotValue:313181:313203"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 2,
+      "claimedInvariant": "Fixed spatial current is uniform (no variation, shear, convergence or edge). Only thermal contribution (at most 2), surface boundary (at most 1) and water-mass boundary (at most 1) can contribute. Thus organizationIndex <=4, below both 5 and 8.",
+      "rangeIds": [
+        "buildOceanOrganizationAnalysis:307221:307532",
+        "buildOceanOrganizationAnalysis:307584:307868"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 3,
+      "claimedInvariant": "Promise.allSettled preserves array length/order. samplePoints[index] is the same four-cardinal entry used to create the corresponding promise; each entry has a direction and finite requested coordinates at 25,-91.",
+      "rangeIds": [
+        "getSstSpatialStructureAtAssessment:135987:136006",
+        "getSstSpatialStructureAtAssessment:136095:136114",
+        "getSstSpatialStructureAtAssessment:136205:136224"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 3,
+      "claimedInvariant": "Snapshot location is the explicit finite scenario coordinate pair 25,-91. Provider-coordinate omission uses requested coordinates and does not replace the scenario location.",
+      "rangeIds": [
+        "buildObservationSnapshot:313894:313900",
+        "buildObservationSnapshot:314009:314015",
+        "buildObservationSnapshot:317483:317546"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 15,
+      "claimedInvariant": "The actual route assembly supplies derived spatialStructure and feature observation objects. Spatial coverage/orientation/confidence/limitations, finite neighbor counts, expected count 4 and radius 15 always exist. A true governedObservationAvailable gate additionally requires the available feature contract whose types/source/time are populated.",
+      "rangeIds": [
+        "buildTemperatureEvidence:204233:204261",
+        "buildTemperatureEvidence:204262:204273",
+        "buildTemperatureEvidence:204391:204402",
+        "buildTemperatureEvidence:206050:206067",
+        "buildTemperatureEvidence:206259:206278",
+        "buildTemperatureEvidence:206461:206480",
+        "buildTemperatureEvidence:206664:206683",
+        "buildTemperatureEvidence:206869:206888",
+        "buildTemperatureEvidence:207500:207520",
+        "buildTemperatureEvidence:207586:207597",
+        "buildTemperatureEvidence:207661:207672",
+        "buildTemperatureEvidence:208144:208148",
+        "buildTemperatureEvidence:212347:212353",
+        "buildTemperatureEvidence:212559:212565",
+        "buildTemperatureEvidence:212783:212789"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 2,
+      "claimedInvariant": "The composite caller supplies the fixed marine observedAt string and explicit retrieval string. SST represented time is independent of both.",
+      "rangeIds": [
+        "buildObservationSnapshot:318426:318432",
+        "buildObservationSnapshot:318528:318534"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 12,
+      "claimedInvariant": "The fixed auxiliary current/chlorophyll parser outputs are finite and have explicit represented time. Their unchanged evidence assemblers populate values.observedAt, ageHours and freshness before open-water assembly.",
+      "rangeIds": [
+        "assessOceanEvidence:183810:183842",
+        "assessOceanEvidence:183843:183860",
+        "assessOceanEvidence:183930:183960",
+        "assessOceanEvidence:183961:183978",
+        "assessOceanEvidence:184050:184081",
+        "assessOceanEvidence:184082:184104",
+        "assessOceanEvidence:184757:184794",
+        "assessOceanEvidence:184795:184812",
+        "assessOceanEvidence:184887:184922",
+        "assessOceanEvidence:184923:184940",
+        "assessOceanEvidence:185017:185053",
+        "assessOceanEvidence:185054:185076"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 1,
+      "claimedInvariant": "The reviewed caller supplies location with latitude and longitude only, never a display name.",
+      "rangeIds": [
+        "buildObservationSnapshot:318295:318310"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 40,
+      "claimedInvariant": "These branches require current edge/shear/convergence or combined hydrodynamic interaction. The fixed auxiliary transport returns the same u=.5,v=.2 at every current location; unchanged spatial current assemblers report uniform current and no detected edge/shear/convergence. Thermal variations alone cannot make any hydrodynamic antecedent true.",
+      "rangeIds": [
+        "buildSurfaceWaterCharacterAnalysis:230875:230931",
+        "buildSurfaceWaterCharacterAnalysis:235286:235331",
+        "buildSurfaceWaterCharacterAnalysis:235501:235533",
+        "buildSurfaceWaterCharacterAnalysis:235633:235703",
+        "buildSurfaceWaterCharacterAnalysis:235834:236028",
+        "buildSurfaceWaterCharacterAnalysis:236352:236397",
+        "buildSurfaceWaterCharacterAnalysis:236570:236613",
+        "buildSurfaceWaterCharacterAnalysis:236716:236797",
+        "buildSurfaceWaterCharacterAnalysis:236931:237094",
+        "buildSurfaceWaterCharacterAnalysis:237311:237808",
+        "buildWaterMassAnalysis:243715:243771",
+        "buildWaterMassAnalysis:246774:246806",
+        "buildWaterMassAnalysis:246813:247251",
+        "buildWaterMassAnalysis:247291:247319",
+        "buildWaterMassAnalysis:247326:248045",
+        "buildMixingZoneAnalysis:253746:253802",
+        "buildMixingZoneAnalysis:253906:253976",
+        "buildMixingZoneAnalysis:254062:254120",
+        "buildMixingZoneAnalysis:256615:256647",
+        "buildMixingZoneAnalysis:256654:257166",
+        "buildMixingZoneAnalysis:257213:258329",
+        "buildEnvironmentalTransitionAnalysis:264880:264936",
+        "buildEnvironmentalTransitionAnalysis:265040:265110",
+        "buildEnvironmentalTransitionAnalysis:265196:265254",
+        "buildEnvironmentalTransitionAnalysis:266557:266673",
+        "buildEnvironmentalTransitionAnalysis:269859:269895",
+        "buildEnvironmentalTransitionAnalysis:269902:270633",
+        "buildEnvironmentalTransitionAnalysis:270680:270708",
+        "buildEnvironmentalTransitionAnalysis:270715:271447",
+        "buildEnvironmentalTransitionAnalysis:271489:272218",
+        "buildOceanFrontAnalysis:280549:280575",
+        "buildOceanFrontAnalysis:280642:280774",
+        "buildOceanFrontAnalysis:282546:282582",
+        "buildOceanFrontAnalysis:282589:283158",
+        "buildOceanFrontAnalysis:283199:283234",
+        "buildOceanFrontAnalysis:283241:283856",
+        "buildOceanFrontAnalysis:283905:284634",
+        "buildOceanOrganizationAnalysis:300795:300853",
+        "buildOceanOrganizationAnalysis:300957:301027",
+        "buildOceanOrganizationAnalysis:301117:301173"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 131,
+      "claimedInvariant": "This defensive fallback receives the actual upstream evidence object, not a user-supplied partial object. assessOceanEvidence constructs every physics stage and the snapshot caller passes all of them. Their return literals contain the referenced classification/state/contract/lineage/limitations fields. Fixed finite chlorophyll supplies populated productivity/clarity values; fixed uniform-current assembly supplies finite signal counts and spatial subcontracts. Empty arrays remain arrays. No SST branch deletes these outer fields.",
+      "rangeIds": [
+        "buildSurfaceWaterCharacterAnalysis:230694:230705",
+        "buildSurfaceWaterCharacterAnalysis:231009:231029",
+        "buildSurfaceWaterCharacterAnalysis:231224:231244",
+        "buildSurfaceWaterCharacterAnalysis:231520:231531",
+        "buildSurfaceWaterCharacterAnalysis:232048:232117",
+        "buildSurfaceWaterCharacterAnalysis:232118:232129",
+        "buildSurfaceWaterCharacterAnalysis:232199:232210",
+        "buildSurfaceWaterCharacterAnalysis:232417:232423",
+        "buildSurfaceWaterCharacterAnalysis:232508:232524",
+        "buildSurfaceWaterCharacterAnalysis:237984:237988",
+        "buildSurfaceWaterCharacterAnalysis:238136:238140",
+        "buildSurfaceWaterCharacterAnalysis:238278:238282",
+        "buildSurfaceWaterCharacterAnalysis:238428:238432",
+        "buildSurfaceWaterCharacterAnalysis:240075:240092",
+        "buildSurfaceWaterCharacterAnalysis:240720:240735",
+        "buildSurfaceWaterCharacterAnalysis:240810:240825",
+        "buildSurfaceWaterCharacterAnalysis:241032:241049",
+        "buildSurfaceWaterCharacterAnalysis:241197:241214",
+        "buildSurfaceWaterCharacterAnalysis:241358:241375",
+        "buildSurfaceWaterCharacterAnalysis:241515:241532",
+        "buildWaterMassAnalysis:242191:242211",
+        "buildWaterMassAnalysis:242289:242309",
+        "buildWaterMassAnalysis:243534:243545",
+        "buildWaterMassAnalysis:244423:244429",
+        "buildWaterMassAnalysis:244486:244492",
+        "buildWaterMassAnalysis:248811:248815",
+        "buildWaterMassAnalysis:248961:248965",
+        "buildWaterMassAnalysis:249113:249117",
+        "buildWaterMassAnalysis:249255:249259",
+        "buildWaterMassAnalysis:249405:249409",
+        "buildWaterMassAnalysis:251122:251137",
+        "buildWaterMassAnalysis:251212:251227",
+        "buildWaterMassAnalysis:251632:251649",
+        "buildWaterMassAnalysis:251787:251804",
+        "buildWaterMassAnalysis:251952:251969",
+        "buildWaterMassAnalysis:252113:252130",
+        "buildWaterMassAnalysis:252270:252287",
+        "buildMixingZoneAnalysis:253401:253412",
+        "buildMixingZoneAnalysis:253477:253488",
+        "buildMixingZoneAnalysis:253567:253578",
+        "buildMixingZoneAnalysis:253645:253656",
+        "buildMixingZoneAnalysis:259089:259093",
+        "buildMixingZoneAnalysis:259259:259263",
+        "buildMixingZoneAnalysis:259409:259413",
+        "buildMixingZoneAnalysis:259559:259563",
+        "buildMixingZoneAnalysis:259723:259727",
+        "buildMixingZoneAnalysis:259875:259879",
+        "buildMixingZoneAnalysis:261679:261696",
+        "buildMixingZoneAnalysis:261857:261874",
+        "buildMixingZoneAnalysis:262012:262029",
+        "buildMixingZoneAnalysis:262169:262186",
+        "buildMixingZoneAnalysis:262340:262357",
+        "buildMixingZoneAnalysis:262499:262516",
+        "buildEnvironmentalTransitionAnalysis:263231:263251",
+        "buildEnvironmentalTransitionAnalysis:263328:263348",
+        "buildEnvironmentalTransitionAnalysis:264535:264546",
+        "buildEnvironmentalTransitionAnalysis:264611:264622",
+        "buildEnvironmentalTransitionAnalysis:264701:264712",
+        "buildEnvironmentalTransitionAnalysis:264779:264790",
+        "buildEnvironmentalTransitionAnalysis:273008:273012",
+        "buildEnvironmentalTransitionAnalysis:273170:273174",
+        "buildEnvironmentalTransitionAnalysis:273334:273338",
+        "buildEnvironmentalTransitionAnalysis:273484:273488",
+        "buildEnvironmentalTransitionAnalysis:273634:273638",
+        "buildEnvironmentalTransitionAnalysis:273798:273802",
+        "buildEnvironmentalTransitionAnalysis:273950:273954",
+        "buildEnvironmentalTransitionAnalysis:276305:276322",
+        "buildEnvironmentalTransitionAnalysis:276466:276483",
+        "buildEnvironmentalTransitionAnalysis:276629:276646",
+        "buildEnvironmentalTransitionAnalysis:276784:276801",
+        "buildEnvironmentalTransitionAnalysis:276941:276958",
+        "buildEnvironmentalTransitionAnalysis:277112:277129",
+        "buildEnvironmentalTransitionAnalysis:277271:277288",
+        "buildOceanFrontAnalysis:277796:277816",
+        "buildOceanFrontAnalysis:277918:277948",
+        "buildOceanFrontAnalysis:278056:278072",
+        "buildOceanFrontAnalysis:278904:278907",
+        "buildOceanFrontAnalysis:279842:279845",
+        "buildOceanFrontAnalysis:285444:285448",
+        "buildOceanFrontAnalysis:285606:285610",
+        "buildOceanFrontAnalysis:285770:285774",
+        "buildOceanFrontAnalysis:285920:285924",
+        "buildOceanFrontAnalysis:288090:288107",
+        "buildOceanFrontAnalysis:288251:288268",
+        "buildOceanFrontAnalysis:288414:288431",
+        "buildOceanFrontAnalysis:288569:288586",
+        "buildOceanPhysicsExplainabilitySummary:289153:289166",
+        "buildOceanPhysicsExplainabilitySummary:289229:289251",
+        "buildOceanPhysicsExplainabilitySummary:289677:289721",
+        "buildOceanPhysicsExplainabilitySummary:289722:289763",
+        "buildOceanPhysicsExplainabilitySummary:289764:289777",
+        "buildOceanPhysicsExplainabilitySummary:289983:289998",
+        "buildOceanPhysicsExplainabilitySummary:290175:290190",
+        "buildOceanPhysicsExplainabilitySummary:290544:290559",
+        "buildOceanPhysicsExplainabilitySummary:290925:290940",
+        "buildOceanPhysicsExplainabilitySummary:291314:291329",
+        "buildOceanPhysicsExplainabilitySummary:291967:291987",
+        "buildOceanPhysicsExplainabilitySummary:293323:293327",
+        "buildOceanPhysicsExplainabilityLineage:295886:295890",
+        "buildOceanPhysicsExplainabilityLineage:296399:296412",
+        "buildOceanPhysicsExplainabilityLineage:296488:296501",
+        "buildOceanPhysicsExplainabilityLineage:296579:296592",
+        "buildOceanPhysicsExplainabilityLineage:296696:296709",
+        "buildOceanPhysicsExplainabilityLineage:296787:296800",
+        "buildOceanPhysicsExplainabilityLineage:296889:296902",
+        "buildOceanPhysicsExplainabilityLineage:297163:297231",
+        "buildOceanPhysicsExplainabilityLineage:297329:297395",
+        "buildOceanPhysicsExplainabilityLineage:297928:297932",
+        "buildOceanPhysicsExplainabilityLineage:298057:298081",
+        "buildOceanPhysicsExplainabilityLineage:298182:298206",
+        "buildOceanPhysicsExplainabilityLineage:298394:298409",
+        "buildOceanPhysicsExplainabilityLineage:298525:298540",
+        "buildOceanPhysicsExplainabilityLineage:298811:298815",
+        "buildOceanOrganizationAnalysis:299799:299810",
+        "buildOceanOrganizationAnalysis:299891:299902",
+        "buildOceanOrganizationAnalysis:299980:299991",
+        "buildOceanOrganizationAnalysis:300058:300069",
+        "buildOceanOrganizationAnalysis:300148:300159",
+        "buildOceanOrganizationAnalysis:300224:300235",
+        "buildOceanOrganizationAnalysis:301358:301378",
+        "buildOceanOrganizationAnalysis:309036:309040",
+        "buildOceanOrganizationAnalysis:311007:311069",
+        "buildOceanOrganizationAnalysis:311070:311087",
+        "buildOceanOrganizationAnalysis:311229:311246",
+        "buildOceanOrganizationAnalysis:311400:311417",
+        "buildOceanOrganizationAnalysis:311557:311574",
+        "buildOceanOrganizationAnalysis:311735:311752",
+        "buildOceanOrganizationAnalysis:311896:311913",
+        "buildOceanOrganizationAnalysis:312059:312076",
+        "buildOceanOrganizationAnalysis:312248:312265",
+        "buildOceanOrganizationAnalysis:312411:312428"
+      ],
+      "reviewStatus": "COUNTEREXAMPLE_DEMONSTRATED",
+      "demonstratedRangeIds": [
+        "buildSurfaceWaterCharacterAnalysis:232417:232423"
+      ],
+      "limitation": "One member falsifies the blanket group proof; this does not assert all 131 members reachable."
+    },
+    {
+      "count": 15,
+      "claimedInvariant": "This later || operand is short-circuited by an earlier fixed true observation/contract condition: finite chlorophyll supplies productivity/clarity and surface-character availability; downstream physics analysis objects are available even without detection; fixed current organization is available and uniform.",
+      "rangeIds": [
+        "buildSurfaceWaterCharacterAnalysis:232620:232643",
+        "buildMixingZoneAnalysis:255258:255290",
+        "buildEnvironmentalTransitionAnalysis:267544:267577",
+        "buildEnvironmentalTransitionAnalysis:267578:267612",
+        "buildEnvironmentalTransitionAnalysis:267613:267640",
+        "buildEnvironmentalTransitionAnalysis:267641:267679",
+        "buildOceanFrontAnalysis:281105:281138",
+        "buildOceanFrontAnalysis:281139:281177",
+        "buildOceanOrganizationAnalysis:300445:300519",
+        "buildOceanOrganizationAnalysis:306254:306303",
+        "buildOceanOrganizationAnalysis:306304:306363",
+        "buildOceanOrganizationAnalysis:306364:306419",
+        "buildOceanOrganizationAnalysis:306420:306476",
+        "buildOceanOrganizationAnalysis:306477:306546",
+        "buildOceanOrganizationAnalysis:306547:306603"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 1,
+      "claimedInvariant": "This map callback consumes unavailableStages. With fixed populated chlorophyll/current and all synthesis contracts constructed, every stage is available; unavailableStages is empty. Availability here is analysis availability, not successful scientific detection.",
+      "rangeIds": [
+        "buildOceanPhysicsExplainabilityLineage:296248:296278"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    },
+    {
+      "count": 1,
+      "claimedInvariant": "This null alternative removes uniform-current-field counter-evidence. The fixed current organization is uniform for every SST scenario.",
+      "rangeIds": [
+        "buildOceanOrganizationAnalysis:305539:305545"
+      ],
+      "reviewStatus": "NOT_REQUALIFIED_AFTER_STOP"
+    }
+  ],
+  "historicalInventory": {
+    "status": "BOUNDED_FIXTURE_EVIDENCE_NOT_CALLER_AUTHORITY",
+    "pathCount": 3258,
+    "digest": "edf48996a02fe8a66fdeca84b802eeb541e5e58cd5dc3517230f2f20390d7a52",
+    "scenarioCount": 128
+  },
+  "remainingReview": "NOT_REQUALIFIED_AFTER_STOP",
+  "nextGate": "CALLER-DOMAIN ENFORCEMENT AND TRANSITIVE PRODUCER BRANCH REQUALIFICATION",
+  "authorityExpanded": false,
+  "secondaryStop": "SNAPSHOT_PRODUCER_BRANCH_INVENTORY_INCOMPLETE",
+  "domainStatus": "Chlorophyll fixture restriction has executable counterexample coverage; complete production domain NOT QUALIFIED AFTER STOP."
+}
