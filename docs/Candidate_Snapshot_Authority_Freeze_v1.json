@@ -1,0 +1,33 @@
+{
+  "version": "pelora-snapshot-authority-preimplementation-freeze-v1",
+  "status": "REVIEW_REQUIRED_NO_AUTHORITY_GRANTED",
+  "baseline": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "references": {
+    "inventory": {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+      "sha256": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03"
+    },
+    "branches": {
+      "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+      "sha256": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5"
+    },
+    "scenarios": {
+      "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+      "sha256": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e"
+    },
+    "delta": {
+      "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+      "sha256": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09"
+    }
+  },
+  "sourceFiles": {
+    "backend/server.js": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06",
+    "backend/candidateSemanticProjection.mjs": "7ec9e3b65344c2f953a09e666240e5312ae8a31f55b389a40ca2b85453dd99d8",
+    "backend/candidateSemanticProjectionV2.mjs": "3a9d4c804ca5392df15d3f87eacb480acbdc89ce33460ea637c0a2f6cf1670f5",
+    "docs/Candidate_Semantic_Surfaces_v1.json": "da74605e625445c5d3770cab408bf565deb1fd20cfffec35a9ea3870ee4351e1",
+    "docs/Candidate_Semantic_Shapes_v2.json": "91b301b7d535166f4be4df01588b9d248aba8502db9b536692a526e2cd6d1902",
+    "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52",
+    "backend/tests/fixtures/snapshotProducerBranchAudit.mjs": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d"
+  },
+  "statement": "No projection v3 was implemented from this proposal. Existing unqualified draft files were quarantined and not imported. STOP for review before implementation."
+}

@@ -1,0 +1,2735 @@
+{
+  "version": "pelora-snapshot-producer-branch-audit-v1",
+  "sourceSha256": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06",
+  "scope": "Reviewed SST parser/spatial/feature/temperature-evidence/snapshot authority branches; non-SST auxiliary producer inputs fixed",
+  "branches": [
+    {
+      "id": "confidence:complete-four-point-coverage",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "sufficientCoverage && coverageRatio === 1; else ratio >= .75; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:partial-but-sufficient-coverage",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "sufficientCoverage && coverageRatio === 1; else ratio >= .75; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-7",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:insufficient-spatial-coverage",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "sufficientCoverage && coverageRatio === 1; else ratio >= .75; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "center-and-directions-missing"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:strong-total-temperature-range",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite range: >=2, >=1, >=.5, else; omit if nonfinite",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-7",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "missing-time",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:moderate-total-temperature-range",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite range: >=2, >=1, >=.5, else; omit if nonfinite",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "moderate-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:weak-total-temperature-range",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite range: >=2, >=1, >=.5, else; omit if nonfinite",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "weak-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:minimal-total-temperature-range",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite range: >=2, >=1, >=.5, else; omit if nonfinite",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:strong-directional-difference",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "clear orientation: magnitude >=2, >=1, >=.3; else no clear",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-5",
+        "direction-mask-7",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "missing-time",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:moderate-directional-difference",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "clear orientation: magnitude >=2, >=1, >=.3; else no clear",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "moderate-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:weak-directional-difference",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "clear orientation: magnitude >=2, >=1, >=.3; else no clear",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "weak-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:no-clear-directional-orientation",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "clear orientation: magnitude >=2, >=1, >=.3; else no clear",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-12",
+        "center-and-directions-missing",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:clear-dominant-axis",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite axis separation: >=1, >=.5, >=.2, else; nonfinite => single-axis",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "moderate-range",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:moderately-distinct-axis",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite axis separation: >=1, >=.5, >=.2, else; nonfinite => single-axis",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "weak-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:weak-axis-separation",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite axis separation: >=1, >=.5, >=.2, else; nonfinite => single-axis",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "weak-axis-separation"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:competing-directional-signals",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite axis separation: >=1, >=.5, >=.2, else; nonfinite => single-axis",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "mixed-represented-times",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:single-axis-only",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "finite axis separation: >=1, >=.5, >=.2, else; nonfinite => single-axis",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "center-and-directions-missing",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:future-dated-sample-time",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "ageHours < 0 after future-time guard",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Finite future times throw before age computation; nonfinite times produce null, not negative age.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "confidence:recent-samples",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "age finite: <=3, <=12, <=24, else; null => unavailable; negative age rejected upstream",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:same-day-samples",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "age finite: <=3, <=12, <=24, else; null => unavailable; negative age rejected upstream",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "sample-age-6"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:samples-within-24-hours",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "age finite: <=3, <=12, <=24, else; null => unavailable; negative age rejected upstream",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "sample-age-18"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:stale-samples",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "age finite: <=3, <=12, <=24, else; null => unavailable; negative age rejected upstream",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:sample-time-unavailable",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "age finite: <=3, <=12, <=24, else; null => unavailable; negative age rejected upstream",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/reasons/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "center-and-directions-missing",
+        "missing-time"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "range:null",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySstSpatialRange",
+      "condition": "nonfinite; <.5; <1; <2; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "center-and-directions-missing"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "range:uniform-water",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySstSpatialRange",
+      "condition": "nonfinite; <.5; <1; <2; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "range:weak-temperature-transition",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySstSpatialRange",
+      "condition": "nonfinite; <.5; <1; <2; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "weak-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "range:moderate-temperature-transition",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySstSpatialRange",
+      "condition": "nonfinite; <.5; <1; <2; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "moderate-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "range:strong-temperature-break-candidate",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySstSpatialRange",
+      "condition": "nonfinite; <.5; <1; <2; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/classification",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/minimumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/maximumFahrenheit",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/rangeFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-7",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "missing-time",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "band:null",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySeaSurfaceTemperature",
+      "condition": "nonfinite; <68; <75; <80; <85; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/temperatureBand"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "center-and-directions-missing",
+        "center-missing-directions-present"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "band:cool",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySeaSurfaceTemperature",
+      "condition": "nonfinite; <68; <75; <80; <85; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/temperatureBand"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "cool-center"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "band:mild",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySeaSurfaceTemperature",
+      "condition": "nonfinite; <68; <75; <80; <85; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/temperatureBand"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "mild-center"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "band:warm",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySeaSurfaceTemperature",
+      "condition": "nonfinite; <68; <75; <80; <85; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/temperatureBand"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "uniform",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "band:very-warm",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySeaSurfaceTemperature",
+      "condition": "nonfinite; <68; <75; <80; <85; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/temperatureBand"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "very-warm-center"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "band:hot",
+      "sourceFile": "backend/server.js",
+      "producer": "classifySeaSurfaceTemperature",
+      "condition": "nonfinite; <68; <75; <80; <85; else",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/temperatureBand"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "hot-center"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:eastWestDifferenceFahrenheit:false",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "opposite finite samples; dominant signal >=.3",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-south",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:eastWestDifferenceFahrenheit:true",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "opposite finite samples; dominant signal >=.3",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/eastWestDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-12",
+        "direction-mask-13",
+        "center-and-directions-missing",
+        "direction-request-rejected-east",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:northSouthDifferenceFahrenheit:false",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "opposite finite samples; dominant signal >=.3",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-5",
+        "direction-mask-7",
+        "direction-mask-13",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-east",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:northSouthDifferenceFahrenheit:true",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "opposite finite samples; dominant signal >=.3",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/northSouthDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-14",
+        "center-and-directions-missing",
+        "direction-request-rejected-north",
+        "direction-request-rejected-south"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:dominantDifferenceFahrenheit:false",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "opposite finite samples; dominant signal >=.3",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-5",
+        "direction-mask-7",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:dominantDifferenceFahrenheit:true",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "opposite finite samples; dominant signal >=.3",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/dominantDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-12",
+        "center-and-directions-missing",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:warmSide:north",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "magnitude/sign chooses warm/cool side; no signal nulls sides",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "north-dominant"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:warmSide:east",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "magnitude/sign chooses warm/cool side; no signal nulls sides",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "east-dominant"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:warmSide:south",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "magnitude/sign chooses warm/cool side; no signal nulls sides",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-5",
+        "direction-mask-7",
+        "direction-mask-13",
+        "weak-range",
+        "moderate-range",
+        "south-dominant",
+        "direction-request-rejected-east",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:warmSide:west",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "magnitude/sign chooses warm/cool side; no signal nulls sides",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "missing-time",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-south",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "orientation:warmSide:null",
+      "sourceFile": "backend/server.js",
+      "producer": "deriveSstTransitionOrientation",
+      "condition": "magnitude/sign chooses warm/cool side; no signal nulls sides",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/warmSide",
+        "/observationSnapshot/observations/sst/derived/spatialStructure/orientation/coolSide"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-12",
+        "center-and-directions-missing",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:dominantDirectionalDifferenceFahrenheit:false",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-5",
+        "direction-mask-7",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:dominantDirectionalDifferenceFahrenheit:true",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/dominantDirectionalDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-12",
+        "center-and-directions-missing"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:secondaryDirectionalDifferenceFahrenheit:false",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:secondaryDirectionalDifferenceFahrenheit:true",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/secondaryDirectionalDifferenceFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "center-and-directions-missing",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:axisSeparationFahrenheit:false",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:axisSeparationFahrenheit:true",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/axisSeparationFahrenheit"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "center-and-directions-missing",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:sampleAgeHours:false",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:sampleAgeHours:true",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "pair count / finite retained sample time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/sampleAgeHours"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "center-and-directions-missing",
+        "missing-time"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "requirement:supported-feature-type",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting supported-feature-type",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:supported-feature-family",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting supported-feature-family",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:supported-observation-type",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting supported-observation-type",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:governed-spatial-structure",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting governed-spatial-structure",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:supported-source-type",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting supported-source-type",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:recognized-spatial-temperature-contract",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting recognized-spatial-temperature-contract",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:valid-sampling-radius",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting valid-sampling-radius",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:sufficient-spatial-coverage",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting sufficient-spatial-coverage",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "center-and-directions-missing"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "requirement:supported-temperature-transition-classification",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting supported-temperature-transition-classification",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "center-and-directions-missing",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "requirement:at-least-three-valid-spatial-samples",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting at-least-three-valid-spatial-samples",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "center-and-directions-missing",
+        "missing-time",
+        "partial-sample-time-2",
+        "partial-sample-time-3"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "requirement:unique-spatial-sample-directions",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting unique-spatial-sample-directions",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller supplies fixed valid feature/type/family/source contracts, radius15 and unique cardinal directions; corrupt API arguments are outside producer-valid domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "requirement:consistent-spatial-sample-observation-time",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "ordered prerequisite check emitting consistent-spatial-sample-observation-time",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/missingRequirements/*"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "center-and-directions-missing",
+        "missing-time",
+        "mixed-represented-times"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:available:true",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "missingRequirements.length === 0",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/available",
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-7",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "weak-range",
+        "moderate-range",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:available:false",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "missingRequirements.length === 0",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/available",
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observationReference"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "center-and-directions-missing",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "mixed-represented-times",
+        "partial-sample-time-2",
+        "partial-sample-time-3"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:time-cardinality:0",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "one distinct retained normalized time => populated, else null",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "center-and-directions-missing",
+        "missing-time"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:time-cardinality:1",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "one distinct retained normalized time => populated, else null",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "weak-range",
+        "moderate-range",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:time-cardinality:2",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "one distinct retained normalized time => populated, else null",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/observedAt"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "mixed-represented-times"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:sample-count:0",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "filter finite valid source samples with parseable time; sort cardinal order",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/samplingFootprint/samples"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "center-and-directions-missing",
+        "missing-time"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:sample-count:1",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "filter finite valid source samples with parseable time; sort cardinal order",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/samplingFootprint/samples"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-4",
+        "direction-mask-8",
+        "partial-sample-time-3"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:sample-count:2",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "filter finite valid source samples with parseable time; sort cardinal order",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/samplingFootprint/samples"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-3",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "partial-sample-time-2"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:sample-count:3",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "filter finite valid source samples with parseable time; sort cardinal order",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/samplingFootprint/samples"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-7",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "partial-sample-time-1",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "feature:sample-count:4",
+      "sourceFile": "backend/server.js",
+      "producer": "buildGovernedEnvironmentalFeatureObservationV1",
+      "condition": "filter finite valid source samples with parseable time; sort cardinal order",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/governedEnvironmentalFeatureObservation/samplingFootprint/samples"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "temperature-evidence:unavailable",
+      "sourceFile": "backend/server.js",
+      "producer": "buildTemperatureEvidence",
+      "condition": "availability then ordered spatial-classification branches",
+      "paths": [
+        "/observationSnapshot/evidence/groups/temperature"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "center-and-directions-missing"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "temperature-evidence:temperature-only",
+      "sourceFile": "backend/server.js",
+      "producer": "buildTemperatureEvidence",
+      "condition": "availability then ordered spatial-classification branches",
+      "paths": [
+        "/observationSnapshot/evidence/groups/temperature"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "temperature-evidence:uniform-water",
+      "sourceFile": "backend/server.js",
+      "producer": "buildTemperatureEvidence",
+      "condition": "availability then ordered spatial-classification branches",
+      "paths": [
+        "/observationSnapshot/evidence/groups/temperature"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "temperature-evidence:weak-temperature-structure",
+      "sourceFile": "backend/server.js",
+      "producer": "buildTemperatureEvidence",
+      "condition": "availability then ordered spatial-classification branches",
+      "paths": [
+        "/observationSnapshot/evidence/groups/temperature"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "weak-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "temperature-evidence:moderate-temperature-structure",
+      "sourceFile": "backend/server.js",
+      "producer": "buildTemperatureEvidence",
+      "condition": "availability then ordered spatial-classification branches",
+      "paths": [
+        "/observationSnapshot/evidence/groups/temperature"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "moderate-range"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "temperature-evidence:strong-temperature-break-candidate",
+      "sourceFile": "backend/server.js",
+      "producer": "buildTemperatureEvidence",
+      "condition": "availability then ordered spatial-classification branches",
+      "paths": [
+        "/observationSnapshot/evidence/groups/temperature"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-7",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "missing-time",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample-source:available",
+      "sourceFile": "backend/server.js",
+      "producer": "getSeaSurfaceTemperaturePoint / getSstSpatialStructureAtAssessment",
+      "condition": "finite sample; normalized missing; settled rejection",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/source/availability"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample-source:unavailable",
+      "sourceFile": "backend/server.js",
+      "producer": "getSeaSurfaceTemperaturePoint / getSstSpatialStructureAtAssessment",
+      "condition": "finite sample; normalized missing; settled rejection",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/source/availability"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "center-and-directions-missing"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample-source:request-failed",
+      "sourceFile": "backend/server.js",
+      "producer": "getSeaSurfaceTemperaturePoint / getSstSpatialStructureAtAssessment",
+      "condition": "finite sample; normalized missing; settled rejection",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/source/availability"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "snapshot:valid",
+      "sourceFile": "backend/server.js",
+      "producer": "buildObservationSnapshot",
+      "condition": "finite location and assembled oceanEvidence object",
+      "paths": [
+        "/observationSnapshot"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-and-directions-missing",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "snapshot:invalid-wrapper",
+      "sourceFile": "backend/server.js",
+      "producer": "buildObservationSnapshot",
+      "condition": "invalid location/evidence or missing contracts",
+      "paths": [
+        "/observationSnapshot"
+      ],
+      "reachable": false,
+      "unreachableReason": "Current caller always supplies finite location and actual unchanged assemblers; malformed wrapper injection is not a valid producer scenario.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "snapshot:clone",
+      "sourceFile": "backend/server.js",
+      "producer": "cloneSnapshotValue",
+      "condition": "structuredClone of non-null JSON-compatible governed subtree",
+      "paths": [
+        "/observationSnapshot/observations"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-and-directions-missing",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "snapshot:clone-fallback",
+      "sourceFile": "backend/server.js",
+      "producer": "cloneSnapshotValue",
+      "condition": "structuredClone unavailable/throws",
+      "paths": [
+        "/observationSnapshot/observations"
+      ],
+      "reachable": false,
+      "unreachableReason": "Supported Node has structuredClone; parser outputs are data-only cloneable objects.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "sampling:polar-empty",
+      "sourceFile": "backend/server.js",
+      "producer": "createSstSpatialSamplePoints",
+      "condition": "abs(cos(latitude)) <= .01",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples"
+      ],
+      "reachable": false,
+      "unreachableReason": "Reviewed fixed nonpolar candidate locations; no geographic-domain expansion in this task.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    },
+    {
+      "id": "confidence:level:low",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "bounded score >=75 / >=45 / else, then coverage/orientation caps",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/level"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-12",
+        "center-and-directions-missing",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:level:moderate",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "bounded score >=75 / >=45 / else, then coverage/orientation caps",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/level"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-7",
+        "direction-mask-11",
+        "direction-mask-13",
+        "direction-mask-14",
+        "weak-range",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "confidence:level:high",
+      "sourceFile": "backend/server.js",
+      "producer": "assessSstTransitionConfidence",
+      "condition": "bounded score >=75 / >=45 / else, then coverage/orientation caps",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/confidence/level"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "missing-time",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample:observedAt:false",
+      "sourceFile": "backend/server.js",
+      "producer": "getSeaSurfaceTemperaturePoint",
+      "condition": "payload.current.time ?? null",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/observedAt"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-and-directions-missing",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample:observedAt:true",
+      "sourceFile": "backend/server.js",
+      "producer": "getSeaSurfaceTemperaturePoint",
+      "condition": "payload.current.time ?? null",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/observedAt"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "missing-time",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample:rejected:north",
+      "sourceFile": "backend/server.js",
+      "producer": "getSstSpatialStructureAtAssessment",
+      "condition": "Promise.allSettled rejection inserts null resolved coordinates/time/temperatures and request-failed source",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/0"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-request-rejected-north"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample:rejected:east",
+      "sourceFile": "backend/server.js",
+      "producer": "getSstSpatialStructureAtAssessment",
+      "condition": "Promise.allSettled rejection inserts null resolved coordinates/time/temperatures and request-failed source",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/1"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-request-rejected-east"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample:rejected:south",
+      "sourceFile": "backend/server.js",
+      "producer": "getSstSpatialStructureAtAssessment",
+      "condition": "Promise.allSettled rejection inserts null resolved coordinates/time/temperatures and request-failed source",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/2"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-request-rejected-south"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "sample:rejected:west",
+      "sourceFile": "backend/server.js",
+      "producer": "getSstSpatialStructureAtAssessment",
+      "condition": "Promise.allSettled rejection inserts null resolved coordinates/time/temperatures and request-failed source",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/3"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-request-rejected-west"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "cache:miss",
+      "sourceFile": "backend/server.js",
+      "producer": "getCachedSeaSurfaceTemperaturePoint",
+      "condition": "no cached finite value / expired entry",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/cache"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-0",
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-and-directions-missing",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "cache:hit",
+      "sourceFile": "backend/server.js",
+      "producer": "getCachedSeaSurfaceTemperaturePoint",
+      "condition": "cached finite value within TTL",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples/*/cache"
+      ],
+      "reachable": true,
+      "unreachableReason": null,
+      "scenarios": [
+        "direction-mask-1",
+        "direction-mask-2",
+        "direction-mask-3",
+        "direction-mask-4",
+        "direction-mask-5",
+        "direction-mask-6",
+        "direction-mask-7",
+        "direction-mask-8",
+        "direction-mask-9",
+        "direction-mask-10",
+        "direction-mask-11",
+        "direction-mask-12",
+        "direction-mask-13",
+        "direction-mask-14",
+        "direction-mask-15",
+        "center-missing-directions-present",
+        "uniform",
+        "positive-zero",
+        "negative-zero",
+        "mixed-signed-zero",
+        "missing-time",
+        "weak-range",
+        "moderate-range",
+        "mixed-represented-times",
+        "weak-axis-separation",
+        "cool-center",
+        "mild-center",
+        "very-warm-center",
+        "partial-sample-time-1",
+        "partial-sample-time-2",
+        "partial-sample-time-3",
+        "hot-center",
+        "north-dominant",
+        "south-dominant",
+        "east-dominant",
+        "west-dominant",
+        "direction-request-rejected-north",
+        "direction-request-rejected-east",
+        "direction-request-rejected-south",
+        "direction-request-rejected-west",
+        "sample-age-6",
+        "sample-age-18",
+        "sample-age-30"
+      ],
+      "status": "EXERCISED"
+    },
+    {
+      "id": "cache:inflight-join",
+      "sourceFile": "backend/server.js",
+      "producer": "getCachedSeaSurfaceTemperaturePoint",
+      "condition": "same coordinate request concurrently in flight",
+      "paths": [
+        "/observationSnapshot/observations/sst/derived/spatialStructure/samples"
+      ],
+      "reachable": false,
+      "unreachableReason": "Distinct cardinal coordinates, sequential scenario calls; no duplicate concurrent point requests in this harness domain.",
+      "scenarios": [],
+      "status": "UNREACHABLE_IN_REVIEWED_DOMAIN"
+    }
+  ],
+  "confidenceReasonSourceVocabulary": [
+    "complete-four-point-coverage",
+    "partial-but-sufficient-coverage",
+    "insufficient-spatial-coverage",
+    "strong-total-temperature-range",
+    "moderate-total-temperature-range",
+    "weak-total-temperature-range",
+    "minimal-total-temperature-range",
+    "strong-directional-difference",
+    "moderate-directional-difference",
+    "weak-directional-difference",
+    "no-clear-directional-orientation",
+    "clear-dominant-axis",
+    "moderately-distinct-axis",
+    "weak-axis-separation",
+    "competing-directional-signals",
+    "single-axis-only",
+    "future-dated-sample-time",
+    "recent-samples",
+    "same-day-samples",
+    "samples-within-24-hours",
+    "stale-samples",
+    "sample-time-unavailable"
+  ],
+  "reasonStages": [
+    {
+      "condition": "sufficientCoverage && coverageRatio === 1; else ratio >= .75; else",
+      "values": [
+        "complete-four-point-coverage",
+        "partial-but-sufficient-coverage",
+        "insufficient-spatial-coverage"
+      ]
+    },
+    {
+      "condition": "finite range: >=2, >=1, >=.5, else; omit if nonfinite",
+      "values": [
+        "strong-total-temperature-range",
+        "moderate-total-temperature-range",
+        "weak-total-temperature-range",
+        "minimal-total-temperature-range"
+      ],
+      "optional": true
+    },
+    {
+      "condition": "clear orientation: magnitude >=2, >=1, >=.3; else no clear",
+      "values": [
+        "strong-directional-difference",
+        "moderate-directional-difference",
+        "weak-directional-difference",
+        "no-clear-directional-orientation"
+      ]
+    },
+    {
+      "condition": "finite axis separation: >=1, >=.5, >=.2, else; nonfinite => single-axis",
+      "values": [
+        "clear-dominant-axis",
+        "moderately-distinct-axis",
+        "weak-axis-separation",
+        "competing-directional-signals",
+        "single-axis-only"
+      ]
+    },
+    {
+      "condition": "age finite: <=3, <=12, <=24, else; null => unavailable; negative age rejected upstream",
+      "values": [
+        "recent-samples",
+        "same-day-samples",
+        "samples-within-24-hours",
+        "stale-samples",
+        "sample-time-unavailable"
+      ]
+    }
+  ],
+  "requirementSourceVocabulary": [
+    "supported-feature-type",
+    "supported-feature-family",
+    "supported-observation-type",
+    "governed-spatial-structure",
+    "supported-source-type",
+    "recognized-spatial-temperature-contract",
+    "valid-sampling-radius",
+    "sufficient-spatial-coverage",
+    "supported-temperature-transition-classification",
+    "at-least-three-valid-spatial-samples",
+    "unique-spatial-sample-directions",
+    "consistent-spatial-sample-observation-time"
+  ]
+}

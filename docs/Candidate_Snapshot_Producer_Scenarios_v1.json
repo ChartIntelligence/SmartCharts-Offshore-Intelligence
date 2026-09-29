@@ -1,0 +1,1184 @@
+{
+  "version": "pelora-snapshot-producer-scenarios-v1",
+  "domain": "Nonpolar four-cardinal SST samples, finite-or-null C, valid UTC or null sample time, explicit rejection; fixed valid provider/location metadata; fixed producer-derived non-SST context; explicit scientific assessment. Corrupt contract arguments and geography expansion excluded.",
+  "scenarios": [
+    {
+      "name": "direction-mask-0",
+      "values": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-1",
+      "values": [
+        25,
+        null,
+        null,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-2",
+      "values": [
+        null,
+        26,
+        null,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-3",
+      "values": [
+        25,
+        26,
+        null,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-4",
+      "values": [
+        null,
+        null,
+        27,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-5",
+      "values": [
+        25,
+        null,
+        27,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-6",
+      "values": [
+        null,
+        26,
+        27,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-7",
+      "values": [
+        25,
+        26,
+        27,
+        null
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-8",
+      "values": [
+        null,
+        null,
+        null,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-9",
+      "values": [
+        25,
+        null,
+        null,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-10",
+      "values": [
+        null,
+        26,
+        null,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-11",
+      "values": [
+        25,
+        26,
+        null,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-12",
+      "values": [
+        null,
+        null,
+        27,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-13",
+      "values": [
+        25,
+        null,
+        27,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-14",
+      "values": [
+        null,
+        26,
+        27,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-mask-15",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "center-and-directions-missing",
+      "values": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "center": null
+    },
+    {
+      "name": "center-missing-directions-present",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": null
+    },
+    {
+      "name": "uniform",
+      "values": [
+        25,
+        25,
+        25,
+        25
+      ],
+      "center": 25
+    },
+    {
+      "name": "positive-zero",
+      "values": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "center": 0
+    },
+    {
+      "name": "negative-zero",
+      "values": [
+        "NEGATIVE_ZERO",
+        "NEGATIVE_ZERO",
+        "NEGATIVE_ZERO",
+        "NEGATIVE_ZERO"
+      ],
+      "center": "NEGATIVE_ZERO"
+    },
+    {
+      "name": "mixed-signed-zero",
+      "values": [
+        "NEGATIVE_ZERO",
+        0,
+        "NEGATIVE_ZERO",
+        0
+      ],
+      "center": 0
+    },
+    {
+      "name": "missing-time",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "time": null
+    },
+    {
+      "name": "weak-range",
+      "values": [
+        25,
+        25.2,
+        25.4,
+        25.1
+      ],
+      "center": 25.2
+    },
+    {
+      "name": "moderate-range",
+      "values": [
+        25,
+        25.5,
+        26,
+        25.1
+      ],
+      "center": 25.5
+    },
+    {
+      "name": "mixed-represented-times",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "times": [
+        "2026-09-24T00:00:00Z",
+        "2026-09-23T23:00:00Z",
+        "2026-09-24T00:00:00Z",
+        "2026-09-24T00:00:00Z"
+      ]
+    },
+    {
+      "name": "weak-axis-separation",
+      "values": [
+        25,
+        25,
+        26,
+        26.2
+      ],
+      "center": 26
+    },
+    {
+      "name": "cool-center",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 15
+    },
+    {
+      "name": "mild-center",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 22
+    },
+    {
+      "name": "very-warm-center",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 28
+    },
+    {
+      "name": "partial-sample-time-1",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "times": [
+        null,
+        "2026-09-24T00:00:00Z",
+        "2026-09-24T00:00:00Z",
+        "2026-09-24T00:00:00Z"
+      ]
+    },
+    {
+      "name": "partial-sample-time-2",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "times": [
+        null,
+        null,
+        "2026-09-24T00:00:00Z",
+        "2026-09-24T00:00:00Z"
+      ]
+    },
+    {
+      "name": "partial-sample-time-3",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "times": [
+        null,
+        null,
+        null,
+        "2026-09-24T00:00:00Z"
+      ]
+    },
+    {
+      "name": "hot-center",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 32
+    },
+    {
+      "name": "north-dominant",
+      "values": [
+        28,
+        25,
+        25,
+        25
+      ],
+      "center": 26
+    },
+    {
+      "name": "south-dominant",
+      "values": [
+        25,
+        25,
+        28,
+        25
+      ],
+      "center": 26
+    },
+    {
+      "name": "east-dominant",
+      "values": [
+        25,
+        28,
+        25,
+        25
+      ],
+      "center": 26
+    },
+    {
+      "name": "west-dominant",
+      "values": [
+        25,
+        25,
+        25,
+        28
+      ],
+      "center": 26
+    },
+    {
+      "name": "direction-request-rejected-north",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "rejected": [
+        "north"
+      ]
+    },
+    {
+      "name": "direction-request-rejected-east",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "rejected": [
+        "east"
+      ]
+    },
+    {
+      "name": "direction-request-rejected-south",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "rejected": [
+        "south"
+      ]
+    },
+    {
+      "name": "direction-request-rejected-west",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "rejected": [
+        "west"
+      ]
+    },
+    {
+      "name": "sample-age-6",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "time": "2026-09-23T19:00:00.000Z"
+    },
+    {
+      "name": "sample-age-18",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "time": "2026-09-23T07:00:00.000Z"
+    },
+    {
+      "name": "sample-age-30",
+      "values": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "center": 26,
+      "time": "2026-09-22T19:00:00.000Z"
+    }
+  ],
+  "scenarioEvidence": [
+    {
+      "id": "direction-mask-0",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "sample-time-unavailable"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples",
+        "consistent-spatial-sample-observation-time"
+      ],
+      "available": false,
+      "observedAt": null,
+      "sampleCount": 0
+    },
+    {
+      "id": "direction-mask-1",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 1
+    },
+    {
+      "id": "direction-mask-2",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 1
+    },
+    {
+      "id": "direction-mask-3",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 2
+    },
+    {
+      "id": "direction-mask-4",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 1
+    },
+    {
+      "id": "direction-mask-5",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 2
+    },
+    {
+      "id": "direction-mask-6",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 2
+    },
+    {
+      "id": "direction-mask-7",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "direction-mask-8",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 1
+    },
+    {
+      "id": "direction-mask-9",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 2
+    },
+    {
+      "id": "direction-mask-10",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 2
+    },
+    {
+      "id": "direction-mask-11",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "direction-mask-12",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 2
+    },
+    {
+      "id": "direction-mask-13",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "direction-mask-14",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "direction-mask-15",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "center-and-directions-missing",
+      "confidenceReasons": [
+        "insufficient-spatial-coverage",
+        "no-clear-directional-orientation",
+        "single-axis-only",
+        "sample-time-unavailable"
+      ],
+      "requirements": [
+        "sufficient-spatial-coverage",
+        "supported-temperature-transition-classification",
+        "at-least-three-valid-spatial-samples",
+        "consistent-spatial-sample-observation-time"
+      ],
+      "available": false,
+      "observedAt": null,
+      "sampleCount": 0
+    },
+    {
+      "id": "center-missing-directions-present",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "uniform",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "minimal-total-temperature-range",
+        "no-clear-directional-orientation",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [
+        "supported-temperature-transition-classification"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "positive-zero",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "minimal-total-temperature-range",
+        "no-clear-directional-orientation",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [
+        "supported-temperature-transition-classification"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "negative-zero",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "minimal-total-temperature-range",
+        "no-clear-directional-orientation",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [
+        "supported-temperature-transition-classification"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "mixed-signed-zero",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "minimal-total-temperature-range",
+        "no-clear-directional-orientation",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [
+        "supported-temperature-transition-classification"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "missing-time",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "sample-time-unavailable"
+      ],
+      "requirements": [
+        "at-least-three-valid-spatial-samples",
+        "consistent-spatial-sample-observation-time"
+      ],
+      "available": false,
+      "observedAt": null,
+      "sampleCount": 0
+    },
+    {
+      "id": "weak-range",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "weak-total-temperature-range",
+        "weak-directional-difference",
+        "moderately-distinct-axis",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "moderate-range",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "moderate-total-temperature-range",
+        "moderate-directional-difference",
+        "clear-dominant-axis",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "mixed-represented-times",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [
+        "consistent-spatial-sample-observation-time"
+      ],
+      "available": false,
+      "observedAt": null,
+      "sampleCount": 4
+    },
+    {
+      "id": "weak-axis-separation",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "weak-axis-separation",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "cool-center",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "mild-center",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "very-warm-center",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "partial-sample-time-1",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "partial-sample-time-2",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 2
+    },
+    {
+      "id": "partial-sample-time-3",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [
+        "at-least-three-valid-spatial-samples"
+      ],
+      "available": false,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 1
+    },
+    {
+      "id": "hot-center",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "north-dominant",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "clear-dominant-axis",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "south-dominant",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "clear-dominant-axis",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "east-dominant",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "clear-dominant-axis",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "west-dominant",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "clear-dominant-axis",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "direction-request-rejected-north",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "direction-request-rejected-east",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "direction-request-rejected-south",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "direction-request-rejected-west",
+      "confidenceReasons": [
+        "partial-but-sufficient-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "single-axis-only",
+        "recent-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-24T00:00:00.000Z",
+      "sampleCount": 3
+    },
+    {
+      "id": "sample-age-6",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "same-day-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-23T19:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "sample-age-18",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "samples-within-24-hours"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-23T07:00:00.000Z",
+      "sampleCount": 4
+    },
+    {
+      "id": "sample-age-30",
+      "confidenceReasons": [
+        "complete-four-point-coverage",
+        "strong-total-temperature-range",
+        "strong-directional-difference",
+        "competing-directional-signals",
+        "stale-samples"
+      ],
+      "requirements": [],
+      "available": true,
+      "observedAt": "2026-09-22T19:00:00.000Z",
+      "sampleCount": 4
+    }
+  ],
+  "signedZeroNote": "NEGATIVE_ZERO is an explicit scenario-description label, not a provider value or new scientific serializer; the hashed fixture constructs literal -0 transport and exact producer comparison never canonicalizes signs."
+}
