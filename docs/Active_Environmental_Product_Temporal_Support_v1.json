@@ -1,0 +1,2646 @@
+{
+  "task": "12B.7G Active Environmental Product Temporal-Support Authority Qualification v1",
+  "verdict": "ACTIVE_PRODUCT_TEMPORAL_SUPPORT_AUTHORITY_REQUIRED",
+  "status": "STOP_PRODUCT_SPECIFIC",
+  "qualified": false,
+  "head": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+  "branch": "codex/pelora-remote-setup",
+  "inventory": {
+    "active": 16,
+    "documentary": 2,
+    "unwired": 9,
+    "activeProductPaths": 4,
+    "qualifiedProducts": [],
+    "unresolvedProducts": [
+      "SST_OPEN_METEO_MARINE",
+      "CHLOROPHYLL_DIRECT",
+      "CHLOROPHYLL_GAP_FILLED",
+      "CURRENTS_NOAA_NRT"
+    ],
+    "limit": "Four source paths, not four pinned scientific releases: provider version absent for all and underlying Open-Meteo product unpinned."
+  },
+  "products": [
+    {
+      "supportType": "UNKNOWN",
+      "supportStart": null,
+      "supportEnd": null,
+      "overlap": "UNKNOWN",
+      "supportAuthority": "NONE sufficient for exact temporal-support classification",
+      "legacy": "LEGACY_SUPPORT_INSUFFICIENT",
+      "reconstruction": "NOT_ESTABLISHED: reported timestamp and product label alone cannot reconstruct support; no immutable source bounds/specification bound to active legacy rows",
+      "consumerCompatibility": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "metadataDisposition": "PELORA_METADATA_CAPTURE_REQUIRED after product authority is established; no capture successor conclusion",
+      "qualified": false,
+      "id": "SST_OPEN_METEO_MARINE",
+      "family": "SST",
+      "provider": "Open-Meteo",
+      "dataset": null,
+      "productVersion": null,
+      "identityDisposition": "EXACT_UNDERLYING_PRODUCT_IDENTITY_REQUIRED",
+      "source": "https://marine-api.open-meteo.com/v1/marine current=sea_surface_temperature timezone=UTC; no models/version pin",
+      "paths": [
+        {
+          "module": "backend/server.js",
+          "line": 6173,
+          "function": "getSeaSurfaceTemperaturePoint",
+          "functionLine": 6173
+        },
+        {
+          "module": "backend/server.js",
+          "line": 7204,
+          "function": "getMarineConditions",
+          "sstLine": 7526
+        }
+      ],
+      "variable": "sea_surface_temperature",
+      "representedTime": "current.time -> observedAt; timestampProvenance marine-current-block-valid-time on spatial point; forecast/model valid time, not demonstrated observation instant",
+      "preserved": "reported current.time, forecast-model classification; no support kind/bounds, model identifier or scientific release",
+      "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED",
+      "question": "For the actual Marine API SST product/model/version selected by this request, what does current.time represent: a valid instant, a mean/composite/forecast-valid interval, or another support? Identify the authoritative variable specification, exact bounds and endpoint convention if applicable, and how product/model choice is bound to returned content. Do not infer support from current.interval or API cadence.",
+      "authorityReferences": [
+        "backend/server.js:6173",
+        "backend/server.js:7526",
+        "docs/Ocean_Product_Archive_Foundation_v1.md:30",
+        "backend/currentEvidenceCapture.mjs:6"
+      ],
+      "excludedQualification": "OSTIA NRT/REP and NOAA Geo-Polar pilot are not the active default SST source; no authority transferred",
+      "authorityClass": "NONE",
+      "authorityClassMeaning": "No sufficient authority for support type/bounds; partial provenance remains preserved",
+      "availableOrderingFacts": {
+        "reportedCoordinate": "current.time -> observedAt; timestampProvenance marine-current-block-valid-time on spatial point; forecast/model valid time, not demonstrated observation instant",
+        "qualifiedRepresentedInstant": null,
+        "supportStart": null,
+        "supportEnd": null
+      },
+      "retainedMetadataAuthority": "LOCKED_PELORA_CONTRACT/source code establishes transport and schema, not provider support"
+    },
+    {
+      "supportType": "UNKNOWN",
+      "supportStart": null,
+      "supportEnd": null,
+      "overlap": "UNKNOWN",
+      "supportAuthority": "NONE sufficient for exact temporal-support classification",
+      "legacy": "LEGACY_SUPPORT_INSUFFICIENT",
+      "reconstruction": "NOT_ESTABLISHED: reported timestamp and product label alone cannot reconstruct support; no immutable source bounds/specification bound to active legacy rows",
+      "consumerCompatibility": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "metadataDisposition": "PELORA_METADATA_CAPTURE_REQUIRED after product authority is established; no capture successor conclusion",
+      "qualified": false,
+      "id": "CHLOROPHYLL_DIRECT",
+      "family": "CHLOROPHYLL_DIRECT",
+      "provider": "NOAA CoastWatch",
+      "dataset": "noaacwNPPVIIRSchlaDaily",
+      "productVersion": null,
+      "source": "coastwatch.noaa.gov/erddap/griddap/noaacwNPPVIIRSchlaDaily.json",
+      "paths": [
+        {
+          "module": "backend/server.js",
+          "line": 2056,
+          "semantic": "DIRECT last-point ERDDAP parser; valueAt(time) to observedAt",
+          "function": "getChlorophyllConditionsAtAssessment",
+          "functionLine": 2045
+        }
+      ],
+      "variable": "chlor_a",
+      "representedTime": "ERDDAP row time copied to observedAt; precise support semantics unqualified",
+      "preserved": "time, dataset, platform Suomi-NPP VIIRS, satellite-observation classification; no complete support interval, sample acquisition window or scientific release",
+      "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED",
+      "question": "For noaacwNPPVIIRSchlaDaily and its actual processing release, is chlor_a at time a swath/pixel observation, daily composite or another support? What exact per-pixel/product temporal bounds and endpoint convention apply; does nominal time label target/day/center/end; are source observation times available and preserved? Daily and satellite-observation labels alone do not decide.",
+      "authorityReferences": [
+        "backend/server.js:1210",
+        "backend/server.js:2056",
+        "backend/currentEvidenceCapture.mjs:7",
+        "docs/Ocean_Product_Archive_Foundation_v1.md:30"
+      ],
+      "authorityClass": "NONE",
+      "authorityClassMeaning": "No sufficient authority for support type/bounds; partial provenance remains preserved",
+      "availableOrderingFacts": {
+        "reportedCoordinate": "ERDDAP row time copied to observedAt; precise support semantics unqualified",
+        "qualifiedRepresentedInstant": null,
+        "supportStart": null,
+        "supportEnd": null
+      },
+      "retainedMetadataAuthority": "LOCKED_PELORA_CONTRACT/source code establishes transport and schema, not provider support"
+    },
+    {
+      "supportType": "UNKNOWN",
+      "supportStart": null,
+      "supportEnd": null,
+      "overlap": "UNKNOWN",
+      "supportAuthority": "NONE sufficient for exact temporal-support classification",
+      "legacy": "LEGACY_SUPPORT_INSUFFICIENT",
+      "reconstruction": "NOT_ESTABLISHED: reported timestamp and product label alone cannot reconstruct support; no immutable source bounds/specification bound to active legacy rows",
+      "consumerCompatibility": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "metadataDisposition": "PELORA_METADATA_CAPTURE_REQUIRED after product authority is established; no capture successor conclusion",
+      "qualified": false,
+      "id": "CHLOROPHYLL_GAP_FILLED",
+      "family": "CHLOROPHYLL_GAP_FILLED",
+      "provider": "NOAA NESDIS CoastWatch",
+      "dataset": "nesdisVHNnoaaSNPPnoaa20NRTchlaGapfilledDaily",
+      "productVersion": null,
+      "source": "coastwatch.pfeg.noaa.gov/erddap/griddap/nesdisVHNnoaaSNPPnoaa20NRTchlaGapfilledDaily.json",
+      "paths": [
+        {
+          "module": "backend/server.js",
+          "line": 2179,
+          "semantic": "GAP_FILLED last-point ERDDAP parser; valueAt(time) to observedAt",
+          "function": "getGapFilledChlorophyllConditionsAtAssessment",
+          "functionLine": 2168
+        }
+      ],
+      "variable": "chlor_a",
+      "representedTime": "ERDDAP row time copied to observedAt; target reconstruction time versus input temporal window unresolved",
+      "preserved": "time, dataset, S-NPP + NOAA-20 VIIRS, DINEOF, reconstruction, experimental, 9 km; no target-support/input-window distinction or processing release",
+      "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED",
+      "question": "For this exact gap-filled dataset/release, what is the scientific support of each reconstructed chlor_a value? Distinguish target reconstruction time/support from multi-time DINEOF input window, effective temporal weighting and source observation interval. Which explicit bounds/metadata establish each? Do not inherit DIRECT support or claim equivalence.",
+      "authorityReferences": [
+        "backend/server.js:1216",
+        "backend/server.js:2179",
+        "backend/currentEvidenceCapture.mjs:8",
+        "docs/Ocean_Product_Archive_Foundation_v1.md:31"
+      ],
+      "authorityClass": "NONE",
+      "authorityClassMeaning": "No sufficient authority for support type/bounds; partial provenance remains preserved",
+      "availableOrderingFacts": {
+        "reportedCoordinate": "ERDDAP row time copied to observedAt; target reconstruction time versus input temporal window unresolved",
+        "qualifiedRepresentedInstant": null,
+        "supportStart": null,
+        "supportEnd": null
+      },
+      "retainedMetadataAuthority": "LOCKED_PELORA_CONTRACT/source code establishes transport and schema, not provider support"
+    },
+    {
+      "supportType": "UNKNOWN",
+      "supportStart": null,
+      "supportEnd": null,
+      "overlap": "UNKNOWN",
+      "supportAuthority": "NONE sufficient for exact temporal-support classification",
+      "legacy": "LEGACY_SUPPORT_INSUFFICIENT",
+      "reconstruction": "NOT_ESTABLISHED: reported timestamp and product label alone cannot reconstruct support; no immutable source bounds/specification bound to active legacy rows",
+      "consumerCompatibility": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "metadataDisposition": "PELORA_METADATA_CAPTURE_REQUIRED after product authority is established; no capture successor conclusion",
+      "qualified": false,
+      "id": "CURRENTS_NOAA_NRT",
+      "family": "CURRENTS",
+      "provider": "NOAA CoastWatch",
+      "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+      "productVersion": null,
+      "source": "coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json",
+      "paths": [
+        {
+          "module": "backend/server.js",
+          "line": 2359,
+          "semantic": "current point parser, u_current/v_current and row time",
+          "function": "getCurrentConditionsPointAtAssessment",
+          "functionLine": 2345
+        }
+      ],
+      "variable": [
+        "u_current",
+        "v_current"
+      ],
+      "representedTime": "ERDDAP row time -> observedAt; epoch coordinate documented, temporal operator/window not qualified",
+      "preserved": "reported time, exact dataset, u/v, speed/direction, classification; no time_bnds values/meaning or scientific release identity",
+      "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED",
+      "question": "Pending NOAA question: what exactly do time and time_bnds represent for this NRT current endpoint, with bounds dimensions/units/endpoint convention, target instant versus mean/composite support and input observation/weighting window? Need metadata-only specification; no new contact or environmental acquisition.",
+      "authorityReferences": [
+        "backend/server.js:1220",
+        "backend/server.js:2359",
+        "backend/currentEvidenceCapture.mjs:9",
+        "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md:39",
+        "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md:19"
+      ],
+      "partialAuthority": "Preserved provider review establishes time:bounds=time_bnds name, not bounds values or temporal meaning; daily/NRT does not prove instant or daily mean",
+      "pendingNOAA": true,
+      "authorityClass": "NONE",
+      "authorityClassMeaning": "No sufficient authority for support type/bounds; partial provenance remains preserved",
+      "availableOrderingFacts": {
+        "reportedCoordinate": "ERDDAP row time -> observedAt; epoch coordinate documented, temporal operator/window not qualified",
+        "qualifiedRepresentedInstant": null,
+        "supportStart": null,
+        "supportEnd": null
+      },
+      "retainedMetadataAuthority": "PROVIDER_METADATA documented in preserved review: time coordinate/bounds attribute only, not sufficient support authority"
+    }
+  ],
+  "consumers": [
+    {
+      "consumerId": "buildOceanChangeAnalysis",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 16443,
+        "endLine": 17184,
+        "sha256": "e49d5c98f337d6d198025b75226bf9cdcfc4fff77f79ccd25e086dac0395575f"
+      },
+      "family": "cross-family/feature",
+      "purpose": "elapsed hours; speed/direction, SST and organization changes from previous/current pair",
+      "input": "explicit previous/current observation and intelligence snapshots",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildOceanChangeFromTimeSeries",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 21062,
+        "endLine": 21305,
+        "sha256": "83a9cf13afbb82b620766a71a961bc3c689161b2d0b87207505f8926b58b8390"
+      },
+      "family": "cross-family/feature",
+      "purpose": "delegates arithmetic to buildOceanChangeAnalysis on latest two selected records",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildPersistenceEvidence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 22930,
+        "endLine": 23530,
+        "sha256": "7b840ecb34ffbc46c0a7261569edeaebaae41a30cf97fcf94de3bd9dacbc375e"
+      },
+      "family": "cross-family/feature",
+      "purpose": "duration and organization-index change; feature persistence assembly",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildSeaSurfaceTemperaturePersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 26462,
+        "endLine": 26907,
+        "sha256": "2d93daaf8d32b0fa6dae54ac5fb4b840ac2d9329124df7746747bc37f8552015"
+      },
+      "family": "SST",
+      "purpose": "duration, temperature subtraction, absolute change and sample-count confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE"
+      ],
+      "bindingKind": "DIRECT_FAMILY_OR_DERIVED_FAMILY_PARENT",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildCurrentPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 26927,
+        "endLine": 27499,
+        "sha256": "29a8eca6c55abcd8a12e78ee75faad148d6533b3060ff5f002a48afbcb7d9374"
+      },
+      "family": "currents",
+      "purpose": "duration, speed subtraction, wrapped direction difference, absolute change and confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "DIRECT_FAMILY_OR_DERIVED_FAMILY_PARENT",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildCurrentEdgePersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 27518,
+        "endLine": 28088,
+        "sha256": "cda93771364ca5039c192702d4f8bb1c049c50540c4060740da83183ee254a83"
+      },
+      "family": "currents",
+      "purpose": "duration, edge-strength subtraction and confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "DIRECT_FAMILY_OR_DERIVED_FAMILY_PARENT",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildCurrentShearPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 28091,
+        "endLine": 28704,
+        "sha256": "6210e0606f66a8896d545ec72d38d96a325f4edfe552f35fec35871ba57b5e8a"
+      },
+      "family": "currents",
+      "purpose": "duration, shear-strength and maximum-gradient subtraction, confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "DIRECT_FAMILY_OR_DERIVED_FAMILY_PARENT",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildCurrentConvergencePersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 28707,
+        "endLine": 29348,
+        "sha256": "312f6236aca5a9f3e2816e2e00799e0e9cdac16395ed04ea891c3331d1878526"
+      },
+      "family": "currents",
+      "purpose": "Prior locked feature-persistence arithmetic only; not reinspected or qualified here; temporal/provenance handoff only",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "DIRECT_FAMILY_OR_DERIVED_FAMILY_PARENT",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "Temporal field plumbing only; feature/convergence semantics not reviewed",
+      "scope": "Locked temporal handoff only; no new convergence execution or semantic review"
+    },
+    {
+      "consumerId": "buildEnvironmentalTransitionPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 29368,
+        "endLine": 30054,
+        "sha256": "07ef104970fc81040e85c8f948517cbb36d5c70f380de76df771fa7163b553cf"
+      },
+      "family": "cross-family/feature",
+      "purpose": "duration, transition-strength and signal-count changes, confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "Temporal field plumbing only; feature/convergence semantics not reviewed",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildSurfaceWaterCharacterPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 30075,
+        "endLine": 30788,
+        "sha256": "69078273d4bdd684e62a80c70d9aa6525376534954e584451d3927fa9a9c3ce7"
+      },
+      "family": "cross-family/feature",
+      "purpose": "duration; boundary, local temperature, chlorophyll and thermal range changes; confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "Temporal field plumbing only; feature/convergence semantics not reviewed",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildWaterMassPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 30809,
+        "endLine": 31519,
+        "sha256": "ad9299d904f5944c343f9ef7dbb6b52715fa35b686f47e982b96f852b4e35d1f"
+      },
+      "family": "cross-family/feature",
+      "purpose": "duration, readiness and variable-count changes, confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "Temporal field plumbing only; feature/convergence semantics not reviewed",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildMixingZonePersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 31540,
+        "endLine": 32339,
+        "sha256": "6780274d0fd47f57053cb2a5ca7fd839543b65bd31050687e0442d09f4e1a164"
+      },
+      "family": "cross-family/feature",
+      "purpose": "duration, readiness/interaction-strength/signal-count changes; confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "Temporal field plumbing only; feature/convergence semantics not reviewed",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildOceanFrontPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 32359,
+        "endLine": 33173,
+        "sha256": "e8497189bcb9b9b980757f29937039718c94dada703c25f7141df5043fdc76b0"
+      },
+      "family": "cross-family/feature",
+      "purpose": "duration, front-strength and signal-count changes, confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "snapshot metadata.time.observedAt / observation.observedAt or governed parent window",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "Temporal field plumbing only; feature/convergence semantics not reviewed",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildProductivityPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 33194,
+        "endLine": 33849,
+        "sha256": "945ac9782598621bcdb23a1e04d72c2cad6bc649214a01b43920718ef696562b"
+      },
+      "family": "chlorophyll-derived",
+      "purpose": "duration; classification, concentration, freshness differences; confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED"
+      ],
+      "bindingKind": "ALTERNATIVE_DISTINCT_SOURCES; not scientifically equivalent",
+      "temporalMetadata": "family interpreted evidence observedAt, recorded age/freshness plus snapshot timestamp",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildClarityPersistence",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 33870,
+        "endLine": 34525,
+        "sha256": "e8a146f51b5cbe1acc696e926a82d2a64967c6fe7846b5edb7805da879ddd79f"
+      },
+      "family": "chlorophyll-derived",
+      "purpose": "duration; clarity-rank, concentration, freshness differences; confidence",
+      "input": "historicalSnapshots from Ocean Memory record/time-series contract",
+      "products": [
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED"
+      ],
+      "bindingKind": "ALTERNATIVE_DISTINCT_SOURCES; not scientifically equivalent",
+      "temporalMetadata": "family interpreted evidence observedAt, recorded age/freshness plus snapshot timestamp",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    },
+    {
+      "consumerId": "buildTemporalFeatureContinuity",
+      "module": "backend/server.js",
+      "source": {
+        "path": "backend/server.js",
+        "line": 26071,
+        "endLine": 26441,
+        "sha256": "8544be7caa70d58739a4a828716d3a90871fcbb1bb1e02fa3710c33460242132"
+      },
+      "family": "cross-family/feature",
+      "purpose": "inherits first/last times and duration; continuity assembly, not source selection",
+      "input": "featurePersistence composition",
+      "products": [
+        "SST_OPEN_METEO_MARINE",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED",
+        "CURRENTS_NOAA_NRT"
+      ],
+      "bindingKind": "TRANSITIVE_POSSIBLE_PARENT_PRODUCTS; actual feature dependency subset remains authoritative, not all products required on every execution",
+      "temporalMetadata": "inherited persistence chronological window/lifecycle, optional governed movement",
+      "supportRequirement": "Authoritative support of each required exact source product and compatible consumer semantics; represented timestamp alone insufficient",
+      "compatibility": "UNKNOWN",
+      "compatibilityDisposition": "CONSUMER_SUPPORT_COMPATIBILITY_REQUIRED",
+      "reason": "Active legacy input/consumer timestamp arithmetic does not establish instant-only, interval or composite scientific acceptance. Locked synthetic SST qualification view is a separate narrower contract.",
+      "productDispositions": [
+        {
+          "productId": "SST_OPEN_METEO_MARINE",
+          "disposition": "PRODUCT_IDENTITY_AND_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_DIRECT",
+          "disposition": "QUALIFIED_PRODUCT_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CHLOROPHYLL_GAP_FILLED",
+          "disposition": "QUALIFIED_RECONSTRUCTION_TEMPORAL_DOCUMENTATION_REQUIRED"
+        },
+        {
+          "productId": "CURRENTS_NOAA_NRT",
+          "disposition": "PROVIDER_TEMPORAL_CLARIFICATION_REQUIRED"
+        }
+      ],
+      "quarantine": "No species/scoring interpretation",
+      "scope": "Temporal metadata/authority only; arithmetic deferred"
+    }
+  ],
+  "temporalAuthorities": [
+    {
+      "name": "REPRESENTED_TIME",
+      "meaning": "Reported product/valid/nominal coordinate; not automatically support"
+    },
+    {
+      "name": "SUPPORT_START",
+      "meaning": "Provider/qualified contract lower bound, only when meaningful"
+    },
+    {
+      "name": "SUPPORT_END",
+      "meaning": "Provider/qualified contract upper bound, endpoint convention separately authoritative"
+    },
+    {
+      "name": "SUPPORT_TYPE",
+      "meaning": "Provider-defined instant/interval/composite/static; unknown stays unknown"
+    },
+    {
+      "name": "PROVIDER_PUBLICATION_TIME",
+      "meaning": "Provider release event, not environmental support"
+    },
+    {
+      "name": "PELORA_RECEIVED_AT",
+      "meaning": "Trusted exact-content possession event, not support"
+    },
+    {
+      "name": "ASSESSMENT_AT",
+      "meaning": "Explicit target assessment; not observation or receipt"
+    },
+    {
+      "name": "RETRIEVAL_TIME",
+      "meaning": "Execution event, not support"
+    },
+    {
+      "name": "CACHE_TIME",
+      "meaning": "Cache operation, not support"
+    }
+  ],
+  "otherFamilies": {
+    "features": "Derived interpretations inherit required parent source support. No independent new provider support supplied by feature label/window.",
+    "weatherMarine": "No independent raw wind/wave/swell temporal consumer added to locked16. Existence of captures is insufficient.",
+    "static": "Bathymetry/water-mask context not repeated environmental history; static support has no manufactured observation time.",
+    "opportunity": "Decision/publication history remains distinct from environmental observation history; outside product support qualification.",
+    "excluded": "2 documentary and9 unwired remain excluded; OSTIA/Geo-Polar product science not requalified because not default source for active16."
+  },
+  "nominalAndDaily": "A product name, file/date, publication or update cadence does not distinguish daily analysis instant, mean or composite. No centered/midnight 24h interval fabricated.",
+  "timeBounds": "Only current preserved review names time_bnds; values/meaning unresolved. Other active adapters do not retain bounds. This is not a claim providers lack bounds.",
+  "composite": "No active product newly classified COMPOSITE without authority. Synthetic composite representability is distinct from product qualification.",
+  "gapFilled": "Target support vs reconstruction input window remain separate unanswered facts.",
+  "overlap": "UNKNOWN per active product; synthetic Frames can represent overlapping composites without qualifying admissibility.",
+  "identity": "Frame temporal support participates in exact frame/sample identity. Changing support cannot rebind an existing sample. Current capture v1/v2 binds reported observedAt but has no source support field; content identity does not supply omitted authority. No identity amendment.",
+  "revision": "Same support can have distinct exact revisions. No preference, merging or elapsed-time inference.",
+  "receipt": "Qualified availability contract unchanged, independently required; pre-assessment possession cannot turn unknown support into instant.",
+  "primitives": {
+    "representation": "Existing environmental sample v1 preserves instant/interval/composite-window/static/unknown Frame support; structural acceptance is not provider truth.",
+    "sstView": "INSTANT_ONLY for existing synthetic direct SST qualification view; rejects interval/composite/static/unknown. Not widened and not transferred to Open-Meteo forecast product.",
+    "activeConsumers": "All16 support acceptance UNKNOWN pending explicit consumer compatibility; timestamp-based calculability not support qualification."
+  },
+  "validation": [
+    "Existing Frame requires explicit valid UTC calendar timestamp, seconds and optional 3-digit milliseconds; no implicit timezone/clock",
+    "Existing interval/composite bound rule is start < end (stricter than prompt example <=); do not weaken",
+    "Instant shape contains at only; static shape has no interval and observationTime/forecastIssuedAt must be null",
+    "Unknown requires explicit reason; nominal/observationTime may coexist with unknown without promotion",
+    "Exact frame validation rejects sample/content temporal substitution",
+    "Provider support semantics and endpoint inclusivity need separate authority even if structure passes"
+  ],
+  "orderingFacts": "Today reported current.time or ERDDAP time; no scientifically qualified instant/start/end for active source support. Future policy may use qualified support facts, never receipt order by substitution.",
+  "legacy": "All four active normalized/legacy paths: LEGACY_SUPPORT_INSUFFICIENT for strict support reconstruction from retained fields alone. No database census. Records with independently bound immutable metadata would need individual qualification; none asserted.",
+  "reconstruction": "No deterministic exact-support reconstruction established for active rows. No values fetched, timestamps backfilled or guessed. Metadata preservation design review follows authority; no automatic capture successor.",
+  "tests": {
+    "focused": 23,
+    "scope": "Actual capture v1/v2, Frame/sample validators and locked test-only SST view; synthetic metadata only, no scientific temporal arithmetic",
+    "attacks": [
+      "reported-time capture acceptance is not support authority",
+      "support injection rejected by capture schemas",
+      "all5 requested support kinds preserved by sample primitive",
+      "instant-only view rejects4 incompatible kinds",
+      "exact support substitution fails old sample validation",
+      "same-time revisions remain distinct",
+      "receipt/publication cannot promote unknown support",
+      "nominal past/future-end interval representable but not instant-view eligible",
+      "overlapping composites representable only",
+      "equal/reversed bounds rejected",
+      "ambiguous/invalid UTC rejected",
+      "fabricated instant/static interval rejected",
+      "accessor not invoked"
+    ]
+  },
+  "partialProgress": "Separate product reviews completed. No active product support qualified on available authority; no SST/chlorophyll result withheld because NOAA is pending. Existing capture identity, receipt authority and restricted primitive qualifications remain qualified.",
+  "nextGate": "Target unresolved products only: pin Open-Meteo underlying SST product and obtain authoritative support specification; obtain separate DIRECT and GAP_FILLED chlorophyll temporal specifications; await existing NOAA current temporal response. Then qualify active consumer support compatibility. No renewed acquisition/contact authorized; return these documentation questions. Only after support/compatibility return to consumer-aware selection (revision/lookback/gaps/freshness/legacy).",
+  "constraints": {
+    "productionChanges": false,
+    "historySelector": false,
+    "lookbackPolicy": false,
+    "revisionPolicy": false,
+    "gapPolicy": false,
+    "temporalArithmeticQualification": false,
+    "metadataSchema": false,
+    "captureSuccessor": false,
+    "frameAmendment": false,
+    "archiveMigration": false,
+    "database": false,
+    "resolver": false,
+    "providerAccess": false,
+    "environmentalAcquisition": false,
+    "AuthSupabaseAccess": false,
+    "stagingCommitTagPushDeployment": false,
+    "convergenceOceanPhysicsWork": false
+  },
+  "locks": {
+    "currentVectorFailureLocality": "QUALIFIED unchanged",
+    "chlorophyllTemporalScope": "QUALIFIED unchanged",
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "convergenceOceanPhysics": "PAUSED untouched",
+    "noaaSme": "pending externally",
+    "numericStrings": "OPEN",
+    "providerFill": "OPEN",
+    "sstCoordinateFallback": "OPEN"
+  },
+  "normalizationGates": "numeric-string/provider-fill/legacy SST-coordinate fallback remain OPEN",
+  "NOAA": "Existing response pending; no contact",
+  "verification": {
+    "status": "PASS_WITH_EXISTING_QUARANTINE_EXCLUSION",
+    "network": "Existing block-network.mjs preload; no acquisition",
+    "regressionScripts": 81,
+    "failures": 0,
+    "focusedTests": 23,
+    "expectedCountsVerified": [
+      {
+        "file": "backend/tests/activeProductTemporalSupport.test.js",
+        "tests": 23
+      },
+      {
+        "file": "backend\\tests\\consumerAwareHistoricalSelectionPolicy.test.js",
+        "tests": 25
+      },
+      {
+        "file": "backend\\tests\\historicalAvailabilityReference.test.js",
+        "tests": 25
+      },
+      {
+        "file": "backend\\tests\\activeHistoricalTemporalProvenance.test.js",
+        "tests": 13
+      },
+      {
+        "file": "backend\\tests\\historyAssessmentCutoff.test.js",
+        "tests": 17
+      },
+      {
+        "file": "backend\\tests\\temporalEvidencePrimitives.test.js",
+        "tests": 100
+      }
+    ],
+    "runs": [
+      {
+        "file": "backend\\tests\\weatherMarineQualityCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/weatherMarineQualityCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\transitiveProducerBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/transitiveProducerBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\temporalHistorySelection.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/temporalHistorySelection.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\temporalEvidencePrimitives.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/temporalEvidencePrimitives.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstWorker.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/sstWorker.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstProductAdapter.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/sstProductAdapter.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstPostConversionFiniteness.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/sstPostConversionFiniteness.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sstNumericIntegrity.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/sstNumericIntegrity.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sourceNormalizationBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/sourceNormalizationBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sourceNormalizationAmendmentAdversarial.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/sourceNormalizationAmendmentAdversarial.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotShapeAuthorityBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/snapshotShapeAuthorityBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotProducerQualificationV2.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/snapshotProducerQualificationV2.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotBranchOptionalityAdversarial.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/snapshotBranchOptionalityAdversarial.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\snapshotBranchOptionality.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/snapshotBranchOptionality.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\signedZeroQualification.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/signedZeroQualification.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\sharedScienceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/sharedScienceBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\scientificHistoryBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/scientificHistoryBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\scientificAssessment.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/scientificAssessment.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\scalarRuntime.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/scalarRuntime.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\revisedSemanticModel.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/revisedSemanticModel.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\placeIngestion.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/placeIngestion.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\persistenceEnvironment.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/persistenceEnvironment.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\opportunityEvaluationState.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/opportunityEvaluationState.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanSnapshotPrivileges.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanSnapshotPrivileges.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanScalarFieldDelivery.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanScalarFieldDelivery.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPublicationHistory.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanPublicationHistory.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPublicationAssessment.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanPublicationAssessment.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPublication.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanPublication.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanProviderBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanProviderBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanProductFrame.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanProductFrame.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanProductArchive.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanProductArchive.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanPhysicsBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanPhysicsBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanFields.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanFields.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\oceanConditions.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/oceanConditions.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\noaaSstPilot.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/noaaSstPilot.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\noaaSstDisplayScale.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/noaaSstDisplayScale.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\marineAssessorCompanionCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/marineAssessorCompanionCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\historyAssessmentCutoff.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/historyAssessmentCutoff.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\historicalOceanRequirements.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/historicalOceanRequirements.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\historicalAvailabilityReference.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/historicalAvailabilityReference.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\governedPlace.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/governedPlace.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogTemporalEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/fishingLogTemporalEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogEvidenceStorage.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/fishingLogEvidenceStorage.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogEvidenceCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/fishingLogEvidenceCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLogAssociationReadiness.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/fishingLogAssociationReadiness.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingLocationSpatialEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/fishingLocationSpatialEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\fishingDayReportSchema.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/fishingDayReportSchema.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\exactScientificEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/exactScientificEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\exactMarineCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/exactMarineCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\exactCandidateSnapshotBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/exactCandidateSnapshotBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\environmentalObservationMetadata.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/environmentalObservationMetadata.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\dynamicOpportunityFailure.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/dynamicOpportunityFailure.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\defaultProviderTransitive.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/defaultProviderTransitive.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\defaultProviderSemanticReview.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/defaultProviderSemanticReview.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentVectorFailureLocalityContract.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/currentVectorFailureLocalityContract.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentVectorFailureContract.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/currentVectorFailureContract.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentVectorDerivedFiniteness.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/currentVectorDerivedFiniteness.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentScientificReconstructionBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/currentScientificReconstructionBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\currentEvidenceCapture.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/currentEvidenceCapture.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\crossRouteFinitenessAtomicityResumed.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/crossRouteFinitenessAtomicityResumed.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\crossRouteFinitenessAtomicity.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/crossRouteFinitenessAtomicity.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\convergenceDecision.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/convergenceDecision.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\convergenceContract.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/convergenceContract.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\consumerAwareHistorySelection.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/consumerAwareHistorySelection.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\consumerAwareHistoricalSelectionPolicy.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/consumerAwareHistoricalSelectionPolicy.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\completeCandidateEvidenceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/completeCandidateEvidenceBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\clientPrivilegeHardening.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/clientPrivilegeHardening.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\chlorophyllTemporalDerivedFiniteness.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/chlorophyllTemporalDerivedFiniteness.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\captureDerivedScientificBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/captureDerivedScientificBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateSnapshotProducerSurface.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/candidateSnapshotProducerSurface.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateSemanticProjectionV2.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/candidateSemanticProjectionV2.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateSemanticProjection.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/candidateSemanticProjection.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateEvidenceSourceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/candidateEvidenceSourceBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateCaptureResumptionBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/candidateCaptureResumptionBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\candidateCaptureAssemblyBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/candidateCaptureAssemblyBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\cacheIsolatedSnapshotProducer.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/cacheIsolatedSnapshotProducer.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\bathymetryEvidence.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/bathymetryEvidence.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\assessmentAstronomy.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/assessmentAstronomy.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\archiveBoundScienceBoundary.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/archiveBoundScienceBoundary.test.js.log"
+      },
+      {
+        "file": "backend\\tests\\activeHistoricalTemporalProvenance.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/activeHistoricalTemporalProvenance.test.js.log"
+      },
+      {
+        "file": "backend/tests/activeProductTemporalSupport.test.js",
+        "exitCode": 0,
+        "log": ".local/ocean-quarantine/product-support/activeProductTemporalSupport.test.js.log"
+      }
+    ],
+    "syntax": {
+      "count": 155,
+      "failures": []
+    },
+    "json": {
+      "count": 149,
+      "failures": [],
+      "scope": "Tracked and nonignored untracked repository JSON; Node JSON.parse"
+    },
+    "protectedReferencesVerified": 14,
+    "excluded": "candidateSemanticProjectionV3.test.js: existing quarantine; not executed; preserved and syntax-checked",
+    "gitDiffCheck": "PASS",
+    "trackedDiff": "EMPTY",
+    "stagedDiff": "EMPTY",
+    "newArtifacts": 4,
+    "totalUntracked": 147,
+    "whitespace": "PASS four new files"
+  },
+  "preservation": {
+    "status": "BYTE_IDENTICAL",
+    "count": 143,
+    "before": [
+      {
+        "path": "backend/candidateSemanticProjectionV3.mjs",
+        "sha256": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e"
+      },
+      {
+        "path": "backend/tests/activeHistoricalTemporalProvenance.test.js",
+        "sha256": "2fa731b27f1ee9935ae09cac84175a5171937ce787ea92f4d4e7475b300f8481"
+      },
+      {
+        "path": "backend/tests/assessmentAstronomy.test.js",
+        "sha256": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c"
+      },
+      {
+        "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+        "sha256": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00"
+      },
+      {
+        "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+        "sha256": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab"
+      },
+      {
+        "path": "backend/tests/chlorophyllTemporalDerivedFiniteness.test.js",
+        "sha256": "0383ede15d2f64960f1a6fc692de3e2ac51871f439c094316f41f3eda9ef4ae9"
+      },
+      {
+        "path": "backend/tests/consumerAwareHistoricalSelectionPolicy.test.js",
+        "sha256": "12a70ba69f03d12c76b4b46082d6328331793b280786a2252a90f3050141d677"
+      },
+      {
+        "path": "backend/tests/consumerAwareHistorySelection.test.js",
+        "sha256": "e15ba59147bf258e18bf7ba9386c97cce54983d5a3a65e01798ba8ab84c14639"
+      },
+      {
+        "path": "backend/tests/convergenceContract.test.js",
+        "sha256": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd"
+      },
+      {
+        "path": "backend/tests/convergenceDecision.test.js",
+        "sha256": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a"
+      },
+      {
+        "path": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+        "sha256": "c860e2a129d4bb33431ac0876f9e319aae2367d1173c31ad2007b89a1e458635"
+      },
+      {
+        "path": "backend/tests/crossRouteFinitenessAtomicityResumed.test.js",
+        "sha256": "35a544be73a4b3a39c2d32278b0bd18d2c61679646c9ccd32edf37d0f6536ffd"
+      },
+      {
+        "path": "backend/tests/currentVectorDerivedFiniteness.test.js",
+        "sha256": "b7114c29df3bb6f2e126ce9aeceaebc141dceef46ad29882e4a1231b860833a6"
+      },
+      {
+        "path": "backend/tests/currentVectorFailureContract.test.js",
+        "sha256": "746de3857b1f446b7587465f491b048fad4d41d99eef20a8256549ce87b5575f"
+      },
+      {
+        "path": "backend/tests/currentVectorFailureLocalityContract.test.js",
+        "sha256": "419b93a7b91ef14dfa0540f5c6149730f8ff079d991a6fb54ae80d461a4e8fe6"
+      },
+      {
+        "path": "backend/tests/defaultProviderSemanticReview.test.js",
+        "sha256": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb"
+      },
+      {
+        "path": "backend/tests/defaultProviderTransitive.test.js",
+        "sha256": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28"
+      },
+      {
+        "path": "backend/tests/fixtures/activeHistoricalTemporalProvenanceFixture.mjs",
+        "sha256": "3da8d0b6d8a4728847c84f6de0525199b5c18086407c24a45db5223414f22b1d"
+      },
+      {
+        "path": "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+        "sha256": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a"
+      },
+      {
+        "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+        "sha256": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52"
+      },
+      {
+        "path": "backend/tests/fixtures/chlorophyllTemporalDerivedFinitenessFixture.mjs",
+        "sha256": "6e79debe9c8de91af971470c44ab62ed0bc7f82960c88d47047a9adc3f8aa4aa"
+      },
+      {
+        "path": "backend/tests/fixtures/consumerAwareHistoricalSelectionPolicyFixture.mjs",
+        "sha256": "c321995c89378bd75fe6a1f3796fb1a5d9c2dad805e6851609827bbd2d324d99"
+      },
+      {
+        "path": "backend/tests/fixtures/consumerAwareHistorySelectionFixture.mjs",
+        "sha256": "11b88717d210d5513ed07317c63f1d0b246d954977424d72b7b9f0b6ca6300fd"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceContractFixture.mjs",
+        "sha256": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+        "sha256": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a"
+      },
+      {
+        "path": "backend/tests/fixtures/crossRouteFinitenessAtomicityResumedFixture.mjs",
+        "sha256": "c193f01507b0f5d6e3530518a32aa6f490d1413f58ed8ddf1287ce2a080d0e1b"
+      },
+      {
+        "path": "backend/tests/fixtures/crossRouteFinitenessFixture.mjs",
+        "sha256": "5d985f8cf1c02ae0674a5eef06e368ac305ced93758dc5d9931efe3fa306933f"
+      },
+      {
+        "path": "backend/tests/fixtures/currentVectorDerivedFinitenessFixture.mjs",
+        "sha256": "0336544a849e27e970c03458a13d3b2c8da22d14c50150a7ab2fb9b189e5ba2e"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+        "sha256": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+        "sha256": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+        "sha256": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138"
+      },
+      {
+        "path": "backend/tests/fixtures/historicalAvailabilityReferenceFixture.mjs",
+        "sha256": "2783404513d65ca985b0a331c47f888cbb3025dba9117513512e243597588ef8"
+      },
+      {
+        "path": "backend/tests/fixtures/historyAssessmentCutoffFixture.mjs",
+        "sha256": "3b7399520ffd25c4f96b638db227aa013539ed7af1ff20550c1b709f84fd2df2"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+        "sha256": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+        "sha256": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade"
+      },
+      {
+        "path": "backend/tests/fixtures/revisedSemanticModelFixture.mjs",
+        "sha256": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+        "sha256": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+        "sha256": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+        "sha256": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+        "sha256": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+        "sha256": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43"
+      },
+      {
+        "path": "backend/tests/fixtures/sourceNormalizationFixture.mjs",
+        "sha256": "b6bf2800beb6aa5447bb0d81733a9c13b6b5576eda19f715e3c5349ec82feed0"
+      },
+      {
+        "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+        "sha256": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0"
+      },
+      {
+        "path": "backend/tests/historicalAvailabilityReference.test.js",
+        "sha256": "b22d98f14172b8c888614447229a4974ea85b1abd2be69c2b814052e303bdbb7"
+      },
+      {
+        "path": "backend/tests/historyAssessmentCutoff.test.js",
+        "sha256": "21891dfb11b97301a1a9c934194c7c624ec5587da1ef9f3aca5ed79ce2e1f8c8"
+      },
+      {
+        "path": "backend/tests/oceanPhysicsBoundary.test.js",
+        "sha256": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a"
+      },
+      {
+        "path": "backend/tests/oceanProviderBoundary.test.js",
+        "sha256": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f"
+      },
+      {
+        "path": "backend/tests/revisedSemanticModel.test.js",
+        "sha256": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionality.test.js",
+        "sha256": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+        "sha256": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990"
+      },
+      {
+        "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+        "sha256": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4"
+      },
+      {
+        "path": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+        "sha256": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725"
+      },
+      {
+        "path": "backend/tests/sourceNormalizationBoundary.test.js",
+        "sha256": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6"
+      },
+      {
+        "path": "backend/tests/sstPostConversionFiniteness.test.js",
+        "sha256": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065"
+      },
+      {
+        "path": "backend/tests/transitiveProducerBoundary.test.js",
+        "sha256": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+        "sha256": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+        "sha256": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699"
+      },
+      {
+        "path": "docs/Active_Historical_Temporal_Provenance_v1.json",
+        "sha256": "20b3857021f6bfbf493bf09f232f43bf78cdd111009e6e79b5e81ae9386f8246"
+      },
+      {
+        "path": "docs/Active_Historical_Temporal_Provenance_v1.md",
+        "sha256": "18957392f435641c2532aa85a30c63dae59148753744f365171aae94ad87a31e"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+        "sha256": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+        "sha256": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+        "sha256": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985"
+      },
+      {
+        "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+        "sha256": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+        "sha256": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Shapes_v3.json",
+        "sha256": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+        "sha256": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+        "sha256": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+        "sha256": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+        "sha256": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+        "sha256": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+        "sha256": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+        "sha256": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+        "sha256": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+        "sha256": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+        "sha256": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+        "sha256": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe"
+      },
+      {
+        "path": "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.json",
+        "sha256": "0088e6cd618ad2872cb56f9a19e26c6c7e4ca05abbfa3a28a818c58e42c85e51"
+      },
+      {
+        "path": "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.md",
+        "sha256": "55f556f62f4a6abeeabfeb180da1baa10735e67de140e484e75c4e128a5c347c"
+      },
+      {
+        "path": "docs/Consumer_Aware_Historical_Selection_Policy_v1.json",
+        "sha256": "043c7efa8de88b5ee343ac16100259cbe5f41314f855b8b8dd39c94641eeae98"
+      },
+      {
+        "path": "docs/Consumer_Aware_Historical_Selection_Policy_v1.md",
+        "sha256": "770f71e6f0b95a72d2a40a705fb31f742a6ba67466200439f8fd81814c3e9e33"
+      },
+      {
+        "path": "docs/Consumer_Aware_History_Selection_v1.json",
+        "sha256": "cf819c691c64d8dfb938706c5a43d60933bfb9f6c2c16ecd0d2e623775540da7"
+      },
+      {
+        "path": "docs/Consumer_Aware_History_Selection_v1.md",
+        "sha256": "ca3292a25975063b7138835c1c6940592ba746a5cb1b1895b0a09420615a83d5"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.json",
+        "sha256": "ff7ea4e0b6ef0fa2bf6b7b4aa5d90755072e583991b784700bd575680ff50dab"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.md",
+        "sha256": "1b49cf8f78ea684a3c1f30ed2372c95c37602d13e9e592ac4ee961f067e1be45"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_v1.json",
+        "sha256": "81660589e40fd815d4eb161ed9d666fc2c769945cb9ca8132cd544756464ba8b"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_v1.md",
+        "sha256": "3a48f2b184aab045088dc36fd2bd5b6bfaddde362a8e657747dacedd92345dbf"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Preservation_v1.json",
+        "sha256": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.json",
+        "sha256": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.md",
+        "sha256": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.json",
+        "sha256": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.md",
+        "sha256": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9"
+      },
+      {
+        "path": "docs/Current_Vector_Derived_Finiteness_v1.json",
+        "sha256": "677ab7f88704de343090b2bd9f09416373070d26eca58f0a7cf8d24e5695906f"
+      },
+      {
+        "path": "docs/Current_Vector_Derived_Finiteness_v1.md",
+        "sha256": "efc0ce41e502b91d3c33c90facad14fd8a269fb2f765856aba7633cc7bc381f1"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.json",
+        "sha256": "9039a67ce843488171e2202e20ad152937e4627af130a1a4c258a82262c04585"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.md",
+        "sha256": "0f20c032b7aec445e3d15174ea2d9244170e732c2314ff9365aa0040546efdc7"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_State_Contract_v1.json",
+        "sha256": "3649acabb80bb9e275e782f77ff7448af9e31e840d7a10fe80f5e614ff33718a"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_State_Contract_v1.md",
+        "sha256": "41935cafa770d8a46eadd53064b63d73392357eef93cf85668872cdbdaac9c0a"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+        "sha256": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+        "sha256": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+        "sha256": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.json",
+        "sha256": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.md",
+        "sha256": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Discovery_v2.json",
+        "sha256": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Preservation_v1.json",
+        "sha256": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.json",
+        "sha256": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.md",
+        "sha256": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.json",
+        "sha256": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.md",
+        "sha256": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Preservation_v1.json",
+        "sha256": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60"
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.json",
+        "sha256": "7d239af5dd6a72d2565f92b749515f9994104715f9218bde75a593a4e797b7d9"
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.md",
+        "sha256": "f9653f531c023dc75e76c423742f6933e629eaf7dcf8eb8b12a89d7d8ed49f52"
+      },
+      {
+        "path": "docs/Historical_Assessment_Cutoff_Contract_v1.json",
+        "sha256": "397cc05c6dd5cd2bee59621c5f6a734338516bfb11c1072f7504e5d50d76354f"
+      },
+      {
+        "path": "docs/Historical_Assessment_Cutoff_Contract_v1.md",
+        "sha256": "a6bf941ffddbbfa6aed407016752a771eb946d095a318a901bec93250d4f4ba2"
+      },
+      {
+        "path": "docs/Historical_Availability_Reference_Contract_v1.json",
+        "sha256": "d73e40405af3db8f0f44f939cabb99d48eb7477ca05fcd28b810f58932655222"
+      },
+      {
+        "path": "docs/Historical_Availability_Reference_Contract_v1.md",
+        "sha256": "46dd25880ff248925783af53cb2d2df045c672d466a2e806fffd46fe2e831258"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.json",
+        "sha256": "4ef7a5d805629d687a7f73d80968bfd6b5323d258249d3c1c199a4fe59c57cd5"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.md",
+        "sha256": "30ccb4bcd431ee2de07dedda8ab799facedd35a2c242cf15425fa1143dd26836"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.json",
+        "sha256": "a1d2533b445d53daa7d2d85d2807e5504e33f05ba120640fd365675c07eeeb08"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+        "sha256": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md",
+        "sha256": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455"
+      },
+      {
+        "path": "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+        "sha256": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+        "sha256": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.md",
+        "sha256": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+        "sha256": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.json",
+        "sha256": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.md",
+        "sha256": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d"
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.json",
+        "sha256": "ad9871e9e8ddaf2da2a9f067e5da908da41e035745c3082b546d4b8d417e239c"
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.md",
+        "sha256": "399eea9f9ea2a88b0ff066c24527a811a68168c064cf2a1f27c30c7e9ca96ef0"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+        "sha256": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+        "sha256": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61"
+      },
+      {
+        "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+        "sha256": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.json",
+        "sha256": "a5e9ae789c3e647b106539a02dcd8b05decb7d6d339b983cbfc01f0e4172115b"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.md",
+        "sha256": "dd03ad74610801786b3d0f69d14c4ebddcb63b2b0f7dbdfe2eed19f6fc69055a"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.json",
+        "sha256": "44e9d432329a46888b671dc651b3141afae5a6e36c271223da88cf2f3a2b762a"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.md",
+        "sha256": "aff3dc65cd2509ea79fab7a6037599cd9a5b9a4bc5a9cf7597163709d6335aef"
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.json",
+        "sha256": "8dc9a822ec1127c89b3928903291587747be9cbb67aade535a07fb4aee2d9af0"
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.md",
+        "sha256": "c4e2dde4d318db30e0a570c389ac8d2d48fd599252311eb6204d856324ea402b"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+        "sha256": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+        "sha256": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+        "sha256": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+        "sha256": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f"
+      },
+      {
+        "path": "supabase/.gitignore",
+        "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+      },
+      {
+        "path": "supabase/config.toml",
+        "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2"
+      }
+    ],
+    "after": [
+      {
+        "path": "backend/candidateSemanticProjectionV3.mjs",
+        "sha256": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e"
+      },
+      {
+        "path": "backend/tests/activeHistoricalTemporalProvenance.test.js",
+        "sha256": "2fa731b27f1ee9935ae09cac84175a5171937ce787ea92f4d4e7475b300f8481"
+      },
+      {
+        "path": "backend/tests/assessmentAstronomy.test.js",
+        "sha256": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c"
+      },
+      {
+        "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+        "sha256": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00"
+      },
+      {
+        "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+        "sha256": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab"
+      },
+      {
+        "path": "backend/tests/chlorophyllTemporalDerivedFiniteness.test.js",
+        "sha256": "0383ede15d2f64960f1a6fc692de3e2ac51871f439c094316f41f3eda9ef4ae9"
+      },
+      {
+        "path": "backend/tests/consumerAwareHistoricalSelectionPolicy.test.js",
+        "sha256": "12a70ba69f03d12c76b4b46082d6328331793b280786a2252a90f3050141d677"
+      },
+      {
+        "path": "backend/tests/consumerAwareHistorySelection.test.js",
+        "sha256": "e15ba59147bf258e18bf7ba9386c97cce54983d5a3a65e01798ba8ab84c14639"
+      },
+      {
+        "path": "backend/tests/convergenceContract.test.js",
+        "sha256": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd"
+      },
+      {
+        "path": "backend/tests/convergenceDecision.test.js",
+        "sha256": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a"
+      },
+      {
+        "path": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+        "sha256": "c860e2a129d4bb33431ac0876f9e319aae2367d1173c31ad2007b89a1e458635"
+      },
+      {
+        "path": "backend/tests/crossRouteFinitenessAtomicityResumed.test.js",
+        "sha256": "35a544be73a4b3a39c2d32278b0bd18d2c61679646c9ccd32edf37d0f6536ffd"
+      },
+      {
+        "path": "backend/tests/currentVectorDerivedFiniteness.test.js",
+        "sha256": "b7114c29df3bb6f2e126ce9aeceaebc141dceef46ad29882e4a1231b860833a6"
+      },
+      {
+        "path": "backend/tests/currentVectorFailureContract.test.js",
+        "sha256": "746de3857b1f446b7587465f491b048fad4d41d99eef20a8256549ce87b5575f"
+      },
+      {
+        "path": "backend/tests/currentVectorFailureLocalityContract.test.js",
+        "sha256": "419b93a7b91ef14dfa0540f5c6149730f8ff079d991a6fb54ae80d461a4e8fe6"
+      },
+      {
+        "path": "backend/tests/defaultProviderSemanticReview.test.js",
+        "sha256": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb"
+      },
+      {
+        "path": "backend/tests/defaultProviderTransitive.test.js",
+        "sha256": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28"
+      },
+      {
+        "path": "backend/tests/fixtures/activeHistoricalTemporalProvenanceFixture.mjs",
+        "sha256": "3da8d0b6d8a4728847c84f6de0525199b5c18086407c24a45db5223414f22b1d"
+      },
+      {
+        "path": "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+        "sha256": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a"
+      },
+      {
+        "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+        "sha256": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52"
+      },
+      {
+        "path": "backend/tests/fixtures/chlorophyllTemporalDerivedFinitenessFixture.mjs",
+        "sha256": "6e79debe9c8de91af971470c44ab62ed0bc7f82960c88d47047a9adc3f8aa4aa"
+      },
+      {
+        "path": "backend/tests/fixtures/consumerAwareHistoricalSelectionPolicyFixture.mjs",
+        "sha256": "c321995c89378bd75fe6a1f3796fb1a5d9c2dad805e6851609827bbd2d324d99"
+      },
+      {
+        "path": "backend/tests/fixtures/consumerAwareHistorySelectionFixture.mjs",
+        "sha256": "11b88717d210d5513ed07317c63f1d0b246d954977424d72b7b9f0b6ca6300fd"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceContractFixture.mjs",
+        "sha256": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef"
+      },
+      {
+        "path": "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+        "sha256": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a"
+      },
+      {
+        "path": "backend/tests/fixtures/crossRouteFinitenessAtomicityResumedFixture.mjs",
+        "sha256": "c193f01507b0f5d6e3530518a32aa6f490d1413f58ed8ddf1287ce2a080d0e1b"
+      },
+      {
+        "path": "backend/tests/fixtures/crossRouteFinitenessFixture.mjs",
+        "sha256": "5d985f8cf1c02ae0674a5eef06e368ac305ced93758dc5d9931efe3fa306933f"
+      },
+      {
+        "path": "backend/tests/fixtures/currentVectorDerivedFinitenessFixture.mjs",
+        "sha256": "0336544a849e27e970c03458a13d3b2c8da22d14c50150a7ab2fb9b189e5ba2e"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+        "sha256": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+        "sha256": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba"
+      },
+      {
+        "path": "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+        "sha256": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138"
+      },
+      {
+        "path": "backend/tests/fixtures/historicalAvailabilityReferenceFixture.mjs",
+        "sha256": "2783404513d65ca985b0a331c47f888cbb3025dba9117513512e243597588ef8"
+      },
+      {
+        "path": "backend/tests/fixtures/historyAssessmentCutoffFixture.mjs",
+        "sha256": "3b7399520ffd25c4f96b638db227aa013539ed7af1ff20550c1b709f84fd2df2"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+        "sha256": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1"
+      },
+      {
+        "path": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+        "sha256": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade"
+      },
+      {
+        "path": "backend/tests/fixtures/revisedSemanticModelFixture.mjs",
+        "sha256": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+        "sha256": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+        "sha256": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+        "sha256": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+        "sha256": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247"
+      },
+      {
+        "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+        "sha256": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43"
+      },
+      {
+        "path": "backend/tests/fixtures/sourceNormalizationFixture.mjs",
+        "sha256": "b6bf2800beb6aa5447bb0d81733a9c13b6b5576eda19f715e3c5349ec82feed0"
+      },
+      {
+        "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+        "sha256": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0"
+      },
+      {
+        "path": "backend/tests/historicalAvailabilityReference.test.js",
+        "sha256": "b22d98f14172b8c888614447229a4974ea85b1abd2be69c2b814052e303bdbb7"
+      },
+      {
+        "path": "backend/tests/historyAssessmentCutoff.test.js",
+        "sha256": "21891dfb11b97301a1a9c934194c7c624ec5587da1ef9f3aca5ed79ce2e1f8c8"
+      },
+      {
+        "path": "backend/tests/oceanPhysicsBoundary.test.js",
+        "sha256": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a"
+      },
+      {
+        "path": "backend/tests/oceanProviderBoundary.test.js",
+        "sha256": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f"
+      },
+      {
+        "path": "backend/tests/revisedSemanticModel.test.js",
+        "sha256": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionality.test.js",
+        "sha256": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974"
+      },
+      {
+        "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+        "sha256": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990"
+      },
+      {
+        "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+        "sha256": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4"
+      },
+      {
+        "path": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+        "sha256": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725"
+      },
+      {
+        "path": "backend/tests/sourceNormalizationBoundary.test.js",
+        "sha256": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6"
+      },
+      {
+        "path": "backend/tests/sstPostConversionFiniteness.test.js",
+        "sha256": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065"
+      },
+      {
+        "path": "backend/tests/transitiveProducerBoundary.test.js",
+        "sha256": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+        "sha256": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42"
+      },
+      {
+        "path": "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+        "sha256": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699"
+      },
+      {
+        "path": "docs/Active_Historical_Temporal_Provenance_v1.json",
+        "sha256": "20b3857021f6bfbf493bf09f232f43bf78cdd111009e6e79b5e81ae9386f8246"
+      },
+      {
+        "path": "docs/Active_Historical_Temporal_Provenance_v1.md",
+        "sha256": "18957392f435641c2532aa85a30c63dae59148753744f365171aae94ad87a31e"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+        "sha256": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+        "sha256": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691"
+      },
+      {
+        "path": "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+        "sha256": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985"
+      },
+      {
+        "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+        "sha256": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+        "sha256": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09"
+      },
+      {
+        "path": "docs/Candidate_Semantic_Shapes_v3.json",
+        "sha256": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+        "sha256": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+        "sha256": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+        "sha256": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+        "sha256": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+        "sha256": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+        "sha256": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+        "sha256": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+        "sha256": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+        "sha256": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+        "sha256": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d"
+      },
+      {
+        "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+        "sha256": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe"
+      },
+      {
+        "path": "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.json",
+        "sha256": "0088e6cd618ad2872cb56f9a19e26c6c7e4ca05abbfa3a28a818c58e42c85e51"
+      },
+      {
+        "path": "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.md",
+        "sha256": "55f556f62f4a6abeeabfeb180da1baa10735e67de140e484e75c4e128a5c347c"
+      },
+      {
+        "path": "docs/Consumer_Aware_Historical_Selection_Policy_v1.json",
+        "sha256": "043c7efa8de88b5ee343ac16100259cbe5f41314f855b8b8dd39c94641eeae98"
+      },
+      {
+        "path": "docs/Consumer_Aware_Historical_Selection_Policy_v1.md",
+        "sha256": "770f71e6f0b95a72d2a40a705fb31f742a6ba67466200439f8fd81814c3e9e33"
+      },
+      {
+        "path": "docs/Consumer_Aware_History_Selection_v1.json",
+        "sha256": "cf819c691c64d8dfb938706c5a43d60933bfb9f6c2c16ecd0d2e623775540da7"
+      },
+      {
+        "path": "docs/Consumer_Aware_History_Selection_v1.md",
+        "sha256": "ca3292a25975063b7138835c1c6940592ba746a5cb1b1895b0a09420615a83d5"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.json",
+        "sha256": "ff7ea4e0b6ef0fa2bf6b7b4aa5d90755072e583991b784700bd575680ff50dab"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.md",
+        "sha256": "1b49cf8f78ea684a3c1f30ed2372c95c37602d13e9e592ac4ee961f067e1be45"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_v1.json",
+        "sha256": "81660589e40fd815d4eb161ed9d666fc2c769945cb9ca8132cd544756464ba8b"
+      },
+      {
+        "path": "docs/Cross_Route_Finiteness_Atomicity_v1.md",
+        "sha256": "3a48f2b184aab045088dc36fd2bd5b6bfaddde362a8e657747dacedd92345dbf"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Preservation_v1.json",
+        "sha256": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.json",
+        "sha256": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9"
+      },
+      {
+        "path": "docs/Current_Convergence_Contract_Review_v1.md",
+        "sha256": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.json",
+        "sha256": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361"
+      },
+      {
+        "path": "docs/Current_Convergence_Science_Review_Package_v1.md",
+        "sha256": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9"
+      },
+      {
+        "path": "docs/Current_Vector_Derived_Finiteness_v1.json",
+        "sha256": "677ab7f88704de343090b2bd9f09416373070d26eca58f0a7cf8d24e5695906f"
+      },
+      {
+        "path": "docs/Current_Vector_Derived_Finiteness_v1.md",
+        "sha256": "efc0ce41e502b91d3c33c90facad14fd8a269fb2f765856aba7633cc7bc381f1"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.json",
+        "sha256": "9039a67ce843488171e2202e20ad152937e4627af130a1a4c258a82262c04585"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.md",
+        "sha256": "0f20c032b7aec445e3d15174ea2d9244170e732c2314ff9365aa0040546efdc7"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_State_Contract_v1.json",
+        "sha256": "3649acabb80bb9e275e782f77ff7448af9e31e840d7a10fe80f5e614ff33718a"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_State_Contract_v1.md",
+        "sha256": "41935cafa770d8a46eadd53064b63d73392357eef93cf85668872cdbdaac9c0a"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+        "sha256": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13"
+      },
+      {
+        "path": "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+        "sha256": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+        "sha256": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.json",
+        "sha256": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf"
+      },
+      {
+        "path": "docs/Default_Provider_Semantic_Review_v1.md",
+        "sha256": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Discovery_v2.json",
+        "sha256": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Preservation_v1.json",
+        "sha256": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.json",
+        "sha256": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5"
+      },
+      {
+        "path": "docs/Default_Provider_Transitive_Review_v1.md",
+        "sha256": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.json",
+        "sha256": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Decision_v1.md",
+        "sha256": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd"
+      },
+      {
+        "path": "docs/Governed_Current_Convergence_Preservation_v1.json",
+        "sha256": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60"
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.json",
+        "sha256": "7d239af5dd6a72d2565f92b749515f9994104715f9218bde75a593a4e797b7d9"
+      },
+      {
+        "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.md",
+        "sha256": "f9653f531c023dc75e76c423742f6933e629eaf7dcf8eb8b12a89d7d8ed49f52"
+      },
+      {
+        "path": "docs/Historical_Assessment_Cutoff_Contract_v1.json",
+        "sha256": "397cc05c6dd5cd2bee59621c5f6a734338516bfb11c1072f7504e5d50d76354f"
+      },
+      {
+        "path": "docs/Historical_Assessment_Cutoff_Contract_v1.md",
+        "sha256": "a6bf941ffddbbfa6aed407016752a771eb946d095a318a901bec93250d4f4ba2"
+      },
+      {
+        "path": "docs/Historical_Availability_Reference_Contract_v1.json",
+        "sha256": "d73e40405af3db8f0f44f939cabb99d48eb7477ca05fcd28b810f58932655222"
+      },
+      {
+        "path": "docs/Historical_Availability_Reference_Contract_v1.md",
+        "sha256": "46dd25880ff248925783af53cb2d2df045c672d466a2e806fffd46fe2e831258"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.json",
+        "sha256": "4ef7a5d805629d687a7f73d80968bfd6b5323d258249d3c1c199a4fe59c57cd5"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.md",
+        "sha256": "30ccb4bcd431ee2de07dedda8ab799facedd35a2c242cf15425fa1143dd26836"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.json",
+        "sha256": "a1d2533b445d53daa7d2d85d2807e5504e33f05ba120640fd365675c07eeeb08"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+        "sha256": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798"
+      },
+      {
+        "path": "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md",
+        "sha256": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455"
+      },
+      {
+        "path": "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+        "sha256": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+        "sha256": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9"
+      },
+      {
+        "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.md",
+        "sha256": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+        "sha256": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.json",
+        "sha256": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2"
+      },
+      {
+        "path": "docs/Revised_Default_Provider_Model_Stop_v1.md",
+        "sha256": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d"
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.json",
+        "sha256": "ad9871e9e8ddaf2da2a9f067e5da908da41e035745c3082b546d4b8d417e239c"
+      },
+      {
+        "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.md",
+        "sha256": "399eea9f9ea2a88b0ff066c24527a811a68168c064cf2a1f27c30c7e9ca96ef0"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+        "sha256": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c"
+      },
+      {
+        "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+        "sha256": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61"
+      },
+      {
+        "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+        "sha256": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.json",
+        "sha256": "a5e9ae789c3e647b106539a02dcd8b05decb7d6d339b983cbfc01f0e4172115b"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.md",
+        "sha256": "dd03ad74610801786b3d0f69d14c4ebddcb63b2b0f7dbdfe2eed19f6fc69055a"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.json",
+        "sha256": "44e9d432329a46888b671dc651b3141afae5a6e36c271223da88cf2f3a2b762a"
+      },
+      {
+        "path": "docs/Source_Normalization_Amendment_Review_v1.md",
+        "sha256": "aff3dc65cd2509ea79fab7a6037599cd9a5b9a4bc5a9cf7597163709d6335aef"
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.json",
+        "sha256": "8dc9a822ec1127c89b3928903291587747be9cbb67aade535a07fb4aee2d9af0"
+      },
+      {
+        "path": "docs/Source_Normalization_Boundary_v1.md",
+        "sha256": "c4e2dde4d318db30e0a570c389ac8d2d48fd599252311eb6204d856324ea402b"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+        "sha256": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+        "sha256": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+        "sha256": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7"
+      },
+      {
+        "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+        "sha256": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f"
+      },
+      {
+        "path": "supabase/.gitignore",
+        "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+      },
+      {
+        "path": "supabase/config.toml",
+        "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2"
+      }
+    ]
+  },
+  "references": [
+    {
+      "path": "backend/server.js",
+      "sha256": "03c03d8dd5d9477218719486636f64ccdcc47cc19b0c53a4aaf91d931d77ad06"
+    },
+    {
+      "path": "backend/currentEvidenceCapture.mjs",
+      "sha256": "5171835f5cfaf676b13ab6861b0a6eb25acb9f05fdaf73f3537ab90d7e1b4c18"
+    },
+    {
+      "path": "backend/currentEvidenceCaptureV2.mjs",
+      "sha256": "629cdf651f760a68c0e638a198110248858333c7c5ac8d1e51c647de2f7c6018"
+    },
+    {
+      "path": "backend/temporalEvidencePrimitives.mjs",
+      "sha256": "d874949f0f71ac41977aea045cddea239d732b71d88fbe555d2f0479f073bb1f"
+    },
+    {
+      "path": "shared/oceanProductFrame.mjs",
+      "sha256": "78af4402cf1e6e9899c5717283c7b7a5a5f02b2716601cf7d0229984ede50774"
+    },
+    {
+      "path": "shared/oceanProductArchive.mjs",
+      "sha256": "b1dd406fc8332de4c4a6c36a06ccd4269c9fef20c6f7aec224037969e0480fc3"
+    },
+    {
+      "path": "backend/tests/fixtures/temporalEvidenceFixture.mjs",
+      "sha256": "c8ff56477e8d55c0c645cfd426a213174cfe28c9e48ede90d46217af4e7e60b0"
+    },
+    {
+      "path": "docs/Ocean_Product_Archive_Foundation_v1.md",
+      "sha256": "188bc773f35aaa23282b998f397044313b24ff56e80f8b8a545f10bde7d0b351"
+    },
+    {
+      "path": "docs/Consumer_Aware_Historical_Selection_Policy_v1.json",
+      "sha256": "043c7efa8de88b5ee343ac16100259cbe5f41314f855b8b8dd39c94641eeae98"
+    },
+    {
+      "path": "docs/Historical_Availability_Reference_Contract_v1.json",
+      "sha256": "d73e40405af3db8f0f44f939cabb99d48eb7477ca05fcd28b810f58932655222"
+    },
+    {
+      "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+      "sha256": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798"
+    },
+    {
+      "path": "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md",
+      "sha256": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455"
+    },
+    {
+      "path": "docs/Operational_SST_Acquisition_Freshness_v1.md",
+      "sha256": "fc2597268004c9925efd714afca7e8d0325cfa8d7c410ff51fed5a2a05afa68c"
+    },
+    {
+      "path": "backend/oceanState/noaaSstSource.mjs",
+      "sha256": "5361cc12df89dbf749445b72f2f9e9ba4898f5a0e52de99d716d4c719eb1a198"
+    }
+  ],
+  "repositorySearch": {
+    "scope": "Current source/captures/Frame/archive/temporal primitives; existing product inventory and preserved provider-review text; local metadata file inventory",
+    "result": "No sufficient active SST or chlorophyll support specification established. Current support explicitly unresolved in preserved NOAA review.",
+    "limits": "No claim of exhaustive external documentation absence; excluded OSTIA/Geo-Polar metadata cannot qualify a different active product. No new external request."
+  }
+}
