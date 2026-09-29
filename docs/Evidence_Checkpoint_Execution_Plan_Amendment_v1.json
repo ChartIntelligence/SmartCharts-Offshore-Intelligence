@@ -1,0 +1,1711 @@
+{
+  "version": 1,
+  "verdict": "FINAL_PRESERVATION_AMENDMENT_READY_FOR_HUMAN_APPROVAL",
+  "status": "PROPOSED_NOT_APPROVED_FOR_EXECUTION",
+  "task": "PLAN_AUTHORING_ONLY",
+  "classification": "OPERATIONAL_GOVERNANCE",
+  "authority": "NAVIGATION / EXECUTION AUTHORITY ONLY upon express approval; NOT SCIENTIFIC AUTHORITY; NOT RUNTIME AUTHORITY",
+  "filesCreated": [
+    "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md",
+    "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json"
+  ],
+  "repository": {
+    "branch": "codex/pelora-remote-setup",
+    "expectedCP12": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+    "path": "C:\\Users\\User\\.codex\\worktrees\\e89f\\SmartCharts-Offshore-Intelligence",
+    "startingHEAD": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a"
+  },
+  "inputPartition": {
+    "counts": {
+      "B": 4,
+      "D": 2,
+      "C": 10,
+      "A": 2,
+      "E": 2
+    },
+    "reconciliation": [
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json"
+    ],
+    "excludedSupabase": [
+      "supabase/.gitignore",
+      "supabase/config.toml"
+    ],
+    "postPlanOperational": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "docs/Zero_Network_Offline_Materialization_v1.md",
+      "docs/Zero_Network_Offline_Materialization_v1.json"
+    ],
+    "originalCP13": [
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json"
+    ],
+    "planEraGovernance": [
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.json"
+    ],
+    "count": 20
+  },
+  "inputHashes": [
+    {
+      "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "sha256": "cf47206581d50ac19710f27eb41c8ee728fe3a54dcbb938aa18decb3bdc113e2"
+    },
+    {
+      "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "sha256": "c3bd2d59d4ba243bb69a394ecfd8c851ccdcd1127cd9024279d22d515cc1d54e"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "sha256": "85da306930d093ba7584d341e0834a380033821bdd142be8a44827322bd2df70"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "sha256": "ca793b02c20aac9d0c02abd38fadd1185dd9347d2f155645cf6c679ae7ee1dc9"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "sha256": "f6b87eed42ec291febd754cdc695c98e52253be467baa466251154da7713298e"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "sha256": "ff3d32ace793868caca7aedaebd07f7ab9c9ea9a7597ea1ba58de9256d616574"
+    },
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "sha256": "d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365"
+    },
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "sha256": "5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c"
+    },
+    {
+      "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "sha256": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68"
+    },
+    {
+      "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "sha256": "b8c18c054f30eae23a7820cff3f13920c40865343532878d0e5df0f0ad8931ae"
+    },
+    {
+      "path": "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "sha256": "32bb0e73b0b996ffd79737e5769e5db7bc3a0648dbf4804b17807edc0f2a4c41"
+    },
+    {
+      "path": "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "sha256": "db9d384c2efca61bafcc506c1bd7a124c44d746ca7ba3b059a4295de34adf9ca"
+    },
+    {
+      "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "sha256": "64b8098cf1fe0abb6f4512be90c415b792c11d11e66f7665d2d63e8481183c76"
+    },
+    {
+      "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "sha256": "21ffd6844fd30afa791c698f508fd321e127fa7a7e6ba7c9751f8f3694644683"
+    },
+    {
+      "path": "docs/Zero_Network_Offline_Materialization_v1.json",
+      "sha256": "9422ab12d06e57f24eda2767cbbec2d942700320e3bd51dcee9a8b66db40c5af"
+    },
+    {
+      "path": "docs/Zero_Network_Offline_Materialization_v1.md",
+      "sha256": "d82aa845b436e44d5793858609dce21c3ba88f22e23beccc899167730da77aa6"
+    },
+    {
+      "path": "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "sha256": "a2086ddb25373f17a25a76c5c2387e596cf72359aca9610c128cdeff80753745"
+    },
+    {
+      "path": "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json",
+      "sha256": "392b59ef9894ba52d400ef1998492c1b997ebfe4487dd365248781831911a632"
+    }
+  ],
+  "predecessorChain": [
+    {
+      "checkpoint": "CP00",
+      "tag": "checkpoint-quarantined-candidate-semantic-projection-v3-draft-v1",
+      "commit": "6595b30e3189d4d6605e41384242fb206167c12b",
+      "object": "924a935b7636930b962966344ec4972b27fc0bc5"
+    },
+    {
+      "checkpoint": "CP01",
+      "tag": "checkpoint-withdrawn-snapshot-qualification-evidence-v1",
+      "commit": "f301beb15617b640cfda757fa5e6001393e353cb",
+      "object": "0a3e2264860703b414415bc30b61aa0000e7bffa"
+    },
+    {
+      "checkpoint": "CP02",
+      "tag": "checkpoint-snapshot-harness-withdrawal-boundary-v1",
+      "commit": "0ba32bcfff53c486023a23ab9a71920e8e1539a5",
+      "object": "f3f0ae8ae7f60810fe84de56dfffa26b83d4dae2"
+    },
+    {
+      "checkpoint": "CP03",
+      "tag": "checkpoint-provider-domain-diagnostic-boundary-v1",
+      "commit": "df32c112a9b7092641e81830ea2430fa9691c9ed",
+      "object": "38b41e3160d01edca7456461d9cb7fc85cf0efbf"
+    },
+    {
+      "checkpoint": "CP04",
+      "tag": "checkpoint-assessment-astronomy-boundary-v1",
+      "commit": "ccc711c5f78810e6cfe026d86ada2462f45d8f30",
+      "object": "e689d67f19c7b0418111524a53bc1587e57f43fc"
+    },
+    {
+      "checkpoint": "CP05",
+      "tag": "checkpoint-paused-ocean-physics-review-evidence-v1",
+      "commit": "cf965702800ad364cc0742c71cd5eff3bd6d52be",
+      "object": "857b49bec3a910164e6ab8e44c4de4532fde08dc"
+    },
+    {
+      "checkpoint": "CP06",
+      "tag": "checkpoint-normalization-current-stop-boundary-v1",
+      "commit": "02326627671eb290027cfef63e448109e6ad02e2",
+      "object": "579aaa2f67a875c866669896538c07072ba87f5a"
+    },
+    {
+      "checkpoint": "CP07",
+      "tag": "checkpoint-current-vector-failure-locality-contract-v1",
+      "commit": "3c02c00f53f7f1fb06ad6363513e0e562cd550c7",
+      "object": "dff65f5785a0454d44b884abd49f6b4a56ee2694"
+    },
+    {
+      "checkpoint": "CP08",
+      "tag": "checkpoint-temporal-arithmetic-stop-boundary-v1",
+      "commit": "5d3f124e01640c9926a5bbcfa12a4d8511d85258",
+      "object": "8f7e50d01a12165544f6f77fbd836a40f2bbbf35"
+    },
+    {
+      "checkpoint": "CP09",
+      "tag": "checkpoint-historical-authority-stop-boundary-v1",
+      "commit": "988d744252593521ed45ff4a66925818c0bf7a1e",
+      "object": "7637581b1200ca1af8ca27ee3f029f202180ef7f"
+    },
+    {
+      "checkpoint": "CP10",
+      "tag": "checkpoint-exact-historical-availability-reference-contract-v1",
+      "commit": "5288537e1cc028d2af97dd3c5a438bb8e5862aca",
+      "object": "ef61ed2a9e0ff406dee65dd7b563c08144e13db1"
+    },
+    {
+      "checkpoint": "CP11",
+      "tag": "checkpoint-product-temporal-authority-partial-boundary-v1",
+      "commit": "fad49a6a6cd69daecfc8dc2471e3219f68d906a3",
+      "object": "13f7e57ab187a9f4f364293b30abcdab0e55ee7a"
+    },
+    {
+      "checkpoint": "CP12",
+      "tag": "checkpoint-sst-source-equivalence-gap-filled-binding-boundary-v1",
+      "commit": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+      "object": "f0688f3130ba2569e755e2a826541b09c3fef224"
+    }
+  ],
+  "protectedBaseline": [
+    {
+      "path": "backend/candidateSemanticProjectionV3.mjs",
+      "sha256": "cc610ad547fac883c003219f143035101679a1f5adb6ccc0f10e14dd74adab0e"
+    },
+    {
+      "path": "backend/tests/activeHistoricalTemporalProvenance.test.js",
+      "sha256": "2fa731b27f1ee9935ae09cac84175a5171937ce787ea92f4d4e7475b300f8481"
+    },
+    {
+      "path": "backend/tests/activeProductTemporalSupport.test.js",
+      "sha256": "d04020a7ddafc886c7cc97c07cddb2a1c890264ba757278284e89b06b01963ac"
+    },
+    {
+      "path": "backend/tests/assessmentAstronomy.test.js",
+      "sha256": "be133474b9b2c743561a4ff573345c6bc3d0cc6495b08cb5e89e1fce0f50542c"
+    },
+    {
+      "path": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "sha256": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00"
+    },
+    {
+      "path": "backend/tests/candidateSemanticProjectionV3.test.js",
+      "sha256": "98f097f673976161946d7d311661477e345bca0add4a2957b9d1527199fe16ab"
+    },
+    {
+      "path": "backend/tests/chlorophyllTemporalDerivedFiniteness.test.js",
+      "sha256": "0383ede15d2f64960f1a6fc692de3e2ac51871f439c094316f41f3eda9ef4ae9"
+    },
+    {
+      "path": "backend/tests/consumerAwareHistoricalSelectionPolicy.test.js",
+      "sha256": "12a70ba69f03d12c76b4b46082d6328331793b280786a2252a90f3050141d677"
+    },
+    {
+      "path": "backend/tests/consumerAwareHistorySelection.test.js",
+      "sha256": "e15ba59147bf258e18bf7ba9386c97cce54983d5a3a65e01798ba8ab84c14639"
+    },
+    {
+      "path": "backend/tests/convergenceContract.test.js",
+      "sha256": "e53b25b9bd85ede098b0317aa0ab05b90f154f7d3f3488ee68b035c5e9b2ebbd"
+    },
+    {
+      "path": "backend/tests/convergenceDecision.test.js",
+      "sha256": "8db9c1e26ac0c9ad82d7bc720fe3ca9c64cb9156feff8b79fc3a85d3dea66a5a"
+    },
+    {
+      "path": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+      "sha256": "c860e2a129d4bb33431ac0876f9e319aae2367d1173c31ad2007b89a1e458635"
+    },
+    {
+      "path": "backend/tests/crossRouteFinitenessAtomicityResumed.test.js",
+      "sha256": "35a544be73a4b3a39c2d32278b0bd18d2c61679646c9ccd32edf37d0f6536ffd"
+    },
+    {
+      "path": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "sha256": "b7114c29df3bb6f2e126ce9aeceaebc141dceef46ad29882e4a1231b860833a6"
+    },
+    {
+      "path": "backend/tests/currentVectorFailureContract.test.js",
+      "sha256": "746de3857b1f446b7587465f491b048fad4d41d99eef20a8256549ce87b5575f"
+    },
+    {
+      "path": "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "sha256": "419b93a7b91ef14dfa0540f5c6149730f8ff079d991a6fb54ae80d461a4e8fe6"
+    },
+    {
+      "path": "backend/tests/defaultProviderSemanticReview.test.js",
+      "sha256": "caf91272881522cdea07db37daeafdf92fb687cc7f890e4b77a80af4c401fbbb"
+    },
+    {
+      "path": "backend/tests/defaultProviderTransitive.test.js",
+      "sha256": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28"
+    },
+    {
+      "path": "backend/tests/fixtures/activeHistoricalTemporalProvenanceFixture.mjs",
+      "sha256": "3da8d0b6d8a4728847c84f6de0525199b5c18086407c24a45db5223414f22b1d"
+    },
+    {
+      "path": "backend/tests/fixtures/activeProductTemporalSupportFixture.mjs",
+      "sha256": "b9771d4053095ce0ed88bfe8321264630c027aaefe6c0bd8f48c56164258aa5a"
+    },
+    {
+      "path": "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+      "sha256": "bd896aaff7200077227e76e2893e11f8447a356187ee300c228de343fcd6e03a"
+    },
+    {
+      "path": "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+      "sha256": "e08ac273a4d1a2bbe55e82a2e74ddd63c714feabf5689dcfc56a8d8c27a99f52"
+    },
+    {
+      "path": "backend/tests/fixtures/chlorophyllTemporalDerivedFinitenessFixture.mjs",
+      "sha256": "6e79debe9c8de91af971470c44ab62ed0bc7f82960c88d47047a9adc3f8aa4aa"
+    },
+    {
+      "path": "backend/tests/fixtures/consumerAwareHistoricalSelectionPolicyFixture.mjs",
+      "sha256": "c321995c89378bd75fe6a1f3796fb1a5d9c2dad805e6851609827bbd2d324d99"
+    },
+    {
+      "path": "backend/tests/fixtures/consumerAwareHistorySelectionFixture.mjs",
+      "sha256": "11b88717d210d5513ed07317c63f1d0b246d954977424d72b7b9f0b6ca6300fd"
+    },
+    {
+      "path": "backend/tests/fixtures/convergenceContractFixture.mjs",
+      "sha256": "fe4a9ce92da2c518d5a5ca37eb9ad66c73eea2bdad70616a896583457f1616ef"
+    },
+    {
+      "path": "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+      "sha256": "0a63b22cda5422ff641935acfbe16d223123e40bd5a1f03edde9e65dfbe7c97a"
+    },
+    {
+      "path": "backend/tests/fixtures/crossRouteFinitenessAtomicityResumedFixture.mjs",
+      "sha256": "c193f01507b0f5d6e3530518a32aa6f490d1413f58ed8ddf1287ce2a080d0e1b"
+    },
+    {
+      "path": "backend/tests/fixtures/crossRouteFinitenessFixture.mjs",
+      "sha256": "5d985f8cf1c02ae0674a5eef06e368ac305ced93758dc5d9931efe3fa306933f"
+    },
+    {
+      "path": "backend/tests/fixtures/currentVectorDerivedFinitenessFixture.mjs",
+      "sha256": "0336544a849e27e970c03458a13d3b2c8da22d14c50150a7ab2fb9b189e5ba2e"
+    },
+    {
+      "path": "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+      "sha256": "48f773c95c039cef148b4ccaa6cf5a9fdd80a864f90c8a67815309ae08a758ef"
+    },
+    {
+      "path": "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+      "sha256": "3c6096e2f73e5a2660ac6863b9fd7ff47f40b872409acded38105f1edf5b5cba"
+    },
+    {
+      "path": "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+      "sha256": "bcb6b966ca3bef5532170e2fb51c790a8021eed61758353d13afef9b75063138"
+    },
+    {
+      "path": "backend/tests/fixtures/historicalAvailabilityReferenceFixture.mjs",
+      "sha256": "2783404513d65ca985b0a331c47f888cbb3025dba9117513512e243597588ef8"
+    },
+    {
+      "path": "backend/tests/fixtures/historyAssessmentCutoffFixture.mjs",
+      "sha256": "3b7399520ffd25c4f96b638db227aa013539ed7af1ff20550c1b709f84fd2df2"
+    },
+    {
+      "path": "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+      "sha256": "4cd66377f9c4d371e98f07edacaec63129ee2083f81b2cf51ada1820ad5383a1"
+    },
+    {
+      "path": "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+      "sha256": "1ea191d87f3433e4660080bb11f4f91522ecd7f8a6cd6375a95367d8ac142ade"
+    },
+    {
+      "path": "backend/tests/fixtures/remainingTemporalAuthorityFixture.mjs",
+      "sha256": "3d0b1a4ed0d15bd43be4a148d052db3e53254f321f77a3d11d2b86831023d901"
+    },
+    {
+      "path": "backend/tests/fixtures/revisedSemanticModelFixture.mjs",
+      "sha256": "fdfd9c9cd21ee876e777592ea1214b8b51ea81dcdecc7b24a0bc6618f4081bde"
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+      "sha256": "e67b248f0506ea9a9af6db6cd9c9b4afecf2a501bd813502a023421427f854db"
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+      "sha256": "eb3c711429b6e13b3cb2fe8901914291635afbdfeba5d02b12390441ceb15c6d"
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+      "sha256": "04a0556b774da5ed7b2fb93360694e0d1cdec16da54deeaefebf930f420bde78"
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+      "sha256": "bffa07b9e3c925f6638a3b4f0125990b8a3745a13353d99b264dc4b301b80247"
+    },
+    {
+      "path": "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+      "sha256": "d242e6315f295ad791bec86b89b6c3b2f33ac94a7861d695b3c99793f3569f43"
+    },
+    {
+      "path": "backend/tests/fixtures/sourceNormalizationFixture.mjs",
+      "sha256": "b6bf2800beb6aa5447bb0d81733a9c13b6b5576eda19f715e3c5349ec82feed0"
+    },
+    {
+      "path": "backend/tests/fixtures/sstChlorophyllTemporalSupportFixture.mjs",
+      "sha256": "14ae7020f2483ed9741f6f0d34f130ec0173a48cc76130dbfb9822b28ded84ad"
+    },
+    {
+      "path": "backend/tests/fixtures/sstProvenanceGapFilledBindingFixture.mjs",
+      "sha256": "745aedd65b09da7893a717a67017c2b22612e4bb8612accb103f75af92c11429"
+    },
+    {
+      "path": "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+      "sha256": "fc39179915fb49ab76b6ee5e6eec2e4eeb2bcfc89b818bc5bf81c869d612ebc0"
+    },
+    {
+      "path": "backend/tests/historicalAvailabilityReference.test.js",
+      "sha256": "b22d98f14172b8c888614447229a4974ea85b1abd2be69c2b814052e303bdbb7"
+    },
+    {
+      "path": "backend/tests/historyAssessmentCutoff.test.js",
+      "sha256": "21891dfb11b97301a1a9c934194c7c624ec5587da1ef9f3aca5ed79ce2e1f8c8"
+    },
+    {
+      "path": "backend/tests/oceanPhysicsBoundary.test.js",
+      "sha256": "8239c2266e8fb85f011511aea744cd993e7fe2ae554bb4c96511b80735e0e36a"
+    },
+    {
+      "path": "backend/tests/oceanProviderBoundary.test.js",
+      "sha256": "6ae806302c572039ce46672ec98205940fbe859955d056f307b8f6af2f5e844f"
+    },
+    {
+      "path": "backend/tests/remainingTemporalAuthority.test.js",
+      "sha256": "49103eb97f9315b3ad1cacedb26bd76ebfab6d9ba8154dea0d07d896d74bcace"
+    },
+    {
+      "path": "backend/tests/revisedSemanticModel.test.js",
+      "sha256": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958"
+    },
+    {
+      "path": "backend/tests/snapshotBranchOptionality.test.js",
+      "sha256": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974"
+    },
+    {
+      "path": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "sha256": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990"
+    },
+    {
+      "path": "backend/tests/snapshotProducerQualificationV2.test.js",
+      "sha256": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4"
+    },
+    {
+      "path": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+      "sha256": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725"
+    },
+    {
+      "path": "backend/tests/sourceNormalizationBoundary.test.js",
+      "sha256": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6"
+    },
+    {
+      "path": "backend/tests/sstChlorophyllTemporalSupport.test.js",
+      "sha256": "2a4a8d235629b88098b547fe21dcfac0b6a33b0368a4adf54882e64c98afe3bb"
+    },
+    {
+      "path": "backend/tests/sstPostConversionFiniteness.test.js",
+      "sha256": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065"
+    },
+    {
+      "path": "backend/tests/sstProvenanceGapFilledBinding.test.js",
+      "sha256": "4711e8fdca896be3f9455cb5e19d60a3ca4aeda8164113f9af814a4441cc8365"
+    },
+    {
+      "path": "backend/tests/transitiveProducerBoundary.test.js",
+      "sha256": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd"
+    },
+    {
+      "path": "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+      "sha256": "7f410aa0759d69131bce1834ece9d47d9f17340818e2c80253f6614b771c1b42"
+    },
+    {
+      "path": "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+      "sha256": "73f57ff6dd00b5fd982b203aa76a7c21ebdb4d969a1b91dc2d8112edd920c699"
+    },
+    {
+      "path": "docs/Active_Environmental_Product_Temporal_Support_v1.json",
+      "sha256": "b16bb3d1a048fba37a5f7fa204c566755ab9de2861f1d75c4d673173dab443a6"
+    },
+    {
+      "path": "docs/Active_Environmental_Product_Temporal_Support_v1.md",
+      "sha256": "1be5770cac1630a6f02cf0caf2e8b1f22250c619e311e079922c86e423435875"
+    },
+    {
+      "path": "docs/Active_Historical_Temporal_Provenance_v1.json",
+      "sha256": "20b3857021f6bfbf493bf09f232f43bf78cdd111009e6e79b5e81ae9386f8246"
+    },
+    {
+      "path": "docs/Active_Historical_Temporal_Provenance_v1.md",
+      "sha256": "18957392f435641c2532aa85a30c63dae59148753744f365171aae94ad87a31e"
+    },
+    {
+      "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+      "sha256": "2787236dba5a5ba31222e94f5d02413b1e852bd19c99565798f4bf1a6aa71a5f"
+    },
+    {
+      "path": "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+      "sha256": "27d3a18e32176f94f27268e7cfe3772a7805b37570fbb0fd51b7b5d105e78691"
+    },
+    {
+      "path": "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+      "sha256": "07e13219f841391d6cb83381438bceb831ce99fea883c36eb7308f95b3841985"
+    },
+    {
+      "path": "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+      "sha256": "f60c38ebe7438c2934027769d037a261beef5f06724c2a7aa978b3e0ad7bf6fe"
+    },
+    {
+      "path": "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+      "sha256": "b62f225a3024e4ab58ab3cd9a92f4d26c5b11251d59b8d2b598bd93fb1930c09"
+    },
+    {
+      "path": "docs/Candidate_Semantic_Shapes_v3.json",
+      "sha256": "0987dfbd9eca48e10e283757381c1a87b67caceca961e3ca20ee79c4dcb4673c"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+      "sha256": "09f3c8d8e30a1a84f401039680e813b2359a54985ae77bd5511b151ed38da852"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+      "sha256": "69139d51ffc52311e6fa03bd298fc2a1b4d737adf9f6096bda528d124d888365"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+      "sha256": "75a591b1d7d664318e9d80917e02a7266eddc9c2e2163ca15aa86295c7d37e0f"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+      "sha256": "1f44b94f917c08a2a9d88a4e40b417d1211be387801e6b4e42d5a2163a94a6da"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+      "sha256": "635dca02923ec9af8b7f494e07244bafb20e256e6cea64a2bf3f01578f0bd5a5"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+      "sha256": "441cb90bfc528262fe83fec0627fae75903f7e34c83ffee8a75a7c2ae0da61e2"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+      "sha256": "5953c75b2aa8110b9eca5cb3f0b9095118fd34f4888d6c1a9627ec5f7cf6fd8e"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+      "sha256": "00f9f785d54d891fbe4a618e00c9ec535ba0a7d11a3e368a4d26f68efd08c4cb"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+      "sha256": "80901597a36cdd2631f60308e53c0ca7287caf44b8c33443ebf848199f5c0e03"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+      "sha256": "f2f157681ae95e92813831181bb726cc48c1fed30753b7ccb8750e34eacb2a6d"
+    },
+    {
+      "path": "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+      "sha256": "e43bbdf9bf254814ab49559db0ab79263b8c94a129a72f95538f8ebeed9874fe"
+    },
+    {
+      "path": "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.json",
+      "sha256": "0088e6cd618ad2872cb56f9a19e26c6c7e4ca05abbfa3a28a818c58e42c85e51"
+    },
+    {
+      "path": "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.md",
+      "sha256": "55f556f62f4a6abeeabfeb180da1baa10735e67de140e484e75c4e128a5c347c"
+    },
+    {
+      "path": "docs/Consumer_Aware_Historical_Selection_Policy_v1.json",
+      "sha256": "043c7efa8de88b5ee343ac16100259cbe5f41314f855b8b8dd39c94641eeae98"
+    },
+    {
+      "path": "docs/Consumer_Aware_Historical_Selection_Policy_v1.md",
+      "sha256": "770f71e6f0b95a72d2a40a705fb31f742a6ba67466200439f8fd81814c3e9e33"
+    },
+    {
+      "path": "docs/Consumer_Aware_History_Selection_v1.json",
+      "sha256": "cf819c691c64d8dfb938706c5a43d60933bfb9f6c2c16ecd0d2e623775540da7"
+    },
+    {
+      "path": "docs/Consumer_Aware_History_Selection_v1.md",
+      "sha256": "ca3292a25975063b7138835c1c6940592ba746a5cb1b1895b0a09420615a83d5"
+    },
+    {
+      "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "sha256": "cf47206581d50ac19710f27eb41c8ee728fe3a54dcbb938aa18decb3bdc113e2"
+    },
+    {
+      "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "sha256": "c3bd2d59d4ba243bb69a394ecfd8c851ccdcd1127cd9024279d22d515cc1d54e"
+    },
+    {
+      "path": "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.json",
+      "sha256": "ff7ea4e0b6ef0fa2bf6b7b4aa5d90755072e583991b784700bd575680ff50dab"
+    },
+    {
+      "path": "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.md",
+      "sha256": "1b49cf8f78ea684a3c1f30ed2372c95c37602d13e9e592ac4ee961f067e1be45"
+    },
+    {
+      "path": "docs/Cross_Route_Finiteness_Atomicity_v1.json",
+      "sha256": "81660589e40fd815d4eb161ed9d666fc2c769945cb9ca8132cd544756464ba8b"
+    },
+    {
+      "path": "docs/Cross_Route_Finiteness_Atomicity_v1.md",
+      "sha256": "3a48f2b184aab045088dc36fd2bd5b6bfaddde362a8e657747dacedd92345dbf"
+    },
+    {
+      "path": "docs/Current_Convergence_Contract_Preservation_v1.json",
+      "sha256": "0955276184095fe32da859565f316cb9a6cfeabb98521aaed595c6421dc168cc"
+    },
+    {
+      "path": "docs/Current_Convergence_Contract_Review_v1.json",
+      "sha256": "2f34aac345f231e88a564ce5ec3c73139997c8b67450f50bdfd210c18ddc58e9"
+    },
+    {
+      "path": "docs/Current_Convergence_Contract_Review_v1.md",
+      "sha256": "f0ed0f2e3e3e26ec7615379d2488c0d3b41be03aa8807814db26f96de086d2e5"
+    },
+    {
+      "path": "docs/Current_Convergence_Science_Review_Package_v1.json",
+      "sha256": "bc239e1d17e60e384fc3e54781ceb6d71036d284d3d3a3406570d76b2a547361"
+    },
+    {
+      "path": "docs/Current_Convergence_Science_Review_Package_v1.md",
+      "sha256": "17a5c0c0ca2bb21c3ae6bde214e24cdb9c4a7bba4e7bc6693d60ffa35cd4dba9"
+    },
+    {
+      "path": "docs/Current_Vector_Derived_Finiteness_v1.json",
+      "sha256": "677ab7f88704de343090b2bd9f09416373070d26eca58f0a7cf8d24e5695906f"
+    },
+    {
+      "path": "docs/Current_Vector_Derived_Finiteness_v1.md",
+      "sha256": "efc0ce41e502b91d3c33c90facad14fd8a269fb2f765856aba7633cc7bc381f1"
+    },
+    {
+      "path": "docs/Current_Vector_Failure_Locality_Contract_v1.json",
+      "sha256": "9039a67ce843488171e2202e20ad152937e4627af130a1a4c258a82262c04585"
+    },
+    {
+      "path": "docs/Current_Vector_Failure_Locality_Contract_v1.md",
+      "sha256": "0f20c032b7aec445e3d15174ea2d9244170e732c2314ff9365aa0040546efdc7"
+    },
+    {
+      "path": "docs/Current_Vector_Failure_State_Contract_v1.json",
+      "sha256": "3649acabb80bb9e275e782f77ff7448af9e31e840d7a10fe80f5e614ff33718a"
+    },
+    {
+      "path": "docs/Current_Vector_Failure_State_Contract_v1.md",
+      "sha256": "41935cafa770d8a46eadd53064b63d73392357eef93cf85668872cdbdaac9c0a"
+    },
+    {
+      "path": "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+      "sha256": "685036b9b2cece3d1a90a9affa51dc9a41d05e1fce31bfd03d63ee781304ad13"
+    },
+    {
+      "path": "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+      "sha256": "d44b41788057ba0c4e6f03ec5a8bc139a66b6fdfcc2642f1530b4b0346e4869a"
+    },
+    {
+      "path": "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+      "sha256": "f3b645a96a01d53f3a3c86d1334ab12da6a16f9b843b1737deb1036515eea034"
+    },
+    {
+      "path": "docs/Default_Provider_Semantic_Review_v1.json",
+      "sha256": "22b8fe9729411d1e2f1bbce33b15a532e6fadb572942f57f365cfa66b8f200cf"
+    },
+    {
+      "path": "docs/Default_Provider_Semantic_Review_v1.md",
+      "sha256": "ae0d3abbed760861898b71ea1d9df4bb9a6ec670d936c15b3ece6f52732ee154"
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Discovery_v2.json",
+      "sha256": "34913af18155a3becb78d166614057cdae6b3caca93120d7c746c7bf5aeb8a56"
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Preservation_v1.json",
+      "sha256": "16d35e7baca69acb505fec70be768c541d9122f32435334d9522d7a8730e4d11"
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Review_v1.json",
+      "sha256": "7b44bb74e6a918b7fac205a05f20ce2df7c079053946e1f774837f81622547b5"
+    },
+    {
+      "path": "docs/Default_Provider_Transitive_Review_v1.md",
+      "sha256": "fdf09a785d1761ded8d32db4c2164ee555471f2db1355441b33c354b9698ab81"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "sha256": "85da306930d093ba7584d341e0834a380033821bdd142be8a44827322bd2df70"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "sha256": "ca793b02c20aac9d0c02abd38fadd1185dd9347d2f155645cf6c679ae7ee1dc9"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "sha256": "f6b87eed42ec291febd754cdc695c98e52253be467baa466251154da7713298e"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "sha256": "ff3d32ace793868caca7aedaebd07f7ab9c9ea9a7597ea1ba58de9256d616574"
+    },
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "sha256": "d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365"
+    },
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "sha256": "5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c"
+    },
+    {
+      "path": "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json",
+      "sha256": "392b59ef9894ba52d400ef1998492c1b997ebfe4487dd365248781831911a632"
+    },
+    {
+      "path": "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "sha256": "a2086ddb25373f17a25a76c5c2387e596cf72359aca9610c128cdeff80753745"
+    },
+    {
+      "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "sha256": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68"
+    },
+    {
+      "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "sha256": "b8c18c054f30eae23a7820cff3f13920c40865343532878d0e5df0f0ad8931ae"
+    },
+    {
+      "path": "docs/Governed_Current_Convergence_Decision_v1.json",
+      "sha256": "8dc790908cfc3c1cefd69955eadc49eeeaa67092c84a4ed0ab44f62c77140f1b"
+    },
+    {
+      "path": "docs/Governed_Current_Convergence_Decision_v1.md",
+      "sha256": "eca70b9b42f46b850a01f082b629a9bb5c66b7bcbcb4834cd7e8d7226fbb47fd"
+    },
+    {
+      "path": "docs/Governed_Current_Convergence_Preservation_v1.json",
+      "sha256": "bdf24ec3e09eccf6bcab2440546817a758835a2a77b20eb86097b71f61cc6e60"
+    },
+    {
+      "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.json",
+      "sha256": "7d239af5dd6a72d2565f92b749515f9994104715f9218bde75a593a4e797b7d9"
+    },
+    {
+      "path": "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.md",
+      "sha256": "f9653f531c023dc75e76c423742f6933e629eaf7dcf8eb8b12a89d7d8ed49f52"
+    },
+    {
+      "path": "docs/Historical_Assessment_Cutoff_Contract_v1.json",
+      "sha256": "397cc05c6dd5cd2bee59621c5f6a734338516bfb11c1072f7504e5d50d76354f"
+    },
+    {
+      "path": "docs/Historical_Assessment_Cutoff_Contract_v1.md",
+      "sha256": "a6bf941ffddbbfa6aed407016752a771eb946d095a318a901bec93250d4f4ba2"
+    },
+    {
+      "path": "docs/Historical_Availability_Reference_Contract_v1.json",
+      "sha256": "d73e40405af3db8f0f44f939cabb99d48eb7477ca05fcd28b810f58932655222"
+    },
+    {
+      "path": "docs/Historical_Availability_Reference_Contract_v1.md",
+      "sha256": "46dd25880ff248925783af53cb2d2df045c672d466a2e806fffd46fe2e831258"
+    },
+    {
+      "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.json",
+      "sha256": "4ef7a5d805629d687a7f73d80968bfd6b5323d258249d3c1c199a4fe59c57cd5"
+    },
+    {
+      "path": "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.md",
+      "sha256": "30ccb4bcd431ee2de07dedda8ab799facedd35a2c242cf15425fa1143dd26836"
+    },
+    {
+      "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.json",
+      "sha256": "a1d2533b445d53daa7d2d85d2807e5504e33f05ba120640fd365675c07eeeb08"
+    },
+    {
+      "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+      "sha256": "e84dbfe9af85154e883064b2110dd6234ae7c84e8592233c09d163551a7e2798"
+    },
+    {
+      "path": "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md",
+      "sha256": "87ba0a8bf66048553179cc174aaafa1a0d6e0bc8d71fe3ea4402cac3b7198455"
+    },
+    {
+      "path": "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+      "sha256": "7cb7d1d28cdd0bb8b60fe218fd42973c46003d1b209a9b89af36382216431e69"
+    },
+    {
+      "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+      "sha256": "285d5adec059c545992cc1fca9d4a345e0bd7d93742563a059a619db70bd52b9"
+    },
+    {
+      "path": "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.md",
+      "sha256": "8207deecf7ecd93073d98718a2e40a5e71d9719073ddc81b54cc36c3edf78a8f"
+    },
+    {
+      "path": "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "sha256": "32bb0e73b0b996ffd79737e5769e5db7bc3a0648dbf4804b17807edc0f2a4c41"
+    },
+    {
+      "path": "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "sha256": "db9d384c2efca61bafcc506c1bd7a124c44d746ca7ba3b059a4295de34adf9ca"
+    },
+    {
+      "path": "docs/Remaining_SST_Chlorophyll_Temporal_Authority_v1.json",
+      "sha256": "c33c224fc40295adff0c5e311c6ec306ad15961ee65f524efe7912366dd96f7b"
+    },
+    {
+      "path": "docs/Remaining_SST_Chlorophyll_Temporal_Authority_v1.md",
+      "sha256": "53f15eba7f5c24f533dacb51159e2277423893a9551836cb9d1318ff576a827b"
+    },
+    {
+      "path": "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+      "sha256": "2b672c6e299802d827063e5e6b1d3261b6e8eb87dc148f534a12011b16a2c2bd"
+    },
+    {
+      "path": "docs/Revised_Default_Provider_Model_Stop_v1.json",
+      "sha256": "d96dce0c5cf07a75844b9f1795084323c876f5d21b6e31c95b7579c71442afe2"
+    },
+    {
+      "path": "docs/Revised_Default_Provider_Model_Stop_v1.md",
+      "sha256": "c78d84782b88b2fe6055fcd9ddaf2d34718c2ccd900d165aabb82441d869629d"
+    },
+    {
+      "path": "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+      "sha256": "3af4b3c9c2d8749b77c141f4b9f305ed27f1dd83b60443f0f861a15426c0181c"
+    },
+    {
+      "path": "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+      "sha256": "f741178238f4685a136330fedc2067295048b69ea402f8b4e41ec804b4115d61"
+    },
+    {
+      "path": "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+      "sha256": "7bda16782b5e011963bb81193511de1a6182509aa22a2b9f7964556a770d022e"
+    },
+    {
+      "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.json",
+      "sha256": "a5e9ae789c3e647b106539a02dcd8b05decb7d6d339b983cbfc01f0e4172115b"
+    },
+    {
+      "path": "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.md",
+      "sha256": "dd03ad74610801786b3d0f69d14c4ebddcb63b2b0f7dbdfe2eed19f6fc69055a"
+    },
+    {
+      "path": "docs/Source_Normalization_Amendment_Review_v1.json",
+      "sha256": "44e9d432329a46888b671dc651b3141afae5a6e36c271223da88cf2f3a2b762a"
+    },
+    {
+      "path": "docs/Source_Normalization_Amendment_Review_v1.md",
+      "sha256": "aff3dc65cd2509ea79fab7a6037599cd9a5b9a4bc5a9cf7597163709d6335aef"
+    },
+    {
+      "path": "docs/Source_Normalization_Boundary_v1.json",
+      "sha256": "8dc9a822ec1127c89b3928903291587747be9cbb67aade535a07fb4aee2d9af0"
+    },
+    {
+      "path": "docs/Source_Normalization_Boundary_v1.md",
+      "sha256": "c4e2dde4d318db30e0a570c389ac8d2d48fd599252311eb6204d856324ea402b"
+    },
+    {
+      "path": "docs/SST_Chlorophyll_Temporal_Support_Authority_v1.json",
+      "sha256": "257e0051d5969264e8917f46fbd8b9e6bbcb13b786d413c8049a7a9ef15dc8d5"
+    },
+    {
+      "path": "docs/SST_Chlorophyll_Temporal_Support_Authority_v1.md",
+      "sha256": "a15df2e9b9f5e01fd548c25b96e40f4c1ed193df1f0ceac4fe24ec533c00fb47"
+    },
+    {
+      "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.json",
+      "sha256": "ad9871e9e8ddaf2da2a9f067e5da908da41e035745c3082b546d4b8d417e239c"
+    },
+    {
+      "path": "docs/SST_Post_Conversion_Finiteness_Boundary_v1.md",
+      "sha256": "399eea9f9ea2a88b0ff066c24527a811a68168c064cf2a1f27c30c7e9ca96ef0"
+    },
+    {
+      "path": "docs/SST_Provenance_GapFilled_Deployment_Binding_v1.json",
+      "sha256": "1da33a8ce0f4623ef074eb095db75cd25f8db4bb190b0321ec8421b6e1aec003"
+    },
+    {
+      "path": "docs/SST_Provenance_GapFilled_Deployment_Binding_v1.md",
+      "sha256": "cf1ebfcb209c7db791c19e2370f7f4bca6423ed67f9d8d4fa2f79f83bbc51dda"
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+      "sha256": "00678577c8b51cf3b6a8a7228b88475500b201e683f4c4b06c9ac9d47a4397e4"
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+      "sha256": "192170441fc027534f8b77f21ce46d4ecaf3bb60056321f0f6da198298003a3f"
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Review_v1.md",
+      "sha256": "f039aaa0c60ed6a1c53a0f7eb385d81798266def210de2519664d0a480461ea7"
+    },
+    {
+      "path": "docs/Transitive_Producer_Boundary_Stop_v1.json",
+      "sha256": "1ecbaf6ae575fa4c0f94bcbf9fff33a552fa136ee696cbb1ae3d17c295baee6f"
+    },
+    {
+      "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "sha256": "64b8098cf1fe0abb6f4512be90c415b792c11d11e66f7665d2d63e8481183c76"
+    },
+    {
+      "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "sha256": "21ffd6844fd30afa791c698f508fd321e127fa7a7e6ba7c9751f8f3694644683"
+    },
+    {
+      "path": "docs/Zero_Network_Offline_Materialization_v1.json",
+      "sha256": "9422ab12d06e57f24eda2767cbbec2d942700320e3bd51dcee9a8b66db40c5af"
+    },
+    {
+      "path": "docs/Zero_Network_Offline_Materialization_v1.md",
+      "sha256": "d82aa845b436e44d5793858609dce21c3ba88f22e23beccc899167730da77aa6"
+    },
+    {
+      "path": "supabase/.gitignore",
+      "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2"
+    }
+  ],
+  "amendmentScope": {
+    "everythingElse": "Execution-plan v2 and qualified supplements remain unchanged within their original scope. No implicit override of science, content, history or other checkpoint metadata.",
+    "originalCP13Modified": false,
+    "historicalParentRelationsChanged": false,
+    "exactOverrides": [
+      "Insert exactly CP12A between CP12 and CP13.",
+      "Preserve 4 plan-era exclusions, 10 execution-era operational files, 2 reconciliation files and 2 amendment files in CP12A.",
+      "Replace only CP13 expected direct parent with verified CP12A commit/tag target.",
+      "Replace final untracked preflights and carry forward CP12 full-regression coverage across docs-only CP12A.",
+      "Supply execution-era context without attributing it retrospectively to audit v1."
+    ],
+    "originalPlanModified": false
+  },
+  "selfPreservation": {
+    "explanation": "Git trees can include both plan files. A file cannot normally contain its own final SHA256. These two entries deliberately reference a detached final-byte approval receipt; all other members have embedded exact hashes.",
+    "executionRule": "Human approval must bind the final amendment pair digests reported by this authoring task. Execution recomputes and compares; it must not silently accept fresh digests. Stop if receipt/approved binding absent or mismatched. The detached receipt stays outside Git and is not another repository membership artifact.",
+    "receiptPath": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-final-amendment-4702cc20a10c4b6b85858af1f053e5ca\\amendment-finalization-receipt.json",
+    "result": "NO_GIT_CIRCULARITY",
+    "destination": "CP12A",
+    "receiptRequiredFields": [
+      "path",
+      "bytes",
+      "lines",
+      "sha256"
+    ],
+    "files": [
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json"
+    ],
+    "metadataRule": "Substitute only the two approved 64-character lowercase hex hashes into the fixed template tokens. No other text changes. Rendered message/tag body are captured in external execution receipt; Git commit tree additionally binds exact amendment blobs."
+  },
+  "CP12A": {
+    "id": "CP12A",
+    "purpose": "Preserve checkpoint execution governance and operational qualification history",
+    "expectedParent": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+    "membership": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "docs/Zero_Network_Offline_Materialization_v1.json",
+      "docs/Zero_Network_Offline_Materialization_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json"
+    ],
+    "fileCount": 18,
+    "members": [
+      {
+        "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+        "bytes": 441205,
+        "lines": 19986,
+        "sha256": "cf47206581d50ac19710f27eb41c8ee728fe3a54dcbb938aa18decb3bdc113e2",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": true
+      },
+      {
+        "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+        "bytes": 7525,
+        "lines": 74,
+        "sha256": "c3bd2d59d4ba243bb69a394ecfd8c851ccdcd1127cd9024279d22d515cc1d54e",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+        "bytes": 485983,
+        "lines": 6144,
+        "sha256": "85da306930d093ba7584d341e0834a380033821bdd142be8a44827322bd2df70",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+        "bytes": 23016,
+        "lines": 244,
+        "sha256": "ca793b02c20aac9d0c02abd38fadd1185dd9347d2f155645cf6c679ae7ee1dc9",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+        "bytes": 581378,
+        "lines": 13582,
+        "sha256": "f6b87eed42ec291febd754cdc695c98e52253be467baa466251154da7713298e",
+        "classification": "SUPERSEDED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": true
+      },
+      {
+        "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+        "bytes": 34206,
+        "lines": 279,
+        "sha256": "ff3d32ace793868caca7aedaebd07f7ab9c9ea9a7597ea1ba58de9256d616574",
+        "classification": "SUPERSEDED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+        "bytes": 783983,
+        "lines": 40618,
+        "sha256": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": true
+      },
+      {
+        "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+        "bytes": 8704,
+        "lines": 99,
+        "sha256": "b8c18c054f30eae23a7820cff3f13920c40865343532878d0e5df0f0ad8931ae",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Offline_Dependency_Closure_Qualification_v1.json",
+        "bytes": 65214,
+        "lines": 1255,
+        "sha256": "32bb0e73b0b996ffd79737e5769e5db7bc3a0648dbf4804b17807edc0f2a4c41",
+        "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Offline_Dependency_Closure_Qualification_v1.md",
+        "bytes": 11930,
+        "lines": 114,
+        "sha256": "db9d384c2efca61bafcc506c1bd7a124c44d746ca7ba3b059a4295de34adf9ca",
+        "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+        "bytes": 27347,
+        "lines": 537,
+        "sha256": "64b8098cf1fe0abb6f4512be90c415b792c11d11e66f7665d2d63e8481183c76",
+        "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+        "bytes": 11901,
+        "lines": 115,
+        "sha256": "21ffd6844fd30afa791c698f508fd321e127fa7a7e6ba7c9751f8f3694644683",
+        "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Zero_Network_Offline_Materialization_v1.json",
+        "bytes": 105751,
+        "lines": 2338,
+        "sha256": "9422ab12d06e57f24eda2767cbbec2d942700320e3bd51dcee9a8b66db40c5af",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Zero_Network_Offline_Materialization_v1.md",
+        "bytes": 12848,
+        "lines": 127,
+        "sha256": "d82aa845b436e44d5793858609dce21c3ba88f22e23beccc899167730da77aa6",
+        "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "source": "Reconciliation exact ledger",
+        "largeArtifactLedgerStatus": "NOT_LISTED_IN_V2",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SUBJECT_TO_AMENDMENT_APPROVAL",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+        "bytes": 20977,
+        "lines": 199,
+        "sha256": "a2086ddb25373f17a25a76c5c2387e596cf72359aca9610c128cdeff80753745",
+        "classification": "OPERATIONAL_GOVERNANCE",
+        "authority": "NAVIGATION / EXECUTION GOVERNANCE ONLY; NOT SCIENTIFIC OR RUNTIME AUTHORITY",
+        "source": "Current exact reconciliation output, independently hashed",
+        "largeArtifactLedgerStatus": "POST_PLAN_NOT_LISTED",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_AS_OPERATIONAL_GOVERNANCE_EVIDENCE",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json",
+        "bytes": 52782,
+        "lines": 980,
+        "sha256": "392b59ef9894ba52d400ef1998492c1b997ebfe4487dd365248781831911a632",
+        "classification": "OPERATIONAL_GOVERNANCE",
+        "authority": "NAVIGATION / EXECUTION GOVERNANCE ONLY; NOT SCIENTIFIC OR RUNTIME AUTHORITY",
+        "source": "Current exact reconciliation output, independently hashed",
+        "largeArtifactLedgerStatus": "POST_PLAN_NOT_LISTED",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_AS_OPERATIONAL_GOVERNANCE_EVIDENCE",
+        "longLedger": false
+      },
+      {
+        "path": "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md",
+        "bytes": null,
+        "lines": null,
+        "sha256": null,
+        "classification": "OPERATIONAL_GOVERNANCE",
+        "authority": "NAVIGATION / EXECUTION AUTHORITY ONLY UPON EXPLICIT APPROVAL; NOT SCIENTIFIC OR RUNTIME AUTHORITY",
+        "source": "FINAL_BYTES_BOUND_BY_DETACHED_APPROVAL_RECEIPT",
+        "largeArtifactLedgerStatus": "NEW_AMENDMENT",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SELF_PRESERVATION",
+        "longLedger": false,
+        "measurementRule": "Final bytes, lines and SHA256 supplied in detached finalization receipt and authoring response; never embed a purported self-hash. Require same approved bytes before staging."
+      },
+      {
+        "path": "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json",
+        "bytes": null,
+        "lines": null,
+        "sha256": null,
+        "classification": "OPERATIONAL_GOVERNANCE",
+        "authority": "NAVIGATION / EXECUTION AUTHORITY ONLY UPON EXPLICIT APPROVAL; NOT SCIENTIFIC OR RUNTIME AUTHORITY",
+        "source": "FINAL_BYTES_BOUND_BY_DETACHED_APPROVAL_RECEIPT",
+        "largeArtifactLedgerStatus": "NEW_AMENDMENT",
+        "requiresExplicitHumanLargeArtifactReview": false,
+        "disposition": "INCLUDE_IN_CP12A_SELF_PRESERVATION",
+        "longLedger": false,
+        "measurementRule": "Final bytes, lines and SHA256 supplied in detached finalization receipt and authoring response; never embed a purported self-hash. Require same approved bytes before staging."
+      }
+    ],
+    "classificationMix": {
+      "SUPERSEDED_OPERATIONAL_EVIDENCE": 2,
+      "STOP_BOUNDARY_OPERATIONAL_EVIDENCE": 4,
+      "QUALIFIED_OPERATIONAL_EVIDENCE": 8,
+      "OPERATIONAL_GOVERNANCE": 4
+    },
+    "reconciliationDisposition": "INCLUDE_AS_OPERATIONAL_GOVERNANCE_EVIDENCE",
+    "commitSubject": "Preserve checkpoint execution governance and operational qualification history",
+    "tagName": "checkpoint-preservation-execution-operational-evidence-v1",
+    "commitMessageTemplate": "Preserve checkpoint execution governance and operational qualification history\n\nCHECKPOINT PURPOSE: CP12A - Preserve checkpoint execution governance and operational qualification history. Preservation only.\nAUTHORITY STATUS: NAVIGATION / EXECUTION GOVERNANCE ONLY; NOT SCIENTIFIC AUTHORITY; NOT RUNTIME AUTHORITY. No scientific qualification created by commit/tag.\nNORMATIVE STATUS: No new scientific contract. Existing qualified contracts retain only their exact normative scopes.\nRUNTIME STATUS: NOT A RUNTIME RELEASE. No production implementation, deployment or dependency change.\nQUALIFIED OPERATIONAL EVIDENCE: CP01 whitespace exception, CP02-CP08 exact baselines and zero-network materialization retain only their recorded checkpoint/hash/tool/input scope. No future whitespace exception or blanket environmental qualification.\nSTOP OPERATIONAL EVIDENCE: Windows isolated-checkout review retains its overall unresolved verdict and extraction-only result. Offline dependency closure retains its unresolved verdict, prohibited attempted request and incomplete regression. Neither is retroactively PASS.\nSUPERSEDED PROCEDURES: Offline closure's old npm command is superseded by Zero_Network_Offline_Materialization_v1. Adversarial plan review remains historical resolved plan-revision evidence.\nGOVERNANCE: Execution-plan v2 is preserved byte-identically as the original historical plan. This separately approved amendment overrides only final ordering/parent, final membership disposition, untracked preflights and final operational context. Reconciliation explains why; it is not science.\nSELF-PRESERVATION: Both amendment files belong to CP12A. Their exact final hashes are bound by the detached human-approved digest receipt and the Git tree, not circular embedded self-hashes.\nPREDECESSOR: CP12, 3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a. All CP00-CP12 history remains unchanged.\nNEXT AND FINAL CHECKPOINT: CP13, exact original audit pair. Audit v1 remains historical PRE-EXECUTION preservation/navigation metadata. CP12A supplies execution-era context; audit v1 does not independently cover CP12A.\nEXCLUSIONS: supabase/.gitignore and supabase/config.toml remain excluded. V3 implementation/suite remain quarantined and unexecuted. STOP, superseded, failed and current-open scientific evidence are not upgraded.\nNO SCIENCE, runtime changes, provider/database/Auth/Supabase access, environmental acquisition, push or deployment. STOP after CP12A; CP13 requires separate execution authorization.\nFILE CLASSIFICATIONS AND EXACT BYTE IDENTITIES:\ndocs/CP01_Protected_Whitespace_Exception_Review_v1.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 cf47206581d50ac19710f27eb41c8ee728fe3a54dcbb938aa18decb3bdc113e2\ndocs/CP01_Protected_Whitespace_Exception_Review_v1.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 c3bd2d59d4ba243bb69a394ecfd8c851ccdcd1127cd9024279d22d515cc1d54e\ndocs/Evidence_Checkpoint_Execution_Plan_v2.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 85da306930d093ba7584d341e0834a380033821bdd142be8a44827322bd2df70\ndocs/Evidence_Checkpoint_Execution_Plan_v2.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 ca793b02c20aac9d0c02abd38fadd1185dd9347d2f155645cf6c679ae7ee1dc9\ndocs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json | SUPERSEDED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 f6b87eed42ec291febd754cdc695c98e52253be467baa466251154da7713298e\ndocs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md | SUPERSEDED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 ff3d32ace793868caca7aedaebd07f7ab9c9ea9a7597ea1ba58de9256d616574\ndocs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68\ndocs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 b8c18c054f30eae23a7820cff3f13920c40865343532878d0e5df0f0ad8931ae\ndocs/Offline_Dependency_Closure_Qualification_v1.json | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 32bb0e73b0b996ffd79737e5769e5db7bc3a0648dbf4804b17807edc0f2a4c41\ndocs/Offline_Dependency_Closure_Qualification_v1.md | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 db9d384c2efca61bafcc506c1bd7a124c44d746ca7ba3b059a4295de34adf9ca\ndocs/Windows_Isolated_Checkout_Boundary_Review_v1.json | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 64b8098cf1fe0abb6f4512be90c415b792c11d11e66f7665d2d63e8481183c76\ndocs/Windows_Isolated_Checkout_Boundary_Review_v1.md | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 21ffd6844fd30afa791c698f508fd321e127fa7a7e6ba7c9751f8f3694644683\ndocs/Zero_Network_Offline_Materialization_v1.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 9422ab12d06e57f24eda2767cbbec2d942700320e3bd51dcee9a8b66db40c5af\ndocs/Zero_Network_Offline_Materialization_v1.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 d82aa845b436e44d5793858609dce21c3ba88f22e23beccc899167730da77aa6\ndocs/Final_Pre_CP13_Preservation_Reconciliation_v1.md | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 a2086ddb25373f17a25a76c5c2387e596cf72359aca9610c128cdeff80753745\ndocs/Final_Pre_CP13_Preservation_Reconciliation_v1.json | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 392b59ef9894ba52d400ef1998492c1b997ebfe4487dd365248781831911a632\ndocs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 {{AMENDMENT_MD_SHA256}}\ndocs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 {{AMENDMENT_JSON_SHA256}}",
+    "tagAnnotationTemplate": "CHECKPOINT PURPOSE: CP12A - Preserve checkpoint execution governance and operational qualification history. Preservation only.\nAUTHORITY STATUS: NAVIGATION / EXECUTION GOVERNANCE ONLY; NOT SCIENTIFIC AUTHORITY; NOT RUNTIME AUTHORITY. No scientific qualification created by commit/tag.\nNORMATIVE STATUS: No new scientific contract. Existing qualified contracts retain only their exact normative scopes.\nRUNTIME STATUS: NOT A RUNTIME RELEASE. No production implementation, deployment or dependency change.\nQUALIFIED OPERATIONAL EVIDENCE: CP01 whitespace exception, CP02-CP08 exact baselines and zero-network materialization retain only their recorded checkpoint/hash/tool/input scope. No future whitespace exception or blanket environmental qualification.\nSTOP OPERATIONAL EVIDENCE: Windows isolated-checkout review retains its overall unresolved verdict and extraction-only result. Offline dependency closure retains its unresolved verdict, prohibited attempted request and incomplete regression. Neither is retroactively PASS.\nSUPERSEDED PROCEDURES: Offline closure's old npm command is superseded by Zero_Network_Offline_Materialization_v1. Adversarial plan review remains historical resolved plan-revision evidence.\nGOVERNANCE: Execution-plan v2 is preserved byte-identically as the original historical plan. This separately approved amendment overrides only final ordering/parent, final membership disposition, untracked preflights and final operational context. Reconciliation explains why; it is not science.\nSELF-PRESERVATION: Both amendment files belong to CP12A. Their exact final hashes are bound by the detached human-approved digest receipt and the Git tree, not circular embedded self-hashes.\nPREDECESSOR: CP12, 3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a. All CP00-CP12 history remains unchanged.\nNEXT AND FINAL CHECKPOINT: CP13, exact original audit pair. Audit v1 remains historical PRE-EXECUTION preservation/navigation metadata. CP12A supplies execution-era context; audit v1 does not independently cover CP12A.\nEXCLUSIONS: supabase/.gitignore and supabase/config.toml remain excluded. V3 implementation/suite remain quarantined and unexecuted. STOP, superseded, failed and current-open scientific evidence are not upgraded.\nNO SCIENCE, runtime changes, provider/database/Auth/Supabase access, environmental acquisition, push or deployment. STOP after CP12A; CP13 requires separate execution authorization.\nFILE CLASSIFICATIONS AND EXACT BYTE IDENTITIES:\ndocs/CP01_Protected_Whitespace_Exception_Review_v1.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 cf47206581d50ac19710f27eb41c8ee728fe3a54dcbb938aa18decb3bdc113e2\ndocs/CP01_Protected_Whitespace_Exception_Review_v1.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 c3bd2d59d4ba243bb69a394ecfd8c851ccdcd1127cd9024279d22d515cc1d54e\ndocs/Evidence_Checkpoint_Execution_Plan_v2.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 85da306930d093ba7584d341e0834a380033821bdd142be8a44827322bd2df70\ndocs/Evidence_Checkpoint_Execution_Plan_v2.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 ca793b02c20aac9d0c02abd38fadd1185dd9347d2f155645cf6c679ae7ee1dc9\ndocs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json | SUPERSEDED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 f6b87eed42ec291febd754cdc695c98e52253be467baa466251154da7713298e\ndocs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md | SUPERSEDED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 ff3d32ace793868caca7aedaebd07f7ab9c9ea9a7597ea1ba58de9256d616574\ndocs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68\ndocs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 b8c18c054f30eae23a7820cff3f13920c40865343532878d0e5df0f0ad8931ae\ndocs/Offline_Dependency_Closure_Qualification_v1.json | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 32bb0e73b0b996ffd79737e5769e5db7bc3a0648dbf4804b17807edc0f2a4c41\ndocs/Offline_Dependency_Closure_Qualification_v1.md | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 db9d384c2efca61bafcc506c1bd7a124c44d746ca7ba3b059a4295de34adf9ca\ndocs/Windows_Isolated_Checkout_Boundary_Review_v1.json | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 64b8098cf1fe0abb6f4512be90c415b792c11d11e66f7665d2d63e8481183c76\ndocs/Windows_Isolated_Checkout_Boundary_Review_v1.md | STOP_BOUNDARY_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 21ffd6844fd30afa791c698f508fd321e127fa7a7e6ba7c9751f8f3694644683\ndocs/Zero_Network_Offline_Materialization_v1.json | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 9422ab12d06e57f24eda2767cbbec2d942700320e3bd51dcee9a8b66db40c5af\ndocs/Zero_Network_Offline_Materialization_v1.md | QUALIFIED_OPERATIONAL_EVIDENCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 d82aa845b436e44d5793858609dce21c3ba88f22e23beccc899167730da77aa6\ndocs/Final_Pre_CP13_Preservation_Reconciliation_v1.md | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 a2086ddb25373f17a25a76c5c2387e596cf72359aca9610c128cdeff80753745\ndocs/Final_Pre_CP13_Preservation_Reconciliation_v1.json | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 392b59ef9894ba52d400ef1998492c1b997ebfe4487dd365248781831911a632\ndocs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 {{AMENDMENT_MD_SHA256}}\ndocs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json | OPERATIONAL_GOVERNANCE | OPERATIONAL ONLY; NO SCIENTIFIC/RUNTIME AUTHORITY | SHA256 {{AMENDMENT_JSON_SHA256}}",
+    "templateTokens": {
+      "AMENDMENT_JSON_SHA256": "Approved final digest for amendment JSON",
+      "AMENDMENT_MD_SHA256": "Approved final digest for amendment Markdown"
+    },
+    "tagCollisionAtAuthoring": false,
+    "focusedTests": [],
+    "dependencyTests": [],
+    "fullRegressionRequired": false,
+    "operationalReproductionRequired": false,
+    "verification": [
+      "Fresh branch/HEAD/annotated predecessor chain, zero real staged/unstaged tracked changes; no tag collision; exact state-specific untracked set. STOP any mismatch; never repair automatically.",
+      "Validate all 177 pre-existing protected hashes plus both amendment final hashes from approved detached receipt. Preserve node_modules, manifests, lockfiles and Git config; no normalization.",
+      "Validate exact checkpoint membership and classifications. Parse only member JSON with native ConvertFrom-Json or JSON.parse; never execute embedded code/commands/verifiers.",
+      "Inspect Markdown links and explicit JSON repository references literally. Use Test-Path, Get-FileHash, git cat-file/git rev-parse for exact paths and object IDs; preserve extensions. No heuristic parser, path rewriting or network URL resolution.",
+      "CP12A live navigation dependencies are its 18 members plus already committed evidence. Exactly two original CP13 audit files are declared deferred forward navigation targets: hash-check retained worktree copies now, keep unstaged, require committed resolution at CP13. Not a runtime dependency.",
+      "Absolute historical TEMP paths, old receipt paths, obsolete extraction commands, fixture paths and registry URLs in frozen reports are historical evidence, not automatic current execution dependencies. Do not re-run or fetch them. Preserve labels and distinguish missing historical external logs from missing required repository targets.",
+      "Cross-check CP00-CP12 tag OIDs, exact original plan CP13 metadata, amendment parent rule, pair A/B/C/D/E relationships and per-file authority. Verify CP12 full receipt hash and successful complete accounting without rerunning science.",
+      "For separately authorized execution only: require effective repository core.autocrlf=false, no unexpected file attributes; use v2 exact-file add with per-command core.autocrlf=false/core.safecrlf=false. Never write config to repair a mismatch.",
+      "Export staged members via native checkout-index with core.autocrlf=false/core.symlinks=false to a new contained temporary directory. Require worktree SHA256 = staged-export SHA256 = approved ledger/detached self hashes, and raw hash-object --no-filters OID = staged OID.",
+      "Require additions only, exact staged scope, ordinary git diff --cached --check exit 0 and no findings; no allowlist applies to CP12A or CP13.",
+      "Immediately before commit repeat HEAD/scope/byte/hash/authority/whitespace guards and state-specific exclusions. Disable hooks and signing per v2, write exact rendered message/tag body to UTF-8 no-BOM LF temporary files; no amend or extra files.",
+      "After commit verify exact parent, changed additions, blob OIDs/hashes and exact commit message. Create exact annotated unsigned tag without force; verify object type, peeled commit and exact body. Recheck protected bytes/diffs/untracked set.",
+      "Keep execution receipts outside repository so no extra untracked plan/receipt is created. Record actual commit/tag OIDs, rendered metadata hashes, approved input hashes, scope, whitespace/raw output and final exclusions. Clean only newly created contained temporary directories. STOP after each separately authorized checkpoint."
+    ],
+    "expectedUntrackedBefore": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "docs/Zero_Network_Offline_Materialization_v1.json",
+      "docs/Zero_Network_Offline_Materialization_v1.md",
+      "supabase/.gitignore",
+      "supabase/config.toml",
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json"
+    ],
+    "expectedUntrackedAfter": [
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "supabase/.gitignore",
+      "supabase/config.toml"
+    ],
+    "stopAfter": "STOP; require separate CP13 execution authorization."
+  },
+  "CP13": {
+    "id": "CP13",
+    "final": true,
+    "purpose": "Preserve evidence-stack audit and authority navigation",
+    "membership": [
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json"
+    ],
+    "fileCount": 2,
+    "members": [
+      {
+        "path": "docs/Evidence_Stack_Preservation_Audit_v1.json",
+        "bytes": 6600432,
+        "lines": 194220,
+        "sha256": "d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365",
+        "originalLargeLedger": null,
+        "classification": "OPERATIONAL_AUDIT",
+        "partition": "ORIGINAL_CP13",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "sizeReview": "NEW_EXPLICIT_HUMAN_REVIEW_RECOMMENDED"
+      },
+      {
+        "path": "docs/Evidence_Stack_Preservation_Audit_v1.md",
+        "bytes": 79786,
+        "lines": 731,
+        "sha256": "5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c",
+        "originalLargeLedger": null,
+        "classification": "OPERATIONAL_AUDIT",
+        "partition": "ORIGINAL_CP13",
+        "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+        "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+      }
+    ],
+    "classification": "OPERATIONAL_AUDIT",
+    "authority": "NAVIGATION_METADATA_NOT_SCIENTIFIC_AUTHORITY",
+    "auditTemporalScope": "HISTORICAL_PRE_EXECUTION_AUDIT",
+    "context": "CP12A supplies missing execution-era operational context. Audit v1 does not independently cover CP12A or become an updated post-execution audit.",
+    "originalExpectedParent": "Exact commit OID recorded by verified CP12 execution receipt and peeled annotated tag checkpoint-sst-source-equivalence-gap-filled-binding-boundary-v1; never assume arbitrary current HEAD",
+    "amendedExpectedParent": "Exact future CP12A commit OID verified by immutable execution receipt and peeled annotated tag checkpoint-preservation-execution-operational-evidence-v1; also require its direct parent is fixed CP12 OID.",
+    "commitSubject": "Preserve evidence-stack audit and authority navigation",
+    "commitMessage": "Preserve evidence-stack audit and authority navigation\n\nCHECKPOINT PURPOSE: CP13 — Preserve evidence-stack audit and authority navigation. Preservation only.\nAUTHORITY STATUS: NAVIGATION_METADATA_NOT_SCIENTIFIC_AUTHORITY. No authority change by commit or tag.\nCURRENT / SUPERSEDED / STOP / FAILED / QUARANTINED / QUALIFIED: per-file status below; historical PASS/QUALIFIED/READY_TO_RESUME wording does not override these preservation-time limitations.\nNORMATIVE STATUS: No new normative contract. Evidence/fixtures/navigation only.\nRUNTIME STATUS: NOT A RUNTIME RELEASE; no production implementation, integration or deployment authorized.\nDO-NOT-USE: STOP is VALID BOUNDARY EVIDENCE, NOT A QUALIFIED PRODUCTION CONTRACT. FAILED artifacts preserve withdrawn/falsified audit history and are NOT approved scientific authority. Superseded findings are historical, not the current gate.\nSUPERSEDED-BY: none for this preservation audit; later operational plan reviews refine execution only, not science.\ndocs/Evidence_Stack_Preservation_Audit_v1.md | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c\ndocs/Evidence_Stack_Preservation_Audit_v1.json | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365\nCURRENT SCIENCE GATE AT PRESERVATION TIME: SST_SOURCE_EQUIVALENCE_AND_GAP_FILLED_PROVIDER_BINDING_REQUIRED. This is navigation, not a new qualification.\nPAUSED/OPEN: Task12B.6C, Task9E-D, convergence/Ocean Physics paused; NOAA SME pending. Numeric-string, provider-fill, legacy SST coordinate fallback remain open. No lookback/revision/gap policy is established.\nNEXT EVIDENCE GROUP: none; audit is last. Later paths are informational supersession context only; the status and limitations above are self-contained. No CP13 document is required to interpret this annotation.",
+    "tagName": "checkpoint-evidence-stack-preservation-audit-v1",
+    "tagAnnotation": "CHECKPOINT PURPOSE: CP13 — Preserve evidence-stack audit and authority navigation. Preservation only.\nAUTHORITY STATUS: NAVIGATION_METADATA_NOT_SCIENTIFIC_AUTHORITY. No authority change by commit or tag.\nCURRENT / SUPERSEDED / STOP / FAILED / QUARANTINED / QUALIFIED: per-file status below; historical PASS/QUALIFIED/READY_TO_RESUME wording does not override these preservation-time limitations.\nNORMATIVE STATUS: No new normative contract. Evidence/fixtures/navigation only.\nRUNTIME STATUS: NOT A RUNTIME RELEASE; no production implementation, integration or deployment authorized.\nDO-NOT-USE: STOP is VALID BOUNDARY EVIDENCE, NOT A QUALIFIED PRODUCTION CONTRACT. FAILED artifacts preserve withdrawn/falsified audit history and are NOT approved scientific authority. Superseded findings are historical, not the current gate.\nSUPERSEDED-BY: none for this preservation audit; later operational plan reviews refine execution only, not science.\ndocs/Evidence_Stack_Preservation_Audit_v1.md | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c\ndocs/Evidence_Stack_Preservation_Audit_v1.json | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365\nCURRENT SCIENCE GATE AT PRESERVATION TIME: SST_SOURCE_EQUIVALENCE_AND_GAP_FILLED_PROVIDER_BINDING_REQUIRED. This is navigation, not a new qualification.\nPAUSED/OPEN: Task12B.6C, Task9E-D, convergence/Ocean Physics paused; NOAA SME pending. Numeric-string, provider-fill, legacy SST coordinate fallback remain open. No lookback/revision/gap policy is established.\nNEXT EVIDENCE GROUP: none; audit is last. Later paths are informational supersession context only; the status and limitations above are self-contained. No CP13 document is required to interpret this annotation.",
+    "metadataUnchanged": true,
+    "originalVerification": {
+      "group": "CP13",
+      "focused": [],
+      "dependencyAndCritical": [],
+      "always": [
+        "Inventory membership and SHA-256 guard against reviewed manifest",
+        "Tracked/staged diff and proposed blob-byte verification",
+        "JSON/Markdown links/static imports for changed evidence",
+        "No generation flags; V3 suite excluded"
+      ],
+      "fullRegression": null,
+      "quarantine": null,
+      "CP13": "Hash/reference/inventory checks only if CP12 full regression passed and no source/test changed; do not repeat entire suite for docs-only checkpoint.",
+      "executedInThisReview": false
+    },
+    "verificationDelta": [
+      "Require CP12A direct parent/tag/receipt instead of direct CP12.",
+      "Require exact CP12A membership/authority/byte proofs and historical audit context.",
+      "Retain CP12 full regression coverage only if no executable/test/dependency/runtime bytes changed through CP12A; otherwise STOP for reviewed verification decision, never auto-run scientific tests.",
+      "After CP13 require all repository navigation references resolve, including two CP13 targets previously deferred."
+    ],
+    "expectedUntrackedBefore": [
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "supabase/.gitignore",
+      "supabase/config.toml"
+    ],
+    "expectedUntrackedAfter": [
+      "supabase/.gitignore",
+      "supabase/config.toml"
+    ],
+    "focusedTests": [],
+    "fullRegressionRequired": false,
+    "operationalReproductionRequired": false,
+    "stopAfter": "FINAL checkpoint; no further checkpoint, push or deployment authorized."
+  },
+  "CP13HumanApproval": {
+    "gate": "HUMAN_REVIEW_SATISFIED",
+    "recordedDisposition": "APPROVED_FOR_GIT_PRESERVATION_IN_CP13",
+    "path": "docs/Evidence_Stack_Preservation_Audit_v1.json",
+    "bytes": 6600432,
+    "lines": 194220,
+    "humanDecision": "APPROVE_FOR_GIT_PRESERVATION_IN_CP13",
+    "sha256": "d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365",
+    "scope": "Exact existing artifact only. OPERATIONAL_AUDIT, historical pre-execution navigation; not science, normative contract, runtime authority, updated audit or approval of successors.",
+    "source": "Explicit human decision in this plan-authoring request; hash retrieved from reconciliation ledger and independently verified"
+  },
+  "CP12ALargeArtifactPolicy": {
+    "selfOutputCondition": "Final detached measurements must show both amendment outputs below 1000000 bytes; if not, STOP and obtain separate human large-artifact decision before execution. Recheck every final member against unchanged policy.",
+    "membersInOriginalLargeLedger": [],
+    "newHumanApprovalGranted": false,
+    "longLedgerDisposition": "Propose COMMIT_AS_PROPOSED for CP01/future-baseline/adversarial JSONs as exact operational ledgers. Sub-1-MB long ledgers are not automatically explicit-human-review gated by the existing policy. Amendment approval approves this disposition; no earlier large-artifact decision is borrowed.",
+    "result": "NO_UNSATISFIED_CP12A_LARGE_ARTIFACT_GATE_IDENTIFIED",
+    "source": "v2 largeArtifacts plus reconciliation size review and adversarial review over-1-MB precedent"
+  },
+  "staticVerification": {
+    "deferredCP13Targets": [
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json"
+    ],
+    "V3": "Do not execute implementation or suite; hash/navigation checks only.",
+    "liveRepositoryReferenceTargets": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "docs/Zero_Network_Offline_Materialization_v1.json",
+      "docs/Zero_Network_Offline_Materialization_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json",
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "backend/candidateSemanticProjectionV3.mjs",
+      "backend/tests/candidateSemanticProjectionV3.test.js",
+      "docs/Candidate_Semantic_Shapes_v3.json",
+      "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "backend/tests/fixtures/cacheIsolatedSnapshotFixture.mjs",
+      "backend/tests/fixtures/snapshotProducerBranchAudit.mjs",
+      "docs/Cache_Isolated_Snapshot_Producer_Qualification_v1.md",
+      "docs/Candidate_Semantic_Projection_v3_Proposed_Delta.json",
+      "docs/Candidate_Snapshot_Authority_Freeze_v1.json",
+      "docs/Candidate_Snapshot_Producer_Branches_v1.json",
+      "docs/Candidate_Snapshot_Producer_Scenarios_v1.json",
+      "docs/Candidate_Snapshot_Producer_Surface_v2.json",
+      "backend/tests/fixtures/snapshotBranchReachabilityReview.mjs",
+      "backend/tests/fixtures/snapshotProducerBranchAuditV2.mjs",
+      "backend/tests/fixtures/snapshotProducerInventoryV2.mjs",
+      "backend/tests/fixtures/snapshotProducerQualificationV2Fixture.mjs",
+      "backend/tests/snapshotBranchOptionality.test.js",
+      "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "backend/tests/snapshotProducerQualificationV2.test.js",
+      "docs/Candidate_Snapshot_Branch_Optionality_Review_v1.json",
+      "docs/Candidate_Snapshot_Branch_Review_Preservation_v1.json",
+      "docs/Candidate_Snapshot_Harness_v2_Preservation.json",
+      "docs/Candidate_Snapshot_Producer_Branches_v2.json",
+      "docs/Candidate_Snapshot_Producer_Scenarios_v2.json",
+      "docs/Candidate_Snapshot_Producer_Surface_v3.json",
+      "docs/Candidate_Snapshot_Producer_Surface_v4.json",
+      "docs/Snapshot_Branch_Optionality_Adversarial_Stop_v1.json",
+      "docs/Snapshot_Branch_Optionality_Qualification_v1.md",
+      "docs/Snapshot_Producer_Qualification_Harness_v2.md",
+      "backend/tests/defaultProviderSemanticReview.test.js",
+      "backend/tests/defaultProviderTransitive.test.js",
+      "backend/tests/fixtures/defaultProviderGraphReview.mjs",
+      "backend/tests/fixtures/defaultProviderSemanticReviewFixture.mjs",
+      "backend/tests/fixtures/defaultProviderTransitiveFixture.mjs",
+      "backend/tests/fixtures/oceanProviderBoundaryFixture.mjs",
+      "backend/tests/fixtures/transitiveProducerBoundaryFixture.mjs",
+      "backend/tests/oceanProviderBoundary.test.js",
+      "backend/tests/transitiveProducerBoundary.test.js",
+      "docs/Accepted_Ocean_Provider_Boundary_v1.json",
+      "docs/Accepted_Ocean_Provider_Boundary_v1.md",
+      "docs/Default_Ocean_Provider_Return_Shapes_v1.json",
+      "docs/Default_Ocean_Provider_Semantic_Graph_v1.json",
+      "docs/Default_Provider_Semantic_Review_Preservation_v1.json",
+      "docs/Default_Provider_Semantic_Review_v1.json",
+      "docs/Default_Provider_Semantic_Review_v1.md",
+      "docs/Default_Provider_Transitive_Discovery_v2.json",
+      "docs/Default_Provider_Transitive_Preservation_v1.json",
+      "docs/Default_Provider_Transitive_Review_v1.json",
+      "docs/Default_Provider_Transitive_Review_v1.md",
+      "docs/Transitive_Producer_Boundary_Discovery_v1.json",
+      "docs/Transitive_Producer_Boundary_Preservation_v1.json",
+      "docs/Transitive_Producer_Boundary_Review_v1.md",
+      "docs/Transitive_Producer_Boundary_Stop_v1.json",
+      "backend/tests/assessmentAstronomy.test.js",
+      "backend/tests/fixtures/assessmentAstronomyFixture.mjs",
+      "docs/Assessment_Derived_Astronomy_Boundary_v1.json",
+      "docs/Assessment_Derived_Astronomy_Boundary_v1.md",
+      "docs/Assessment_Derived_Astronomy_Preservation_v1.json",
+      "backend/tests/convergenceContract.test.js",
+      "backend/tests/convergenceDecision.test.js",
+      "backend/tests/fixtures/convergenceContractFixture.mjs",
+      "backend/tests/fixtures/convergenceDecisionFixture.mjs",
+      "backend/tests/fixtures/oceanPhysicsBoundaryFixture.mjs",
+      "backend/tests/fixtures/revisedSemanticModelFixture.mjs",
+      "backend/tests/oceanPhysicsBoundary.test.js",
+      "backend/tests/revisedSemanticModel.test.js",
+      "docs/Current_Convergence_Contract_Preservation_v1.json",
+      "docs/Current_Convergence_Contract_Review_v1.json",
+      "docs/Current_Convergence_Contract_Review_v1.md",
+      "docs/Current_Convergence_Science_Review_Package_v1.json",
+      "docs/Current_Convergence_Science_Review_Package_v1.md",
+      "docs/Governed_Current_Convergence_Decision_v1.json",
+      "docs/Governed_Current_Convergence_Decision_v1.md",
+      "docs/Governed_Current_Convergence_Preservation_v1.json",
+      "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.json",
+      "docs/Governed_Surface_Current_Divergence_Convergence_Science_v1.md",
+      "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.json",
+      "docs/NOAA_Geostrophic_Current_Divergence_Qualification_v1.md",
+      "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.json",
+      "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+      "docs/NOAA_Geostrophic_Current_Provider_Questions_v1.md",
+      "docs/Ocean_Physics_Boundary_Preservation_v1.json",
+      "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.json",
+      "docs/Ocean_Physics_Interpretation_Boundary_Stop_v1.md",
+      "docs/Revised_Default_Provider_Model_Preservation_v1.json",
+      "docs/Revised_Default_Provider_Model_Stop_v1.json",
+      "docs/Revised_Default_Provider_Model_Stop_v1.md",
+      "backend/tests/crossRouteFinitenessAtomicity.test.js",
+      "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "backend/tests/currentVectorFailureContract.test.js",
+      "backend/tests/fixtures/crossRouteFinitenessFixture.mjs",
+      "backend/tests/fixtures/currentVectorDerivedFinitenessFixture.mjs",
+      "backend/tests/fixtures/sourceNormalizationFixture.mjs",
+      "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+      "backend/tests/sourceNormalizationBoundary.test.js",
+      "backend/tests/sstPostConversionFiniteness.test.js",
+      "docs/Cross_Route_Finiteness_Atomicity_v1.json",
+      "docs/Cross_Route_Finiteness_Atomicity_v1.md",
+      "docs/Current_Vector_Derived_Finiteness_v1.json",
+      "docs/Current_Vector_Derived_Finiteness_v1.md",
+      "docs/Current_Vector_Failure_State_Contract_v1.json",
+      "docs/Current_Vector_Failure_State_Contract_v1.md",
+      "docs/SST_Post_Conversion_Finiteness_Boundary_v1.json",
+      "docs/SST_Post_Conversion_Finiteness_Boundary_v1.md",
+      "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.json",
+      "docs/Source_Normalization_Amendment_Adversarial_Stop_v1.md",
+      "docs/Source_Normalization_Amendment_Review_v1.json",
+      "docs/Source_Normalization_Amendment_Review_v1.md",
+      "docs/Source_Normalization_Boundary_v1.json",
+      "docs/Source_Normalization_Boundary_v1.md",
+      "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "docs/Current_Vector_Failure_Locality_Contract_v1.json",
+      "docs/Current_Vector_Failure_Locality_Contract_v1.md",
+      "backend/tests/chlorophyllTemporalDerivedFiniteness.test.js",
+      "backend/tests/crossRouteFinitenessAtomicityResumed.test.js",
+      "backend/tests/fixtures/chlorophyllTemporalDerivedFinitenessFixture.mjs",
+      "backend/tests/fixtures/crossRouteFinitenessAtomicityResumedFixture.mjs",
+      "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.json",
+      "docs/Chlorophyll_Temporal_Derived_Finiteness_v1.md",
+      "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.json",
+      "docs/Cross_Route_Finiteness_Atomicity_Resumed_v1.md",
+      "backend/tests/activeHistoricalTemporalProvenance.test.js",
+      "backend/tests/consumerAwareHistorySelection.test.js",
+      "backend/tests/fixtures/activeHistoricalTemporalProvenanceFixture.mjs",
+      "backend/tests/fixtures/consumerAwareHistorySelectionFixture.mjs",
+      "backend/tests/fixtures/historyAssessmentCutoffFixture.mjs",
+      "backend/tests/historyAssessmentCutoff.test.js",
+      "docs/Active_Historical_Temporal_Provenance_v1.json",
+      "docs/Active_Historical_Temporal_Provenance_v1.md",
+      "docs/Consumer_Aware_History_Selection_v1.json",
+      "docs/Consumer_Aware_History_Selection_v1.md",
+      "docs/Historical_Assessment_Cutoff_Contract_v1.json",
+      "docs/Historical_Assessment_Cutoff_Contract_v1.md",
+      "backend/tests/fixtures/historicalAvailabilityReferenceFixture.mjs",
+      "backend/tests/historicalAvailabilityReference.test.js",
+      "docs/Historical_Availability_Reference_Contract_v1.json",
+      "docs/Historical_Availability_Reference_Contract_v1.md",
+      "backend/tests/activeProductTemporalSupport.test.js",
+      "backend/tests/consumerAwareHistoricalSelectionPolicy.test.js",
+      "backend/tests/fixtures/activeProductTemporalSupportFixture.mjs",
+      "backend/tests/fixtures/consumerAwareHistoricalSelectionPolicyFixture.mjs",
+      "backend/tests/fixtures/remainingTemporalAuthorityFixture.mjs",
+      "backend/tests/fixtures/sstChlorophyllTemporalSupportFixture.mjs",
+      "backend/tests/remainingTemporalAuthority.test.js",
+      "backend/tests/sstChlorophyllTemporalSupport.test.js",
+      "docs/Active_Environmental_Product_Temporal_Support_v1.json",
+      "docs/Active_Environmental_Product_Temporal_Support_v1.md",
+      "docs/Consumer_Aware_Historical_Selection_Policy_v1.json",
+      "docs/Consumer_Aware_Historical_Selection_Policy_v1.md",
+      "docs/Remaining_SST_Chlorophyll_Temporal_Authority_v1.json",
+      "docs/Remaining_SST_Chlorophyll_Temporal_Authority_v1.md",
+      "docs/SST_Chlorophyll_Temporal_Support_Authority_v1.json",
+      "docs/SST_Chlorophyll_Temporal_Support_Authority_v1.md",
+      "backend/tests/fixtures/sstProvenanceGapFilledBindingFixture.mjs",
+      "backend/tests/sstProvenanceGapFilledBinding.test.js",
+      "docs/SST_Provenance_GapFilled_Deployment_Binding_v1.json",
+      "docs/SST_Provenance_GapFilled_Deployment_Binding_v1.md"
+    ],
+    "isolation": "No Node/package materialization or scientific isolation needed for static docs-only checks. Stage/export uses qualified native checkout-index only. If approved scope later requires executable verification, STOP for separate authorization and use already-qualified Windows/zero-attempt supplements, never Windows tar or new npm experiments.",
+    "testsRunDuringAuthoring": [],
+    "referencePolicy": "Literal exact paths only; forward audit links are declared informational until CP13, never silently ignored. Historical absolute external paths are provenance, not active execution dependencies.",
+    "plan": [
+      "Fresh branch/HEAD/annotated predecessor chain, zero real staged/unstaged tracked changes; no tag collision; exact state-specific untracked set. STOP any mismatch; never repair automatically.",
+      "Validate all 177 pre-existing protected hashes plus both amendment final hashes from approved detached receipt. Preserve node_modules, manifests, lockfiles and Git config; no normalization.",
+      "Validate exact checkpoint membership and classifications. Parse only member JSON with native ConvertFrom-Json or JSON.parse; never execute embedded code/commands/verifiers.",
+      "Inspect Markdown links and explicit JSON repository references literally. Use Test-Path, Get-FileHash, git cat-file/git rev-parse for exact paths and object IDs; preserve extensions. No heuristic parser, path rewriting or network URL resolution.",
+      "CP12A live navigation dependencies are its 18 members plus already committed evidence. Exactly two original CP13 audit files are declared deferred forward navigation targets: hash-check retained worktree copies now, keep unstaged, require committed resolution at CP13. Not a runtime dependency.",
+      "Absolute historical TEMP paths, old receipt paths, obsolete extraction commands, fixture paths and registry URLs in frozen reports are historical evidence, not automatic current execution dependencies. Do not re-run or fetch them. Preserve labels and distinguish missing historical external logs from missing required repository targets.",
+      "Cross-check CP00-CP12 tag OIDs, exact original plan CP13 metadata, amendment parent rule, pair A/B/C/D/E relationships and per-file authority. Verify CP12 full receipt hash and successful complete accounting without rerunning science.",
+      "For separately authorized execution only: require effective repository core.autocrlf=false, no unexpected file attributes; use v2 exact-file add with per-command core.autocrlf=false/core.safecrlf=false. Never write config to repair a mismatch.",
+      "Export staged members via native checkout-index with core.autocrlf=false/core.symlinks=false to a new contained temporary directory. Require worktree SHA256 = staged-export SHA256 = approved ledger/detached self hashes, and raw hash-object --no-filters OID = staged OID.",
+      "Require additions only, exact staged scope, ordinary git diff --cached --check exit 0 and no findings; no allowlist applies to CP12A or CP13.",
+      "Immediately before commit repeat HEAD/scope/byte/hash/authority/whitespace guards and state-specific exclusions. Disable hooks and signing per v2, write exact rendered message/tag body to UTF-8 no-BOM LF temporary files; no amend or extra files.",
+      "After commit verify exact parent, changed additions, blob OIDs/hashes and exact commit message. Create exact annotated unsigned tag without force; verify object type, peeled commit and exact body. Recheck protected bytes/diffs/untracked set.",
+      "Keep execution receipts outside repository so no extra untracked plan/receipt is created. Record actual commit/tag OIDs, rendered metadata hashes, approved input hashes, scope, whitespace/raw output and final exclusions. Clean only newly created contained temporary directories. STOP after each separately authorized checkpoint."
+    ],
+    "network": "No network operation needed or authorized; do not fetch links or package metadata.",
+    "qualificationReplay": "Not needed: preserving immutable documentary procedure sources does not activate them. Verify identities, relationships and recorded verdicts statically; no embedded runner execution."
+  },
+  "CP12RegressionCarryForward": {
+    "recordedFull": {
+      "intended": 84,
+      "started": 84,
+      "completed": 84,
+      "passedScripts": 84,
+      "failedScripts": 0,
+      "nodeTestsPassed": 2078.0,
+      "explicitManualTestsPassed": 50.0,
+      "failedTests": 0.0,
+      "skippedTests": 0.0,
+      "networkAttempts": 0,
+      "excludedScripts": [
+        "backend/tests/candidateSemanticProjectionV3.test.js"
+      ]
+    },
+    "receiptPath": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp12-execution-941fdbd897694efbaea65f74968c2ad0\\execution-receipt.json",
+    "condition": "Verify exact successful receipt and unchanged executable/test/dependency/runtime bytes. Docs-only CP12A does not invalidate prior run. Missing evidence or changed runtime requires STOP, not inferred PASS.",
+    "verdict": "CP12_EVIDENCE_PRESERVATION_CHECKPOINT_COMPLETE",
+    "HEAD": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+    "receiptSHA256": "52a1b8dcbb25d29db08459d161104338b5fc58fe786c79d2b4c48d11ee8b03be"
+  },
+  "operationalRelationships": [
+    {
+      "id": "A",
+      "files": [
+        "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+        "docs/CP01_Protected_Whitespace_Exception_Review_v1.json"
+      ],
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "verdict": "CP01_PROTECTED_WHITESPACE_EXCEPTION_QUALIFIED",
+      "status": "Current exact CP01-only exception; not superseded for CP01. Its future inventory was planning only and was refined by B.",
+      "currentAuthority": "Exact CP01 path/line/category/protected-hash/raw-output bindings only; no science or content waiver.",
+      "dependency": "CP01 exception; historical verifier derivation for B."
+    },
+    {
+      "id": "B",
+      "files": [
+        "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+        "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json"
+      ],
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "verdict": "CP02_CP08_PROTECTED_WHITESPACE_BASELINES_QUALIFIED",
+      "status": "Current for the seven exact checkpoint/hash-bound baselines; no exception for CP09-CP13.",
+      "currentAuthority": "24 affected files and 18389 exact findings, with checkpoint-specific raw-output predicates and mutation-tested verifier. Membership and affected-file counts are independent.",
+      "dependency": "Direct operational verification for CP02-CP08; refines A future inventory without replacing CP01 scope."
+    },
+    {
+      "id": "C",
+      "files": [
+        "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+        "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json"
+      ],
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "verdict": "CP07_ISOLATED_CHECKOUT_ENVIRONMENT_UNRESOLVED",
+      "status": "Overall environment UNRESOLVED in this artifact. Extraction subset succeeded; missing polyfill blocked full regression. E later resolves the complete environment.",
+      "currentAuthority": "Extraction subset only: temporary index, native checkout-index, core.autocrlf=false and core.symlinks=false; 1897 committed files plus three CP07 files byte-identical. Symlink target-text representation is explicit.",
+      "dependency": "Surviving extraction mechanism used with E by CP07-CP12. Original complete-environment STOP is never retroactively PASS."
+    },
+    {
+      "id": "D",
+      "files": [
+        "docs/Offline_Dependency_Closure_Qualification_v1.md",
+        "docs/Offline_Dependency_Closure_Qualification_v1.json"
+      ],
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "verdict": "CP07_OFFLINE_DEPENDENCY_CLOSURE_UNRESOLVED",
+      "status": "Overall UNRESOLVED. npm attempted registry metadata access despite offline mode; old materialization procedure superseded by E. Full rehearsal remains incomplete: 68/73 scripts and 1636 completed node:test cases.",
+      "currentAuthority": "Supporting derivation only: polyfill 0.5.1/jsbi 4.3.2 declarations and locks, 28 cache-integrity matches, and three additional retained-input identities. No qualified zero-attempt execution procedure.",
+      "dependency": "Historical derivation/fixture provenance for CP07-CP12 through E, not the old npm command."
+    },
+    {
+      "id": "E",
+      "files": [
+        "docs/Zero_Network_Offline_Materialization_v1.md",
+        "docs/Zero_Network_Offline_Materialization_v1.json"
+      ],
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "verdict": "CP07_ZERO_NETWORK_ISOLATED_ENVIRONMENT_SUPPLEMENT_QUALIFIED",
+      "status": "Current qualified operational procedure for recorded versions/inputs, later reused by separately authorized checkpoint executions.",
+      "currentAuthority": "Lockfile/SRI-bound 28 packages, isolated config/cache, explicit notifier suppression, qualified scripts/audit/funding/bin handling, 48-file overlay of two absent packages, eight fixtures, dual denial/attempt instrumentation and V3 exclusion.",
+      "dependency": "Direct isolated dependency/test environment for CP07-CP12, including full milestones CP07/CP10/CP12. Resolves C/D blockers without upgrading earlier incomplete results."
+    }
+  ],
+  "whitespace": {
+    "method": "Private temporary indexes/object directory with read-only alternates; native git diff --cached --check and checkout-index byte export. No real staging or real Git object writes.",
+    "CP13": "REQUIRE exit 0, no findings, no exception; authoring result in detached finalization receipt",
+    "CP12A": "REQUIRE exit 0, no findings, no exception; authoring result in detached finalization receipt"
+  },
+  "finalUntracked": [
+    "supabase/.gitignore",
+    "supabase/config.toml"
+  ],
+  "excluded": [
+    {
+      "path": "supabase/.gitignore",
+      "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2"
+    }
+  ],
+  "noOtherExclusions": true,
+  "expectedUntrackedAfterAuthoring": 22,
+  "failureRule": "Any real mismatch or unresolved mandatory approval stops execution without automatic repair. Separate execution authorization required for each checkpoint. This document is plan authoring only.",
+  "preservation": {
+    "noExistingFileModified": true,
+    "preExistingProtectedCount": 177,
+    "requiredFinalHEAD": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+    "stagedDiff": "EMPTY",
+    "startingHEAD": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+    "noCommitTagPushDeployment": true,
+    "trackedDiff": "EMPTY",
+    "realIndex": "UNCHANGED, no staged changes",
+    "predecessorEvidenceCount": 157,
+    "CP13Started": false,
+    "noProviderDatabaseAuthSupabaseAccess": true,
+    "noRuntimeChanges": true,
+    "noScience": true,
+    "noEnvironmentalAcquisition": true,
+    "noCheckpointExecution": true
+  }
+}

@@ -1,0 +1,2338 @@
+{
+  "verdict": "CP07_ZERO_NETWORK_ISOLATED_ENVIRONMENT_SUPPLEMENT_QUALIFIED",
+  "authority": "OPERATIONAL_ONLY; no science/contract/runtime authority changes; no CP07 execution",
+  "head": "02326627671eb290027cfef63e448109e6ad02e2",
+  "branch": "codex/pelora-remote-setup",
+  "previousRequestCause": {
+    "npmVersion": "11.16.0",
+    "sourceFiles": [
+      {
+        "path": "C:/nvm4w/nodejs/node_modules/npm/lib/cli/entry.js",
+        "sha256": "a039e99fff29fa35a5f329ee293a197af39cead94d65cbd9790a0e2501173ffe"
+      },
+      {
+        "path": "C:/nvm4w/nodejs/node_modules/npm/lib/cli/update-notifier.js",
+        "sha256": "7fa071c5fa1c5e0ee993fcaf9cc29393ec600a075f22fab8aa9cb6e210fd99f0"
+      },
+      {
+        "path": "C:/nvm4w/nodejs/node_modules/npm/node_modules/@npmcli/config/lib/definitions/definitions.js",
+        "sha256": "8930aa7719bd13a43b35dc03890e1b52913399dd4946e3802fe9142867308625"
+      }
+    ],
+    "callChain": "lib/cli/entry.js launches updateNotifier(npm) asynchronously after npm.exec starts. lib/cli/update-notifier.js defaults enabled, checks age marker, then pacote.manifest(npm@*, {...npm.flatOptions, cache:false}). The prior debug request was npm package metadata, not dependency tarball resolution. update-notifier=false returns before stat/updateCheck.",
+    "suppression": "CLI --update-notifier=false plus temporary user npmrc update-notifier=false. CI environment absent; no freshness marker created. No claim based on blocked traffic, invalid registry or accidental fresh marker.",
+    "priorLogLine": "http fetch GET https://registry.npmjs.org/npm attempt 1 failed with undefined"
+  },
+  "selectedMethod": {
+    "name": "Lockfile-governed npm ci with explicitly disabled update notifier, temporary configuration/cache, dual denial/attempt controls; retain byte-exact tracked dependency snapshot and overlay only absent verified packages",
+    "properties": [
+      "LOCKFILE_BOUND",
+      "INTEGRITY_VERIFIED",
+      "ZERO_NETWORK_ATTEMPT",
+      "DETERMINISTIC",
+      "TEMPORARY_ENVIRONMENT_ONLY",
+      "REAL_WORKTREE_SAFE",
+      "WINDOWS_COMPATIBLE",
+      "SUFFICIENT_FOR_CP07"
+    ],
+    "command": "node --import <approved-denial-URL> --import <attempt-monitor-URL> <npm>/bin/npm-cli.js ci --offline --ignore-scripts --no-audit --no-fund --update-notifier=false --bin-links=false --userconfig <temporary-user.npmrc> --globalconfig <temporary-empty-global.npmrc> --cache <private-cache>",
+    "npmrc": "offline=true\nupdate-notifier=false\naudit=false\nfund=false\nignore-scripts=true\nbin-links=false\n",
+    "environment": "Inherited NPM_CONFIG_* and NODE_OPTIONS removed only in child shell; no parent/global/system configuration change. Registry remains genuine lockfile registry; not localhost/fake/unreachable configuration.",
+    "nodeVersion": "v24.18.0",
+    "npmVersion": "11.16.0",
+    "manifestLock": "Exact committed root bytes in fresh dependency directory; no modification",
+    "layout": "28 exact locked paths including scoped/nested packages; npm ls --all --offline under same controls passed",
+    "copiedSource": "28 SRI-verified cache blobs only; real installed packages not materialization source",
+    "trackedPackageContentMatches": 1423,
+    "overlayPackages": [
+      "@js-temporal/polyfill@0.5.1",
+      "jsbi@4.3.2"
+    ],
+    "overlayFiles": [
+      {
+        "path": "node_modules/@js-temporal/polyfill/CHANGELOG.md",
+        "sha256": "f4fb43307933e7ae71ab17bb5ce685fb9e8e37b1c052f64bae3a18b0a888f7cf"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.cjs",
+        "sha256": "9e3d7aae022f5ec391fc5e3639e474fe90f740c4631806fd741401b9c50f4ee0"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.cjs.map",
+        "sha256": "596316f68feaaee05f1458831200e0228ed73808ba019f584aac8dbf63e8241f"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.esm.js",
+        "sha256": "21f067c54fa5f532f20a8e85e3d2401a3ae1cf60d85fafea6502f621dc93b167"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.esm.js.map",
+        "sha256": "701a0618385a1411985f267dc5867fcabdb7073ce09de4529acb375b92e7d29b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.umd.js",
+        "sha256": "3f67afd9a4cf413815e97dfbdc40f0d4139d476eafdd0a8dd38bd0162c376966"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.umd.js.map",
+        "sha256": "3050a989d2c2b9e657b08381bc35f7b3f34df179eaa54858630df9540b56fc50"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/index.d.cts",
+        "sha256": "893fbc7e2a50a3a780d3d6eb6899e45fe8dc4ca56708770b4731e481f55af599"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/index.d.ts",
+        "sha256": "893fbc7e2a50a3a780d3d6eb6899e45fe8dc4ca56708770b4731e481f55af599"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/assert.ts",
+        "sha256": "94f7f93454e56ef88a2d32918727d3fc8f6d0f1c2e642e8996f82d22bb14a652"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/bigintmath.ts",
+        "sha256": "b2ae4dadbb6e38435adce611f0f9154f35dc27398c262cc9b408e6acea50da98"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/calendar.ts",
+        "sha256": "c8e161648f18a167d4327890321f20f2fc167ce7941456bc0eb440d51b8a8b6b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/debug.ts",
+        "sha256": "23b0c113b844c53b803c1d4b2ed92195c38c8b68f7a394ef5fab11d57372bed8"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/duration.ts",
+        "sha256": "ce44aacaf15ba38b73df3ad9c8d19572b1716c6c88a09b2764f676faa742b56b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/durationformat.d.ts",
+        "sha256": "190e0eaa93ea9c2d70385e947bd73307322ebb2bfad50aa0e95851252c63c244"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/ecmascript.ts",
+        "sha256": "35fa564e2099557f54546a45aad0954a15b8d21e7636882b2025e447aab81a1e"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/index.ts",
+        "sha256": "d30b8d299970af27da6149aabbab6dde23ea8e0fdd3c9e74a5f724d644b4089d"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/init.ts",
+        "sha256": "28d1969fa1d3025bdc5292f6db9d54876e5a2745361e35ad61efc060bfe69d58"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/instant.ts",
+        "sha256": "124de3a069fb83673e5e61639c06fa7a92979da7c2ccf916e5c326d82cbba554"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/internaltypes.d.ts",
+        "sha256": "63bc849c70604e810efa2c93643eadfc30e79741d0d3b58cf6d1f9f52065751b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/intl.ts",
+        "sha256": "c65a16f44c5f39d3be30683e6f574ed14850db815d12ebc30ab454621b6a1be9"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/intrinsicclass.ts",
+        "sha256": "9bbd018bc22e58f18966b8feceb6ec9229316c52d5d18635319e34a9d4400845"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/legacydate.ts",
+        "sha256": "e711238d1a614cbabf7a6c15e5aca5fb949c322532bb4f5a15985d42fbb60e38"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/math.ts",
+        "sha256": "7c75a4446b40612954e589cea0e4289e1486ab2b8c7dd2a45b8f5b3b39fc2dda"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/now.ts",
+        "sha256": "672a34685697dfe4c9a02237fbadc859f61cccd1a9febe39ee1ae68c99b6fe3b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plaindate.ts",
+        "sha256": "e8bcaf941b761cc57259431bd303ffb87828d929752cc4566997e0b8beaa89cd"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plaindatetime.ts",
+        "sha256": "18242ead1606f996205d2e76574815877d48a9f59132b1c9b44773208925545e"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plainmonthday.ts",
+        "sha256": "43f86513f0c54e9d092a00d4207933264d7b8fe1b2bbffb91d27e8dbcb1b79b5"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plaintime.ts",
+        "sha256": "47e98c13bbe5fe261363e0f206642f90aa34fe1b4b7f8c731bad95b561fae81d"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plainyearmonth.ts",
+        "sha256": "3ebf486e06ccf9b6a5e74d2096e9be1ce282657ac3a4f86a5d3bab5a5188569e"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/regex.ts",
+        "sha256": "a8dd43efbc056d4d99d4bb88d14e536a1422a47c3a0537ae4f0becddb88438c5"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/slots.ts",
+        "sha256": "5e122d31e1ae351bc2c4c457f561d6d189b6b834f8514bbe0f177337ef54c029"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/temporal.ts",
+        "sha256": "bc7ff0eab63cf26705042d76f5584995dfe317a7bb9c16c4323b7498956f9b3c"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/timeduration.ts",
+        "sha256": "1ae703eb58adb57dcfba27ec72cfb3589fdd0dc2ff207d3a4631fcf8916d6196"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/zoneddatetime.ts",
+        "sha256": "0ac4c51a3d166ed2a2b4dbbfac1f8c0a7e6f6fc7e8f4177dda2ade81a3729195"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/LICENSE",
+        "sha256": "ffc4aee7f1279fc0494ff2b27f6829e6b4d16c20aa93aa008c3bd8d8af176387"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/package.json",
+        "sha256": "8406de0f5b7642ee1518c01c40ee6b797da7bc97575fea406e1f17876493e9cc"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/README.md",
+        "sha256": "e0b4db7ef68d62cfae50d0172e87272165e85505c038ba29b49e395d2a42e938"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-cjs.js",
+        "sha256": "b952fc88337eae5d90b397da4251e207d816056ea4c574df576f17e68626dd94"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-cjs.js.map",
+        "sha256": "d31e331237fa3a7956d9af4282b463717b6870345c0843460e1b71d503ddbdf0"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-umd.js",
+        "sha256": "450aa05df1d8664d5be05897b616d0dcaaeacc8bf20d7d8e3cc48ad703b086d3"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-umd.js.map",
+        "sha256": "acca4cc809ff8636a30acac16ad7474bbc4bab8dafe800cba38180325a8bb98e"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi.mjs",
+        "sha256": "c0d70fb47e0818e31bdf964805a530d9a0fb4ee5bdadb442a13f3691a5f15583"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi.mjs.map",
+        "sha256": "0ad9567753beda247d2c8fde605a44c7ffaf40153d78728faf48723988a8ee5c"
+      },
+      {
+        "path": "node_modules/jsbi/jsbi.d.ts",
+        "sha256": "57c8f2881edb838ed1dfd43e61f81b063f0f85c4f874ad62dbd2fb230ef76bf2"
+      },
+      {
+        "path": "node_modules/jsbi/LICENSE",
+        "sha256": "9568a2b155e66ac3e0ba1fd80b52b827b9460e6cf6f233125e7cbca8e206ddc3"
+      },
+      {
+        "path": "node_modules/jsbi/package.json",
+        "sha256": "756c2c1b6e80e9e8488fe7ad66403a8307b115a0dc141966e69adf41eb39efc6"
+      },
+      {
+        "path": "node_modules/jsbi/README.md",
+        "sha256": "06c7b260665b7e7747f985c39bdd8439e8f1d68960232ae663a13cdba57ea37a"
+      }
+    ]
+  },
+  "alternatives": {
+    "packageManagerFree": "Not selected/qualified. Would require exact lock path graph, safe tar extraction, scoped/nested placement, bin/mode rules and equivalent proofs; no need for custom npm emulation because explicit notifier suppression succeeded.",
+    "existingNodeModules": "Blind copy/junction rejected. Prior 48-file content match can support a filtered snapshot, but presence/version alone cannot authorize it. No snapshot-copy method selected or independently qualified."
+  },
+  "packageIntegrity": {
+    "lockedFindingsPreserved": true,
+    "validationForThisCandidate": [
+      {
+        "path": "node_modules/@js-temporal/polyfill",
+        "version": "0.5.1",
+        "resolved": "https://registry.npmjs.org/@js-temporal/polyfill/-/polyfill-0.5.1.tgz",
+        "integrity": "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ==",
+        "license": "ISC",
+        "dependencies": {
+          "jsbi": "^4.3.0"
+        },
+        "engines": {
+          "node": ">=12"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\86\\5a\\0fe7ccd1542452a600f19aa09624d962cc095480916a1b6ca9abbf430afcaff6d1e345830339c3c58f37e5fc0d7f6310ef442673f30bd9be66a94272b015",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/jsonlint-lines-primitives",
+        "version": "2.0.3",
+        "resolved": "https://registry.npmjs.org/@mapbox/jsonlint-lines-primitives/-/jsonlint-lines-primitives-2.0.3.tgz",
+        "integrity": "sha512-0SElaV0uMxEnxzBhhX9WTuPyUeMsAN/SS0i16tjuba4/mio63MG9khjC1a0JAiPGXAwvwm4UfHJURCN7nyudQg==",
+        "license": "MIT",
+        "engines": {
+          "node": ">= 22"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\d1\\21\\25695d2e331127c73061857f564ee3f251e32c00dfd24b48b5ead8ee6dae3f9a2a3adcc1bd9218c2d5ad090223c65c0c2fc26e147c725444237b9f2b9d42",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/point-geometry",
+        "version": "1.1.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/point-geometry/-/point-geometry-1.1.0.tgz",
+        "integrity": "sha512-YGcBz1cg4ATXDCM/71L9xveh4dynfGmcLDqufR+nQQy3fKwsAZsWd/x4621/6uJaeB9mwOHE6hPeDgXz9uViUQ==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\60\\67\\01cf5720e004d70c233fef52fdc6f7a1e1dca77c699c2c3aae7d1fa7410cb77cac2c019b1677fc78eb6d7feae25a781f66c0e1c4ea13de0e05f3f6e56251",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/tiny-sdf",
+        "version": "2.2.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/tiny-sdf/-/tiny-sdf-2.2.0.tgz",
+        "integrity": "sha512-LVL4wgI9YAum5V+LNVQO6QgFBPw7/MIIY4XJPNsPDMrjEwcE+JfKk1LuIl8GnF197ejVdC9QdPaxrx5gfgdGXg==",
+        "license": "BSD-2-Clause",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\2d\\52\\f8c2023d600ba6e55f8b35540ee9080504fc3bfcc2086385c93cdb0f0ccae3130704f897ca9352ee225f069c5d7dede8d5742f5074f6b1af1e607e07465e",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/unitbezier",
+        "version": "0.0.1",
+        "resolved": "https://registry.npmjs.org/@mapbox/unitbezier/-/unitbezier-0.0.1.tgz",
+        "integrity": "sha512-nMkuDXFv60aBr9soUG5q+GvZYL+2KZHVvsqFCzqnkGEf46U2fvmytHaEVc1/YZbiLn8X+eR3QzX1+dwDO1lxlw==",
+        "license": "BSD-2-Clause",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\9c\\c9\\2e0d716feb4681afdb28506e6af86bd960bfb62991d5beca850b3aa790611fe3a5367ef9b2b4768455cd7f6196e22e7f17f9e4774335f5f9dc033b597197",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/vector-tile",
+        "version": "2.0.5",
+        "resolved": "https://registry.npmjs.org/@mapbox/vector-tile/-/vector-tile-2.0.5.tgz",
+        "integrity": "sha512-pXj8m7KTsqZt+1jsE0xIpGvqTSbblfkuEJL/NJmNePMtEwxO8V3XMDo9WMSfDeqHvCtBI9Lmt4mGcGR10zecmw==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "@mapbox/point-geometry": "~1.1.0",
+          "@types/geojson": "^7946.0.16",
+          "pbf": "^4.0.2"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\a5\\78\\fc9bb293b2a66dfb58ec134c48a46bea4d26db95f92e1092ff34998d78f32d130c4ef15dd7303a3d58c49f0dea87bc2b4123d2e6b78986706475d3379c9b",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/whoots-js",
+        "version": "3.1.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz",
+        "integrity": "sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==",
+        "license": "ISC",
+        "engines": {
+          "node": ">=6.0.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\12\\ce\\96703d273b997ed813904b8b8b7cd3d841a3437dba2ddd7d57528968cfec7498f0d2dde78e459265d3a1d78f0046d5f386c02467ccaf3c2cc771291adde9",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/geojson-vt",
+        "version": "6.1.1",
+        "resolved": "https://registry.npmjs.org/@maplibre/geojson-vt/-/geojson-vt-6.1.1.tgz",
+        "integrity": "sha512-FVMOcmSP/yqol45t7StApEyTL5/vmqBCuFhH9n+fFuINenhaX+YgHHIt1yJ86S8kln3uJLcMvmEU2cfn6E2eCQ==",
+        "license": "ISC",
+        "dependencies": {
+          "kdbush": "^4.1.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\15\\53\\0e72648fff2aa8978e6ded2b40a44c932f9fef9aa042b85847f67f9f16e20d7a785a5fe6201c722dd7227ce92f24967dee24b70cbe6114d9c7e7e84d9e09",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+        "version": "24.10.0",
+        "resolved": "https://registry.npmjs.org/@maplibre/maplibre-gl-style-spec/-/maplibre-gl-style-spec-24.10.0.tgz",
+        "integrity": "sha512-lichxSiagMEBBrqHF0trtMQH9RKh+9jUlIJl0qW0QHvt2H/tbvUWdE+ZzI2Jd0/pT7j/iavLonlPu7EQ/ixTOw==",
+        "license": "ISC",
+        "dependencies": {
+          "@mapbox/jsonlint-lines-primitives": "~2.0.2",
+          "@mapbox/unitbezier": "^1.0.0",
+          "json-stringify-pretty-compact": "^4.0.0",
+          "minimist": "^1.2.8",
+          "quickselect": "^3.0.0",
+          "tinyqueue": "^3.0.0"
+        },
+        "bin": {
+          "gl-style-format": "dist/gl-style-format.mjs",
+          "gl-style-migrate": "dist/gl-style-migrate.mjs",
+          "gl-style-validate": "dist/gl-style-validate.mjs"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\96\\27\\21c5289a80c10106ba87174b6bb4c407f512a1fbd8d4948265d2a5b4407bedd87fed6ef516744f99cc8d89774fe94fb8ff89abcba2794fbbb110fe2c533b",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec/node_modules/@mapbox/unitbezier",
+        "version": "1.0.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/unitbezier/-/unitbezier-1.0.0.tgz",
+        "integrity": "sha512-fqd515fjBmANKGGsQ286E2Wvj/XvDFpGzwJxq4CI6jMQue6Oy04uCKp+JWKF00xRTmk6cEu1jPJ9p3xqH8YWqQ==",
+        "license": "BSD-2-Clause",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\7e\\a7\\79d797e306600d2861ac436f3a1365af8ff5ef0c5a46cf0271ab8088ea3310b9ee8ecb4e2e08aa7e256285d34c514e693a704bb58cf27da77c6a1fc616a9",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/mlt",
+        "version": "1.1.12",
+        "resolved": "https://registry.npmjs.org/@maplibre/mlt/-/mlt-1.1.12.tgz",
+        "integrity": "sha512-ZeK5w2TTeHOajcLaEQs1KZXw2V9wIKo1PmThlxlsHoXsQsYlBqLJzPOd6tJHRtGTChUY3DPPmjXRArYVvAbmZw==",
+        "license": "(MIT OR Apache-2.0)",
+        "dependencies": {
+          "@mapbox/point-geometry": "^1.1.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\65\\e2\\b9c364d378739a8dc2da110b352995f0d95f7020aa353e64e197196c1e85ec42c62506a2c9ccf39dead24746d1930a1518dc33cf9a35d102b615bc06e667",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf",
+        "version": "4.3.2",
+        "resolved": "https://registry.npmjs.org/@maplibre/vt-pbf/-/vt-pbf-4.3.2.tgz",
+        "integrity": "sha512-j6p0AdjvAR19Z3XaCysle7A4ZSo08tYOzxD0Y9NQylwPAkwJJeYub5b2eVucdeDh7erhv69DahoLOevDRERRUw==",
+        "license": "MIT",
+        "dependencies": {
+          "@mapbox/point-geometry": "^1.1.0",
+          "@types/geojson": "^7946.0.16",
+          "pbf": "^5.1.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\8f\\aa\\7401d8ef011d7d6775da0b2b257bb038652a34f2d60ecf10f463d350ca5c0f024c0925e62e6f96f6795b9c75e0e1edeae1bfaf436a1a0b39ebc344445153",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf/node_modules/pbf",
+        "version": "5.1.2",
+        "resolved": "https://registry.npmjs.org/pbf/-/pbf-5.1.2.tgz",
+        "integrity": "sha512-mnvGdvOrIvJOBGUEdGkrVXjN8E/VkIJCkf2eS1DH2yv82ORUlLttmDt0rWY38yYZmVwciZwBUvHM20qxBZf40w==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "resolve-protobuf-schema": "^2.1.0"
+        },
+        "bin": {
+          "pbf": "bin/pbf"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\9a\\7b\\c676f3ab22f24e04650474692b5578cdf04fd590824291fd9e4b50c7db2bfcd8e45494bb6d983b74ad6637f32619995c1c899c0152f1ccdb4ab10597f8d3",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@types/geojson",
+        "version": "7946.0.16",
+        "resolved": "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.16.tgz",
+        "integrity": "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\e8\\2f\\27a96babde3f7c53afa55c37d351621f82f654f84ba6be91ca7188ee8ca1fbc286322e3dac5267dfd2d461aea33b068854c3b3f3dd90758e3da05bd16f9a",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/earcut",
+        "version": "3.2.3",
+        "resolved": "https://registry.npmjs.org/earcut/-/earcut-3.2.3.tgz",
+        "integrity": "sha512-vnS4AVwp1KHAF13i1vp1/2D5evWy3k5u/iW/B81QVsUZtV8cv2tU0b2VNFlqvh4kYwrFMDdjPCfAmfyJW9y14Q==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\be\\74\\b8015c29d4a1c0175de2d6fa75ff60f97af5b2de4e6efe25bf07cd5056c519b55f1cbf6b54d1bd9534596abe1e24630ac53037633c27c099fc895bdcb5e1",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/gl-matrix",
+        "version": "3.4.4",
+        "resolved": "https://registry.npmjs.org/gl-matrix/-/gl-matrix-3.4.4.tgz",
+        "integrity": "sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\95\\ab\\529f20cdb7ff3361407a54827a3c28768c18c95fa8270eca0267b2f25bb1a4aab0f9d445b06bda82a068b18fc62a06d11340aff163b3a6a5317cc73d4375",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/jsbi",
+        "version": "4.3.2",
+        "resolved": "https://registry.npmjs.org/jsbi/-/jsbi-4.3.2.tgz",
+        "integrity": "sha512-9fqMSQbhJykSeii05nxKl4m6Eqn2P6rOlYiS+C5Dr/HPIU/7yZxu5qzbs40tgaFORiw2Amd0mirjxatXYMkIew==",
+        "license": "Apache-2.0",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\f5\\fa\\8c4906e12729127a28b4e67c4a9789ba12a9f63faace958892f82e43aff1cf214ffbc99c6ee6acdbb38d2d81a14e462c360267749a2ae3c5ab5760c9087b",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/json-stringify-pretty-compact",
+        "version": "4.0.0",
+        "resolved": "https://registry.npmjs.org/json-stringify-pretty-compact/-/json-stringify-pretty-compact-4.0.0.tgz",
+        "integrity": "sha512-3CNZ2DnrpByG9Nqj6Xo8vqbjT4F6N+tb4Gb28ESAZjYZ5yqvmc56J+/kuIwkaAMOyblTQhUW7PxMkUb8Q36N3Q==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\dc\\23\\59d839eba41c86f4daa3e97a3cbea6e34f817a37eb5be066f6f04480663619e72aaf99ce7a27efe4b88c2468030ec9b953421516ecfc4c9146fc437e8ddd",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/kdbush",
+        "version": "4.1.0",
+        "resolved": "https://registry.npmjs.org/kdbush/-/kdbush-4.1.0.tgz",
+        "integrity": "sha512-e9vurzrXJQrFX6ckpHP3bvj5l+9CnYzkxDNnNQ1h2QTqdWsUAJgXiKdGNcOa1EY85dU8KbQ+z/FdQdB7P+9yfQ==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\7b\\db\\eeaf3ad7250ac55fa724a473f76ef8f997ef429d8ce4c43367350d61d904ea756b1400981788a74635c39ad4463ce5d53c29b43ecff15d41d07b3fef727d",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/maplibre-gl",
+        "version": "5.24.0",
+        "resolved": "https://registry.npmjs.org/maplibre-gl/-/maplibre-gl-5.24.0.tgz",
+        "integrity": "sha512-ALyFxgtd5R+65UqZ/++lOqwWcC0SNho9c27fYSyLmG7AfnAul2o46F05aDJGPbFU57wos9dgcIySHs0Xe6ia3A==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "@mapbox/jsonlint-lines-primitives": "^2.0.2",
+          "@mapbox/point-geometry": "^1.1.0",
+          "@mapbox/tiny-sdf": "^2.1.0",
+          "@mapbox/unitbezier": "^0.0.1",
+          "@mapbox/vector-tile": "^2.0.4",
+          "@mapbox/whoots-js": "^3.1.0",
+          "@maplibre/geojson-vt": "^6.1.0",
+          "@maplibre/maplibre-gl-style-spec": "^24.8.1",
+          "@maplibre/mlt": "^1.1.8",
+          "@maplibre/vt-pbf": "^4.3.0",
+          "@types/geojson": "^7946.0.16",
+          "earcut": "^3.0.2",
+          "gl-matrix": "^3.4.4",
+          "kdbush": "^4.0.2",
+          "murmurhash-js": "^1.0.0",
+          "pbf": "^4.0.1",
+          "potpack": "^2.1.0",
+          "quickselect": "^3.0.0",
+          "tinyqueue": "^3.0.0"
+        },
+        "engines": {
+          "node": ">=16.14.0",
+          "npm": ">=8.1.0"
+        },
+        "funding": {
+          "url": "https://github.com/maplibre/maplibre-gl-js?sponsor=1"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\00\\bc\\85c60b5de51fbae54a99ffefa53aac16702d12361a3d736edf612c8b986ec07e702e976a38e85d396832463db154e7bc28b3d760708c921ecd177ba89adc",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/minimist",
+        "version": "1.2.8",
+        "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+        "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==",
+        "license": "MIT",
+        "funding": {
+          "url": "https://github.com/sponsors/ljharb"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\db\\2c\\8047ca8190ddd8ba17896a7529582e54ddb6f9a2c0f2c0d07c4730d5943c031dba1c009bdeaaa8f5bbcf92543ee39164f8cafb070a95aaa96a80c5bd3308",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/murmurhash-js",
+        "version": "1.0.0",
+        "resolved": "https://registry.npmjs.org/murmurhash-js/-/murmurhash-js-1.0.0.tgz",
+        "integrity": "sha512-TvmkNhkv8yct0SVBSy+o8wYzXjE4Zz3PCesbfs8HiCXXdcTuocApFv11UWlNFWKYsP2okqrhb7JNlSm9InBhIw==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\4e\\f9\\a436192ff3272dd125414b2fa8f306335e3138673dcf09eb1b7ecf078825d775c4eea1c02916fd7551694d156298b0fda892aae16fb24d9529bd22706123",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/pbf",
+        "version": "4.0.2",
+        "resolved": "https://registry.npmjs.org/pbf/-/pbf-4.0.2.tgz",
+        "integrity": "sha512-J0ajxARhZfpUEebxYs1vhMGMuLSXtBe1e+fFPDrf2uA2hgo+UshKfNUWOz92HJNz6/NFEXseQPddnHkTreWRqg==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "resolve-protobuf-schema": "^2.1.0"
+        },
+        "bin": {
+          "pbf": "bin/pbf"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\27\\46\\a3c4046165fa5411e6f162cd6f84c18cb8b497b417b57be7c53c3adfdae036860a3e52c84a7cd5163b3f761c9373ebf345117b1e40f75d9c7913ade591aa",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/potpack",
+        "version": "2.1.0",
+        "resolved": "https://registry.npmjs.org/potpack/-/potpack-2.1.0.tgz",
+        "integrity": "sha512-pcaShQc1Shq0y+E7GqJqvZj8DTthWV1KeHGdi0Z6IAin2Oi3JnLCOfwnCo84qc+HAp52wT9nK9H7FAJp5a44GQ==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\a5\\c6\\928507354a1ab4cbe13b1aa26abd98fc0d3b61595d4a78719d8b467a2008a7d8e8b72672c239fc270a8f38a9cf87029e76c13f672bd1fb140269e5ae3819",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/protocol-buffers-schema",
+        "version": "3.6.1",
+        "resolved": "https://registry.npmjs.org/protocol-buffers-schema/-/protocol-buffers-schema-3.6.1.tgz",
+        "integrity": "sha512-VG2K63Igkiv9p76tk1lilczEK1cT+kCjKtkdhw1dQZV3k3IXJbd3o6Ho8b9zJZaHSnT2hKe4I+ObmX9w6m5SmQ==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\54\\6d\\8aeb7220922bfda7bead93596295ccc42b5713fa40a32ad91d870d5d41957793721725b777a3a1e8f1bf732596874a74f684a7b823e39b997f70ea6e5299",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/quickselect",
+        "version": "3.0.0",
+        "resolved": "https://registry.npmjs.org/quickselect/-/quickselect-3.0.0.tgz",
+        "integrity": "sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\5d\\d8\\d402b6cae019b97cb2ef966e4aa5314e88e4e181f5962386b10190d683813fd2629d67223db4d11f76cdbba828b5cdefefc13475ea4be6986851adaddcda",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/resolve-protobuf-schema",
+        "version": "2.1.0",
+        "resolved": "https://registry.npmjs.org/resolve-protobuf-schema/-/resolve-protobuf-schema-2.1.0.tgz",
+        "integrity": "sha512-kI5ffTiZWmJaS/huM8wZfEMer1eRd7oJQhDuxeCLe3t7N7mX3z94CN0xPxBQxFYQTSNz9T0i+v6inKqSdK8xrQ==",
+        "license": "MIT",
+        "dependencies": {
+          "protocol-buffers-schema": "^3.3.1"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\90\\8e\\5f7d38995a625a4bf86e33cc197c431eaf579177ba094210eec5e08b7b7b7b37b997df3f7808dd313f1050c456104d2373f53d22fafea29caa9274af31ad",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/tinyqueue",
+        "version": "3.0.0",
+        "resolved": "https://registry.npmjs.org/tinyqueue/-/tinyqueue-3.0.0.tgz",
+        "integrity": "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\81\\16\\bd830614dc40a6418bf796c96db39871b886bdd2f79a11cc4362ebb740638800433698e664547a78f00349baed42511b51747294058e4b9b5b4757eb03e2",
+        "exists": true,
+        "integrityVerified": true
+      }
+    ],
+    "result": "28/28 SRI matches; 28 installed versions match lock; exact 48-file payload matches prior documented manifest",
+    "identityNotSecurityAudit": true
+  },
+  "installScripts": {
+    "inventory": [
+      {
+        "path": "node_modules/@js-temporal/polyfill",
+        "version": "0.5.1",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "test": "npm run build && node --no-warnings --experimental-modules --experimental-specifier-resolution=node --icu-data-dir node_modules/full-icu --loader ./test/resolve.source.mjs ./test/all.mjs",
+          "test262": "TEST262=1 npm run build && node runtest262.mjs \"$@\"",
+          "testValidStrings": "npm run build && node --experimental-modules --experimental-specifier-resolution=node --no-warnings --icu-data-dir ./node_modules/full-icu/ --loader ./test/resolve.source.mjs test/validStrings.mjs",
+          "build": "rm -rf dist/* tsc-out/* && tsc && rollup -c rollup.config.js --bundleConfigAsCjs",
+          "prepare": "npm run build",
+          "prepublishOnly": "node copy-types.mjs && npm run build",
+          "update": "npx npm-check-updates -u -x @pipobscure/demitasse && npm install",
+          "playground": "TEMPORAL_PLAYGROUND=1 npm run build && node --experimental-modules --no-warnings --icu-data-dir node_modules/full-icu -r ./dist/playground.cjs",
+          "lint": "eslint . --ext ts,js,mjs,.d.ts --max-warnings 0 --cache \"$@\" && npm run prettier",
+          "postlint": "npm run tscheck",
+          "prune": "ts-prune -e -i test/tc39 -i \"(lib/index|lib/init|index.d).ts\"",
+          "prettier": "prettier lib/* ./test/*.mjs ./*.md ./*.json ./*.d.ts ./*.js ./.*.yml --check",
+          "prettierfix": "prettier lib/* ./test/*.mjs ./*.md ./*.json ./*.d.ts ./*.js ./.*.yml  --check --write",
+          "eslintfix": "eslint . --ext ts,js,mjs,.d.ts --fix",
+          "fix": "npm run eslintfix && npm run prettierfix",
+          "tscheck": "tsc index.d.ts --noEmit --strict --lib ESNext"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@mapbox/jsonlint-lines-primitives",
+        "version": "2.0.3",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "test": "node test/all-tests.js && node test/strict-mode.mjs"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@mapbox/point-geometry",
+        "version": "1.1.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "lint": "eslint --fix index.js test.js",
+          "pretest": "npm run lint",
+          "test": "tsc && node test.js",
+          "doc": "documentation readme index.js --section=API --markdown-toc=false",
+          "cov": "node --test --experimental-test-coverage"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@mapbox/tiny-sdf",
+        "version": "2.2.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "pretest": "eslint index.js index.html test",
+          "test": "node --test",
+          "bench": "node ./test/bench.js",
+          "start": "st --no-cache --localhost --index index.html ."
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@mapbox/unitbezier",
+        "version": "0.0.1",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "pretest": "eslint index.js test/*.js",
+          "test": "node test/unitbezier.js"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@mapbox/vector-tile",
+        "version": "2.0.5",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "lint": "eslint index.js test/*.js",
+          "pretest": "npm run lint",
+          "test": "tsc && node --test",
+          "cov": "node --test --experimental-test-coverage",
+          "prepublishOnly": "npm test"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@mapbox/whoots-js",
+        "version": "3.1.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "build": "rollup -f umd -n WhooTS index.mjs --no-indent --no-strict -o index.js",
+          "docs": "documentation build index.mjs --lint --github --format html --output docs/",
+          "lint": "eslint index.mjs server.js test",
+          "start": "node server.js",
+          "test": "npm run lint && npm run build && tap --cov test/*.js"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@maplibre/geojson-vt",
+        "version": "6.1.1",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "lint": "eslint",
+          "test": "vitest",
+          "coverage": "vitest run --coverage",
+          "build": "rolldown -c && tsc -p tsconfig.declaration.json",
+          "watch": "rolldown -cw",
+          "start": "npm run watch",
+          "bench": "tsx bench/benchmark.ts && tsx --expose-gc bench/memory-bench.ts",
+          "docs": "typedoc && mkdir -p docs/debug && cp -r debug/* docs/debug && find docs/debug -name '*.html' -exec sed -i 's|../dist/geojson-vt-dev.js|https://unpkg.com/@maplibre/geojson-vt@latest/dist/geojson-vt.js|g' {} +",
+          "prepublishOnly": "npm run test && npm run build"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+        "version": "24.10.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "build": "npm run generate-style-spec && rolldown -c rolldown.config.ts && cp ./src/reference/v8.json ./dist/latest.json",
+          "generate-style-spec": "node --no-warnings --loader ts-node/esm build/generate-style-spec.ts",
+          "generate-typings": "cross-env BUILD=types rolldown -c rolldown.config.ts",
+          "generate-docs": "node ${WATCH+--watch} --no-warnings --loader ts-node/esm build/generate-docs.ts",
+          "start-docs": "docker run --rm -v ${PWD}:/docs zensical/zensical serve --open",
+          "docs": "npm run generate-docs && docker run --rm -v ${PWD}:/docs zensical/zensical build",
+          "test": "vitest",
+          "test-unit": "vitest run --config vitest.config.unit.ts",
+          "test-unit-ci": "vitest run --config vitest.config.unit.ts --coverage",
+          "test-integration": "vitest run --config vitest.config.integration.ts",
+          "test-integration-ci": "vitest run --config vitest.config.integration.ts --coverage",
+          "test-build": "vitest run --config vitest.config.build.ts",
+          "test-build-ci": "vitest run --config vitest.config.build.ts --coverage",
+          "test-watch-roots": "vitest --config vitest.config.unit.ts --watch",
+          "compile": "tsc",
+          "lint": "eslint",
+          "typecheck": "npm run build && tsgo --noEmit && tsgo --project tsconfig.dist.json",
+          "prepare": "npm run generate-style-spec",
+          "fmt": "oxfmt"
+        },
+        "bin": {
+          "gl-style-migrate": "dist/gl-style-migrate.mjs",
+          "gl-style-validate": "dist/gl-style-validate.mjs",
+          "gl-style-format": "dist/gl-style-format.mjs"
+        },
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec/node_modules/@mapbox/unitbezier",
+        "version": "1.0.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "pretest": "eslint *.js",
+          "test": "node --test test.js"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@maplibre/mlt",
+        "version": "1.1.12",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "build": "tsc",
+          "test": "vitest run --coverage --coverage.reportOnFailure",
+          "lint": "eslint"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf",
+        "version": "4.3.2",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "lint": "eslint index.ts lib/**/*.ts test/**/*.ts",
+          "test-unit": "vitest run --config vitest.config.unit.ts",
+          "test-unit-ci": "vitest run --config vitest.config.unit.ts --coverage",
+          "build": "rolldown -c rolldown.config.ts && tsc",
+          "docs": "typedoc --entryPoints index.ts --out docs/API"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf/node_modules/pbf",
+        "version": "5.1.2",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "bench": "node bench/bench.js",
+          "pretest": "eslint *.js compile.js test/*.js test/fixtures/*.js bench/*.js bin/pbf && tsc",
+          "test": "node --test test/*.test.js",
+          "cov": "node --test --experimental-test-coverage test/*.test.js",
+          "build": "rollup -c",
+          "prepublishOnly": "npm run test && npm run build"
+        },
+        "bin": {
+          "pbf": "bin/pbf"
+        },
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/@types/geojson",
+        "version": "7946.0.16",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {},
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/earcut",
+        "version": "3.2.3",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "pretest": "eslint src test/test.js bench/*.js viz/viz.js && tsc",
+          "test": "node --test",
+          "bench": "node bench/bench-tiles.js",
+          "build": "rollup -c",
+          "prepublishOnly": "npm test && npm run build",
+          "cov": "node --test --experimental-test-coverage"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/gl-matrix",
+        "version": "3.4.4",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": null,
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/jsbi",
+        "version": "4.3.2",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "build": "tsc && for f in tsc-out/*.js; do mv -- \"$f\" \"${f%.js}.mjs\"; done && sed -e '/__absoluteDivLarge/,+4d' tsc-out/jsbi.d.ts | grep -v ' __' > jsbi.d.ts && rollup --config rollup.config.js",
+          "dev": "tsc --watch",
+          "test": "set -e; for file in tests/*.mjs; do node --no-warnings --experimental-modules --experimental-specifier-resolution=node --loader ./tests/resolve.source.mjs \"${file}\"; done; for file in benchmarks/*.mjs; do node --no-warnings --experimental-modules --experimental-specifier-resolution=node --loader ./tests/resolve.source.mjs \"${file}\"; done",
+          "pretest": "npm run build",
+          "prepublish": "npm run ci",
+          "lint": "eslint . --ext ts --fix",
+          "generate-benchmarks": "for op in add and div mod mul neg not or sar shl sub xor; do scripts/generate-benchmark.py generate \"${op}\" > \"benchmarks/${op}.mjs\"; done",
+          "ci": "npm run lint && npm run build && git status && git diff-index --quiet HEAD -- || git diff && npm test"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/json-stringify-pretty-compact",
+        "version": "4.0.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "test": "eslint . --report-unused-disable-directives && prettier --check . && node --test",
+          "prepublishOnly": "npm test"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/kdbush",
+        "version": "4.1.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "pretest": "eslint",
+          "test": "tsc && node test.js",
+          "bench": "node bench.js",
+          "build": "rollup -c",
+          "prepublishOnly": "npm run test && npm run build"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/maplibre-gl",
+        "version": "5.24.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "generate-dist-package": "node --no-warnings --loader ts-node/esm build/generate-dist-package.js",
+          "generate-unicode-data": "node --no-warnings --loader ts-node/esm build/generate-unicode-data.ts",
+          "generate-shaders": "node --no-warnings --loader ts-node/esm build/generate-shaders.ts",
+          "generate-struct-arrays": "node --no-warnings --loader ts-node/esm build/generate-struct-arrays.ts",
+          "generate-style-code": "node --no-warnings --loader ts-node/esm build/generate-style-code.ts",
+          "generate-typings": "dts-bundle-generator --export-referenced-types=false --umd-module-name=maplibregl -o ./dist/maplibre-gl.d.ts ./src/index.ts",
+          "generate-docs": "typedoc && node --no-warnings --loader ts-node/esm build/generate-docs.ts",
+          "generate-images": "node --no-warnings --loader ts-node/esm build/generate-doc-images.ts",
+          "build-dist": "npm run build-css && npm run generate-unicode-data && npm run generate-typings && npm run generate-shaders && npm run build-dev && npm run build-csp-dev && npm run build-prod && npm run build-csp",
+          "build-dev": "rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:dev",
+          "watch-dev": "rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:dev --watch",
+          "build-prod": "rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:production",
+          "build-csp": "rollup --configPlugin @rollup/plugin-typescript -c rollup.config.csp.ts --environment BUILD:production",
+          "build-csp-dev": "rollup --configPlugin @rollup/plugin-typescript -c rollup.config.csp.ts --environment BUILD:dev",
+          "build-css": "postcss -o dist/maplibre-gl.css src/css/maplibre-gl.css",
+          "watch-css": "postcss --watch -o dist/maplibre-gl.css src/css/maplibre-gl.css",
+          "build-benchmarks": "npm run build-dev && rollup --configPlugin @rollup/plugin-typescript -c test/bench/rollup_config_benchmarks.ts",
+          "watch-benchmarks": "rollup --configPlugin @rollup/plugin-typescript -c test/bench/rollup_config_benchmarks.ts --watch",
+          "bundle-stats": "rollup --configPlugin @rollup/plugin-typescript -c --environment BUILD:production,BUNDLE:stats",
+          "spellcheck": "cspell",
+          "docs": "npm run generate-docs && docker run --rm -v ${PWD}:/docs zensical/zensical build",
+          "start-server": "st --no-cache -H localhost --port 9966 .",
+          "start-docs": "docker run --rm -it -p 8000:8000 -v ${PWD}:/docs zensical/zensical serve --open --dev-addr=0.0.0.0:8000",
+          "start": "run-p watch-css watch-dev start-server",
+          "start-bench": "run-p watch-css watch-benchmarks start-server",
+          "lint": "eslint",
+          "lint-css": "stylelint **/*.css verbose",
+          "test": "run-p lint lint-css test-render test-unit test-integration test-build",
+          "test-unit": "vitest run --config vitest.config.unit.ts",
+          "test-unit-ci": "vitest run --config vitest.config.unit.ts --coverage",
+          "test-integration": "vitest run --config vitest.config.integration.ts",
+          "test-integration-ci": "vitest run --config vitest.config.integration.ts --coverage",
+          "test-build": "vitest run --config vitest.config.build.ts",
+          "test-build-ci": "vitest run --config vitest.config.build.ts --coverage",
+          "test-watch-roots": "vitest --config vitest.config.unit.ts --watch",
+          "test-render": "node --no-warnings --loader ts-node/esm test/integration/render/run_render_tests.ts",
+          "codegen": "run-p --print-label generate-dist-package generate-style-code generate-unicode-data generate-struct-arrays generate-shaders && npm run generate-typings",
+          "benchmark": "node --no-warnings --loader ts-node/esm test/bench/run-benchmarks.ts",
+          "gl-stats": "node --no-warnings --loader ts-node/esm test/bench/gl-stats.ts",
+          "prepare": "npm run codegen",
+          "typecheck": "tsc --noEmit && tsc --project tsconfig.dist.json",
+          "tsnode": "node --experimental-loader=ts-node/esm --no-warnings"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/minimist",
+        "version": "1.2.8",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "prepack": "npmignore --auto --commentLines=auto",
+          "prepublishOnly": "safe-publish-latest",
+          "prepublish": "not-in-publish || npm run prepublishOnly",
+          "lint": "eslint --ext=js,mjs .",
+          "pretest": "npm run lint",
+          "tests-only": "nyc tape 'test/**/*.js'",
+          "test": "npm run tests-only",
+          "posttest": "aud --production",
+          "version": "auto-changelog && git add CHANGELOG.md",
+          "postversion": "auto-changelog && git add CHANGELOG.md && git commit --no-edit --amend && git tag -f \"v$(node -e \"console.log(require('./package.json').version)\")\""
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/murmurhash-js",
+        "version": "1.0.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "test": "echo \"Error: no test specified\" && exit 1"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/pbf",
+        "version": "4.0.2",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "bench": "node bench/bench.js",
+          "pretest": "eslint *.js compile.js test/*.js test/fixtures/*.js bin/pbf",
+          "test": "tsc && node --test",
+          "cov": "node --test --experimental-test-covetage",
+          "build": "rollup -c",
+          "prepublishOnly": "npm run test && npm run build"
+        },
+        "bin": {
+          "pbf": "bin/pbf"
+        },
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/potpack",
+        "version": "2.1.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "pretest": "eslint *.js",
+          "test": "tsc && node test.js",
+          "prepublishOnly": "npm test"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/protocol-buffers-schema",
+        "version": "3.6.1",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "test": "standard && tape test/*.js"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/quickselect",
+        "version": "3.0.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "pretest": "eslint *.js && tsc",
+          "test": "node test.js",
+          "bench": "node bench.js"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/resolve-protobuf-schema",
+        "version": "2.1.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "test": "tape test/index.js"
+        },
+        "bin": null,
+        "gypfile": null
+      },
+      {
+        "path": "node_modules/tinyqueue",
+        "version": "3.0.0",
+        "hasInstallScript": null,
+        "lifecycle": {},
+        "scripts": {
+          "lint": "eslint *.js",
+          "pretest": "npm run lint",
+          "test": "node --test",
+          "bench": "node bench.js",
+          "prepublishOnly": "npm test"
+        },
+        "bin": null,
+        "gypfile": null
+      }
+    ],
+    "result": "No locked package install/preinstall/postinstall hook or native install marker required. Three prepare commands belong to published build workflows; built artifacts are in verified tarballs. ignore-scripts leaves all required runtime entries available and entire prescribed regression passes.",
+    "preparePackages": [
+      "@js-temporal/polyfill",
+      "@maplibre/maplibre-gl-style-spec",
+      "maplibre-gl"
+    ],
+    "noScriptsExecuted": true
+  },
+  "bins": {
+    "generation": false,
+    "requiredByCP07": false,
+    "representation": "Five historical tracked mode-120000 entries preserved as ordinary target-text files under existing Windows core.symlinks=false; package CLI target files match verified tarballs. The two added packages define no bins. CP07 invokes node on test files directly; no shell CLI use. No generic npm CLI-shim compatibility claim.",
+    "packageBinInventory": [
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+        "bin": {
+          "gl-style-migrate": "dist/gl-style-migrate.mjs",
+          "gl-style-validate": "dist/gl-style-validate.mjs",
+          "gl-style-format": "dist/gl-style-format.mjs"
+        }
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf/node_modules/pbf",
+        "bin": {
+          "pbf": "bin/pbf"
+        }
+      },
+      {
+        "path": "node_modules/pbf",
+        "bin": {
+          "pbf": "bin/pbf"
+        }
+      }
+    ]
+  },
+  "network": {
+    "definition": "No DNS/HTTP/HTTPS/registry metadata/update/audit/fund/telemetry/git-remote/other outbound operation attempted by selected materialization, closure checks or regression.",
+    "approvedPreload": {
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-zero-network-e7dc2f3216d44775b261f93c993e02c2\\block-network.mjs",
+      "sha256": "a7c4d834d772ce1ba06d853cc0dc9675ee80bcfb3848dd3de1b7ecf4d737d7ca"
+    },
+    "attemptMonitor": {
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-zero-network-e7dc2f3216d44775b261f93c993e02c2\\attempt-monitor.mjs",
+      "sha256": "4ed0cd7cb728f0c1c2fae2afa70e3f0fe6ad2a339bf45da9de7e818dbc339e3a",
+      "source": "import fs from 'node:fs';import net from 'node:net';import tls from 'node:tls';import http from 'node:http';import https from 'node:https';import dns from 'node:dns';import dgram from 'node:dgram';import cp from 'node:child_process';import dc from 'node:diagnostics_channel';import {syncBuiltinESMExports} from 'node:module';\nawait import(process.env.PELORA_DENIAL_PRELOAD_URL);\nconst log=process.env.PELORA_ATTEMPT_LOG,life=process.env.PELORA_LIFECYCLE_LOG; if(!log||!life)throw Error('attempt instrumentation configuration absent');let count=0;\nfunction record(api){count++;fs.appendFileSync(log,JSON.stringify({api,pid:process.pid,entry:process.argv[1],phase:process.env.PELORA_ATTEMPT_PHASE})+'\\n');}\nfunction deny(api){return function(){record(api);throw Error('Network blocked for Task11D regression');};}\nfunction wrap(o,k,label){if(typeof o[k]==='function')o[k]=deny(label||k);}\nfor(const [o,keys,prefix] of [[net,['connect','createConnection'],'net'],[net.Socket.prototype,['connect'],'Socket'],[tls,['connect'],'tls'],[http,['request','get'],'http'],[https,['request','get'],'https'],[http.Agent.prototype,['createConnection'],'http.Agent'],[https.Agent.prototype,['createConnection'],'https.Agent'],[dns,['lookup','lookupService','resolve','resolve4','resolve6','resolveAny','resolveCaa','resolveCname','resolveMx','resolveNaptr','resolveNs','resolvePtr','resolveSoa','resolveSrv','resolveTxt','reverse'],'dns'],[dns.promises,['lookup','lookupService','resolve','resolve4','resolve6','resolveAny','resolveCaa','resolveCname','resolveMx','resolveNaptr','resolveNs','resolvePtr','resolveSoa','resolveSrv','resolveTxt','reverse'],'dns.promises'],[dns.Resolver.prototype,['resolve','resolve4','resolve6','resolveAny','reverse'],'dns.Resolver'],[dns.promises.Resolver.prototype,['resolve','resolve4','resolve6','resolveAny','reverse'],'dns.promises.Resolver'],[dgram.Socket.prototype,['send','connect'],'dgram'],[cp,['exec','execFile','spawn','fork','execSync','execFileSync','spawnSync'],'child_process']])for(const k of keys)wrap(o,k,prefix+'.'+k);\nglobalThis.fetch=async()=>{record('fetch');throw Error('Network blocked for Task11D regression')};if(globalThis.WebSocket)globalThis.WebSocket=deny('WebSocket');\nfor(const channel of ['undici:request:create','undici:client:beforeConnect','http.client.request.start'])dc.channel(channel).subscribe(()=>{record(channel);throw Error('Network blocked for Task11D regression')});syncBuiltinESMExports();\nfs.appendFileSync(life,JSON.stringify({event:'loaded',pid:process.pid,entry:process.argv[1],phase:process.env.PELORA_ATTEMPT_PHASE})+'\\n');process.on('exit',code=>fs.appendFileSync(life,JSON.stringify({event:'exit',pid:process.pid,entry:process.argv[1],phase:process.env.PELORA_ATTEMPT_PHASE,code,attempts:count})+'\\n'));\r\n",
+      "coverage": "fetch/WebSocket; HTTP(S) APIs/agents; net/TLS sockets; callback/promise DNS/Resolvers; UDP send/connect; undici/http diagnostics; child-process launches denied/logged. Approved preload imported first and unchanged."
+    },
+    "phases": {
+      "materialize": {
+        "attempts": 0,
+        "attemptLogSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "lifecycleSHA256": "3ccf4464046cd276d2fe98f101002cf965102a10bc54403ce9640539ab3f7c39",
+        "loads": 1,
+        "exits": 1
+      },
+      "closure": {
+        "attempts": 0,
+        "attemptLogSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "lifecycleSHA256": "dc92723445a2c146e528b4e624054c88ccc9eb3d0076ac1a301ef2ef29eaf2a0",
+        "loads": 1,
+        "exits": 1
+      },
+      "resolution": {
+        "attempts": 0,
+        "attemptLogSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "lifecycleSHA256": "2ccdd683448cd14c4722a8d9db925723632fdebb417bfcb9b8bfa38a76bfec18",
+        "loads": 1,
+        "exits": 1
+      },
+      "focused": {
+        "attempts": 0,
+        "attemptLogSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "lifecycleSHA256": "2400bea9db4d8a290688b997c72d800e8c9b8376a3bb59829142a01fcd121955",
+        "loads": 4,
+        "exits": 4
+      },
+      "full": {
+        "attempts": 0,
+        "attemptLogSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "lifecycleSHA256": "fe42b92a69af03d656a95709150d5da3b40112b1d9846eb2e0f8bdfe01f55587",
+        "loads": 73,
+        "exits": 73
+      }
+    },
+    "npmDebugLogs": [
+      {
+        "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-zero-network-e7dc2f3216d44775b261f93c993e02c2\\cache\\_logs\\2026-09-29T17_43_43_057Z-debug-0.log",
+        "sha256": "5bf3c0058419bbc1e167b3dc99cd94b01f0fad5930ace1c0ad9bfef011204c4a",
+        "retainedPath": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-zero-network-e7dc2f3216d44775b261f93c993e02c2\\npm-debug-logs\\2026-09-29T17_43_43_057Z-debug-0.log"
+      },
+      {
+        "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-zero-network-e7dc2f3216d44775b261f93c993e02c2\\cache\\_logs\\2026-09-29T17_44_12_218Z-debug-0.log",
+        "sha256": "f87fa4b721a22fb822cae9ff9f958417cc3bf3659b1ec5138436ac7b858fbaf6",
+        "retainedPath": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-zero-network-e7dc2f3216d44775b261f93c993e02c2\\npm-debug-logs\\2026-09-29T17_44_12_218Z-debug-0.log"
+      }
+    ],
+    "npmDebugResult": "No http fetch / retry/attempt-failed entries; only package cache hits; notifier marker absent",
+    "calibration": "Nine intentional in-process transport-denial probes separately logged before materialization; not mixed into operational zero-attempt logs. Every probe denied and monitor count verified.",
+    "limits": "This is process-level prevention/instrumentation plus existing network restrictions, not an OS packet trace or arbitrary native-addon security proof. No uninstrumented package scripts or subprocesses permitted; no bypass observed.",
+    "regressionAttempts": 0,
+    "materializationAttempts": 0
+  },
+  "construction": {
+    "mechanism": "Private index read-tree HEAD; checkout-index --all with autocrlf=false and symlinks=false; exact CP07 overlay; no real index/object/ref/config mutation",
+    "committedFiles": 1897,
+    "committedBlobManifestSHA256": "16253cf8a43800553514eaeb6749c51e7ba0383bc12d60b4399e25e9866db2c3",
+    "CP07": [
+      {
+        "path": "backend/tests/currentVectorFailureLocalityContract.test.js",
+        "sha256": "419b93a7b91ef14dfa0540f5c6149730f8ff079d991a6fb54ae80d461a4e8fe6"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.json",
+        "sha256": "9039a67ce843488171e2202e20ad152937e4627af130a1a4c258a82262c04585"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.md",
+        "sha256": "0f20c032b7aec445e3d15174ea2d9244170e732c2314ff9365aa0040546efdc7"
+      }
+    ],
+    "retained": [
+      {
+        "sha256": "26fe69f0e376322fd2e81ecb9375e5737ede4134cbd9711608ee9c2e2253a843",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/source.nc",
+        "bytes": 853144,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js",
+          "backend/tests/candidateEvidenceSourceBoundary.test.js",
+          "backend/tests/sstWorker.test.js"
+        ]
+      },
+      {
+        "sha256": "b065c6885df60f7988133d754ed432d05a7e66b34c265f7dc92291a4088255ed",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/acquisition.receipt.json",
+        "bytes": 2390,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js",
+          "backend/tests/candidateEvidenceSourceBoundary.test.js"
+        ]
+      },
+      {
+        "sha256": "d055d1b522818d305f6d92426e3345ab49a344834b10d1e71afa5a2c94f85e86",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/cmr.json",
+        "bytes": 13392,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      },
+      {
+        "sha256": "628a3ffe7a8d36a38f5195db490e43fd62aab8196c5cc95f356c4f907335a26d",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/current.das",
+        "bytes": 8422,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      },
+      {
+        "sha256": "557505e904193c8878823520a3277d7f1e37b23e34743f3648a455994e4bca0d",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/selected-time.json",
+        "bytes": 160,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      },
+      {
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/summary.json",
+        "bytes": 8922,
+        "sha256": "fc0ef8e66ea9cd3b181980fbbd8040da6ddb445e850a9b5294f51285e4e837bf"
+      },
+      {
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/field.json",
+        "bytes": 3225021,
+        "sha256": "4d8aeaa3d060d11351678ccefb195dcaa0ce20fc61f63b4f2cb77f6e20614228"
+      },
+      {
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/archive/opf-b01cd11c68de5bab89d2ac29d44ea04302f59ff57b417bf39f8f9c65aad08286.json",
+        "bytes": 4962882,
+        "sha256": "ff8b3395b525877b86f64285e488c53ff87432468217b8dfb851d3b0ee1682ee"
+      }
+    ],
+    "retainedAuthority": "Original five plan entries plus exact three prior Offline_Dependency_Closure_Qualification_v1 entries; no substitutes or regeneration",
+    "scratch": "Only plan UNCONDITIONAL_TEST_OUTPUT directories inside temporary checkout; generation flags cleared"
+  },
+  "tests": {
+    "focused": {
+      "intended": 4,
+      "started": 4,
+      "completed": 4,
+      "passed": 4,
+      "failed": 0,
+      "frameworkScripts": 4,
+      "frameworkPassed": 135,
+      "explicitCounterPassed": 0,
+      "otherPassMarkers": 0,
+      "scriptOnlyResults": 0,
+      "testFailures": 0,
+      "testSkipped": 0,
+      "results": [
+        {
+          "file": "backend/tests/currentEvidenceCapture.test.js",
+          "exit": 0,
+          "sha256": "dcb5f066d3a1285338f5822549f6541a7716b91b76d0ae254c2ba3ed8bed584b",
+          "framework": true,
+          "tests": 96,
+          "passes": 96,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+          "exit": 0,
+          "sha256": "baf014e5ed0238aaab91058baeb133e729e4ac9a6c166e4536ce549f055f7cfc",
+          "framework": true,
+          "tests": 20,
+          "passes": 20,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentVectorFailureContract.test.js",
+          "exit": 0,
+          "sha256": "29ca188ee610baa49422abe7352bb6c5ca0542df162fe014a375bc2708206e22",
+          "framework": true,
+          "tests": 8,
+          "passes": 8,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentVectorFailureLocalityContract.test.js",
+          "exit": 0,
+          "sha256": "186bee01760e50dcb928f94be860bc398c877df7a3848afb29b55e7800955840",
+          "framework": true,
+          "tests": 11,
+          "passes": 11,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        }
+      ]
+    },
+    "full": {
+      "intended": 73,
+      "started": 73,
+      "completed": 73,
+      "passed": 73,
+      "failed": 0,
+      "frameworkScripts": 64,
+      "frameworkPassed": 1895,
+      "explicitCounterPassed": 50,
+      "otherPassMarkers": 732,
+      "scriptOnlyResults": 0,
+      "testFailures": 0,
+      "testSkipped": 0,
+      "results": [
+        {
+          "file": "backend/tests/archiveBoundScienceBoundary.test.js",
+          "exit": 0,
+          "sha256": "5461a4236063852f96ef0304c95011e0901313bc0242f8d1677a7abee8f3417d",
+          "framework": true,
+          "tests": 14,
+          "passes": 14,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/assessmentAstronomy.test.js",
+          "exit": 0,
+          "sha256": "510fbcfc851135a610978aee3402e044e8f3da804c4680c84472333b448d1d96",
+          "framework": true,
+          "tests": 11,
+          "passes": 11,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/bathymetryEvidence.test.js",
+          "exit": 0,
+          "sha256": "af802b30886668e93e3ee82878ca40d69ceec788f62bde49ae08db7e98d909d3",
+          "framework": false,
+          "tests": null,
+          "passes": null,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 1,
+          "accounting": "PASS checkpoint markers; no uniform case count"
+        },
+        {
+          "file": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+          "exit": 0,
+          "sha256": "36a0d6a87b870dd880dd038b8f0503ea0d72527822aa3e164faef35f6c9c88f1",
+          "framework": true,
+          "tests": 11,
+          "passes": 11,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/candidateCaptureAssemblyBoundary.test.js",
+          "exit": 0,
+          "sha256": "1fb9bcd45d2ad92ab19ae9032e1c48f16c4f1de5647f21d2fba2876af0e8766d",
+          "framework": true,
+          "tests": 8,
+          "passes": 8,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/candidateCaptureResumptionBoundary.test.js",
+          "exit": 0,
+          "sha256": "71105c94f78c187c1287987fbffaec683ccd5d8aa5fcb252d56618339bf663c2",
+          "framework": true,
+          "tests": 12,
+          "passes": 12,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/candidateEvidenceSourceBoundary.test.js",
+          "exit": 0,
+          "sha256": "0b7ffdca9b936440fa6867d0a044aa7b12a722ed1a046ce9c32d063de1a17255",
+          "framework": true,
+          "tests": 7,
+          "passes": 7,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/candidateSemanticProjection.test.js",
+          "exit": 0,
+          "sha256": "493110f1897db8bbf8b062c3ec1f5931c35eb557bffb160558a318545800499c",
+          "framework": true,
+          "tests": 113,
+          "passes": 113,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/candidateSemanticProjectionV2.test.js",
+          "exit": 0,
+          "sha256": "6caf10509684a2ed20f74f3e91773cf0d9c148c7dd499f9e77ec1dfa51bcf7b3",
+          "framework": true,
+          "tests": 100,
+          "passes": 100,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/candidateSnapshotProducerSurface.test.js",
+          "exit": 0,
+          "sha256": "7714f4f159862aaf3a0c76534983b3868dd98b252bc6192b95f8c99f6f5765ea",
+          "framework": true,
+          "tests": 6,
+          "passes": 6,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/captureDerivedScientificBoundary.test.js",
+          "exit": 0,
+          "sha256": "ecff494b983096acc315d739dd1441246c1a6107ec007ec8cb630512bb18c634",
+          "framework": true,
+          "tests": 17,
+          "passes": 17,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/clientPrivilegeHardening.test.js",
+          "exit": 0,
+          "sha256": "a0d440876b24b3c1f7fbeaf0d2ab4b7d23dab022a8a1d3e5c4b0a0f2944768dd",
+          "framework": true,
+          "tests": 12,
+          "passes": 12,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/completeCandidateEvidenceBoundary.test.js",
+          "exit": 0,
+          "sha256": "70fe01b5db9ad56c4a7c4b91030973815086bb146d763f62c917e854b49c746c",
+          "framework": true,
+          "tests": 10,
+          "passes": 10,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/convergenceContract.test.js",
+          "exit": 0,
+          "sha256": "bbb7e164b1a514861fe4adee50d3862d6e77224294e749d607c8020fa8d29f48",
+          "framework": true,
+          "tests": 6,
+          "passes": 6,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/convergenceDecision.test.js",
+          "exit": 0,
+          "sha256": "72815437f1b2a2f2348d9aadc5e0e88d8fecab8e83d3c30e71dcb0c6e2d623cc",
+          "framework": true,
+          "tests": 5,
+          "passes": 5,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+          "exit": 0,
+          "sha256": "73db06cb027aef1d399ade63e185fe50111c4d9a778aaa8824482777139d86c1",
+          "framework": true,
+          "tests": 7,
+          "passes": 7,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentEvidenceCapture.test.js",
+          "exit": 0,
+          "sha256": "1c14fb57469a74d4ae40313cc2b8ee01643d9951ede3b687aecaa91bf21273fd",
+          "framework": true,
+          "tests": 96,
+          "passes": 96,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentScientificReconstructionBoundary.test.js",
+          "exit": 0,
+          "sha256": "69c977bbf99595a00cc183654cc7b93c2eb442fbe1ce7306a501ccd085be1237",
+          "framework": true,
+          "tests": 10,
+          "passes": 10,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+          "exit": 0,
+          "sha256": "24d6c50055a4f34046a7e9f99a0be39527f5d54f36299e5ed2fcdec9c7466a88",
+          "framework": true,
+          "tests": 20,
+          "passes": 20,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentVectorFailureContract.test.js",
+          "exit": 0,
+          "sha256": "33b1218687ba9e82a5aa14fe42d216c9226db1acebc32ccb1167fe1022ed87a4",
+          "framework": true,
+          "tests": 8,
+          "passes": 8,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/currentVectorFailureLocalityContract.test.js",
+          "exit": 0,
+          "sha256": "15608696cde7dd4af28f4241aa9fdd34e37c2080dc957d76e83be697c9a3490a",
+          "framework": true,
+          "tests": 11,
+          "passes": 11,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/defaultProviderSemanticReview.test.js",
+          "exit": 0,
+          "sha256": "673b7bea3fff7b87336459b63a0a62e02e7ea42b950ee565e1a2363758cb48c1",
+          "framework": true,
+          "tests": 6,
+          "passes": 6,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/defaultProviderTransitive.test.js",
+          "exit": 0,
+          "sha256": "9425216ff46351275416a219cc9ad8a7df322a1641870abcd9b4e295001ee863",
+          "framework": true,
+          "tests": 12,
+          "passes": 12,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/dynamicOpportunityFailure.test.js",
+          "exit": 0,
+          "sha256": "21c95b8fdc5a68ee077df128c4fbd27af851b5e9afd2b29fa516676b9652347a",
+          "framework": false,
+          "tests": null,
+          "passes": null,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 6,
+          "accounting": "PASS checkpoint markers; no uniform case count"
+        },
+        {
+          "file": "backend/tests/environmentalObservationMetadata.test.js",
+          "exit": 0,
+          "sha256": "3f3e46855213d12ef27847d78bbf287ed2deefdd67b4f1105a5caaad2f4bb027",
+          "framework": false,
+          "tests": null,
+          "passes": null,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 1,
+          "accounting": "PASS checkpoint markers; no uniform case count"
+        },
+        {
+          "file": "backend/tests/exactCandidateSnapshotBoundary.test.js",
+          "exit": 0,
+          "sha256": "a475664c6d5c6406304356f671dad0b3a61e6fcae08d59dd3e7582d5bba0648c",
+          "framework": true,
+          "tests": 18,
+          "passes": 18,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/exactMarineCapture.test.js",
+          "exit": 0,
+          "sha256": "cde9e39cd7113ef67d7f2a22d3b7c1814110c45163db4925d5a1b9ca9a35f0ae",
+          "framework": true,
+          "tests": 152,
+          "passes": 152,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/exactScientificEvidence.test.js",
+          "exit": 0,
+          "sha256": "6b4dfe9ba9636b441ec2ed8a060eaafe7cdad93f53c6f966d525d770b38a59f8",
+          "framework": true,
+          "tests": 160,
+          "passes": 160,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/fishingDayReportSchema.test.js",
+          "exit": 0,
+          "sha256": "e7c0e34cdc78e747fa1daef8994af16ed1056742f53cd640a94da949bd375405",
+          "framework": true,
+          "tests": 6,
+          "passes": 6,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/fishingLocationSpatialEvidence.test.js",
+          "exit": 0,
+          "sha256": "0cb1b74b3d10384997e6081ac7d414fbfe41862f568975cacacc9726d6ad7cdc",
+          "framework": true,
+          "tests": 8,
+          "passes": 8,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/fishingLogAssociationReadiness.test.js",
+          "exit": 0,
+          "sha256": "1c898ccdb52f31bd7508c055dfefa55a8ec4adee69ad4785d4e32ae1d74cfaa1",
+          "framework": true,
+          "tests": 14,
+          "passes": 14,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/fishingLogEvidenceCapture.test.js",
+          "exit": 0,
+          "sha256": "21bfffd074dc0b0996b78f0d50b0983c41c9b1c3d1e4e8c7ddf1ce8e0f71cd44",
+          "framework": true,
+          "tests": 18,
+          "passes": 18,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/fishingLogEvidenceStorage.test.js",
+          "exit": 0,
+          "sha256": "990a7264a1d99fcb6159a20279c068f027f67cdc10d76eeb27ef610e0ac90f6b",
+          "framework": true,
+          "tests": 4,
+          "passes": 4,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/fishingLogTemporalEvidence.test.js",
+          "exit": 0,
+          "sha256": "04db2224610c295513a95896c0da875184df30b6bba5095d1f498a57a46af2c4",
+          "framework": true,
+          "tests": 17,
+          "passes": 17,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/governedPlace.test.js",
+          "exit": 0,
+          "sha256": "91a8d1e923cac711d7d3ded473bad0405a2910100680de2b8b16191ac6fd6782",
+          "framework": true,
+          "tests": 26,
+          "passes": 26,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/historicalOceanRequirements.test.js",
+          "exit": 0,
+          "sha256": "74ac735fc0482a8f5f0c653c9c84f63cee1d48c517cca88925b1913b01e766b1",
+          "framework": true,
+          "tests": 13,
+          "passes": 13,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/marineAssessorCompanionCapture.test.js",
+          "exit": 0,
+          "sha256": "ce1c98a08333caf2006a8d0d54b290315dd32ae3c685a17b55b181d471421bb3",
+          "framework": true,
+          "tests": 108,
+          "passes": 108,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/noaaSstDisplayScale.test.js",
+          "exit": 0,
+          "sha256": "476ca3307b256c3642ecc9ba86ed83dfbfa15c90493ec0979ce0225f2b9f217f",
+          "framework": false,
+          "tests": 23,
+          "passes": 23,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 23,
+          "accounting": "explicit hand-written case counter"
+        },
+        {
+          "file": "backend/tests/noaaSstPilot.test.js",
+          "exit": 0,
+          "sha256": "4f307ec039de525830ac499d92ee9b1ab5a9c3e4b55d192e94b24825d6e70571",
+          "framework": false,
+          "tests": 27,
+          "passes": 27,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 27,
+          "accounting": "explicit hand-written case counter"
+        },
+        {
+          "file": "backend/tests/oceanConditions.test.js",
+          "exit": 0,
+          "sha256": "23c61fb4c2816f44af3933514d5de29c59627edf5e3bf8aa21b478f8f6b23adc",
+          "framework": false,
+          "tests": null,
+          "passes": null,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 719,
+          "accounting": "PASS checkpoint markers; no uniform case count"
+        },
+        {
+          "file": "backend/tests/oceanFields.test.js",
+          "exit": 0,
+          "sha256": "ac11f1f5df00036ff29cc32dc0870f00ebf533bd756bc245fd426bfce24c2e7d",
+          "framework": false,
+          "tests": null,
+          "passes": null,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 2,
+          "accounting": "PASS checkpoint markers; no uniform case count"
+        },
+        {
+          "file": "backend/tests/oceanPhysicsBoundary.test.js",
+          "exit": 0,
+          "sha256": "adc1b3dab56b6607da92d4b548aaf33f213c94e15e4794be951beacce72d33ce",
+          "framework": true,
+          "tests": 6,
+          "passes": 6,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanProductArchive.test.js",
+          "exit": 0,
+          "sha256": "1516f96c031d879d20980dd80bb1ece1e919e01ff762f701bfe8b1db64808503",
+          "framework": true,
+          "tests": 36,
+          "passes": 36,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanProductFrame.test.js",
+          "exit": 0,
+          "sha256": "228d9c522d5f29c545e3739b05383f55f980b3c8c7a7f99dcbb09e2142b2778d",
+          "framework": true,
+          "tests": 17,
+          "passes": 17,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanProviderBoundary.test.js",
+          "exit": 0,
+          "sha256": "dd466022a7c586730cf8ae63773bad0436844b1167886254ef8320c791a28d83",
+          "framework": true,
+          "tests": 11,
+          "passes": 11,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanPublication.test.js",
+          "exit": 0,
+          "sha256": "e82b450c35caeb791633a78604676afa2ab330d5b77620c94bb5458c793ca45f",
+          "framework": true,
+          "tests": 57,
+          "passes": 57,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanPublicationAssessment.test.js",
+          "exit": 0,
+          "sha256": "e8c64fe1bfb98c32d8c161b1a2e761ea43936c3d0aec72012f32b85135490e28",
+          "framework": true,
+          "tests": 75,
+          "passes": 75,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanPublicationHistory.test.js",
+          "exit": 0,
+          "sha256": "32e679dfe46bde75c3cecf7c2fa1fd89cf171ceca4b47b8d0a178d8fcd134fa5",
+          "framework": true,
+          "tests": 87,
+          "passes": 87,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanScalarFieldDelivery.test.js",
+          "exit": 0,
+          "sha256": "b30e29305c23b6021a4ea2fab16d198de294c060743f7605e0eb625cdd9ee495",
+          "framework": true,
+          "tests": 44,
+          "passes": 44,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/oceanSnapshotPrivileges.test.js",
+          "exit": 0,
+          "sha256": "75031a9b68db05096671eb1fba76924c7ed2545d5499893aeb5852054a7ded74",
+          "framework": true,
+          "tests": 4,
+          "passes": 4,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/opportunityEvaluationState.test.js",
+          "exit": 0,
+          "sha256": "fce0c77784a835cb093677db79a40277b5e3ce3963ee27281d66e1ade0148d68",
+          "framework": false,
+          "tests": null,
+          "passes": null,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 2,
+          "accounting": "PASS checkpoint markers; no uniform case count"
+        },
+        {
+          "file": "backend/tests/persistenceEnvironment.test.js",
+          "exit": 0,
+          "sha256": "8d5144991034e24b3d11d8ce17da291fe6993c241f25b6a3b3c0cdcdb2ea86a6",
+          "framework": false,
+          "tests": null,
+          "passes": null,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 1,
+          "accounting": "PASS checkpoint markers; no uniform case count"
+        },
+        {
+          "file": "backend/tests/placeIngestion.test.js",
+          "exit": 0,
+          "sha256": "ce18cd4ba31f4a9c4f53e0f7695f1887a671637ad8c10f66a44f35d18f032002",
+          "framework": true,
+          "tests": 22,
+          "passes": 22,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/revisedSemanticModel.test.js",
+          "exit": 0,
+          "sha256": "6042dc82558d55d2f762b87394ef8cecb6db6c6f28a93d3b831eb8ac85571c14",
+          "framework": true,
+          "tests": 7,
+          "passes": 7,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/scalarRuntime.test.js",
+          "exit": 0,
+          "sha256": "b08390a510d23dcbdce8e2edf063acb284f0e2cd170136e3f078312071b273fa",
+          "framework": true,
+          "tests": 22,
+          "passes": 22,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/scientificAssessment.test.js",
+          "exit": 0,
+          "sha256": "435aff0d51a58d2dedc88afa846a5fa7f0abea510393dc91f5e0db38822daec4",
+          "framework": true,
+          "tests": 42,
+          "passes": 42,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/scientificHistoryBoundary.test.js",
+          "exit": 0,
+          "sha256": "efec797e49d5739b3d26f0ca2c4826d21cb3a9e33c6bba6935270d28c6255581",
+          "framework": true,
+          "tests": 9,
+          "passes": 9,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/sharedScienceBoundary.test.js",
+          "exit": 0,
+          "sha256": "7d49f5e6722d056c5ab244402683f2f5122c0c608340bb424236145ea6983feb",
+          "framework": true,
+          "tests": 9,
+          "passes": 9,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/signedZeroQualification.test.js",
+          "exit": 0,
+          "sha256": "1277eebf5ef2b02e18fcf21829186710eaeb7d87739ee25242cdd41941579501",
+          "framework": true,
+          "tests": 40,
+          "passes": 40,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/snapshotBranchOptionality.test.js",
+          "exit": 0,
+          "sha256": "aa62eba83534962d890181b2f93a2efae6be0384d613df60cf81969736983a07",
+          "framework": true,
+          "tests": 10,
+          "passes": 10,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+          "exit": 0,
+          "sha256": "8722ab51b3a65f830aef88601b1b68f5df614066766852f9a75aa7601f7d47cf",
+          "framework": true,
+          "tests": 4,
+          "passes": 4,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/snapshotProducerQualificationV2.test.js",
+          "exit": 0,
+          "sha256": "d3e9a486dfce2e167a26e271162991c8222eb9122567c7eeed09c2e0879c186c",
+          "framework": true,
+          "tests": 12,
+          "passes": 12,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/snapshotShapeAuthorityBoundary.test.js",
+          "exit": 0,
+          "sha256": "d6abdb763644efa5f254b73bfc50f9f2dc52ba9274b39165bd5bc961dc9c4051",
+          "framework": true,
+          "tests": 18,
+          "passes": 18,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+          "exit": 0,
+          "sha256": "ebc6b359170ed74fadac7d1afbd05057718cd287aa9184b7cff079022548d0b1",
+          "framework": true,
+          "tests": 4,
+          "passes": 4,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/sourceNormalizationBoundary.test.js",
+          "exit": 0,
+          "sha256": "24a5f0cdfcf3441a8d0a07fc504a57b32573d688ab0d9f590b88b6485ab4b893",
+          "framework": true,
+          "tests": 10,
+          "passes": 10,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/sstNumericIntegrity.test.js",
+          "exit": 0,
+          "sha256": "d781a2eb3ac353ae190fbb70d9097da591c3c6acd22e4466d5cfdb0f6057ede0",
+          "framework": true,
+          "tests": 19,
+          "passes": 19,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/sstPostConversionFiniteness.test.js",
+          "exit": 0,
+          "sha256": "aeca325ddff53a0f24bf4c804ce61194ab1988fa1beef6ff38493695a8e9eca9",
+          "framework": true,
+          "tests": 6,
+          "passes": 6,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/sstProductAdapter.test.js",
+          "exit": 0,
+          "sha256": "b93a69660b942c132e08a234491652bc117c07c47698423c671fef618e84997a",
+          "framework": true,
+          "tests": 19,
+          "passes": 19,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/sstWorker.test.js",
+          "exit": 0,
+          "sha256": "c66948107925444c37783c6d8d90591b2f64829009f6810bbbe812b5938bacef",
+          "framework": true,
+          "tests": 56,
+          "passes": 56,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/temporalEvidencePrimitives.test.js",
+          "exit": 0,
+          "sha256": "d1b051c50524bbc27870f4b5922c4f28da70b4798b51b8be81b1a694f1abe308",
+          "framework": true,
+          "tests": 100,
+          "passes": 100,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/temporalHistorySelection.test.js",
+          "exit": 0,
+          "sha256": "809bffec6d04e4c15c486979ed50c333f01cd6bd5d95d569618e846110752e47",
+          "framework": true,
+          "tests": 13,
+          "passes": 13,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/transitiveProducerBoundary.test.js",
+          "exit": 0,
+          "sha256": "b4ee79439f20898b2ca0ba61fe94c08b25638c4da1741dea162106d11809b8a3",
+          "framework": true,
+          "tests": 10,
+          "passes": 10,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        },
+        {
+          "file": "backend/tests/weatherMarineQualityCapture.test.js",
+          "exit": 0,
+          "sha256": "6e270442ad76efc1405d39ee0892ac015459726b7d3602a1f975b06f7e984a37",
+          "framework": true,
+          "tests": 80,
+          "passes": 80,
+          "failures": 0,
+          "skipped": 0,
+          "passMarkers": 0,
+          "accounting": "node:test"
+        }
+      ]
+    }
+  },
+  "runner": {
+    "source": "param([string]$CheckoutRoot,[string]$PlanJson,[string]$ReviewRoot,[switch]$FullRegression)\n$ErrorActionPreference='Stop'\n$p=Get-Content -LiteralPath $PlanJson -Raw|ConvertFrom-Json\nif((node --version) -ne 'v24.18.0'){throw 'runtime'}\n$phase=if($FullRegression){'full'}else{'focused'}\n$preload=Join-Path $ReviewRoot 'block-network.mjs'\nif((Get-FileHash $preload).Hash.ToLower() -ne $p.networkBlocking.sha256){throw 'preload'}\nforeach($flag in $p.networkBlocking.generationFlagsToUnset){Remove-Item -LiteralPath ('Env:'+$flag) -ErrorAction SilentlyContinue}\n$env:PELORA_TEST_OCEAN_CONDITIONS='1'\n$env:PELORA_DENIAL_PRELOAD_URL=([Uri]::new($preload).AbsoluteUri)\n$env:PELORA_ATTEMPT_LOG=Join-Path $ReviewRoot ($phase+'-attempts.jsonl')\n$env:PELORA_LIFECYCLE_LOG=Join-Path $ReviewRoot ($phase+'-lifecycle.jsonl')\n[IO.File]::WriteAllText($env:PELORA_ATTEMPT_LOG,'')\nforeach($entry in $p.scratch|Where-Object kind -eq 'UNCONDITIONAL_TEST_OUTPUT'){New-Item -ItemType Directory -Force (Join-Path $CheckoutRoot $entry.directory)|Out-Null}\n$g=$p.testExecutionPlan|Where-Object group -eq CP07\n$tests=@($g.focused)+@($g.dependencyAndCritical)\nif($FullRegression){foreach($e in $p.offlineRetainedInputs){if((Get-FileHash (Join-Path $CheckoutRoot $e.path)).Hash.ToLower() -ne $e.sha256){throw 'retained'}};$tests=@(Get-ChildItem -LiteralPath (Join-Path $CheckoutRoot 'backend/tests'),(Join-Path $CheckoutRoot 'shared') -Recurse -File|Where-Object {$_.Name -like '*.test.js' -and $_.Name -ne 'candidateSemanticProjectionV3.test.js'}|ForEach-Object {[IO.Path]::GetRelativePath($CheckoutRoot,$_.FullName)})}\n$tests=@($tests|Where-Object {$_}|Sort-Object -Unique)\nif($tests|Where-Object {$_ -match 'candidateSemanticProjectionV3'}){throw 'V3 selection'}\n$tests|ConvertTo-Json|Set-Content (Join-Path $ReviewRoot ($phase+'-intended.json'))\n$logdir=Join-Path $ReviewRoot ($phase+'-logs');New-Item -ItemType Directory $logdir|Out-Null\n$receipts=Join-Path $ReviewRoot ($phase+'-results.jsonl')\nPush-Location $CheckoutRoot\ntry{foreach($file in $tests){$env:PELORA_ATTEMPT_PHASE=$phase+':'+$file;$name=($file -replace '[\\\\/]','_')+'.log'; @{event='start';file=$file;phase=$phase}|ConvertTo-Json -Compress|Add-Content $receipts; & node --import $env:PELORA_DENIAL_PRELOAD_URL --import ([Uri]::new((Join-Path $ReviewRoot 'attempt-monitor.mjs')).AbsoluteUri) $file *> (Join-Path $logdir $name); $code=$LASTEXITCODE; @{event='complete';file=$file;phase=$phase;exit=$code;log=$name}|ConvertTo-Json -Compress|Add-Content $receipts; if((Get-Item $env:PELORA_ATTEMPT_LOG).Length){throw ('NETWORK ATTEMPT '+$file)}; if($code){throw ('test '+$file)}; Write-Output ('PASS '+$file)}}finally{Pop-Location}\n[IO.File]::WriteAllText((Join-Path $ReviewRoot ($phase+'-passed.txt')),'PASS')\r\n",
+    "sha256": "960aecf5b2d62dfdaf9a0177e11ea47893555bcfa82e48cd895391c91203b47c",
+    "relationship": "Same plan group/tests, sorted cumulative discovery, retained inputs, runtime, scratch and flags. Added monitor import, per-process start/complete receipts and fail-on-attempt check; test semantics not edited.",
+    "excluded": [
+      "backend/tests/candidateSemanticProjectionV3.test.js"
+    ],
+    "quarantinedImplementationExecuted": false,
+    "CP08TestsExecuted": false
+  },
+  "planRelationship": "CP07_ZERO_NETWORK_ISOLATED_ENVIRONMENT_SUPPLEMENT_QUALIFIED. Narrow operational supplement to v2 with earlier extraction/retained-input reviews; exact protected tree, scope and scientific authority unchanged. No v3 rewrite necessary for this bounded procedure.",
+  "future": "Technically reusable for CP08–CP13 only after each exact parent, lock, cache, gates, metadata and required tests are independently bound. Planning only; no future execution authorized.",
+  "preservation": {
+    "protectedFiles": 173,
+    "allProtectedUnchanged": true,
+    "realNodeModulesFiles": 1487,
+    "realNodeModulesUnchanged": true,
+    "predecessorTags": [
+      {
+        "checkpoint": "CP00",
+        "tag": "checkpoint-quarantined-candidate-semantic-projection-v3-draft-v1",
+        "commit": "6595b30e3189d4d6605e41384242fb206167c12b"
+      },
+      {
+        "checkpoint": "CP01",
+        "tag": "checkpoint-withdrawn-snapshot-qualification-evidence-v1",
+        "commit": "f301beb15617b640cfda757fa5e6001393e353cb"
+      },
+      {
+        "checkpoint": "CP02",
+        "tag": "checkpoint-snapshot-harness-withdrawal-boundary-v1",
+        "commit": "0ba32bcfff53c486023a23ab9a71920e8e1539a5"
+      },
+      {
+        "checkpoint": "CP03",
+        "tag": "checkpoint-provider-domain-diagnostic-boundary-v1",
+        "commit": "df32c112a9b7092641e81830ea2430fa9691c9ed"
+      },
+      {
+        "checkpoint": "CP04",
+        "tag": "checkpoint-assessment-astronomy-boundary-v1",
+        "commit": "ccc711c5f78810e6cfe026d86ada2462f45d8f30"
+      },
+      {
+        "checkpoint": "CP05",
+        "tag": "checkpoint-paused-ocean-physics-review-evidence-v1",
+        "commit": "cf965702800ad364cc0742c71cd5eff3bd6d52be"
+      },
+      {
+        "checkpoint": "CP06",
+        "tag": "checkpoint-normalization-current-stop-boundary-v1",
+        "commit": "02326627671eb290027cfef63e448109e6ad02e2"
+      }
+    ],
+    "committedProtectedPredecessorFiles": 110,
+    "realIndexSHA256": "8aae7d7a0209f562965d7e54648d1f114494c9b000459ec7fff70f73f1c31b40",
+    "trackedDiff": "empty",
+    "stagedDiff": "empty",
+    "manifestsLockfiles": "unchanged",
+    "supabase": "excluded pair remains untracked",
+    "remainingUntrackedAfterOutputs": 65,
+    "gitConfiguration": "byte-identical before/after"
+  },
+  "cleanup": {
+    "result": "COMPLETE",
+    "removed": [
+      "checkout",
+      "dependencies",
+      "private cache",
+      "private.index"
+    ],
+    "guards": "Resolved absolute paths within unique task temporary root; no reparse points; native PowerShell Remove-Item -LiteralPath only.",
+    "retained": "Operational scripts/logs/receipts outside repository; earlier task scratch untouched. No real node_modules/cache/config cleanup."
+  },
+  "filesCreated": [
+    "docs/Zero_Network_Offline_Materialization_v1.md",
+    "docs/Zero_Network_Offline_Materialization_v1.json"
+  ],
+  "noActions": [
+    "production/science change",
+    "CP07 commit/tag",
+    "CP08 execution",
+    "provider/database/Auth/Supabase access",
+    "environmental acquisition",
+    "push/deployment"
+  ],
+  "reproductionSteps": [
+    "Fresh preflight: exact branch/HEAD, predecessor tags, empty real index/diffs, protected ledger and real package hashes. Require unchanged committed root manifest/lock and reviewed tool versions.",
+    "Use a fresh temporary root outside repository ancestors. Verify each of the 28 lockfile SRI digests against local cache bytes; copy only those content blobs to private _cacache/content-v2 locations. STOP on missing/inconsistent package input.",
+    "Write approved denial preload from plan base64; require its protected SHA256. Write the attempt monitor source from this JSON; verify its SHA256. Calibrate denied APIs in separate probe logs; all execution logs must begin empty.",
+    "In the package-manager child shell only, remove inherited NPM_CONFIG_* and NODE_OPTIONS. Use explicit --userconfig with reviewed temporary npmrc and --globalconfig with an empty temporary file; do not change real configuration. Keep true registry identity, not a fake registry.",
+    "Copy exact root package.json/package-lock.json into fresh dependencies directory. Run selected command, with PELORA_DENIAL_PRELOAD_URL, PELORA_ATTEMPT_LOG, PELORA_LIFECYCLE_LOG and PELORA_ATTEMPT_PHASE pointing inside this temporary root. Require exit 0 and zero logged attempts. Inspect complete npm debug logs BEFORE starting regression; reject any fetch/retry/update/audit attempt regardless of exit.",
+    "Run npm ls --all --json --offline --update-notifier=false with same temporary configs/cache and both imports; require no missing/invalid dependency and zero attempts. Validate all installed package versions and metadata against lock.",
+    "Build fresh HEAD via private GIT_INDEX_FILE/read-tree and checkout-index --all --prefix, autocrlf=false and symlinks=false. Restore original GIT_INDEX_FILE in finally. Verify complete path/mode/blob inventory; no real refs/index/object writes.",
+    "Compare all 1423 tracked package-content files with verified ci output. Retain five historical .bin target-text files and historical hidden .package-lock.json exactly as committed; exclude those six only from package-install comparison, not Git byte proof. STOP on any other difference. Add only absent lock-authorized polyfill/jsbi package directories (48 files); verify exact overlay manifest.",
+    "Overlay exact three CP07 files and require approved ledger hashes. Copy only the eight retained inputs in this JSON, each hash-bound to original plan/prior review. No acquisition/regeneration or copying of unrelated untracked evidence.",
+    "Check dependency resolution inside isolated checkout, no ancestor/junction fallback. Execute recorded instrumented runner: same plan focused/dependency list and cumulative full discovery, generation-flag clearing, scratch setup and V3 exclusion. Each process must load denial/monitor, emit start/exit receipt, exit 0 and leave attempt log empty. Require all 73 full scripts complete.",
+    "Review all process receipts, attempt logs and npm debug logs. Rehash committed tree, CP07/package/fixture overlays, protected real artifacts and real node_modules. Verify unchanged config/index/HEAD/tags, then remove only fresh contained temporary environments. STOP before CP07 execution."
+  ]
+}

@@ -1,0 +1,537 @@
+{
+  "verdict": "CP07_ISOLATED_CHECKOUT_ENVIRONMENT_UNRESOLVED",
+  "authority": "OPERATIONAL_ONLY; no scientific or contract change; CP07 remains QUALIFIED_NORMATIVE_CONTRACT_ONLY for current-vector locality, not runtime compliance or complete source qualification",
+  "head": "02326627671eb290027cfef63e448109e6ad02e2",
+  "branch": "codex/pelora-remote-setup",
+  "tree": "80a5d034bcb8b54c5f13a838a710bb90f89a33b8",
+  "planSHA256": "85da306930d093ba7584d341e0834a380033821bdd142be8a44827322bd2df70",
+  "unstage": {
+    "files": [
+      "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "docs/Current_Vector_Failure_Locality_Contract_v1.json",
+      "docs/Current_Vector_Failure_Locality_Contract_v1.md"
+    ],
+    "result": "exact three additions removed from index; worktree unchanged"
+  },
+  "failureReproduction": {
+    "command": [
+      "tar",
+      "-xf",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\head.tar",
+      "-C",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\tar-reproduction"
+    ],
+    "exit": 1,
+    "stderr": "node_modules/.bin/gl-style-format: Can't create '\\\\\\\\?\\\\C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\\\tar-reproduction\\\\node_modules\\\\.bin\\\\gl-style-format'\r\nnode_modules/.bin/gl-style-migrate: Can't create '\\\\\\\\?\\\\C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\\\tar-reproduction\\\\node_modules\\\\.bin\\\\gl-style-migrate'\r\nnode_modules/.bin/gl-style-validate: Can't create '\\\\\\\\?\\\\C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\\\tar-reproduction\\\\node_modules\\\\.bin\\\\gl-style-validate'\r\nnode_modules/.bin/pbf: Can't create '\\\\\\\\?\\\\C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\\\tar-reproduction\\\\node_modules\\\\.bin\\\\pbf'\r\nnode_modules/@maplibre/vt-pbf/node_modules/.bin/pbf: Can't create '\\\\\\\\?\\\\C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\\\tar-reproduction\\\\node_modules\\\\@maplibre\\\\vt-pbf\\\\node_modules\\\\.bin\\\\pbf'\r\ntar: Error exit delayed from previous errors.\r\n",
+    "implementation": "bsdtar 3.5.2 / libarchive 3.5.2 zlib/1.2.5.f-ipp",
+    "stderrSHA256": "8a3d7389aed9f861c66e90d37f366eb342437f3c7c7494ee9033f2e90c35ea60",
+    "independentSymlinkProbe": "Administrator privilege required for this operation.",
+    "cause": "Git archive stores mode-120000 entries as symlinks. Windows tar tries native link creation and fails in this execution context. Native Git with existing core.symlinks=false materializes target text instead. Exact low-level tar Win32 error is not emitted; independent privilege denial supports the link-creation limitation."
+  },
+  "entries": [
+    {
+      "path": "node_modules/.bin/gl-style-format",
+      "mode": "120000",
+      "type": "blob",
+      "oid": "19aa0ce5a981311f80c31bf8db3bf31f415d964c",
+      "content": "../@maplibre/maplibre-gl-style-spec/dist/gl-style-format.mjs",
+      "history": "e2b792b859e26e4f815fefa3a6a72e4cd89ecbf6 2026-07-13T23:02:41Z Tournament Alpha checkpoint - MapLibre markers and FAD support",
+      "exists": true,
+      "isSymbolicLink": false,
+      "worktreeSha256": "cbcec956170683d912b9460ebc3c5fc33cafbe94be5e103f4d71b5c1c15e5106"
+    },
+    {
+      "path": "node_modules/.bin/gl-style-migrate",
+      "mode": "120000",
+      "type": "blob",
+      "oid": "44b7db22f8552223e3c6c632beb6437786171417",
+      "content": "../@maplibre/maplibre-gl-style-spec/dist/gl-style-migrate.mjs",
+      "history": "e2b792b859e26e4f815fefa3a6a72e4cd89ecbf6 2026-07-13T23:02:41Z Tournament Alpha checkpoint - MapLibre markers and FAD support",
+      "exists": true,
+      "isSymbolicLink": false,
+      "worktreeSha256": "8204ee84473b8efa1655ec3c2b5f73436ecf7512b6faa33cd5f625d014d41914"
+    },
+    {
+      "path": "node_modules/.bin/gl-style-validate",
+      "mode": "120000",
+      "type": "blob",
+      "oid": "4e451f290e5fbcad7b4f1c2964ed1e2b2b8b4733",
+      "content": "../@maplibre/maplibre-gl-style-spec/dist/gl-style-validate.mjs",
+      "history": "e2b792b859e26e4f815fefa3a6a72e4cd89ecbf6 2026-07-13T23:02:41Z Tournament Alpha checkpoint - MapLibre markers and FAD support",
+      "exists": true,
+      "isSymbolicLink": false,
+      "worktreeSha256": "a1359440043a60030e53ac99cc9eaf26d837e827978d67ee786de3da6761be6d"
+    },
+    {
+      "path": "node_modules/.bin/pbf",
+      "mode": "120000",
+      "type": "blob",
+      "oid": "d43572fbc5786c403a3e7fc902b3fbe4c1fd3773",
+      "content": "../pbf/bin/pbf",
+      "history": "e2b792b859e26e4f815fefa3a6a72e4cd89ecbf6 2026-07-13T23:02:41Z Tournament Alpha checkpoint - MapLibre markers and FAD support",
+      "exists": true,
+      "isSymbolicLink": false,
+      "worktreeSha256": "7443a3b5be60aa090ed5e72fedd29fdf343fec0447a30dc9a51a804e1101a07c"
+    },
+    {
+      "path": "node_modules/@maplibre/vt-pbf/node_modules/.bin/pbf",
+      "mode": "120000",
+      "type": "blob",
+      "oid": "d43572fbc5786c403a3e7fc902b3fbe4c1fd3773",
+      "content": "../pbf/bin/pbf",
+      "history": "e2b792b859e26e4f815fefa3a6a72e4cd89ecbf6 2026-07-13T23:02:41Z Tournament Alpha checkpoint - MapLibre markers and FAD support",
+      "exists": true,
+      "isSymbolicLink": false,
+      "worktreeSha256": "7443a3b5be60aa090ed5e72fedd29fdf343fec0447a30dc9a51a804e1101a07c"
+    }
+  ],
+  "history": {
+    "trackedNodeModulesPaths": 1429,
+    "ignoreRule": "node_modules/",
+    "trackedSince": "e2b792b859e26e4f815fefa3a6a72e4cd89ecbf6 2026-07-13T23:02:41Z Tournament Alpha checkpoint - MapLibre markers and FAD support",
+    "predatesCheckpoints": true,
+    "filesystemRepresentation": "All five are ordinary target-text files, not symlinks/junctions/executable Windows shims; native Git semantics with core.symlinks=false.",
+    "dependencyFinding": "No direct reference to these five CLI paths in backend/shared/package.json. Prescribed tests run Node files directly; four focused suites pass without executing the five stubs. Full regression is incomplete due to a missing independent package. Their upstream CLI role is retained, not deleted."
+  },
+  "invariants": [
+    "Exact committed HEAD path/blob inventory and Git index modes",
+    "Only exact CP07 overlay; no unrelated untracked evidence",
+    "Native Windows checkout semantics under autocrlf=false and symlinks=false",
+    "Isolated scratch, five hash-bound retained offline inputs",
+    "Approved network preload and generation flags",
+    "Exclude V3 execution; full cumulative regression only",
+    "Real index/refs/config/protected evidence unchanged"
+  ],
+  "alternatives": [
+    {
+      "method": "git worktree add --detach",
+      "assessment": "Native checkout supports symlinks=false and full tree; excludes untracked and supports CP07 overlay/offline tests, but registers a linked worktree in real Git metadata. Not selected or rehearsed; cleanup would require registered worktree removal."
+    },
+    {
+      "method": "local git clone --no-local --no-checkout then checkout",
+      "assessment": "Can use identical native settings and overlay without real index changes or network remote. Extra object copy and hooks/config surface; prior plan recorded sandbox clone issues. Not selected/rehearsed; delete only fresh clone after containment check."
+    },
+    {
+      "method": "temporary-index read-tree plus checkout-index --all --prefix",
+      "assessment": "SELECTED/REHEARSED. Full Git blob bytes, index modes retained, existing Windows symlink policy, no real-index/ref/config mutation; overlay exact three files; isolated scratch/offline setup. Remove only fresh output/temp index after verified containment."
+    },
+    {
+      "method": "archive with another extractor",
+      "assessment": "Not selected/rehearsed. A native-symlink extractor would still depend on OS permissions; target-text emulation adds custom semantics needing proof. Must not drop symlinks."
+    },
+    {
+      "method": "direct cat-file reconstruction",
+      "assessment": "Can preserve blobs and mode manifest, but requires custom path/mode/symlink handling; less direct than native checkout. Not selected/rehearsed."
+    },
+    {
+      "method": "git restore --worktree with alternate work-tree/index",
+      "assessment": "Possible native alternative, but checkout-index gives explicit new-prefix output and simpler scope. Not selected/rehearsed."
+    }
+  ],
+  "selected": {
+    "method": "native Git checkout-index with private GIT_INDEX_FILE",
+    "gitVersion": "2.55.0.windows.3",
+    "coreAutocrlf": false,
+    "coreSymlinks": false,
+    "globalOrRepositoryConfigChanges": false,
+    "realObjectWrites": false,
+    "commitsOrRefsCreated": false,
+    "indexModePolicy": "read-tree preserves original Git modes including 120000/100755; Windows filesystem need not emulate POSIX executable bits or native symlinks. This matches current native checkout, not a claim of POSIX runtime equivalence.",
+    "overlay": [
+      {
+        "path": "backend/tests/currentVectorFailureLocalityContract.test.js",
+        "sha256": "419b93a7b91ef14dfa0540f5c6149730f8ff079d991a6fb54ae80d461a4e8fe6"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.json",
+        "sha256": "9039a67ce843488171e2202e20ad152937e4627af130a1a4c258a82262c04585"
+      },
+      {
+        "path": "docs/Current_Vector_Failure_Locality_Contract_v1.md",
+        "sha256": "0f20c032b7aec445e3d15174ea2d9244170e732c2314ff9365aa0040546efdc7"
+      }
+    ],
+    "treeProof": {
+      "verifiedBlobCount": 1897,
+      "proofSHA256": "8f42fc72f67cd9f0a80b31317aa9ab5233bf9f2bdc5d506bce0cc5ba71497ebe",
+      "modeCounts": {
+        "100644": 1882,
+        "100755": 10,
+        "120000": 5
+      },
+      "beforeAndAfterTests": "all tracked and overlay file hashes identical"
+    },
+    "install": "None. All 1429 tracked node_modules paths reconstructed from HEAD; no npm install, no real node_modules copy, no network installation. Full verification additionally needs @js-temporal/polyfill 0.5.1 (declared, installed locally but ignored/untracked), whose local dependency jsbi is 4.3.2. No undeclared package overlay or ancestor-resolution fallback was introduced."
+  },
+  "network": {
+    "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-windows-checkout-review-572207cfd96943e695d8529380629bd6\\block-network.mjs",
+    "sha256": "a7c4d834d772ce1ba06d853cc0dc9675ee80bcfb3848dd3de1b7ecf4d737d7ca",
+    "proof": [
+      "net.connect BLOCKED_BEFORE_TRANSPORT",
+      "net.createConnection BLOCKED_BEFORE_TRANSPORT",
+      "Socket.connect BLOCKED_BEFORE_TRANSPORT",
+      "tls.connect BLOCKED_BEFORE_TRANSPORT",
+      "http.request BLOCKED_BEFORE_TRANSPORT",
+      "http.get BLOCKED_BEFORE_TRANSPORT",
+      "https.request BLOCKED_BEFORE_TRANSPORT",
+      "https.get BLOCKED_BEFORE_TRANSPORT",
+      "fetch BLOCKED_BEFORE_TRANSPORT"
+    ],
+    "limits": [
+      "Not an OS network sandbox",
+      "Does not claim UDP, raw DNS, subprocess or intentionally bypassed transport coverage",
+      "Do not use a glob runner that discovers the quarantined V3 test",
+      "Continue external network restrictions; do not weaken existing socket denial"
+    ],
+    "requests": "No environmental acquisition or provider requests; denied transport probes only; not an OS firewall claim"
+  },
+  "scratch": {
+    "setup": "Exact plan.offlineProcedure used verbatim; all UNCONDITIONAL_TEST_OUTPUT parent directories created inside isolated checkout",
+    "retainedInputs": [
+      {
+        "sha256": "26fe69f0e376322fd2e81ecb9375e5737ede4134cbd9711608ee9c2e2253a843",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/source.nc",
+        "bytes": 853144,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js",
+          "backend/tests/candidateEvidenceSourceBoundary.test.js",
+          "backend/tests/sstWorker.test.js"
+        ]
+      },
+      {
+        "sha256": "b065c6885df60f7988133d754ed432d05a7e66b34c265f7dc92291a4088255ed",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/acquisition.receipt.json",
+        "bytes": 2390,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js",
+          "backend/tests/candidateEvidenceSourceBoundary.test.js"
+        ]
+      },
+      {
+        "sha256": "d055d1b522818d305f6d92426e3345ab49a344834b10d1e71afa5a2c94f85e86",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/cmr.json",
+        "bytes": 13392,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      },
+      {
+        "sha256": "628a3ffe7a8d36a38f5195db490e43fd62aab8196c5cc95f356c4f907335a26d",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/current.das",
+        "bytes": 8422,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      },
+      {
+        "sha256": "557505e904193c8878823520a3277d7f1e37b23e34743f3648a455994e4bca0d",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/selected-time.json",
+        "bytes": 160,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      }
+    ]
+  },
+  "tests": {
+    "focused": {
+      "sha256": "c6bb0b2a43c51e12288c7fd5f4654ae65884534f328115ecb5fd7a0fb46cf065",
+      "bytes": 15968,
+      "testCounts": [
+        96,
+        20,
+        8,
+        11
+      ],
+      "passCounts": [
+        96,
+        20,
+        8,
+        11
+      ],
+      "failCounts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "exit": 0,
+      "tests": 135,
+      "completedScripts": 4
+    },
+    "full": {
+      "sha256": "33ee1e40334b918e5353a1c17838211a60a3878a37651dcde782e38fdb68cc25",
+      "bytes": 507665,
+      "testCounts": [
+        14,
+        11,
+        11,
+        8,
+        12,
+        7,
+        113,
+        100,
+        6,
+        17,
+        12,
+        10,
+        6,
+        5,
+        7,
+        96,
+        10,
+        20,
+        8,
+        11,
+        6,
+        12,
+        18,
+        152,
+        160,
+        6,
+        8
+      ],
+      "passCounts": [
+        14,
+        11,
+        11,
+        8,
+        12,
+        7,
+        113,
+        100,
+        6,
+        17,
+        12,
+        10,
+        6,
+        5,
+        7,
+        96,
+        10,
+        20,
+        8,
+        11,
+        6,
+        12,
+        18,
+        152,
+        160,
+        6,
+        8
+      ],
+      "failCounts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "exit": 1,
+      "tests": 846,
+      "completedScripts": 27,
+      "complete": false,
+      "failedScript": "backend/tests/fishingLogAssociationReadiness.test.js",
+      "failure": "ERR_MODULE_NOT_FOUND: @js-temporal/polyfill"
+    },
+    "focusedFiles": [
+      "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "backend/tests/currentVectorFailureContract.test.js",
+      "backend/tests/currentEvidenceCapture.test.js"
+    ],
+    "localitySuiteCount": 11,
+    "fullFiles": [
+      "backend/tests/archiveBoundScienceBoundary.test.js",
+      "backend/tests/assessmentAstronomy.test.js",
+      "backend/tests/bathymetryEvidence.test.js",
+      "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "backend/tests/candidateCaptureAssemblyBoundary.test.js",
+      "backend/tests/candidateCaptureResumptionBoundary.test.js",
+      "backend/tests/candidateEvidenceSourceBoundary.test.js",
+      "backend/tests/candidateSemanticProjection.test.js",
+      "backend/tests/candidateSemanticProjectionV2.test.js",
+      "backend/tests/candidateSnapshotProducerSurface.test.js",
+      "backend/tests/captureDerivedScientificBoundary.test.js",
+      "backend/tests/clientPrivilegeHardening.test.js",
+      "backend/tests/completeCandidateEvidenceBoundary.test.js",
+      "backend/tests/convergenceContract.test.js",
+      "backend/tests/convergenceDecision.test.js",
+      "backend/tests/crossRouteFinitenessAtomicity.test.js",
+      "backend/tests/currentEvidenceCapture.test.js",
+      "backend/tests/currentScientificReconstructionBoundary.test.js",
+      "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "backend/tests/currentVectorFailureContract.test.js",
+      "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "backend/tests/defaultProviderSemanticReview.test.js",
+      "backend/tests/defaultProviderTransitive.test.js",
+      "backend/tests/dynamicOpportunityFailure.test.js",
+      "backend/tests/environmentalObservationMetadata.test.js",
+      "backend/tests/exactCandidateSnapshotBoundary.test.js",
+      "backend/tests/exactMarineCapture.test.js",
+      "backend/tests/exactScientificEvidence.test.js",
+      "backend/tests/fishingDayReportSchema.test.js",
+      "backend/tests/fishingLocationSpatialEvidence.test.js",
+      "backend/tests/fishingLogAssociationReadiness.test.js",
+      "backend/tests/fishingLogEvidenceCapture.test.js",
+      "backend/tests/fishingLogEvidenceStorage.test.js",
+      "backend/tests/fishingLogTemporalEvidence.test.js",
+      "backend/tests/governedPlace.test.js",
+      "backend/tests/historicalOceanRequirements.test.js",
+      "backend/tests/marineAssessorCompanionCapture.test.js",
+      "backend/tests/noaaSstDisplayScale.test.js",
+      "backend/tests/noaaSstPilot.test.js",
+      "backend/tests/oceanConditions.test.js",
+      "backend/tests/oceanFields.test.js",
+      "backend/tests/oceanPhysicsBoundary.test.js",
+      "backend/tests/oceanProductArchive.test.js",
+      "backend/tests/oceanProductFrame.test.js",
+      "backend/tests/oceanProviderBoundary.test.js",
+      "backend/tests/oceanPublication.test.js",
+      "backend/tests/oceanPublicationAssessment.test.js",
+      "backend/tests/oceanPublicationHistory.test.js",
+      "backend/tests/oceanScalarFieldDelivery.test.js",
+      "backend/tests/oceanSnapshotPrivileges.test.js",
+      "backend/tests/opportunityEvaluationState.test.js",
+      "backend/tests/persistenceEnvironment.test.js",
+      "backend/tests/placeIngestion.test.js",
+      "backend/tests/revisedSemanticModel.test.js",
+      "backend/tests/scalarRuntime.test.js",
+      "backend/tests/scientificAssessment.test.js",
+      "backend/tests/scientificHistoryBoundary.test.js",
+      "backend/tests/sharedScienceBoundary.test.js",
+      "backend/tests/signedZeroQualification.test.js",
+      "backend/tests/snapshotBranchOptionality.test.js",
+      "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "backend/tests/snapshotProducerQualificationV2.test.js",
+      "backend/tests/snapshotShapeAuthorityBoundary.test.js",
+      "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+      "backend/tests/sourceNormalizationBoundary.test.js",
+      "backend/tests/sstNumericIntegrity.test.js",
+      "backend/tests/sstPostConversionFiniteness.test.js",
+      "backend/tests/sstProductAdapter.test.js",
+      "backend/tests/sstWorker.test.js",
+      "backend/tests/temporalEvidencePrimitives.test.js",
+      "backend/tests/temporalHistorySelection.test.js",
+      "backend/tests/transitiveProducerBoundary.test.js",
+      "backend/tests/weatherMarineQualityCapture.test.js"
+    ],
+    "V3": "Excluded by exact filename and explicit guard; static references elsewhere are hash-only. No V3 execution.",
+    "laterCheckpoints": "No CP08+ tests present or run"
+  },
+  "executionPlanRelationship": "Extraction-only change preserves the original native Windows checkout invariants and can be narrowly supplemented. Overall supplement is NOT qualified: full regression needs explicit offline dependency provisioning for @js-temporal/polyfill and its dependency closure. Existing retained-input list does not describe those packages. Review that boundary before deciding whether a supplement or v3 is required. No plan edited.",
+  "future": "Mechanism is a candidate for CP08–CP13; planning only, not authorized. Future exact parent/membership, gates and tests must be separately verified.",
+  "preservation": {
+    "protectedCount": 169,
+    "allUnchanged": true,
+    "predecessorTags": [
+      {
+        "checkpoint": "CP00",
+        "tag": "checkpoint-quarantined-candidate-semantic-projection-v3-draft-v1",
+        "type": "tag",
+        "commit": "6595b30e3189d4d6605e41384242fb206167c12b"
+      },
+      {
+        "checkpoint": "CP01",
+        "tag": "checkpoint-withdrawn-snapshot-qualification-evidence-v1",
+        "type": "tag",
+        "commit": "f301beb15617b640cfda757fa5e6001393e353cb"
+      },
+      {
+        "checkpoint": "CP02",
+        "tag": "checkpoint-snapshot-harness-withdrawal-boundary-v1",
+        "type": "tag",
+        "commit": "0ba32bcfff53c486023a23ab9a71920e8e1539a5"
+      },
+      {
+        "checkpoint": "CP03",
+        "tag": "checkpoint-provider-domain-diagnostic-boundary-v1",
+        "type": "tag",
+        "commit": "df32c112a9b7092641e81830ea2430fa9691c9ed"
+      },
+      {
+        "checkpoint": "CP04",
+        "tag": "checkpoint-assessment-astronomy-boundary-v1",
+        "type": "tag",
+        "commit": "ccc711c5f78810e6cfe026d86ada2462f45d8f30"
+      },
+      {
+        "checkpoint": "CP05",
+        "tag": "checkpoint-paused-ocean-physics-review-evidence-v1",
+        "type": "tag",
+        "commit": "cf965702800ad364cc0742c71cd5eff3bd6d52be"
+      },
+      {
+        "checkpoint": "CP06",
+        "tag": "checkpoint-normalization-current-stop-boundary-v1",
+        "type": "tag",
+        "commit": "02326627671eb290027cfef63e448109e6ad02e2"
+      }
+    ],
+    "committedProtectedFiles": 110,
+    "realIndexSHA256": "8aae7d7a0209f562965d7e54648d1f114494c9b000459ec7fff70f73f1c31b40",
+    "trackedDiff": "empty",
+    "stagedDiff": "empty",
+    "supabase": "supabase/.gitignore and supabase/config.toml remain untracked/excluded from checkpoint",
+    "remainingUntrackedBeforeOutputs": 59,
+    "remainingUntrackedAfterOutputs": 61
+  },
+  "cleanup": {
+    "result": "COMPLETE",
+    "removed": [
+      "native-checkout",
+      "tar-reproduction",
+      "head.tar",
+      "isolated.index",
+      "link-target.txt"
+    ],
+    "containment": "Resolved each absolute path inside this review unique temporary root; rejected reparse points; native PowerShell Remove-Item -LiteralPath only.",
+    "retained": "Temporary diagnostic logs/receipts retained outside repository; previous task scratch untouched. Real node_modules not cleaned or changed."
+  },
+  "noActions": [
+    "CP07 commit/tag",
+    "CP08 preparation/execution",
+    "production/science modification",
+    "provider/database/Auth/Supabase access",
+    "environmental acquisition",
+    "push/deployment"
+  ],
+  "filesCreated": [
+    "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+    "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json"
+  ],
+  "nextAction": "Review and hash-bind a deterministic offline dependency closure for the required cumulative regression (starting with declared @js-temporal/polyfill 0.5.1 and its jsbi dependency), without borrowing untracked ancestor packages or network installation; then separately rehearse full verification. No CP07 execution authorization inferred.",
+  "procedure": "# Extraction-only procedure rehearsed successfully; full environment NOT yet qualified.\n# Run from the real repository. Fresh $scratch must be outside any ancestor node_modules.\n$ErrorActionPreference='Stop'\n$head='02326627671eb290027cfef63e448109e6ad02e2'\n$plan=Get-Content docs/Evidence_Checkpoint_Execution_Plan_v2.json -Raw|ConvertFrom-Json\n$group=$plan.checkpoints|Where-Object id -eq CP07\n# Assert exact branch/HEAD, empty real index/diff, protected ledger and predecessor tags first.\n$scratch=Join-Path $env:TEMP ('pelora-checkout-'+[Guid]::NewGuid().ToString('N'))\n$checkout=Join-Path $scratch 'checkout'\nNew-Item -ItemType Directory $checkout|Out-Null\n$oldIndex=$env:GIT_INDEX_FILE\ntry {\n  $env:GIT_INDEX_FILE=Join-Path $scratch 'private.index'\n  git read-tree $head\n  if($LASTEXITCODE){throw 'read-tree'}\n  git -c core.autocrlf=false -c core.symlinks=false checkout-index --all ('--prefix='+$checkout.Replace('\\','/')+'/')\n  if($LASTEXITCODE){throw 'checkout-index'}\n  # Compare private index mode/path/OID inventory with git ls-tree -rz $head.\n  # Compare EVERY exported file byte-for-byte with git cat-file blob <OID>.\n  # Refuse missing/extra committed paths, unexpected modes or any byte mismatch.\n} finally {\n  if($null -eq $oldIndex){Remove-Item Env:GIT_INDEX_FILE -ErrorAction SilentlyContinue}\n  else {$env:GIT_INDEX_FILE=$oldIndex}\n}\n# Only after complete blob proof, overlay exact $group.files via ReadAllBytes/WriteAllBytes.\n# SHA256 each source and destination against approved preservation ledger (values in this review).\n# Copy only the five plan.offlineRetainedInputs after verifying their hashes; rehash destinations.\n# Extract plan.offlineProcedure verbatim to temporary offline.ps1.\n# The rehearsal used these exact calls; the second currently STOPS on missing polyfill:\n# & $offline -CheckoutRoot $checkout -PlanJson $absolutePlan -GroupId CP07\n# & $offline -CheckoutRoot $checkout -PlanJson $absolutePlan -GroupId CP07 -FullRegression\n# No npm install, package copying, NODE_PATH/ancestor fallback or baseline relaxation.\n# Rehash all committed/overlay/protected files and real index after tests.\n# Cleanup only this freshly created environment after absolute-path/reparse-point checks."
+}

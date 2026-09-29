@@ -1,0 +1,1255 @@
+{
+  "additionalRetainedInputs": {
+    "authority": "docs/NOAA_Geo_Polar_Bounded_Gulf_SST_Pilot_v1.md:164-182; docs/Real_SST_Visual_Scale_Qualification_v1.md:238-241; review/noaa-sst-pilot/scaleReview.mjs:9-18",
+    "archiveId": "opf-b01cd11c68de5bab89d2ac29d44ea04302f59ff57b417bf39f8f9c65aad08286",
+    "receiptDigest": "08a6a4286c5e43b04f601ddf2370e5054bf35a7ccf0276ccbc1ae25d5d936bb7",
+    "deliveryId": "osfd-7d3e484c466a91558b51ee1940e599003ae9136febb663ad010a8aab12c81820",
+    "files": [
+      {
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/summary.json",
+        "bytes": 8922,
+        "sha256": "fc0ef8e66ea9cd3b181980fbbd8040da6ddb445e850a9b5294f51285e4e837bf"
+      },
+      {
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/field.json",
+        "bytes": 3225021,
+        "sha256": "4d8aeaa3d060d11351678ccefb195dcaa0ce20fc61f63b4f2cb77f6e20614228"
+      },
+      {
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/archive/opf-b01cd11c68de5bab89d2ac29d44ea04302f59ff57b417bf39f8f9c65aad08286.json",
+        "bytes": 4962882,
+        "sha256": "ff8b3395b525877b86f64285e488c53ff87432468217b8dfb851d3b0ee1682ee"
+      }
+    ]
+  },
+  "initialRehearsal": {
+    "status": "STOPPED_MISSING_RETAINED_FIXTURE",
+    "failedScript": "backend/tests/noaaSstDisplayScale.test.js",
+    "cause": "summary.json missing from original five-file fixture list",
+    "logSHA256": "45ddaa7d651206949b4473d0d438178be048125afe3bed9e076b4d4adcb2b69a",
+    "resolution": "Copied only three existing retained artifacts explicitly required by committed read-only reproduction code, identity-bound by committed pilot report, with exact SHA256 manifest; no regeneration or acquisition; reran entire required regression."
+  },
+  "verdict": "CP07_OFFLINE_DEPENDENCY_CLOSURE_UNRESOLVED",
+  "authority": "OPERATIONAL_ONLY. No scientific qualification, contract change, runtime authority or checkpoint execution.",
+  "head": "02326627671eb290027cfef63e448109e6ad02e2",
+  "branch": "codex/pelora-remote-setup",
+  "declaration": {
+    "result": "DECLARED_DIRECT_DEPENDENCY",
+    "version": "0.5.1",
+    "manifest": "package.json",
+    "lockfile": "package-lock.json",
+    "lockfileVersion": 3,
+    "consistency": "MATCH: exact root dependency pin and packages[node_modules/@js-temporal/polyfill] version/resolved/SRI; transitive jsbi ^4.3.0 locked to 4.3.2",
+    "committed": true,
+    "allCommittedReferences": [
+      "HEAD:backend/tests/fishingLogTemporalEvidence.test.js:175:  assert.equal(json(\"package.json\").dependencies[\"@js-temporal/polyfill\"], \"0.5.1\");",
+      "HEAD:backend/tests/fishingLogTemporalEvidence.test.js:176:  assert.equal(json(\"package-lock.json\").packages[\"\"].dependencies[\"@js-temporal/polyfill\"], \"0.5.1\");",
+      "HEAD:backend/tests/fishingLogTemporalEvidence.test.js:177:  assert.equal(json(\"package-lock.json\").packages[\"node_modules/@js-temporal/polyfill\"].version, \"0.5.1\");",
+      "HEAD:backend/tests/fishingLogTemporalEvidence.test.js:178:  assert.equal(json(\"node_modules/@js-temporal/polyfill/package.json\").version, \"0.5.1\");",
+      "HEAD:docs/Fishing_Log_Temporal_Evidence_v1.md:75:The root manifest pins `@js-temporal/polyfill` to exactly `0.5.1`. Only the shared",
+      "HEAD:package-lock.json:8:        \"@js-temporal/polyfill\": \"0.5.1\",",
+      "HEAD:package-lock.json:12:    \"node_modules/@js-temporal/polyfill\": {",
+      "HEAD:package-lock.json:14:      \"resolved\": \"https://registry.npmjs.org/@js-temporal/polyfill/-/polyfill-0.5.1.tgz\",",
+      "HEAD:package.json:3:    \"@js-temporal/polyfill\": \"0.5.1\",",
+      "HEAD:shared/fishingLogTemporalEvidence.mjs:1:import {Temporal} from \"@js-temporal/polyfill\";",
+      "HEAD:shared/fishingLogTemporalEvidence.mjs:138:      implementation: \"@js-temporal/polyfill\", implementationVersion: \"0.5.1\","
+    ],
+    "manifestsInspected": [
+      "package.json",
+      "package-lock.json",
+      "backend/package.json",
+      "frontend/package.json",
+      "frontend/package-lock.json",
+      "tracked node_modules package manifests"
+    ],
+    "shrinkwrap": "No tracked npm-shrinkwrap.json",
+    "origin": "bf7596ccbde6c229bd77e15c09d517efa532eb55; 2026-09-22 Establish Fishing Log temporal evidence contract; predates CP00",
+    "importers": [
+      {
+        "path": "shared/fishingLogTemporalEvidence.mjs",
+        "role": "shared contract implementation",
+        "kind": "static bare import",
+        "CP07Reach": "full regression",
+        "productionReach": "Frontend static graph: Dashboard -> FishingDayReportPanel / FishingLogTemporalControls -> utils/fishingLogTemporalCapture -> shared/fishingLogEvidenceCapture -> shared/fishingLogTemporalEvidence. No backend/server import found."
+      }
+    ],
+    "testsReadingOrReaching": [
+      "backend/tests/fishingLogTemporalEvidence.test.js",
+      "backend/tests/fishingLogAssociationReadiness.test.js",
+      "backend/tests/fishingLogEvidenceCapture.test.js"
+    ],
+    "declarationDefect": false
+  },
+  "localInstallation": {
+    "path": "C:\\Users\\User\\.codex\\worktrees\\e89f\\SmartCharts-Offshore-Intelligence\\node_modules\\@js-temporal\\polyfill",
+    "version": "0.5.1",
+    "tracked": false,
+    "ignored": true,
+    "localPayloadMatchesLockedMaterialization": {
+      "files": 48,
+      "result": "MATCH"
+    },
+    "resolution": "Root node_modules; not nested; package identity alone was not accepted as integrity authority",
+    "hiddenLock": "Tracked node_modules/.package-lock.json is historical installation metadata and lacks polyfill/jsbi; committed root package-lock.json is dependency authority, not hidden install metadata."
+  },
+  "absence": {
+    "reasons": [
+      "node_modules generally ignored; 1429 historical paths remain tracked",
+      "checkout-index correctly restores tracked paths only",
+      "properly declared polyfill/jsbi are locally installed but not tracked"
+    ],
+    "notUndeclared": true,
+    "nodeModulesModel": "Historical tracked dependency snapshot plus ordinary ignored package-manager installations. No claim that Git contains a complete current install.",
+    "fiveSymlinks": "Locked prior operational finding; preserved without reopening or cleanup"
+  },
+  "offlineSources": {
+    "selected": "Local npm cache content addressed by committed SHA-512 integrity",
+    "root": "C:\\Users\\User\\AppData\\Local\\npm-cache",
+    "packages": [
+      {
+        "path": "node_modules/@js-temporal/polyfill",
+        "version": "0.5.1",
+        "resolved": "https://registry.npmjs.org/@js-temporal/polyfill/-/polyfill-0.5.1.tgz",
+        "integrity": "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ==",
+        "license": "ISC",
+        "dependencies": {
+          "jsbi": "^4.3.0"
+        },
+        "engines": {
+          "node": ">=12"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\86\\5a\\0fe7ccd1542452a600f19aa09624d962cc095480916a1b6ca9abbf430afcaff6d1e345830339c3c58f37e5fc0d7f6310ef442673f30bd9be66a94272b015",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/jsonlint-lines-primitives",
+        "version": "2.0.3",
+        "resolved": "https://registry.npmjs.org/@mapbox/jsonlint-lines-primitives/-/jsonlint-lines-primitives-2.0.3.tgz",
+        "integrity": "sha512-0SElaV0uMxEnxzBhhX9WTuPyUeMsAN/SS0i16tjuba4/mio63MG9khjC1a0JAiPGXAwvwm4UfHJURCN7nyudQg==",
+        "license": "MIT",
+        "engines": {
+          "node": ">= 22"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\d1\\21\\25695d2e331127c73061857f564ee3f251e32c00dfd24b48b5ead8ee6dae3f9a2a3adcc1bd9218c2d5ad090223c65c0c2fc26e147c725444237b9f2b9d42",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/point-geometry",
+        "version": "1.1.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/point-geometry/-/point-geometry-1.1.0.tgz",
+        "integrity": "sha512-YGcBz1cg4ATXDCM/71L9xveh4dynfGmcLDqufR+nQQy3fKwsAZsWd/x4621/6uJaeB9mwOHE6hPeDgXz9uViUQ==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\60\\67\\01cf5720e004d70c233fef52fdc6f7a1e1dca77c699c2c3aae7d1fa7410cb77cac2c019b1677fc78eb6d7feae25a781f66c0e1c4ea13de0e05f3f6e56251",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/tiny-sdf",
+        "version": "2.2.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/tiny-sdf/-/tiny-sdf-2.2.0.tgz",
+        "integrity": "sha512-LVL4wgI9YAum5V+LNVQO6QgFBPw7/MIIY4XJPNsPDMrjEwcE+JfKk1LuIl8GnF197ejVdC9QdPaxrx5gfgdGXg==",
+        "license": "BSD-2-Clause",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\2d\\52\\f8c2023d600ba6e55f8b35540ee9080504fc3bfcc2086385c93cdb0f0ccae3130704f897ca9352ee225f069c5d7dede8d5742f5074f6b1af1e607e07465e",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/unitbezier",
+        "version": "0.0.1",
+        "resolved": "https://registry.npmjs.org/@mapbox/unitbezier/-/unitbezier-0.0.1.tgz",
+        "integrity": "sha512-nMkuDXFv60aBr9soUG5q+GvZYL+2KZHVvsqFCzqnkGEf46U2fvmytHaEVc1/YZbiLn8X+eR3QzX1+dwDO1lxlw==",
+        "license": "BSD-2-Clause",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\9c\\c9\\2e0d716feb4681afdb28506e6af86bd960bfb62991d5beca850b3aa790611fe3a5367ef9b2b4768455cd7f6196e22e7f17f9e4774335f5f9dc033b597197",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/vector-tile",
+        "version": "2.0.5",
+        "resolved": "https://registry.npmjs.org/@mapbox/vector-tile/-/vector-tile-2.0.5.tgz",
+        "integrity": "sha512-pXj8m7KTsqZt+1jsE0xIpGvqTSbblfkuEJL/NJmNePMtEwxO8V3XMDo9WMSfDeqHvCtBI9Lmt4mGcGR10zecmw==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "@mapbox/point-geometry": "~1.1.0",
+          "@types/geojson": "^7946.0.16",
+          "pbf": "^4.0.2"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\a5\\78\\fc9bb293b2a66dfb58ec134c48a46bea4d26db95f92e1092ff34998d78f32d130c4ef15dd7303a3d58c49f0dea87bc2b4123d2e6b78986706475d3379c9b",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@mapbox/whoots-js",
+        "version": "3.1.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz",
+        "integrity": "sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==",
+        "license": "ISC",
+        "engines": {
+          "node": ">=6.0.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\12\\ce\\96703d273b997ed813904b8b8b7cd3d841a3437dba2ddd7d57528968cfec7498f0d2dde78e459265d3a1d78f0046d5f386c02467ccaf3c2cc771291adde9",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/geojson-vt",
+        "version": "6.1.1",
+        "resolved": "https://registry.npmjs.org/@maplibre/geojson-vt/-/geojson-vt-6.1.1.tgz",
+        "integrity": "sha512-FVMOcmSP/yqol45t7StApEyTL5/vmqBCuFhH9n+fFuINenhaX+YgHHIt1yJ86S8kln3uJLcMvmEU2cfn6E2eCQ==",
+        "license": "ISC",
+        "dependencies": {
+          "kdbush": "^4.1.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\15\\53\\0e72648fff2aa8978e6ded2b40a44c932f9fef9aa042b85847f67f9f16e20d7a785a5fe6201c722dd7227ce92f24967dee24b70cbe6114d9c7e7e84d9e09",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+        "version": "24.10.0",
+        "resolved": "https://registry.npmjs.org/@maplibre/maplibre-gl-style-spec/-/maplibre-gl-style-spec-24.10.0.tgz",
+        "integrity": "sha512-lichxSiagMEBBrqHF0trtMQH9RKh+9jUlIJl0qW0QHvt2H/tbvUWdE+ZzI2Jd0/pT7j/iavLonlPu7EQ/ixTOw==",
+        "license": "ISC",
+        "dependencies": {
+          "@mapbox/jsonlint-lines-primitives": "~2.0.2",
+          "@mapbox/unitbezier": "^1.0.0",
+          "json-stringify-pretty-compact": "^4.0.0",
+          "minimist": "^1.2.8",
+          "quickselect": "^3.0.0",
+          "tinyqueue": "^3.0.0"
+        },
+        "bin": {
+          "gl-style-format": "dist/gl-style-format.mjs",
+          "gl-style-migrate": "dist/gl-style-migrate.mjs",
+          "gl-style-validate": "dist/gl-style-validate.mjs"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\96\\27\\21c5289a80c10106ba87174b6bb4c407f512a1fbd8d4948265d2a5b4407bedd87fed6ef516744f99cc8d89774fe94fb8ff89abcba2794fbbb110fe2c533b",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec/node_modules/@mapbox/unitbezier",
+        "version": "1.0.0",
+        "resolved": "https://registry.npmjs.org/@mapbox/unitbezier/-/unitbezier-1.0.0.tgz",
+        "integrity": "sha512-fqd515fjBmANKGGsQ286E2Wvj/XvDFpGzwJxq4CI6jMQue6Oy04uCKp+JWKF00xRTmk6cEu1jPJ9p3xqH8YWqQ==",
+        "license": "BSD-2-Clause",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\7e\\a7\\79d797e306600d2861ac436f3a1365af8ff5ef0c5a46cf0271ab8088ea3310b9ee8ecb4e2e08aa7e256285d34c514e693a704bb58cf27da77c6a1fc616a9",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/mlt",
+        "version": "1.1.12",
+        "resolved": "https://registry.npmjs.org/@maplibre/mlt/-/mlt-1.1.12.tgz",
+        "integrity": "sha512-ZeK5w2TTeHOajcLaEQs1KZXw2V9wIKo1PmThlxlsHoXsQsYlBqLJzPOd6tJHRtGTChUY3DPPmjXRArYVvAbmZw==",
+        "license": "(MIT OR Apache-2.0)",
+        "dependencies": {
+          "@mapbox/point-geometry": "^1.1.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\65\\e2\\b9c364d378739a8dc2da110b352995f0d95f7020aa353e64e197196c1e85ec42c62506a2c9ccf39dead24746d1930a1518dc33cf9a35d102b615bc06e667",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf",
+        "version": "4.3.2",
+        "resolved": "https://registry.npmjs.org/@maplibre/vt-pbf/-/vt-pbf-4.3.2.tgz",
+        "integrity": "sha512-j6p0AdjvAR19Z3XaCysle7A4ZSo08tYOzxD0Y9NQylwPAkwJJeYub5b2eVucdeDh7erhv69DahoLOevDRERRUw==",
+        "license": "MIT",
+        "dependencies": {
+          "@mapbox/point-geometry": "^1.1.0",
+          "@types/geojson": "^7946.0.16",
+          "pbf": "^5.1.0"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\8f\\aa\\7401d8ef011d7d6775da0b2b257bb038652a34f2d60ecf10f463d350ca5c0f024c0925e62e6f96f6795b9c75e0e1edeae1bfaf436a1a0b39ebc344445153",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf/node_modules/pbf",
+        "version": "5.1.2",
+        "resolved": "https://registry.npmjs.org/pbf/-/pbf-5.1.2.tgz",
+        "integrity": "sha512-mnvGdvOrIvJOBGUEdGkrVXjN8E/VkIJCkf2eS1DH2yv82ORUlLttmDt0rWY38yYZmVwciZwBUvHM20qxBZf40w==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "resolve-protobuf-schema": "^2.1.0"
+        },
+        "bin": {
+          "pbf": "bin/pbf"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\9a\\7b\\c676f3ab22f24e04650474692b5578cdf04fd590824291fd9e4b50c7db2bfcd8e45494bb6d983b74ad6637f32619995c1c899c0152f1ccdb4ab10597f8d3",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/@types/geojson",
+        "version": "7946.0.16",
+        "resolved": "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.16.tgz",
+        "integrity": "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\e8\\2f\\27a96babde3f7c53afa55c37d351621f82f654f84ba6be91ca7188ee8ca1fbc286322e3dac5267dfd2d461aea33b068854c3b3f3dd90758e3da05bd16f9a",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/earcut",
+        "version": "3.2.3",
+        "resolved": "https://registry.npmjs.org/earcut/-/earcut-3.2.3.tgz",
+        "integrity": "sha512-vnS4AVwp1KHAF13i1vp1/2D5evWy3k5u/iW/B81QVsUZtV8cv2tU0b2VNFlqvh4kYwrFMDdjPCfAmfyJW9y14Q==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\be\\74\\b8015c29d4a1c0175de2d6fa75ff60f97af5b2de4e6efe25bf07cd5056c519b55f1cbf6b54d1bd9534596abe1e24630ac53037633c27c099fc895bdcb5e1",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/gl-matrix",
+        "version": "3.4.4",
+        "resolved": "https://registry.npmjs.org/gl-matrix/-/gl-matrix-3.4.4.tgz",
+        "integrity": "sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\95\\ab\\529f20cdb7ff3361407a54827a3c28768c18c95fa8270eca0267b2f25bb1a4aab0f9d445b06bda82a068b18fc62a06d11340aff163b3a6a5317cc73d4375",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/jsbi",
+        "version": "4.3.2",
+        "resolved": "https://registry.npmjs.org/jsbi/-/jsbi-4.3.2.tgz",
+        "integrity": "sha512-9fqMSQbhJykSeii05nxKl4m6Eqn2P6rOlYiS+C5Dr/HPIU/7yZxu5qzbs40tgaFORiw2Amd0mirjxatXYMkIew==",
+        "license": "Apache-2.0",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\f5\\fa\\8c4906e12729127a28b4e67c4a9789ba12a9f63faace958892f82e43aff1cf214ffbc99c6ee6acdbb38d2d81a14e462c360267749a2ae3c5ab5760c9087b",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/json-stringify-pretty-compact",
+        "version": "4.0.0",
+        "resolved": "https://registry.npmjs.org/json-stringify-pretty-compact/-/json-stringify-pretty-compact-4.0.0.tgz",
+        "integrity": "sha512-3CNZ2DnrpByG9Nqj6Xo8vqbjT4F6N+tb4Gb28ESAZjYZ5yqvmc56J+/kuIwkaAMOyblTQhUW7PxMkUb8Q36N3Q==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\dc\\23\\59d839eba41c86f4daa3e97a3cbea6e34f817a37eb5be066f6f04480663619e72aaf99ce7a27efe4b88c2468030ec9b953421516ecfc4c9146fc437e8ddd",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/kdbush",
+        "version": "4.1.0",
+        "resolved": "https://registry.npmjs.org/kdbush/-/kdbush-4.1.0.tgz",
+        "integrity": "sha512-e9vurzrXJQrFX6ckpHP3bvj5l+9CnYzkxDNnNQ1h2QTqdWsUAJgXiKdGNcOa1EY85dU8KbQ+z/FdQdB7P+9yfQ==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\7b\\db\\eeaf3ad7250ac55fa724a473f76ef8f997ef429d8ce4c43367350d61d904ea756b1400981788a74635c39ad4463ce5d53c29b43ecff15d41d07b3fef727d",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/maplibre-gl",
+        "version": "5.24.0",
+        "resolved": "https://registry.npmjs.org/maplibre-gl/-/maplibre-gl-5.24.0.tgz",
+        "integrity": "sha512-ALyFxgtd5R+65UqZ/++lOqwWcC0SNho9c27fYSyLmG7AfnAul2o46F05aDJGPbFU57wos9dgcIySHs0Xe6ia3A==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "@mapbox/jsonlint-lines-primitives": "^2.0.2",
+          "@mapbox/point-geometry": "^1.1.0",
+          "@mapbox/tiny-sdf": "^2.1.0",
+          "@mapbox/unitbezier": "^0.0.1",
+          "@mapbox/vector-tile": "^2.0.4",
+          "@mapbox/whoots-js": "^3.1.0",
+          "@maplibre/geojson-vt": "^6.1.0",
+          "@maplibre/maplibre-gl-style-spec": "^24.8.1",
+          "@maplibre/mlt": "^1.1.8",
+          "@maplibre/vt-pbf": "^4.3.0",
+          "@types/geojson": "^7946.0.16",
+          "earcut": "^3.0.2",
+          "gl-matrix": "^3.4.4",
+          "kdbush": "^4.0.2",
+          "murmurhash-js": "^1.0.0",
+          "pbf": "^4.0.1",
+          "potpack": "^2.1.0",
+          "quickselect": "^3.0.0",
+          "tinyqueue": "^3.0.0"
+        },
+        "engines": {
+          "node": ">=16.14.0",
+          "npm": ">=8.1.0"
+        },
+        "funding": {
+          "url": "https://github.com/maplibre/maplibre-gl-js?sponsor=1"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\00\\bc\\85c60b5de51fbae54a99ffefa53aac16702d12361a3d736edf612c8b986ec07e702e976a38e85d396832463db154e7bc28b3d760708c921ecd177ba89adc",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/minimist",
+        "version": "1.2.8",
+        "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+        "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==",
+        "license": "MIT",
+        "funding": {
+          "url": "https://github.com/sponsors/ljharb"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\db\\2c\\8047ca8190ddd8ba17896a7529582e54ddb6f9a2c0f2c0d07c4730d5943c031dba1c009bdeaaa8f5bbcf92543ee39164f8cafb070a95aaa96a80c5bd3308",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/murmurhash-js",
+        "version": "1.0.0",
+        "resolved": "https://registry.npmjs.org/murmurhash-js/-/murmurhash-js-1.0.0.tgz",
+        "integrity": "sha512-TvmkNhkv8yct0SVBSy+o8wYzXjE4Zz3PCesbfs8HiCXXdcTuocApFv11UWlNFWKYsP2okqrhb7JNlSm9InBhIw==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\4e\\f9\\a436192ff3272dd125414b2fa8f306335e3138673dcf09eb1b7ecf078825d775c4eea1c02916fd7551694d156298b0fda892aae16fb24d9529bd22706123",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/pbf",
+        "version": "4.0.2",
+        "resolved": "https://registry.npmjs.org/pbf/-/pbf-4.0.2.tgz",
+        "integrity": "sha512-J0ajxARhZfpUEebxYs1vhMGMuLSXtBe1e+fFPDrf2uA2hgo+UshKfNUWOz92HJNz6/NFEXseQPddnHkTreWRqg==",
+        "license": "BSD-3-Clause",
+        "dependencies": {
+          "resolve-protobuf-schema": "^2.1.0"
+        },
+        "bin": {
+          "pbf": "bin/pbf"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\27\\46\\a3c4046165fa5411e6f162cd6f84c18cb8b497b417b57be7c53c3adfdae036860a3e52c84a7cd5163b3f761c9373ebf345117b1e40f75d9c7913ade591aa",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/potpack",
+        "version": "2.1.0",
+        "resolved": "https://registry.npmjs.org/potpack/-/potpack-2.1.0.tgz",
+        "integrity": "sha512-pcaShQc1Shq0y+E7GqJqvZj8DTthWV1KeHGdi0Z6IAin2Oi3JnLCOfwnCo84qc+HAp52wT9nK9H7FAJp5a44GQ==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\a5\\c6\\928507354a1ab4cbe13b1aa26abd98fc0d3b61595d4a78719d8b467a2008a7d8e8b72672c239fc270a8f38a9cf87029e76c13f672bd1fb140269e5ae3819",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/protocol-buffers-schema",
+        "version": "3.6.1",
+        "resolved": "https://registry.npmjs.org/protocol-buffers-schema/-/protocol-buffers-schema-3.6.1.tgz",
+        "integrity": "sha512-VG2K63Igkiv9p76tk1lilczEK1cT+kCjKtkdhw1dQZV3k3IXJbd3o6Ho8b9zJZaHSnT2hKe4I+ObmX9w6m5SmQ==",
+        "license": "MIT",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\54\\6d\\8aeb7220922bfda7bead93596295ccc42b5713fa40a32ad91d870d5d41957793721725b777a3a1e8f1bf732596874a74f684a7b823e39b997f70ea6e5299",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/quickselect",
+        "version": "3.0.0",
+        "resolved": "https://registry.npmjs.org/quickselect/-/quickselect-3.0.0.tgz",
+        "integrity": "sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\5d\\d8\\d402b6cae019b97cb2ef966e4aa5314e88e4e181f5962386b10190d683813fd2629d67223db4d11f76cdbba828b5cdefefc13475ea4be6986851adaddcda",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/resolve-protobuf-schema",
+        "version": "2.1.0",
+        "resolved": "https://registry.npmjs.org/resolve-protobuf-schema/-/resolve-protobuf-schema-2.1.0.tgz",
+        "integrity": "sha512-kI5ffTiZWmJaS/huM8wZfEMer1eRd7oJQhDuxeCLe3t7N7mX3z94CN0xPxBQxFYQTSNz9T0i+v6inKqSdK8xrQ==",
+        "license": "MIT",
+        "dependencies": {
+          "protocol-buffers-schema": "^3.3.1"
+        },
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\90\\8e\\5f7d38995a625a4bf86e33cc197c431eaf579177ba094210eec5e08b7b7b7b37b997df3f7808dd313f1050c456104d2373f53d22fafea29caa9274af31ad",
+        "exists": true,
+        "integrityVerified": true
+      },
+      {
+        "path": "node_modules/tinyqueue",
+        "version": "3.0.0",
+        "resolved": "https://registry.npmjs.org/tinyqueue/-/tinyqueue-3.0.0.tgz",
+        "integrity": "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g==",
+        "license": "ISC",
+        "cache": "C:\\Users\\User\\AppData\\Local\\npm-cache\\_cacache\\content-v2\\sha512\\81\\16\\bd830614dc40a6418bf796c96db39871b886bdd2f79a11cc4362ebb740638800433698e664547a78f00349baed42511b51747294058e4b9b5b4757eb03e2",
+        "exists": true,
+        "integrityVerified": true
+      }
+    ],
+    "verifiedTarballs": 28,
+    "otherSources": "Existing node_modules inspected and hashed but not used as materialization source. No repository tgz/shrinkwrap found by scoped search; no broader filesystem scan required after complete verified cache closure. Prior scratch is not authority."
+  },
+  "methods": [
+    {
+      "method": "npm ci --offline in separate temporary dependency directory",
+      "DETERMINISTIC": true,
+      "LOCKFILE_BOUND": true,
+      "NETWORK_PROHIBITED": true,
+      "MUTATES_REAL_WORKTREE": false,
+      "PORTABLE": "Rehearsed Windows Node24.18.0/npm11.16.0; requires same verified cache",
+      "SUITABLE_FOR_ISOLATED_TESTING": false,
+      "selected": false,
+      "assessment": "Candidate content materialization succeeded, but qualification STOP: npm attempted registry metadata request despite offline."
+    },
+    {
+      "method": "npm install --offline",
+      "DETERMINISTIC": "Not selected: may resolve/update lock state",
+      "LOCKFILE_BOUND": "Weaker than ci",
+      "NETWORK_PROHIBITED": "With offline+preload",
+      "MUTATES_REAL_WORKTREE": "Avoid by temp only",
+      "PORTABLE": true,
+      "SUITABLE_FOR_ISOLATED_TESTING": "Not qualified"
+    },
+    {
+      "method": "direct verified cache package extraction",
+      "DETERMINISTIC": "Possible with SRI and closure proof",
+      "LOCKFILE_BOUND": true,
+      "NETWORK_PROHIBITED": true,
+      "MUTATES_REAL_WORKTREE": false,
+      "PORTABLE": "Extraction details need proof",
+      "SUITABLE_FOR_ISOLATED_TESTING": "Not selected; npm handles extraction"
+    },
+    {
+      "method": "copy complete real node_modules",
+      "DETERMINISTIC": false,
+      "LOCKFILE_BOUND": false,
+      "NETWORK_PROHIBITED": true,
+      "MUTATES_REAL_WORKTREE": false,
+      "PORTABLE": false,
+      "SUITABLE_FOR_ISOLATED_TESTING": false
+    },
+    {
+      "method": "junction/symlink to real dependencies",
+      "DETERMINISTIC": false,
+      "LOCKFILE_BOUND": false,
+      "NETWORK_PROHIBITED": true,
+      "MUTATES_REAL_WORKTREE": "Shared mutable state risk",
+      "PORTABLE": false,
+      "SUITABLE_FOR_ISOLATED_TESTING": false
+    },
+    {
+      "method": "npm cache add/pack or fresh online install",
+      "DETERMINISTIC": "Not needed",
+      "LOCKFILE_BOUND": "Requires separate proof",
+      "NETWORK_PROHIBITED": "Online mode prohibited",
+      "MUTATES_REAL_WORKTREE": "Not executed",
+      "PORTABLE": "Not evaluated",
+      "SUITABLE_FOR_ISOLATED_TESTING": false
+    }
+  ],
+  "selectedProcedure": {
+    "description": "Two-layer materialization preserves every committed file: checkout-index HEAD + exact CP07; separately npm ci exact root manifest/lock with 28 verified cache blobs; compare 1423 tracked package-content files against ci output; add only absent lockfile packages polyfill/jsbi (48 files). Never overwrite tracked bytes, .bin stubs or hidden .package-lock.json.",
+    "command": "node --import <approved-block-network-file-URL> <npm>/bin/npm-cli.js ci --offline --ignore-scripts --no-audit --no-fund --bin-links=false --cache <fresh-private-cache>",
+    "workingDirectory": "fresh dependencies directory containing byte-identical committed root package.json/package-lock.json",
+    "cacheSetup": "For every root lock packages entry: derive _cacache/content-v2/<algorithm>/<hex[0:2]>/<hex[2:4]>/<hex[4:]> from SRI; verify complete tarball digest before copying into fresh private cache. No index metadata or real cache mutation needed.",
+    "npmVersion": "11.16.0",
+    "nodeVersion": "v24.18.0",
+    "npmExit": 0,
+    "npmLogSHA256": "874a87db1830527c67e1aec60b4ce49ccc2672d1464e580d5dfecf2107d86d8b",
+    "packageManagerOutput": "added 28 packages",
+    "lifecycleScripts": "disabled",
+    "binLinks": "disabled in separate install; original five tracked stubs retained in checkout",
+    "manifestLockUnchanged": true,
+    "trackedFilesVerified": 1897,
+    "trackedPackageContentMatches": 1423,
+    "excludedFromPackageContentComparison": [
+      "five tracked .bin symlink-text files (verified against HEAD)",
+      "tracked node_modules/.package-lock.json (verified against HEAD; not current lock authority)"
+    ],
+    "overlay": [
+      {
+        "path": "node_modules/@js-temporal/polyfill/CHANGELOG.md",
+        "sha256": "f4fb43307933e7ae71ab17bb5ce685fb9e8e37b1c052f64bae3a18b0a888f7cf"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.cjs",
+        "sha256": "9e3d7aae022f5ec391fc5e3639e474fe90f740c4631806fd741401b9c50f4ee0"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.cjs.map",
+        "sha256": "596316f68feaaee05f1458831200e0228ed73808ba019f584aac8dbf63e8241f"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.esm.js",
+        "sha256": "21f067c54fa5f532f20a8e85e3d2401a3ae1cf60d85fafea6502f621dc93b167"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.esm.js.map",
+        "sha256": "701a0618385a1411985f267dc5867fcabdb7073ce09de4529acb375b92e7d29b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.umd.js",
+        "sha256": "3f67afd9a4cf413815e97dfbdc40f0d4139d476eafdd0a8dd38bd0162c376966"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/dist/index.umd.js.map",
+        "sha256": "3050a989d2c2b9e657b08381bc35f7b3f34df179eaa54858630df9540b56fc50"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/index.d.cts",
+        "sha256": "893fbc7e2a50a3a780d3d6eb6899e45fe8dc4ca56708770b4731e481f55af599"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/index.d.ts",
+        "sha256": "893fbc7e2a50a3a780d3d6eb6899e45fe8dc4ca56708770b4731e481f55af599"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/assert.ts",
+        "sha256": "94f7f93454e56ef88a2d32918727d3fc8f6d0f1c2e642e8996f82d22bb14a652"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/bigintmath.ts",
+        "sha256": "b2ae4dadbb6e38435adce611f0f9154f35dc27398c262cc9b408e6acea50da98"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/calendar.ts",
+        "sha256": "c8e161648f18a167d4327890321f20f2fc167ce7941456bc0eb440d51b8a8b6b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/debug.ts",
+        "sha256": "23b0c113b844c53b803c1d4b2ed92195c38c8b68f7a394ef5fab11d57372bed8"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/duration.ts",
+        "sha256": "ce44aacaf15ba38b73df3ad9c8d19572b1716c6c88a09b2764f676faa742b56b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/durationformat.d.ts",
+        "sha256": "190e0eaa93ea9c2d70385e947bd73307322ebb2bfad50aa0e95851252c63c244"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/ecmascript.ts",
+        "sha256": "35fa564e2099557f54546a45aad0954a15b8d21e7636882b2025e447aab81a1e"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/index.ts",
+        "sha256": "d30b8d299970af27da6149aabbab6dde23ea8e0fdd3c9e74a5f724d644b4089d"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/init.ts",
+        "sha256": "28d1969fa1d3025bdc5292f6db9d54876e5a2745361e35ad61efc060bfe69d58"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/instant.ts",
+        "sha256": "124de3a069fb83673e5e61639c06fa7a92979da7c2ccf916e5c326d82cbba554"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/internaltypes.d.ts",
+        "sha256": "63bc849c70604e810efa2c93643eadfc30e79741d0d3b58cf6d1f9f52065751b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/intl.ts",
+        "sha256": "c65a16f44c5f39d3be30683e6f574ed14850db815d12ebc30ab454621b6a1be9"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/intrinsicclass.ts",
+        "sha256": "9bbd018bc22e58f18966b8feceb6ec9229316c52d5d18635319e34a9d4400845"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/legacydate.ts",
+        "sha256": "e711238d1a614cbabf7a6c15e5aca5fb949c322532bb4f5a15985d42fbb60e38"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/math.ts",
+        "sha256": "7c75a4446b40612954e589cea0e4289e1486ab2b8c7dd2a45b8f5b3b39fc2dda"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/now.ts",
+        "sha256": "672a34685697dfe4c9a02237fbadc859f61cccd1a9febe39ee1ae68c99b6fe3b"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plaindate.ts",
+        "sha256": "e8bcaf941b761cc57259431bd303ffb87828d929752cc4566997e0b8beaa89cd"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plaindatetime.ts",
+        "sha256": "18242ead1606f996205d2e76574815877d48a9f59132b1c9b44773208925545e"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plainmonthday.ts",
+        "sha256": "43f86513f0c54e9d092a00d4207933264d7b8fe1b2bbffb91d27e8dbcb1b79b5"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plaintime.ts",
+        "sha256": "47e98c13bbe5fe261363e0f206642f90aa34fe1b4b7f8c731bad95b561fae81d"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/plainyearmonth.ts",
+        "sha256": "3ebf486e06ccf9b6a5e74d2096e9be1ce282657ac3a4f86a5d3bab5a5188569e"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/regex.ts",
+        "sha256": "a8dd43efbc056d4d99d4bb88d14e536a1422a47c3a0537ae4f0becddb88438c5"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/slots.ts",
+        "sha256": "5e122d31e1ae351bc2c4c457f561d6d189b6b834f8514bbe0f177337ef54c029"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/temporal.ts",
+        "sha256": "bc7ff0eab63cf26705042d76f5584995dfe317a7bb9c16c4323b7498956f9b3c"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/timeduration.ts",
+        "sha256": "1ae703eb58adb57dcfba27ec72cfb3589fdd0dc2ff207d3a4631fcf8916d6196"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/lib/zoneddatetime.ts",
+        "sha256": "0ac4c51a3d166ed2a2b4dbbfac1f8c0a7e6f6fc7e8f4177dda2ade81a3729195"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/LICENSE",
+        "sha256": "ffc4aee7f1279fc0494ff2b27f6829e6b4d16c20aa93aa008c3bd8d8af176387"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/package.json",
+        "sha256": "8406de0f5b7642ee1518c01c40ee6b797da7bc97575fea406e1f17876493e9cc"
+      },
+      {
+        "path": "node_modules/@js-temporal/polyfill/README.md",
+        "sha256": "e0b4db7ef68d62cfae50d0172e87272165e85505c038ba29b49e395d2a42e938"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-cjs.js",
+        "sha256": "b952fc88337eae5d90b397da4251e207d816056ea4c574df576f17e68626dd94"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-cjs.js.map",
+        "sha256": "d31e331237fa3a7956d9af4282b463717b6870345c0843460e1b71d503ddbdf0"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-umd.js",
+        "sha256": "450aa05df1d8664d5be05897b616d0dcaaeacc8bf20d7d8e3cc48ad703b086d3"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi-umd.js.map",
+        "sha256": "acca4cc809ff8636a30acac16ad7474bbc4bab8dafe800cba38180325a8bb98e"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi.mjs",
+        "sha256": "c0d70fb47e0818e31bdf964805a530d9a0fb4ee5bdadb442a13f3691a5f15583"
+      },
+      {
+        "path": "node_modules/jsbi/dist/jsbi.mjs.map",
+        "sha256": "0ad9567753beda247d2c8fde605a44c7ffaf40153d78728faf48723988a8ee5c"
+      },
+      {
+        "path": "node_modules/jsbi/jsbi.d.ts",
+        "sha256": "57c8f2881edb838ed1dfd43e61f81b063f0f85c4f874ad62dbd2fb230ef76bf2"
+      },
+      {
+        "path": "node_modules/jsbi/LICENSE",
+        "sha256": "9568a2b155e66ac3e0ba1fd80b52b827b9460e6cf6f233125e7cbca8e206ddc3"
+      },
+      {
+        "path": "node_modules/jsbi/package.json",
+        "sha256": "756c2c1b6e80e9e8488fe7ad66403a8307b115a0dc141966e69adf41eb39efc6"
+      },
+      {
+        "path": "node_modules/jsbi/README.md",
+        "sha256": "06c7b260665b7e7747f985c39bdd8439e8f1d68960232ae663a13cdba57ea37a"
+      }
+    ],
+    "packages": [
+      {
+        "path": "node_modules/@js-temporal/polyfill",
+        "version": "0.5.1",
+        "packageJsonSHA256": "8406de0f5b7642ee1518c01c40ee6b797da7bc97575fea406e1f17876493e9cc",
+        "integrity": "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ=="
+      },
+      {
+        "path": "node_modules/@mapbox/jsonlint-lines-primitives",
+        "version": "2.0.3",
+        "packageJsonSHA256": "94c9b61843909d2e77c530761a2da282bca4fa05e4ff96255e1ebadac5d3cf3c",
+        "integrity": "sha512-0SElaV0uMxEnxzBhhX9WTuPyUeMsAN/SS0i16tjuba4/mio63MG9khjC1a0JAiPGXAwvwm4UfHJURCN7nyudQg=="
+      },
+      {
+        "path": "node_modules/@mapbox/point-geometry",
+        "version": "1.1.0",
+        "packageJsonSHA256": "ab7723dbc5481c1a67260c592dc0ea02ffef5e41f45a0fa21e8d8d4e6850212f",
+        "integrity": "sha512-YGcBz1cg4ATXDCM/71L9xveh4dynfGmcLDqufR+nQQy3fKwsAZsWd/x4621/6uJaeB9mwOHE6hPeDgXz9uViUQ=="
+      },
+      {
+        "path": "node_modules/@mapbox/tiny-sdf",
+        "version": "2.2.0",
+        "packageJsonSHA256": "3b83b66a1d1feaba2c25ef329e5d8520cbf5ad836dcc4d71abdc5fcca7d03099",
+        "integrity": "sha512-LVL4wgI9YAum5V+LNVQO6QgFBPw7/MIIY4XJPNsPDMrjEwcE+JfKk1LuIl8GnF197ejVdC9QdPaxrx5gfgdGXg=="
+      },
+      {
+        "path": "node_modules/@mapbox/unitbezier",
+        "version": "0.0.1",
+        "packageJsonSHA256": "9eb0666f4193d703eaef402ffb08e033aa277e712f0194abbb34c42a88b91bb5",
+        "integrity": "sha512-nMkuDXFv60aBr9soUG5q+GvZYL+2KZHVvsqFCzqnkGEf46U2fvmytHaEVc1/YZbiLn8X+eR3QzX1+dwDO1lxlw=="
+      },
+      {
+        "path": "node_modules/@mapbox/vector-tile",
+        "version": "2.0.5",
+        "packageJsonSHA256": "bba2cdb2d5833a08c58ef398fa7ef2c43916fb4322b87aefc5dcb1ebbcd3e4c5",
+        "integrity": "sha512-pXj8m7KTsqZt+1jsE0xIpGvqTSbblfkuEJL/NJmNePMtEwxO8V3XMDo9WMSfDeqHvCtBI9Lmt4mGcGR10zecmw=="
+      },
+      {
+        "path": "node_modules/@mapbox/whoots-js",
+        "version": "3.1.0",
+        "packageJsonSHA256": "eebba3b636f6402d697c2638be6b589db8251a825ffd66884c1b49900812c185",
+        "integrity": "sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q=="
+      },
+      {
+        "path": "node_modules/@maplibre/geojson-vt",
+        "version": "6.1.1",
+        "packageJsonSHA256": "386a3c7a3bd39506b61fd01134f08bee8c52b45596d6abffee15adfa1f5cefd4",
+        "integrity": "sha512-FVMOcmSP/yqol45t7StApEyTL5/vmqBCuFhH9n+fFuINenhaX+YgHHIt1yJ86S8kln3uJLcMvmEU2cfn6E2eCQ=="
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+        "version": "24.10.0",
+        "packageJsonSHA256": "9542b0cde1ac49c4fc7c43804d15996e85a34a4062af92ee078f96193ed3c2df",
+        "integrity": "sha512-lichxSiagMEBBrqHF0trtMQH9RKh+9jUlIJl0qW0QHvt2H/tbvUWdE+ZzI2Jd0/pT7j/iavLonlPu7EQ/ixTOw=="
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec/node_modules/@mapbox/unitbezier",
+        "version": "1.0.0",
+        "packageJsonSHA256": "fbebad71d6595c810300ab22dd210d548e2ac87b2740f8dd53199c02351b7f68",
+        "integrity": "sha512-fqd515fjBmANKGGsQ286E2Wvj/XvDFpGzwJxq4CI6jMQue6Oy04uCKp+JWKF00xRTmk6cEu1jPJ9p3xqH8YWqQ=="
+      },
+      {
+        "path": "node_modules/@maplibre/mlt",
+        "version": "1.1.12",
+        "packageJsonSHA256": "732b62203b5ff89d426733454929fe4ed9044a807497ba3cb2289543e364fdb6",
+        "integrity": "sha512-ZeK5w2TTeHOajcLaEQs1KZXw2V9wIKo1PmThlxlsHoXsQsYlBqLJzPOd6tJHRtGTChUY3DPPmjXRArYVvAbmZw=="
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf",
+        "version": "4.3.2",
+        "packageJsonSHA256": "a7578181724a56d9a28ab800968dffdd0c62027a807e76a783dedde225af2831",
+        "integrity": "sha512-j6p0AdjvAR19Z3XaCysle7A4ZSo08tYOzxD0Y9NQylwPAkwJJeYub5b2eVucdeDh7erhv69DahoLOevDRERRUw=="
+      },
+      {
+        "path": "node_modules/@maplibre/vt-pbf/node_modules/pbf",
+        "version": "5.1.2",
+        "packageJsonSHA256": "81c8daf6e5cec0fdf365f82582e7b898e018cb51411e465642897bbb4cdd3c10",
+        "integrity": "sha512-mnvGdvOrIvJOBGUEdGkrVXjN8E/VkIJCkf2eS1DH2yv82ORUlLttmDt0rWY38yYZmVwciZwBUvHM20qxBZf40w=="
+      },
+      {
+        "path": "node_modules/@types/geojson",
+        "version": "7946.0.16",
+        "packageJsonSHA256": "488a70ed7c01bc30ceb90f667a141e80c4a7d31ee805d8d7d4498f82b014a522",
+        "integrity": "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg=="
+      },
+      {
+        "path": "node_modules/earcut",
+        "version": "3.2.3",
+        "packageJsonSHA256": "7ff8685b888e8b52857abb5e379b53f513449ba69cbd62a20b40b95cd6ae199e",
+        "integrity": "sha512-vnS4AVwp1KHAF13i1vp1/2D5evWy3k5u/iW/B81QVsUZtV8cv2tU0b2VNFlqvh4kYwrFMDdjPCfAmfyJW9y14Q=="
+      },
+      {
+        "path": "node_modules/gl-matrix",
+        "version": "3.4.4",
+        "packageJsonSHA256": "c3934c49a1a886e9e4dea81f9288e898c918f998fbf9ff5a4aef7f80a31fb012",
+        "integrity": "sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ=="
+      },
+      {
+        "path": "node_modules/jsbi",
+        "version": "4.3.2",
+        "packageJsonSHA256": "756c2c1b6e80e9e8488fe7ad66403a8307b115a0dc141966e69adf41eb39efc6",
+        "integrity": "sha512-9fqMSQbhJykSeii05nxKl4m6Eqn2P6rOlYiS+C5Dr/HPIU/7yZxu5qzbs40tgaFORiw2Amd0mirjxatXYMkIew=="
+      },
+      {
+        "path": "node_modules/json-stringify-pretty-compact",
+        "version": "4.0.0",
+        "packageJsonSHA256": "261eb54826a522f77a075af3c047eba41ea690b4d7ba65cf8779769267a764e5",
+        "integrity": "sha512-3CNZ2DnrpByG9Nqj6Xo8vqbjT4F6N+tb4Gb28ESAZjYZ5yqvmc56J+/kuIwkaAMOyblTQhUW7PxMkUb8Q36N3Q=="
+      },
+      {
+        "path": "node_modules/kdbush",
+        "version": "4.1.0",
+        "packageJsonSHA256": "fabffad9a4d036757a9d840a44a1fa166f14aabebfdd5de8b7d4c04f720a2122",
+        "integrity": "sha512-e9vurzrXJQrFX6ckpHP3bvj5l+9CnYzkxDNnNQ1h2QTqdWsUAJgXiKdGNcOa1EY85dU8KbQ+z/FdQdB7P+9yfQ=="
+      },
+      {
+        "path": "node_modules/maplibre-gl",
+        "version": "5.24.0",
+        "packageJsonSHA256": "196798d4536aa083aace0e2135279da067fc6582de9a0e86b8144397190d7e95",
+        "integrity": "sha512-ALyFxgtd5R+65UqZ/++lOqwWcC0SNho9c27fYSyLmG7AfnAul2o46F05aDJGPbFU57wos9dgcIySHs0Xe6ia3A=="
+      },
+      {
+        "path": "node_modules/minimist",
+        "version": "1.2.8",
+        "packageJsonSHA256": "252881f6a068a3e70386706d88a694b5e8e9e053b6d9f309fd9a329e651bbf81",
+        "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA=="
+      },
+      {
+        "path": "node_modules/murmurhash-js",
+        "version": "1.0.0",
+        "packageJsonSHA256": "e4b3531abcc7da48f732a058112686b44af66004c38d98a8014619542e767cb4",
+        "integrity": "sha512-TvmkNhkv8yct0SVBSy+o8wYzXjE4Zz3PCesbfs8HiCXXdcTuocApFv11UWlNFWKYsP2okqrhb7JNlSm9InBhIw=="
+      },
+      {
+        "path": "node_modules/pbf",
+        "version": "4.0.2",
+        "packageJsonSHA256": "cdea6abeb4109c3670d97a76c3ec19232db1e68254b854c371b809136ba31cad",
+        "integrity": "sha512-J0ajxARhZfpUEebxYs1vhMGMuLSXtBe1e+fFPDrf2uA2hgo+UshKfNUWOz92HJNz6/NFEXseQPddnHkTreWRqg=="
+      },
+      {
+        "path": "node_modules/potpack",
+        "version": "2.1.0",
+        "packageJsonSHA256": "3fdccd736eb1f800e83ae5eae03c31a2e6492750af417f3bda485018c15721ff",
+        "integrity": "sha512-pcaShQc1Shq0y+E7GqJqvZj8DTthWV1KeHGdi0Z6IAin2Oi3JnLCOfwnCo84qc+HAp52wT9nK9H7FAJp5a44GQ=="
+      },
+      {
+        "path": "node_modules/protocol-buffers-schema",
+        "version": "3.6.1",
+        "packageJsonSHA256": "4cd543983eb347c6f24d9df3ccc6070034bbbdd9ffbb594567c4bdaabda326ee",
+        "integrity": "sha512-VG2K63Igkiv9p76tk1lilczEK1cT+kCjKtkdhw1dQZV3k3IXJbd3o6Ho8b9zJZaHSnT2hKe4I+ObmX9w6m5SmQ=="
+      },
+      {
+        "path": "node_modules/quickselect",
+        "version": "3.0.0",
+        "packageJsonSHA256": "ef55c8883b9d19a8468c663730b2f8a9ca7d9ae63cf23c8e2c0a536163999585",
+        "integrity": "sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g=="
+      },
+      {
+        "path": "node_modules/resolve-protobuf-schema",
+        "version": "2.1.0",
+        "packageJsonSHA256": "21a70a55218c8b4bccc2196822179a3a26a98b6d5e53dfb58a39569402dbbd70",
+        "integrity": "sha512-kI5ffTiZWmJaS/huM8wZfEMer1eRd7oJQhDuxeCLe3t7N7mX3z94CN0xPxBQxFYQTSNz9T0i+v6inKqSdK8xrQ=="
+      },
+      {
+        "path": "node_modules/tinyqueue",
+        "version": "3.0.0",
+        "packageJsonSHA256": "d35caf0d1264d9dc2a6cc58b624689fd6c56634826e4ea96bff4d8bac95fc260",
+        "integrity": "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g=="
+      }
+    ],
+    "polyfillAndJsbiLockEntries": [
+      {
+        "path": "node_modules/@js-temporal/polyfill",
+        "version": "0.5.1",
+        "resolved": "https://registry.npmjs.org/@js-temporal/polyfill/-/polyfill-0.5.1.tgz",
+        "integrity": "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ==",
+        "license": "ISC",
+        "dependencies": {
+          "jsbi": "^4.3.0"
+        },
+        "engines": {
+          "node": ">=12"
+        }
+      },
+      {
+        "path": "node_modules/jsbi",
+        "version": "4.3.2",
+        "resolved": "https://registry.npmjs.org/jsbi/-/jsbi-4.3.2.tgz",
+        "integrity": "sha512-9fqMSQbhJykSeii05nxKl4m6Eqn2P6rOlYiS+C5Dr/HPIU/7yZxu5qzbs40tgaFORiw2Amd0mirjxatXYMkIew==",
+        "license": "Apache-2.0"
+      }
+    ],
+    "status": "REHEARSED_CANDIDATE_NOT_APPROVED",
+    "warning": "DO NOT EXECUTE AS AN APPROVED CP07 PROCEDURE. npm exit 0 is insufficient; inspect complete debug log for prohibited attempts before testing."
+  },
+  "integrity": {
+    "authority": "Committed package-lock.json SRI verified against each source tarball, then npm ci lock-governed extraction; package versions/metadata and SHA256 overlay manifest verified before/after tests",
+    "result": "28/28 SOURCE_TARBALL_SRI_MATCH; 28/28 INSTALLED_VERSION_MATCH",
+    "notAClaim": "SRI proves byte identity to committed lock, not a malware/security audit or scientific authority"
+  },
+  "network": {
+    "preload": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-offline-closure-b033449e5e384a05bad11b2b358570a5\\block-network.mjs",
+    "sha256": "a7c4d834d772ce1ba06d853cc0dc9675ee80bcfb3848dd3de1b7ecf4d737d7ca",
+    "probes": [
+      "net.connect BLOCKED_BEFORE_TRANSPORT",
+      "net.createConnection BLOCKED_BEFORE_TRANSPORT",
+      "Socket.connect BLOCKED_BEFORE_TRANSPORT",
+      "tls.connect BLOCKED_BEFORE_TRANSPORT",
+      "http.request BLOCKED_BEFORE_TRANSPORT",
+      "http.get BLOCKED_BEFORE_TRANSPORT",
+      "https.request BLOCKED_BEFORE_TRANSPORT",
+      "https.get BLOCKED_BEFORE_TRANSPORT",
+      "fetch BLOCKED_BEFORE_TRANSPORT"
+    ],
+    "offlineFlag": true,
+    "networkAttemptObserved": true,
+    "attemptLogLine": "12 http fetch GET https://registry.npmjs.org/npm attempt 1 failed with undefined",
+    "networkResult": "Attempt logged as failed; approved denial preload active. No successful transport observed, but user requires STOP on any attempt. Do not approve this command.",
+    "limits": [
+      "Not an OS network sandbox",
+      "Does not claim UDP, raw DNS, subprocess or intentionally bypassed transport coverage",
+      "Do not use a glob runner that discovers the quarantined V3 test",
+      "Continue external network restrictions; do not weaken existing socket denial"
+    ],
+    "noEnvironmentalAcquisition": true
+  },
+  "closure": {
+    "npmLsExit": 0,
+    "npmLsSHA256": "9875b2d1957e7c164638d3d9f02394c6f5048b35f43f6f6118490a0d98585746",
+    "resolution": {
+      "polyfill": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-offline-closure-b033449e5e384a05bad11b2b358570a5\\checkout\\node_modules\\@js-temporal\\polyfill\\dist\\index.cjs",
+      "jsbi": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-offline-closure-b033449e5e384a05bad11b2b358570a5\\checkout\\node_modules\\jsbi\\dist\\jsbi-cjs.js",
+      "insideIsolatedCheckout": true
+    },
+    "esmResolution": [
+      "file:///C:/Users/User/AppData/Local/Temp/pelora-offline-closure-b033449e5e384a05bad11b2b358570a5/checkout/node_modules/@js-temporal/polyfill/dist/index.esm.js",
+      "file:///C:/Users/User/AppData/Local/Temp/pelora-offline-closure-b033449e5e384a05bad11b2b358570a5/checkout/node_modules/jsbi/dist/jsbi-cjs.js"
+    ],
+    "noAncestorFallback": "Temporary root outside real checkout; ESM/CommonJS paths within isolated node_modules; no NODE_PATH or junction. Entire root package closure available.",
+    "frontend": "Frontend lock/build closure outside CP07 backend/shared regression scope; no frontend install/test performed."
+  },
+  "tests": {
+    "focused": {
+      "scripts": 4,
+      "tests": 135,
+      "passes": 135,
+      "failures": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit": 0,
+      "logSHA256": "5ddca0fa0963f3afd9ea546347241f4a2ec03ff282496603ee1302bef0cba1bd"
+    },
+    "full": {
+      "scripts": "INCOMPLETE_INTERRUPTED",
+      "tests": 1636,
+      "passes": 1636,
+      "failures": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit": 1,
+      "logSHA256": "06e316053deaeb364747494714d3933ebc56fd2c901fdf06eb9bfde5b0a563b0",
+      "nodeTestReportingScripts": 59,
+      "scheduledScripts": 73,
+      "stopReason": "Mandatory STOP: npm attempted registry metadata request despite offline mode; interrupted at sstWorker.test.js",
+      "namedPassLines": 782,
+      "handRolledSummaries": [],
+      "interrupted": true,
+      "completedScriptsBeforeInterrupt": 68,
+      "attemptedScripts": 69,
+      "unstartedScripts": 4,
+      "countingNote": "1636 are completed node:test cases reported by 59 framework scripts. PASS output markers are not a uniform test count; do not add them to node:test totals. Full regression not complete. No scientific assertion failure established by interruption."
+    },
+    "focusedFiles": [
+      "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "backend/tests/currentVectorFailureContract.test.js",
+      "backend/tests/currentEvidenceCapture.test.js"
+    ],
+    "localitySuite": 11,
+    "fullFiles": [
+      "backend/tests/archiveBoundScienceBoundary.test.js",
+      "backend/tests/assessmentAstronomy.test.js",
+      "backend/tests/bathymetryEvidence.test.js",
+      "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "backend/tests/candidateCaptureAssemblyBoundary.test.js",
+      "backend/tests/candidateCaptureResumptionBoundary.test.js",
+      "backend/tests/candidateEvidenceSourceBoundary.test.js",
+      "backend/tests/candidateSemanticProjection.test.js",
+      "backend/tests/candidateSemanticProjectionV2.test.js",
+      "backend/tests/candidateSnapshotProducerSurface.test.js",
+      "backend/tests/captureDerivedScientificBoundary.test.js",
+      "backend/tests/clientPrivilegeHardening.test.js",
+      "backend/tests/completeCandidateEvidenceBoundary.test.js",
+      "backend/tests/convergenceContract.test.js",
+      "backend/tests/convergenceDecision.test.js",
+      "backend/tests/crossRouteFinitenessAtomicity.test.js",
+      "backend/tests/currentEvidenceCapture.test.js",
+      "backend/tests/currentScientificReconstructionBoundary.test.js",
+      "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "backend/tests/currentVectorFailureContract.test.js",
+      "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "backend/tests/defaultProviderSemanticReview.test.js",
+      "backend/tests/defaultProviderTransitive.test.js",
+      "backend/tests/dynamicOpportunityFailure.test.js",
+      "backend/tests/environmentalObservationMetadata.test.js",
+      "backend/tests/exactCandidateSnapshotBoundary.test.js",
+      "backend/tests/exactMarineCapture.test.js",
+      "backend/tests/exactScientificEvidence.test.js",
+      "backend/tests/fishingDayReportSchema.test.js",
+      "backend/tests/fishingLocationSpatialEvidence.test.js",
+      "backend/tests/fishingLogAssociationReadiness.test.js",
+      "backend/tests/fishingLogEvidenceCapture.test.js",
+      "backend/tests/fishingLogEvidenceStorage.test.js",
+      "backend/tests/fishingLogTemporalEvidence.test.js",
+      "backend/tests/governedPlace.test.js",
+      "backend/tests/historicalOceanRequirements.test.js",
+      "backend/tests/marineAssessorCompanionCapture.test.js",
+      "backend/tests/noaaSstDisplayScale.test.js",
+      "backend/tests/noaaSstPilot.test.js",
+      "backend/tests/oceanConditions.test.js",
+      "backend/tests/oceanFields.test.js",
+      "backend/tests/oceanPhysicsBoundary.test.js",
+      "backend/tests/oceanProductArchive.test.js",
+      "backend/tests/oceanProductFrame.test.js",
+      "backend/tests/oceanProviderBoundary.test.js",
+      "backend/tests/oceanPublication.test.js",
+      "backend/tests/oceanPublicationAssessment.test.js",
+      "backend/tests/oceanPublicationHistory.test.js",
+      "backend/tests/oceanScalarFieldDelivery.test.js",
+      "backend/tests/oceanSnapshotPrivileges.test.js",
+      "backend/tests/opportunityEvaluationState.test.js",
+      "backend/tests/persistenceEnvironment.test.js",
+      "backend/tests/placeIngestion.test.js",
+      "backend/tests/revisedSemanticModel.test.js",
+      "backend/tests/scalarRuntime.test.js",
+      "backend/tests/scientificAssessment.test.js",
+      "backend/tests/scientificHistoryBoundary.test.js",
+      "backend/tests/sharedScienceBoundary.test.js",
+      "backend/tests/signedZeroQualification.test.js",
+      "backend/tests/snapshotBranchOptionality.test.js",
+      "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "backend/tests/snapshotProducerQualificationV2.test.js",
+      "backend/tests/snapshotShapeAuthorityBoundary.test.js",
+      "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+      "backend/tests/sourceNormalizationBoundary.test.js",
+      "backend/tests/sstNumericIntegrity.test.js",
+      "backend/tests/sstPostConversionFiniteness.test.js",
+      "backend/tests/sstProductAdapter.test.js",
+      "backend/tests/sstWorker.test.js",
+      "backend/tests/temporalEvidencePrimitives.test.js",
+      "backend/tests/temporalHistorySelection.test.js",
+      "backend/tests/transitiveProducerBoundary.test.js",
+      "backend/tests/weatherMarineQualityCapture.test.js"
+    ],
+    "excluded": [
+      "backend/tests/candidateSemanticProjectionV3.test.js"
+    ],
+    "V3": "No execution; exact exclusion and guard from approved offlineProcedure; other references are hash checks",
+    "scratch": "Verbatim plan.offlineProcedure; required parent directories inside checkout, generation flags cleared",
+    "retainedInputs": [
+      {
+        "sha256": "26fe69f0e376322fd2e81ecb9375e5737ede4134cbd9711608ee9c2e2253a843",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/source.nc",
+        "bytes": 853144,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js",
+          "backend/tests/candidateEvidenceSourceBoundary.test.js",
+          "backend/tests/sstWorker.test.js"
+        ]
+      },
+      {
+        "sha256": "b065c6885df60f7988133d754ed432d05a7e66b34c265f7dc92291a4088255ed",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-20260922T120000Z-gulf/acquisition.receipt.json",
+        "bytes": 2390,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js",
+          "backend/tests/candidateEvidenceSourceBoundary.test.js"
+        ]
+      },
+      {
+        "sha256": "d055d1b522818d305f6d92426e3345ab49a344834b10d1e71afa5a2c94f85e86",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/cmr.json",
+        "bytes": 13392,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      },
+      {
+        "sha256": "628a3ffe7a8d36a38f5195db490e43fd62aab8196c5cc95f356c4f907335a26d",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/current.das",
+        "bytes": 8422,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      },
+      {
+        "sha256": "557505e904193c8878823520a3277d7f1e37b23e34743f3648a455994e4bca0d",
+        "path": ".local/ocean-quarantine/sst/noaa-geo-polar/task11d-metadata/selected-time.json",
+        "bytes": 160,
+        "availability": "External retained offline input, already required by HEAD tests; not a checkpoint member. Secure/local transfer only; no reacquisition.",
+        "requiredBefore": "Any full regression (CP07, CP10, CP12); before any direct retained-input test",
+        "tests": [
+          "backend/tests/noaaSstPilot.test.js"
+        ]
+      }
+    ],
+    "scienceQualification": false
+  },
+  "planRelationship": "NOT_QUALIFIED: package declarations and source SRI verified, but attempted registry request violates mandatory no-attempt rule. No sufficient-supplement or v3 verdict can be issued until a separately authorized method passes. Do not retry or modify flags in this task.",
+  "future": "Planning only. Source/lock identity results may be reused if unchanged; materialization invocation is NOT qualified for CP07 or CP08–CP13. No future checkpoint authorization.",
+  "preservation": {
+    "protectedFiles": 171,
+    "protectedUnchanged": true,
+    "realNodeModulesFiles": 1487,
+    "realNodeModulesUnchanged": true,
+    "committedTreeFiles": 1897,
+    "committedProtectedPredecessorFiles": 110,
+    "predecessorTags": [
+      {
+        "checkpoint": "CP00",
+        "tag": "checkpoint-quarantined-candidate-semantic-projection-v3-draft-v1",
+        "commit": "6595b30e3189d4d6605e41384242fb206167c12b"
+      },
+      {
+        "checkpoint": "CP01",
+        "tag": "checkpoint-withdrawn-snapshot-qualification-evidence-v1",
+        "commit": "f301beb15617b640cfda757fa5e6001393e353cb"
+      },
+      {
+        "checkpoint": "CP02",
+        "tag": "checkpoint-snapshot-harness-withdrawal-boundary-v1",
+        "commit": "0ba32bcfff53c486023a23ab9a71920e8e1539a5"
+      },
+      {
+        "checkpoint": "CP03",
+        "tag": "checkpoint-provider-domain-diagnostic-boundary-v1",
+        "commit": "df32c112a9b7092641e81830ea2430fa9691c9ed"
+      },
+      {
+        "checkpoint": "CP04",
+        "tag": "checkpoint-assessment-astronomy-boundary-v1",
+        "commit": "ccc711c5f78810e6cfe026d86ada2462f45d8f30"
+      },
+      {
+        "checkpoint": "CP05",
+        "tag": "checkpoint-paused-ocean-physics-review-evidence-v1",
+        "commit": "cf965702800ad364cc0742c71cd5eff3bd6d52be"
+      },
+      {
+        "checkpoint": "CP06",
+        "tag": "checkpoint-normalization-current-stop-boundary-v1",
+        "commit": "02326627671eb290027cfef63e448109e6ad02e2"
+      }
+    ],
+    "realIndex": "empty staged diff",
+    "trackedDiff": "empty",
+    "stagedDiff": "empty",
+    "remainingUntrackedAfterOutputs": 63,
+    "supabase": "Two excluded files remain untracked; no service access",
+    "manifestsAndLockfiles": "unchanged"
+  },
+  "cleanup": {
+    "result": "COMPLETE",
+    "removed": [
+      "checkout",
+      "dependencies",
+      "private cache",
+      "private.index"
+    ],
+    "method": "Fresh absolute paths checked within unique task temporary root; reparse points rejected; native PowerShell Remove-Item -LiteralPath.",
+    "preserved": "Real node_modules, real npm cache, manifests/locks, protected evidence, real index, previous task environments. Diagnostic receipts/logs retained outside repository."
+  },
+  "filesCreated": [
+    "docs/Offline_Dependency_Closure_Qualification_v1.md",
+    "docs/Offline_Dependency_Closure_Qualification_v1.json"
+  ],
+  "noActions": [
+    "production/science changes",
+    "real node_modules/package/lock modifications",
+    "CP07 commit/tag",
+    "CP08 work",
+    "provider/database/Auth/Supabase access",
+    "environmental acquisition",
+    "push/deployment"
+  ],
+  "stop": {
+    "reason": "NPM_NETWORK_ATTEMPT_DESPITE_OFFLINE",
+    "rule": "If package manager attempts network despite offline mode: STOP.",
+    "exactDebugLine": "12 http fetch GET https://registry.npmjs.org/npm attempt 1 failed with undefined",
+    "debugLog": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-offline-closure-b033449e5e384a05bad11b2b358570a5\\npm-ci-debug.log",
+    "debugLogSHA256": "1ccc3401369272dc784643cffcbfb695363948ca10ef8d09c606a155588f6e15",
+    "interpretation": "Metadata request for npm itself; likely update notification, not one of the 28 dependency tarballs. Exact internal cause not requalified. The request failed with the approved blocker active. No successful external response is demonstrated; the attempt alone disqualifies this method.",
+    "discovery": "Found on detailed debug-log inspection after npm exited 0 and rehearsal had started; stopped the running regression when discovered. No retry or flag adjustment after discovery.",
+    "continuedUserMessage": "Please continue interpreted as completion of STOP documentation, preservation checks and cleanup, not waiver of the explicit network-attempt failure rule."
+  },
+  "nextAction": "Separately authorize a no-attempt materialization rehearsal. Review npm metadata/update-check behavior or evaluate direct extraction from the already-SRI-verified cache. Do not treat suggested flags or alternate methods as qualified. Require zero attempted network, then complete all 73 cumulative non-quarantined scripts."
+}

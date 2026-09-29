@@ -1,0 +1,980 @@
+{
+  "version": 1,
+  "verdict": "FINAL_PRESERVATION_PLAN_AMENDMENT_REQUIRED",
+  "authority": "GOVERNANCE_RECOMMENDATION_ONLY_NOT_EXECUTION_AUTHORIZATION",
+  "filesCreated": [
+    "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+    "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json"
+  ],
+  "repository": {
+    "finalHEAD": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+    "startingHEAD": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+    "branch": "codex/pelora-remote-setup"
+  },
+  "originalCP13": {
+    "id": "CP13",
+    "files": [
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json"
+    ],
+    "fileCount": 2,
+    "classificationMix": {
+      "OPERATIONAL_AUDIT": 2
+    },
+    "dependencies": [
+      "CP00",
+      "CP01",
+      "CP02",
+      "CP03",
+      "CP04",
+      "CP05",
+      "CP06",
+      "CP07",
+      "CP08",
+      "CP09",
+      "CP10",
+      "CP11",
+      "CP12"
+    ],
+    "expectedParent": "Exact commit OID recorded by verified CP12 execution receipt and peeled annotated tag checkpoint-sst-source-equivalence-gap-filled-binding-boundary-v1; never assume arbitrary current HEAD",
+    "tagName": "checkpoint-evidence-stack-preservation-audit-v1",
+    "commitMessage": "Preserve evidence-stack audit and authority navigation\n\nCHECKPOINT PURPOSE: CP13 — Preserve evidence-stack audit and authority navigation. Preservation only.\nAUTHORITY STATUS: NAVIGATION_METADATA_NOT_SCIENTIFIC_AUTHORITY. No authority change by commit or tag.\nCURRENT / SUPERSEDED / STOP / FAILED / QUARANTINED / QUALIFIED: per-file status below; historical PASS/QUALIFIED/READY_TO_RESUME wording does not override these preservation-time limitations.\nNORMATIVE STATUS: No new normative contract. Evidence/fixtures/navigation only.\nRUNTIME STATUS: NOT A RUNTIME RELEASE; no production implementation, integration or deployment authorized.\nDO-NOT-USE: STOP is VALID BOUNDARY EVIDENCE, NOT A QUALIFIED PRODUCTION CONTRACT. FAILED artifacts preserve withdrawn/falsified audit history and are NOT approved scientific authority. Superseded findings are historical, not the current gate.\nSUPERSEDED-BY: none for this preservation audit; later operational plan reviews refine execution only, not science.\ndocs/Evidence_Stack_Preservation_Audit_v1.md | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c\ndocs/Evidence_Stack_Preservation_Audit_v1.json | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365\nCURRENT SCIENCE GATE AT PRESERVATION TIME: SST_SOURCE_EQUIVALENCE_AND_GAP_FILLED_PROVIDER_BINDING_REQUIRED. This is navigation, not a new qualification.\nPAUSED/OPEN: Task12B.6C, Task9E-D, convergence/Ocean Physics paused; NOAA SME pending. Numeric-string, provider-fill, legacy SST coordinate fallback remain open. No lookback/revision/gap policy is established.\nNEXT EVIDENCE GROUP: none; audit is last. Later paths are informational supersession context only; the status and limitations above are self-contained. No CP13 document is required to interpret this annotation.",
+    "tagAnnotation": "CHECKPOINT PURPOSE: CP13 — Preserve evidence-stack audit and authority navigation. Preservation only.\nAUTHORITY STATUS: NAVIGATION_METADATA_NOT_SCIENTIFIC_AUTHORITY. No authority change by commit or tag.\nCURRENT / SUPERSEDED / STOP / FAILED / QUARANTINED / QUALIFIED: per-file status below; historical PASS/QUALIFIED/READY_TO_RESUME wording does not override these preservation-time limitations.\nNORMATIVE STATUS: No new normative contract. Evidence/fixtures/navigation only.\nRUNTIME STATUS: NOT A RUNTIME RELEASE; no production implementation, integration or deployment authorized.\nDO-NOT-USE: STOP is VALID BOUNDARY EVIDENCE, NOT A QUALIFIED PRODUCTION CONTRACT. FAILED artifacts preserve withdrawn/falsified audit history and are NOT approved scientific authority. Superseded findings are historical, not the current gate.\nSUPERSEDED-BY: none for this preservation audit; later operational plan reviews refine execution only, not science.\ndocs/Evidence_Stack_Preservation_Audit_v1.md | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c\ndocs/Evidence_Stack_Preservation_Audit_v1.json | OPERATIONAL NAVIGATION METADATA | NOT SCIENTIFIC AUTHORITY | SHA256 d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365\nCURRENT SCIENCE GATE AT PRESERVATION TIME: SST_SOURCE_EQUIVALENCE_AND_GAP_FILLED_PROVIDER_BINDING_REQUIRED. This is navigation, not a new qualification.\nPAUSED/OPEN: Task12B.6C, Task9E-D, convergence/Ocean Physics paused; NOAA SME pending. Numeric-string, provider-fill, legacy SST coordinate fallback remain open. No lookback/revision/gap policy is established.\nNEXT EVIDENCE GROUP: none; audit is last. Later paths are informational supersession context only; the status and limitations above are self-contained. No CP13 document is required to interpret this annotation.",
+    "normative": [],
+    "tests": {
+      "group": "CP13",
+      "focused": [],
+      "dependencyAndCritical": [],
+      "always": [
+        "Inventory membership and SHA-256 guard against reviewed manifest",
+        "Tracked/staged diff and proposed blob-byte verification",
+        "JSON/Markdown links/static imports for changed evidence",
+        "No generation flags; V3 suite excluded"
+      ],
+      "fullRegression": null,
+      "quarantine": null,
+      "CP13": "Hash/reference/inventory checks only if CP12 full regression passed and no source/test changed; do not repeat entire suite for docs-only checkpoint.",
+      "executedInThisReview": false
+    },
+    "preflight": {
+      "tracked": "Empty worktree diff and staged diff; exact expected branch/parent",
+      "untracked": "Exactly protected baseline plus two v2 outputs minus files already checkpointed. Supabase pair, adversarial pair and v2 pair remain untracked.",
+      "byteChecks": "Rehash all baseline protected files; verify exact group membership; git check-attr --all must produce no attributes; no tags may collide.",
+      "humanReview": "Require explicit per-file human approval for large items listed for this group before staging; CP00 has none.",
+      "offline": "Use offlineProcedure; CP00 hash-only, no scientific tests; clear generation flags.",
+      "staging": "Repository-local core.autocrlf=false; per-command -c core.autocrlf=false -c core.safecrlf=false add -- exact group files only",
+      "staged": "Export staged blobs with core.autocrlf=false checkout-index to new temporary directory; require SHA256 = worktree = protected ledger. Verify staged file set and raw Git object IDs.",
+      "commitAndTag": "Only separate authorized execution; use exact message/body below via UTF-8 no-BOM files; disable hooks/signing; annotated tag target must equal resulting verified commit.",
+      "postCommit": "Verify parent, changed-file set, committed blob IDs against staged exported bytes; rehash protected files; require staged/tracked diff empty; verify annotated tag type/target/body; record immutable execution receipt. STOP before next group."
+    }
+  },
+  "originalCP13Files": [
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "bytes": 6600432,
+      "lines": 194220,
+      "sha256": "d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365",
+      "originalLargeLedger": null,
+      "classification": "OPERATIONAL_AUDIT",
+      "partition": "ORIGINAL_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NEW_EXPLICIT_HUMAN_REVIEW_RECOMMENDED"
+    },
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "bytes": 79786,
+      "lines": 731,
+      "sha256": "5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c",
+      "originalLargeLedger": null,
+      "classification": "OPERATIONAL_AUDIT",
+      "partition": "ORIGINAL_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    }
+  ],
+  "partition": {
+    "counts": {
+      "original": 2,
+      "planEraExcluded": 4,
+      "postPlan": 10,
+      "total": 16
+    },
+    "planEraExplicitExclusions": [
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.json"
+    ],
+    "postPlanOperational": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "docs/Zero_Network_Offline_Materialization_v1.md",
+      "docs/Zero_Network_Offline_Materialization_v1.json"
+    ],
+    "originalCP13": [
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json"
+    ],
+    "binaryPartitionRejected": "Four files existed at plan freeze but were explicitly excluded from CP13; neither original members nor post-plan creations."
+  },
+  "operationalPairs": [
+    {
+      "id": "A",
+      "stem": "CP01_Protected_Whitespace_Exception_Review_v1",
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "reason": "Qualify four protected CP01 CRLF findings without modifying bytes or weakening Git whitespace settings.",
+      "status": "Current exact CP01-only exception; not superseded for CP01. Its future inventory was planning only and was refined by B.",
+      "currentAuthority": "Exact CP01 path/line/category/protected-hash/raw-output bindings only; no science or content waiver.",
+      "value": "ESSENTIAL_FOR_REPRODUCIBILITY",
+      "omissionLoss": "Exact line/raw-output evidence, acceptance algorithm and adversarial rejection proof for the historical exception. Tags and finding counts alone cannot reconstruct it.",
+      "historicalOnly": false,
+      "dependency": "CP01 exception; historical verifier derivation for B.",
+      "verdict": "CP01_PROTECTED_WHITESPACE_EXCEPTION_QUALIFIED",
+      "files": [
+        "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+        "docs/CP01_Protected_Whitespace_Exception_Review_v1.json"
+      ],
+      "authority": "PRESERVATION_EXECUTION_ONLY; NO_SCIENTIFIC_NORMATIVE_OR_RUNTIME_AUTHORITY",
+      "disposition": "PRESERVE_BEFORE_CP13",
+      "approval": "RECOMMENDATION_ONLY; PLAN_AMENDMENT_AND_SEPARATE_EXECUTION_AUTHORIZATION_REQUIRED"
+    },
+    {
+      "id": "B",
+      "stem": "Future_Protected_Whitespace_Baselines_CP02_CP08_v1",
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "reason": "Qualify separate protected formatting baselines for CP02-CP08 before execution.",
+      "status": "Current for the seven exact checkpoint/hash-bound baselines; no exception for CP09-CP13.",
+      "currentAuthority": "24 affected files and 18389 exact findings, with checkpoint-specific raw-output predicates and mutation-tested verifier. Membership and affected-file counts are independent.",
+      "value": "ESSENTIAL_FOR_REPRODUCIBILITY",
+      "omissionLoss": "Exact checkpoint/path/line/category/hash/raw-output predicates, compressed findings, verifier and mutation evidence. Reconstructing an exception from counts would not reproduce the qualified procedure.",
+      "historicalOnly": false,
+      "dependency": "Direct operational verification for CP02-CP08; refines A future inventory without replacing CP01 scope.",
+      "verdict": "CP02_CP08_PROTECTED_WHITESPACE_BASELINES_QUALIFIED",
+      "files": [
+        "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+        "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json"
+      ],
+      "authority": "PRESERVATION_EXECUTION_ONLY; NO_SCIENTIFIC_NORMATIVE_OR_RUNTIME_AUTHORITY",
+      "disposition": "PRESERVE_BEFORE_CP13",
+      "approval": "RECOMMENDATION_ONLY; PLAN_AMENDMENT_AND_SEPARATE_EXECUTION_AUTHORIZATION_REQUIRED"
+    },
+    {
+      "id": "C",
+      "stem": "Windows_Isolated_Checkout_Boundary_Review_v1",
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "reason": "Windows tar failed on five historical Git mode-120000 node_modules entries.",
+      "status": "Overall environment UNRESOLVED in this artifact. Extraction subset succeeded; missing polyfill blocked full regression. E later resolves the complete environment.",
+      "currentAuthority": "Extraction subset only: temporary index, native checkout-index, core.autocrlf=false and core.symlinks=false; 1897 committed files plus three CP07 files byte-identical. Symlink target-text representation is explicit.",
+      "value": "HIGH_AUDIT_VALUE",
+      "omissionLoss": "Five failing entries/object modes/history, original tar failure and alternative-method comparisons. E repeats the selected mechanism but does not replace this full diagnostic history.",
+      "historicalOnly": false,
+      "dependency": "Surviving extraction mechanism used with E by CP07-CP12. Original complete-environment STOP is never retroactively PASS.",
+      "verdict": "CP07_ISOLATED_CHECKOUT_ENVIRONMENT_UNRESOLVED",
+      "files": [
+        "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+        "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json"
+      ],
+      "authority": "PRESERVATION_EXECUTION_ONLY; NO_SCIENTIFIC_NORMATIVE_OR_RUNTIME_AUTHORITY",
+      "disposition": "PRESERVE_BEFORE_CP13",
+      "approval": "RECOMMENDATION_ONLY; PLAN_AMENDMENT_AND_SEPARATE_EXECUTION_AUTHORIZATION_REQUIRED"
+    },
+    {
+      "id": "D",
+      "stem": "Offline_Dependency_Closure_Qualification_v1",
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "reason": "Distinguish undeclared dependency from isolated materialization gap and qualify offline dependency closure.",
+      "status": "Overall UNRESOLVED. npm attempted registry metadata access despite offline mode; old materialization procedure superseded by E. Full rehearsal remains incomplete: 68/73 scripts and 1636 completed node:test cases.",
+      "currentAuthority": "Supporting derivation only: polyfill 0.5.1/jsbi 4.3.2 declarations and locks, 28 cache-integrity matches, and three additional retained-input identities. No qualified zero-attempt execution procedure.",
+      "value": "HIGH_AUDIT_VALUE",
+      "omissionLoss": "Declaration-versus-materialization diagnosis, first forbidden metadata request, interrupted regression boundary and additional-fixture provenance. E repeats final identities but explicitly relies on this derivation.",
+      "historicalOnly": true,
+      "dependency": "Historical derivation/fixture provenance for CP07-CP12 through E, not the old npm command.",
+      "verdict": "CP07_OFFLINE_DEPENDENCY_CLOSURE_UNRESOLVED",
+      "files": [
+        "docs/Offline_Dependency_Closure_Qualification_v1.md",
+        "docs/Offline_Dependency_Closure_Qualification_v1.json"
+      ],
+      "authority": "PRESERVATION_EXECUTION_ONLY; NO_SCIENTIFIC_NORMATIVE_OR_RUNTIME_AUTHORITY",
+      "disposition": "PRESERVE_BEFORE_CP13",
+      "approval": "RECOMMENDATION_ONLY; PLAN_AMENDMENT_AND_SEPARATE_EXECUTION_AUTHORIZATION_REQUIRED"
+    },
+    {
+      "id": "E",
+      "stem": "Zero_Network_Offline_Materialization_v1",
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "reason": "Qualify zero attempted network operations after the blocked npm update-notifier request.",
+      "status": "Current qualified operational procedure for recorded versions/inputs, later reused by separately authorized checkpoint executions.",
+      "currentAuthority": "Lockfile/SRI-bound 28 packages, isolated config/cache, explicit notifier suppression, qualified scripts/audit/funding/bin handling, 48-file overlay of two absent packages, eight fixtures, dual denial/attempt instrumentation and V3 exclusion.",
+      "value": "ESSENTIAL_FOR_REPRODUCIBILITY",
+      "omissionLoss": "Exact npm controls, monitored runner, package/overlay/fixture identities and complete 73/73 rehearsal evidence. External offline inputs and tool versions are still required.",
+      "historicalOnly": false,
+      "dependency": "Direct isolated dependency/test environment for CP07-CP12, including full milestones CP07/CP10/CP12. Resolves C/D blockers without upgrading earlier incomplete results.",
+      "verdict": "CP07_ZERO_NETWORK_ISOLATED_ENVIRONMENT_SUPPLEMENT_QUALIFIED",
+      "files": [
+        "docs/Zero_Network_Offline_Materialization_v1.md",
+        "docs/Zero_Network_Offline_Materialization_v1.json"
+      ],
+      "authority": "PRESERVATION_EXECUTION_ONLY; NO_SCIENTIFIC_NORMATIVE_OR_RUNTIME_AUTHORITY",
+      "disposition": "PRESERVE_BEFORE_CP13",
+      "approval": "RECOMMENDATION_ONLY; PLAN_AMENDMENT_AND_SEPARATE_EXECUTION_AUTHORIZATION_REQUIRED"
+    }
+  ],
+  "fileLedger": [
+    {
+      "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "bytes": 441205,
+      "lines": 19986,
+      "sha256": "cf47206581d50ac19710f27eb41c8ee728fe3a54dcbb938aa18decb3bdc113e2",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "LONG_LEDGER_DISPOSITION_REQUIRED; NO_EXISTING_HUMAN_GATE"
+    },
+    {
+      "path": "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "bytes": 7525,
+      "lines": 74,
+      "sha256": "c3bd2d59d4ba243bb69a394ecfd8c851ccdcd1127cd9024279d22d515cc1d54e",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "bytes": 485983,
+      "lines": 6144,
+      "sha256": "85da306930d093ba7584d341e0834a380033821bdd142be8a44827322bd2df70",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "PLAN_ERA_EXCLUDED_FROM_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "bytes": 23016,
+      "lines": 244,
+      "sha256": "ca793b02c20aac9d0c02abd38fadd1185dd9347d2f155645cf6c679ae7ee1dc9",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "PLAN_ERA_EXCLUDED_FROM_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "bytes": 581378,
+      "lines": 13582,
+      "sha256": "f6b87eed42ec291febd754cdc695c98e52253be467baa466251154da7713298e",
+      "originalLargeLedger": null,
+      "classification": "SUPERSEDED_OPERATIONAL_EVIDENCE",
+      "partition": "PLAN_ERA_EXCLUDED_FROM_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "LONG_LEDGER_DISPOSITION_REQUIRED; NO_EXISTING_HUMAN_GATE"
+    },
+    {
+      "path": "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "bytes": 34206,
+      "lines": 279,
+      "sha256": "ff3d32ace793868caca7aedaebd07f7ab9c9ea9a7597ea1ba58de9256d616574",
+      "originalLargeLedger": null,
+      "classification": "SUPERSEDED_OPERATIONAL_EVIDENCE",
+      "partition": "PLAN_ERA_EXCLUDED_FROM_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "bytes": 6600432,
+      "lines": 194220,
+      "sha256": "d79c83af3dc49b389cd6e4d5fccb824cc5b68becf444e16460cb3a91917e1365",
+      "originalLargeLedger": null,
+      "classification": "OPERATIONAL_AUDIT",
+      "partition": "ORIGINAL_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NEW_EXPLICIT_HUMAN_REVIEW_RECOMMENDED"
+    },
+    {
+      "path": "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "bytes": 79786,
+      "lines": 731,
+      "sha256": "5c8eae93c0007e4233f72f41f6242cdb9a71a73e6e5ecf88cc74c032bd1c151c",
+      "originalLargeLedger": null,
+      "classification": "OPERATIONAL_AUDIT",
+      "partition": "ORIGINAL_CP13",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "bytes": 783983,
+      "lines": 40618,
+      "sha256": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "LONG_LEDGER_DISPOSITION_REQUIRED; NO_EXISTING_HUMAN_GATE"
+    },
+    {
+      "path": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "bytes": 8704,
+      "lines": 99,
+      "sha256": "b8c18c054f30eae23a7820cff3f13920c40865343532878d0e5df0f0ad8931ae",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "bytes": 65214,
+      "lines": 1255,
+      "sha256": "32bb0e73b0b996ffd79737e5769e5db7bc3a0648dbf4804b17807edc0f2a4c41",
+      "originalLargeLedger": null,
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "bytes": 11930,
+      "lines": 114,
+      "sha256": "db9d384c2efca61bafcc506c1bd7a124c44d746ca7ba3b059a4295de34adf9ca",
+      "originalLargeLedger": null,
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "bytes": 27347,
+      "lines": 537,
+      "sha256": "64b8098cf1fe0abb6f4512be90c415b792c11d11e66f7665d2d63e8481183c76",
+      "originalLargeLedger": null,
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "bytes": 11901,
+      "lines": 115,
+      "sha256": "21ffd6844fd30afa791c698f508fd321e127fa7a7e6ba7c9751f8f3694644683",
+      "originalLargeLedger": null,
+      "classification": "STOP_BOUNDARY_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Zero_Network_Offline_Materialization_v1.json",
+      "bytes": 105751,
+      "lines": 2338,
+      "sha256": "9422ab12d06e57f24eda2767cbbec2d942700320e3bd51dcee9a8b66db40c5af",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    },
+    {
+      "path": "docs/Zero_Network_Offline_Materialization_v1.md",
+      "bytes": 12848,
+      "lines": 127,
+      "sha256": "d82aa845b436e44d5793858609dce21c3ba88f22e23beccc899167730da77aa6",
+      "originalLargeLedger": null,
+      "classification": "QUALIFIED_OPERATIONAL_EVIDENCE",
+      "partition": "POST_PLAN_OPERATIONAL",
+      "authority": "OPERATIONAL_ONLY_NOT_SCIENTIFIC_OR_RUNTIME_AUTHORITY",
+      "sizeReview": "NO_EXISTING_LARGE_ARTIFACT_GATE"
+    }
+  ],
+  "relationships": [
+    "A qualifies CP01 only; B extends reviewed exact baselines to CP02-CP08, not a blanket waiver.",
+    "C resolves extraction only and stops at dependency closure. D verifies declared/cache identity but stops at forbidden npm attempt. E resolves complete zero-attempt environment; no retroactive PASS.",
+    "Adversarial review verdict EVIDENCE_CHECKPOINT_PLAN_REQUIRES_REVISION was resolved by v2 mechanics. It remains historical review evidence, not science."
+  ],
+  "dependencyMap": [
+    {
+      "direct": [],
+      "historical": "None of A-E; original plan/audit governance. V3 quarantined.",
+      "evidence": "Plan CP00 and verified Git tag.",
+      "checkpoints": [
+        "CP00"
+      ]
+    },
+    {
+      "direct": [
+        "A"
+      ],
+      "historical": "B later refines future inventory; not CP01 replacement.",
+      "evidence": "A exact qualified scope and committed CP01 identity. A standalone successful CP01 receipt was not located; original runtime log is not claimed reverified.",
+      "checkpoints": [
+        "CP01"
+      ]
+    },
+    {
+      "direct": [
+        "B"
+      ],
+      "historical": "A verifier derivation; C-E not yet execution inputs.",
+      "evidence": "Execution receipts bind B hash ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68 and matching commits.",
+      "checkpoints": [
+        "CP02",
+        "CP03",
+        "CP04",
+        "CP05",
+        "CP06"
+      ]
+    },
+    {
+      "direct": [
+        "B",
+        "C extraction subset",
+        "E"
+      ],
+      "historical": "D declaration/cache/extra-fixture derivation; not its old command.",
+      "evidence": "Successful receipts, construction and precommit records. CP07 binds C/E four hashes. CP07/08 baseline counts 2/2 and 3/3.",
+      "checkpoints": [
+        "CP07",
+        "CP08"
+      ]
+    },
+    {
+      "direct": [
+        "C extraction subset",
+        "E"
+      ],
+      "historical": "D fixture/integrity derivation. Ordinary whitespace clean; no B exception.",
+      "evidence": "Successful construction/validation and precommit receipts; 28 packages and zero operational attempts. Full CP10/12; focused CP09/11.",
+      "checkpoints": [
+        "CP09",
+        "CP10",
+        "CP11",
+        "CP12"
+      ]
+    }
+  ],
+  "receiptEvidence": [
+    {
+      "checkpoint": "CP02",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp02-f18c7e7799284ecf9deb01e6969765e6\\execution-receipt.json",
+      "sha256": "1148e9b34ac0f911e4e8722ea301a4e824b29e90a9f56937248b4ad35b90d8d4",
+      "head": "0ba32bcfff53c486023a23ab9a71920e8e1539a5",
+      "baselinePath": null,
+      "baselineHash": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68",
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP03",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp03-restart-28bd59a964a04dd09923878ace52aa06\\execution-receipt.json",
+      "sha256": "d2b2b2dd75907bcf2ed82743b5925556ae6b415bda1312c94e65fda414dd6abe",
+      "head": "df32c112a9b7092641e81830ea2430fa9691c9ed",
+      "baselinePath": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "baselineHash": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68",
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP04",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp04-43e73d61f5a640449c4777cbca1331a8\\execution-receipt.json",
+      "sha256": "0c4f9dd14aaab07283e1db80d10f835af3f069413c6de7de3502fed5ba526e0c",
+      "head": "ccc711c5f78810e6cfe026d86ada2462f45d8f30",
+      "baselinePath": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "baselineHash": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68",
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP05",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp05-e354091ed1034020828741f79a2bdf8b\\execution-receipt.json",
+      "sha256": "b05079994c8bcf093ccd65e1926dd65d1146b4375f5b7e99fc117b1af871d35a",
+      "head": "cf965702800ad364cc0742c71cd5eff3bd6d52be",
+      "baselinePath": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "baselineHash": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68",
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP06",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp06-750bade03f92465f93a86b4adfa2c3c9\\execution-receipt.json",
+      "sha256": "a75a631c6b222f7565020271b4cbd7700de2d48b27f087af9c35a34defb40f80",
+      "head": "02326627671eb290027cfef63e448109e6ad02e2",
+      "baselinePath": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "baselineHash": "ab910a2c8e216a48c444268941b8a88267a8cf7d992e5e6f9c827585d9008e68",
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP07",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp07-execution-44d4cb1849a5411e9da3d9d91e3a57a4\\execution-receipt.json",
+      "sha256": "cb8d6ff4a14d52ad2946bd40b60bd7f7bc96136c7911b2bc94e860ca8862a3c5",
+      "head": "3c02c00f53f7f1fb06ad6363513e0e562cd550c7",
+      "baselinePath": null,
+      "baselineHash": null,
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP08",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp08-execution-c6e26b44a4504e34b1a1fc6115d3144f\\execution-receipt.json",
+      "sha256": "cf1e30f0b2f6784db502730cef7c0e7cc151ac4d1cb92bb06e077180a3e1a5c2",
+      "head": "5d3f124e01640c9926a5bbcfa12a4d8511d85258",
+      "baselinePath": "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "baselineHash": null,
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP09",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp09-execution-0b12ab2d14094f11af0ee05c6725e588\\execution-receipt.json",
+      "sha256": "6b23cb974802c8dd64acfaecd9e88756321db1fbe5a00c1054d6711054c8f17f",
+      "head": "988d744252593521ed45ff4a66925818c0bf7a1e",
+      "baselinePath": null,
+      "baselineHash": null,
+      "isolation": null,
+      "packages": null,
+      "overlayFiles": null,
+      "retainedFixtures": null,
+      "networkAttempts": null,
+      "V3Executed": null
+    },
+    {
+      "checkpoint": "CP10",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp10-execution-119c3e2a06d64ba99e04c00b1065cca7\\execution-receipt.json",
+      "sha256": "7a0b545dbb024215559f66e62144e9f22f4db4510d88385e37cecb59d63b22a5",
+      "head": "5288537e1cc028d2af97dd3c5a438bb8e5862aca",
+      "baselinePath": null,
+      "baselineHash": null,
+      "isolation": "1920 exact committed blobs plus 4 CP10 protected files",
+      "packages": 28,
+      "overlayFiles": 48,
+      "retainedFixtures": 8,
+      "networkAttempts": 0,
+      "V3Executed": false
+    },
+    {
+      "checkpoint": "CP11",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp11-execution-bc9c46f5122c41fea59d97f48af44e65\\execution-receipt.json",
+      "sha256": "41c88381bf1fc387ca21fe5c82fe08e9d0785213211a1d4812e8837c12abeffa",
+      "head": "fad49a6a6cd69daecfc8dc2471e3219f68d906a3",
+      "baselinePath": null,
+      "baselineHash": null,
+      "isolation": "1924 exact committed blobs plus 16 CP11 protected files",
+      "packages": 28,
+      "overlayFiles": 48,
+      "retainedFixtures": 8,
+      "networkAttempts": 0,
+      "V3Executed": false
+    },
+    {
+      "checkpoint": "CP12",
+      "path": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp12-execution-941fdbd897694efbaea65f74968c2ad0\\execution-receipt.json",
+      "sha256": "52a1b8dcbb25d29db08459d161104338b5fc58fe786c79d2b4c48d11ee8b03be",
+      "head": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+      "baselinePath": null,
+      "baselineHash": null,
+      "isolation": "1940 exact committed blobs plus 4 CP12 protected files",
+      "packages": 28,
+      "overlayFiles": 48,
+      "retainedFixtures": 8,
+      "networkAttempts": 0,
+      "V3Executed": false
+    }
+  ],
+  "receiptDetails": [
+    {
+      "checkpoint": "CP07",
+      "precommit": {
+        "result": "PASS",
+        "predecessorTagsUnchanged": 7,
+        "testsPassed": true,
+        "whitespaceAffectedFiles": 2,
+        "protectedHashesUnchanged": 175,
+        "realNodeModulesUnchanged": 1487,
+        "stagedFiles": 3,
+        "literalReferences": "PASS; no extension rewriting",
+        "whitespaceFindings": 2,
+        "HEAD": "02326627671eb290027cfef63e448109e6ad02e2",
+        "zeroNetworkAttempts": true,
+        "authority": "QUALIFIED_NORMATIVE_CONTRACT_ONLY"
+      },
+      "constructionEntryCount": 1897,
+      "packageCount": 28,
+      "constructionPath": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp07-execution-44d4cb1849a5411e9da3d9d91e3a57a4\\construction.json",
+      "constructionSHA256": "89cd7a66cc2f78096ec06a0623db75033c2686ad4c70f8dbe7bd0dd06e9b4d0e",
+      "selection": null
+    },
+    {
+      "checkpoint": "CP08",
+      "precommit": {
+        "predecessorTagsUnchanged": 8,
+        "authority": "EVIDENCE_ONLY_SEE_FILE_CLASSIFICATIONS",
+        "realNodeModulesUnchanged": 1487,
+        "whitespaceFindings": 3,
+        "HEAD": "3c02c00f53f7f1fb06ad6363513e0e562cd550c7",
+        "zeroNetworkAttempts": true,
+        "literalReferences": "PASS; no extension rewriting",
+        "stagedFiles": 8,
+        "protectedHashesUnchanged": 175,
+        "result": "PASS",
+        "whitespaceAffectedFiles": 3,
+        "testsPassed": 141
+      },
+      "constructionEntryCount": 1900,
+      "packageCount": 28,
+      "constructionPath": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp08-execution-c6e26b44a4504e34b1a1fc6115d3144f\\construction.json",
+      "constructionSHA256": "71257c5d078fafa969e0072e46785383c98b295d18bc3fe3b5ebc1c8cf07386c",
+      "selection": {
+        "runnerSHA256": "5cb748b94b574ec60446eab0ca298cff574464dec3bdac16310687c62cbc9845",
+        "extractionChange": "Only plan checkpoint selector CP07 to CP08",
+        "extractionSHA256": "708219c310ecdae626256a09fd5cdc58032a8f6b6af5033351956b1e724371ee",
+        "runnerChange": "Only plan test group selector CP07 to CP08",
+        "mechanisms": "Unchanged qualified native checkout and instrumented runner"
+      }
+    },
+    {
+      "checkpoint": "CP09",
+      "precommit": {
+        "humanApproval": {
+          "sha256": "cf819c691c64d8dfb938706c5a43d60933bfb9f6c2c16ecd0d2e623775540da7",
+          "authority": "SUPERSEDED_EVIDENCE; DIAGNOSTIC_ONLY; NON-NORMATIVE; NO RUNTIME AUTHORITY",
+          "result": "HUMAN_REVIEW_SATISFIED",
+          "disposition": "APPROVED_FOR_GIT_PRESERVATION_IN_CP09",
+          "path": "docs/Consumer_Aware_History_Selection_v1.json"
+        },
+        "authority": "EVIDENCE_ONLY_SEE_FILE_CLASSIFICATIONS",
+        "protectedHashesUnchanged": 175,
+        "zeroNetworkAttempts": true,
+        "realNodeModulesUnchanged": 1487,
+        "HEAD": "5d3f124e01640c9926a5bbcfa12a4d8511d85258",
+        "testsPassed": 69,
+        "result": "PASS",
+        "predecessorTagsUnchanged": 9,
+        "whitespace": "CP09_WHITESPACE_CLEAN",
+        "stagedFiles": 12,
+        "literalReferences": "PASS; no extension rewriting"
+      },
+      "constructionEntryCount": 1908,
+      "packageCount": 28,
+      "constructionPath": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-cp09-execution-0b12ab2d14094f11af0ee05c6725e588\\construction.json",
+      "constructionSHA256": "0161214c72942d7cd5803fd5df8f17ae9228e5107d5703a0e04eb4b71ec2c8ef",
+      "selection": {
+        "mechanisms": "Unchanged qualified native checkout and instrumented runner",
+        "runnerChange": "Only plan test group selector CP07 to CP09",
+        "extractionSHA256": "03303994b973cec9dc4af1fa448a2f62508b54c1cc5d0a943a9d0d88122236cf",
+        "runnerSHA256": "9d2b15d1bbf22b43f0e025251fedf178dc3034b659fe3bb7723f3726febbd599",
+        "extractionChange": "Only plan checkpoint selector CP07 to CP09"
+      }
+    }
+  ],
+  "checkpointChain": [
+    {
+      "checkpoint": "CP00",
+      "tag": "checkpoint-quarantined-candidate-semantic-projection-v3-draft-v1",
+      "commit": "6595b30e3189d4d6605e41384242fb206167c12b",
+      "object": "924a935b7636930b962966344ec4972b27fc0bc5"
+    },
+    {
+      "checkpoint": "CP01",
+      "tag": "checkpoint-withdrawn-snapshot-qualification-evidence-v1",
+      "commit": "f301beb15617b640cfda757fa5e6001393e353cb",
+      "object": "0a3e2264860703b414415bc30b61aa0000e7bffa"
+    },
+    {
+      "checkpoint": "CP02",
+      "tag": "checkpoint-snapshot-harness-withdrawal-boundary-v1",
+      "commit": "0ba32bcfff53c486023a23ab9a71920e8e1539a5",
+      "object": "f3f0ae8ae7f60810fe84de56dfffa26b83d4dae2"
+    },
+    {
+      "checkpoint": "CP03",
+      "tag": "checkpoint-provider-domain-diagnostic-boundary-v1",
+      "commit": "df32c112a9b7092641e81830ea2430fa9691c9ed",
+      "object": "38b41e3160d01edca7456461d9cb7fc85cf0efbf"
+    },
+    {
+      "checkpoint": "CP04",
+      "tag": "checkpoint-assessment-astronomy-boundary-v1",
+      "commit": "ccc711c5f78810e6cfe026d86ada2462f45d8f30",
+      "object": "e689d67f19c7b0418111524a53bc1587e57f43fc"
+    },
+    {
+      "checkpoint": "CP05",
+      "tag": "checkpoint-paused-ocean-physics-review-evidence-v1",
+      "commit": "cf965702800ad364cc0742c71cd5eff3bd6d52be",
+      "object": "857b49bec3a910164e6ab8e44c4de4532fde08dc"
+    },
+    {
+      "checkpoint": "CP06",
+      "tag": "checkpoint-normalization-current-stop-boundary-v1",
+      "commit": "02326627671eb290027cfef63e448109e6ad02e2",
+      "object": "579aaa2f67a875c866669896538c07072ba87f5a"
+    },
+    {
+      "checkpoint": "CP07",
+      "tag": "checkpoint-current-vector-failure-locality-contract-v1",
+      "commit": "3c02c00f53f7f1fb06ad6363513e0e562cd550c7",
+      "object": "dff65f5785a0454d44b884abd49f6b4a56ee2694"
+    },
+    {
+      "checkpoint": "CP08",
+      "tag": "checkpoint-temporal-arithmetic-stop-boundary-v1",
+      "commit": "5d3f124e01640c9926a5bbcfa12a4d8511d85258",
+      "object": "8f7e50d01a12165544f6f77fbd836a40f2bbbf35"
+    },
+    {
+      "checkpoint": "CP09",
+      "tag": "checkpoint-historical-authority-stop-boundary-v1",
+      "commit": "988d744252593521ed45ff4a66925818c0bf7a1e",
+      "object": "7637581b1200ca1af8ca27ee3f029f202180ef7f"
+    },
+    {
+      "checkpoint": "CP10",
+      "tag": "checkpoint-exact-historical-availability-reference-contract-v1",
+      "commit": "5288537e1cc028d2af97dd3c5a438bb8e5862aca",
+      "object": "ef61ed2a9e0ff406dee65dd7b563c08144e13db1"
+    },
+    {
+      "checkpoint": "CP11",
+      "tag": "checkpoint-product-temporal-authority-partial-boundary-v1",
+      "commit": "fad49a6a6cd69daecfc8dc2471e3219f68d906a3",
+      "object": "13f7e57ab187a9f4f364293b30abcdab0e55ee7a"
+    },
+    {
+      "checkpoint": "CP12",
+      "tag": "checkpoint-sst-source-equivalence-gap-filled-binding-boundary-v1",
+      "commit": "3a7f3fc4f6c75020c8c23ec74879f3b5d44d565a",
+      "object": "f0688f3130ba2569e755e2a826541b09c3fef224"
+    }
+  ],
+  "recommendation": {
+    "selected": "OPTION_A_SUBJECT_TO_EXPLICIT_OPTION_C_AMENDMENT",
+    "A": "One operational/governance checkpoint then original two-file CP13 last is smallest coherent sequence.",
+    "B": "Separate authority checkpoints unnecessary with self-contained per-file classifications.",
+    "C": "Explicit versioned preservation-only amendment/supplement required; protected v2 unchanged. No amendment artifact is created or approved here.",
+    "D": "False; original CP13 has only audit pair.",
+    "commitSubject": "Preserve checkpoint execution governance and operational qualification history",
+    "tag": "checkpoint-preservation-execution-operational-evidence-v1",
+    "tagCollisionAtReview": false,
+    "authorityAnnotation": "PRESERVATION ONLY. OPERATIONAL EXECUTION EVIDENCE AND GOVERNANCE. NOT SCIENTIFIC AUTHORITY; NO NEW NORMATIVE CONTRACT; NOT A RUNTIME RELEASE.\nCP01 exception and CP02-CP08 baselines retain only exact checkpoint/hash-bound scope. No future whitespace exception.\nWindows review remains STOP_BOUNDARY_OPERATIONAL_EVIDENCE overall; only extraction findings survive. Offline closure remains STOP_BOUNDARY_OPERATIONAL_EVIDENCE; its old npm procedure is superseded and incomplete regression is not PASS.\nZero-network materialization retains only recorded operational qualification. No online fallback or scientific/runtime qualification.\nExecution-plan v2 is preserved unchanged as original governance. Adversarial review is resolved plan-revision history. Reconciliation recommendations require express approval of exact versioned amendment before execution.\nFinal execution-ready annotation must enumerate every included path, classification and approved SHA-256. Audit pair is excluded here and remains original CP13 membership.\nNEXT CHECKPOINT: CP13, final preservation of frozen readiness audit with expressly approved reconciliation context. Old audit does not become a freshly performed completion audit.\nSupabase pair excluded. V3 quarantined. Qualified contracts keep existing scopes; STOP/superseded/failed evidence not upgraded. No science/runtime implementation, push or deployment.",
+    "proposedExistingFiles": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "docs/Zero_Network_Offline_Materialization_v1.json",
+      "docs/Zero_Network_Offline_Materialization_v1.md"
+    ],
+    "proposedReviewOutputs": [
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json"
+    ],
+    "proposedCountWithReview": 16,
+    "additionalAmendmentRule": "If a separately authorized amendment file is created, explicitly add its path/hash to the same pre-CP13 group; not silently included in proposed 16.",
+    "requiredDeltas": [
+      "Authorize one new checkpoint with exact membership/hashes/classifications/metadata/tests.",
+      "Change CP13 direct parent from verified CP12 to verified new checkpoint, retaining CP12 ancestor.",
+      "Revise untracked/exclusion rules expressly for four plan-era files, ten operational files, this review and any later amendment; keep Supabase excluded.",
+      "Resolve missing size-review disposition for 6600432-byte audit JSON and record long-ledger dispositions.",
+      "Keep original CP13 two-file membership/protected bytes/purpose/tag, while explicitly attributing post-plan audit coverage to supplement and final execution receipt.",
+      "Approve execution-ready hash/literal-reference/inventory verification and metadata for docs-only added checkpoint; no scientific requalification.",
+      "Bind final reconciliation/amendment hashes before execution and account for every new governance artifact."
+    ],
+    "sequence": [
+      "Human review and required artifact disposition.",
+      "Separately authorize versioned preservation-only amendment; do not modify protected v2.",
+      "Separately execute one explicitly enumerated operational/governance checkpoint.",
+      "Separately execute original CP13 last with amended parent/preflight and explicit historical audit context."
+    ],
+    "authorizedNow": false
+  },
+  "largeArtifactReview": {
+    "precedent": "Adversarial review: files over 1 MB warrant explicit human review; three smaller long ledgers separately allowed. Line count alone is not an established mandatory human gate.",
+    "approvalGranted": false,
+    "newReviewGap": "Audit JSON: 6600432 bytes / 194220 lines. Recommend explicit exact-hash human preservation/storage disposition before CP13 under amended plan. Not a fabricated existing ledger entry.",
+    "longLedgers": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json"
+    ],
+    "longLedgerRule": "Record reviewed disposition in amendment. No earlier explicit approvals extend to these files.",
+    "originalLedgerResult": "All 16 absent from plan.largeArtifacts; absence is not explicit approval."
+  },
+  "whitespace": [
+    {
+      "group": "operational14",
+      "files": [
+        "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+        "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+        "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+        "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+        "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+        "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+        "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+        "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+        "docs/Offline_Dependency_Closure_Qualification_v1.json",
+        "docs/Offline_Dependency_Closure_Qualification_v1.md",
+        "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+        "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+        "docs/Zero_Network_Offline_Materialization_v1.json",
+        "docs/Zero_Network_Offline_Materialization_v1.md"
+      ],
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "",
+      "stderr": "",
+      "scopeAndExportHashes": "PASS",
+      "realIndexUsed": false,
+      "realObjectStoreWritten": false
+    },
+    {
+      "group": "originalCP13",
+      "files": [
+        "docs/Evidence_Stack_Preservation_Audit_v1.json",
+        "docs/Evidence_Stack_Preservation_Audit_v1.md"
+      ],
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "",
+      "stderr": "",
+      "scopeAndExportHashes": "PASS",
+      "realIndexUsed": false,
+      "realObjectStoreWritten": false
+    }
+  ],
+  "whitespaceMethod": "Native Git private index plus private object directory/read-only alternates, no-filter blobs and checkout-index byte proofs. No real staging/object writes, no exception.",
+  "CP13Integrity": {
+    "ifFreshAuditRequired": "Separately approve new audit version/membership/metadata revision if CP13 content itself must cover later events. Do not edit v1 automatically.",
+    "coverage": "157-artifact taxonomy, quarantine, bounded qualified contracts, STOP/superseded/failed/current statuses and original exclusions; predates actual execution and ten operational files.",
+    "result": "ORIGINAL_CP13_ALONE_CANNOT_AUDIT_POST_PLAN_EXECUTION",
+    "baselineHEAD": "c0d97f1f1281e99898b908af8dd9c8e1f81056d1",
+    "baselineVerdict": "EVIDENCE_STACK_READY_FOR_CHECKPOINT_PLANNING",
+    "condition": "Exact original audit pair can remain final if expressly approved prior supplement supplies actual chain, operational classifications, receipt provenance and remaining exclusions. Old audit bytes are never represented as a new post-plan audit.",
+    "originalRole": "Final preservation of frozen readiness inventory and authority navigation, not freshly generated completion audit."
+  },
+  "reproducibilityLimits": [
+    "Reports do not embed all external fixture bytes, npm cache or exact runtime. These must remain separately available offline; no environmental reacquisition authorized.",
+    "TEMP execution receipts are identified by paths/hashes/selected results, not fully archived by these documents. Detailed logs remain external.",
+    "No new extraction/dependency/reference parser introduced; no tests or scientific rehearsal run."
+  ],
+  "desiredFinalState": {
+    "afterApprovedCompleteSequence": [
+      "supabase/.gitignore",
+      "supabase/config.toml"
+    ],
+    "ignoredLocalData": "Ignored fixtures/cache/node_modules are outside ordinary untracked count.",
+    "condition": "Requires explicit preservation of 16 existing files, this pair and any later amendment. No automatic staging/deletion.",
+    "afterReviewCount": 20,
+    "afterReviewFiles": [
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.json",
+      "docs/CP01_Protected_Whitespace_Exception_Review_v1.md",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.json",
+      "docs/Evidence_Checkpoint_Execution_Plan_v2.md",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.json",
+      "docs/Evidence_Checkpoint_Plan_Adversarial_Review_v1.md",
+      "docs/Evidence_Stack_Preservation_Audit_v1.json",
+      "docs/Evidence_Stack_Preservation_Audit_v1.md",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.json",
+      "docs/Future_Protected_Whitespace_Baselines_CP02_CP08_v1.md",
+      "docs/Offline_Dependency_Closure_Qualification_v1.json",
+      "docs/Offline_Dependency_Closure_Qualification_v1.md",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.json",
+      "docs/Windows_Isolated_Checkout_Boundary_Review_v1.md",
+      "docs/Zero_Network_Offline_Materialization_v1.json",
+      "docs/Zero_Network_Offline_Materialization_v1.md",
+      "supabase/.gitignore",
+      "supabase/config.toml",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.md",
+      "docs/Final_Pre_CP13_Preservation_Reconciliation_v1.json"
+    ]
+  },
+  "preservation": {
+    "stagedDiff": "EMPTY",
+    "providerDatabaseAuthSupabaseAccess": false,
+    "committedEvidenceFilesVerified": 157,
+    "tag": false,
+    "GitConfiguration": "UNCHANGED",
+    "CP13Started": false,
+    "productionChanged": false,
+    "existingHashesUnchanged": true,
+    "realStaging": false,
+    "realIndex": "UNCHANGED; no staged changes",
+    "protectedFilesVerified": 175,
+    "deployment": false,
+    "environmentalAcquisition": false,
+    "predecessors": "CP00-CP12 annotated tags/targets unchanged",
+    "indexSHA256": "d53e7ff98aff9a5dc2a6340e7c75f3670e880b066aa410a9de15d87c0dced432",
+    "trackedDiff": "EMPTY",
+    "push": false,
+    "commit": false,
+    "supabaseInCP13": false,
+    "supabase": [
+      {
+        "path": "supabase/.gitignore",
+        "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+      },
+      {
+        "path": "supabase/config.toml",
+        "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2"
+      }
+    ],
+    "scienceChanged": false
+  },
+  "temporaryReviewEvidence": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-pre-cp13-reconciliation-226f85b118e342bcb814036e9de1a2f6"
+}
