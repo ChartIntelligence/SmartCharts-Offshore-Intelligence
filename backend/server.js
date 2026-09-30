@@ -1,3 +1,6 @@
+import {SOURCE_NORMALIZATION_VERSION, SOURCE_NORMALIZATION_REFERENCE, normalizationCacheKey, sourceNumber, sourceScaledNumber, roundFinite} from "./sourceNormalization.mjs";
+import {captureNewNormalizedCurrentPoint, encodeNormalizedOceanResponse, encodeNormalizedOceanSnapshot, decodeNormalizedOceanSnapshot, hasNormalizedCurrentProvenance} from "./normalizedEvidenceCapture.mjs";
+import {reference as validateProcessingReference} from "../shared/oceanPublication.mjs";
 import {resolveScientificAssessmentV1, withScientificAssessmentV1, assertScientificInstantV1, requireScientificAssessmentV1, scientificAgeHoursV1, reassessCurrentAgeV1} from "./scientificAssessment.mjs";
 import { normalizeBathymetryElevationV1 } from "./bathymetryEvidence.js";
 import { resolvePersistenceRequestContext } from "./persistenceEnvironment.js";
@@ -814,15 +817,7 @@ const DEFAULT_LONGITUDE = -88.49;
  * Convert meters per second to knots.
  */
 function metersPerSecondToKnots(value) {
-  const number = Number(value);
-
-  if (!Number.isFinite(number)) {
-    return null;
-  }
-
-  return Number(
-    (number * 1.94384).toFixed(1)
-  );
+  return sourceScaledNumber(value, 1.94384);
 }
 
 
@@ -830,15 +825,7 @@ function metersPerSecondToKnots(value) {
  * Convert meters to feet.
  */
 function metersToFeet(value) {
-  const number = Number(value);
-
-  if (!Number.isFinite(number)) {
-    return null;
-  }
-
-  return Number(
-    (number * 3.28084).toFixed(1)
-  );
+  return sourceScaledNumber(value, 3.28084);
 }
 
 
@@ -850,9 +837,7 @@ export function celsiusToFahrenheit(value) {
     return null;
   }
 
-  return Number(
-    ((value * 9) / 5 + 32).toFixed(1)
-  );
+  return roundFinite((value * 9) / 5 + 32, 1);
 }
 
 
@@ -1240,10 +1225,7 @@ function createCurrentPointCacheKey(
   latitude,
   longitude
 ) {
-  return [
-    Number(latitude).toFixed(4),
-    Number(longitude).toFixed(4)
-  ].join(",");
+  return normalizationCacheKey(latitude, longitude, SOURCE_NORMALIZATION_VERSION);
 }
 
 
@@ -2107,7 +2089,7 @@ async function getChlorophyllConditionsAtAssessment(
     };
 
   const concentration =
-    safeNumber(
+    sourceNumber(
       valueAt("chlor_a")
     );
 
@@ -2124,9 +2106,7 @@ async function getChlorophyllConditionsAtAssessment(
     concentrationMgM3:
       concentration === null
         ? null
-        : Number(
-            concentration.toFixed(4)
-          ),
+        : roundFinite(concentration, 4),
 
     waterClassification:
       classifyChlorophyll(
@@ -2266,7 +2246,7 @@ async function getGapFilledChlorophyllConditionsAtAssessment(
 
 
   const concentration =
-    safeNumber(
+    sourceNumber(
       valueAt("chlor_a")
     );
 
@@ -2289,9 +2269,7 @@ async function getGapFilledChlorophyllConditionsAtAssessment(
     concentrationMgM3:
       concentration === null
         ? null
-        : Number(
-            concentration.toFixed(4)
-          ),
+        : roundFinite(concentration, 4),
 
     waterClassification:
       classifyChlorophyll(
@@ -2425,12 +2403,12 @@ async function getCurrentConditionsPointAtAssessment(
     };
 
   const eastward =
-    safeNumber(
+    sourceNumber(
       valueAt("u_current")
     );
 
   const northward =
-    safeNumber(
+    sourceNumber(
       valueAt("v_current")
     );
 
@@ -2496,16 +2474,12 @@ async function getCurrentConditionsPointAtAssessment(
     eastwardMetersPerSecond:
       eastward === null
         ? null
-        : Number(
-            eastward.toFixed(4)
-          ),
+        : roundFinite(eastward, 4),
 
     northwardMetersPerSecond:
       northward === null
         ? null
-        : Number(
-            northward.toFixed(4)
-          ),
+        : roundFinite(northward, 4),
 
     observedAt,
 
@@ -3540,6 +3514,7 @@ export function buildCurrentVectorProjectionAnalysis(
             : null;
 
         if (
+          vector?.source?.availability !== "available" ||
           !axes ||
           !Number.isFinite(
             eastwardMetersPerSecond
@@ -3576,7 +3551,9 @@ export function buildCurrentVectorProjectionAnalysis(
                 : null,
 
             reason:
-              !axes
+              vector?.source?.availability !== "available"
+                ? "current-source-not-admissible"
+                : !axes
                 ? "unsupported-sample-direction"
                 : "missing-current-vector-components"
           };
@@ -3663,6 +3640,15 @@ export function buildCurrentVectorProjectionAnalysis(
             );
         }
 
+        const requiredProjection = [eastwardMetersPerSecond, northwardMetersPerSecond,
+          vectorMagnitudeMetersPerSecond, signedRadialMetersPerSecond, inwardMetersPerSecond,
+          outwardMetersPerSecond, signedTangentialMetersPerSecond, absoluteTangentialMetersPerSecond];
+        if (!requiredProjection.every(Number.isFinite) ||
+            (vectorMagnitudeMetersPerSecond > 0 && !Number.isFinite(inwardAlignmentDegrees))) {
+          return {sampleDirection: vector.direction, available: false,
+            reason: "nonfinite-current-projection", eastwardMetersPerSecond, northwardMetersPerSecond};
+        }
+
         return {
           sampleDirection:
             vector.direction,
@@ -3725,61 +3711,34 @@ export function buildCurrentVectorProjectionAnalysis(
               : null,
 
           eastwardMetersPerSecond:
-            Number(
-              eastwardMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(eastwardMetersPerSecond, 4),
 
           northwardMetersPerSecond:
-            Number(
-              northwardMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(northwardMetersPerSecond, 4),
 
           vectorMagnitudeMetersPerSecond:
-            Number(
-              vectorMagnitudeMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(vectorMagnitudeMetersPerSecond, 4),
 
           signedRadialMetersPerSecond:
-            Number(
-              signedRadialMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(signedRadialMetersPerSecond, 4),
 
           inwardMetersPerSecond:
-            Number(
-              inwardMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(inwardMetersPerSecond, 4),
 
           outwardMetersPerSecond:
-            Number(
-              outwardMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(outwardMetersPerSecond, 4),
 
           signedClockwiseTangentialMetersPerSecond:
-            Number(
-              signedTangentialMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(signedTangentialMetersPerSecond, 4),
 
           absoluteTangentialMetersPerSecond:
-            Number(
-              absoluteTangentialMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(absoluteTangentialMetersPerSecond, 4),
 
           inwardAlignmentDegrees:
             Number.isFinite(
               inwardAlignmentDegrees
             )
-              ? Number(
-                  inwardAlignmentDegrees
-                    .toFixed(1)
-                )
+              ? roundFinite(inwardAlignmentDegrees, 1)
               : null,
 
           observedAt:
@@ -4182,6 +4141,16 @@ export function buildCurrentGradientAnalysis(
               )
             : null;
 
+        const requiredAxis = [separationNauticalMiles, eastwardDifferenceMetersPerSecond,
+          northwardDifferenceMetersPerSecond, totalVectorDifferenceMetersPerSecond,
+          totalVectorGradientMetersPerSecondPerNauticalMile, opposingRadialSumMetersPerSecond,
+          radialAsymmetryMetersPerSecond, radialAsymmetryGradientMetersPerSecondPerNauticalMile,
+          tangentialDifferenceMetersPerSecond, tangentialGradientMetersPerSecondPerNauticalMile];
+        if (!requiredAxis.every(Number.isFinite) || roundFinite(separationNauticalMiles, 3) <= 0) {
+          return {axis, available: false, firstDirection, secondDirection,
+            reason: "nonfinite-current-axis-derivation"};
+        }
+
         return {
           axis,
 
@@ -4193,83 +4162,47 @@ export function buildCurrentGradientAnalysis(
           secondDirection,
 
           separationNauticalMiles:
-            Number(
-              separationNauticalMiles
-                .toFixed(3)
-            ),
+            roundFinite(separationNauticalMiles, 3),
 
           eastwardDifferenceMetersPerSecond:
-            Number(
-              eastwardDifferenceMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(eastwardDifferenceMetersPerSecond, 4),
 
           northwardDifferenceMetersPerSecond:
-            Number(
-              northwardDifferenceMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(northwardDifferenceMetersPerSecond, 4),
 
           totalVectorDifferenceMetersPerSecond:
-            Number(
-              totalVectorDifferenceMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(totalVectorDifferenceMetersPerSecond, 4),
 
           totalVectorGradientMetersPerSecondPerNauticalMile:
-            Number(
-              totalVectorGradientMetersPerSecondPerNauticalMile
-                .toFixed(5)
-            ),
+            roundFinite(totalVectorGradientMetersPerSecondPerNauticalMile, 5),
 
           opposingRadialSumMetersPerSecond:
-            Number(
-              opposingRadialSumMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(opposingRadialSumMetersPerSecond, 4),
 
           radialAsymmetryMetersPerSecond:
-            Number(
-              radialAsymmetryMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(radialAsymmetryMetersPerSecond, 4),
 
           radialAsymmetryGradientMetersPerSecondPerNauticalMile:
-            Number(
-              radialAsymmetryGradientMetersPerSecondPerNauticalMile
-                .toFixed(5)
-            ),
+            roundFinite(radialAsymmetryGradientMetersPerSecondPerNauticalMile, 5),
 
           tangentialDifferenceMetersPerSecond:
-            Number(
-              tangentialDifferenceMetersPerSecond
-                .toFixed(4)
-            ),
+            roundFinite(tangentialDifferenceMetersPerSecond, 4),
 
           tangentialGradientMetersPerSecondPerNauticalMile:
-            Number(
-              tangentialGradientMetersPerSecondPerNauticalMile
-                .toFixed(5)
-            ),
+            roundFinite(tangentialGradientMetersPerSecondPerNauticalMile, 5),
 
           speedDifferenceKnots:
             Number.isFinite(
               speedDifferenceKnots
             )
-              ? Number(
-                  speedDifferenceKnots
-                    .toFixed(3)
-                )
+              ? roundFinite(speedDifferenceKnots, 3)
               : null,
 
           directionDifferenceDegrees:
             Number.isFinite(
               directionDifferenceDegrees
             )
-              ? Number(
-                  directionDifferenceDegrees
-                    .toFixed(1)
-                )
+              ? roundFinite(directionDifferenceDegrees, 1)
               : null
         };
       }
@@ -4395,30 +4328,21 @@ export function buildCurrentGradientAnalysis(
         Number.isFinite(
           maximumTotalVectorGradient
         )
-          ? Number(
-              maximumTotalVectorGradient
-                .toFixed(5)
-            )
+          ? roundFinite(maximumTotalVectorGradient, 5)
           : null,
 
       maximumRadialAsymmetryGradientMetersPerSecondPerNauticalMile:
         Number.isFinite(
           maximumRadialAsymmetryGradient
         )
-          ? Number(
-              maximumRadialAsymmetryGradient
-                .toFixed(5)
-            )
+          ? roundFinite(maximumRadialAsymmetryGradient, 5)
           : null,
 
       maximumTangentialGradientMetersPerSecondPerNauticalMile:
         Number.isFinite(
           maximumTangentialGradient
         )
-          ? Number(
-              maximumTangentialGradient
-                .toFixed(5)
-            )
+          ? roundFinite(maximumTangentialGradient, 5)
           : null
     },
 
@@ -6005,10 +5929,7 @@ function createSstPointCacheKey(
   latitude,
   longitude
 ) {
-  return [
-    Number(latitude).toFixed(4),
-    Number(longitude).toFixed(4)
-  ].join(",");
+  return normalizationCacheKey(latitude, longitude, SOURCE_NORMALIZATION_VERSION);
 }
 
 
@@ -6207,10 +6128,10 @@ export async function getSeaSurfaceTemperaturePoint(
   const payload =
     await fetchJson(url);
 
-  const temperatureCelsius =
-    Number.isFinite(payload?.current?.sea_surface_temperature)
-      ? payload.current.sea_surface_temperature
-      : null;
+  const sourceTemperatureCelsius = payload?.current?.sea_surface_temperature;
+
+  const temperatureFahrenheit = celsiusToFahrenheit(sourceTemperatureCelsius);
+  const temperatureCelsius = Number.isFinite(temperatureFahrenheit) ? sourceTemperatureCelsius : null;
 
   return {
     requestedLatitude:
@@ -6237,10 +6158,7 @@ export async function getSeaSurfaceTemperaturePoint(
 
     temperatureCelsius,
 
-    temperatureFahrenheit:
-      celsiusToFahrenheit(
-        temperatureCelsius
-      ),
+    temperatureFahrenheit,
 
     observedAt:
       payload?.current?.time ??
@@ -7402,7 +7320,7 @@ if (
     );
 
   const windDirectionDegrees =
-    safeNumber(
+    sourceNumber(
       wind.wind_direction_10m
     );
 
@@ -7434,6 +7352,11 @@ if (
           ? "provider-returned-null"
           : "provider-returned-no-current-data";
 
+
+  // Retain one source read: validation and both unit representations share it.
+  const sourceSstCelsius = waves.sea_surface_temperature;
+  const sstFahrenheit = celsiusToFahrenheit(sourceSstCelsius);
+  const sstCelsius = Number.isFinite(sstFahrenheit) ? sourceSstCelsius : null;
 
   return {
     location: {
@@ -7490,12 +7413,12 @@ if (
         ),
 
       directionDegrees:
-        safeNumber(
+        sourceNumber(
           waves.wave_direction
         ),
 
       periodSeconds:
-        safeNumber(
+        sourceNumber(
           waves.wave_period
         )
     },
@@ -7507,12 +7430,12 @@ if (
         ),
 
       directionDegrees:
-        safeNumber(
+        sourceNumber(
           waves.swell_wave_direction
         ),
 
       periodSeconds:
-        safeNumber(
+        sourceNumber(
           waves.swell_wave_period
         )
     },
@@ -7525,15 +7448,9 @@ if (
   // Shared marine valid time, not a distinct SST measurement timestamp.
   observedAt: marine?.current?.time ?? null,
   timestampProvenance: "marine-current-block-valid-time",
-  temperatureFahrenheit:
-    celsiusToFahrenheit(
-      waves.sea_surface_temperature
-    ),
+  temperatureFahrenheit: sstFahrenheit,
 
-  temperatureCelsius:
-    Number.isFinite(waves.sea_surface_temperature)
-      ? waves.sea_surface_temperature
-      : null
+  temperatureCelsius: sstCelsius
 },
 
 
@@ -15730,8 +15647,12 @@ export function buildObservationSnapshot({
   generatedAt = null,
   observations = null,
   oceanEvidence = null,
-  dataQuality = null
+  dataQuality = null,
+  processingReferences = []
 } = {}) {
+  // Explicit provenance only; absent historical provenance stays absent.
+  if (!Array.isArray(processingReferences)) throw new TypeError("Processing references must be an array");
+  processingReferences.forEach(validateProcessingReference);
   const latitude =
     Number.isFinite(
       location?.latitude
@@ -16033,6 +15954,7 @@ export function buildObservationSnapshot({
       ),
 
     lineage: {
+      ...(processingReferences.length ? {processingReferences: cloneSnapshotValue(processingReferences)} : {}),
       oceanEvidence:
         cloneSnapshotValue(
           oceanEvidence
@@ -18278,7 +18200,9 @@ export function buildOceanMemoryStorage({
 
     snapshot:
       cloneSnapshotValue(
-        oceanSnapshot
+        hasNormalizedCurrentProvenance(oceanSnapshot)
+          ? encodeNormalizedOceanSnapshot(oceanSnapshot, SOURCE_NORMALIZATION_VERSION)
+          : oceanSnapshot
       ),
 
     missingRequirements,
@@ -18598,7 +18522,7 @@ export function buildOceanMemoryStorageRecordFromRow({
     snapshot:
       available
         ? cloneSnapshotValue(
-            snapshotPayload
+            decodeNormalizedOceanSnapshot(snapshotPayload)
           )
         : null,
 
@@ -60847,9 +60771,11 @@ currents.derived = {
             : currentsResult.status ===
               "rejected"
               ? "currents-provider-request-failed"
-              : currents.source
-                  ?.availability ??
-                "no-valid-current-value",
+              : Number.isFinite(currents.eastwardMetersPerSecond) &&
+                Number.isFinite(currents.northwardMetersPerSecond) &&
+                !Number.isFinite(currents.speedKnots)
+                ? "current-speed-derivation-unavailable"
+                : currents.source?.availability ?? "no-valid-current-value",
 
       observedAt:
         currents.observedAt ??
@@ -61343,6 +61269,7 @@ const temperatureTransitionMapFeature =
 
 const observationSnapshot =
   buildObservationSnapshot({
+    processingReferences: [SOURCE_NORMALIZATION_REFERENCE],
     location:
       marine.location,
 
@@ -62152,7 +62079,7 @@ export function createPeloraServer(options = {}) {
           writeJson(
             response,
             200,
-            {...oceanConditions, persistenceEnvironment}
+            {...encodeNormalizedOceanResponse(oceanConditions, SOURCE_NORMALIZATION_VERSION), persistenceEnvironment}
           );
 
           return;
@@ -62266,6 +62193,11 @@ export function getGapFilledChlorophyllConditions(...args) {
 export function getCurrentConditionsPoint(...args) {
   const assessment=resolveScientificAssessmentV1(args[2]); args[2]=assessment;
   return withScientificAssessmentV1(assessment,()=>getCurrentConditionsPointAtAssessment(...args));
+}
+// New live acquisition/capture boundary: no historical input or relabelling path.
+export async function captureNormalizedCurrentConditions(latitude, longitude, assessment, {sourceAuthority, lineageReferences = []} = {}) {
+  const point = await getCurrentConditionsPoint(latitude, longitude, assessment);
+  return captureNewNormalizedCurrentPoint(point, sourceAuthority, lineageReferences, SOURCE_NORMALIZATION_VERSION);
 }
 export function getCachedCurrentConditionsPoint(...args) {
   const assessment=resolveScientificAssessmentV1(args[2]); args[2]=assessment;

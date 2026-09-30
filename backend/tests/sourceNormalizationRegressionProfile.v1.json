@@ -1,0 +1,795 @@
+{
+  "version": "pelora-source-normalization-regression-profile-v1",
+  "authority": "CURRENT_RUNTIME_VERIFICATION_ONLY_NOT_SCIENTIFIC_AUTHORITY",
+  "historicalBoundary": "e85924db075f75fc2d5b493c13561af36e7981a4",
+  "historicalTestsImmutable": true,
+  "archiveAssertions": [
+    {
+      "file": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "title": "pre-implementation proposal and freeze reproduce exact independently enumerated content",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Frozen server/source-audit SHA 03c03d8d...",
+      "currentResult": "Candidate SHA 597fdfa5...; archived artifact remains unchanged",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+      "title": "freeze byte integrity survives review and detects one-byte tampering, without granting authority",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Frozen server/source-audit SHA 03c03d8d...",
+      "currentResult": "Candidate SHA 597fdfa5...; archived artifact remains unchanged",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+      "title": "six known escaping routes remain distinct from malformed-input defects",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Six conversion escapes, admitted nonfinite projection and lost negative zero",
+      "currentResult": "Escapes removed, projection refused, negative zero retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+      "title": "current speed guard does not imply finite downstream vector projection",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Six conversion escapes, admitted nonfinite projection and lost negative zero",
+      "currentResult": "Escapes removed, projection refused, negative zero retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/crossRouteFinitenessAtomicity.test.js",
+      "title": "current signed-zero controls preserve existing behavior without claiming a fix",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Six conversion escapes, admitted nonfinite projection and lost negative zero",
+      "currentResult": "Escapes removed, projection refused, negative zero retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/crossRouteFinitenessAtomicityResumed.test.js",
+      "title": "six known conversion overflows remain and SST downstream rejects bad Fahrenheit",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Nonfinite route outputs and current derived facts visible",
+      "currentResult": "Guarded unavailable results have zero nonfinite paths",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/crossRouteFinitenessAtomicityResumed.test.js",
+      "title": "current locality preserves independent finite facts and rejects no production code here",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Nonfinite route outputs and current derived facts visible",
+      "currentResult": "Guarded unavailable results have zero nonfinite paths",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "title": "actual current derivations ++",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Extreme projection/gradient admitted; diagnostic captured/snapshot derivatives contain nonfinite numbers",
+      "currentResult": "Bad required projection/axis excluded; no derived Infinity carried onward",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "title": "actual current derivations +-",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Extreme projection/gradient admitted; diagnostic captured/snapshot derivatives contain nonfinite numbers",
+      "currentResult": "Bad required projection/axis excluded; no derived Infinity carried onward",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "title": "actual current derivations -+",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Extreme projection/gradient admitted; diagnostic captured/snapshot derivatives contain nonfinite numbers",
+      "currentResult": "Bad required projection/axis excluded; no derived Infinity carried onward",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "title": "actual current derivations --",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Extreme projection/gradient admitted; diagnostic captured/snapshot derivatives contain nonfinite numbers",
+      "currentResult": "Bad required projection/axis excluded; no derived Infinity carried onward",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "title": "opposing component deltas overflow after finite projection admission",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Extreme projection/gradient admitted; diagnostic captured/snapshot derivatives contain nonfinite numbers",
+      "currentResult": "Bad required projection/axis excluded; no derived Infinity carried onward",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "title": "capture admission, exact replay and projection admission are separate contracts",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Extreme projection/gradient admitted; diagnostic captured/snapshot derivatives contain nonfinite numbers",
+      "currentResult": "Bad required projection/axis excluded; no derived Infinity carried onward",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorDerivedFiniteness.test.js",
+      "title": "snapshot representation retains derived Infinity; strict comparison/publication copies reject it",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Extreme projection/gradient admitted; diagnostic captured/snapshot derivatives contain nonfinite numbers",
+      "currentResult": "Bad required projection/axis excluded; no derived Infinity carried onward",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorFailureContract.test.js",
+      "title": "absent components and internal nonfinite source differ from finite-source derivation failure",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Missing current derived speed 0; failed derived bundles available",
+      "currentResult": "Missing speed null; failed bundles unavailable",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorFailureContract.test.js",
+      "title": "source availability, spatial validity and projection validity use different predicates",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Missing current derived speed 0; failed derived bundles available",
+      "currentResult": "Missing speed null; failed bundles unavailable",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorFailureContract.test.js",
+      "title": "quality measures its own input layers, not every spatial derivative",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Missing current derived speed 0; failed derived bundles available",
+      "currentResult": "Missing speed null; failed bundles unavailable",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "title": "failed projection norm cannot be rescued by finite alignment or source availability",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Historical violation controls: coverage complete, axes available, quality reason available",
+      "currentResult": "Coverage unavailable, axes unavailable, quality reason current-speed-derivation-unavailable",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "title": "opposing differences and gradient failure are local to required axis relationships",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Historical violation controls: coverage complete, axes available, quality reason available",
+      "currentResult": "Coverage unavailable, axes unavailable, quality reason current-speed-derivation-unavailable",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/currentVectorFailureLocalityContract.test.js",
+      "title": "speed-requiring quality fails locally and preserved old evidence does not become live",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Historical violation controls: coverage complete, axes available, quality reason available",
+      "currentResult": "Coverage unavailable, axes unavailable, quality reason current-speed-derivation-unavailable",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/defaultProviderTransitive.test.js",
+      "title": "source closure reproduces independently but does not qualify member effects or branches",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Frozen static transitive/member inventory count 33",
+      "currentResult": "Fresh inventory count 47 after added helpers/imports",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/exactMarineCapture.test.js",
+      "title": "upstream null coercion remains separate",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Transport null gust normalized to numeric 0",
+      "currentResult": "Transport null gust remains null",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/exactScientificEvidence.test.js",
+      "title": "locked Git source blobs unchanged from checkpoint; no runtime integration",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Frozen server Git blob 6094841c70d8e1c6a0062ec1e71f3704964cd6d2",
+      "currentResult": "Candidate worktree blob 1229db75f304775c28f5be1399a53ff7938a2322",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/marineAssessorCompanionCapture.test.js",
+      "title": "upstream normalization stays unresolved wind.gustKnots",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Upstream null wind.gustKnots is 0",
+      "currentResult": "Null remains null",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/revisedSemanticModel.test.js",
+      "title": "fresh source closure reconciles named nodes, edges and lexical bindings without historical authority",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Frozen named-source closure nodes/hashes",
+      "currentResult": "Fresh helper/function hashes differ; untouched blocks retain hashes",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/signedZeroQualification.test.js",
+      "title": "actual chlorophyll-direct parser literal and computed zero",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Parser literal -0 becomes +0 (Object.is(output,0) true)",
+      "currentResult": "Parser preserves -0; former positive-zero predicate false",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/signedZeroQualification.test.js",
+      "title": "actual chlorophyll-gap-filled parser literal and computed zero",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Parser literal -0 becomes +0 (Object.is(output,0) true)",
+      "currentResult": "Parser preserves -0; former positive-zero predicate false",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/signedZeroQualification.test.js",
+      "title": "actual current parser distinguishes north component signed zero before rounding",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Parser literal -0 becomes +0 (Object.is(output,0) true)",
+      "currentResult": "Parser preserves -0; former positive-zero predicate false",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/signedZeroQualification.test.js",
+      "title": "marine parser literal, computed and missing zeros use current conversions",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Parser literal -0 becomes +0 (Object.is(output,0) true)",
+      "currentResult": "Parser preserves -0; former positive-zero predicate false",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "title": "actual parser accepts missing chlorophyll and reaches a claimed caller-contract exclusion",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Old V8 source range ID resolves; literal old slice ??\\n      latitude",
+      "currentResult": "Old range lookup undefined; old offsets slice dLatitude:\\n      instead",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+      "title": "313 ranges are exact prior unexecuted coverage intervals, not a complete source-predicate inventory",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Old V8 source range ID resolves; literal old slice ??\\n      latitude",
+      "currentResult": "Old range lookup undefined; old offsets slice dLatitude:\\n      instead",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/snapshotProducerQualificationV2.test.js",
+      "title": "new evidence artifacts are independently reproducible; no failed artifact is an oracle",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Archived source-coverage/predicate artifact matches generated content",
+      "currentResult": "Source/hash/range metadata differ under edited server",
+      "replacements": [
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "backend/tests/sourceNormalizationCurrentProducer.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+      "title": "marine:sea_surface_temperature: finite JSON transport overflows converted SST",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Normalized SST Celsius retains 1e308 while Fahrenheit overflows",
+      "currentResult": "Required C/F pair is unavailable (null)",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+      "title": "sst:directional: finite JSON transport overflows converted SST",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Normalized SST Celsius retains 1e308 while Fahrenheit overflows",
+      "currentResult": "Required C/F pair is unavailable (null)",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationBoundary.test.js",
+      "title": "null speed gust and heights become zero; directions and periods preserve null",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Null/malformed values collapse into valid zero, source availability and consumers; -0 lost",
+      "currentResult": "Null/malformed values unavailable; source availability reflects missingness; -0 retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationBoundary.test.js",
+      "title": "null-only gust creates available wind and consumable marine state; exact replay preserves normalization",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Null/malformed values collapse into valid zero, source availability and consumers; -0 lost",
+      "currentResult": "Null/malformed values unavailable; source availability reflects missingness; -0 retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationBoundary.test.js",
+      "title": "current null component preserves no-valid-pixel but manufactures zero speed; whitespace supplies vector",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Null/malformed values collapse into valid zero, source availability and consumers; -0 lost",
+      "currentResult": "Null/malformed values unavailable; source availability reflects missingness; -0 retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationBoundary.test.js",
+      "title": "all marine null versus missing versus real zero effects traverse unchanged quality and assessor",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Null/malformed values collapse into valid zero, source availability and consumers; -0 lost",
+      "currentResult": "Null/malformed values unavailable; source availability reflects missingness; -0 retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationBoundary.test.js",
+      "title": "all component signed-zero pairs are accepted; parser rounding does not preserve raw negative-zero components",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Null/malformed values collapse into valid zero, source availability and consumers; -0 lost",
+      "currentResult": "Null/malformed values unavailable; source availability reflects missingness; -0 retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sourceNormalizationBoundary.test.js",
+      "title": "malformed transport becomes usable chlorophyll and current projection evidence",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Null/malformed values collapse into valid zero, source availability and consumers; -0 lost",
+      "currentResult": "Null/malformed values unavailable; source availability reflects missingness; -0 retained",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sstPostConversionFiniteness.test.js",
+      "title": "binary64 adjacent boundary of unchanged Fahrenheit calculation",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Infinity from adjacent conversion threshold/extreme scaled inputs",
+      "currentResult": "Null instead of nonfinite required output",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sstPostConversionFiniteness.test.js",
+      "title": "marine:sea_surface_temperature: overflow, ordinary and malformed transport",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Infinity from adjacent conversion threshold/extreme scaled inputs",
+      "currentResult": "Null instead of nonfinite required output",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sstPostConversionFiniteness.test.js",
+      "title": "sst:directional: overflow, ordinary and malformed transport",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Infinity from adjacent conversion threshold/extreme scaled inputs",
+      "currentResult": "Null instead of nonfinite required output",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/sstPostConversionFiniteness.test.js",
+      "title": "all thirteen proposed measurement routes: extreme finite arithmetic attack",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Infinity from adjacent conversion threshold/extreme scaled inputs",
+      "currentResult": "Null instead of nonfinite required output",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "title": "actual default caller reaches empty chlorophyll branch and normalizes final availability",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Old recorded source line 11928 and source hash",
+      "currentResult": "Fresh source line 11841 and changed source hash",
+      "replacements": [
+        "backend/tests/sourceNormalizationTransitiveCurrent.test.js",
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "title": "saved discovery is reproducible and does not claim semantic branch completeness",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical checkpoint source bytes/positions/inventory are intentionally immutable; not a current source integrity inventory.",
+      "historicalExpected": "Old recorded source line 11928 and source hash",
+      "currentResult": "Fresh source line 11841 and changed source hash",
+      "replacements": [
+        "backend/tests/sourceNormalizationTransitiveCurrent.test.js",
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/weatherMarineQualityCapture.test.js",
+      "title": "upstream transport null coercion is recorded, not silently repaired or qualified",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Upstream null speed/heights equal actual zero quality inputs",
+      "currentResult": "Null speed/heights remain null; real zero remains numeric",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/weatherMarineQualityCapture.test.js",
+      "title": "review: upstream null and genuine zero collapse BEFORE capture, absent value does not",
+      "role": "HISTORICAL_CHARACTERIZATION",
+      "reason": "Historical behavior intentionally changed by approved missingness, finiteness, signed-zero or locality semantics.",
+      "historicalExpected": "Upstream null speed/heights equal actual zero quality inputs",
+      "currentResult": "Null speed/heights remain null; real zero remains numeric",
+      "replacements": [
+        "backend/tests/sourceNormalizationRuntime.test.js",
+        "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "backend/tests/currentEvidenceCaptureV3.test.js"
+      ]
+    }
+  ],
+  "archivalScripts": [
+    {
+      "file": "backend/tests/snapshotBranchOptionality.test.js",
+      "role": "FROZEN_SOURCE_INVENTORY",
+      "reason": "Historical source-offset review initializes shared state only after frozen-source assertions. Candidate source drift leaves union undefined; Node assertion formatting of a 3258-entry inventory causes resource exhaustion. No historical test edits. Bounded current replacement uses independent current setup, digest comparisons and non-retaining fixture stubs.",
+      "replacements": [
+        "backend/tests/sourceNormalizationCurrentProducer.test.js",
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js"
+      ]
+    },
+    {
+      "file": "backend/tests/transitiveProducerBoundary.test.js",
+      "role": "MIXED_STATEFUL_HISTORICAL_HARNESS_WITH_CURRENT_SUCCESSOR",
+      "reason": "The finite-control fixture is initialized by a historical fixed-line assertion case. Skipping that case leaves later coverage controls uninitialized. Preserve the original whole suite, and run its ten current successor controls with independent same-suite setup, replacing only frozen line/hash identity assertions with current-location/determinism checks.",
+      "replacements": [
+        "backend/tests/sourceNormalizationTransitiveCurrent.test.js",
+        "backend/tests/sourceNormalizationRegressionGovernance.test.js"
+      ]
+    }
+  ],
+  "quarantine": [
+    {
+      "file": "backend/tests/candidateSemanticProjectionV3.test.js",
+      "reason": "QUARANTINED_V3_NOT_EXECUTED"
+    }
+  ],
+  "currentScripts": [
+    "backend/tests/activeHistoricalTemporalProvenance.test.js",
+    "backend/tests/activeProductTemporalSupport.test.js",
+    "backend/tests/archiveBoundScienceBoundary.test.js",
+    "backend/tests/assessmentAstronomy.test.js",
+    "backend/tests/bathymetryEvidence.test.js",
+    "backend/tests/cacheIsolatedSnapshotProducer.test.js",
+    "backend/tests/candidateCaptureAssemblyBoundary.test.js",
+    "backend/tests/candidateCaptureResumptionBoundary.test.js",
+    "backend/tests/candidateEvidenceSourceBoundary.test.js",
+    "backend/tests/candidateSemanticProjection.test.js",
+    "backend/tests/candidateSemanticProjectionV2.test.js",
+    "backend/tests/candidateSnapshotProducerSurface.test.js",
+    "backend/tests/captureDerivedScientificBoundary.test.js",
+    "backend/tests/chlorophyllTemporalDerivedFiniteness.test.js",
+    "backend/tests/clientPrivilegeHardening.test.js",
+    "backend/tests/completeCandidateEvidenceBoundary.test.js",
+    "backend/tests/consumerAwareHistoricalSelectionPolicy.test.js",
+    "backend/tests/consumerAwareHistorySelection.test.js",
+    "backend/tests/convergenceContract.test.js",
+    "backend/tests/convergenceDecision.test.js",
+    "backend/tests/crossRouteFinitenessAtomicity.test.js",
+    "backend/tests/crossRouteFinitenessAtomicityResumed.test.js",
+    "backend/tests/currentEvidenceCapture.test.js",
+    "backend/tests/currentEvidenceCaptureV3.test.js",
+    "backend/tests/currentScientificReconstructionBoundary.test.js",
+    "backend/tests/currentVectorDerivedFiniteness.test.js",
+    "backend/tests/currentVectorFailureContract.test.js",
+    "backend/tests/currentVectorFailureLocalityContract.test.js",
+    "backend/tests/defaultProviderSemanticReview.test.js",
+    "backend/tests/defaultProviderTransitive.test.js",
+    "backend/tests/dynamicOpportunityFailure.test.js",
+    "backend/tests/environmentalObservationMetadata.test.js",
+    "backend/tests/exactCandidateSnapshotBoundary.test.js",
+    "backend/tests/exactMarineCapture.test.js",
+    "backend/tests/exactScientificEvidence.test.js",
+    "backend/tests/fishingDayReportSchema.test.js",
+    "backend/tests/fishingLocationSpatialEvidence.test.js",
+    "backend/tests/fishingLogAssociationReadiness.test.js",
+    "backend/tests/fishingLogEvidenceCapture.test.js",
+    "backend/tests/fishingLogEvidenceStorage.test.js",
+    "backend/tests/fishingLogTemporalEvidence.test.js",
+    "backend/tests/governedPlace.test.js",
+    "backend/tests/historicalAvailabilityReference.test.js",
+    "backend/tests/historicalOceanRequirements.test.js",
+    "backend/tests/historyAssessmentCutoff.test.js",
+    "backend/tests/marineAssessorCompanionCapture.test.js",
+    "backend/tests/noaaSstDisplayScale.test.js",
+    "backend/tests/noaaSstPilot.test.js",
+    "backend/tests/oceanConditions.test.js",
+    "backend/tests/oceanFields.test.js",
+    "backend/tests/oceanPhysicsBoundary.test.js",
+    "backend/tests/oceanProductArchive.test.js",
+    "backend/tests/oceanProductFrame.test.js",
+    "backend/tests/oceanProviderBoundary.test.js",
+    "backend/tests/oceanPublication.test.js",
+    "backend/tests/oceanPublicationAssessment.test.js",
+    "backend/tests/oceanPublicationHistory.test.js",
+    "backend/tests/oceanScalarFieldDelivery.test.js",
+    "backend/tests/oceanSnapshotPrivileges.test.js",
+    "backend/tests/opportunityEvaluationState.test.js",
+    "backend/tests/persistenceEnvironment.test.js",
+    "backend/tests/placeIngestion.test.js",
+    "backend/tests/remainingTemporalAuthority.test.js",
+    "backend/tests/revisedSemanticModel.test.js",
+    "backend/tests/scalarRuntime.test.js",
+    "backend/tests/scientificAssessment.test.js",
+    "backend/tests/scientificHistoryBoundary.test.js",
+    "backend/tests/sharedScienceBoundary.test.js",
+    "backend/tests/signedZeroQualification.test.js",
+    "backend/tests/snapshotBranchOptionalityAdversarial.test.js",
+    "backend/tests/snapshotProducerQualificationV2.test.js",
+    "backend/tests/snapshotShapeAuthorityBoundary.test.js",
+    "backend/tests/sourceNormalizationAmendmentAdversarial.test.js",
+    "backend/tests/sourceNormalizationBoundary.test.js",
+    "backend/tests/sourceNormalizationCurrentProducer.test.js",
+    "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+    "backend/tests/sourceNormalizationRuntime.test.js",
+    "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+    "backend/tests/sourceNormalizationTransitiveCurrent.test.js",
+    "backend/tests/sstChlorophyllTemporalSupport.test.js",
+    "backend/tests/sstNumericIntegrity.test.js",
+    "backend/tests/sstPostConversionFiniteness.test.js",
+    "backend/tests/sstProductAdapter.test.js",
+    "backend/tests/sstProvenanceGapFilledBinding.test.js",
+    "backend/tests/sstWorker.test.js",
+    "backend/tests/temporalEvidencePrimitives.test.js",
+    "backend/tests/temporalHistorySelection.test.js",
+    "backend/tests/weatherMarineQualityCapture.test.js"
+  ],
+  "protectedTestHashes": {
+    "backend/tests/cacheIsolatedSnapshotProducer.test.js": "ccbbeda595d892c0fb71f8933e606b08c1e8ec04efedec1276109c6dc3df0f00",
+    "backend/tests/crossRouteFinitenessAtomicity.test.js": "c860e2a129d4bb33431ac0876f9e319aae2367d1173c31ad2007b89a1e458635",
+    "backend/tests/crossRouteFinitenessAtomicityResumed.test.js": "35a544be73a4b3a39c2d32278b0bd18d2c61679646c9ccd32edf37d0f6536ffd",
+    "backend/tests/currentVectorDerivedFiniteness.test.js": "b7114c29df3bb6f2e126ce9aeceaebc141dceef46ad29882e4a1231b860833a6",
+    "backend/tests/currentVectorFailureContract.test.js": "746de3857b1f446b7587465f491b048fad4d41d99eef20a8256549ce87b5575f",
+    "backend/tests/currentVectorFailureLocalityContract.test.js": "419b93a7b91ef14dfa0540f5c6149730f8ff079d991a6fb54ae80d461a4e8fe6",
+    "backend/tests/defaultProviderTransitive.test.js": "af21151579230a330b811c1038da264b4bce0c5d08a2c3c81f74ede2c5d12e28",
+    "backend/tests/exactMarineCapture.test.js": "a61a17600ef66749b8cbbc0f99eaa4092543a662cc0a5db4eeddbd2f3842e332",
+    "backend/tests/exactScientificEvidence.test.js": "f21748bd69df9b71d27c4c317e7a21a296da2b8c1e85b71af75d3981f73a51ce",
+    "backend/tests/marineAssessorCompanionCapture.test.js": "3ffe794057590094c1e310aeae6f1c7a8f80b728ea7b6cff7f0a3c258346bdc7",
+    "backend/tests/revisedSemanticModel.test.js": "8a2fab2ce550fa88c7bb45239d6ed7887faaefe1d9dad72266d8b9507665f958",
+    "backend/tests/signedZeroQualification.test.js": "04fa82b8bda82dfa85514d63fb1b957ebf48aa032622fef1be643d68189f2320",
+    "backend/tests/snapshotBranchOptionalityAdversarial.test.js": "91766d98aa6a2ed28dd035871ed67ae1e2527c5dd3eaadb7e26c122cc5775990",
+    "backend/tests/snapshotProducerQualificationV2.test.js": "837b733e0e8b022486cc32a9043b0ddf7351a24ef0b3a8307fe21d0741ab81b4",
+    "backend/tests/sourceNormalizationAmendmentAdversarial.test.js": "0cd86297e4706b7f573f29edce250866eebf8796a34b1bf1e39b9576ab175725",
+    "backend/tests/sourceNormalizationBoundary.test.js": "6182c39a2ccb69610b465b200a954aa5f9bc228d78ff501baaada906ea18b0f6",
+    "backend/tests/sstPostConversionFiniteness.test.js": "77c3cd1175987eb6c45ffb0fb30f835819cb25a7251b554e362a77bf2bde8065",
+    "backend/tests/transitiveProducerBoundary.test.js": "815806767aea5a6c8630515a642f835b7c46d2fff0e758d1efe899b12ee2b3cd",
+    "backend/tests/weatherMarineQualityCapture.test.js": "b6e13c72a3e4c6627eb6ebd7bea8c19e6ab1c6cc35dad9589add520f90d15241",
+    "backend/tests/snapshotBranchOptionality.test.js": "439b49601158c95b935dadd7246815c9d7a9a98eca62f7755d42c4ae41216974"
+  },
+  "currentSourceInventory": {
+    "version": "pelora-source-normalization-runtime-source-inventory-v1",
+    "scope": "Byte integrity of authorized implementation modules only; no source-branch completeness or scientific authority claim.",
+    "files": {
+      "backend/server.js": "6ab830180bbbbfb566b1ab09e522cac0081ea83a9a9d3dd0debb016a771e00e4",
+      "backend/sourceNormalization.mjs": "cdd7bd164f1fcc2fe03f7d708e1555b3881829f08c86216a98c6920cbb4168b8",
+      "backend/currentEvidenceCaptureV3.mjs": "3abeca350c864acdefb47d7dfe25a3f0e85bb97e7e75716aca33571f2dc3e63d",
+      "backend/normalizedEvidenceCapture.mjs": "3d7ddc7b2f02067663df29cd283ae830e4bb9ab1403602e1bd83535105658acc"
+    }
+  },
+  "execution": "Qualified temporary checkout-index, lockfile/cache integrity, offline notifier-disabled dependencies and dual network denial/attempt logging. Each script is a new process; archival assertion titles use exact anchored --test-skip-pattern. Mixed-suite current/normative controls remain included. Never interpret archived cases as passed.",
+  "archiveExecution": "Historical byte checks always run. Historical frozen-source executions are separate where practical. Expected mismatches are not current-runtime PASS.",
+  "replacementCoverage": {
+    "missingness": "15-case runtime suite with all 15 measurement routes, downstream quality/capture; 25-route current producer controls",
+    "signedZero": "Runtime numeric +0/-0 and exact capture V3 tests; V1 historical wire behavior retained",
+    "overflow": "Six scaled/paired routes; independent projection and gradient dependent failure",
+    "locality": "Existing mixed normative suite remains selected except three exact historical-defect assertions; runtime/adversarial/V3 replacements",
+    "cache": "Actual cache/in-flight function tests with distinct generations and 300-second TTL",
+    "sourceIntegrity": "Versioned current module digests plus immutable historical test digests",
+    "snapshotInventory": "Current scenario inventory/order/duplicate/cache controls from independent setup; frozen offsets never reused as current authority"
+  },
+  "profileRefinement": "Preliminary current selection revealed a setup dependency, not a production defect. Original suite remains unchanged. Final profile includes a current successor, not a skipped live behavior.",
+  "defaultSelectedTestRole": "CURRENT_RUNTIME_CONTRACT",
+  "selectedRoleExceptions": {
+    "backend/tests/currentVectorFailureLocalityContract.test.js": "QUALIFIED_NORMATIVE_CONTRACT_CONTROLS_AND_PRESERVATION_CHECKS"
+  },
+  "liveHandoffRepair": {
+    "scope": "Exact normalized-current handoff and governed source admission",
+    "membershipChanged": false,
+    "historicalDispositionsChanged": false,
+    "currentReplacementCoverage": [
+      "backend/tests/currentEvidenceCaptureV3.test.js",
+      "backend/tests/sourceNormalizationRuntimeAdversarial.test.js"
+    ]
+  }
+}
