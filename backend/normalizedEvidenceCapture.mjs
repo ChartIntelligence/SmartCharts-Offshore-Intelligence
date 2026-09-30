@@ -1,3 +1,4 @@
+import {scalarObservationHandoff} from './scalarEvidenceHandoff.mjs';
 import {createHash} from 'node:crypto';
 import {SOURCE_NORMALIZATION_VERSION, SOURCE_NORMALIZATION_REFERENCE} from './sourceNormalization.mjs';
 import {captureCurrentEvidenceV3, serializeCurrentEvidenceCaptureV3, readCurrentEvidenceCaptureV3,
@@ -83,6 +84,9 @@ export function decodeNormalizedCurrentHandoff(input) {
   return freeze(merge(context,center.point));
 }
 function normalizedObservation(observation, encode, version) {
+  return scalarObservationHandoff(currentObservation(observation, encode, version), encode);
+}
+function currentObservation(observation, encode, version) {
   if(!observation || !Object.hasOwn(observation.observations??{},'currents')) return observation;
   const point=observation.observations.currents;
   const refs=observation.lineage?.processingReferences;

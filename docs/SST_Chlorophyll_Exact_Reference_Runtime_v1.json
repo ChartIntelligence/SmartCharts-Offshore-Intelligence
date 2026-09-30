@@ -1,0 +1,1358 @@
+{
+  "reportVersion": "pelora-sst-chlorophyll-exact-reference-runtime-review-v1",
+  "verdict": "SST_CHLOROPHYLL_EXACT_REFERENCE_RUNTIME_V1_READY_FOR_CHECKPOINT_REVIEW",
+  "head": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+  "productionChanged": true,
+  "liveIntegrationImplemented": true,
+  "captureSuccessorCreated": false,
+  "currentReviewSection": "atomicCenterTupleAndFinalAdversarialReview",
+  "atomicCenterTupleAndFinalAdversarialReview": {
+    "verdict": "SST_CHLOROPHYLL_EXACT_REFERENCE_RUNTIME_V1_READY_FOR_CHECKPOINT_REVIEW",
+    "head": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+    "authority": "Identity/capture/provenance/live handoff only. No receipt issuance or scientific authority.",
+    "historicalBindingStops": [
+      {
+        "verdict": "SST_CHLOROPHYLL_EXACT_REFERENCE_RUNTIME_V1_REQUIRES_CORRECTION",
+        "defect": "Fahrenheit read twice: recorded 78.8, spatial input 80.6, accepted capture 78.8.",
+        "correction": "Retain Fahrenheit once before invoking the spatial producer; retained tuple preserves this fix.",
+        "evidence": "pelora-scalar-adversarial-0fac97b1ec9c418c8ac697a551db79f0"
+      },
+      {
+        "verdict": "SST_CHLOROPHYLL_EXACT_REFERENCE_RUNTIME_V1_REQUIRES_CORRECTION",
+        "defect": "Celsius getter returned 26 during binding validation, replaced itself with 27, and capture recopied 27.",
+        "correction": "All existing center identity inputs are materialized into private retained values before validation/capture. No copy/spread from the original mutable point after validation.",
+        "evidence": "pelora-scalar-single-read-90bb6526de2f4c50aeebe46f7f5f7ad3"
+      }
+    ],
+    "retainedTuple": {
+      "scope": "Private implementation binding, not a new public API, capture version, schema or scientific identity.",
+      "centerFields": [
+        "temperatureCelsius",
+        "temperatureFahrenheit",
+        "requestedLatitude",
+        "requestedLongitude",
+        "resolvedLatitude",
+        "resolvedLongitude",
+        "observedAt",
+        "timestampProvenance",
+        "providerCoordinates when already present"
+      ],
+      "authorityFields": [
+        "thresholdVersion",
+        "centerTemperatureAvailable",
+        "existing source provider/classification/availability",
+        "existing processing-reference fields"
+      ],
+      "mechanics": "Snapshot own property descriptors, read each supported identity field once into primitives; retain the existing provider-coordinate and processing-reference structures explicitly. Freeze retained records. Context uses the pre-existing exact copy semantics and rejects context accessors. No arbitrary provider deep clone introduced.",
+      "producerBoundary": "Before spatial invocation, retain center C/F, coordinates and represented-time fields. Invoke the existing spatial producer with retained Fahrenheit. Retain the resulting producer version and explicit Boolean once.",
+      "captureBoundary": "The original source alias reuses its already retained center tuple. An actual assembled snapshot projection materializes its center fields once and must exactly match the retained source tuple. Original spatial object uses its retained producer result; snapshot clones independently materialize and match the full retained spatial state. Source identity and processing references are materialized once, validated, and captured from those values.",
+      "aliasLimit": "Object identity only selects an already retained tuple; it does not establish an otherwise missing producer association. Unbound copied/reconstructed/directional lookalikes cannot create authority. A changed, separately assembled observation refuses; mutation of an original source after retention cannot rewrite the retained observation.",
+      "normalization": "Explicit pelora-source-normalization-v1 call-path binding plus exactly one matching normalization processing reference. No historical default or upgrade.",
+      "availability": "Only the retained governed centerTemperatureAvailable Boolean supplies available/unavailable. Missing/non-Boolean/contradictory states refuse. Finite-F equivalence checks the existing producer invariant; it never supplies the enum.",
+      "falseFinite": "CENTER_FALSE_FINITE_IS_PRODUCER_CONTRADICTION for finite Fahrenheit: the existing producer uses Number.isFinite(retained Fahrenheit). Generic v2 unavailable diagnostics remain unchanged. The helper retains a permitted finite Celsius diagnostic with null Fahrenheit; the default marine conversion normally produces both null on rejection.",
+      "numericalLimit": "Capture-v2 independently validates existing numeric/source constraints. It does not establish C/F conversion equality or new range/precision rules; this repair does not add them.",
+      "readCounts": "Celsius and Fahrenheit getter counts equal 1 at each materialization boundary, including original-source alias reuse. Changing and throwing-second getters pass; first-read failure refuses without retry or spatial invocation.",
+      "signedZero": "Celsius +0/-0 remain distinct exact references; Fahrenheit signed-zero primitives are retained without truthiness. Exact serialization/reconstruction preserves governed distinctions.",
+      "postMaterialization": "Original C/F, coordinates, time, spatial version/Boolean and provenance backing mutations cannot rewrite already retained values or created envelopes."
+    },
+    "restartedReview": {
+      "sameCenter": "PASS: changed center value/coordinates/time, nested coordinates and unbound spatial substitutions refuse.",
+      "trueFalseMatrix": "PASS: ordinary, zero, subnormal/extreme finite values remain subject to unchanged v2 rules; null/malformed/nonfinite/missing available values refuse. False/null and permitted C-only diagnostic accepted; false/finite-F, paired finite or Fahrenheit signed-zero refuse.",
+      "malformedAuthority": "PASS: missing/undefined/null/string/number/object/array/boxed/inherited authority refuses. Supported own getters read once; throwing authority getters give no binding.",
+      "getterMutation": "PASS: original Celsius reproduction now validates/captures 26 after one read; 27 is not captured. Fahrenheit changing/throwing-second and first-read-failure regressions retained. Coordinates/time/source/processing/version/Boolean getter attacks passed.",
+      "producerProvenance": "PASS: pelora-sst-spatial-range-v1 and explicit pelora-source-normalization-v1 retained/validated. Missing/wrong/future versions refuse. Extra valid processing references remain identity-bearing. Object-key order is canonical; reference-array ordering remains semantic in existing v2.",
+      "captureV2": "Byte unchanged. No successor. No center-only restriction added to generic v2 or directional SST.",
+      "publication": "PASS: source scientific objects are unchanged by registration; scalar exact envelopes travel through the existing normalized publication/storage path and reconstruct original scalar shape. Original center source lacks availability again on replay. No frontend edits. Existing scalar values, quality and opportunity outputs preserved.",
+      "spatialOmission": "PASS: actual default-path fixture with valid 77 F center and missing Boolean keeps ordinary live publication, but publishes no center capture/reference.",
+      "chlorophyllDirect": "PASS: value/coordinates/processing mutations change exact identity; missing lineage and invalid provider reject. Existing direct product profile preserved.",
+      "chlorophyllGapFilled": "PASS: reconstructed-value/processing changes distinguish exact identity; invalid/missing DINEOF/product markers and invented deployment/algorithm fields reject. No deployed-version authority invented.",
+      "familySubstitution": "PASS: identical shared values/time/coordinates retain distinct DIRECT/GAP_FILLED references. Partial relabeling fails closed under existing v2 profiles.",
+      "reconstructionDetachment": "PASS: exact capture/reference validation, context checksum, family and lineage checks; corrupt envelopes reject. Captures detached/frozen and stable after source mutation.",
+      "cache": "PASS: actual cold/warm normalized same-version path gives stable SST exact references; normalization critical tests preserve cache/in-flight version isolation and 300-second TTL.",
+      "promotion": "No reference-to-eligibility/freshness/revision/persistence/species/opportunity/confidence/ranking transform. Candidate scientific consumers retain ordinary objects; publication wrapper alone handles exact transport.",
+      "historical": "PASS: missing lineage/availability/producer authority is never backfilled. Historical ordinary evidence remains unreferenced."
+    },
+    "families": [
+      {
+        "family": "CENTER_SST",
+        "status": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+        "scope": "Qualified existing source profiles and explicit normalization lineage only. Per-observation refusal remains possible; no durable receipt issuance."
+      },
+      {
+        "family": "CHLOROPHYLL_DIRECT",
+        "status": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+        "scope": "Qualified existing source profiles and explicit normalization lineage only. Per-observation refusal remains possible; no durable receipt issuance."
+      },
+      {
+        "family": "CHLOROPHYLL_GAP_FILLED",
+        "status": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+        "scope": "Qualified existing source profiles and explicit normalization lineage only. Per-observation refusal remains possible; no durable receipt issuance."
+      }
+    ],
+    "scienceFirewalls": {
+      "sst": "Open-Meteo source/model equivalence, run attribution, historical comparability, temporal support, freshness and revision preference remain unresolved or governed by unchanged existing policy.",
+      "chlorophyll": "DIRECT exact support bounds and GAP_FILLED target support/deployed algorithm-version authority remain unresolved; no temporal arithmetic or historical selection changes.",
+      "paused": [
+        "Projection V3 quarantined",
+        "Ocean Physics paused",
+        "Convergence paused",
+        "12B.6C paused",
+        "9E-D paused"
+      ]
+    },
+    "receipt": {
+      "checkpoint": "checkpoint-historical-availability-receipt-writer-v1",
+      "checkpointFilesUnchanged": 9,
+      "writer": "DISABLED",
+      "migration": "UNAPPLIED",
+      "deployment": "NOT_QUALIFIED",
+      "familyAdmission": "CURRENT-v3 only; no scalar admission change",
+      "gate": "POSTGRES_TLS_ENDPOINT_REQUIREMENTS_NEED_DEPLOYMENT_CONFIGURATION"
+    },
+    "productionRepairFiles": [
+      "backend/scalarEvidenceHandoff.mjs"
+    ],
+    "testRepairFiles": [
+      "backend/tests/scalarEvidenceHandoff.test.mjs",
+      "backend/tests/scalarEvidenceHandoffAdversarial.test.mjs"
+    ],
+    "testFixtureClarification": "Three focused fixtures now construct a different assembled point or supply wrong producer metadata before binding when attacking substitution. Post-retention mutation of the original object instead tests stable retained identity, as authorized. Fahrenheit regression assertions remain intact.",
+    "productionHunks": [
+      {
+        "path": "backend/server.js",
+        "classes": [
+          "CENTER_SST_AVAILABILITY_ADAPTER",
+          "CENTER_SST_EXACT_REFERENCE_INTEGRATION",
+          "EXACT_REFERENCE_PUBLICATION"
+        ],
+        "scope": "Prior import, bound spatial invocation, register two frozen snapshot copies. Unchanged by this repair."
+      },
+      {
+        "path": "backend/normalizedEvidenceCapture.mjs",
+        "classes": [
+          "EXACT_REFERENCE_PUBLICATION"
+        ],
+        "scope": "Prior scalar wrapper around unchanged current observation handling. Unchanged by this repair."
+      },
+      {
+        "path": "backend/scalarEvidenceHandoff.mjs",
+        "classes": [
+          "CENTER_SST_SINGLE_READ_BINDING",
+          "CENTER_SST_ATOMIC_TUPLE_BINDING",
+          "CENTER_SST_AVAILABILITY_ADAPTER",
+          "CENTER_SST_EXACT_REFERENCE_INTEGRATION",
+          "DIRECT_CHLOROPHYLL_EXACT_REFERENCE_INTEGRATION",
+          "GAP_FILLED_EXACT_REFERENCE_INTEGRATION",
+          "NORMALIZATION_PROVENANCE_PRESERVATION",
+          "EXACT_REFERENCE_PUBLICATION"
+        ],
+        "scope": "New private retained-field helpers, center binding/capture validation; shared envelope, source metadata, chlorophyll, registration, encode/decode/publication functions unchanged from the pre-repair candidate."
+      }
+    ],
+    "tests": {
+      "focused": {
+        "scripts": 5,
+        "cases": 241,
+        "scalar": 41,
+        "adversarial": 69,
+        "retainedBoundary": 46,
+        "receiptWriter": 60,
+        "historicalAvailability": 25
+      },
+      "dependencies": {
+        "scripts": 10,
+        "cases": 253,
+        "normalizationCritical": {
+          "scripts": 7,
+          "cases": 65
+        },
+        "temporalSupport": 13,
+        "provenanceGapFilled": 16,
+        "exactScientificEvidence": 159
+      },
+      "full": {
+        "intended": 88,
+        "started": 88,
+        "completed": 88,
+        "passedScripts": 88,
+        "nodeScripts": 79,
+        "nodeTest": {
+          "tests": 2069,
+          "pass": 2069,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "manualCases": 50,
+        "completionOnly": [
+          "backend/tests/bathymetryEvidence.test.js",
+          "backend/tests/dynamicOpportunityFailure.test.js",
+          "backend/tests/environmentalObservationMetadata.test.js",
+          "backend/tests/oceanConditions.test.js",
+          "backend/tests/oceanFields.test.js",
+          "backend/tests/opportunityEvaluationState.test.js",
+          "backend/tests/persistenceEnvironment.test.js"
+        ],
+        "network": {
+          "focused": {
+            "loads": 5,
+            "exits": 5,
+            "attempts": 0
+          },
+          "critical": {
+            "loads": 10,
+            "exits": 10,
+            "attempts": 0
+          },
+          "final-release": {
+            "loads": 88,
+            "exits": 88,
+            "attempts": 0
+          }
+        }
+      },
+      "profile": "88-script membership/order, historical dispositions, exclusions and outcomes unchanged. Only the two prior server/normalized-wrapper inventory hashes differ from HEAD. No additional profile edit required: the new scalar module is not in that four-module inventory; its exact tested bytes are checked against the candidate ledger.",
+      "noDoubleCounting": "Focused/dependency and full-profile results are separate replay totals; overlapping suites are not distinct coverage."
+    },
+    "statics": {
+      "syntaxFiles": 6,
+      "jsonFiles": 4,
+      "literalReferences": 49,
+      "missingReferences": 0,
+      "nativeImportsAdded": 0
+    },
+    "preservation": {
+      "head": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+      "trackedBaseline": 1984,
+      "trackedChanges": [
+        "backend/normalizedEvidenceCapture.mjs",
+        "backend/server.js",
+        "backend/tests/sourceNormalizationRegressionProfile.v1.json"
+      ],
+      "protected": 177,
+      "historicalSuites": 20,
+      "normalizationCheckpointFiles": 14,
+      "normalizationByteUnchanged": 11,
+      "normalizationAuthorizedIntegrationChanges": [
+        "backend/normalizedEvidenceCapture.mjs",
+        "backend/server.js",
+        "backend/tests/sourceNormalizationRegressionProfile.v1.json"
+      ],
+      "receiptCheckpointFilesUnchanged": 9,
+      "excludedUnchanged": 2,
+      "preexistingDependencyFilesUnchanged": 15363,
+      "pgClosurePackages": 14,
+      "pgClosureFilesUnchanged": 138,
+      "currentProfileMembershipAndDispositionsUnchanged": true,
+      "repairProductionChanged": [
+        "backend/scalarEvidenceHandoff.mjs"
+      ]
+    },
+    "evidenceDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-scalar-tuple-e64fe4f52112495492aa0ead99d22647",
+    "limits": [
+      "Offline fixtures and guarded processes only. No live provider or database qualification.",
+      "No provider/database/Supabase/Auth access or environmental acquisition.",
+      "No migration execution, writer enablement, staging, commit, tag, push or deployment."
+    ],
+    "nextGate": "Human checkpoint review of this exact uncommitted candidate; no automatic commit or next implementation task."
+  },
+  "priorReviews": {
+    "reportVersion": "pelora-sst-chlorophyll-exact-reference-runtime-review-v1",
+    "verdict": "SST_CHLOROPHYLL_EXACT_REFERENCE_RUNTIME_V1_READY_FOR_ADVERSARIAL_REVIEW",
+    "head": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+    "productionChanged": true,
+    "liveIntegrationImplemented": true,
+    "captureSuccessorCreated": false,
+    "currentReviewSection": "centerSstAdapterAndLiveReferenceIntegration",
+    "centerSstAdapterAndLiveReferenceIntegration": {
+      "verdict": "SST_CHLOROPHYLL_EXACT_REFERENCE_RUNTIME_V1_READY_FOR_ADVERSARIAL_REVIEW",
+      "head": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+      "sameCenterBinding": "The live call snapshots marine.sst C/F, coordinates, observedAt and timestampProvenance before passing its Fahrenheit to getSstSpatialStructure. A private WeakMap binds the returned spatial object and its exact state to that input. Capture requires the same center fields and the same bound spatial state in the assembled point. Copied/spliced/mutated or unbound state refuses capture.",
+      "versions": {
+        "normalization": "pelora-source-normalization-v1",
+        "spatialProducer": "pelora-sst-spatial-range-v1",
+        "capture": "pelora-governed-current-evidence-capture-v2",
+        "serialization": "pelora-exact-scientific-json-v1",
+        "sourceMetadata": "pelora-recorded-current-source-metadata-v1",
+        "newCaptureVersion": false,
+        "newProducerVersion": false
+      },
+      "adapter": {
+        "source": "sst.derived.spatialStructure.centerTemperatureAvailable",
+        "true": "available",
+        "false": "unavailable",
+        "missing": "REFUSE_CAPTURE",
+        "malformed": "REFUSE_CAPTURE",
+        "contradictory": "REFUSE_CAPTURE",
+        "validation": "Boolean supplies enum; finite-F equivalence checks the existing spatial producer invariant only. V2 independently validates numeric/source content. False/null pair and permitted Celsius diagnostic with null F are retained. False with finite F contradicts this producer, even though generic v2 permits such diagnostics.",
+        "spatialFailure": "Refuse reference while preserving ordinary payload/publication; do not infer from surviving finite temperature."
+      },
+      "liveHandoff": "getMarineConditions -> unchanged source normalization and C/F conversion -> bound getSstSpatialStructure call -> unchanged SST assembly/science -> frozen observation/ocean snapshots -> private exact-envelope registration -> existing normalized HTTP/direct-storage handoff -> unchanged browser row payload -> backend normalized decode/reconstruction.",
+      "chlorophyllHandoff": "Existing direct/gap producers and unchanged resolver -> selected point -> unchanged frozen snapshots -> family-specific v2 envelope -> same publication/storage/reconstruction. Generic chlorophyll-unavailable fallback without a qualified product profile is refused.",
+      "families": [
+        {
+          "family": "SST",
+          "status": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+          "scope": "Only validated existing v2 source profiles with explicit normalization lineage; no durable receipt issuance."
+        },
+        {
+          "family": "CHLOROPHYLL_DIRECT",
+          "status": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+          "scope": "Only validated existing v2 source profiles with explicit normalization lineage; no durable receipt issuance."
+        },
+        {
+          "family": "CHLOROPHYLL_GAP_FILLED",
+          "status": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+          "scope": "Only validated existing v2 source profiles with explicit normalization lineage; no durable receipt issuance."
+        }
+      ],
+      "exactness": {
+        "reference": "Existing currentCaptureReferenceV2 identifies the center SST or selected chlorophyll source sample only; no competing scientific identity. Directional/derived context is transport-bound, not promoted into the center scientific reference.",
+        "envelope": [
+          "reference",
+          "captureText",
+          "contextText",
+          "sha256"
+        ],
+        "context": "Existing exact JSON preserves runtime remainder and originalSource, including absence of center source.availability. Checksum binds transport remainder only; it is not scientific identity or receipt authority.",
+        "processing": "All supplied processing references are retained in capture identity, with exactly one matching normalization-v1 reference required. Replay checks capture lineage against snapshot lineage. Historical missing lineage is not defaulted.",
+        "mutation": "Capture/reference detached and frozen; live publication registration uses frozen snapshot objects. Ordinary scientific objects do not acquire availability fields.",
+        "reconstruction": "Canonical exact capture validation, reference validation, context checksum and family/lineage checks before reconstructing original scalar shape.",
+        "directional": "Existing directional source/capture semantics unchanged; exact runtime remainder preserves directional context.",
+        "cache": "Same normalization-version keys, in-flight isolation and 300-second TTL; cold/warm center references agree while cache context differs."
+      },
+      "productionHunks": [
+        {
+          "file": "backend/server.js",
+          "authority": [
+            "CENTER_SST_AVAILABILITY_ADAPTER",
+            "CENTER_SST_EXACT_REFERENCE_INTEGRATION",
+            "EXACT_REFERENCE_PUBLICATION"
+          ],
+          "scope": "Import, bind existing spatial call, register both existing frozen snapshot copies; no scientific decision changed."
+        },
+        {
+          "file": "backend/normalizedEvidenceCapture.mjs",
+          "authority": [
+            "EXACT_REFERENCE_PUBLICATION"
+          ],
+          "scope": "Wrap unchanged current-only observation handling with scalar publication/reconstruction."
+        },
+        {
+          "file": "backend/scalarEvidenceHandoff.mjs",
+          "authority": [
+            "CENTER_SST_AVAILABILITY_ADAPTER",
+            "CENTER_SST_EXACT_REFERENCE_INTEGRATION",
+            "DIRECT_CHLOROPHYLL_EXACT_REFERENCE_INTEGRATION",
+            "GAP_FILLED_EXACT_REFERENCE_INTEGRATION",
+            "NORMALIZATION_PROVENANCE_PRESERVATION",
+            "EXACT_REFERENCE_PUBLICATION"
+          ],
+          "scope": "Private same-center binding, existing v2 capture, detached exact envelope, family dispatch and reconstruction."
+        }
+      ],
+      "testChanges": {
+        "added": "backend/tests/scalarEvidenceHandoff.test.mjs",
+        "preserved": "backend/tests/sstChlorophyllExactReferenceBoundary.test.mjs (46 prior cases unchanged)",
+        "inventory": "backend/tests/sourceNormalizationRegressionProfile.v1.json: only two current-module hashes refreshed; 88-script membership, archival dispositions, protected hashes and version unchanged."
+      },
+      "tests": {
+        "newIntegration": 35,
+        "retainedBoundary": 46,
+        "historicalReceiptWriter": 60,
+        "historicalAvailability": 25,
+        "normalization": {
+          "scripts": 7,
+          "passed": 65
+        },
+        "temporalSupport": 13,
+        "provenanceGapFilled": 16,
+        "exactScientificEvidence": 159,
+        "boundedScripts": 14,
+        "boundedCases": 419,
+        "fullCurrentRuntime": {
+          "intended": 88,
+          "started": 88,
+          "completed": 88,
+          "passedScripts": 88,
+          "nodeScripts": 79,
+          "nodeTest": {
+            "tests": 2069,
+            "pass": 2069,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "manualCases": 50,
+          "completionOnly": [
+            "backend/tests/bathymetryEvidence.test.js",
+            "backend/tests/dynamicOpportunityFailure.test.js",
+            "backend/tests/environmentalObservationMetadata.test.js",
+            "backend/tests/oceanConditions.test.js",
+            "backend/tests/oceanFields.test.js",
+            "backend/tests/opportunityEvaluationState.test.js",
+            "backend/tests/persistenceEnvironment.test.js"
+          ],
+          "network": {
+            "focused": {
+              "loads": 4,
+              "exits": 4,
+              "attempts": 0
+            },
+            "critical": {
+              "loads": 10,
+              "exits": 10,
+              "attempts": 0
+            },
+            "final-release": {
+              "loads": 88,
+              "exits": 88,
+              "attempts": 0
+            }
+          }
+        },
+        "receiptDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-scalar-integration-3edcd4068d1d4626a2a2dd1b7666be1a",
+        "preliminary": "Initial 28- and 34-case focused passes retained. Preliminary full run intentionally stopped after an additional processing-lineage preservation check; only final complete run is qualification authority.",
+        "operationalNetworkAttempts": 0
+      },
+      "preservation": {
+        "trackedBaseline": 1984,
+        "trackedChanges": [
+          "backend/normalizedEvidenceCapture.mjs",
+          "backend/server.js",
+          "backend/tests/sourceNormalizationRegressionProfile.v1.json"
+        ],
+        "protected": 177,
+        "historicalSuites": 20,
+        "normalizationCheckpointFiles": 14,
+        "normalizationUnchanged": 11,
+        "normalizationAuthorizedChanges": [
+          "backend/server.js",
+          "backend/normalizedEvidenceCapture.mjs",
+          "backend/tests/sourceNormalizationRegressionProfile.v1.json"
+        ],
+        "receiptCheckpointFilesUnchanged": 9,
+        "excluded": 2,
+        "preexistingDependencyFilesUnchanged": 15363,
+        "pgClosurePackages": 14,
+        "pgClosureFilesUnchanged": 138,
+        "currentProfileMembershipAndDispositionsUnchanged": true,
+        "literalReferences": 28,
+        "missingReferences": 0
+      },
+      "firewalls": [
+        "No SST source/model/run equivalence, comparability, temporal support, freshness or revision preference established.",
+        "No DIRECT support bounds or GAP_FILLED deployed algorithm/version/target bounds established. Existing fixed product-family/reconstruction markers are recorded, not deployment-authenticated.",
+        "No historical eligibility/selection, species/opportunity evidence, confidence/ranking/persistence changes.",
+        "Capture-v2, current-v3 and source normalization rules unchanged. Receipt implementation and migration bytes unchanged.",
+        "Projection V3 quarantined; Ocean Physics, 12B.6C and 9E-D paused."
+      ],
+      "receiptState": {
+        "writer": "DISABLED; admission remains CURRENT-v3 only",
+        "migration": "UNAPPLIED",
+        "deployment": "NOT_QUALIFIED",
+        "gate": "POSTGRES_TLS_ENDPOINT_REQUIREMENTS_NEED_DEPLOYMENT_CONFIGURATION"
+      },
+      "remainingBlockers": [
+        "Spatial fallback with missing Boolean intentionally cannot produce center exact reference.",
+        "Unsupported/generic fallback shapes remain unreferenced; no historical backfill.",
+        "Receipt-family admission and durable dependency-envelope integration require a later bounded review; no receipts issued here.",
+        "Real endpoint/TLS/principal/PUBLIC/RLS/transaction/durability/clock-health qualification remains open.",
+        "All named temporal/scientific questions remain open."
+      ],
+      "nextGate": "Adversarial review of the uncommitted adapter/publication/reconstruction candidate; later separate receipt-family integration gate.",
+      "externalActions": "No provider/database/Supabase/Auth access or environmental acquisition; no receipt enablement/migration application; no commit/tag/push/deployment.",
+      "unknownProductionHunks": 0
+    },
+    "priorReviews": {
+      "reportVersion": "pelora-sst-chlorophyll-exact-reference-runtime-review-v1",
+      "verdict": "CENTER_SST_EXISTING_STATE_SUPPORTS_ADAPTER",
+      "blockingFamily": "SST",
+      "head": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+      "productionChanged": false,
+      "liveIntegrationImplemented": false,
+      "captureSuccessorCreated": false,
+      "blocker": {
+        "producer": "backend/server.js::getOceanConditionsAtAssessment center SST assembly",
+        "actualSource": {
+          "provider": "Open-Meteo",
+          "classification": "forecast-model"
+        },
+        "missingField": "source.availability",
+        "validator": "backend/currentEvidenceCapture.mjs::sourcePoint, reused by currentEvidenceCaptureV2.mjs",
+        "constraint": "Source availability is required; the existing capture does not infer it from bytes.",
+        "proof": "Actual default producer rejects under v2; existing literal-assembler harness also rejects finite, missing, positive-zero and negative-zero centers on cold/warm paths.",
+        "requiredReview": "Capture representation of absent center availability, or separately authorized faithful adapter semantics. No implicit derivation, replacement acquisition, omitted center, or v2 relaxation.",
+        "chlorophyllSuccessorRequired": "NOT_DEMONSTRATED"
+      },
+      "families": [
+        {
+          "family": "SST",
+          "status": "REFERENCE_NOT_READY",
+          "receiptStatus": "RECEIPT_REFERENCE_NOT_READY",
+          "mechanism": "Directional source points fit v2; center live source lacks required availability.",
+          "livePath": [
+            "getMarineConditions / getSeaSurfaceTemperaturePoint",
+            "source normalization",
+            "version-bound directional cache/in-flight",
+            "center and spatial SST assembly",
+            "buildObservationSnapshot"
+          ],
+          "blocker": "Center capture-contract decision and live exact publication/reconstruction missing."
+        },
+        {
+          "family": "CHLOROPHYLL_DIRECT",
+          "status": "REFERENCE_NOT_READY",
+          "receiptStatus": "RECEIPT_REFERENCE_NOT_READY",
+          "mechanism": "EXACT_CAPTURE_EXISTS_LIVE_INTEGRATION_MISSING",
+          "livePath": [
+            "getChlorophyllConditionsAtAssessment",
+            "source normalization/rounding",
+            "resolveChlorophyllObservation",
+            "selected observations.chlorophyll",
+            "buildObservationSnapshot"
+          ],
+          "blocker": "Production live exact handoff not implemented after SST STOP; standalone codec qualification is insufficient."
+        },
+        {
+          "family": "CHLOROPHYLL_GAP_FILLED",
+          "status": "REFERENCE_NOT_READY",
+          "receiptStatus": "RECEIPT_REFERENCE_NOT_READY",
+          "mechanism": "EXACT_CAPTURE_EXISTS_LIVE_INTEGRATION_MISSING",
+          "livePath": [
+            "getGapFilledChlorophyllConditionsAtAssessment",
+            "source normalization/rounding and fixed reconstruction markers",
+            "resolveChlorophyllObservation",
+            "selected observations.chlorophyll",
+            "buildObservationSnapshot"
+          ],
+          "blocker": "Production live exact handoff not implemented after SST STOP; no deployment-version authority invented."
+        }
+      ],
+      "commonHandoff": [
+        "buildObservationSnapshot -> metadata/ocean snapshot",
+        "encodeNormalizedOceanResponse transforms currents only -> writeJson",
+        "Dashboard -> useOceanMemoryPersistence -> oceanMemoryStorageContract snapshot_payload",
+        "backend retrieval -> buildOceanMemoryStorageRecordFromRow -> decodeNormalizedOceanSnapshot (currents only)",
+        "historical snapshot query/time-series consumers (unchanged)"
+      ],
+      "existingCapture": {
+        "contractVersion": "pelora-governed-current-evidence-capture-v2",
+        "serializationVersion": "pelora-exact-scientific-json-v1",
+        "digestVersion": "pelora-exact-scientific-content-sha256-v1",
+        "referenceFields": [
+          "kind",
+          "referenceId",
+          "contractVersion",
+          "sha256"
+        ],
+        "referencePrefix": "cec2-",
+        "scientificDigestBinds": [
+          "family",
+          "samples including role/outcome/source values/time/location/markers"
+        ],
+        "captureIdentityAdditionallyBinds": [
+          "sourceAuthority",
+          "lineageReferences"
+        ],
+        "dependencyClosure": "Existing references bind represented lineage; no durable dependency closure or unrepresented provider dependencies are manufactured.",
+        "reconstruction": "Validated canonical exact capture string -> detached frozen replay",
+        "ordinaryJson": "Raw point JSON loses signed zero for all three tested scalar families; exact capture string survives JSON.",
+        "qualityScope": "Source capture rejects unsupported quality fields; age/cache/derived context is outside its closed source profile."
+      },
+      "identityResults": {
+        "sameTimeChangedValue": "Distinct v2 references for admitted source shapes in all three families",
+        "sameTimeChangedCoordinates": "Distinct references",
+        "legacySnapshotCollision": "Demonstrated SST legacy same-time identity collision with distinct v2 references",
+        "directVsGapFilled": "Distinct despite equal time/value; family substitution rejected",
+        "signedZero": "Distinct reference and exact round trip",
+        "nullVsZero": "Distinct; missing required value rejected",
+        "missingVsNullOptionalCoordinate": "Distinct, round trip preserves absence",
+        "fieldOrdering": "Deterministic",
+        "detachment": "Post-capture mutation cannot alter reference; capture deeply frozen",
+        "processingProvenance": "Normalization lineage changes capture/reference identity; source-only digest unchanged",
+        "historicalProvenance": "Empty lineage remains empty; no default to normalization v1",
+        "gapMarkers": "Existing product-family markers retained; missing markers and invented algorithmVersion rejected",
+        "representedDependencyChange": "Capture/reference changes; no upstream authentication inferred",
+        "directionalCache": "Cold/warm source reference stable excluding operational cache context; no TTL/version changes"
+      },
+      "tests": {
+        "newFile": "backend/tests/sstChlorophyllExactReferenceBoundary.test.mjs",
+        "focused": {
+          "scripts": 1,
+          "passed": 24
+        },
+        "normalizationCritical": {
+          "scripts": 7,
+          "passed": 65
+        },
+        "sstChlorophyllTemporalSupport": {
+          "scripts": 1,
+          "passed": 13
+        },
+        "sstProvenanceGapFilledBinding": {
+          "scripts": 1,
+          "passed": 16
+        },
+        "exactScientificEvidence": {
+          "scripts": 1,
+          "passed": 159
+        },
+        "total": {
+          "scripts": 11,
+          "passed": 277,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "fullRegression": "NOT_REQUIRED_NOT_RUN: no production change",
+        "operationalNetworkAttempts": 0,
+        "procedure": "Retained isolated checkout with dual denial/attempt instrumentation; local synthetic transport fixtures",
+        "receiptDirectory": "C:/Users/User/AppData/Local/Temp/pelora-sst-chl-reference-35dd39eb79e4480fabe22293301a54b4"
+      },
+      "openScienceUnchanged": [
+        "SST source/model/run equivalence",
+        "DIRECT chlorophyll exact support bounds",
+        "GAP_FILLED deployed algorithm correspondence and target support",
+        "NOAA current temporal support",
+        "historical scientific selection",
+        "chlorophyll temporal arithmetic"
+      ],
+      "authorityLimits": {
+        "identityImpliesEligibility": false,
+        "freshnessRevisionPreferenceLookbackSpeciesOpportunityConfidenceRankPersistenceChanged": false,
+        "receiptWriter": "UNCHANGED_DISABLED_BY_DEFAULT",
+        "receiptAdmission": "CURRENT_V3_ONLY_UNCHANGED",
+        "receiptIssued": false,
+        "migration": "UNAPPLIED_UNCHANGED",
+        "deploymentGate": "POSTGRES_TLS_ENDPOINT_REQUIREMENTS_NEED_DEPLOYMENT_CONFIGURATION",
+        "projectionV3": "QUARANTINED",
+        "OceanPhysics": "PAUSED",
+        "12B.6C": "PAUSED",
+        "9E-D": "PAUSED"
+      },
+      "candidateClassifications": {
+        "backend/tests/sstChlorophyllExactReferenceBoundary.test.mjs": "OFFLINE_CAPTURE_BOUNDARY_STOP_DIAGNOSTIC",
+        "docs/SST_Chlorophyll_Exact_Reference_Runtime_v1.md": "BOUNDED_RUNTIME_AUTHORITY_REVIEW",
+        "docs/SST_Chlorophyll_Exact_Reference_Runtime_v1.json": "BOUNDED_RUNTIME_AUTHORITY_REVIEW"
+      },
+      "unknownFiles": 0,
+      "verification": {
+        "unchangedPreexistingTrackedFiles": 1984,
+        "unchangedProtectedArtifacts": 177,
+        "unchangedHistoricalSuites": 20,
+        "unchangedNormalizationCheckpointFiles": 14,
+        "unchangedExcludedSupabaseFiles": 2,
+        "predecessorTags": {
+          "checkpoint-source-normalization-runtime-v1": "5f8a084fb355df8ff654c3c6eb3034b60dbd15f9",
+          "checkpoint-historical-availability-receipt-writer-v1": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b"
+        },
+        "isolatedBackendSharedPackageBaselineFilesMatched": 181,
+        "executedNewTestBytesMatch": true,
+        "syntax": "PASS",
+        "json": "PASS",
+        "whitespace": "PASS",
+        "nativeLiteralReferences": 8,
+        "missingReferences": 0,
+        "trackedDiff": "EMPTY",
+        "stagedDiff": "EMPTY"
+      },
+      "nextGate": "Authorize only the bounded existing-state adapter, refusing capture when the center Boolean is absent. No implementation in this review.",
+      "externalActions": {
+        "providerDatabaseSupabaseAuthAccess": false,
+        "environmentalAcquisition": false,
+        "migrationApplied": false,
+        "writerEnabled": false,
+        "staged": false,
+        "committed": false,
+        "tagged": false,
+        "pushed": false,
+        "deployed": false
+      },
+      "priorIntegrationVerdict": "SST_CHLOROPHYLL_CAPTURE_SUCCESSOR_REVIEW_REQUIRED",
+      "priorIntegrationNextGate": "Review center-SST absent-availability capture/adapter contract, then bounded live scalar exact-reference integration. No receipt-family promotion.",
+      "currentReviewSection": "centerSstAvailabilityContractReview",
+      "centerSstAvailabilityContractReview": {
+        "title": "CENTER SST AVAILABILITY CONTRACT REVIEW",
+        "verdict": "CENTER_SST_EXISTING_STATE_SUPPORTS_ADAPTER",
+        "head": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+        "relationshipToPriorStop": "Raw center shape still fails capture v2. Existing emitted Boolean establishes a bounded adapter path, so capture successor necessity is not established for that path. Prior STOP evidence and test counts above are retained history.",
+        "existingState": {
+          "path": "observation.observations.sst.derived.spatialStructure.centerTemperatureAvailable",
+          "writer": "getSstSpatialStructureAtAssessment",
+          "version": "pelora-sst-spatial-range-v1",
+          "sourceArgument": "getOceanConditionsAtAssessment passes this exact marine.sst.temperatureFahrenheit",
+          "meaning": "Finite normalized center Fahrenheit; independent of neighbor coverage and temporal eligibility",
+          "anchors": {
+            "conversion": 835,
+            "normalizedPair": 7357,
+            "caller": 60119,
+            "writer": 7026,
+            "return": 7081,
+            "fallback": 60131,
+            "centerAssembly": 61185,
+            "quality": 60670,
+            "centerConsumer": 10615
+          },
+          "registry": "docs/Candidate_Semantic_Surfaces_v1.json explicitly classifies the Boolean as currentOceanScientificEvidence"
+        },
+        "producerShapes": {
+          "marineSst": [
+            "requestedLatitude",
+            "requestedLongitude",
+            "resolvedLatitude",
+            "resolvedLongitude",
+            "observedAt",
+            "timestampProvenance",
+            "temperatureFahrenheit",
+            "temperatureCelsius"
+          ],
+          "marineSstSource": "ABSENT",
+          "parentSource": [
+            "provider",
+            "weatherModel",
+            "marineModel"
+          ],
+          "parentDiagnostics": "Independent weatherApi/marineApi fulfilled/rejected and error diagnostics",
+          "assembledCenterSource": {
+            "provider": "Open-Meteo",
+            "classification": "forecast-model"
+          },
+          "snapshot": "Structured clone preserves assembled source absence and derived center Boolean"
+        },
+        "knowledge": {
+          "inputAndConversion": "Producer internally rejects strict input or failed arithmetic; normalized return does not retain per-SST reason",
+          "missingMalformedNonfiniteOverflow": "All collapse to null C/F",
+          "providerFailure": "Marine status remains separately rejected; weather success permits null-SST return",
+          "bothProviderFailure": "Source inspection: marine producer throws, no return",
+          "freshness": "No center age admission or stale state; old/future/null center time can retain existing live label"
+        },
+        "normalization": "Committed marine:sea_surface_temperature route qualifies paired numeric acceptance/failure locality only. No dedicated center source-availability field or broader scientific authority.",
+        "captureV2": {
+          "type": "REQUIRED_STRING_ENUM",
+          "allowed": [
+            "available",
+            "unavailable",
+            "no-valid-pixel",
+            "provider-unavailable",
+            "request-failed"
+          ],
+          "availableRequires": "Finite C/F",
+          "nonAvailable": "Can retain finite diagnostic values; no iff inference",
+          "rejected": [
+            "absent",
+            "Boolean",
+            "null",
+            "unknown",
+            "stale",
+            "degraded",
+            "invalid"
+          ],
+          "unknown": "AVAILABILITY_UNKNOWN_NOT_AUTHORIZED"
+        },
+        "alternatives": {
+          "adapter": "CENTER_SST_EXISTING_STATE_SUPPORTS_ADAPTER",
+          "producerAmendment": "Not necessary for bounded adapter. Earlier explicit exposure could expose existing governed numeric state but changes observable producer/source shape and requires separate authorization.",
+          "captureSuccessor": "NOT_DEMONSTRATED_NECESSARY_FOR_PRESENT_VALIDATED_CENTER_STATE",
+          "absentState": "Not false and not a governed unknown capture enum; refuse capture"
+        },
+        "futureAdapterContract": {
+          "source": "Present own Boolean from the same newly normalized live center and successful versioned spatial assembler",
+          "mapping": {
+            "true": "available",
+            "false": "unavailable"
+          },
+          "validation": [
+            "Exact same-center binding",
+            "pelora-sst-spatial-range-v1",
+            "exact pelora-source-normalization-v1 processing reference",
+            "true with finite paired C/F",
+            "false with null paired C/F"
+          ],
+          "failClosed": [
+            "absent or invalid Boolean",
+            "mismatched center",
+            "wrong/missing producer version or processing provenance",
+            "contradictory paired values",
+            "spatial assembly fallback without center Boolean"
+          ],
+          "forbiddenFallbacks": [
+            "truthiness",
+            "derive from numeric payload",
+            "quality/freshness label",
+            "provider success",
+            "historical backfill",
+            "downstream aggregate available"
+          ],
+          "consumerBoundary": "Construct capture input only; preserve original live source absence through exact handoff/reconstruction and account for adapter mapping as processing, not provider-supplied metadata. No scientific consumers changed.",
+          "coverage": "Partial by design: no capture on omitted-state fallback; individual failed neighbors do not erase the explicit center state",
+          "implementation": "NONE"
+        },
+        "stateInventory": [
+          {
+            "field": "centerTemperatureAvailable",
+            "meaning": "Explicit center numeric admission",
+            "adapter": true
+          },
+          {
+            "field": "dataQuality.layers.sst",
+            "meaning": "Existing numeric/provider usability label, no freshness proof",
+            "adapter": false
+          },
+          {
+            "field": "status.sst",
+            "meaning": "Numeric finite-F display state",
+            "adapter": false
+          },
+          {
+            "field": "groups.temperature.drivers",
+            "meaning": "Downstream center predicate corroboration",
+            "adapter": false
+          },
+          {
+            "field": "groups.temperature.available",
+            "meaning": "Center OR sufficient spatial evidence",
+            "adapter": false
+          },
+          {
+            "field": "observationProvenance.available",
+            "meaning": "Transition feature identity",
+            "adapter": false
+          },
+          {
+            "field": "diagnostics.openMeteo.providerStatus",
+            "meaning": "Transport/parser outcome",
+            "adapter": false
+          },
+          {
+            "field": "snapshot available / spatial coverage",
+            "meaning": "Aggregate completeness",
+            "adapter": false
+          }
+        ],
+        "matrix": [
+          {
+            "id": "finite",
+            "celsius": 25,
+            "fahrenheit": 77,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "live",
+            "quality": {
+              "state": "live",
+              "reason": "current-model-value-available",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": true,
+            "centerTemperatureAvailable": true,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_RETAINED"
+          },
+          {
+            "id": "positive-zero",
+            "celsius": 0,
+            "fahrenheit": 32,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "live",
+            "quality": {
+              "state": "live",
+              "reason": "current-model-value-available",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": true,
+            "centerTemperatureAvailable": true,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_RETAINED"
+          },
+          {
+            "id": "negative-zero",
+            "celsius": "-0",
+            "fahrenheit": 32,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "live",
+            "quality": {
+              "state": "live",
+              "reason": "current-model-value-available",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": true,
+            "centerTemperatureAvailable": true,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_RETAINED"
+          },
+          {
+            "id": "fahrenheit-zero",
+            "celsius": -17.77777777777778,
+            "fahrenheit": 0,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "live",
+            "quality": {
+              "state": "live",
+              "reason": "current-model-value-available",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": true,
+            "centerTemperatureAvailable": true,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_RETAINED"
+          },
+          {
+            "id": "null",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "undefined",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "missing",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "nan-internal",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "positive-infinity-internal",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "negative-infinity-internal",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "finite-conversion-overflow",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "marine-provider-failure",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": null,
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "rejected",
+            "status": "unavailable",
+            "quality": {
+              "state": "degraded",
+              "reason": "marine-provider-request-failed",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "malformed-string",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "numeric-string",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "malformed-object",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "empty-string",
+            "celsius": null,
+            "fahrenheit": null,
+            "observedAt": "2026-09-24T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "unavailable",
+            "quality": {
+              "state": "unavailable",
+              "reason": "no-valid-center-temperature",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": false,
+            "centerTemperatureAvailable": false,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_UNAVAILABLE"
+          },
+          {
+            "id": "old-center-time",
+            "celsius": 25,
+            "fahrenheit": 77,
+            "observedAt": "2000-01-01T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "live",
+            "quality": {
+              "state": "live",
+              "reason": "current-model-value-available",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": true,
+            "centerTemperatureAvailable": true,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_RETAINED"
+          },
+          {
+            "id": "future-center-time",
+            "celsius": 25,
+            "fahrenheit": 77,
+            "observedAt": "2040-01-01T00:00:00Z",
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "live",
+            "quality": {
+              "state": "live",
+              "reason": "current-model-value-available",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": true,
+            "centerTemperatureAvailable": true,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_RETAINED"
+          },
+          {
+            "id": "missing-center-time",
+            "celsius": 25,
+            "fahrenheit": 77,
+            "observedAt": null,
+            "source": {
+              "provider": "Open-Meteo",
+              "classification": "forecast-model"
+            },
+            "providerStatus": "fulfilled",
+            "status": "live",
+            "quality": {
+              "state": "live",
+              "reason": "current-model-value-available",
+              "observedAt": "2026-09-24T00:00:00Z",
+              "source": "Open-Meteo Marine API"
+            },
+            "temperatureEvidenceAvailable": true,
+            "centerDriverPresent": true,
+            "centerTemperatureAvailable": true,
+            "captureV2": "REJECTS_ABSENT_AVAILABILITY",
+            "existingFact": "NORMALIZED_PAIR_RETAINED"
+          }
+        ],
+        "additionalCases": {
+          "failedNeighbors": "Explicit center Boolean retained with zero valid neighbors",
+          "failedSpatialAssembly": "Finite center but missing Boolean; existing quality live and center driver do not substitute",
+          "signedZero": "Both Celsius zero signs and Fahrenheit zero retain true numeric admission; truthiness is invalid",
+          "sameTimeRevisions": "Original 24-case evidence retained: v2 references distinguish changed content despite legacy same-time snapshot ID collision"
+        },
+        "consumerFindings": [
+          "Center temperature analysis, quality and status currently use finite value or derived predicates, not center source availability.",
+          "Aggregate temperature available can be true for missing center; cannot map it.",
+          "Directional feature admission and negative adequacy read availability on directional samples, not center.",
+          "Current age helper source check applies to current cache consumers, not center SST.",
+          "Snapshot/publication/browser storage/backend adaptation copy whole objects: adding a field is observable.",
+          "Existing semantic registry treats source availability as scientific evidence: producer amendment is not invisible metadata.",
+          "No live scalar replay integration is qualified. Historical selection/persistence and original source absence must be preserved."
+        ],
+        "requiredFutureTests": [
+          "Boolean presence/type/version and center binding",
+          "all matrix states",
+          "missing-state spatial fallback",
+          "contradictory pairs",
+          "mutation/detachment",
+          "original source absence round trip",
+          "processing lineage",
+          "same-time revisions",
+          "signed zero",
+          "consumer output invariance",
+          "no historical relabelling"
+        ],
+        "tests": {
+          "focused": 46,
+          "preservedPriorFocused": 24,
+          "newContractCases": 22,
+          "matrixCases": 19,
+          "dependencyScripts": 10,
+          "dependencyPassed": 253,
+          "normalization": {
+            "scripts": 7,
+            "passed": 65
+          },
+          "temporalSupport": 13,
+          "provenanceGapFilled": 16,
+          "exactScientificEvidence": 159,
+          "totalScripts": 11,
+          "totalPassed": 299,
+          "failures": 0,
+          "skips": 0,
+          "cancellations": 0,
+          "fullRegression": "NOT_RUN_PRODUCTION_UNCHANGED",
+          "initialSetupFailure": "Two cold-path assertions initially reused warm cache after a backwards fixture-clock move; corrected only test clock seams. Initial log retained.",
+          "operationalNetworkAttempts": 0,
+          "receiptDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-center-sst-contract-248edc8e76314b01802355f7e77030b3"
+        },
+        "preservation": "Production/checkpoints/capture-v2/receipt migration/protected evidence/history/dependencies/package files/Supabase exclusions unchanged; staged diff empty.",
+        "authorityLimits": "No availability field/adapter/successor/receipt issuance implemented. Receipt writer disabled, migration unapplied, deployment unqualified. SST science and chlorophyll findings unchanged.",
+        "nextGate": "Authorize only the bounded existing-state adapter, refusing capture when the center Boolean is absent. No implementation in this review.",
+        "verification": {
+          "tracked": 1984,
+          "dependencyFiles": 15363,
+          "historicalSuites": 20,
+          "prior24CasesBytePreserved": true,
+          "isolatedExecutableBaselineFiles": 181,
+          "nativeLiteralReferences": 8,
+          "missingReferences": 0,
+          "scripts": 11,
+          "passed": 299,
+          "failures": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "operationalNetworkAttempts": 0,
+          "pgClosurePackages": 14,
+          "pgClosureFilesUnchanged": 138,
+          "normalization": 14,
+          "protected": 177,
+          "excluded": 2,
+          "receipt": 9,
+          "syntax": "PASS",
+          "json": "PASS",
+          "whitespace": "PASS",
+          "trackedDiff": "EMPTY",
+          "stagedDiff": "EMPTY"
+        }
+      }
+    }
+  }
+}

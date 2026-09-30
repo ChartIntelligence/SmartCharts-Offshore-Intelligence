@@ -1,3 +1,4 @@
+import {bindCenterSstSpatial, registerScalarPublication} from './scalarEvidenceHandoff.mjs';
 import {SOURCE_NORMALIZATION_VERSION, SOURCE_NORMALIZATION_REFERENCE, normalizationCacheKey, sourceNumber, sourceScaledNumber, roundFinite} from "./sourceNormalization.mjs";
 import {captureNewNormalizedCurrentPoint, encodeNormalizedOceanResponse, encodeNormalizedOceanSnapshot, decodeNormalizedOceanSnapshot, hasNormalizedCurrentProvenance} from "./normalizedEvidenceCapture.mjs";
 import {reference as validateProcessingReference} from "../shared/oceanPublication.mjs";
@@ -60116,13 +60117,8 @@ async function getOceanConditionsAtAssessment(
   const sstSpatialResult =
     await settleWithTiming(
       () =>
-        getSstSpatialStructure(
-          latitude,
-          longitude,
-          marine.sst
-            ?.temperatureFahrenheit ??
-          null,
-          assessment
+        bindCenterSstSpatial(marine.sst, SOURCE_NORMALIZATION_VERSION, centerF =>
+          getSstSpatialStructure(latitude, longitude, centerF, assessment)
         )
     );
 
@@ -61466,6 +61462,10 @@ const observationSnapshot =
       intelligenceSnapshot
     });
 
+
+  // Exact scalar publication only; all scientific consumers retain their original objects.
+  registerScalarPublication(observationSnapshot, sstSpatial);
+  registerScalarPublication(oceanSnapshot.observation, sstSpatial);
 
   const blueMarlinHabitat =
     assessBlueMarlinHabitat({

@@ -761,10 +761,10 @@
     "version": "pelora-source-normalization-runtime-source-inventory-v1",
     "scope": "Byte integrity of authorized implementation modules only; no source-branch completeness or scientific authority claim.",
     "files": {
-      "backend/server.js": "6ab830180bbbbfb566b1ab09e522cac0081ea83a9a9d3dd0debb016a771e00e4",
+      "backend/server.js": "4c41dee7b0daed4d34ef4b703db18af590980ddcb60e1934b0277ba35d48fdf8",
       "backend/sourceNormalization.mjs": "cdd7bd164f1fcc2fe03f7d708e1555b3881829f08c86216a98c6920cbb4168b8",
       "backend/currentEvidenceCaptureV3.mjs": "3abeca350c864acdefb47d7dfe25a3f0e85bb97e7e75716aca33571f2dc3e63d",
-      "backend/normalizedEvidenceCapture.mjs": "3d7ddc7b2f02067663df29cd283ae830e4bb9ab1403602e1bd83535105658acc"
+      "backend/normalizedEvidenceCapture.mjs": "a042f2bc9b0408693895a032315b8b56c23eb1d1fdfba0cc921517305985a454"
     }
   },
   "execution": "Qualified temporary checkout-index, lockfile/cache integrity, offline notifier-disabled dependencies and dual network denial/attempt logging. Each script is a new process; archival assertion titles use exact anchored --test-skip-pattern. Mixed-suite current/normative controls remain included. Never interpret archived cases as passed.",
