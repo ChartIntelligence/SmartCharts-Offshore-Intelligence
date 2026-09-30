@@ -72,9 +72,22 @@ function Dashboard({
     useState(null);
 
   const [
-    selectedOpportunity,
-    setSelectedOpportunity
+    opportunitySelection,
+    setOpportunitySelection
   ] = useState(null);
+
+  // Selection belongs to a governed context, not a rank or an old result object.
+  const opportunityContext = JSON.stringify([
+    user?.id ?? null,
+    tripMission?.selectedSpecies ?? "blue-marlin",
+    captainSpatialContext ?? null
+  ]);
+  const selectedOpportunity = opportunitySelection?.context === opportunityContext
+    ? opportunitySelection.opportunity : null;
+  const setSelectedOpportunity = useCallback(opportunity => {
+    setOpportunitySelection(opportunity ? {context: opportunityContext, opportunity} : null);
+  }, [opportunityContext]);
+  useEffect(() => {setOpportunitySelection(null);}, [opportunityContext]);
 
   const [
     mapRecenterRequest,
@@ -85,7 +98,7 @@ function Dashboard({
     useCallback((spot) => {
       setSelectedSpot(spot);
       setSelectedOpportunity(null);
-    }, []);
+    }, [setSelectedOpportunity]);
 
   const handleSelectOpportunity =
     useCallback((opportunity) => {
@@ -94,13 +107,13 @@ function Dashboard({
       );
 
       setSelectedSpot(null);
-    }, []);
+    }, [setSelectedOpportunity]);
 
   const handleCloseMapSelection =
     useCallback(() => {
       setSelectedOpportunity(null);
       setSelectedSpot(null);
-    }, []);
+    }, [setSelectedOpportunity]);
 
   const navigateToTopZoneMap = useCallback(() => {
     setActiveTab("map");
@@ -296,28 +309,34 @@ const dynamicTopSpot =
 
 
 const selectedGovernedOpportunity =
-  selectedOpportunity &&
-  displayedTopOpportunities.some(
+  selectedOpportunity
+    ? displayedTopOpportunities.find(
     opportunity =>
       opportunity?.id ===
       selectedOpportunity?.id
-  )
-    ? selectedOpportunity
+  ) ?? null
     : null;
 
 
 useEffect(() => {
   if (
     selectedOpportunity &&
-    dynamicOpportunityData &&
-    !selectedGovernedOpportunity
+    (
+      (dynamicOpportunityData && !selectedGovernedOpportunity) ||
+      (!dynamicOpportunityLoading && dynamicOpportunityError && !dynamicOpportunityData)
+    )
   ) {
+    // Only the active hook result can invalidate intent. Loading preserves it;
+    // a terminal failure clears it so a later retry cannot silently reselect.
     setSelectedOpportunity(null);
   }
 }, [
   dynamicOpportunityData,
+  dynamicOpportunityLoading,
+  dynamicOpportunityError,
   selectedOpportunity,
-  selectedGovernedOpportunity
+  selectedGovernedOpportunity,
+  setSelectedOpportunity
 ]);
 
 

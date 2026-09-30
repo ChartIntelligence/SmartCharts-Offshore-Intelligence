@@ -7,6 +7,8 @@ export function useMapLibreOpportunitySelection({
   mapRef,
   selectedOpportunity
 }) {
+  const latitude = selectedOpportunity?.coordinates?.[0];
+  const longitude = selectedOpportunity?.coordinates?.[1];
   useEffect(() => {
     const map =
       mapRef?.current;
@@ -73,6 +75,8 @@ export function useMapLibreOpportunitySelection({
   });
   }, [
     mapRef,
-    selectedOpportunity
+    selectedOpportunity?.id,
+    latitude,
+    longitude
   ]);
 }

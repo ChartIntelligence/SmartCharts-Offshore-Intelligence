@@ -19,9 +19,11 @@ export function useSupabaseAuth() {
 
   useEffect(() => {
     let mounted = true;
+    let authRevision = 0;
 
 
     async function initializeSession() {
+      const revision = authRevision;
       setLoading(true);
       setError(null);
 
@@ -31,6 +33,8 @@ export function useSupabaseAuth() {
       } =
         await supabase.auth
           .getSession();
+
+      if (!mounted || authRevision !== revision) return;
 
 
       if (sessionError) {
@@ -53,6 +57,8 @@ export function useSupabaseAuth() {
         } =
           await supabase.auth
             .signInAnonymously();
+
+        if (!mounted || authRevision !== revision) return;
 
 
         if (anonymousError) {
@@ -86,7 +92,13 @@ export function useSupabaseAuth() {
     }
 
 
-    initializeSession();
+    initializeSession().catch(() => {
+      if (mounted && authRevision === 0) {
+        setSession(null);
+        setError("Pelora could not verify your session.");
+        setLoading(false);
+      }
+    });
 
 
     const {
@@ -101,6 +113,8 @@ export function useSupabaseAuth() {
             if (!mounted) {
               return;
             }
+
+            authRevision++;
 
             setSession(
               nextSession

@@ -1,0 +1,818 @@
+{
+  "version": "pelora-beta-safety-captain-state-v1",
+  "verdict": "BETA_SAFETY_CAPTAIN_STATE_V1_READY_FOR_CHECKPOINT_REVIEW",
+  "authority": "Bounded local implementation and offline verification; not scientific qualification, deployed security verification or beta readiness.",
+  "repository": {
+    "branch": "codex/pelora-remote-setup",
+    "startingHead": "3e92184b1a0aad9bafa07c7d078e839eb388537c",
+    "finalHead": "3e92184b1a0aad9bafa07c7d078e839eb388537c",
+    "committed": false
+  },
+  "betaBaseline": {
+    "verdict": "FOUNDING_CAPTAIN_BETA_NOT_READY_FOR_LOCKED_OPERATING_MODEL",
+    "packages": "EIGHT_COHERENT_BETA_PACKAGES_REMAIN",
+    "boardUnchanged": true,
+    "impact": "Reduces local P1 access/private-state and P2 exposed-claim findings, plus the bounded selected-state P8 defect; does not close a complete release package."
+  },
+  "production": [
+    {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "classes": [
+        "SELECTED_OPPORTUNITY_AUTHORITATIVE_REFRESH",
+        "SELECTED_OPPORTUNITY_INVALIDATION",
+        "FAILED_AUTHORITATIVE_REFRESH_SELECTION_INVALIDATION"
+      ],
+      "change": "Resolve selected identity against the newest governed collection; bind selection to captain/species/context. Active terminal failure with no authoritative data invalidates underlying selection; loading does not. Hook cancellation/key masking protects current selection from obsolete outcomes."
+    },
+    {
+      "path": "frontend/src/components/SavedFishingDayReports.jsx",
+      "classes": [
+        "SAVED_REPORT_OWNER_STATE_PROTECTION"
+      ],
+      "change": "Render only current-owner rows, filter returned ownership, invalidate obsolete requests/deletes and preserve owner filtering/order."
+    },
+    {
+      "path": "frontend/src/components/SelectedTarget.jsx",
+      "classes": [
+        "UNQUALIFIED_SCIENTIFIC_CLAIM_CONTAINMENT",
+        "DOCUMENTARY_PERSISTENCE_CLAIM_CONTAINMENT",
+        "NAVIGATION_STATE_CORRECTNESS"
+      ],
+      "change": "Suppress the unqualified current-edge card and its positive/negative interpretation; same-ID rank-label changes preserve sheet expansion. Omit the documentary persistence tile/formatter and same-consumer persistence fallback sentence. No invented authority, negative claim or backend deletion."
+    },
+    {
+      "path": "frontend/src/components/TodayDashboard.jsx",
+      "classes": [
+        "UNQUALIFIED_SCIENTIFIC_CLAIM_CONTAINMENT"
+      ],
+      "change": "Replace unsupported shaping/developing/causal prose with observation/co-location statements; do not infer persistence from confidence."
+    },
+    {
+      "path": "frontend/src/hooks/useCaptainAccess.js",
+      "classes": [
+        "CAPTAIN_ACCESS_FAIL_CLOSED"
+      ],
+      "change": "Require approved status and one of the two existing database-constrained roles; no new roles."
+    },
+    {
+      "path": "frontend/src/hooks/useDynamicOpportunities.js",
+      "classes": [
+        "CAPTAIN_CONTEXT_RACE_PROTECTION"
+      ],
+      "change": "Mask prior species/token/context results before effects; ignore obsolete responses even if transport ignores abort."
+    },
+    {
+      "path": "frontend/src/hooks/useMapLibreOpportunitySelection.js",
+      "classes": [
+        "SELECTED_OPPORTUNITY_AUTHORITATIVE_REFRESH",
+        "NAVIGATION_STATE_CORRECTNESS"
+      ],
+      "change": "Recenter for changed identity/coordinates, not every new object/prose/rank render; preserve mobile offset."
+    },
+    {
+      "path": "frontend/src/hooks/useSupabaseAuth.js",
+      "classes": [
+        "AUTH_LIFECYCLE_STATE_PROTECTION"
+      ],
+      "change": "A newer Auth event supersedes initial session/anonymous lookup; first-request failure fails closed."
+    }
+  ],
+  "tests": [
+    {
+      "path": "frontend/src/hooks/tests/betaSafetyCaptainState.test.js",
+      "change": "ADDED",
+      "cases": 71,
+      "purpose": "Real React reconciliation of actual Dashboard, SelectedTarget, Saved Reports, Auth/access hooks and App gate with offline dependencies; narrative helper tests and mobile/desktop map state. Includes 13 documentary/missing-authority omission cases, 8 integrated request/selection cases and 16 expanded role/private-state/rapid-refresh attacks."
+    },
+    {
+      "path": "backend/tests/betaSafetyPhysicsAuthority.test.mjs",
+      "change": "ADDED",
+      "cases": 6,
+      "purpose": "Four diagnostic injection attacks and twelve actual default-runtime synthetic evaluations across uniform/strong SST and six current patterns; authority/narrative invariance and raw current retention."
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainAccessLifecycle.test.js",
+      "change": "FIXTURE_AMENDMENT",
+      "cases": 14,
+      "purpose": "Existing approved fixtures now include the existing founding_captain role requested by production. All original assertions retained, including mismatched owner, stale denial/approval, logout, anonymous, missing credential and draft continuity."
+    }
+  ],
+  "documentation": [
+    "docs/Beta_Safety_Captain_State_v1.md",
+    "docs/Beta_Safety_Captain_State_v1.json"
+  ],
+  "unknown": 0,
+  "claimInventory": [
+    {
+      "surface": "Today current measurements; Map current arrows/samples; SelectedTarget Current",
+      "source": "Normalized NOAA point/spatial u/v, speed/direction, time/source metadata",
+      "derivation": "Existing numeric conversion, finite/locality handling and raw vector display",
+      "qualification": "Raw evidence authority only; not convergence/shear/edge",
+      "runtime": true,
+      "ui": true,
+      "action": "PRESERVED",
+      "failClosed": "Existing invalid/missing-vector and data-quality paths remain; available raw evidence is not relabeled unavailable.",
+      "references": [
+        "backend/sourceNormalization.mjs",
+        "backend/currentEvidenceCaptureV3.mjs",
+        "frontend/src/utils/mapEnvironmentalObservations.js",
+        "frontend/src/hooks/useMapLibreOceanFields.js"
+      ]
+    },
+    {
+      "surface": "SelectedTarget Current Edge card (Map sheet and full target panel)",
+      "source": "currents.derived.spatialAnalysis.edge",
+      "derivation": "Legacy currentEdgeDetected/edgeStrength",
+      "qualification": "Paused/unqualified interpretation",
+      "runtime": true,
+      "ui": "SUPPRESSED",
+      "action": "Removed card and both formatters",
+      "failClosed": "Neither Strong Edge Signal nor No Edge Signal/absence is asserted. Raw Current card remains.",
+      "references": [
+        "frontend/src/components/SelectedTarget.jsx"
+      ]
+    },
+    {
+      "surface": "Today Ocean Brief",
+      "source": "Point current availability plus temperature/pathway/evidence flags",
+      "derivation": "Former prose inferred shaping, creation and development from co-location; confidence language also implied development",
+      "qualification": "Co-location does not establish causal Physics or temporal evolution",
+      "runtime": true,
+      "ui": true,
+      "action": "Observation-only wording; no replacement calculations",
+      "failClosed": "Organized current features are not established; missing source evidence continues to use existing source states.",
+      "references": [
+        "frontend/src/components/TodayDashboard.jsx"
+      ]
+    },
+    {
+      "surface": "Convergence/divergence/shear/edge/eddy and dependent legacy Ocean Physics diagnostics",
+      "source": "Surrounding current vectors and existing spatial/Physics builders",
+      "derivation": "Legacy diagnostic geometry, organization and Physics summaries",
+      "qualification": "Diagnostic/candidate scope; advanced scientific interpretation remains paused",
+      "runtime": true,
+      "ui": "No direct renderer for the diagnostic trees after edge-card containment",
+      "action": "Preserved diagnostic/raw capture bytes and numerical builders; contained captain presentation",
+      "failClosed": "Current convergence producer does not establish the missing qualified detection Boolean. Current co-location opportunity types are not convergence/edge identities.",
+      "references": [
+        "backend/server.js",
+        "docs/Governed_Current_Convergence_Decision_v1.md",
+        "docs/Current_Vector_Failure_Locality_Contract_v1.md"
+      ]
+    },
+    {
+      "surface": "Governed eligibility, score, confidence, rank and Captain Narrative",
+      "source": "assessOceanOpportunity -> assessBlueMarlinHabitat -> unified interpretation/ranking -> Captain Narrative",
+      "derivation": "Existing raw-current and qualified co-located transition pathways",
+      "qualification": "Existing Blue Marlin scope only; no new current science",
+      "runtime": true,
+      "ui": true,
+      "action": "NO_FORMULA_CHANGE; adversarially verified existing admission separation",
+      "failClosed": "Tested advanced diagnostic changes cannot grant eligibility or alter habitat/opportunity/signal/narrative output. Current gradient also participates in negative-conclusion adequacy; this is not positive Opportunity authority and was not disabled.",
+      "references": [
+        "backend/server.js",
+        "backend/tests/betaSafetyPhysicsAuthority.test.mjs",
+        "frontend/src/components/OpportunityIntelligence.jsx"
+      ]
+    },
+    {
+      "surface": "Upwelling/downwelling, advanced movement/persistence, unqualified signal catalog",
+      "source": "Terminology/contracts and legacy diagnostics, not a separate qualified captain signal engine",
+      "derivation": "No new implementation in this package",
+      "qualification": "Unqualified/paused; no broad interpretation authorized",
+      "runtime": "Legacy diagnostics may execute; governed movement/persistence association remains fail closed",
+      "ui": "No qualified upwelling/downwelling/convergence/shear signal added",
+      "action": "Preserve existing unknown/unresolved association gates",
+      "failClosed": "No conversion of point current, exact reference or receipt readiness into advanced Physics authority.",
+      "references": [
+        "backend/server.js",
+        "docs/Beta_Command_Board_Current_State_v1.md"
+      ]
+    },
+    {
+      "surface": "Historical continuity and dormant legacy UI/data",
+      "source": "Stored historical Captain Narrative; old static Places/score utilities",
+      "derivation": "Historical rendering is explicitly historical; dormant HotspotCard/IntelligenceMap recommendations are outside the App->Dashboard runtime tree",
+      "qualification": "No live-production record audit; stored history is not current ranking",
+      "runtime": "Historical fallback only on governed-zero; raw/diagnostic history preserved",
+      "ui": "Explicit historical labels; no current restoration from history",
+      "action": "No historical rewrite or speculative global text filtering",
+      "failClosed": "Current identity changes mask previous request/history results; historical content does not create current eligibility. This package does not authenticate arbitrary old externally stored prose.",
+      "references": [
+        "frontend/src/components/HistoricalOpportunityContinuity.jsx",
+        "frontend/src/components/Dashboard.jsx",
+        "frontend/src/hooks/useDynamicOpportunities.js",
+        "frontend/src/utils/mapLibreHelpers.js"
+      ]
+    },
+    {
+      "surface": "SelectedTarget Persistence tile and local persistence fallback prose",
+      "classification": "DOCUMENTARY_NOT_EXPOSED",
+      "source": "oceanOpportunity.persistenceContext",
+      "action": "Neutral omission; no positive or negative persistence statement",
+      "authority": "Documentary-only context has no affirmative qualified rendering authority",
+      "references": [
+        "frontend/src/components/SelectedTarget.jsx",
+        "backend/server.js"
+      ]
+    },
+    {
+      "surface": "Today limitation, Intelligence persistence state, historical analysis",
+      "classification": "RAW/DESCRIPTIVE_NONSCIENTIFIC",
+      "action": "Existing epistemic limitation/status wording retained: persistence has not been established/could not be evaluated. It does not say persistence is absent. Historical analysis is explicitly preserved prior evaluation, not current selection or new qualification.",
+      "limits": "No authenticated inspection of arbitrary external stored prose or production rows; release verification remains open.",
+      "references": [
+        "frontend/src/components/TodayDashboard.jsx",
+        "frontend/src/components/OpportunityIntelligence.jsx",
+        "frontend/src/components/HistoricalOpportunityContinuity.jsx"
+      ]
+    }
+  ],
+  "selection": {
+    "reproduction": "Actual HEAD Dashboard replay retains the old same-ID object; final real React replay passes. Synthetic inputs, not a production incident claim.",
+    "identity": "Newest authoritative mapped collection resolves the selected identity; rank is never a key.",
+    "refreshed": [
+      "rank",
+      "score",
+      "confidence",
+      "primary signal/evidence",
+      "coordinates",
+      "represented time",
+      "Captain Narrative",
+      "supplied narrative trend/continuity metadata"
+    ],
+    "removal": "Existing close-to-explore semantics preserved: absent identity clears selection; governed-zero does not restore it from historical fallback; reappearance alone does not reselect it.",
+    "context": "Captain ID, species, origin/range/exploration context changes synchronously invalidate selection. The request hook hides prior-context results before effects and rejects late obsolete results.",
+    "navigation": "Today -> Map -> Intelligence consumes current object; manual Places selection and Close clear governed selection. Shared state serves responsive/mobile UI.",
+    "map": "Identity/coordinate changes recenter with existing desktop/mobile offsets; rank/prose-only refresh does not move map or collapse expanded same-ID sheet.",
+    "futurePublishing": "Synthetic no-reload collection refresh supported. No scheduler, latest-published API or four-hour publisher implemented.",
+    "failedRefresh": {
+      "owner": "Dashboard opportunitySelection; no duplicate state or tombstone",
+      "terminalFailure": "!dynamicOpportunityLoading && dynamicOpportunityError && !dynamicOpportunityData clears the stored selection",
+      "loading": "Retains intent; temporary panel masking does not clear identity. Successful same-ID refresh resolves newest object.",
+      "retry": "Collection can recover with changed X, without X, or later X; none recreates cleared intent. Explicit reselection works.",
+      "race": "Actual hook guards superseded success/failure through abort/key masking; four result combinations, rapid A/B/C, context change and logout tested.",
+      "navigation": "Map marker/sheet derive from resolved selection. Open Full Analysis uses the shared object; after failure Intelligence may show its normal default top on recovery, not the old selection. Existing tab/default behavior unchanged.",
+      "mobile": "Shared state and both recenter offsets verified; no physical-device claim."
+    }
+  },
+  "access": {
+    "status": "APPLICATION_OWNERSHIP_BOUNDARY_VERIFIED",
+    "gate": "App ?app=1 always enters FoundingCaptainAccessGate; other query/path states do not directly mount Dashboard. Startup remains gate-owned.",
+    "admitted": [
+      "approved founder",
+      "approved founding_captain"
+    ],
+    "denied": [
+      "anonymous",
+      "missing credential",
+      "pending access response",
+      "revoked access response",
+      "invalid status",
+      "unknown/missing role",
+      "mismatched owner"
+    ],
+    "loading": "Initial auth/access loading renders splash, not Unavailable or workspace. Same-principal approval revalidation preserves an already-authorized workspace pending a response; explicit denial/error removes it, preserving the existing lifecycle contract.",
+    "authRace": "Initial getSession/anonymous completion cannot overwrite a newer Auth event. Rejected initialization ends loading without granting a session.",
+    "principalTransition": "Gate remounts workspace by principal; unsaved Fishing Log state is cleared on logout/user change. Saved Reports independently mask owner mismatch and ignore obsolete requests."
+  },
+  "privateData": {
+    "savedReports": "Queries/deletes use owner user_id; rows defensively filtered to owner; trip_date DESC then created_at DESC retained. Loading/error/empty/late-response transitions do not reveal prior-owner rows.",
+    "fishingLogs": "Coordinates/time/species/outcome/observations entry and owner user_id retained; failed save preserves draft, no retry without evidence envelope. Gate principal ownership clears drafts. No automatic historical pairing or new immutable Opportunity capture invented.",
+    "oceanHistory": "Browser snapshot helpers explicitly filter user_id. Backend history calls use captain bearer credentials/public publishable key and rely on RLS for row isolation; history is not promoted to current Opportunity. This is not proof against a misconfigured deployed database.",
+    "deploymentLimits": [
+      "DEPLOYED_RLS_NOT_VERIFIED",
+      "LIVE_AUTH_NOT_VERIFIED",
+      "production grants/role policies/redirect/session configuration unverified",
+      "production recovered reports unverified",
+      "physical phone acceptance not performed"
+    ]
+  },
+  "science": {
+    "rawCurrent": "Normalization, u/v finiteness, failure locality, raw vectors, exact current capture, diagnostic/admissible separation and processing provenance unchanged.",
+    "formulas": "No backend/shared implementation or habitat/score/confidence/ranking/freshness/chlorophyll formulas changed.",
+    "species": "Existing Blue Marlin governed pipeline only; six additional species not implemented.",
+    "historical": "No historical scientific selection, backfill, reinterpretation or pairing implemented."
+  },
+  "testsRun": {
+    "newFocusedCases": 77,
+    "newFrontendCases": 71,
+    "newBackendCases": 6,
+    "existingAccessLifecycleCases": 14,
+    "profile": {
+      "intended": 88,
+      "started": 88,
+      "completed": 88,
+      "passed": 88,
+      "counts": {
+        "tests": 2069,
+        "pass": 2069,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 50
+      }
+    },
+    "packageReplay": {
+      "intended": 28,
+      "completed": 28,
+      "passed": 28,
+      "counts": {
+        "tests": 442,
+        "pass": 442,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      "frontend": {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      "bySuite": [
+        {
+          "file": "frontend/src/hooks/tests/betaSafetyCaptainState.test.js",
+          "tests": 71,
+          "pass": 71,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/hooks/tests/captainAccessLifecycle.test.js",
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/hooks/tests/peloraApiRouting.test.js",
+          "completionOnly": true,
+          "completionText": "PASS actual hooks share routing across modes/overrides, preserve auth, queries, species, response metadata, cancellation and refresh; Supabase stays separate"
+        },
+        {
+          "file": "frontend/src/hooks/tests/useMapLibreEnvironmentalObservations.test.js",
+          "completionOnly": true,
+          "completionText": "PASS MapLibre observation source reuse, setData, visibility, style reload, cleared-context data and listener cleanup PASS update deferred by source loading is applied at idle without another style.load"
+        },
+        {
+          "file": "frontend/src/hooks/tests/useMapLibreOceanFields.test.js",
+          "completionOnly": true,
+          "completionText": "PASS actual field hook style load, viewport requests, image/vector sources, layer order, reuse, toggles and cleanup"
+        },
+        {
+          "file": "frontend/src/lib/tests/oceanMemoryStorageContract.test.js",
+          "completionOnly": true,
+          "completionText": "PASS Ocean Memory storage discloses missing required fields PASS Ocean Memory storage validates observation timestamps"
+        },
+        {
+          "file": "frontend/src/utils/tests/fishingLogSpatialCapture.test.js",
+          "tests": 7,
+          "pass": 7,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/fishingLogSpatialIntegration.test.js",
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/fishingLogTemporalCapture.test.js",
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/mapEnvironmentalObservations.test.js",
+          "completionOnly": true,
+          "completionText": "PASS presentation adapter values, global positions, provenance, statuses, no inferred geometry or Place observations PASS surrounding current observations: shared gates, provider positions only, deduplication, no feature geometry"
+        },
+        {
+          "file": "frontend/src/utils/tests/mapObservationDisplay.test.js",
+          "completionOnly": true,
+          "completionText": "PASS observation GeoJSON, provider gates, sample identities, freshness, aligned current subset, inspection, symbols and MapLibre style validation"
+        },
+        {
+          "file": "frontend/src/utils/tests/mapRuntimeResponse.test.js",
+          "completionOnly": true,
+          "completionText": "PASS captured API response: 5 SST samples, 0 unavailable currents, 0 unavailable chlorophyll"
+        },
+        {
+          "file": "frontend/src/utils/tests/oceanFields.test.js",
+          "completionOnly": true,
+          "completionText": "PASS field viewport debounce/cancel, global coordinates, QA hiding, raster masks/georeferencing, arrow semantics, layer style/order and field status"
+        },
+        {
+          "file": "frontend/src/utils/tests/opportunityEvaluationState.test.js",
+          "completionOnly": true,
+          "completionText": "PASS shared frontend state preserves partial/zero/unavailable and keeps loading separate PASS hook preserves structured 502, partial and zero responses with separate initial loading"
+        },
+        {
+          "file": "frontend/src/utils/tests/peloraApi.test.js",
+          "completionOnly": true,
+          "completionText": "PASS Pelora API defaults, shared override, relative bases, slash normalization, query preservation and invalid configuration"
+        },
+        {
+          "file": "frontend/src/utils/tests/peloraMapStyle.test.js",
+          "tests": 12,
+          "pass": 12,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/persistenceEnvironment.test.js",
+          "completionOnly": true,
+          "completionText": "PASS browser identity, species-neutral request context and actual automatic snapshot hook fail closed except for matching response acknowledgement"
+        },
+        {
+          "file": "frontend/src/utils/tests/scalarMaskGuard.test.js",
+          "tests": 10,
+          "pass": 10,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/scalarPresentationBoundary.test.js",
+          "tests": 6,
+          "pass": 6,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/scalarRasterTiles.test.js",
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/syntheticSstDisplay.test.js",
+          "tests": 12,
+          "pass": 12,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "frontend/src/utils/tests/viewportFieldRequests.test.js",
+          "completionOnly": true,
+          "completionText": "PASS initial/refresh success, retained degraded failure, unchanged provenance/time, viewport/density identity, late-response rejection and cancellation"
+        },
+        {
+          "file": "backend/tests/betaSafetyPhysicsAuthority.test.mjs",
+          "tests": 6,
+          "pass": 6,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "backend/tests/scalarEvidenceHandoff.test.mjs",
+          "tests": 41,
+          "pass": 41,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "backend/tests/scalarEvidenceHandoffAdversarial.test.mjs",
+          "tests": 69,
+          "pass": 69,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "backend/tests/sstChlorophyllExactReferenceBoundary.test.mjs",
+          "tests": 46,
+          "pass": 46,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "backend/tests/historicalReceiptWriter.test.mjs",
+          "tests": 60,
+          "pass": 60,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        },
+        {
+          "file": "backend/tests/historicalReceiptWriterAdversarial.test.mjs",
+          "tests": 61,
+          "pass": 61,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0,
+          "completionOnly": false
+        }
+      ]
+    },
+    "normalizationCritical": [
+      {
+        "file": "backend/tests/currentEvidenceCaptureV3.test.js",
+        "tests": 14,
+        "pass": 14,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      {
+        "file": "backend/tests/currentVectorFailureLocalityContract.test.js",
+        "tests": 8,
+        "pass": 8,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      {
+        "file": "backend/tests/sourceNormalizationCurrentProducer.test.js",
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      {
+        "file": "backend/tests/sourceNormalizationRegressionGovernance.test.js",
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      {
+        "file": "backend/tests/sourceNormalizationRuntime.test.js",
+        "tests": 15,
+        "pass": 15,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      {
+        "file": "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      },
+      {
+        "file": "backend/tests/sourceNormalizationTransitiveCurrent.test.js",
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "manualCases": 0
+      }
+    ],
+    "accounting": "159 frontend node:test cases plus 12 completion-only assertion scripts; 283 backend package cases; 442 package cases total. Frontend suite 71 = 34 original + 13 persistence + 8 request/selection + 16 expanded adversarial. Existing access lifecycle 14 included. Profile 2069 node cases plus 50 explicit manual; normalization 65 overlaps profile. Do not add overlapping counts.",
+    "baselineReproduction": {
+      "expectedFailures": 10,
+      "qualificationPass": false,
+      "meaning": "Controlled HEAD replay demonstrates the repaired defects; distinct from successful final candidate qualification."
+    },
+    "setupInterruption": "Historical original qualification needed a retained source.nc fixture restored locally. This restarted qualification reused its isolated retained fixtures, ran all 88 scripts anew and required no acquisition. Early development assertions about a stubbed Explore label/object reference were corrected before final test replay; they were test-harness mismatches, not retained qualification failures.",
+    "additionalDiagnostic": {
+      "cases": 1,
+      "passed": 1,
+      "purpose": "Actual Dashboard/hook Intelligence selection linkage clears on failure; recovery uses normal default top rather than prior X",
+      "artifact": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-refresh-fix-d12eea7a0eed438da3d09bd30e4db986\\analysis-linkage.log"
+    }
+  },
+  "verification": {
+    "network": {
+      "final-release": {
+        "loads": 88,
+        "exits": 88,
+        "attempts": 0
+      },
+      "package-final": {
+        "loads": 28,
+        "exits": 28,
+        "attempts": 0
+      }
+    },
+    "operationalOutboundAttempts": 0,
+    "static": {
+      "syntaxFiles": 11,
+      "relativeModuleReferences": 36,
+      "allResolved": true,
+      "whitespace": "git diff --check; no new whitespace findings"
+    },
+    "gitDiffCheck": "PASS",
+    "preExistingWhitespace": "One unchanged trailing-whitespace line in TodayDashboard; no new diff whitespace findings.",
+    "preservation": {
+      "baselineTrackedFiles": 1994,
+      "unchangedTrackedFiles": 1985,
+      "changedTrackedFiles": 9,
+      "protectedArtifacts": 177,
+      "historicalSuites": 20,
+      "governedBackendSourceHashes": 4,
+      "allBackendSharedProductionUnchanged": true,
+      "dependenciesManifestsLockfilesUnchanged": true,
+      "checkpointTagRefsUnchanged": 272,
+      "excluded": [
+        {
+          "path": "supabase/.gitignore",
+          "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+          "unchanged": true,
+          "tracked": false,
+          "staged": false
+        },
+        {
+          "path": "supabase/config.toml",
+          "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2",
+          "unchanged": true,
+          "tracked": false,
+          "staged": false
+        }
+      ]
+    },
+    "runtimeTestsIsolated": true,
+    "qualifiedProfileMembershipUnchanged": 88,
+    "V3Executed": false,
+    "receiptDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-refresh-fix-d12eea7a0eed438da3d09bd30e4db986",
+    "candidateExecutableBytes": "All 11 executable candidate files hash-equal to final isolated replay copies",
+    "reportReferences": {
+      "markdownLinks": 26,
+      "literalRepositoryReferences": 75,
+      "allResolved": true
+    }
+  },
+  "gates": {
+    "receiptWriter": "DISABLED",
+    "receiptMigration": "UNAPPLIED",
+    "deployment": "NOT_QUALIFIED",
+    "postgres": "POSTGRES_TLS_ENDPOINT_REQUIREMENTS_NEED_DEPLOYMENT_CONFIGURATION",
+    "projectionV3": "QUARANTINED",
+    "oceanPhysics": "PAUSED",
+    "convergence": "PAUSED",
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "fourHourPublisher": "INCOMPLETE",
+    "continuousObserve": "INCOMPLETE",
+    "nightlyAudit": "INCOMPLETE",
+    "liveProduction": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY"
+  },
+  "completed": [
+    "Visible legacy current-edge positive/absence claim suppressed",
+    "Unsupported Today causal/evolution prose contained",
+    "Tested advanced-current diagnostic contribution and raw-current preservation",
+    "Same-ID selected-object and context-race corrections",
+    "Existing-role fail-closed gate plus Auth initialization race correction",
+    "Saved Reports request/identity isolation and offline owner-contract review",
+    "Neutral documentary persistence omission without authority invention; history/raw currents preserved",
+    "Active failed-refresh selection invalidation; successful loading continuity and obsolete-request isolation preserved",
+    "Fresh full adversarial/dependency/profile qualification against final executable bytes"
+  ],
+  "remaining": [
+    "Human final checkpoint review and authorization of this uncommitted candidate",
+    "Authorized production release/access and actual RLS/default/table privilege verification",
+    "Production Auth redirects/session/logout and recovered-report verification",
+    "Real-device and full browser/layout acceptance",
+    "Other locked operating-model packages remain incomplete"
+  ],
+  "recommendation": "Human final checkpoint review of exact candidate; no staging/commit or next implementation package. Live security/device and locked operating-model gates remain open.",
+  "noActions": {
+    "externalServiceAccess": true,
+    "environmentalAcquisition": true,
+    "migrationApplication": true,
+    "writerEnablement": true,
+    "stage": true,
+    "commit": true,
+    "tag": true,
+    "push": true,
+    "deploy": true
+  },
+  "evidence": {
+    "board": "docs/Beta_Command_Board_Current_State_v1.md",
+    "boardMachine": "docs/Beta_Command_Board_Current_State_v1.json",
+    "app": "frontend/src/App.jsx",
+    "gate": "frontend/src/components/FoundingCaptainAccessGate.jsx",
+    "startup": "frontend/src/components/PeloraStartupFlow.jsx",
+    "fishingLog": "frontend/src/components/FishingDayReportPanel.jsx",
+    "fishingTime": "frontend/src/utils/fishingLogTemporalCapture.js",
+    "fishingSpatial": "frontend/src/utils/fishingLogSpatialCapture.js",
+    "oceanStorage": "frontend/src/lib/oceanMemoryStorage.js",
+    "oceanPersistence": "frontend/src/hooks/useOceanMemoryPersistence.js",
+    "captainPolicy": "supabase/migrations/20260810_captain_access_v1.sql",
+    "reportPolicy": "supabase/migrations/20260801_fishing_day_reports_baseline_v1.sql",
+    "snapshotPolicy": "supabase/migrations/20260802_ocean_snapshots_v1.sql",
+    "privilegePolicy": "supabase/migrations/20260925_client_privilege_hardening_v1.sql",
+    "normalization": "backend/sourceNormalization.mjs",
+    "currentCapture": "backend/currentEvidenceCaptureV3.mjs",
+    "scalarHandoff": "backend/scalarEvidenceHandoff.mjs",
+    "receiptWriter": "backend/historicalReceiptRuntime.mjs",
+    "receiptConnection": "backend/historicalReceiptConnection.mjs",
+    "receiptMigration": "supabase/migrations/20260930_historical_receipt_envelope_v1.sql",
+    "regressionProfile": "backend/tests/sourceNormalizationRegressionProfile.v1.json",
+    "protectedLedger": "docs/Evidence_Checkpoint_Execution_Plan_Amendment_v1.json",
+    "accessTests": "frontend/src/hooks/tests/captainAccessLifecycle.test.js",
+    "fishingIntegrationTests": "frontend/src/utils/tests/fishingLogSpatialIntegration.test.js"
+  },
+  "persistenceContainment": {
+    "authority": "NO_CURRENT_QUALIFIED_PERSISTENCE_RENDERING_FIXTURE",
+    "future": "FUTURE_QUALIFIED_PERSISTENCE_AUTHORITY_REQUIRED_FOR_RENDERING",
+    "decision": "Neutral omission for this documentary consumer. No invented flag or new qualified rendering path.",
+    "states": [
+      "developing",
+      "stable",
+      "strengthening",
+      "weakening",
+      "fading"
+    ],
+    "matrix": "Actual backend builders plus actual React SelectedTarget; documentary values/limitations remain internally identical. Missing/null/string/array/empty object, diagnostic-only, availability-only and unavailable contexts make no persistence claim. Raw current remains visible.",
+    "limits": "Other governed Captain Narrative limitation text describes unestablished authority; it does not assert physical absence. Backend lifecycle/history/continuity and Captain Narrative authority unchanged."
+  },
+  "reviewHistory": [
+    {
+      "finding": "Original Current Edge positive/negative claims and current-shaping prose",
+      "resolution": "Package 1 consumer containment preserved; raw current and science untouched."
+    },
+    {
+      "finding": "Same-ID stale selected object",
+      "resolution": "Resolve selected identity from newest governed collection; preserve rank/coordinate/navigation behavior."
+    },
+    {
+      "finding": "Documentary Persistence: Developing rendered as captain intelligence",
+      "verdict": "BETA_SAFETY_CAPTAIN_STATE_V1_REQUIRES_CORRECTION",
+      "resolution": "Permanent actual-builder/component regressions and neutral omission."
+    },
+    {
+      "finding": "No affirmative persistence authority applicable to this consumer",
+      "verdict": "PERSISTENCE_AUTHORITY_SIGNAL_REQUIRED",
+      "resolution": "Human explicitly authorized neutral omission. No authority flag or qualified fixture invented."
+    },
+    {
+      "finding": "Failed refresh retained latent selection, which resurrected on retry",
+      "verdict": "BETA_SAFETY_CAPTAIN_STATE_V1_REQUIRES_CORRECTION",
+      "resolution": "Active terminal failure now clears Dashboard selection; success after loading preserves intent; old request outcomes cannot invalidate current intent."
+    }
+  ]
+}

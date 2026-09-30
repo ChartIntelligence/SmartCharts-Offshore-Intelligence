@@ -38,7 +38,8 @@ export function useCaptainAccess({session, authLoading, client}) {
   // This render-time comparison rejects sign-out/principal changes immediately,
   // before effect cleanup or a new lookup can run.
   const current = principalId && access?.principalId === principalId ? access : null;
-  const approved = Boolean(current?.record?.access_status === 'approved');
+  const approved = Boolean(current?.record?.access_status === 'approved' &&
+    ['founder', 'founding_captain'].includes(current?.record?.access_role));
   const pending = Boolean(principalId && (!current || current.status === 'pending'));
   return {principalId, approved, initialLoading:pending && !approved,
     revalidating:pending && approved, accessError:current?.error || ''};

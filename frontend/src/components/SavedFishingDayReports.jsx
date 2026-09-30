@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useRef,
   useState
 } from "react";
 
@@ -13,8 +14,13 @@ function SavedFishingDayReports({
   authLoading = false
 }) {
 
-  const [reports, setReports] =
+  const [reportRows, setReports] =
     useState([]);
+  const ownerId = !authLoading && user?.is_anonymous !== true ? user?.id ?? null : null;
+  const [reportsOwner, setReportsOwner] = useState(null);
+  const requestScope = useRef({ownerId, sequence: 0});
+  if (requestScope.current.ownerId !== ownerId) requestScope.current = {ownerId, sequence: 0};
+  const reports = ownerId && reportsOwner === ownerId ? reportRows : [];
 
     const [isLoading, setIsLoading] =
   useState(false);
@@ -28,11 +34,14 @@ const [loadError, setLoadError] =
 
   const loadReports = useCallback(
   async () => {
-    if (authLoading) {
-      return;
-    }
+    const scope = requestScope.current;
+    const sequence = ++scope.sequence;
+    const currentRequest = () => requestScope.current === scope && scope.sequence === sequence;
+    setReportsOwner(ownerId);
+    setReports([]);
+    setExpandedReportId(null);
 
-    if (!user?.id) {
+    if (!ownerId) {
       setReports([]);
       setLoadError("");
       setIsLoading(false);
@@ -54,7 +63,7 @@ const [loadError, setLoadError] =
           .select("*")
           .eq(
             "user_id",
-            user.id
+            ownerId
           )
           .order(
             "trip_date",
@@ -69,12 +78,13 @@ const [loadError, setLoadError] =
             }
           );
 
+      if (!currentRequest()) return;
       if (error) {
         throw error;
       }
 
       const normalizedReports =
-        (data || []).map(
+        (data || []).filter(row => row.user_id === ownerId).map(
           normalizeSupabaseReport
         );
 
@@ -82,6 +92,7 @@ const [loadError, setLoadError] =
         normalizedReports
       );
     } catch (error) {
+      if (!currentRequest()) return;
       console.error(
         "Unable to load fishing reports:",
         error
@@ -92,17 +103,17 @@ const [loadError, setLoadError] =
         "Unable to load saved fishing reports."
       );
     } finally {
-      setIsLoading(false);
+      if (currentRequest()) setIsLoading(false);
     }
   },
   [
-    authLoading,
-    user?.id
+    ownerId
   ]
 );
 
 useEffect(() => {
   loadReports();
+  return () => {requestScope.current.sequence++;};
 }, [
   loadReports,
   refreshToken
@@ -113,7 +124,7 @@ const deleteReport = async (
   reportId
 ) => {
 
-  if (!user?.id) {
+  if (!ownerId) {
     return;
   }
 
@@ -125,6 +136,8 @@ const deleteReport = async (
   if (!confirmed) {
     return;
   }
+
+  const scope = requestScope.current;
 
   const {
     error
@@ -140,8 +153,10 @@ const deleteReport = async (
       )
       .eq(
         "user_id",
-        user.id
+        ownerId
       );
+
+  if (requestScope.current !== scope) return;
 
   if (error) {
     console.error(
@@ -172,7 +187,7 @@ const deleteReport = async (
 };
 
 
-if (authLoading || isLoading) {
+if (authLoading || isLoading || (ownerId && reportsOwner !== ownerId)) {
   return (
     <section className="saved-reports-section">
 
@@ -204,7 +219,7 @@ if (authLoading || isLoading) {
 }
 
 
-if (loadError) {
+if (ownerId && reportsOwner === ownerId && loadError) {
   return (
     <section className="saved-reports-section">
 

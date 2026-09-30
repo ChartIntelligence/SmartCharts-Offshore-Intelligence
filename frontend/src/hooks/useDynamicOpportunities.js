@@ -11,6 +11,7 @@ export function useDynamicOpportunities(
   accessToken = null,
   captainSpatialContext = null
 ) {
+  const requestKey = JSON.stringify([species, accessToken, captainSpatialContext]);
   const [data, setData] =
     useState(null);
 
@@ -19,9 +20,11 @@ export function useDynamicOpportunities(
 
   const [error, setError] =
     useState(null);
+  const [resultKey, setResultKey] = useState(null);
 
 
   useEffect(() => {
+    setResultKey(requestKey);
     if (!species) {
       setData(null);
       setLoading(false);
@@ -183,10 +186,10 @@ export function useDynamicOpportunities(
         }
 
 
-        setData(result);
+        if (!controller.signal.aborted) setData(result);
       } catch (requestError) {
         if (
-          requestError?.name ===
+          controller.signal.aborted || requestError?.name ===
           "AbortError"
         ) {
           return;
@@ -224,13 +227,14 @@ export function useDynamicOpportunities(
   }, [
     species,
     accessToken,
-    captainSpatialContext
+    captainSpatialContext,
+    requestKey
   ]);
 
 
   return {
-    data,
-    loading,
-    error
+    data: resultKey === requestKey ? data : null,
+    loading: resultKey === requestKey ? loading : Boolean(species),
+    error: resultKey === requestKey ? error : null
   };
 }

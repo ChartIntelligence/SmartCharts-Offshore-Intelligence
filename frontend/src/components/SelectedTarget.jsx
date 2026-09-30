@@ -21,8 +21,7 @@ function SelectedTarget({
   useEffect(() => {
     setMapPanelExpanded(false);
   }, [
-    selectedSpot?.id,
-    selectedSpot?.name
+    selectedSpot?.id
   ]);
 
   if (!selectedSpot) {
@@ -236,29 +235,8 @@ const positionFreshness =
         </div>
 
 
-        <div>
-          <span>Current Edge</span>
-
-          <strong>
-            {formatCurrentEdge(
-              oceanData
-                ?.currents
-                ?.derived
-                ?.spatialAnalysis
-                ?.edge
-            )}
-          </strong>
-
-          <small>
-            {formatCurrentEdgeDetail(
-              oceanData
-                ?.currents
-                ?.derived
-                ?.spatialAnalysis
-                ?.edge
-            )}
-          </small>
-        </div>
+        {/* Raw current observations above remain visible. Paused current-edge
+            interpretation is not a qualified captain signal (including absence). */}
 
 
         <div>
@@ -288,15 +266,8 @@ const positionFreshness =
   </strong>
 </div>
 
-        <div>
-          <span>Persistence</span>
-
-          <strong>
-            {formatPersistence(
-              oceanData?.oceanOpportunity
-            )}
-          </strong>
-        </div>
+        {/* Documentary persistenceContext does not authorize a captain claim.
+            Rendering requires a future qualified persistence authority contract. */}
 
       </div>
 
@@ -625,45 +596,6 @@ function formatClassification(
 }
 
 
-function formatCurrentEdge(edge) {
-  if (
-    !edge?.available ||
-    edge.currentEdgeDetected !== true
-  ) {
-    return "No Edge Signal";
-  }
-
-  if (
-    edge.edgeStrength === "pronounced"
-  ) {
-    return "Strong Edge Signal";
-  }
-
-  return "Edge Signal";
-}
-
-
-function formatCurrentEdgeDetail(edge) {
-  if (!edge?.available) {
-    return "Current edge analysis unavailable";
-  }
-
-  if (
-    edge.currentEdgeDetected !== true
-  ) {
-    return "No clear current edge identified here.";
-  }
-
-  if (
-    edge.edgeStrength === "pronounced"
-  ) {
-    return "Pelora sees a strong change in current speed and direction across this area.";
-  }
-
-  return "Pelora sees a change in current conditions across this area.";
-}
-
-
 function formatSeaState(conditions) {
   const waves =
     conditions?.assessments?.waves?.values;
@@ -867,26 +799,6 @@ function formatEnvironment(opportunity) {
 }
 
 
-function formatPersistence(opportunity) {
-  const persistence =
-    opportunity?.persistenceContext;
-
-  if (
-    !persistence ||
-    persistence.available !== true
-  ) {
-    return "Not Yet Established";
-  }
-
-  if (persistence.lifecycleState) {
-    return formatClassification(
-      persistence.lifecycleState
-    );
-  }
-
-  return "Available";
-}
-
 function buildPeloraInterpretation(
   oceanSignals,
   opportunity
@@ -898,9 +810,6 @@ function buildPeloraInterpretation(
     opportunity
       ?.pathwayClassification
       ?.classification;
-
-  const persistence =
-    opportunity?.persistenceContext;
 
   if (
     oceanSignals?.available !== true ||
@@ -959,15 +868,6 @@ function buildPeloraInterpretation(
   ) {
     parts.push(
       "The signal is occurring where offshore structure and open-water conditions overlap."
-    );
-  }
-
-  if (
-    !persistence ||
-    persistence.available !== true
-  ) {
-    parts.push(
-      "Persistence has not yet been established."
     );
   }
 

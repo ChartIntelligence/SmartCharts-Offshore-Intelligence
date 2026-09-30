@@ -1185,7 +1185,7 @@ function buildOceanBriefSummary({
 
 
   let oceanStory =
-    "The surrounding water is beginning to show a more defined setup.";
+    "The available evidence describes the current ocean setting.";
 
 
   if (
@@ -1197,12 +1197,10 @@ function buildOceanBriefSummary({
     oceanStory =
       isStructureAssociated
         ? (
-            "A temperature transition is developing around the structure, " +
-            "with the current helping shape the water around it."
+            "Temperature-transition evidence and a current observation are available near the structure."
           )
         : (
-            "A temperature transition is beginning to separate itself from " +
-            "the surrounding water, with the current helping define the feature."
+            "Temperature-transition evidence and a current observation are available in this area."
           );
   } else if (
     primarySignal ===
@@ -1212,12 +1210,10 @@ function buildOceanBriefSummary({
     oceanStory =
       isStructureAssociated
         ? (
-            "A temperature transition is developing around the structure " +
-            "and beginning to separate this area from the surrounding water."
+            "Temperature-transition evidence is available near the structure."
           )
         : (
-            "A temperature transition is beginning to stand apart from " +
-            "the surrounding water."
+            "Temperature-transition evidence is available in this area."
           );
   } else if (
     currentAvailable
@@ -1225,11 +1221,10 @@ function buildOceanBriefSummary({
     oceanStory =
       isStructureAssociated
         ? (
-            "The current is beginning to shape a more distinct piece of water " +
-            "around the structure."
+            "A current observation is available near the structure; organized current features are not established."
           )
         : (
-            "The current is beginning to shape a more distinct piece of open water."
+            "A current observation is available in this area; organized current features are not established."
           );
   }
 
@@ -1242,7 +1237,7 @@ function buildOceanBriefSummary({
     !structureAvailable
   ) {
     structureStory =
-      " The signal is being created by the water itself rather than nearby structure.";
+      " This is an open-water setting without established nearby structure support.";
   }
 
 
@@ -1276,7 +1271,7 @@ function buildOceanBriefSummary({
     persistenceNotEstablished
   ) {
     cautionSignals.push(
-      "the feature has not shown enough persistence yet"
+      "feature persistence has not been established"
     );
   }
 
@@ -1293,8 +1288,8 @@ function buildOceanBriefSummary({
     confidence >= 80
       ? "Pelora has strong confidence in the setup."
       : confidence >= 60
-        ? "The signal is still developing, but it is worth a closer look."
-        : "The picture is still developing, so this area is worth watching rather than drawing a strong conclusion from it.";
+        ? "The evidence supports a closer look, with the stated limitations."
+        : "The evidence is limited; it does not support a strong conclusion.";
 
 
   return (

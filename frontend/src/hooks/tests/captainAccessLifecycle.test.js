@@ -105,7 +105,7 @@ async function setup() {
   const settle = async (status = 'approved', index = requests.length - 1) => {
     const request = requests[index];
     await act(async () => request.resolve(status === 'error' ? {error:new Error('synthetic lookup failure')} :
-      {data:status === null ? null : {user_id:request.id, access_status:status}, error:null}));
+      {data:status === null ? null : {user_id:request.id, access_status:status, access_role:'founding_captain'}, error:null}));
   };
   const enterDraft = async () => {
     await settle();
@@ -181,7 +181,7 @@ test('stale overlapping lookup cannot override newest approval; rejected promise
 test('approved record for another principal cannot authorize initial entry', async () => {
   const h = await setup();
   try {
-    await act(async () => h.requests[0].resolve({data:{user_id:'other-test-captain', access_status:'approved'}}));
+    await act(async () => h.requests[0].resolve({data:{user_id:'other-test-captain', access_status:'approved', access_role:'founding_captain'}}));
     assert.equal(h.view.mounts, 0); assert.doesNotMatch(h.container.textContent, /workspace/);
   } finally {await h.close();}
 });
@@ -218,7 +218,7 @@ test('pending result is not consumed after unmount; a fresh gate requires fresh 
   const request = h.requests.at(-1);
   await h.close();
   let consumed = false;
-  request.resolve({data:{get user_id() {consumed = true; return request.id;}, access_status:'approved'}});
+  request.resolve({data:{get user_id() {consumed = true; return request.id;}, access_status:'approved', access_role:'founding_captain'}});
   await Promise.resolve(); await Promise.resolve();
   assert.equal(consumed, false); assert.equal(h.view.unmounts, 1);
   assert.equal(h.container.textContent, '');
