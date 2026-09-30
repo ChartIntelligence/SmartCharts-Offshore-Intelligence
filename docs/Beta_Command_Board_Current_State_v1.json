@@ -1,0 +1,2205 @@
+{
+  "schema": "pelora-beta-command-board-current-state-audit-v1",
+  "verdict": "FOUNDING_CAPTAIN_BETA_NOT_READY_FOR_LOCKED_OPERATING_MODEL",
+  "baseline": {
+    "head": "30b99575e6390d371cc2f526d68e5ae64e8fe014",
+    "branch": "codex/pelora-remote-setup",
+    "auditDate": "2026-09-30"
+  },
+  "scope": "Read-only repository audit; only two new audit documents authorized. No live site or external service inspection.",
+  "liveProductionStatus": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+  "interpretation": {
+    "wired": "Reachable code, not proof of operational deployment",
+    "enabled": "Repository/default composition, not inspected production environment",
+    "persisted": "Storage calls/contracts versus verified durable deployment are distinguished",
+    "alreadyBetaReady": "A qualified repository component, not a declaration that the release is beta-ready",
+    "bucketA": "MUST_FINISH_BEFORE_FOUNDING_CAPTAIN_BETA",
+    "bucketB": "SAFE_TO_RUN_DISABLED_OR_PAUSED_DURING_BETA",
+    "bucketC": "POST_BETA / FUTURE"
+  },
+  "evidence": {
+    "entry": {
+      "path": "frontend/src/App.jsx",
+      "line": 1,
+      "finding": "Bare URL landing; ?app=1 enters gated private application."
+    },
+    "access": {
+      "path": "frontend/src/components/FoundingCaptainAccessGate.jsx",
+      "line": 27,
+      "finding": "Auth, captain-access approval, startup and magic-link flow."
+    },
+    "accessState": {
+      "path": "frontend/src/hooks/useCaptainAccess.js",
+      "line": 4,
+      "finding": "Own principal-bound access check; pending/error/denied/revoked handling distinct from same-user auth revalidation."
+    },
+    "startup": {
+      "path": "frontend/src/components/PeloraStartupFlow.jsx",
+      "line": 103,
+      "finding": "Blue Marlin enabled; other six targets disabled; origin/GPS/range and dashboard startup."
+    },
+    "mission": {
+      "path": "frontend/src/hooks/useTripMission.js",
+      "line": 15,
+      "finding": "Local-storage mission preferences, not per-user cloud trip persistence."
+    },
+    "dashboard": {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "line": 45,
+      "finding": "Today/Map/Intelligence/Reports/Profile composition and view state."
+    },
+    "selector": {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "line": 298,
+      "finding": "Existing selected object retained when a refreshed list contains same ID; static reproduction, not browser/live proof."
+    },
+    "memoryHook": {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "line": 385,
+      "finding": "Ocean memory persistence for selected Place/snapshot; not automatic log or opportunity-context pairing."
+    },
+    "reportComposition": {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "line": 983,
+      "finding": "Report panel receives user/structures callbacks, not selected opportunity/ocean snapshot context."
+    },
+    "today": {
+      "path": "frontend/src/components/TodayDashboard.jsx",
+      "line": 750,
+      "finding": "View Top Zone and Full Analysis navigation wired."
+    },
+    "selected": {
+      "path": "frontend/src/components/SelectedTarget.jsx",
+      "line": 415,
+      "finding": "Selected target sheet/report controls."
+    },
+    "intelligence": {
+      "path": "frontend/src/components/OpportunityIntelligence.jsx",
+      "line": 1,
+      "finding": "Captain Narrative sections and evidence/interpretation guards."
+    },
+    "opportunityHook": {
+      "path": "frontend/src/hooks/useDynamicOpportunities.js",
+      "line": 148,
+      "finding": "Request-time /api/opportunities; no published-cycle reader or four-hour timer."
+    },
+    "marineHook": {
+      "path": "frontend/src/hooks/useLiveMarineConditions.js",
+      "line": 57,
+      "finding": "Context-bound marine request/retry/browser refresh; not independent observation service."
+    },
+    "evaluationState": {
+      "path": "frontend/src/utils/opportunityEvaluationState.js",
+      "line": 1,
+      "finding": "Loading/available/partial/governed-zero/unavailable separated."
+    },
+    "mapControls": {
+      "path": "frontend/src/components/LayerControls.jsx",
+      "line": 109,
+      "finding": "Normal field controls and QA-gated environmental sample layers; map caveats."
+    },
+    "fieldPresentation": {
+      "path": "frontend/src/utils/oceanFieldPresentation.js",
+      "line": 1,
+      "finding": "Normal bathymetry/current fields separated from optional QA sample points."
+    },
+    "fieldHook": {
+      "path": "frontend/src/hooks/useMapLibreOceanFields.js",
+      "line": 35,
+      "finding": "Viewport field fetch/cache/browser refresh."
+    },
+    "clusters": {
+      "path": "frontend/src/hooks/useMapLibreSetup.js",
+      "line": 82,
+      "finding": "Structure/FAD map cluster configuration."
+    },
+    "places": {
+      "path": "frontend/src/data/gulfLocations.js",
+      "line": 1,
+      "finding": "Catalog/location composition distinct from governed opportunity evaluation."
+    },
+    "mobileCss": {
+      "path": "frontend/src/styles/dashboard.css",
+      "line": 7905,
+      "finding": "Responsive map/safe-area/bottom-sheet styles; not physical-device verification."
+    },
+    "reportWrite": {
+      "path": "frontend/src/components/FishingDayReportPanel.jsx",
+      "line": 275,
+      "finding": "Validated report save flow, owner/private fields, outcomes and sharing preference."
+    },
+    "spatialControls": {
+      "path": "frontend/src/components/FishingLogSpatialControls.jsx",
+      "line": 1,
+      "finding": "Explicit lat/lon coordinate-entry editor already implemented."
+    },
+    "temporalCapture": {
+      "path": "frontend/src/utils/fishingLogTemporalCapture.js",
+      "line": 29,
+      "finding": "Captain-confirmed time basis, envelope plus legacy projections, no lossy fallback retry."
+    },
+    "savedReports": {
+      "path": "frontend/src/components/SavedFishingDayReports.jsx",
+      "line": 51,
+      "finding": "Owner-filtered ordered report query and delete; later rendering normalizes legacy fields."
+    },
+    "logSchema": {
+      "path": "supabase/migrations/20260923_fishing_log_evidence_capture_v1.sql",
+      "line": 1,
+      "finding": "Nullable evidence_capture column; no historical backfill."
+    },
+    "ownerSchema": {
+      "path": "supabase/migrations/20260801_fishing_day_reports_baseline_v1.sql",
+      "line": 37,
+      "finding": "Owner CRUD/RLS design; logs not append-only immutable records."
+    },
+    "privilegeSchema": {
+      "path": "supabase/migrations/20260925_client_privilege_hardening_v1.sql",
+      "line": 1,
+      "finding": "Static client privilege intent, not proof of effective deployed grants."
+    },
+    "accessSchema": {
+      "path": "supabase/migrations/20260810_captain_access_v1.sql",
+      "line": 1,
+      "finding": "Founder/founding_captain and approved/pending/revoked own-read model."
+    },
+    "spatialQualification": {
+      "path": "docs/Fishing_Log_Spatial_Capture_Integration_v1.md",
+      "line": 47,
+      "finding": "Coordinates implemented; physical iPhone and deployed evidence_capture column verification outstanding."
+    },
+    "temporalQualification": {
+      "path": "docs/Fishing_Log_Temporal_Capture_Integration_v1.md",
+      "line": 1,
+      "finding": "Time capture integration and deployed-schema/draft limits."
+    },
+    "authQualification": {
+      "path": "docs/Captain_Workspace_Auth_Revalidation_v1.md",
+      "line": 33,
+      "finding": "Same-user auth lifecycle preservation is distinct from reload/process-eviction/device acceptance."
+    },
+    "association": {
+      "path": "shared/fishingLogAssociationReadiness.mjs",
+      "line": 1,
+      "finding": "Read-only association qualification helper, not nightly operational pairing."
+    },
+    "dbReadme": {
+      "path": "supabase/README.md",
+      "line": 1,
+      "finding": "Historical catalog/deployment context and migration cautions; not proof of current full deployment."
+    },
+    "bootstrap": {
+      "path": "supabase/Non_Production_Bootstrap_v1.md",
+      "line": 133,
+      "finding": "Project pairing, roles/privacy and deployment verification limits."
+    },
+    "publicationWorker": {
+      "path": "backend/oceanState/publicationWorker.mjs",
+      "line": 2,
+      "finding": "Explicit callable worker with injected ports; no automatic scheduler or production store."
+    },
+    "publicationContract": {
+      "path": "shared/oceanPublication.mjs",
+      "line": 35,
+      "finding": "UTC four-hour slots, frozen publication/history contract, Blue-Marlin-specific admission."
+    },
+    "fourHourQualification": {
+      "path": "docs/Four_Hour_Governed_Publication_v1.md",
+      "line": 1,
+      "finding": "Offline publication foundation, not runtime migration."
+    },
+    "clockQualification": {
+      "path": "docs/Explicit_Scientific_Assessment_Time_v1.md",
+      "line": 1,
+      "finding": "Explicit assessment clock seam implemented; do not preserve older wall-clock gap as current fact."
+    },
+    "historyBinding": {
+      "path": "docs/Scientific_History_Binding_Amendment_v1.md",
+      "line": 3,
+      "finding": "History binding implemented; scientific selection/use not thereby qualified."
+    },
+    "historyLimits": {
+      "path": "docs/Governed_Historical_Ocean_Snapshot_v1.md",
+      "line": 3,
+      "finding": "HISTORY_SELECTION_POLICY_REQUIRED; repeated evaluations not independent observations."
+    },
+    "sstWorker": {
+      "path": "backend/oceanState/sstWorker.mjs",
+      "line": 1,
+      "finding": "Callable acquisition-worker foundation, not startup scheduler."
+    },
+    "archive": {
+      "path": "shared/oceanProductArchive.mjs",
+      "line": 110,
+      "finding": "Durable port interface, not concrete operational archive configuration."
+    },
+    "sstOperations": {
+      "path": "docs/Operational_SST_Acquisition_Freshness_v1.md",
+      "line": 1,
+      "finding": "Operational pilot/qualification boundaries."
+    },
+    "serverRoutes": {
+      "path": "backend/server.js",
+      "line": 61743,
+      "finding": "Request endpoints and server composition; no published snapshot captain endpoint/scheduler composed."
+    },
+    "serverStart": {
+      "path": "backend/server.js",
+      "line": 62137,
+      "finding": "HTTP startup does not start publication or nightly background loop."
+    },
+    "providers": {
+      "path": "backend/server.js",
+      "line": 7123,
+      "finding": "Open-Meteo weather/marine request paths for wind/waves/swell/SST."
+    },
+    "directionalSst": {
+      "path": "backend/server.js",
+      "line": 6095,
+      "finding": "Directional SST normalized producer state; not independent scalar handoff registration."
+    },
+    "chlHierarchy": {
+      "path": "backend/server.js",
+      "line": 1834,
+      "finding": "DIRECT <=72h, GAP_FILLED <=72h, older DIRECT, older GAP_FILLED, otherwise unavailable."
+    },
+    "chlProviders": {
+      "path": "backend/server.js",
+      "line": 2028,
+      "finding": "DIRECT NOAA CoastWatch and separate GAP_FILLED source paths."
+    },
+    "currentProvider": {
+      "path": "backend/server.js",
+      "line": 2324,
+      "finding": "NOAA geostrophic vector acquisition/cache adapter."
+    },
+    "moon": {
+      "path": "backend/server.js",
+      "line": 1713,
+      "finding": "Local moon astronomical calculation."
+    },
+    "fieldRegistry": {
+      "path": "backend/fields/datasetRegistry.js",
+      "line": 3,
+      "finding": "ETOPO bathymetry and NOAA geostrophic field registry; map freshness distinct from science support."
+    },
+    "normalization": {
+      "path": "backend/sourceNormalization.mjs",
+      "line": 4,
+      "finding": "v1 missingness/finiteness/signed-zero and version-bound cache semantics."
+    },
+    "scalar": {
+      "path": "backend/scalarEvidenceHandoff.mjs",
+      "line": 119,
+      "finding": "Retained center adapter and DIRECT/GAP_FILLED capture registration."
+    },
+    "capture": {
+      "path": "backend/normalizedEvidenceCapture.mjs",
+      "line": 33,
+      "finding": "CURRENT-v3 and exact encode/decode handoff."
+    },
+    "liveCenter": {
+      "path": "backend/server.js",
+      "line": 60120,
+      "finding": "Same-center tuple/spatial authority in live assembly."
+    },
+    "liveScalarRegistration": {
+      "path": "backend/server.js",
+      "line": 61467,
+      "finding": "Snapshot scalar capture registration."
+    },
+    "httpExact": {
+      "path": "backend/server.js",
+      "line": 62082,
+      "finding": "Exact capture-aware HTTP publication."
+    },
+    "receipt": {
+      "path": "backend/historicalReceiptRuntime.mjs",
+      "line": 20,
+      "finding": "CURRENT-v3-only issuer/resolver; no scalar admission or server composition."
+    },
+    "receiptConnection": {
+      "path": "backend/historicalReceiptConnection.mjs",
+      "line": 20,
+      "finding": "Disabled-default inert connection policy."
+    },
+    "receiptMigration": {
+      "path": "supabase/migrations/20260930_historical_receipt_envelope_v1.sql",
+      "line": 1,
+      "finding": "Unapplied/deployment-gated receipt envelope; no execution in this audit."
+    },
+    "legacyPhysics": {
+      "path": "backend/server.js",
+      "line": 60446,
+      "finding": "Legacy convergence/shear/edge spatial derivations are called; governance pause is not runtime disablement."
+    },
+    "waterMass": {
+      "path": "backend/server.js",
+      "line": 12374,
+      "finding": "Salinity unavailable and limitations on water-mass interpretation."
+    },
+    "signals": {
+      "path": "backend/server.js",
+      "line": 37605,
+      "finding": "Four candidate-to-signal mappings, not all named future signals."
+    },
+    "speciesGate": {
+      "path": "backend/server.js",
+      "line": 61843,
+      "finding": "Opportunity API only admits blue-marlin."
+    },
+    "rankingGate": {
+      "path": "backend/server.js",
+      "line": 48789,
+      "finding": "Eligibility/interpretation/finite-score gates before ranking."
+    },
+    "convergenceLimits": {
+      "path": "docs/Governed_Current_Convergence_Decision_v1.md",
+      "line": 3,
+      "finding": "Candidate/detection interpretation unresolved; paused science preserved."
+    },
+    "noaaLimits": {
+      "path": "docs/NOAA_Geostrophic_Current_Metadata_Qualification_v2.md",
+      "line": 5,
+      "finding": "Candidate-only/uncertainty/provider clarification limits."
+    },
+    "apiConfig": {
+      "path": "frontend/src/utils/peloraApi.js",
+      "line": 1,
+      "finding": "Configured Render default and environment override are not live deployment evidence."
+    },
+    "frontendBuild": {
+      "path": "frontend/package.json",
+      "line": 1,
+      "finding": "Vite build scripts, not release receipt."
+    },
+    "backendStart": {
+      "path": "backend/package.json",
+      "line": 1,
+      "finding": "Node server start script, not deployment verification."
+    },
+    "supabaseConfig": {
+      "path": "frontend/src/lib/supabase.js",
+      "line": 6,
+      "finding": "Required public URL/key configuration; no actual environment secrets inspected."
+    },
+    "futureAudit": {
+      "path": "docs/Future_Ocean_Evidence_Extensibility_Audit_v1.md",
+      "line": 1,
+      "finding": "Future salinity/altimetry architecture evidence only, no runtime/science implementation."
+    }
+  },
+  "systems": [
+    {
+      "id": "access",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "YES",
+        "wiredToCaptainUI": "YES",
+        "persistedStorageWired": "captain_access query and static SQL; deployed state unverified",
+        "enabled": "Approved non-anonymous sessions only",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Operational acceptance required"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "entry",
+        "access",
+        "accessState",
+        "accessSchema",
+        "bootstrap"
+      ],
+      "captainImpact": "Private application accessible through ?app=1, not bare landing",
+      "whatRemains": "Release config, redirects, principal/approval policies and intended backend access verification"
+    },
+    {
+      "id": "startup_context",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "YES",
+        "wiredToCaptainUI": "YES",
+        "persistedStorageWired": "Local mission preference, not cloud trip record",
+        "enabled": "Blue Marlin startup/context enabled",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Device/session acceptance"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "startup",
+        "mission",
+        "authQualification"
+      ],
+      "captainImpact": "Origin/GPS, range, startup and context",
+      "whatRemains": "Real-device permission/keyboard/reload/shared-device behavior"
+    },
+    {
+      "id": "today_opportunities",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "Request-time evaluation",
+        "wiredToCaptainUI": "YES",
+        "persistedStorageWired": "Conditional owner history; no operational four-hour store",
+        "enabled": "Request-driven, Blue Marlin",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Locked publication model incomplete"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "dashboard",
+        "today",
+        "opportunityHook",
+        "rankingGate"
+      ],
+      "captainImpact": "Ranked current-request cards and status views",
+      "whatRemains": "Read published cycles instead of relying on session requests"
+    },
+    {
+      "id": "map_places",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "YES",
+        "wiredToCaptainUI": "YES",
+        "persistedStorageWired": "Catalog plus selected-place history calls; deployment unverified",
+        "enabled": "Normal bathymetry/current fields; QA samples gated",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Release/device acceptance"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "mapControls",
+        "fieldHook",
+        "clusters",
+        "places",
+        "selected",
+        "mobileCss"
+      ],
+      "captainImpact": "Explore Places and ranked markers with sheet/analysis navigation",
+      "whatRemains": "Real-phone and rank/selection/lifecycle acceptance"
+    },
+    {
+      "id": "intelligence",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "YES",
+        "wiredToCaptainUI": "YES",
+        "persistedStorageWired": "Conditional history inputs; no immutable report/analysis pairing",
+        "enabled": "Available governed selected/top opportunity",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Selected-object refresh risk and history authority limits"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "intelligence",
+        "selector",
+        "historyLimits"
+      ],
+      "captainImpact": "Eight-section Captain Narrative and conditional continuity",
+      "whatRemains": "Authorized refresh fix and qualified shared-history claims"
+    },
+    {
+      "id": "fishing_logs",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "YES",
+        "wiredToCaptainUI": "YES",
+        "persistedStorageWired": "User insert with evidence_capture; deployed migration unverified",
+        "enabled": "Manual captain input and save calls",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Schema/privacy/save acceptance; nightly association missing"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "reportWrite",
+        "spatialControls",
+        "temporalCapture",
+        "logSchema",
+        "reportComposition"
+      ],
+      "captainImpact": "Coordinates, date/time, observations/outcomes/private notes",
+      "whatRemains": "Verify deployed owner storage and exact envelope; qualify immutable context/pairing for promised nightly use"
+    },
+    {
+      "id": "saved_reports",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "YES",
+        "wiredToCaptainUI": "YES",
+        "persistedStorageWired": "Owner-filtered SELECT/DELETE, ordered trip_date/created_at",
+        "enabled": "UI enabled for signed-in owner",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Effective RLS/recovery/mobile acceptance"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "savedReports",
+        "ownerSchema",
+        "privilegeSchema",
+        "dbReadme"
+      ],
+      "captainImpact": "List and inspect historical fishing reports",
+      "whatRemains": "Two-user tests and recovered records proof; no claim of historical ocean reconstruction"
+    },
+    {
+      "id": "source_normalization",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "YES: SST/chl/current conversions/cache/handoffs",
+        "wiredToCaptainUI": "Indirect consumption",
+        "persistedStorageWired": "In-memory version-bound cache and exact metadata handoff",
+        "enabled": "Current code path",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "No new implementation blocker in qualified component"
+      },
+      "primaryBucket": "ALREADY_BETA_READY",
+      "evidence": [
+        "normalization",
+        "providers",
+        "currentProvider",
+        "httpExact"
+      ],
+      "captainImpact": "Invisible correctness/fail-closed improvements",
+      "whatRemains": "Preserve qualification; deployment remains unverified"
+    },
+    {
+      "id": "scalar_current_exact_identity",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "CURRENT/center/DIRECT/GAP handoffs wired",
+        "wiredToCaptainUI": "Metadata encode/decode, no new visible feature expected",
+        "persistedStorageWired": "Conditional captain ocean snapshot path, not durable receipt",
+        "enabled": "Identity only per observation",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "No new implementation blocker in qualified component"
+      },
+      "primaryBucket": "ALREADY_BETA_READY",
+      "evidence": [
+        "scalar",
+        "capture",
+        "liveCenter",
+        "liveScalarRegistration",
+        "httpExact"
+      ],
+      "captainImpact": "Safer exact revision/provenance, not more eligibility",
+      "whatRemains": "Keep receipt/science boundaries and directional qualification separate"
+    },
+    {
+      "id": "receipt_writer",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "YES",
+        "wiredToRuntime": "No application composition found",
+        "wiredToCaptainUI": "NO",
+        "persistedStorageWired": "Unapplied migration + injected store implementation",
+        "enabled": "DISABLED by default; no writer composition",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Not required if beta claims no qualified historical receipt authority"
+      },
+      "primaryBucket": "B",
+      "evidence": [
+        "receipt",
+        "receiptConnection",
+        "receiptMigration"
+      ],
+      "captainImpact": "No live historical authority created",
+      "whatRemains": "Separate deployment/principal/TLS/RLS/durability and family-admission gates if needed"
+    },
+    {
+      "id": "continuous_observe",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "PARTIAL",
+        "wiredToRuntime": "Requests/cache; SST worker isolated",
+        "wiredToCaptainUI": "Browser refresh, no independent service",
+        "persistedStorageWired": "RAM caches + abstract archive ports",
+        "enabled": "No 24/7 loop composed",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Locked operating model missing"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "providers",
+        "marineHook",
+        "sstWorker",
+        "archive",
+        "sstOperations"
+      ],
+      "captainImpact": "New requests can acquire evidence; app sessions still drive current path",
+      "whatRemains": "Scheduled independent acquisition/qualified durability/retry/health/retention"
+    },
+    {
+      "id": "four_hour_publication",
+      "status": {
+        "designedContracted": "YES",
+        "implementedInRepository": "Worker/reader/contracts",
+        "wiredToRuntime": "Not operationally composed",
+        "wiredToCaptainUI": "NO",
+        "persistedStorageWired": "Abstract claim/store/CAS; no actual publish storage",
+        "enabled": "No scheduler",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Required locked beta system incomplete"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "publicationWorker",
+        "publicationContract",
+        "fourHourQualification",
+        "opportunityHook"
+      ],
+      "captainImpact": "No shared persistent latest-published captain experience",
+      "whatRemains": "Qualified shared evaluator, actual durable ports/scheduler/latest API and UI projection"
+    },
+    {
+      "id": "nightly_audit",
+      "status": {
+        "designedContracted": "Locked requirement; ingredients",
+        "implementedInRepository": "PARTIAL ingredients, no nightly loop",
+        "wiredToRuntime": "NO scheduled execution",
+        "wiredToCaptainUI": "NO learning/audit outputs",
+        "persistedStorageWired": "Logs and selected-place history; no qualified pairing pipeline",
+        "enabled": "Not composed",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Required by stated nightly scope unless explicitly deferred"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "association",
+        "reportComposition",
+        "memoryHook",
+        "serverStart"
+      ],
+      "captainImpact": "No nightly outcome/evidence audit delivered",
+      "whatRemains": "Privacy-preserving scheduled qualified/unknown/unpaired audit; no automatic rank changes"
+    },
+    {
+      "id": "ocean_signals_current_claims",
+      "status": {
+        "designedContracted": "PARTIAL governed authority",
+        "implementedInRepository": "Limited mappings and legacy diagnostics",
+        "wiredToRuntime": "YES, including some paused-science derivations",
+        "wiredToCaptainUI": "Limited context/interpretation visible",
+        "persistedStorageWired": "Source snapshot context only",
+        "enabled": "Existing diagnostics run; future science paused",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Claim containment required"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ],
+      "captainImpact": "Limited transitions/context, not fully qualified Physics catalog",
+      "whatRemains": "Review active consumer claims; contain unsupported interpretation under existing authority"
+    },
+    {
+      "id": "future_physics_signals",
+      "status": {
+        "designedContracted": "PARTIAL",
+        "implementedInRepository": "Partial diagnostics, not complete qualification",
+        "wiredToRuntime": "No broad qualified signal product",
+        "wiredToCaptainUI": "No complete qualified UI catalog",
+        "persistedStorageWired": "Not a universal derivation/history engine",
+        "enabled": "Science PAUSED",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "May remain paused if active claims contained separately"
+      },
+      "primaryBucket": "B",
+      "evidence": [
+        "convergenceLimits",
+        "noaaLimits",
+        "signals"
+      ],
+      "captainImpact": "No promise of qualified upwelling/eddy/convergence science",
+      "whatRemains": "Separate authorized scientific work, not this beta implementation audit"
+    },
+    {
+      "id": "other_species",
+      "status": {
+        "designedContracted": "Some designs/labels",
+        "implementedInRepository": "No equivalent governed engine for six requested targets",
+        "wiredToRuntime": "API rejects other species",
+        "wiredToCaptainUI": "Startup disabled; log categories only",
+        "persistedStorageWired": "Logs may contain species labels",
+        "enabled": "Disabled targets",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Not required for stated Blue Marlin scope"
+      },
+      "primaryBucket": "C",
+      "evidence": [
+        "startup",
+        "speciesGate"
+      ],
+      "captainImpact": "Cannot select six additional operational target engines",
+      "whatRemains": "Explicit candidate/habitat/gate/rank/narrative science per species"
+    },
+    {
+      "id": "release_operations",
+      "status": {
+        "designedContracted": "Configuration exists",
+        "implementedInRepository": "Build/start/migration artifacts",
+        "wiredToRuntime": "Deployment not evidenced",
+        "wiredToCaptainUI": "Live build unknown",
+        "persistedStorageWired": "Effective production schema unknown",
+        "enabled": "Production environment not inspected",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "Release evidence and safety gate"
+      },
+      "primaryBucket": "A",
+      "evidence": [
+        "apiConfig",
+        "frontendBuild",
+        "backendStart",
+        "supabaseConfig",
+        "dbReadme"
+      ],
+      "captainImpact": "Cannot infer what PeloraOffshore.com currently serves",
+      "whatRemains": "Exact build/SHA/environment/policies/device verification under future authorization"
+    },
+    {
+      "id": "future_families",
+      "status": {
+        "designedContracted": "Architecture audit",
+        "implementedInRepository": "No salinity/altimetry implementation",
+        "wiredToRuntime": "NO",
+        "wiredToCaptainUI": "NO",
+        "persistedStorageWired": "No family-specific persisted evidence",
+        "enabled": "Not implemented",
+        "deploymentEvidencePresent": "Configuration/contracts may exist; no current release or live-enforcement receipt established",
+        "liveProductionVerified": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+        "betaBlocker": "No current beta blocker demonstrated"
+      },
+      "primaryBucket": "C",
+      "evidence": [
+        "futureAudit"
+      ],
+      "captainImpact": "No captain feature from audit-only checkpoints",
+      "whatRemains": "Future provider/science/capture/consumer authority; safe deferred extension debt"
+    }
+  ],
+  "captainExperience": [
+    {
+      "surface": "Private access/sign-in",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Approved own principal; actual Auth/RLS not tested",
+      "primaryBucket": "A",
+      "evidence": [
+        "entry",
+        "access",
+        "accessState"
+      ]
+    },
+    {
+      "surface": "Startup/load screen",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Startup/loading and session flow; phone acceptance outstanding",
+      "primaryBucket": "A",
+      "evidence": [
+        "access",
+        "startup",
+        "authQualification"
+      ]
+    },
+    {
+      "surface": "Today/Home",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Request-time results, not published cycles",
+      "primaryBucket": "A",
+      "evidence": [
+        "today",
+        "opportunityHook"
+      ]
+    },
+    {
+      "surface": "Captain Context",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Local origin/range/species; not cloud trip",
+      "primaryBucket": "A",
+      "evidence": [
+        "mission",
+        "startup"
+      ]
+    },
+    {
+      "surface": "Species selection",
+      "implemented": "PARTIAL",
+      "runtimeWired": "Blue Marlin only",
+      "uiWired": "YES",
+      "knownLimit": "Six other targets disabled, engine rejected",
+      "primaryBucket": "C for other targets",
+      "evidence": [
+        "startup",
+        "speciesGate"
+      ]
+    },
+    {
+      "surface": "Origin/GPS",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Permission/manual paths; device behavior unverified",
+      "primaryBucket": "A",
+      "evidence": [
+        "startup"
+      ]
+    },
+    {
+      "surface": "Range",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "75/100/150/200/300 choices in startup; shared publication projection missing",
+      "primaryBucket": "A",
+      "evidence": [
+        "startup",
+        "mission"
+      ]
+    },
+    {
+      "surface": "Map workspace",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Responsive full-screen/sheet; physical device acceptance",
+      "primaryBucket": "A",
+      "evidence": [
+        "dashboard",
+        "mobileCss",
+        "selected"
+      ]
+    },
+    {
+      "surface": "Places",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Catalog/cluster not scientific opportunity authority",
+      "primaryBucket": "A release acceptance",
+      "evidence": [
+        "places",
+        "clusters"
+      ]
+    },
+    {
+      "surface": "Ocean Signals",
+      "implemented": "PARTIAL",
+      "runtimeWired": "Limited mappings",
+      "uiWired": "PARTIAL",
+      "knownLimit": "Legacy active diagnostics need claim containment",
+      "primaryBucket": "A",
+      "evidence": [
+        "signals",
+        "legacyPhysics"
+      ]
+    },
+    {
+      "surface": "Top Opportunities",
+      "implemented": "YES request-time",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "No latest-published reader",
+      "primaryBucket": "A",
+      "evidence": [
+        "opportunityHook",
+        "today"
+      ]
+    },
+    {
+      "surface": "Opportunity details",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Same-ID refreshed selection can retain old object",
+      "primaryBucket": "A",
+      "evidence": [
+        "selector",
+        "selected"
+      ]
+    },
+    {
+      "surface": "Open Full Analysis",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Selected governed opportunity navigation wired; no blanket missing-route finding",
+      "primaryBucket": "A acceptance",
+      "evidence": [
+        "today",
+        "selected",
+        "dashboard"
+      ]
+    },
+    {
+      "surface": "Intelligence",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Conditional narrative and history, not complete recurring shared continuity",
+      "primaryBucket": "A",
+      "evidence": [
+        "intelligence",
+        "historyLimits"
+      ]
+    },
+    {
+      "surface": "Fishing Logs",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "No automatic immutable ocean/opportunity context; schema verification pending",
+      "primaryBucket": "A",
+      "evidence": [
+        "reportWrite",
+        "reportComposition",
+        "logSchema"
+      ]
+    },
+    {
+      "surface": "Coordinates entry",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Already implemented; validate deployed save and real phone",
+      "primaryBucket": "A acceptance, no new feature needed",
+      "evidence": [
+        "spatialControls",
+        "spatialQualification"
+      ]
+    },
+    {
+      "surface": "Saved Reports",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Owner storage calls; actual RLS/recovered data unknown",
+      "primaryBucket": "A",
+      "evidence": [
+        "savedReports",
+        "dbReadme"
+      ]
+    },
+    {
+      "surface": "Historical reports",
+      "implemented": "YES log listing",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Not historical ocean/scientific replay",
+      "primaryBucket": "A acceptance",
+      "evidence": [
+        "savedReports",
+        "association"
+      ]
+    },
+    {
+      "surface": "Navigation/mobile",
+      "implemented": "YES",
+      "runtimeWired": "YES",
+      "uiWired": "YES",
+      "knownLimit": "Responsive CSS and lifecycle tests not live physical-phone proof",
+      "primaryBucket": "A",
+      "evidence": [
+        "dashboard",
+        "mobileCss",
+        "authQualification"
+      ]
+    }
+  ],
+  "fourHour": {
+    "overall": "PARTIAL",
+    "requiredForLockedBeta": true,
+    "requirementBasis": "User locked operating model plus publication contract; request-only beta would require explicit scope reduction",
+    "utcCadence": [
+      "00:00",
+      "04:00",
+      "08:00",
+      "12:00",
+      "16:00",
+      "20:00"
+    ],
+    "matrix": [
+      {
+        "id": "A",
+        "element": "Governed candidate generation",
+        "status": "WIRED",
+        "detail": "Request evaluator; shared cohort not qualified"
+      },
+      {
+        "id": "B",
+        "element": "Evidence gates",
+        "status": "WIRED",
+        "detail": "Existing request candidate gates"
+      },
+      {
+        "id": "C",
+        "element": "Opportunity eligibility",
+        "status": "WIRED",
+        "detail": "Explicit interpretation/eligibility before rank"
+      },
+      {
+        "id": "D",
+        "element": "Ranking",
+        "status": "WIRED",
+        "detail": "Request rank and numbered UI identity"
+      },
+      {
+        "id": "E",
+        "element": "Persistent opportunity identity",
+        "status": "IMPLEMENTED",
+        "detail": "Stable IDs/history mechanisms; recurring deployed persistence unverified"
+      },
+      {
+        "id": "F",
+        "element": "Continuity comparison",
+        "status": "PARTIAL",
+        "detail": "Functions and conditional UI; qualified shared history missing"
+      },
+      {
+        "id": "G",
+        "element": "Multi-cycle persistence",
+        "status": "PARTIAL",
+        "detail": "History algorithms do not make scheduled repeats independent observations"
+      },
+      {
+        "id": "H",
+        "element": "Scheduled four-hour trigger",
+        "status": "MISSING",
+        "detail": "UTC cadence validation is not a scheduler"
+      },
+      {
+        "id": "I",
+        "element": "Server execution independent of sessions",
+        "status": "PARTIAL",
+        "detail": "Callable worker, no operational composition"
+      },
+      {
+        "id": "J",
+        "element": "Atomic snapshot publication",
+        "status": "IMPLEMENTED",
+        "detail": "Offline claim/freeze/create/readback/CAS port model only"
+      },
+      {
+        "id": "K",
+        "element": "Persistent published snapshot storage",
+        "status": "MISSING",
+        "detail": "Concrete operational durable adapter not wired"
+      },
+      {
+        "id": "L",
+        "element": "Latest-published resolver",
+        "status": "IMPLEMENTED",
+        "detail": "Validating latest-pointer function; not captain API"
+      },
+      {
+        "id": "M",
+        "element": "Frontend published snapshot consumption",
+        "status": "MISSING",
+        "detail": "Uses /api/opportunities request path"
+      },
+      {
+        "id": "N",
+        "element": "Launch/resume published-cycle behavior",
+        "status": "MISSING",
+        "detail": "No published-cycle reader lifecycle"
+      },
+      {
+        "id": "O",
+        "element": "Historical cycle retention",
+        "status": "PARTIAL",
+        "detail": "Contracts, no operational retention store/policy"
+      },
+      {
+        "id": "P",
+        "element": "Strengthening/weakening/movement",
+        "status": "PARTIAL",
+        "detail": "Conditional algorithms; feature association/history selection not universally qualified"
+      }
+    ],
+    "evidence": [
+      "publicationWorker",
+      "publicationContract",
+      "fourHourQualification",
+      "clockQualification",
+      "historyBinding",
+      "historyLimits",
+      "opportunityHook",
+      "serverRoutes",
+      "serverStart"
+    ],
+    "alreadyImplementedCaveat": "Explicit scientific assessment clock seam exists; older implicit-wall-clock STOP is superseded at that seam.",
+    "smallestCompletionPackage": [
+      "Qualified shared candidate/evidence/history evaluator",
+      "Concrete durable claim/freeze/create/CAS and retention ports",
+      "Independent UTC scheduler with retry/restart/health acceptance",
+      "Latest snapshot API",
+      "Captain context projection and launch/resume frontend consumption",
+      "History/evolution qualification without counting repeat cycles as independent observations"
+    ],
+    "notSufficient": "Cron wrapper around current captain-context evaluation; it has context-dependent candidate selection/caps and authenticated history.",
+    "pausedBoundary": "No implicit adoption of quarantined Projection V3 or resumption of 12B.6C/9E-D/paused science."
+  },
+  "environmentalSources": [
+    {
+      "family": "Wind",
+      "providerAdapter": "Open-Meteo weather",
+      "acquisitionCode": "Wired request path",
+      "normalization": "Parsing/unit conversion",
+      "freshnessGovernance": "Provider-time/quality context",
+      "mapUI": "Marine/travel UI",
+      "opportunityConsumption": "Marine/travel context, not positive species proof",
+      "knownLimit": "Release/source reliability acceptance",
+      "evidence": [
+        "providers"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Waves",
+      "providerAdapter": "Open-Meteo marine",
+      "acquisitionCode": "Wired request path",
+      "normalization": "Parsing/unit conversion",
+      "freshnessGovernance": "Marine quality context",
+      "mapUI": "Marine/travel UI",
+      "opportunityConsumption": "Marine/travel context",
+      "knownLimit": "Request-time not continuous archive",
+      "evidence": [
+        "providers"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Swell",
+      "providerAdapter": "Open-Meteo marine",
+      "acquisitionCode": "Wired request path",
+      "normalization": "Parsing/unit conversion",
+      "freshnessGovernance": "Marine quality context",
+      "mapUI": "Marine/travel UI",
+      "opportunityConsumption": "Marine/travel context",
+      "knownLimit": "Same operational limit",
+      "evidence": [
+        "providers"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "SST",
+      "providerAdapter": "Open-Meteo marine center/directions",
+      "acquisitionCode": "Wired request path",
+      "normalization": "Source Normalization v1",
+      "freshnessGovernance": "Existing quality/freshness labels",
+      "mapUI": "Center/thermal context; normal transitions; raster pilot not generally enabled",
+      "opportunityConsumption": "Thermal/context path",
+      "knownLimit": "Model/run/equivalence/support science open",
+      "evidence": [
+        "providers",
+        "directionalSst",
+        "normalization",
+        "sstOperations"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Chlorophyll/water color",
+      "providerAdapter": "NOAA CoastWatch DIRECT and GAP_FILLED",
+      "acquisitionCode": "Wired request paths",
+      "normalization": "Source Normalization v1",
+      "freshnessGovernance": "Locked 72h family hierarchy/source/age",
+      "mapUI": "Water-color/productivity explanation",
+      "opportunityConsumption": "Yes under existing gates",
+      "knownLimit": "DIRECT support/GAP deployed reconstruction target authority open",
+      "evidence": [
+        "chlHierarchy",
+        "chlProviders",
+        "normalization"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Currents",
+      "providerAdapter": "NOAA geostrophic vectors",
+      "acquisitionCode": "Wired request and map field",
+      "normalization": "v1 + failure locality",
+      "freshnessGovernance": "Point and separate map field age policy",
+      "mapUI": "Arrows/context",
+      "opportunityConsumption": "Current context plus active legacy derived diagnostics",
+      "knownLimit": "Clarification/uncertainty/Physics interpretation open",
+      "evidence": [
+        "currentProvider",
+        "normalization",
+        "fieldRegistry",
+        "legacyPhysics",
+        "noaaLimits"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Moon",
+      "providerAdapter": "Local astronomical calculation",
+      "acquisitionCode": "No remote acquisition needed",
+      "normalization": "Local calculation",
+      "freshnessGovernance": "Assessment-time calculation",
+      "mapUI": "Marine/species context",
+      "opportunityConsumption": "Context",
+      "knownLimit": "Deployed release unverified",
+      "evidence": [
+        "moon"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Bathymetry",
+      "providerAdapter": "ETOPO field + separate structure/depth facts",
+      "acquisitionCode": "Map viewport request wired",
+      "normalization": "Field parse/decimation, not new science",
+      "freshnessGovernance": "Static product/map contract",
+      "mapUI": "Normal bathymetry overlay",
+      "opportunityConsumption": "Existing habitat depth path separate from displayed raster",
+      "knownLimit": "Not navigation chart; no new science from map overlay",
+      "evidence": [
+        "fieldRegistry",
+        "fieldPresentation"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Tides",
+      "providerAdapter": "No governed feed found",
+      "acquisitionCode": "MISSING",
+      "normalization": "Not applicable",
+      "freshnessGovernance": "Not qualified",
+      "mapUI": "No qualified feed UI found",
+      "opportunityConsumption": "Not qualified",
+      "knownLimit": "C future; analysis limitations remain",
+      "evidence": [
+        "serverRoutes"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Radar",
+      "providerAdapter": "No operational adapter found",
+      "acquisitionCode": "MISSING",
+      "normalization": "Not applicable",
+      "freshnessGovernance": "Not qualified",
+      "mapUI": "Roadmap terminology not integration",
+      "opportunityConsumption": "Not qualified",
+      "knownLimit": "C future",
+      "evidence": [
+        "serverRoutes"
+      ],
+      "liveProviderVerified": false
+    },
+    {
+      "family": "Sargassum",
+      "providerAdapter": "No operational feed found",
+      "acquisitionCode": "MISSING",
+      "normalization": "Not applicable",
+      "freshnessGovernance": "Not qualified",
+      "mapUI": "Manual weed logs not feed",
+      "opportunityConsumption": "Not qualified",
+      "knownLimit": "C future",
+      "evidence": [
+        "reportWrite",
+        "serverRoutes"
+      ],
+      "liveProviderVerified": false
+    }
+  ],
+  "exactReferences": [
+    {
+      "family": "CURRENT",
+      "mechanism": "CURRENT-v3",
+      "runtime": "Wired exact current handoff",
+      "published": "Published metadata",
+      "persisted": "Conditional captain snapshot codec/storage",
+      "receiptAdmission": "Current issuer admits it, but writer disabled",
+      "readiness": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+      "evidence": [
+        "capture",
+        "httpExact",
+        "receipt"
+      ],
+      "consumer": "Identity/provenance codec; no scientific eligibility promotion",
+      "liveDeploymentVerified": false
+    },
+    {
+      "family": "CENTER SST",
+      "mechanism": "Existing capture-v2 with governed center tuple",
+      "runtime": "Wired scalar handoff",
+      "published": "Published metadata",
+      "persisted": "Conditional captain snapshot path",
+      "receiptAdmission": "Not admitted by current receipt runtime",
+      "readiness": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+      "evidence": [
+        "scalar",
+        "liveCenter",
+        "liveScalarRegistration",
+        "httpExact"
+      ],
+      "consumer": "Identity/provenance codec; no scientific eligibility promotion",
+      "liveDeploymentVerified": false
+    },
+    {
+      "family": "Directional SST",
+      "mechanism": "Existing v2 codec capability",
+      "runtime": "Sampling/context wired; separate live exact reference registration not found",
+      "published": "Directional values/context, not separately established exact envelope",
+      "persisted": "No independently qualified direction reference persistence established",
+      "receiptAdmission": "No admission",
+      "readiness": "REFERENCE_NOT_READY: independent live exact-reference handoff not established",
+      "evidence": [
+        "directionalSst",
+        "scalar"
+      ],
+      "consumer": "Identity/provenance codec; no scientific eligibility promotion",
+      "liveDeploymentVerified": false
+    },
+    {
+      "family": "DIRECT chlorophyll",
+      "mechanism": "Existing scalar capture/reference",
+      "runtime": "Wired separate family handoff",
+      "published": "Published metadata",
+      "persisted": "Conditional captain snapshot path",
+      "receiptAdmission": "Not admitted by current receipt runtime",
+      "readiness": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+      "evidence": [
+        "scalar",
+        "httpExact"
+      ],
+      "consumer": "Identity/provenance codec; no scientific eligibility promotion",
+      "liveDeploymentVerified": false
+    },
+    {
+      "family": "GAP_FILLED chlorophyll",
+      "mechanism": "Existing marker-preserving scalar capture/reference",
+      "runtime": "Wired separate family handoff",
+      "published": "Published metadata",
+      "persisted": "Conditional captain snapshot path",
+      "receiptAdmission": "Not admitted by current receipt runtime",
+      "readiness": "REFERENCE_READY_FOR_FUTURE_RECEIPT_ISSUER",
+      "evidence": [
+        "scalar",
+        "httpExact"
+      ],
+      "consumer": "Identity/provenance codec; no scientific eligibility promotion",
+      "liveDeploymentVerified": false
+    }
+  ],
+  "oceanSignals": [
+    {
+      "signal": "Temperature Transitions",
+      "status": "LIMITED_WIRED",
+      "limit": "Candidate thermal signal and explanation",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Current Edges",
+      "status": "PARTIAL",
+      "limit": "Lower-level diagnostics; full qualified Ocean Signal not established",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Convergence",
+      "status": "PAUSED_QUALIFICATION_WITH_ACTIVE_LEGACY_DIAGNOSTICS",
+      "limit": "Candidate/detection meaning unresolved; computation exists",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Shear",
+      "status": "PARTIAL",
+      "limit": "Legacy diagnostic, not full qualified signal",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Upwelling",
+      "status": "MISSING_QUALIFIED_SIGNAL",
+      "limit": "Mention/limitation is not implemented governed signal",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Downwelling",
+      "status": "MISSING_QUALIFIED_SIGNAL",
+      "limit": "Same",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Water-Mass Transitions",
+      "status": "PARTIAL",
+      "limit": "Context exists; absent salinity limits actual identity",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Mixing Zones",
+      "status": "PARTIAL_CONTEXT",
+      "limit": "No qualified independent mixing-zone signal established",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Productivity Gradients",
+      "status": "PARTIAL_CONTEXT",
+      "limit": "Productivity context exists; qualified spatial-gradient signal not established",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    },
+    {
+      "signal": "Environmental Transitions",
+      "status": "LIMITED_WIRED",
+      "limit": "Limited candidate mapping",
+      "evidence": [
+        "signals",
+        "legacyPhysics",
+        "waterMass",
+        "convergenceLimits",
+        "noaaLimits"
+      ]
+    }
+  ],
+  "species": [
+    {
+      "name": "Blue Marlin",
+      "candidateGeneration": "WIRED",
+      "habitatEligibility": "WIRED",
+      "evidenceGate": "WIRED",
+      "ranking": "WIRED",
+      "explainability": "Captain Narrative wired",
+      "today": "WIRED",
+      "map": "Governed ranked markers",
+      "intelligence": "WIRED",
+      "architecture": "Existing governed candidate/interpretation/publication paths are Blue-Marlin-specific; other species need explicit work",
+      "evidence": [
+        "startup",
+        "speciesGate",
+        "rankingGate",
+        "intelligence"
+      ]
+    },
+    {
+      "name": "Yellowfin Tuna",
+      "candidateGeneration": "No equivalent governed engine established",
+      "habitatEligibility": "Not qualified as enabled engine",
+      "evidenceGate": "API unsupported",
+      "ranking": "Not enabled",
+      "explainability": "No enabled equivalent pipeline",
+      "today": "Disabled target",
+      "map": "Legacy assets/log labels do not qualify support",
+      "intelligence": "No equivalent target engine",
+      "architecture": "Existing governed candidate/interpretation/publication paths are Blue-Marlin-specific; other species need explicit work",
+      "evidence": [
+        "startup",
+        "speciesGate",
+        "rankingGate",
+        "intelligence"
+      ]
+    },
+    {
+      "name": "Blackfin Tuna",
+      "candidateGeneration": "No equivalent governed engine established",
+      "habitatEligibility": "Not qualified as enabled engine",
+      "evidenceGate": "API unsupported",
+      "ranking": "Not enabled",
+      "explainability": "No enabled equivalent pipeline",
+      "today": "Disabled target",
+      "map": "Legacy assets/log labels do not qualify support",
+      "intelligence": "No equivalent target engine",
+      "architecture": "Existing governed candidate/interpretation/publication paths are Blue-Marlin-specific; other species need explicit work",
+      "evidence": [
+        "startup",
+        "speciesGate",
+        "rankingGate",
+        "intelligence"
+      ]
+    },
+    {
+      "name": "Mahi",
+      "candidateGeneration": "No equivalent governed engine established",
+      "habitatEligibility": "Not qualified as enabled engine",
+      "evidenceGate": "API unsupported",
+      "ranking": "Not enabled",
+      "explainability": "No enabled equivalent pipeline",
+      "today": "Disabled target",
+      "map": "Legacy assets/log labels do not qualify support",
+      "intelligence": "No equivalent target engine",
+      "architecture": "Existing governed candidate/interpretation/publication paths are Blue-Marlin-specific; other species need explicit work",
+      "evidence": [
+        "startup",
+        "speciesGate",
+        "rankingGate",
+        "intelligence"
+      ]
+    },
+    {
+      "name": "Sailfish",
+      "candidateGeneration": "No equivalent governed engine established",
+      "habitatEligibility": "Not qualified as enabled engine",
+      "evidenceGate": "API unsupported",
+      "ranking": "Not enabled",
+      "explainability": "No enabled equivalent pipeline",
+      "today": "Disabled target",
+      "map": "Legacy assets/log labels do not qualify support",
+      "intelligence": "No equivalent target engine",
+      "architecture": "Existing governed candidate/interpretation/publication paths are Blue-Marlin-specific; other species need explicit work",
+      "evidence": [
+        "startup",
+        "speciesGate",
+        "rankingGate",
+        "intelligence"
+      ]
+    },
+    {
+      "name": "White Marlin",
+      "candidateGeneration": "No equivalent governed engine established",
+      "habitatEligibility": "Not qualified as enabled engine",
+      "evidenceGate": "API unsupported",
+      "ranking": "Not enabled",
+      "explainability": "No enabled equivalent pipeline",
+      "today": "Disabled target",
+      "map": "Legacy assets/log labels do not qualify support",
+      "intelligence": "No equivalent target engine",
+      "architecture": "Existing governed candidate/interpretation/publication paths are Blue-Marlin-specific; other species need explicit work",
+      "evidence": [
+        "startup",
+        "speciesGate",
+        "rankingGate",
+        "intelligence"
+      ]
+    },
+    {
+      "name": "Wahoo",
+      "candidateGeneration": "No equivalent governed engine established",
+      "habitatEligibility": "Not qualified as enabled engine",
+      "evidenceGate": "API unsupported",
+      "ranking": "Not enabled",
+      "explainability": "No enabled equivalent pipeline",
+      "today": "Disabled target",
+      "map": "Legacy assets/log labels do not qualify support",
+      "intelligence": "No equivalent target engine",
+      "architecture": "Existing governed candidate/interpretation/publication paths are Blue-Marlin-specific; other species need explicit work",
+      "evidence": [
+        "startup",
+        "speciesGate",
+        "rankingGate",
+        "intelligence"
+      ]
+    }
+  ],
+  "workPackages": [
+    {
+      "id": "P1",
+      "system": "Release, access and data safety",
+      "currentState": "UI/storage calls implemented; deployed environment unverified",
+      "whatRemains": "Verify build SHA, public configuration, redirects, approval flow, intended backend access, evidence_capture schema, owner isolation, two-user CRUD and recovered reports",
+      "dependency": [],
+      "primaryBucket": "A",
+      "recommendedOrder": 1,
+      "liveVerified": false
+    },
+    {
+      "id": "P2",
+      "system": "Scientific claim containment",
+      "currentState": "Raw gates exist; legacy paused-science diagnostics still called",
+      "whatRemains": "Review and contain exposed current/Physics/Signal/freshness claims under existing authority; no invented thresholds",
+      "dependency": [],
+      "primaryBucket": "A",
+      "recommendedOrder": 2,
+      "liveVerified": false
+    },
+    {
+      "id": "P3",
+      "system": "Independent Observe and evidence persistence",
+      "currentState": "Request caches and worker/archive foundations",
+      "whatRemains": "Operational independent refresh, durable qualified evidence, retries, health and retention",
+      "dependency": [
+        "P1",
+        "P2"
+      ],
+      "primaryBucket": "A",
+      "recommendedOrder": 3,
+      "liveVerified": false
+    },
+    {
+      "id": "P4",
+      "system": "Qualified shared frozen evaluator and history",
+      "currentState": "Clock and publication/history contracts implemented; shared science incomplete",
+      "whatRemains": "Qualify shared cohort/evidence/history cutoff/continuity; separate private captain history and scheduled repeats",
+      "dependency": [
+        "P2",
+        "P3"
+      ],
+      "primaryBucket": "A",
+      "recommendedOrder": 4,
+      "liveVerified": false
+    },
+    {
+      "id": "P5",
+      "system": "Four-hour durable publication service",
+      "currentState": "Offline worker/reader port model",
+      "whatRemains": "Real scheduler and durable claim/freeze/create/CAS ports; restart/recovery/retention/latest API",
+      "dependency": [
+        "P1",
+        "P3",
+        "P4"
+      ],
+      "primaryBucket": "A",
+      "recommendedOrder": 5,
+      "liveVerified": false
+    },
+    {
+      "id": "P6",
+      "system": "Published-cycle captain experience",
+      "currentState": "Current UI requests on-demand evaluation",
+      "whatRemains": "Read-side origin/range/species projection, latest snapshot consumption, stable rank IDs, launch/resume/late/unavailable state",
+      "dependency": [
+        "P4",
+        "P5"
+      ],
+      "primaryBucket": "A",
+      "recommendedOrder": 6,
+      "liveVerified": false
+    },
+    {
+      "id": "P7",
+      "system": "Nightly evidence and outcome audit",
+      "currentState": "Logs/association ingredients only",
+      "whatRemains": "Privacy-preserving scheduled qualified/unknown/unpaired audit and health/review outputs; no automatic scoring change",
+      "dependency": [
+        "P1",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "primaryBucket": "A",
+      "recommendedOrder": 7,
+      "liveVerified": false
+    },
+    {
+      "id": "P8",
+      "system": "Captain/mobile acceptance and authorized targeted fixes",
+      "currentState": "Responsive UI exists; stale selected-object behavior reproduced",
+      "whatRemains": "Authorized selection-refresh correction; physical phone keyboard/sheets/navigation/reload/shared-device/save/history acceptance against exact release",
+      "dependency": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P6",
+        "P7"
+      ],
+      "primaryBucket": "A",
+      "recommendedOrder": 8,
+      "liveVerified": false
+    }
+  ],
+  "remainingItems": [
+    {
+      "item": "Receipt writer deployment and additional family admission",
+      "primaryBucket": "B",
+      "reason": "Safe disabled if beta makes no qualified as-of receipt claim; explicit dependency if chosen historical design needs witnesses"
+    },
+    {
+      "item": "New Ocean Physics/convergence and unqualified signal science",
+      "primaryBucket": "B",
+      "reason": "Research paused; existing active claim containment remains P2, not silently deferred"
+    },
+    {
+      "item": "Real SST raster/worker pilot beyond approved Observe needs",
+      "primaryBucket": "B",
+      "reason": "No general pilot enablement or new provider authority"
+    },
+    {
+      "item": "Projection V3 / 12B.6C / 9E-D",
+      "primaryBucket": "B",
+      "reason": "Quarantined or paused; no silent resumption to complete another package"
+    },
+    {
+      "item": "Six additional species engines",
+      "primaryBucket": "C",
+      "reason": "Not enabled governed targets in present Blue Marlin product"
+    },
+    {
+      "item": "Salinity / altimetry / generic extension refactoring",
+      "primaryBucket": "C",
+      "reason": "Architecture evidence only; no current captain runtime"
+    },
+    {
+      "item": "New tides / radar / sargassum feeds",
+      "primaryBucket": "C",
+      "reason": "No implemented required governed feed established"
+    },
+    {
+      "item": "Automatic learned scoring / anonymous sharing publication",
+      "primaryBucket": "C",
+      "reason": "Separate future privacy/science authority; initial nightly audit does not imply these"
+    }
+  ],
+  "continuousObserve": {
+    "status": "NOT_OPERATIONALLY_WIRED",
+    "requestAcquisition": "YES",
+    "cache": "YES: in-memory/version-bound; not durable archive",
+    "backgroundAcquisition": "Callable SST worker foundation only",
+    "scheduledAcquisition": "No operational scheduler composition found",
+    "persistentEnvironmentalEvidence": "Selected captain snapshots and abstract archive ports; not independent continuous archive",
+    "evidence": [
+      "providers",
+      "marineHook",
+      "sstWorker",
+      "archive",
+      "sstOperations",
+      "serverStart"
+    ]
+  },
+  "nightly": {
+    "status": "CONTRACT_AND_INGREDIENTS_ONLY",
+    "scheduledExecution": "MISSING",
+    "fishingLogPairing": "Readiness helper exists; no operational qualified pairing",
+    "archivedEvidence": "Owner history/abstract archive foundations, not completed nightly input",
+    "opportunityOutcomeComparison": "No nightly operational comparison found",
+    "evidenceAudit": "No scheduled output pipeline",
+    "systemHealth": "Request health endpoint not nightly audit",
+    "learningOutputs": "No operational publication found",
+    "privacy": "Owner intent exists; two-user effective policies and anonymous sharing need qualification",
+    "betaDisposition": "A for stated locked nightly audit; explicit founder scope decision required to defer; automatic learned ranking remains C",
+    "evidence": [
+      "association",
+      "memoryHook",
+      "reportComposition",
+      "serverRoutes",
+      "serverStart",
+      "ownerSchema"
+    ]
+  },
+  "chlorophyllGovernance": {
+    "runtimeWired": true,
+    "order": [
+      "DIRECT <=72 hours",
+      "GAP_FILLED <=72 hours",
+      "older DIRECT stale",
+      "older GAP_FILLED lower-priority stale",
+      "unavailable"
+    ],
+    "sourceAgeProvenancePreserved": true,
+    "doesNotQualify": [
+      "Exact DIRECT temporal support",
+      "GAP_FILLED deployed algorithm/version",
+      "GAP_FILLED complete target support"
+    ],
+    "evidence": [
+      "chlHierarchy",
+      "chlProviders",
+      "scalar"
+    ]
+  },
+  "signalResolverMappings": {
+    "environmental-transition-zone": "temperature-transition",
+    "current-supported-transition-candidate": "current-supported-transition",
+    "surface-water-boundary-candidate": "surface-water-transition",
+    "multi-signal-feature-candidate": "multi-signal-support"
+  },
+  "explainability": {
+    "unifiedIntelligence": "WIRED",
+    "captainNarrative": "WIRED",
+    "sections": [
+      "thermal",
+      "ocean movement",
+      "water color",
+      "productivity",
+      "structure",
+      "persistence",
+      "species habitat",
+      "evidence confidence"
+    ],
+    "trendPersistenceContinuity": "Conditional request/history functions and UI, not completed shared recurring history service",
+    "movement": "Requires feature/history association; not universal inference from timestamps/nearby coordinates",
+    "provenance": "Source/capture lineage does not confer historical receipt authority",
+    "evidence": [
+      "intelligence",
+      "historyLimits",
+      "historyBinding",
+      "selector"
+    ]
+  },
+  "criticalPath": {
+    "approximateCoherentPackages": 8,
+    "order": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6",
+      "P7",
+      "P8"
+    ],
+    "parallelism": "Prerequisite review and device acceptance can overlap; dependency order still applies.",
+    "minimumPromise": "Locked independent Observe/four-hour published experience plus locked nightly audit",
+    "scopeDecision": "Request-only beta or deferring nightly would require explicit founder reduction of the stated model, not a readiness relabel.",
+    "historicalScienceDependency": "P4 needs explicit qualified history authority; paused work is not automatically resumed. Receipt deployment is required only if selected beta claims rely on durable as-of witnesses.",
+    "launchDate": null
+  },
+  "backendToUI": [
+    {
+      "system": "access",
+      "backendImplemented": "YES",
+      "uiConsumes": "YES",
+      "captainEffect": "Private application accessible through ?app=1, not bare landing",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "startup_context",
+      "backendImplemented": "YES",
+      "uiConsumes": "YES",
+      "captainEffect": "Origin/GPS, range, startup and context",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "today_opportunities",
+      "backendImplemented": "YES",
+      "uiConsumes": "YES",
+      "captainEffect": "Ranked current-request cards and status views",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "map_places",
+      "backendImplemented": "YES",
+      "uiConsumes": "YES",
+      "captainEffect": "Explore Places and ranked markers with sheet/analysis navigation",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "intelligence",
+      "backendImplemented": "YES",
+      "uiConsumes": "YES",
+      "captainEffect": "Eight-section Captain Narrative and conditional continuity",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "fishing_logs",
+      "backendImplemented": "YES",
+      "uiConsumes": "YES",
+      "captainEffect": "Coordinates, date/time, observations/outcomes/private notes",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "saved_reports",
+      "backendImplemented": "YES",
+      "uiConsumes": "YES",
+      "captainEffect": "List and inspect historical fishing reports",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "source_normalization",
+      "backendImplemented": "YES",
+      "uiConsumes": "Indirect consumption",
+      "captainEffect": "Invisible correctness/fail-closed improvements",
+      "classification": "NO_NEW_VISIBLE_UI_EFFECT_EXPECTED"
+    },
+    {
+      "system": "scalar_current_exact_identity",
+      "backendImplemented": "YES",
+      "uiConsumes": "Metadata encode/decode, no new visible feature expected",
+      "captainEffect": "Safer exact revision/provenance, not more eligibility",
+      "classification": "NO_NEW_VISIBLE_UI_EFFECT_EXPECTED"
+    },
+    {
+      "system": "receipt_writer",
+      "backendImplemented": "YES",
+      "uiConsumes": "NO",
+      "captainEffect": "No live historical authority created",
+      "classification": "NOT_WIRED_TO_CAPTAIN_UI"
+    },
+    {
+      "system": "continuous_observe",
+      "backendImplemented": "PARTIAL",
+      "uiConsumes": "Browser refresh, no independent service",
+      "captainEffect": "New requests can acquire evidence; app sessions still drive current path",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "four_hour_publication",
+      "backendImplemented": "Worker/reader/contracts",
+      "uiConsumes": "NO",
+      "captainEffect": "No shared persistent latest-published captain experience",
+      "classification": "NOT_WIRED_TO_CAPTAIN_UI"
+    },
+    {
+      "system": "nightly_audit",
+      "backendImplemented": "PARTIAL ingredients, no nightly loop",
+      "uiConsumes": "NO learning/audit outputs",
+      "captainEffect": "No nightly outcome/evidence audit delivered",
+      "classification": "NOT_WIRED_TO_CAPTAIN_UI"
+    },
+    {
+      "system": "ocean_signals_current_claims",
+      "backendImplemented": "Limited mappings and legacy diagnostics",
+      "uiConsumes": "Limited context/interpretation visible",
+      "captainEffect": "Limited transitions/context, not fully qualified Physics catalog",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "future_physics_signals",
+      "backendImplemented": "Partial diagnostics, not complete qualification",
+      "uiConsumes": "No complete qualified UI catalog",
+      "captainEffect": "No promise of qualified upwelling/eddy/convergence science",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "other_species",
+      "backendImplemented": "No equivalent governed engine for six requested targets",
+      "uiConsumes": "Startup disabled; log categories only",
+      "captainEffect": "Cannot select six additional operational target engines",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "release_operations",
+      "backendImplemented": "Build/start/migration artifacts",
+      "uiConsumes": "Live build unknown",
+      "captainEffect": "Cannot infer what PeloraOffshore.com currently serves",
+      "classification": "SEE_EXPLICIT_SYSTEM_STATUS"
+    },
+    {
+      "system": "future_families",
+      "backendImplemented": "No salinity/altimetry implementation",
+      "uiConsumes": "NO",
+      "captainEffect": "No captain feature from audit-only checkpoints",
+      "classification": "NO_NEW_VISIBLE_UI_EFFECT_EXPECTED"
+    }
+  ],
+  "safety": {
+    "failClosed": [
+      "Unsupported opportunity species rejected",
+      "Governed-zero/loading/unavailable distinct",
+      "Malformed center/exact authority refused",
+      "Receipt disabled without fabricated witness",
+      "Own-principal access approval required"
+    ],
+    "strongerBetaGates": [
+      "Public configuration/import startup reliability",
+      "Required report column and effective owner privileges",
+      "Same-ID stale selected details after refresh",
+      "Real device navigation/save/reload acceptance",
+      "Existing current/Physics/Signal claim containment",
+      "Background cycle age/late/unavailable states and privacy of shared versus captain history"
+    ],
+    "notDemonstrated": [
+      "No live production crash reproduced",
+      "No cross-user data leak demonstrated",
+      "No live stale-intelligence incident established",
+      "No current production schema inspected"
+    ],
+    "importantDistinction": "Governance pause is not proof a legacy runtime computation is disabled."
+  },
+  "deployment": {
+    "latestCheckpointCommit": "30b99575e6390d371cc2f526d68e5ae64e8fe014",
+    "latestCheckpoint": "checkpoint-future-ocean-evidence-extensibility-audit-v1",
+    "evidencePresent": [
+      "Vite build/dev configuration",
+      "Node backend start script",
+      "Configured Render API URL/override",
+      "Supabase migrations and historical bootstrap/catalog documentation"
+    ],
+    "evidenceAbsent": "No first-party release receipt/workflow tying current checkpoint to live PeloraOffshore.com established",
+    "liveVersion": "LIVE_PRODUCTION_STATUS_NOT_ESTABLISHED_FROM_REPOSITORY",
+    "noActualEnvironmentInspection": true
+  },
+  "preservedGates": {
+    "receiptWriter": "DISABLED_BY_DEFAULT_AND_NOT_SERVER_COMPOSED",
+    "receiptMigration": "UNAPPLIED_IN_REPOSITORY_QUALIFICATION_RECORD; live database not inspected",
+    "deployment": "NOT_QUALIFIED",
+    "postgresGate": "POSTGRES_TLS_ENDPOINT_REQUIREMENTS_NEED_DEPLOYMENT_CONFIGURATION",
+    "projectionV3": "QUARANTINED",
+    "oceanPhysics": "PAUSED_GOVERNED_SCIENCE; legacy runtime calculations still present",
+    "convergence": "PAUSED_GOVERNED_SCIENCE; legacy runtime calculations still present",
+    "task12B6C": "PAUSED",
+    "task9ED": "PAUSED",
+    "sourceNormalization": "No semantics changed",
+    "currentFailureLocality": "Preserved",
+    "historicalAvailability": "No fabricated or backfilled witness",
+    "scienceLimits": [
+      "SST source/model/run equivalence",
+      "SST temporal support/freshness/revision/historical comparability",
+      "DIRECT chlorophyll exact support",
+      "GAP_FILLED deployment/algorithm/target support",
+      "NOAA current uncertainty/temporal interpretation",
+      "Historical scientific selection"
+    ]
+  },
+  "founderSummary": {
+    "A_WHAT_IS_BUILT": "Private Blue Marlin request-time app, map/context, ranked opportunity explanations, log coordinates/time/outcomes, saved reports, normalization and exact-evidence safeguards.",
+    "B_WHAT_CAPTAIN_CAN_USE": "If this build and required environment/schema are deployed, approved captains can explore request-driven advice and save/review logs. Live website version is not established.",
+    "C_BUILT_NOT_LIVE_WIRED": "Publication worker/reader and archive foundations are not an operational background service or UI data source. Receipt authority disabled. Audit/identity checkpoints usually do not change screens.",
+    "D_MUST_FINISH": "Safe deployment/access/storage, current-claim containment, independent Observe, qualified shared history/analysis, durable four-hour publishing and UI reader, locked nightly audit, real-device acceptance and targeted refresh correction.",
+    "E_SAFE_TO_DEFER": "Additional species, salinity/altimetry, optional new feeds, automatic learning/sharing, speculative refactoring; disabled receipt authority/paused science subject to no unsupported beta promises.",
+    "F_PACKAGE_COUNT": "Approximately eight coherent work packages, not eight small fixes; no evidence-supported launch date."
+  },
+  "verification": {
+    "mode": "Static source audit, no full regression or service access",
+    "staticSelectorProbe": {
+      "scope": "Actual selector expression extracted from Dashboard; synthetic in-memory objects only, no UI/provider execution",
+      "checks": 2,
+      "passed": 2,
+      "operationalNetworkAttempts": 0,
+      "finding": "Same-ID refresh retains selected old object instead of refreshed entry; absent-ID selection correctly rejected",
+      "impact": "Potential stale selected rank/narrative after successful same-ID request refresh; not a live-production or full-browser reproduction",
+      "evidence": "frontend/src/components/Dashboard.jsx:298"
+    },
+    "syntaxCheck": "Temporary report-generation and selector scripts checked with node --check",
+    "json": "Parsed after writing",
+    "repositoryReferenceCount": 74,
+    "repositoryPathsAndLineBounds": "PASS",
+    "trackedFilesCompared": 1992,
+    "trackedChanges": 0,
+    "headUnchanged": true,
+    "branchUnchanged": true,
+    "stagedDiff": "EMPTY",
+    "checkpoints": [
+      {
+        "tag": "checkpoint-source-normalization-runtime-v1",
+        "object": "092e2fd0de29f100414551abb7bc574c9fc8d7f0",
+        "commit": "5f8a084fb355df8ff654c3c6eb3034b60dbd15f9",
+        "unchanged": true
+      },
+      {
+        "tag": "checkpoint-historical-availability-receipt-writer-v1",
+        "object": "1373cff45ddb4b680b74d9a35b9f1321370b0f28",
+        "commit": "b5e40e0f30ffb2cee779eec719e8916a4bcac17b",
+        "unchanged": true
+      },
+      {
+        "tag": "checkpoint-sst-chlorophyll-exact-reference-runtime-v1",
+        "object": "96bd8bb15f4e45d17fd211eef447c3121586b510",
+        "commit": "49c241b6223844c8cedac0151ec69ee90ebe46e4",
+        "unchanged": true
+      },
+      {
+        "tag": "checkpoint-future-ocean-evidence-extensibility-audit-v1",
+        "object": "f5046e41f0c296b0cc6022c9028afc044cc36eaf",
+        "commit": "30b99575e6390d371cc2f526d68e5ae64e8fe014",
+        "unchanged": true
+      }
+    ],
+    "excluded": [
+      {
+        "path": "supabase/.gitignore",
+        "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+        "unchanged": true,
+        "tracked": false,
+        "staged": false
+      },
+      {
+        "path": "supabase/config.toml",
+        "sha256": "97f6f8b9bd76020cbcf57a89244109f134b0de7e4240ce7b53b6d01e442b1aa2",
+        "unchanged": true,
+        "tracked": false,
+        "staged": false
+      }
+    ],
+    "operationalNetworkAttempts": 0,
+    "networkScope": "No tool/network/service acquisition; selector probe monitored under outbound denial. Build-report script only fs/crypto/local Git.",
+    "productionTestsDependenciesExistingDocs": "All baseline tracked bytes unchanged",
+    "noMigrationApplication": true,
+    "noWriterEnablement": true,
+    "noCommitTagPushDeployment": true,
+    "noNextImplementationTask": true,
+    "protectedArtifactsComparedToLedger": 177,
+    "protectedArtifactMismatches": 0,
+    "historicalSuiteBaselinePreserved": 20,
+    "gitDiffCheck": "PASS",
+    "markdownLinksResolved": 42,
+    "reportTrailingWhitespace": "NONE",
+    "finalTrackedDiff": "EMPTY",
+    "finalStagedDiff": "EMPTY",
+    "finalUntracked": [
+      "docs/Beta_Command_Board_Current_State_v1.json",
+      "docs/Beta_Command_Board_Current_State_v1.md",
+      "supabase/.gitignore",
+      "supabase/config.toml"
+    ]
+  }
+}
