@@ -7,6 +7,10 @@ import react from
 
 
 export default defineConfig({
+  // Shared modules must use the frontend's installed Temporal dependency.
+  resolve: {
+    dedupe: ["@js-temporal/polyfill"]
+  },
   plugins: [
     react()
   ],
