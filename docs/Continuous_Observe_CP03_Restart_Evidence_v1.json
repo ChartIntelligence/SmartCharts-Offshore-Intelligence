@@ -1,0 +1,103 @@
+{
+  "contract": "pelora-cp03-real-postgresql-restart-v1",
+  "scope": "ISOLATED_LOCAL_QUALIFICATION_ONLY",
+  "beforeStartedAt": "2026-10-05T23:29:20.974Z",
+  "afterStartedAt": "2026-10-05T23:34:32.516Z",
+  "records": {
+    "cp02.registry": {
+      "count": 226,
+      "sha256": "e6ed6e09a164dc514cf5d5bee1ceb0309e88f653120156b3bf4770206dc5e10d"
+    },
+    "cp02.jobs": {
+      "count": 226,
+      "sha256": "0b04d63a36d80768c2bce548d90242a93fcc34d98faa32a1f64eb7af8930fa0e"
+    },
+    "cp02.ownership": {
+      "count": 226,
+      "sha256": "181f79a114619d67f5f473686a5c64b5f9da1b0f82a14ffdcb9424def5fae6a4"
+    },
+    "cp02.attempts": {
+      "count": 266,
+      "sha256": "f7bb64ee14c10934c3a54d3024ad11a760a836a8c3d708f5b436b7ab65cfbe13"
+    },
+    "cp02.raw": {
+      "count": 5,
+      "sha256": "d97a4d3283516b2a7efb7f1ad276935e52f7ad30da888d044ebe6e1a00dc1b49"
+    },
+    "cp02.results": {
+      "count": 220,
+      "sha256": "4d656eb854390a85dbebc86f2b957adc45643e5ed8acd9e510956b74e023707b"
+    },
+    "cp02.accepted": {
+      "count": 121,
+      "sha256": "ebcd80fd55ea7481ad4f0f4371852934e20794a685c4f9527d25e9ce8d6034ce"
+    },
+    "cp03.evidence": {
+      "count": 2,
+      "sha256": "aaeb7f5686ae15bba1ac83059ce377f1172a777b88c92bc1ca8fd86dd0b4bdbc"
+    },
+    "cp03.bindings": {
+      "count": 220,
+      "sha256": "4efab790edb188c3c79129dbd83a6ab2010993c4e5dd905d9820dfbab631a581"
+    },
+    "cp03.observations": {
+      "count": 121,
+      "sha256": "ff0e30f328a820ecf5c2c3dbedc943b765af233443c060ed89c1bd0ad64b3e23"
+    }
+  },
+  "authority": [
+    {
+      "nspname": "cp02",
+      "proname": "fenced_commit",
+      "sha256": "702e8bcd53a415157bbc48b107188e764d849fdb8f3df490ea8b62af6adad064",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp02",
+      "proname": "immutable",
+      "sha256": "da5bd21a40b0e508701e5aa0fe0395d360bc93525cc01a7f38b07b5ffe1f12c4",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp02",
+      "proname": "worker",
+      "sha256": "a4354cf6ed580d21902ad7e0fdc5eb92bc72a84b44c21dba6f0b8774011802ce",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner,pelora_cp02_worker=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "canonical",
+      "sha256": "a3d18732eb00795a349b01c864efcf426c1f5e29d5cb42c34099f1ea5a4558a7",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "index_acceptance",
+      "sha256": "8e7ed0a65eb931eacd4fe30f5fc680c4cab156aa9d2d2d90f8f383f327a01fc4",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "lookup",
+      "sha256": "21ec1e8438d7209bfe47d32b9269f25ee7e97a5e5e8e79b837148f7b82aedf22",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner,pelora_cp02_worker=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "retain_result",
+      "sha256": "d2a35f638a29d743302a26b6dc7aae249bb2cf7a94e82c6847276c4cd30e9a02",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "sealed_digest",
+      "sha256": "32e5c4c61777b4aa987debaead3315f69759a81fd0e37f4360081f0b28bf800f",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    }
+  ],
+  "validatedAcceptedObservations": 121,
+  "validatedObservationReadbackDigest": "266626bd9fdcc6269bad477745912c8195e70c6ff315aa6653d96fa1fdfb1e5f",
+  "restrictedWorkerReadbackAndDenialAfterRestart": true,
+  "persistence": "EXACT_ALL_TABLE_CONTENT_AND_VALIDATED_ACCEPTED_OBSERVATION_READBACK_PRESERVED",
+  "receiptWriterIntegrated": false
+}

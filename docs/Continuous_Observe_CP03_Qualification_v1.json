@@ -1,0 +1,139 @@
+{
+  "version": "pelora-cp03-qualification-v1",
+  "agent": "PELORA-01 — CRITICAL PATH",
+  "mission": "CP-03 Durable Observation Storage",
+  "status": "QUALIFIED_FOR_ISOLATED_LOCAL_USE",
+  "baselineCommit": "8458c859eb4535631d8b47af9322e12790c0ad0f",
+  "branch": "codex/pelora-remote-setup",
+  "reportedAt": "2026-10-05T23:35:02.094Z",
+  "contract": {
+    "identities": {
+      "logicalJob": "cp02.jobs.job_id, separately sealed cell/window/manifest job",
+      "attempt": "cp02.attempts.attempt_id and monotonic fence, private capability token",
+      "rawResponse": "cp02.raw SHA-256 exact-byte content address and retained-response-v1 reference; per-attempt provider/dataset/grid source metadata retained in execution and index",
+      "evidence": "cp03.evidence: original exact CURRENTS V3 capture text and existing reference, plus storage text hash; deduplicated by captureId with exact conflict rejection",
+      "executionBinding": "cp03.bindings: distinct immutable attempt execution ID/digest and binding digest, raw/evidence foreign keys, full original record hash and authoritative context snapshot",
+      "acceptedObservation": "cp03.observations: logical job primary key, unique accepted attempt, cell/window/manifest identity and immutable references, timestamps, source metadata"
+    },
+    "acceptance": "AFTER INSERT cp02.accepted builds the index in the SAME transaction. Existing cp02.worker locked claim/fence/activation checks and deferred fenced_commit check remain unchanged. Any rollback, cancellation or deferred authority failure rolls back the index. There is no independent observation accept/write function.",
+    "storage": "AFTER INSERT cp02.results atomically creates immutable evidence and attempt binding. Raw may precede staging. No archival lookup returns pre-accept staging. All artifact writes remain behind CP-02 live claim checks.",
+    "reconciliation": "Exact same-attempt retries reuse the original result. Reclaim uses a new attempt/execution/binding, may deduplicate identical raw bytes and exact evidence reference/capture text, and can never promote the stale attempt. New evidence content requires its own existing V3 identity. No evidence is reconstructed on readback.",
+    "replay": "cp03.lookup returns accepted chain only. observationStorage validates exact raw hash/reference; retained original capture text and V3 reference; original execution/binding through unchanged Phase 1/2 validators; original record hash, context/job and every derived index field. Returns ACCEPTED_HISTORICAL only; no current/freshness claim.",
+    "migration": "Owner-only additive migration, transactional historical replay. Legacy changed/revoked unaccepted staging lacking its original activation context stays CP-02 audit-only; never fabricate context. Accepted legacy rows must replay completely or migration fails atomically.",
+    "receipt": "Nullable receipt_reference constrained to NULL; no Receipt Writer integration."
+  },
+  "schema": {
+    "newSchema": "cp03",
+    "tables": [
+      "evidence",
+      "bindings",
+      "observations"
+    ],
+    "functions": [
+      "canonical(jsonb)",
+      "sealed_digest(text,jsonb)",
+      "retain_result()",
+      "index_acceptance()",
+      "lookup(text)"
+    ],
+    "triggers": [
+      "immutable on each cp03 table",
+      "durable_result on cp02.results",
+      "durable_index on cp02.accepted"
+    ],
+    "existingCP02SQLAndPortsUnchanged": true
+  },
+  "leastPrivilege": {
+    "owner": "pelora_cp02_owner (existing non-login migration authority)",
+    "worker": "pelora_cp02_worker (existing restricted role and credential)",
+    "addedPrivileges": [
+      "USAGE cp03",
+      "EXECUTE cp03.lookup(text)"
+    ],
+    "unchangedWriteSurface": "Only existing cp02.worker(text,text,uuid,text,bytea); internal trigger functions inaccessible directly",
+    "denied": [
+      "direct table SELECT/INSERT/UPDATE/DELETE/TRUNCATE",
+      "schema/table/admin operations",
+      "owner role assumption",
+      "helper function EXECUTE",
+      "Receipt writes"
+    ],
+    "publicAccess": "No schema/table/function access; existing owner global function default-deny preserved",
+    "credentials": "Existing outside-Git credentials only; no new credential or secret"
+  },
+  "qualification": {
+    "tests": 361,
+    "pass": 361,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "priorCP02AndFocusedBaseline": 346,
+    "phase1Phase2Baseline": 184,
+    "phase1Phase2Final": 184,
+    "newCP03Tests": 15,
+    "includesTwoParentTests": true,
+    "baselineDifferences": 0,
+    "restartEvidence": "Continuous_Observe_CP03_Restart_Evidence_v1.json",
+    "testEvidence": "Continuous_Observe_CP03_Test_Evidence_v1.json",
+    "proven": [
+      "exact raw-byte/reference round trip",
+      "original exact V3 capture/reference round trip",
+      "execution/binding/index validation",
+      "one accepted record per logical job",
+      "stale claimant rejection",
+      "crash before acceptance invisible and recoverable",
+      "same-attempt reconciliation",
+      "reclaim reuses exact evidence without reusing old binding",
+      "real process deaths before/after acceptance",
+      "tampered raw/evidence/binding/index references fail closed",
+      "direct procedure provenance mismatch with recomputed digests denied",
+      "accepted index rollback on cancellation",
+      "restricted privilege and immutable-trigger denial",
+      "all accepted chain readbacks and all table bytes survive real database restart",
+      "full migration replay and deployed-function source identity",
+      "no captain/user/session input reaches acquisition authority"
+    ]
+  },
+  "developmentReconciliation": [
+    "Sandbox subprocess launch denial resolved by authorized elevated local test execution; no system configuration change",
+    "Strengthened database operational provenance checks before final combined qualification",
+    "Legacy revoked staging is explicitly audit-only on migration rather than inventing original activation context"
+  ],
+  "preservedBoundaries": [
+    "Server-controlled acquisition independent of interactive context",
+    "Existing capture and normalization contracts unchanged",
+    "Historical evidence never asserted current",
+    "Receipt Writer stays disabled",
+    "No production Supabase/deployment/provider configuration or paid services",
+    "No CP-04 orchestration/readers/frontend/publishing work"
+  ],
+  "risksAndLimits": [
+    "Local synthetic-provider qualification only, not production or scientific requalification",
+    "Provider metadata records the Phase 2 request/adapter basis; not provider authentication or new scientific authority",
+    "Migration owner remains the approval trust root; a database superuser can disable triggers and alter records, while replay fails closed on tested tampering",
+    "SQL enforces operational provenance and content/reference integrity; exact scientific V3 semantics remain the existing trusted JavaScript admission/readback validators",
+    "Old CP-02 unaccepted stages with changed activation have insufficient historic context for promotion and remain audit-only",
+    "No scheduler/recovery orchestration, current-intelligence reader, garbage collection, storage retention policy or Receipt Writer integration"
+  ],
+  "isolation": {
+    "database": "pelora_phase3_qualification",
+    "endpoint": "127.0.0.1:55432",
+    "productionTouched": false,
+    "packagesInstalled": false,
+    "newCredentials": false,
+    "servicesOrFirewallChanges": false,
+    "externalProviderAccess": false,
+    "paidServices": false,
+    "unrelatedSupabaseFilesPreserved": true,
+    "manualRestartOfExistingClusterOnly": true
+  },
+  "disposition": {
+    "P0": [],
+    "P1": [],
+    "humanGate": null,
+    "nextMission": "CP-04 bounded local recovery orchestration",
+    "safeToAutoContinueLocally": true,
+    "constraints": "Existing credential/install/system/production/paid/governance gates remain; no Receipt Writer or production authorization",
+    "CP04Started": false
+  }
+}
