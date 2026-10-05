@@ -1,0 +1,1830 @@
+{
+  "commit": "55596290561afdeaf3681afff383ab0e339aae2d",
+  "serverSha256": "4c41dee7b0daed4d34ef4b703db18af590980ddcb60e1934b0277ba35d48fdf8",
+  "results": [
+    {
+      "name": "normal east",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-ea4b0cf47f91c9826071cb7d0ae03353e66c0d338273e6c90e575792b3d52191",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "58ef2431b6fd3b93e47846f00de95a83b64ccf490d299e80eb894719f7a7de48"
+          },
+          "captureText": "{\"captureId\":\"cec3-ea4b0cf47f91c9826071cb7d0ae03353e66c0d338273e6c90e575792b3d52191\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"d394c0d1aff132ce88fbabaa8487d72994d646f6e06cb5ca6a23b0df5a3db908\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "b5a4de5b046fc9ab65e609a47af3d86ed27608f843151782c15b08c1c992febf"
+        }
+      }
+    },
+    {
+      "name": "vectors 0",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 2.7,
+          "directionDegrees": 45,
+          "derived": {
+            "strength": "very-strong",
+            "compassDirection": "NE",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 1,
+          "northwardMetersPerSecond": 1,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-1f7e22c223d41e3c1d689bdda39d84e74ea721e319d72715f1faee7482d952ce",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "27e98817e2aae5d616a2713d29f1013cee836c0dfd0df456920df9f3bc88e624"
+          },
+          "captureText": "{\"captureId\":\"cec3-1f7e22c223d41e3c1d689bdda39d84e74ea721e319d72715f1faee7482d952ce\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":45,\"eastwardMetersPerSecond\":1,\"northwardMetersPerSecond\":1,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":2.7},\"role\":\"center\"}],\"scientificContentDigest\":\"f5f9ad1973aea51a457559a49a1552f4baf00560b9a2c80d1f616959f049b59e\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"NE\",\"interpretation\":\"operational-current-description\",\"strength\":\"very-strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "e1186e35be4ec97d7ddd9c3b2d08eda94b04f032eb05d2be48c83d3e578a355e"
+        }
+      }
+    },
+    {
+      "name": "vectors 1",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 2.7,
+          "directionDegrees": 315,
+          "derived": {
+            "strength": "very-strong",
+            "compassDirection": "NW",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": -1,
+          "northwardMetersPerSecond": 1,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-8cbcd3e59697907c823f768c34f07a3162ec6b13c183f6cd71512c983b9847fa",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "f40fb665ec2189129e1578e1358edbd6c609780a1a9c0206dcc53523d8454611"
+          },
+          "captureText": "{\"captureId\":\"cec3-8cbcd3e59697907c823f768c34f07a3162ec6b13c183f6cd71512c983b9847fa\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":315,\"eastwardMetersPerSecond\":-1,\"northwardMetersPerSecond\":1,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":2.7},\"role\":\"center\"}],\"scientificContentDigest\":\"337a27cf50bfdd97f4c1a0211a88aae769e4931bdbd62d3d5f5c4fe7a3adc80c\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"NW\",\"interpretation\":\"operational-current-description\",\"strength\":\"very-strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "0ee862df83506289f4513a2daf9a4ceae8c01c320bb9365ba14efb03a30aebc0"
+        }
+      }
+    },
+    {
+      "name": "vectors 2",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 2.7,
+          "directionDegrees": 225,
+          "derived": {
+            "strength": "very-strong",
+            "compassDirection": "SW",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": -1,
+          "northwardMetersPerSecond": -1,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-7101f6d0da1211d2037b9e2b5375b94f86daf1812a77b672dd4123cbb145f07e",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "dd47b096f8dd95295bbd2126d65e4ecca28b7772d1bb484c0107b26d7fef63f1"
+          },
+          "captureText": "{\"captureId\":\"cec3-7101f6d0da1211d2037b9e2b5375b94f86daf1812a77b672dd4123cbb145f07e\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":225,\"eastwardMetersPerSecond\":-1,\"northwardMetersPerSecond\":-1,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":2.7},\"role\":\"center\"}],\"scientificContentDigest\":\"528e6d9c6bf8208c551cbbcd52208f0a9856067a839026860330ab73ccc89b00\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"SW\",\"interpretation\":\"operational-current-description\",\"strength\":\"very-strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "becfe0c5d5347dbeedc5300acf53e568d22e00b03c7761de0b0dd94856572c27"
+        }
+      }
+    },
+    {
+      "name": "vectors 3",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 2.7,
+          "directionDegrees": 135,
+          "derived": {
+            "strength": "very-strong",
+            "compassDirection": "SE",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 1,
+          "northwardMetersPerSecond": -1,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-902dd90a4654c711db710e33c668927c4678cf0f7424a40f2b803d16f7d20b10",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "a16b087e62dfda2318c00e5658403ef7ec598fa4e19f1c5578fb6fa676f6c14e"
+          },
+          "captureText": "{\"captureId\":\"cec3-902dd90a4654c711db710e33c668927c4678cf0f7424a40f2b803d16f7d20b10\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":135,\"eastwardMetersPerSecond\":1,\"northwardMetersPerSecond\":-1,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":2.7},\"role\":\"center\"}],\"scientificContentDigest\":\"7f975f061bd4f6a88726dcc428d6ea612979be9b2fe608f85b4fc22b7b24cbc5\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"SE\",\"interpretation\":\"operational-current-description\",\"strength\":\"very-strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "c845204931b7b4ac70c6f0537e8c315bb59c8af53b6f0685160068b1e454e600"
+        }
+      }
+    },
+    {
+      "name": "vectors 4",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 0,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "N",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-469db2318e4b841d0509b55d5dca00b3470776a9bf68f177a7f57a5eed216198",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "619bbc9c7b0d8f975e4de963a017b63822892e7d43307ab6854f2a6513683716"
+          },
+          "captureText": "{\"captureId\":\"cec3-469db2318e4b841d0509b55d5dca00b3470776a9bf68f177a7f57a5eed216198\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":0,\"eastwardMetersPerSecond\":0,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":0},\"role\":\"center\"}],\"scientificContentDigest\":\"544be529752c3238fdb9cd2b16538794695b4ca4c31c86ea53ba1bd8c77541d9\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"N\",\"interpretation\":\"operational-current-description\",\"strength\":\"weak\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "317364a55824536c60e43a89ec1d47ca8a70e2e6e592f5f631573a35f396fbc9"
+        }
+      }
+    },
+    {
+      "name": "vectors 5",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 0,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "N",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": {
+            "$number": "-0"
+          },
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-ef1c46160cbb85d4307fd4919442d5b70e0411bb75f94bf8abb5c5a53285a927",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "52820f5d80ab640edb9b500b2f94d99a1d93fdf04fcfa56a92bfb1b17438d03c"
+          },
+          "captureText": "{\"captureId\":\"cec3-ef1c46160cbb85d4307fd4919442d5b70e0411bb75f94bf8abb5c5a53285a927\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":0,\"eastwardMetersPerSecond\":-0,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":0},\"role\":\"center\"}],\"scientificContentDigest\":\"a2a102056aee2b9522ede88990c33d98aa419618530fcaac25718acf0c176f5b\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"N\",\"interpretation\":\"operational-current-description\",\"strength\":\"weak\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "6eae7cc7977f602d482554ff847cdf118bc42a000fd80bc542017a6fe35a5bd0"
+        }
+      }
+    },
+    {
+      "name": "vectors 6",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 180,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "S",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": {
+            "$number": "-0"
+          },
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-f2e2119cea5d2d2dbb9d1f0486ff5bad73abcb8151d8313cc3e94e3f446aa014",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "89b7e2e2243d57b8ab1e7b7f70b310a1b32d8bb4e36a2475fbd194a9f7889085"
+          },
+          "captureText": "{\"captureId\":\"cec3-f2e2119cea5d2d2dbb9d1f0486ff5bad73abcb8151d8313cc3e94e3f446aa014\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":180,\"eastwardMetersPerSecond\":0,\"northwardMetersPerSecond\":-0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":0},\"role\":\"center\"}],\"scientificContentDigest\":\"99db03dd4c4433fd009282f162b284b026dcb69c5badf9a04c9311f3bdf8a96a\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"S\",\"interpretation\":\"operational-current-description\",\"strength\":\"weak\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "a64deb3f2a28b5f9bc69c331ca195116c8ca92d9955e1b927cb380c916435798"
+        }
+      }
+    },
+    {
+      "name": "vectors 7",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 180,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "S",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": {
+            "$number": "-0"
+          },
+          "northwardMetersPerSecond": {
+            "$number": "-0"
+          },
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-77c1b75d7edd16dd761c818a9e2d413a2d51e441b4d6e8ac4b848629c36570ee",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "239bd1bdfcb53a1e0e9326650917bb23f5c8aab7a8869b96e7eadc2f1ca27520"
+          },
+          "captureText": "{\"captureId\":\"cec3-77c1b75d7edd16dd761c818a9e2d413a2d51e441b4d6e8ac4b848629c36570ee\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":180,\"eastwardMetersPerSecond\":-0,\"northwardMetersPerSecond\":-0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":0},\"role\":\"center\"}],\"scientificContentDigest\":\"32f1ab7a01015f33c5c26f6985d0ef119b0520e685a4af7d16421f03aa823fb1\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"S\",\"interpretation\":\"operational-current-description\",\"strength\":\"weak\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "6c9247922bd4e43cf9852ea024311a99d3b637541fd0f430803bff4f57f21579"
+        }
+      }
+    },
+    {
+      "name": "vectors 8",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0.7,
+          "directionDegrees": 21,
+          "derived": {
+            "strength": "moderate",
+            "compassDirection": "N",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.1286,
+          "northwardMetersPerSecond": 0.3333,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-b4e315d0502b356c582c2a28ad27cac72fc31763cf918b7c1094dd040bea8058",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "706da5f315e354b74a8dac71902df4efca7c192948a0c8f7dd41596a547dee3d"
+          },
+          "captureText": "{\"captureId\":\"cec3-b4e315d0502b356c582c2a28ad27cac72fc31763cf918b7c1094dd040bea8058\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":21,\"eastwardMetersPerSecond\":0.1286,\"northwardMetersPerSecond\":0.3333,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":0.7},\"role\":\"center\"}],\"scientificContentDigest\":\"bb3c0ee779fa19ee47ce2b5144d56fdd0394afc8f0be9a5ab84de7184e8751a5\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"N\",\"interpretation\":\"operational-current-description\",\"strength\":\"moderate\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "fa2da6006e2ceebb777bce24547bc5173169ad37334f07e1a598bd782bbc6a43"
+        }
+      }
+    },
+    {
+      "name": "vectors 9",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 0,
+          "directionDegrees": 135,
+          "derived": {
+            "strength": "weak",
+            "compassDirection": "SE",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0,
+          "northwardMetersPerSecond": {
+            "$number": "-0"
+          },
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-d1741602e9e0613b6459d258eba734e87626f120afc984ffd82337fc303b07b9",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "aa054d4bc1e5d59cba67b131b77aaeb1a55fcb26015f66e4ebe0b25982d64073"
+          },
+          "captureText": "{\"captureId\":\"cec3-d1741602e9e0613b6459d258eba734e87626f120afc984ffd82337fc303b07b9\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":135,\"eastwardMetersPerSecond\":0,\"northwardMetersPerSecond\":-0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":0},\"role\":\"center\"}],\"scientificContentDigest\":\"c0b24e618167f317ac26b167cdcc14ba8ea7162425c1cbebcd664d69d027022d\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"SE\",\"interpretation\":\"operational-current-description\",\"strength\":\"weak\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "f9990c2c59bc8f934d36ade98ae5362979a3d9deebd486bffca3060b6b5e64ff"
+        }
+      }
+    },
+    {
+      "name": "vectors 10",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": 45,
+          "derived": {
+            "strength": null,
+            "compassDirection": "NE",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 1e+308,
+          "northwardMetersPerSecond": 1e+308,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-1c37857e3371dad535945c5b694dc36905e62d52123ee2712aaf0a76c2d444c8",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "3e27499e66d1ad467a3344971bb12de742ceb30674de5ffcbb9d1dc106bac61c"
+          },
+          "captureText": "{\"captureId\":\"cec3-1c37857e3371dad535945c5b694dc36905e62d52123ee2712aaf0a76c2d444c8\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":45,\"eastwardMetersPerSecond\":1e+308,\"northwardMetersPerSecond\":1e+308,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":true,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"e48d648d15e76490c0b104ce1aae8f811ec88f535ca49ee2c9e2fa9118fc754b\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"NE\",\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "3578fdb705561e407d808c41df4ac19d80888600846c728c54ac7b0284c7e727"
+        }
+      }
+    },
+    {
+      "name": "missing and numeric 0",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "derived": {
+            "strength": null,
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "d56cf3f999dabd9bcaaba3feecabb7ddc01bf62a1ec4a87bb23649d78aabfcfe"
+          },
+          "captureText": "{\"captureId\":\"cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":0.2,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"0503436a043ba92315fc04c55db56b429b65bf4573db399186a5670bee736289\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":null,\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "912fa53f0e4700101a928d860db712e8d27b1330e0fddcc041bdb37c9cc574ca"
+        }
+      }
+    },
+    {
+      "name": "missing and numeric 1",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "derived": {
+            "strength": null,
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "d56cf3f999dabd9bcaaba3feecabb7ddc01bf62a1ec4a87bb23649d78aabfcfe"
+          },
+          "captureText": "{\"captureId\":\"cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":0.2,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"0503436a043ba92315fc04c55db56b429b65bf4573db399186a5670bee736289\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":null,\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "912fa53f0e4700101a928d860db712e8d27b1330e0fddcc041bdb37c9cc574ca"
+        }
+      }
+    },
+    {
+      "name": "missing and numeric 2",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 68,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-24d9f74f1ba285d70f21e54c053ad61d42d8ceee78f5db29f2845635051d4ce4",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "2811413740bc9f91cdad05ab044f2cffa2181db1c09f9c7b79ff2f7b22a0ce87"
+          },
+          "captureText": "{\"captureId\":\"cec3-24d9f74f1ba285d70f21e54c053ad61d42d8ceee78f5db29f2845635051d4ce4\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":68,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0.2,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"3a2b873e776ea48991d942089388e0bc590761c7ab312a5685c95e63c254e0a5\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "0057df9fc62934b0a948f92fbb2919a443e17b037cb4ec5a7780b17e95eb6c6c"
+        }
+      }
+    },
+    {
+      "name": "missing and numeric 3",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1.1,
+          "directionDegrees": 69,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5123,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-2814ed9087b94935efa1839f228a9e2872d800f8813e141cdea5c503480ce0eb",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "279ffe4f26945075815deb1fc9d430ded3abd2e007d262dfcf803fc4712bcbcc"
+          },
+          "captureText": "{\"captureId\":\"cec3-2814ed9087b94935efa1839f228a9e2872d800f8813e141cdea5c503480ce0eb\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":69,\"eastwardMetersPerSecond\":0.5123,\"northwardMetersPerSecond\":0.2,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1.1},\"role\":\"center\"}],\"scientificContentDigest\":\"6bb60c19007552ecb8317f34f3a8ef732248a8e45ca9be2160553005b685c26a\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "4cd37dd71466d5006c29323d967b2574388db9613c03c8f701388b5880a4ad9a"
+        }
+      }
+    },
+    {
+      "name": "missing and numeric 4",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "derived": {
+            "strength": null,
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "d56cf3f999dabd9bcaaba3feecabb7ddc01bf62a1ec4a87bb23649d78aabfcfe"
+          },
+          "captureText": "{\"captureId\":\"cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":0.2,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"0503436a043ba92315fc04c55db56b429b65bf4573db399186a5670bee736289\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":null,\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "912fa53f0e4700101a928d860db712e8d27b1330e0fddcc041bdb37c9cc574ca"
+        }
+      }
+    },
+    {
+      "name": "missing and numeric 5",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "derived": {
+            "strength": null,
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "d56cf3f999dabd9bcaaba3feecabb7ddc01bf62a1ec4a87bb23649d78aabfcfe"
+          },
+          "captureText": "{\"captureId\":\"cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":0.2,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"0503436a043ba92315fc04c55db56b429b65bf4573db399186a5670bee736289\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":null,\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "912fa53f0e4700101a928d860db712e8d27b1330e0fddcc041bdb37c9cc574ca"
+        }
+      }
+    },
+    {
+      "name": "missing and numeric 6",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "derived": {
+            "strength": null,
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": 0.2,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "d56cf3f999dabd9bcaaba3feecabb7ddc01bf62a1ec4a87bb23649d78aabfcfe"
+          },
+          "captureText": "{\"captureId\":\"cec3-bec8555162bdf4ebf0bcb4fa37edd8db0c2e9db2073ab61cf8dc2af779821599\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":0.2,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"0503436a043ba92315fc04c55db56b429b65bf4573db399186a5670bee736289\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":null,\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "912fa53f0e4700101a928d860db712e8d27b1330e0fddcc041bdb37c9cc574ca"
+        }
+      }
+    },
+    {
+      "name": "provider coordinates 0",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 90,
+          "resolvedLongitude": 0,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-01bc1887298bada153f8a2097cdef451eafa64c8f33219de894d43561a77740a",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "5e1a4a95b9bdce35e5d4cf5a80bb90b60f7c0bbf9f3df058f7118bbc4e7c3b03"
+          },
+          "captureText": "{\"captureId\":\"cec3-01bc1887298bada153f8a2097cdef451eafa64c8f33219de894d43561a77740a\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":90,\"resolvedLongitude\":0,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"175d1c9148bb301ffa1827c3ff488d25bb0586ab4f7adce9c3440ba19dd0d986\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "161bc747f79499d551649ce794df0c647a29fbe459a12a0e68beb6bb6f5fb1d6"
+        }
+      }
+    },
+    {
+      "name": "provider coordinates 1",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": -90,
+          "resolvedLongitude": -180,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-36210542ebcfa8b65d1ba90b97b0f9cb7432c15120ecf494bd226989fb919a7a",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "86e5c2d4b257797eae75b03e0abfe50ea399f72b6103b2d643d83bf564d6d9ac"
+          },
+          "captureText": "{\"captureId\":\"cec3-36210542ebcfa8b65d1ba90b97b0f9cb7432c15120ecf494bd226989fb919a7a\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":-90,\"resolvedLongitude\":-180,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"612b666338a80267875d170c45014e175a548b9ca1c59d8d072d7a1ccd1117de\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "2f4da8468bdb2bc1104d3e3812f1e397cf06fd52b5824fa9da549bc906370c35"
+        }
+      }
+    },
+    {
+      "name": "provider coordinates 2",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 0,
+          "resolvedLongitude": 180,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-f4208afd5ba7fb8e54d83401ce804b6ddad120e25c1668cce0892ea6d0ae4373",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "db4f3c9a024e7fd1ec422906ff4209452be6c3aa1a1ed5e6f60b34d79eba4a69"
+          },
+          "captureText": "{\"captureId\":\"cec3-f4208afd5ba7fb8e54d83401ce804b6ddad120e25c1668cce0892ea6d0ae4373\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":0,\"resolvedLongitude\":180,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"f752bc206c7239fce053fba37f3b91ce63b2ad26f2f57af9aa621753878b55e2\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "45982dcb54fda1bacb96ac769e6f86b0c53958a2721135108433644c0b41ff1f"
+        }
+      }
+    },
+    {
+      "name": "provider coordinates 3",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 0,
+          "resolvedLongitude": -179,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-d91134403a8b3e6fbd2c425b903b4bf167a44870107d016977c4ad9855774363",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "c1fe6276de3f79b796e946a20270751369e188f441ea3e572191101ff49405b2"
+          },
+          "captureText": "{\"captureId\":\"cec3-d91134403a8b3e6fbd2c425b903b4bf167a44870107d016977c4ad9855774363\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":0,\"resolvedLongitude\":-179,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"62b06ce382b9af8810551f60c1c065bca6e69ae3498527e0dffd0890eb07900c\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "08e5a045eb5a97001ea5b963e1e60a282da73859261634b2290bd93e67455543"
+        }
+      }
+    },
+    {
+      "name": "provider coordinates 4",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": {
+            "$number": "-0"
+          },
+          "resolvedLongitude": {
+            "$number": "-0"
+          },
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-622e15e5fd76ea62a0e93e1f197132b1b7733c558fb19738590078d55f54eee2",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "c8b2bcde8e3b1df9d6f1f452617e478df2b47d12329c8068d91caea73aab9705"
+          },
+          "captureText": "{\"captureId\":\"cec3-622e15e5fd76ea62a0e93e1f197132b1b7733c558fb19738590078d55f54eee2\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":-0,\"resolvedLongitude\":-0,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"6b06f19a2e923929d26c6fa805d7e5dee24ca384128aae70105340b1347cfc08\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "e9cdac85c5cc206cca07712e1525359dbcca95a57843988b455f6e59503dcb15"
+        }
+      }
+    },
+    {
+      "name": "provider coordinates 5",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": null,
+          "resolvedLongitude": null,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-c33b9c4077b91099a9ea4ba9dff30c6709783e281a35dd335525d2147154b3d7",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "50394fa89a84a89d935bb7976fb0e5b52a5fe906ee963e04e0d8cf10aba1ec8b"
+          },
+          "captureText": "{\"captureId\":\"cec3-c33b9c4077b91099a9ea4ba9dff30c6709783e281a35dd335525d2147154b3d7\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":null,\"resolvedLongitude\":null,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"0447e8815dfc68e0054a3d5f8ce9dbd02635be7392521209e92e24fadffeee38\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "1a1ca158359f92444daeb4558861292c23a51d3bede74049f7a4b8cecabed8ea"
+        }
+      }
+    },
+    {
+      "name": "provider coordinates 6",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": null,
+          "resolvedLongitude": null,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-c33b9c4077b91099a9ea4ba9dff30c6709783e281a35dd335525d2147154b3d7",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "50394fa89a84a89d935bb7976fb0e5b52a5fe906ee963e04e0d8cf10aba1ec8b"
+          },
+          "captureText": "{\"captureId\":\"cec3-c33b9c4077b91099a9ea4ba9dff30c6709783e281a35dd335525d2147154b3d7\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":null,\"resolvedLongitude\":null,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"0447e8815dfc68e0054a3d5f8ce9dbd02635be7392521209e92e24fadffeee38\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "1a1ca158359f92444daeb4558861292c23a51d3bede74049f7a4b8cecabed8ea"
+        }
+      }
+    },
+    {
+      "name": "missing body",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": null,
+          "resolvedLongitude": null,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": null,
+          "observedAt": null,
+          "ageHours": null,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "classification": "altimetry-derived-geostrophic-current",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "b4f0540ba368688d84472e9aeb5416d3eb538218fecb5adc2d9b7ec0a6cda2dd"
+          },
+          "captureText": "{\"captureId\":\"cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":null,\"observedAt\":null,\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":null,\"resolvedLongitude\":null,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"provider\":\"NOAA CoastWatch\"},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"42dee635734b8d5ef5cfe7f9701e686e4531548f615ec6feee36c0e89d8f9bd1\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":null}",
+          "sha256": "ed345ef43739046141c739ed2e8b4028af093ac94749f06acaad76aed5bf8441"
+        }
+      }
+    },
+    {
+      "name": "empty table",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": null,
+          "resolvedLongitude": null,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": null,
+          "observedAt": null,
+          "ageHours": null,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "classification": "altimetry-derived-geostrophic-current",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "b4f0540ba368688d84472e9aeb5416d3eb538218fecb5adc2d9b7ec0a6cda2dd"
+          },
+          "captureText": "{\"captureId\":\"cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":null,\"observedAt\":null,\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":null,\"resolvedLongitude\":null,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"provider\":\"NOAA CoastWatch\"},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"42dee635734b8d5ef5cfe7f9701e686e4531548f615ec6feee36c0e89d8f9bd1\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":null}",
+          "sha256": "ed345ef43739046141c739ed2e8b4028af093ac94749f06acaad76aed5bf8441"
+        }
+      }
+    },
+    {
+      "name": "missing columns",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": null,
+          "resolvedLongitude": null,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": null,
+          "observedAt": null,
+          "ageHours": null,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "classification": "altimetry-derived-geostrophic-current",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "b4f0540ba368688d84472e9aeb5416d3eb538218fecb5adc2d9b7ec0a6cda2dd"
+          },
+          "captureText": "{\"captureId\":\"cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":null,\"observedAt\":null,\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":null,\"resolvedLongitude\":null,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"provider\":\"NOAA CoastWatch\"},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"42dee635734b8d5ef5cfe7f9701e686e4531548f615ec6feee36c0e89d8f9bd1\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":null}",
+          "sha256": "ed345ef43739046141c739ed2e8b4028af093ac94749f06acaad76aed5bf8441"
+        }
+      }
+    },
+    {
+      "name": "bad columns",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "resolvedLatitude": null,
+          "resolvedLongitude": null,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": null,
+          "observedAt": null,
+          "ageHours": null,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "classification": "altimetry-derived-geostrophic-current",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "b4f0540ba368688d84472e9aeb5416d3eb538218fecb5adc2d9b7ec0a6cda2dd"
+          },
+          "captureText": "{\"captureId\":\"cec3-bb346b714c193dd6231c07a312714a38468c87f012ecb0b1837b6d23f732b1f2\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":null,\"observedAt\":null,\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":null,\"resolvedLongitude\":null,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"provider\":\"NOAA CoastWatch\"},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"42dee635734b8d5ef5cfe7f9701e686e4531548f615ec6feee36c0e89d8f9bd1\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":null}",
+          "sha256": "ed345ef43739046141c739ed2e8b4028af093ac94749f06acaad76aed5bf8441"
+        }
+      }
+    },
+    {
+      "name": "missing vector columns",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "derived": {
+            "strength": null,
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": null,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-1f34c54da4b55b62c5f7946248c46eab983fa6d8aac06629f40295e48ea72092",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "c89caaf92eab23884c79d8c727b384da5bf78f8e0fcef16abf964e3735acca9a"
+          },
+          "captureText": "{\"captureId\":\"cec3-1f34c54da4b55b62c5f7946248c46eab983fa6d8aac06629f40295e48ea72092\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":null,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"48411a19a2a93e8998942049e06142711a7b58f9fbb7ad486873c5406eed1cf9\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":null,\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "a15d842fed126679d506e7d5b71bb820de941a3410e2acec607bb859a67cc809"
+        }
+      }
+    },
+    {
+      "name": "null row",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "error": {
+          "name": "TypeError",
+          "message": "Cannot read properties of null (reading '0')",
+          "code": {
+            "$undefined": true
+          }
+        }
+      }
+    },
+    {
+      "name": "short row",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": null,
+          "resolvedLongitude": null,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": null,
+          "directionDegrees": null,
+          "derived": {
+            "strength": null,
+            "compassDirection": null,
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": null,
+          "northwardMetersPerSecond": null,
+          "observedAt": null,
+          "ageHours": null,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "no-valid-pixel"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-7e9ffb621ed1049308ddbb18591e8766872d8d854cd2ee947c77b2eaf6c30375",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "2f4bdd52010b692d877c815f6bf470ef9fd876f262d27037ef7b981a3bc54cb7"
+          },
+          "captureText": "{\"captureId\":\"cec3-7e9ffb621ed1049308ddbb18591e8766872d8d854cd2ee947c77b2eaf6c30375\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":null,\"eastwardMetersPerSecond\":null,\"northwardMetersPerSecond\":null,\"observedAt\":null,\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":null,\"resolvedLongitude\":null,\"source\":{\"availability\":\"no-valid-pixel\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":null},\"role\":\"center\"}],\"scientificContentDigest\":\"18de5c4ced725ffd56d2fed3a27c9c31df7a0251d61ad7df633cc35ab048c8f1\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":null,\"derived\":{\"compassDirection\":null,\"interpretation\":\"operational-current-description\",\"strength\":null,\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "c085a5eafb73acfe452f88eb71298e85fa1979160b8b061e8eb9b58dfdc3a543"
+        }
+      }
+    },
+    {
+      "name": "first row only",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-ea4b0cf47f91c9826071cb7d0ae03353e66c0d338273e6c90e575792b3d52191",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "58ef2431b6fd3b93e47846f00de95a83b64ccf490d299e80eb894719f7a7de48"
+          },
+          "captureText": "{\"captureId\":\"cec3-ea4b0cf47f91c9826071cb7d0ae03353e66c0d338273e6c90e575792b3d52191\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"d394c0d1aff132ce88fbabaa8487d72994d646f6e06cb5ca6a23b0df5a3db908\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "b5a4de5b046fc9ab65e609a47af3d86ed27608f843151782c15b08c1c992febf"
+        }
+      }
+    },
+    {
+      "name": "future observation",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "error": {
+          "name": "TypeError",
+          "message": "Evidence timestamp after scientific assessment",
+          "code": {
+            "$undefined": true
+          }
+        }
+      }
+    },
+    {
+      "name": "invalid observation",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 2.7,
+          "directionDegrees": 45,
+          "derived": {
+            "strength": "very-strong",
+            "compassDirection": "NE",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 1,
+          "northwardMetersPerSecond": 1,
+          "observedAt": "invalid",
+          "ageHours": null,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-5f1cc849735b570d3b6ba689f489cbe6e8597009bf954b670be3a42d7d0090a9",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "20c2c7a5badd91d06efba09b9b7b63bd2b6d592bff716312a55c225ffdf12372"
+          },
+          "captureText": "{\"captureId\":\"cec3-5f1cc849735b570d3b6ba689f489cbe6e8597009bf954b670be3a42d7d0090a9\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":45,\"eastwardMetersPerSecond\":1,\"northwardMetersPerSecond\":1,\"observedAt\":\"invalid\",\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":2.7},\"role\":\"center\"}],\"scientificContentDigest\":\"9b6dd7f08ec9c2da9af3d28f1cb4e2d68adac03a68a43de11f45fce0b0d5fcfa\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":null,\"derived\":{\"compassDirection\":\"NE\",\"interpretation\":\"operational-current-description\",\"strength\":\"very-strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "ecaeb38bc481f59fdb6179c8114033cc1743a198ce9551543205ea879dd43474"
+        }
+      }
+    },
+    {
+      "name": "absent observation",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "speedKnots": 2.7,
+          "directionDegrees": 45,
+          "derived": {
+            "strength": "very-strong",
+            "compassDirection": "NE",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 1,
+          "northwardMetersPerSecond": 1,
+          "observedAt": null,
+          "ageHours": null,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-2ffe156c08d7f7a691d9bfcab66497af908ee9593f9142af1ef4d20f8f45429c",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "d4b8d3ce5cd5a001c61560b906e7be5a98e951978a89ae89a7d24d733120b96e"
+          },
+          "captureText": "{\"captureId\":\"cec3-2ffe156c08d7f7a691d9bfcab66497af908ee9593f9142af1ef4d20f8f45429c\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":45,\"eastwardMetersPerSecond\":1,\"northwardMetersPerSecond\":1,\"observedAt\":null,\"requestedLatitude\":25,\"requestedLongitude\":-90,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":2.7},\"role\":\"center\"}],\"scientificContentDigest\":\"3df61fddff34e02589bc84bb8d4e76d998f9a0d10513ca0d3bdd41ea6afa5a71\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":null,\"derived\":{\"compassDirection\":\"NE\",\"interpretation\":\"operational-current-description\",\"strength\":\"very-strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "650f0685054e52e85f70577caac1a737d9c842960a17285e1c976158d76d6476"
+        }
+      }
+    },
+    {
+      "name": "requested edge and signed zero",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(0)%5D%5B(180)%5D%2Cv_current%5B(last)%5D%5B(0)%5D%5B(180)%5D"
+        ],
+        "point": {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": {
+            "$number": "-0"
+          },
+          "requestedLongitude": 180,
+          "speedKnots": 1,
+          "directionDegrees": 90,
+          "derived": {
+            "strength": "strong",
+            "compassDirection": "E",
+            "interpretation": "operational-current-description",
+            "thresholdVersion": "pelora-current-strength-v1"
+          },
+          "eastwardMetersPerSecond": 0.5,
+          "northwardMetersPerSecond": 0,
+          "observedAt": "2026-10-01T00:00:00.000Z",
+          "ageHours": 2,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "dataset": "noaacwBLENDEDNRTcurrentsDaily",
+            "variables": [
+              "u_current",
+              "v_current"
+            ],
+            "units": "m/s",
+            "classification": "altimetry-derived-geostrophic-current",
+            "directionConvention": "degrees-toward",
+            "availability": "available"
+          }
+        },
+        "evidence": {
+          "contractVersion": "pelora-normalized-current-handoff-v1",
+          "reference": {
+            "kind": "captured",
+            "referenceId": "cec3-071afd8cecb73791eb758029e13027f22e7e44b542d5371308e6eb32105203f1",
+            "contractVersion": "pelora-governed-current-evidence-capture-v3",
+            "sha256": "5b022e22eadaf48d328e9bb3b039c369546bd5c8ec37513b08a9019f839f9325"
+          },
+          "captureText": "{\"captureId\":\"cec3-071afd8cecb73791eb758029e13027f22e7e44b542d5371308e6eb32105203f1\",\"contractVersion\":\"pelora-governed-current-evidence-capture-v3\",\"digestVersion\":\"pelora-exact-scientific-content-sha256-v1\",\"family\":\"CURRENTS\",\"lineageReferences\":[{\"contractVersion\":\"pelora-source-normalization-v1\",\"kind\":\"captured\",\"referenceId\":\"pelora-source-normalization-v1\",\"sha256\":\"7a63d5cdd4da6a9207bbd8089ca443440834de8889b8f5ab2261b156fd989406\"}],\"samples\":[{\"outcome\":\"FULFILLED\",\"point\":{\"directionDegrees\":90,\"eastwardMetersPerSecond\":0.5,\"northwardMetersPerSecond\":0,\"observedAt\":\"2026-10-01T00:00:00.000Z\",\"requestedLatitude\":-0,\"requestedLongitude\":180,\"resolvedLatitude\":25,\"resolvedLongitude\":-90,\"source\":{\"availability\":\"available\",\"classification\":\"altimetry-derived-geostrophic-current\",\"dataset\":\"noaacwBLENDEDNRTcurrentsDaily\",\"directionConvention\":\"degrees-toward\",\"provider\":\"NOAA CoastWatch\",\"units\":\"m/s\",\"variables\":[\"u_current\",\"v_current\"]},\"speedDerivationFailed\":false,\"speedKnots\":1},\"role\":\"center\"}],\"scientificContentDigest\":\"31c177f7a287d28ece6b2f594e97b84c0826050bc79bf025dfcdcbca83a6cea5\",\"serializationVersion\":\"pelora-exact-scientific-json-v1\",\"sourceAuthority\":{\"reference\":{\"contractVersion\":\"pelora-recorded-current-source-metadata-v1\",\"kind\":\"captured\",\"referenceId\":\"recorded-current-source-5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\",\"sha256\":\"5c99c830a1ef0f221b62938fdd4817c0a77863c2e53bd1065cd6408970cd9009\"},\"status\":\"RECORDED_NOT_REQUALIFIED\"}}",
+          "contextText": "{\"ageHours\":2,\"derived\":{\"compassDirection\":\"E\",\"interpretation\":\"operational-current-description\",\"strength\":\"strong\",\"thresholdVersion\":\"pelora-current-strength-v1\"}}",
+          "sha256": "e1251404022171b45d851606069c04be8585383f2a055a2c3b83da5c08364044"
+        }
+      }
+    },
+    {
+      "name": "transport error",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "error": {
+          "name": "Error",
+          "message": "fixture transport failed",
+          "code": "FIXTURE_FAILURE"
+        }
+      }
+    },
+    {
+      "name": "abort transport",
+      "result": {
+        "urls": [
+          "https://coastwatch.noaa.gov/erddap/griddap/noaacwBLENDEDNRTcurrentsDaily.json?u_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D%2Cv_current%5B(last)%5D%5B(25)%5D%5B(-90)%5D"
+        ],
+        "error": {
+          "name": "Error",
+          "message": "upstream-provider request timed out after 4000 ms",
+          "code": "UPSTREAM_TIMEOUT"
+        }
+      }
+    }
+  ]
+}

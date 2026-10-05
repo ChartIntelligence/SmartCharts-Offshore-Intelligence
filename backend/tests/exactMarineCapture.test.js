@@ -1,3 +1,5 @@
+import {discoverDefaultGraph} from './fixtures/defaultProviderGraphReview.mjs';
+import {verifyExtractionGraph} from './fixtures/currentProviderExtractionReview.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -353,7 +355,9 @@ test('inventory reconciles all nine exact capture paths and actual reviewed scie
   const inventory=JSON.parse(readFileSync(new URL('../../docs/Exact_Marine_Capture_Inventory_v2.json',import.meta.url))).inventory;
   assert.equal(inventory.length,9);assert.equal(new Set(inventory.map(x=>x.normalizedPath)).size,9);
   const source=readFileSync(new URL('../server.js',import.meta.url),'utf8');
-  for(const [family,field,owner,output] of nine){const row=inventory.find(x=>x.normalizedPath===family+'/'+field);assert(row);assert.equal(row.capturePath,(owner==='quality'?'qualityInputs':'marineInputs')+'/'+family+'/'+field);assert.equal(row.consumer.scientificPath,'/oceanConditions/'+output);assert(source.includes(row.producer.transportField));assert(source.includes('function '+row.producer.converter+'('));}
+  const graph=discoverDefaultGraph();
+  verifyExtractionGraph(graph,Object.fromEntries(Object.keys(graph.sourceHashes).map(file=>[file,readFileSync(new URL('../../'+file,import.meta.url),'utf8')])));
+  for(const [family,field,owner,output] of nine){const row=inventory.find(x=>x.normalizedPath===family+'/'+field);assert(row);assert.equal(row.capturePath,(owner==='quality'?'qualityInputs':'marineInputs')+'/'+family+'/'+field);assert.equal(row.consumer.scientificPath,'/oceanConditions/'+output);assert(source.includes(row.producer.transportField));assert(graph.nodes.some(node=>node.function===row.producer.converter));}
 });
 test('V3 binds protocol versions and cross-family references as distinct content, not interchangeable resolution',async t=>{
   const p=prepare(await parsed(t)),all=protocols(p);

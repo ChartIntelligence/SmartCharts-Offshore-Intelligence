@@ -1,3 +1,4 @@
+import {existingDeclaration} from './sourceDeclarationFixture.mjs';
 // New Task 12B.6M harness. No imports from failed qualification or draft projection.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -8,7 +9,7 @@ import {composite,spatialCorpus} from './candidateSemanticFixture.mjs';
 export const assessment=Object.freeze({contractVersion:'pelora-scientific-assessment-v1',assessmentAt:'2026-09-24T01:00:00Z'});
 export const source=readFileSync(new URL('../../server.js',import.meta.url),'utf8');
 function section(start,end){const a=source.indexOf(start),b=source.indexOf(end,a+start.length);assert(a>=0&&b>a);return source.slice(a,b);}
-const band=new Function(section('function classifySeaSurfaceTemperature(','function currentDirectionDegrees(')+';return classifySeaSurfaceTemperature;')();
+const band=existingDeclaration(source,'classifySeaSurfaceTemperature');
 const pointSource=section('function createSstSpatialSamplePoints(','export async function getSeaSurfaceTemperaturePoint(');
 const radius=Number(source.match(/const SST_SPATIAL_SAMPLE_RADIUS_NM\s*=\s*(\d+)/)[1]);
 const samplePoints=new Function('SST_SPATIAL_SAMPLE_RADIUS_NM',pointSource+';return createSstSpatialSamplePoints;')(radius);

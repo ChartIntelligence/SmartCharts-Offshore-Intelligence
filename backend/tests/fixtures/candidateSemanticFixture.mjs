@@ -1,3 +1,4 @@
+import {existingDeclaration} from './sourceDeclarationFixture.mjs';
 // Controlled comparison surface; never invokes the request route, Auth, or species science.
 import {parsed,inputs,currentSupport} from './marineAssessorCompanionFixture.mjs';
 import {readFileSync} from 'node:fs';
@@ -67,7 +68,7 @@ function existing(name,next){
 const organization=existing('buildCurrentOrganizationAnalysis','function buildCurrentRelationshipContext(');
 const relationship=existing('buildCurrentRelationshipContext','function getCurrentProjectionAxes(');
 const pattern=existing('buildCurrentSpatialPatternAnalysis','async function getCurrentConditions(');
-const temperatureBand=existing('classifySeaSurfaceTemperature','function currentDirectionDegrees(');
+const temperatureBand=existingDeclaration(source,'classifySeaSurfaceTemperature');
 const sstStart=source.indexOf('    const sst = {',source.indexOf('async function getOceanConditionsAtAssessment('));
 const sstEnd=source.indexOf('const oceanEvidence =',sstStart);
 if(sstStart<0||sstEnd<=sstStart)throw Error('Current SST assembly unavailable');

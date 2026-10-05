@@ -1,3 +1,4 @@
+import {existingDeclaration} from './fixtures/sourceDeclarationFixture.mjs';
 // Exact-capture STOP diagnostic. Root reconstruction does not qualify complete candidate evidence. Extracts unchanged private assembler bodies;
 // no production integration, alternative scientific algorithm or species evaluator.
 import test from 'node:test';
@@ -111,7 +112,7 @@ for(let i=0;i<scenarios.length;i++)test('independent capture-derived SST produce
 const sstStart=source.indexOf('    const sst = {',source.indexOf('async function getOceanConditionsAtAssessment('));
 const sstEnd=source.indexOf('const oceanEvidence =',sstStart);
 assert(sstStart>0&&sstEnd>sstStart);
-const band=new Function(block('function classifySeaSurfaceTemperature(','function currentDirectionDegrees(')+'return classifySeaSurfaceTemperature;')();
+const band=existingDeclaration(source,'classifySeaSurfaceTemperature');
 const assembleSst=new Function('marine','sstSpatial','governedEnvironmentalFeatureObservation','classifySeaSurfaceTemperature',source.slice(sstStart,sstEnd)+'return sst;');
 function snapshotView(center,spatial){
   const sst=assembleSst({sst:center},spatial,buildGovernedEnvironmentalFeatureObservationV1({spatialStructure:spatial}),band);

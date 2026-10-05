@@ -1,3 +1,4 @@
+import {existingDeclaration} from './sourceDeclarationFixture.mjs';
 // Task 12B.6L: request-keyed offline producer harness. No draft-v3 imports.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -7,8 +8,7 @@ import {composite,spatialCorpus} from './candidateSemanticFixture.mjs';
 
 export const assessment={contractVersion:'pelora-scientific-assessment-v1',assessmentAt:'2026-09-24T01:00:00Z'};
 const server=readFileSync(new URL('../../server.js',import.meta.url),'utf8');
-const bandStart=server.indexOf('function classifySeaSurfaceTemperature('),bandEnd=server.indexOf('function currentDirectionDegrees(',bandStart);
-const band=new Function(server.slice(bandStart,bandEnd)+'return classifySeaSurfaceTemperature;')();
+const band=existingDeclaration(server,'classifySeaSurfaceTemperature');
 const start=server.indexOf('    const sst = {',server.indexOf('async function getOceanConditionsAtAssessment('));
 const end=server.indexOf('const oceanEvidence =',start);assert(start>0&&end>start);
 const assembleSst=new Function('marine','sstSpatial','governedEnvironmentalFeatureObservation','classifySeaSurfaceTemperature',server.slice(start,end)+'return sst;');

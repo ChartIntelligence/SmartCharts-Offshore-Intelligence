@@ -1,7 +1,8 @@
+import {existingDeclaration} from './fixtures/sourceDeclarationFixture.mjs';
 // Offline contract audit only. No production numeric policy or serializer is changed.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {isDeepStrictEqual} from 'node:util';
 import * as current from '../currentEvidenceCapture.mjs';
 import * as quality from '../weatherMarineQualityCapture.mjs';
@@ -30,7 +31,9 @@ function differences(a,b,path=''){if(isDeepStrictEqual(a,b))return [];if(a&&b&&t
 const assessment={contractVersion:'pelora-scientific-assessment-v1',assessmentAt:'2026-09-24T01:00:00Z'};
 const source=readFileSync(new URL('../server.js',import.meta.url),'utf8');
 function exact(start,end,name){const a=source.indexOf(start),b=source.indexOf(end,a+start.length);assert(a>=0&&b>a);return new Function(source.slice(a,b)+'\nreturn '+name+';')();}
-const direction=exact('function currentDirectionDegrees(','function getCircularDirectionDifference(','currentDirectionDegrees');
+// The declaration moved intact; preserved baselines still keep it in server.js.
+const adapterURL=new URL('../currentProviderAdapter.mjs',import.meta.url);
+const direction=existingDeclaration(existsSync(adapterURL)?readFileSync(adapterURL,'utf8'):source,'currentDirectionDegrees');
 const orientation=exact('function deriveSstTransitionOrientation(','export function assessSstTransitionConfidence(','deriveSstTransitionOrientation');
 const jsonClone=v=>JSON.parse(JSON.stringify(v));
 function memory(){const records=new Map();return {async createIfAbsent(key,value){const exists=records.has(key);if(!exists)records.set(key,jsonClone(value));return {outcome:exists?'exists':'created',durable:true,record:jsonClone(records.get(key))};},async readExact(key){return records.has(key)?{status:'found',durable:true,record:jsonClone(records.get(key))}:{status:'not-found'};}};} // Simulated durability only.
