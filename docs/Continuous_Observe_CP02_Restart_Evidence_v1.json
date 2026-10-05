@@ -1,0 +1,44 @@
+{
+  "contract": "pelora-cp02-real-postgresql-restart-v1",
+  "scope": "ISOLATED_LOCAL_QUALIFICATION_ONLY",
+  "beforeStartedAt": "2026-10-05T22:54:05.660Z",
+  "afterStartedAt": "2026-10-05T23:07:44.876Z",
+  "records": {
+    "registry": {
+      "count": 78,
+      "sha256": "143c00e35a27c573830c1550cd9ee19ba896fd46163093ee48570166d92990d1"
+    },
+    "jobs": {
+      "count": 78,
+      "sha256": "745236ae9c7f270601021ea365b4c7255b7a772794397af8c90b000ef3735c65"
+    },
+    "ownership": {
+      "count": 78,
+      "sha256": "7a2d450549007cce363941f7e6127fb74323f307c9b5b2f1981d306f438534f8"
+    },
+    "attempts": {
+      "count": 93,
+      "sha256": "d0f7a55a4e13f4ea38928f2357a49499503b95fd26ed3e3695acb9bb7a606715"
+    },
+    "raw": {
+      "count": 4,
+      "sha256": "cb08cd1cf95a8594d976be54a8140ff47405549256e60a641cf4470f4b2f46e5"
+    },
+    "results": {
+      "count": 73,
+      "sha256": "abb9d03a29cfc04b138e3f112eaf2f9ea43ae8e84bc2172fbaeb16a8aa46908a"
+    },
+    "accepted": {
+      "count": 37,
+      "sha256": "128332197049256cea53f3937eff42a82bc36879e9616e454bea56a9410dc175"
+    }
+  },
+  "authority": {
+    "function_sha256": "a4354cf6ed580d21902ad7e0fdc5eb92bc72a84b44c21dba6f0b8774011802ce",
+    "commit_authority_sha256": "702e8bcd53a415157bbc48b107188e764d849fdb8f3df490ea8b62af6adad064",
+    "worker_attributes_sha256": "c8104b85d8440745f9fe80fcc3896c13611d6bbf5a04ef8e33db386f8e25ad08"
+  },
+  "restrictedWorkerReconciliationAfterRestart": true,
+  "persistence": "EXACT_TABLE_CONTENT_AND_ACCEPTED_ACKNOWLEDGMENT_PRESERVED",
+  "receiptWriterIntegrated": false
+}

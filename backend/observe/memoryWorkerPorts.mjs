@@ -56,11 +56,11 @@ export function createMemoryResultStore() {
     async write(record) { const copy = snapshot(record); if (accepted.has(copy.execution.jobId)) return {status:'REJECTED'};
       pending.set(copy.execution.attemptId,copy); return {status:'ACKNOWLEDGED'}; },
     async read(attemptId) { return pending.get(attemptId) ?? null; },
-    // Synchronous compare-and-accept in one JS turn, deliberately not a database guarantee.
-    accept(record, authorize, retainedAt) {
+    // Explicit async fake acceptance; this remains deliberately non-durable.
+    async accept(record, authorize, retainedAt) {
       const copy = snapshot(record), jobId = copy.execution.jobId;
       check(pending.get(copy.execution.attemptId) && JSON.stringify(pending.get(copy.execution.attemptId)) === JSON.stringify(copy), 'pending-readback-mismatch');
-      check(!accepted.has(jobId), 'job-already-accepted'); authorize(); utc(retainedAt);
+      await authorize(); utc(retainedAt); check(!accepted.has(jobId), 'job-already-accepted');
       const result = freeze({status:'ACKNOWLEDGED',retainedAt,record:copy}); accepted.set(jobId,result); pending.delete(copy.execution.attemptId); return result;
     },
     discard(attemptId) { pending.delete(attemptId); },

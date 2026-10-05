@@ -1,0 +1,263 @@
+{
+  "version": "pelora-cp02-qualification-v1",
+  "agent": "PELORA-01 — CRITICAL PATH",
+  "mission": "CP-02 Durable Claim/Fencing Contract",
+  "status": "QUALIFIED_ISOLATED_LOCAL_ONLY_INTEGRATION_PENDING",
+  "baselineCommit": "e65e85d04bb4e0a90e647583ff72854c4008fc29",
+  "branch": "codex/pelora-remote-setup",
+  "reportedAt": "2026-10-05T23:13:25.392Z",
+  "contractsChanged": {
+    "worker": "claim/check/guard/accept/release explicitly awaited; results.accept supports real authority; INDETERMINATE accepted:null for unreconciled/malformed acceptance acknowledgment; unsuccessful duplicate claim cannot release the owner",
+    "fakePorts": "memory acceptance now explicitly async and awaits its authorization callback; remains a fake, no durability claim",
+    "database": "protected job/registry authority; immutable logical jobs/attempts/raw/evidence/result staging; per-job monotonic bigint fences; UUID claim capability separate from logical job/attempt identities; row-locked compare-and-accept plus unique accepted job and deferred commit fencing check",
+    "composition": "mandatory injected transaction boundary on dedicated connection; all final guards on same locked transaction; rollback cancellation before COMMIT; independent connection reconciliation after uncertain COMMIT; no recently-owned boolean"
+  },
+  "schema": {
+    "tables": [
+      "registry",
+      "jobs",
+      "ownership",
+      "attempts",
+      "raw",
+      "results",
+      "accepted"
+    ],
+    "acceptance": "Only row-locked current claim/fence/activation with unexpired lease/deadline and exact immutable staged record can create a decision. Unique accepted row per job. Staging never means acceptance. Exact accepted retries reconcile the original decision and never create a new one.",
+    "evidence": "Capture text and record text retain exact strings. Existing CURRENTS V3 parsing/reference/binding validators run unchanged in the worker and port; SQL does not independently requalify provider science or replace those validators."
+  },
+  "leastPrivilege": {
+    "database": "pelora_phase3_qualification",
+    "worker": "pelora_cp02_worker",
+    "owner": "pelora_cp02_owner",
+    "ownerLogin": false,
+    "workerAttributes": {
+      "superuser": false,
+      "createdb": false,
+      "createrole": false,
+      "bypassrls": false,
+      "replication": false,
+      "inherit": false
+    },
+    "workerPrivileges": [
+      "CONNECT dedicated qualification database",
+      "USAGE cp02 schema",
+      "EXECUTE cp02.worker API only"
+    ],
+    "denied": [
+      "other local databases",
+      "schema/database/table creation",
+      "temporary tables",
+      "role administration",
+      "owner role assumption",
+      "private table reads and writes",
+      "pg_authid",
+      "server-file reads",
+      "immutable-trigger function execution",
+      "future functions/tables by default"
+    ],
+    "credential": "Outside Git under existing restricted cluster directory; credential file inheritance disabled, exactly one current-user FullControl rule; no credential value in artifacts or output; SCRAM authentication rule and password storage verified"
+  },
+  "qualification": {
+    "focused": [
+      {
+        "file": "backend/tests/asyncWorkerAuthority.test.mjs",
+        "exit": 0,
+        "tests": 8,
+        "pass": 8,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/continuousObserveContracts.test.mjs",
+        "exit": 0,
+        "tests": 105,
+        "pass": 105,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/currentObservationWorker.test.mjs",
+        "exit": 0,
+        "tests": 79,
+        "pass": 79,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/currentProviderAdapter.test.mjs",
+        "exit": 0,
+        "tests": 48,
+        "pass": 48,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/currentProviderSelectorBinding.test.mjs",
+        "exit": 0,
+        "tests": 29,
+        "pass": 29,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/currentEvidenceCaptureV3.test.js",
+        "exit": 0,
+        "tests": 14,
+        "pass": 14,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/sourceNormalizationRuntime.test.js",
+        "exit": 0,
+        "tests": 15,
+        "pass": 15,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/sourceNormalizationRuntimeAdversarial.test.js",
+        "exit": 0,
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/sourceNormalizationCurrentProducer.test.js",
+        "exit": 0,
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      },
+      {
+        "file": "backend/tests/sourceNormalizationTransitiveCurrent.test.js",
+        "exit": 0,
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "failures": []
+      }
+    ],
+    "realPostgres": {
+      "file": "backend/tests/postgresClaimFencing.test.mjs",
+      "exit": 0,
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "leafTests": 22
+    },
+    "tests": 346,
+    "pass": 346,
+    "fail": 0,
+    "nodeTotalIncludesOneParentTest": true,
+    "phase1Phase2": {
+      "baselinePass": 184,
+      "finalPass": 184,
+      "unreconciledDifferences": 0
+    },
+    "restartEvidence": "Continuous_Observe_CP02_Restart_Evidence_v1.json",
+    "testEvidence": "Continuous_Observe_CP02_Test_Evidence_v1.json",
+    "requirementsProven": [
+      "stale claimant cannot accept",
+      "reclaim increments persisted fence",
+      "duplicate acceptance impossible",
+      "actual process exit before acceptance recoverable",
+      "actual process exit after committed acceptance preserves one decision",
+      "uncertain stage write exact readback",
+      "lost COMMIT acknowledgment exact reconciliation",
+      "unavailable reconciliation remains explicitly indeterminate",
+      "ownership checked in database at acceptance and deferred commit",
+      "cancellation after insert rolls back before commit",
+      "lease/deadline checked after authority lock waits",
+      "protected revocation blocks acceptance",
+      "restricted privileges survive real PostgreSQL restart",
+      "exact durable table contents and acknowledgment survive restart",
+      "user/captain/session input excluded from manifest/job acquisition authority",
+      "Phase 1/2 and focused shared science regressions passing"
+    ]
+  },
+  "developmentReconciliation": [
+    {
+      "issue": "Default Node test process isolation hit sandbox spawn EPERM",
+      "resolution": "Documented --test-isolation=none baseline and final replay passed"
+    },
+    {
+      "issue": "Initial async candidate duplicate rejected run released first owner",
+      "resolution": "Ownership cleanup starts only after successful claim; unchanged Phase 2 duplicate case now passes"
+    },
+    {
+      "issue": "A 400ms synthetic recovery lease expired during the recovery test",
+      "resolution": "Database correctly rejected expiry; recovery fixture changed to a 2000ms lease and explicit 2.1s expiry wait; separate lock-wait expiry rejection retained"
+    },
+    {
+      "issue": "Unqualified combined science invocation without archived environment guard produced one transitive missing-state assertion failure",
+      "resolution": "Discarded as incorrect harness; fresh-process archived offline/environment replay passes all focused scripts, including 10/10 transitive cases. No baseline science files changed."
+    }
+  ],
+  "preservedGovernance": [
+    "No captain/session influence on acquisition",
+    "Fail closed and authoritative ownership; uncertain acceptance never fabricated as rejection/success",
+    "CURRENTS V3/normalization/scientific validators unchanged",
+    "No historical evidence promoted to current",
+    "No new scientific claims",
+    "Receipt Writer default and code unchanged; no integration"
+  ],
+  "isolation": {
+    "productionDatabaseTouched": false,
+    "supabaseTouched": false,
+    "productionDeploy": false,
+    "servicesCreated": false,
+    "firewallRulesCreated": false,
+    "externalProviderAccess": false,
+    "packagesInstalled": false,
+    "paidDependenciesAdded": false,
+    "localChanges": [
+      "dedicated qualification database and non-login schema owner",
+      "restricted local worker login and outside-Git credential",
+      "default-deny local database/schema/function privileges",
+      "CP-02 schema in dedicated local database",
+      "manual restart of pre-existing isolated cluster only"
+    ],
+    "untrackedSupabaseFiles": "supabase/.gitignore and supabase/config.toml preserved and excluded"
+  },
+  "limits": [
+    "This is isolated contract qualification, not operational Continuous Observe or beta readiness",
+    "No scheduler, heartbeat, provider-rate policy, real approved sampling plan, production endpoint or Receipt Writer integration",
+    "Trusted registry artifact meaning remains a privileged approval root, not a captain-controlled payload",
+    "SQL does not independently validate scientific interpretation; CP-03 must validate durable observation replay using the existing exact validators",
+    "Historical broader Phase 2 profile debt and archival resource limits remain unchanged; broad all-green or full semantic completeness is not claimed"
+  ],
+  "disposition": {
+    "P0": [],
+    "P1": [],
+    "P2": [],
+    "P3": [],
+    "humanGate": "None remaining for bounded CP-02; production/deployment, new credentials/installations and later Receipt Writer gates remain in force",
+    "nextMission": "CP-03 Durable observation storage",
+    "safeToAutoContinue": "YES for a bounded isolated CP-03 storage/replay mission using this qualification database and existing approved credentials; no production or Receipt integration. CP-03 itself is not qualified by this report."
+  }
+}
