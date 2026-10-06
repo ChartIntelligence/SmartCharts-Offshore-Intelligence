@@ -84,3 +84,34 @@ assert.equal(emitted.at(-2).field,null,"matching new context removed");
 assert.equal(emitted.at(-1).field,sibling,"sibling retained");
 invalidation.dispose();invalidation.invalidate("currents",keyB);
 console.log("PASS exact-context per-layer invalidation, stale-context safety, idempotence, silent/nonmutating invalidation and no rejected-field retention");
+
+// Successful unusable envelopes are distinct from transport/provider failures.
+let malformedTimer;
+const malformedStates=[],malformedQueue=[];
+const malformed=createViewportFieldRequests({setTimer:fn=>(malformedTimer=fn,1),clearTimer:()=>{},
+  request:layer=>new Promise((resolve,reject)=>malformedQueue.push({layer,resolve,reject})),
+  onState:(layer,state)=>malformedStates.push({layer,...state})});
+async function malformedRun(viewport,value,fail=false){
+  malformed.schedule(viewport,["currents","bathymetry"]);const execution=malformedTimer();
+  for(const item of malformedQueue.splice(0))fail?item.reject(new Error("genuine transport")):item.resolve(item.layer==="currents"?value:sibling);
+  await execution;
+}
+for(const unusable of [null,undefined,false,0,"bad",[],{}, {status:"unknown"}]){
+  await malformedRun(a,first);await malformedRun(a,unusable);
+  assert.equal(malformedStates.at(-2).status,"malformed-success");
+  assert.equal(malformedStates.at(-2).field,null);
+  assert.equal(malformedStates.at(-2).contextKey,keyA);
+  assert.equal(malformedStates.at(-1).field,sibling);
+  await malformedRun(a,null,true);
+  assert.equal(malformedStates.at(-2).status,"unavailable");assert.equal(malformedStates.at(-2).field,null);
+  assert.equal(malformedStates.at(-1).status,"degraded");assert.equal(malformedStates.at(-1).field,sibling);
+}
+await malformedRun(a,first);await malformedRun(a,{status:"unavailable",reason:"provider unavailable"});
+assert.equal(malformedStates.at(-2).status,"degraded");assert.equal(malformedStates.at(-2).field,first);
+malformed.schedule(a,["currents"]);const obsoleteNull=malformedTimer(),obsolete=malformedQueue.pop();
+await malformedRun(b,second);const beforeLate=malformedStates.length;
+obsolete.resolve(null);await obsoleteNull;assert.equal(malformedStates.length,beforeLate);
+await malformedRun(b,null,true);assert.equal(malformedStates.at(-2).field,second);
+assert.equal(malformedStates.at(-2).status,"degraded","obsolete malformed success cannot invalidate newer retention");
+malformed.dispose();
+console.log("PASS malformed-success envelope classification, null/primitives/arrays/status, sibling locality, provider retention and obsolete-null protection");

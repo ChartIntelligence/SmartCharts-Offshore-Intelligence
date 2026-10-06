@@ -57,6 +57,23 @@ async function restore(){context.bathymetryImage=originalCanvas;context.fetch=tr
 function absent(layer){assert.equal(state[layer].status,"unavailable");assert.equal(state[layer].field,null);
   assert.ok(!map.getLayer(presentation.FIELD_LAYER[layer])||map.getLayer(presentation.FIELD_LAYER[layer]).layout.visibility==="none");
   if(layer==="currents")assert.equal(sources.get(presentation.FIELD_SOURCE.currents)?.data.features.length??0,0);}
+// PELORA-04 P1: HTTP-success JSON null is rejection, never degraded retention.
+await restore();assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility,"visible");
+const nullSibling=sources.get(presentation.FIELD_SOURCE.bathymetry);
+context.fetch=transport("currents",null);await refresh();absent("currents");
+assert.equal(state.bathymetry.field,bathy);assert.equal(sources.get(presentation.FIELD_SOURCE.bathymetry),nullSibling);
+assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+// Exercise deferred sync before any further request settles.
+styleLoaded=false;events.get("style.load")();const nullIdle=events.get("idle");
+assert.equal(state.currents.field,null);styleLoaded=true;nullIdle();
+assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data.features.length,0);
+await scheduled();absent("currents");
+context.fetch=async()=>{throw new Error("genuine transport after null");};
+events.get("style.load")();await scheduled();absent("currents");
+assert.match(state.currents.reason,/genuine transport/);
+assert.equal(state.bathymetry.field,bathy);assert.equal(state.bathymetry.status,"degraded");
+assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+console.log("PASS PELORA-04 P1 valid render -> HTTP-success null -> clear/unavailable -> idle/style -> transport failure without resurrection");
 for(const [layer,bad] of [
   ["currents",{...current,contractVersion:"unsupported"}],
   ["currents",{...current,layer:"bathymetry"}],
@@ -101,6 +118,19 @@ await restore();sources.clear();for(const id of Object.values(presentation.FIELD
 const addSource=map.addSource;map.addSource=(id,data)=>{if(id===presentation.FIELD_SOURCE.currents)throw new Error("addSource failed");addSource(id,data);};
 events.get("style.load")();await scheduled();absent("currents");
 assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");map.addSource=addSource;
+// Direct layer-creation and arrow-image registration failures stay local.
+await restore();const layerAdder=map.addLayer;
+map.removeLayer(presentation.FIELD_LAYER.currents);
+map.addLayer=(definition,before)=>{if(definition.id===presentation.FIELD_LAYER.currents)throw new Error("addLayer failed");layerAdder(definition,before);};
+await refresh();absent("currents");assert.equal(state.bathymetry.field,bathy);
+assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+map.addLayer=layerAdder;
+await restore();const imageAdder=map.addImage;images.delete("pelora-field-current-arrow");
+map.addImage=()=>{throw new Error("arrow image registration failed");};
+await refresh();absent("currents");assert.equal(state.bathymetry.field,bathy);
+assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+map.addImage=imageAdder;
+console.log("PASS direct addLayer and arrow-image registration failure locality");
 // Valid zeros retain source identity and success even when no arrow is drawn.
 await restore();const zero={...current,fieldId:"zero",payload:{...current.payload,cells:[[-89.5,27.5,0,0]]}};
 context.fetch=transport("currents",zero);await refresh();assert.equal(state.currents.field,zero);

@@ -60,6 +60,7 @@ export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldSt
         if(disposed||mapRef.current!==map)return;
         states[layer]=state;
         try{
+          if(state.status==="malformed-success")throw new Error(state.reason);
           if(state.field)validateFieldPresentation(state.field,layer);
           if(layer==="bathymetry"){
             bathyImage=state.field&&state.field.coverage.validCells?bathymetryImage(state.field):null;
