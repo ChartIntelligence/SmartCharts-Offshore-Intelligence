@@ -1,3 +1,5 @@
+import {copy as copyHistoryInput} from '../shared/oceanPublication.mjs';
+import {resolvePrivateHistoryBoundaryV1,replayPrivateHistoryBoundaryV1,privateHistoryBoundarySummaryV1} from './privateHistoryBoundary.mjs';
 import {CURRENTS_DATASET, metersPerSecondToKnots, classifyCurrentStrength, currentCompassDirection, resolveProviderCoordinates, acquireCurrentProviderPoint} from './currentProviderAdapter.mjs';
 import {bindCenterSstSpatial, registerScalarPublication} from './scalarEvidenceHandoff.mjs';
 import {SOURCE_NORMALIZATION_VERSION, SOURCE_NORMALIZATION_REFERENCE, normalizationCacheKey, sourceNumber, sourceScaledNumber, roundFinite} from "./sourceNormalization.mjs";
@@ -375,8 +377,13 @@ export async function retrieveOceanMemoryRows({
   observedAfter = null,
   observedBefore = null,
   maximumRows = 48,
-  fetchImplementation = fetch
+  fetchImplementation = fetch,
+  assessment = null
 } = {}) {
+  if (assessment !== null) {
+    assessment = requireScientificAssessmentV1(assessment);
+    observedBefore = observedBefore && Date.parse(observedBefore) < Date.parse(assessment.assessmentAt) ? observedBefore : assessment.assessmentAt;
+  }
   const configurationAvailable =
     configuration
       ?.available ===
@@ -668,6 +675,7 @@ export async function retrieveOceanMemoryRows({
     null;
 
   let responseRows = [];
+  let responseBodyValid = true;
 
   try {
     response =
@@ -700,12 +708,11 @@ export async function retrieveOceanMemoryRows({
       const parsedBody =
         await response.json();
 
-      responseRows =
-        Array.isArray(
-          parsedBody
-        )
-          ? parsedBody
-          : [];
+      responseBodyValid = Array.isArray(parsedBody);
+      if (responseBodyValid) {
+        try { responseRows = copyHistoryInput(parsedBody); }
+        catch { responseBodyValid = false; responseRows = []; }
+      }
     }
   } catch {
     response =
@@ -726,10 +733,12 @@ export async function retrieveOceanMemoryRows({
       : null;
 
   const available =
-    responseOk;
+    responseOk && responseBodyValid;
 
   const responseLimitations = [
     ...limitations,
+
+    !responseBodyValid ? "invalid-ocean-memory-response-body" : null,
 
     !response
       ? "supabase-request-failed"
@@ -17961,8 +17970,11 @@ export function buildOceanMemoryStorage({
  * infer trends, perform species reasoning, or generate guidance.
  */
 export function buildOceanMemoryStorageRecordFromRow({
-  row = null
+  row = null,
+  assessment = null
 } = {}) {
+  if (assessment !== null) assessment = requireScientificAssessmentV1(assessment);
+  row = row === null || assessment === null ? row : copyHistoryInput(row);
   const snapshotId =
     typeof row
       ?.snapshot_id ===
@@ -18131,9 +18143,11 @@ export function buildOceanMemoryStorageRecordFromRow({
     snapshotIdConsistent &&
     snapshotSchemaVersionConsistent &&
     snapshotContractVersionConsistent &&
-    observedAtConsistent;
+    observedAtConsistent &&
+    (assessment === null || Date.parse(observedAt) <= Date.parse(assessment.assessmentAt));
 
   const missingRequirements = [
+    assessment !== null && observedAt && Date.parse(observedAt) > Date.parse(assessment.assessmentAt) ? "future-represented-observation" : null,
     typeof snapshotId !==
       "string"
       ? "database-snapshot-id"
@@ -18604,8 +18618,13 @@ export function buildHistoricalSnapshotQuery({
   observedAfter = null,
   observedBefore = null,
   maximumSnapshots = null,
-  snapshotSchemaVersion = null
+  snapshotSchemaVersion = null,
+  assessment = null
 } = {}) {
+  if (assessment !== null) {
+    assessment = requireScientificAssessmentV1(assessment);
+    observedBefore = observedBefore && Date.parse(observedBefore) < Date.parse(assessment.assessmentAt) ? observedBefore : assessment.assessmentAt;
+  }
   const snapshotsInput =
     Array.isArray(
       historicalSnapshots
@@ -20432,8 +20451,13 @@ export function buildOceanMemoryTimeSeries({
   observedAfter = null,
   observedBefore = null,
   maximumSnapshots = null,
-  snapshotSchemaVersion = null
+  snapshotSchemaVersion = null,
+  assessment = null
 } = {}) {
+  if (assessment !== null) {
+    assessment = requireScientificAssessmentV1(assessment);
+    observedBefore = observedBefore && Date.parse(observedBefore) < Date.parse(assessment.assessmentAt) ? observedBefore : assessment.assessmentAt;
+  }
   const historicalSnapshotQuery =
     buildHistoricalSnapshotQuery({
       historicalSnapshots,
@@ -20442,7 +20466,8 @@ export function buildOceanMemoryTimeSeries({
       observedAfter,
       observedBefore,
       maximumSnapshots,
-      snapshotSchemaVersion
+      snapshotSchemaVersion,
+      assessment
     });
 
   const timeSeries =
@@ -34200,7 +34225,8 @@ export function buildClarityPersistence({
 export function buildOceanPersistence({
   historicalSnapshots = [],
   timeSeries = null,
-  featureMovement = {}
+  featureMovement = {},
+  historyBoundary = null
 } = {}) {
   const governedTimeSeriesAvailable =
     timeSeries
@@ -34217,82 +34243,84 @@ export function buildOceanPersistence({
           .historicalSnapshots
       : historicalSnapshots;
 
+  const selectedFor = name => historyBoundary === null ? resolvedHistoricalSnapshots : historyBoundary.selections[name].inputs;
+
   const persistenceEvidence =
     buildPersistenceEvidence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildPersistenceEvidence")
     });
 
   const seaSurfaceTemperature =
     buildSeaSurfaceTemperaturePersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildSeaSurfaceTemperaturePersistence")
     });
 
   const current =
     buildCurrentPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildCurrentPersistence")
     });
 
   const currentEdge =
     buildCurrentEdgePersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildCurrentEdgePersistence")
     });
 
   const currentShear =
     buildCurrentShearPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildCurrentShearPersistence")
     });
 
   const currentConvergence =
     buildCurrentConvergencePersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildCurrentConvergencePersistence")
     });
 
   const environmentalTransition =
     buildEnvironmentalTransitionPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildEnvironmentalTransitionPersistence")
     });
 
   const surfaceWaterCharacter =
     buildSurfaceWaterCharacterPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildSurfaceWaterCharacterPersistence")
     });
 
   const waterMass =
     buildWaterMassPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildWaterMassPersistence")
     });
 
   const mixingZone =
     buildMixingZonePersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildMixingZonePersistence")
     });
 
   const oceanFront =
     buildOceanFrontPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildOceanFrontPersistence")
     });
 
   const productivity =
     buildProductivityPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildProductivityPersistence")
     });
 
   const clarity =
     buildClarityPersistence({
       historicalSnapshots:
-        resolvedHistoricalSnapshots
+        selectedFor("buildClarityPersistence")
     });
 
  const buildUnavailableFeature = ({
@@ -59906,15 +59934,19 @@ export function retainedSpatialSampleLayoutV1(latitude, longitude) {
   return {sst: createSstSpatialSamplePoints(latitude, longitude), currents: createCurrentSpatialSamplePoints(latitude, longitude)};
 }
 
-async function getOceanConditionsAtAssessment(
+export async function getOceanConditionsAtAssessment(
   latitude,
   longitude,
   {
     assessment,
-    bearerToken = null
+    bearerToken = null,
+    historyFetchImplementation = fetch,
+    historyReplay = null
   } = {}
 ) {
-  assessment = resolveScientificAssessmentV1(assessment);
+  assessment = requireScientificAssessmentV1(assessment);
+  const historyContext = Object.freeze({scope:"PRIVATE_CURRENT_WORKFLOW_ONLY",latitude,longitude});
+  const capturedHistoryReplay = historyReplay === null ? null : replayPrivateHistoryBoundaryV1(historyReplay,assessment,historyContext);
 
   const normalizedBearerToken =
     typeof bearerToken ===
@@ -59923,6 +59955,8 @@ async function getOceanConditionsAtAssessment(
       ""
       ? bearerToken.trim()
       : null;
+
+  if (capturedHistoryReplay?.mode === "CONTROLLED_FIXTURE_ONLY") throw TypeError("Controlled history cannot enter a live private request");
 
   const oceanRequestStartedAt =
     performance.now();
@@ -61041,55 +61075,16 @@ const observationSnapshot =
     buildBackendSupabaseConfiguration();
 
 
-  const oceanMemoryRowRetrieval =
-    await retrieveOceanMemoryRows({
-      configuration:
-        backendSupabaseConfiguration,
-
-      bearerToken:
-        normalizedBearerToken,
-
-      latitude,
-      longitude,
-
-      maximumRows:
-        48
-    });
-
-
-      const adaptedHistoricalStorageRecords =
-    Array.isArray(
-      oceanMemoryRowRetrieval
-        ?.rows
-    )
-      ? oceanMemoryRowRetrieval
-          .rows
-          .map(row =>
-            buildOceanMemoryStorageRecordFromRow({
-              row
-            })
-          )
-          .filter(
-            storageRecord =>
-              storageRecord
-                ?.available ===
-              true
-          )
-      : [];
-
-
-  const historicalSnapshotQuery =
-  buildHistoricalSnapshotQuery({
-    historicalSnapshots:
-      adaptedHistoricalStorageRecords
+  const privateHistory = await collectPrivateOceanHistoryAtAssessment({
+    assessment, context:historyContext, configuration:backendSupabaseConfiguration,
+    bearerToken:normalizedBearerToken, fetchImplementation:historyFetchImplementation,
+    replay:capturedHistoryReplay
   });
-
-  const oceanMemoryTimeSeries =
-    buildOceanMemoryTimeSeries({
-      historicalSnapshots:
-        historicalSnapshotQuery
-          .historicalSnapshots
-    });
+  const oceanMemoryRowRetrieval = privateHistory.retrieval;
+  const historyBoundary = privateHistory.boundary;
+  const adaptedHistoricalStorageRecords = privateHistory.adapted;
+  const historicalSnapshotQuery = privateHistory.query;
+  const oceanMemoryTimeSeries = privateHistory.series;
 
   const oceanChangeFromTimeSeries =
     buildOceanChangeFromTimeSeries({
@@ -61100,7 +61095,8 @@ const observationSnapshot =
   const oceanPersistence =
     buildOceanPersistence({
       timeSeries:
-        oceanMemoryTimeSeries
+        oceanMemoryTimeSeries,
+      historyBoundary
     });
 
   const oceanEvolution =
@@ -61339,6 +61335,7 @@ const observationSnapshot =
 
     diagnostics: {
   oceanMemory: {
+    historyBoundary: privateHistoryBoundarySummaryV1(historyBoundary),
     configured:
       backendSupabaseConfiguration
         .available,
@@ -61958,4 +61955,24 @@ function assessmentFromOptionsV1(options) {
   if(descriptor && !Object.hasOwn(descriptor,'value'))throw new TypeError('Accessor scientific assessment rejected');
   if(!descriptor && 'assessment' in options)throw new TypeError('Inherited scientific assessment rejected');
   return resolveScientificAssessmentV1(descriptor?.value);
+}
+
+// The active request assembler uses this exact private retrieval/adaptation/selection handoff.
+export async function collectPrivateOceanHistoryAtAssessment({assessment,context,configuration=null,bearerToken=null,fetchImplementation=fetch,replay=null,controlledAuthority=null}) {
+  const explicit=requireScientificAssessmentV1(assessment),scope=copyHistoryInput(context);
+  if(scope.scope!=="PRIVATE_CURRENT_WORKFLOW_ONLY"||!Number.isFinite(scope.latitude)||!Number.isFinite(scope.longitude))throw TypeError("Private history context required");
+  if(replay!==null){
+    const boundary=replayPrivateHistoryBoundaryV1(replay,explicit,scope);
+    const rebuilt=resolvePrivateHistoryBoundaryV1({assessment:explicit,context:scope,retrieval:{available:boundary.retrievalFacts.available,summary:{responseOk:boundary.retrievalFacts.responseOk},rows:boundary.returnedRows,limitations:boundary.retrievalFacts.bodyInvalid?["invalid-ocean-memory-response-body"]:[]},adaptRow:buildOceanMemoryStorageRecordFromRow,querySnapshots:buildHistoricalSnapshotQuery,buildSeries:buildOceanMemoryTimeSeries,controlledAuthority,constructedAt:boundary.selectionConstructedAt});
+    if (rebuilt.selectionId!==boundary.selectionId) throw TypeError("Replay is not the exact original history selection");
+    const inputs=boundary.selections.buildOceanChangeFromTimeSeries.inputs;
+    return {boundary,replayExecutedAt:new Date().toISOString(),retrieval:{requestPerformed:false,summary:{responseOk:false,returnedRowCount:boundary.resolution.returnedCount}},adapted:[],query:buildHistoricalSnapshotQuery({historicalSnapshots:inputs,assessment:explicit}),series:buildOceanMemoryTimeSeries({historicalSnapshots:inputs,assessment:explicit})};
+  }
+  // Snapshot configuration before asynchronous transport; credentials remain local to retrieval.
+  const retainedConfiguration=configuration===null?null:copyHistoryInput(configuration);
+  const retrieval=await retrieveOceanMemoryRows({configuration:retainedConfiguration,bearerToken,latitude:scope.latitude,longitude:scope.longitude,maximumRows:48,assessment:explicit,fetchImplementation});
+  const boundary=resolvePrivateHistoryBoundaryV1({assessment:explicit,context:scope,retrieval,adaptRow:buildOceanMemoryStorageRecordFromRow,querySnapshots:buildHistoricalSnapshotQuery,buildSeries:buildOceanMemoryTimeSeries,controlledAuthority,constructedAt:new Date().toISOString()});
+  const inputs=boundary.selections.buildOceanChangeFromTimeSeries.inputs;
+  const adapted=boundary.returnedRows.map(row=>{try{return buildOceanMemoryStorageRecordFromRow({row,assessment:explicit});}catch{return null;}}).filter(row=>row?.available);
+  return {boundary,retrieval,adapted,query:buildHistoricalSnapshotQuery({historicalSnapshots:inputs,assessment:explicit}),series:buildOceanMemoryTimeSeries({historicalSnapshots:inputs,assessment:explicit})};
 }

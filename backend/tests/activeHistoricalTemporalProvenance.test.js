@@ -56,9 +56,9 @@ test('existing archive worker capability is receipt-bound but not a first-seen d
  assert(n.includes('acquiredAt: iso(receipt.completedAt)'));assert(n.includes('providerPublishedAt: null'));assert(n.includes('nominal-L4-time-known-exact-support-window-not-established'));
  assert(w.includes('first acquisition receipt'));assert(n.includes('completedAt: iso(completedAt)'));
 });
-test('default handoff has no availability resolver; cache timestamps are operational',()=>{
- const s=source('../server.js'),start=s.indexOf('const oceanMemoryRowRetrieval =',s.indexOf('async function getOceanConditionsAtAssessment')),end=s.indexOf('const oceanChangeFromTimeSeries',start),block=s.slice(start,end);
- assert(start>0&&end>start);for(const name of ['assessmentAt','providerPublishedAt','acquiredAt','observedBefore'])assert(!block.includes(name));
+test('repaired handoff has no operational admission resolver; cache timestamps remain operational',()=>{
+ const s=source('../server.js'),start=s.indexOf('const privateHistory = await',s.indexOf('async function getOceanConditionsAtAssessment')),end=s.indexOf('const oceanChangeFromTimeSeries',start),block=s.slice(start,end);
+ assert(start>0&&end>start);assert(block.includes('collectPrivateOceanHistoryAtAssessment'));assert(block.includes('assessment, context:historyContext'));for(const name of ['providerPublishedAt','acquiredAt'])assert(!block.includes(name));
  assert(s.includes('cached.cachedAt'));assert(s.includes('Date.now()'));assert(s.includes('row\n      ?.created_at')||s.includes('row\r\n      ?.created_at'));
 });
 test('storage default timestamp is not an enforced source-acquisition clock',()=>{
