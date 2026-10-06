@@ -1,0 +1,131 @@
+{
+  "contract": "pelora-cp04-real-postgresql-restart-v1",
+  "scope": "ISOLATED_LOCAL_QUALIFICATION_ONLY",
+  "beforeStartedAt": "2026-10-06T00:06:07.194Z",
+  "afterStartedAt": "2026-10-06T00:07:56.052Z",
+  "records": {
+    "cp02.registry": {
+      "count": 371,
+      "sha256": "d0a6bef6ed45e3b8c89dc8eb64cc5f82e1fbdd9b8cad8cee1f2a354123479dad"
+    },
+    "cp02.jobs": {
+      "count": 371,
+      "sha256": "96636b1ad446a56b3da37c7201adf6b904e1c908c3f6a7b947f2e74cff4c0df7"
+    },
+    "cp02.ownership": {
+      "count": 371,
+      "sha256": "b91edbf471d541b224430f95f3e4c7e274d3f5273453b60b5e6a8de465b861b6"
+    },
+    "cp02.attempts": {
+      "count": 472,
+      "sha256": "4de25cabce96d67ac1a9c23c7de848bef1f03e36115cb99b6401804592f4e0d4"
+    },
+    "cp02.raw": {
+      "count": 91,
+      "sha256": "bef85d7cde3ef8dd33338d876c4318ab17e777ef38ba37a5dffbed086947844e"
+    },
+    "cp02.results": {
+      "count": 378,
+      "sha256": "0df399a916bf1ff7f5376217ab4083a12f79cd3398d6700f7ce149af4a67210a"
+    },
+    "cp02.accepted": {
+      "count": 224,
+      "sha256": "175d7d516de0fc0f5af4f11f9a8c94f33809e57f51f914058d125f063edb3800"
+    },
+    "cp03.evidence": {
+      "count": 80,
+      "sha256": "2441551f59d4085ff34e82554331a5f0ebb1e6f51290f53c7602f573baadebe7"
+    },
+    "cp03.bindings": {
+      "count": 378,
+      "sha256": "bbda402e68211d8bae6013a8c243b6c62f2ab27beeb408753a8e911142288e4c"
+    },
+    "cp03.observations": {
+      "count": 224,
+      "sha256": "e942cfb4712d15fa0e2e48d20cdf53b17f9df1bd43852bf887261d796d00a62e"
+    },
+    "cp04.raw_checkpoints": {
+      "count": 116,
+      "sha256": "fbc17aa82db9044a8d8fd1b24364fe278866a584bbac30cceefbb75bd49d8150"
+    },
+    "cp04.replays": {
+      "count": 40,
+      "sha256": "2cd875c780b403d2412fe7b6e891fa863d04ff272fd2287e0d4dc4f9719ee83c"
+    }
+  },
+  "authority": [
+    {
+      "nspname": "cp02",
+      "proname": "fenced_commit",
+      "sha256": "702e8bcd53a415157bbc48b107188e764d849fdb8f3df490ea8b62af6adad064",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp02",
+      "proname": "immutable",
+      "sha256": "da5bd21a40b0e508701e5aa0fe0395d360bc93525cc01a7f38b07b5ffe1f12c4",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp02",
+      "proname": "worker",
+      "sha256": "a4354cf6ed580d21902ad7e0fdc5eb92bc72a84b44c21dba6f0b8774011802ce",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner,pelora_cp02_worker=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "canonical",
+      "sha256": "a3d18732eb00795a349b01c864efcf426c1f5e29d5cb42c34099f1ea5a4558a7",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "index_acceptance",
+      "sha256": "8e7ed0a65eb931eacd4fe30f5fc680c4cab156aa9d2d2d90f8f383f327a01fc4",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "lookup",
+      "sha256": "21ec1e8438d7209bfe47d32b9269f25ee7e97a5e5e8e79b837148f7b82aedf22",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner,pelora_cp02_worker=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "retain_result",
+      "sha256": "d2a35f638a29d743302a26b6dc7aae249bb2cf7a94e82c6847276c4cd30e9a02",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp03",
+      "proname": "sealed_digest",
+      "sha256": "32e5c4c61777b4aa987debaead3315f69759a81fd0e37f4360081f0b28bf800f",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp04",
+      "proname": "inspect",
+      "sha256": "7b72f8cb38501d0071c154b909c1595417eee76795c26a0b989a04d2b3a768a5",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner,pelora_cp02_worker=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp04",
+      "proname": "staged",
+      "sha256": "4009ad6895c9a770683110d7eafe99f12f49fadbae9fab39729a2bd7041305d5",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner}"
+    },
+    {
+      "nspname": "cp04",
+      "proname": "worker",
+      "sha256": "3d71073315cbc104e83e61ba92bb88781e530e97b7ffa0999f316664a0515257",
+      "grants": "{pelora_cp02_owner=X/pelora_cp02_owner,pelora_cp02_worker=X/pelora_cp02_owner}"
+    }
+  ],
+  "validatedAcceptedObservations": 224,
+  "validatedPendingRecoveryCandidates": 14,
+  "acceptedReadbackDigest": "64f14fbff3b0806312ad1824815f71fc2038c9e47f81b71d1e925639d4da6273",
+  "pendingReadbackDigest": "6e2004d8103c3b7240f4e536e444bb1708286728706512fddc970b3f366c1b89",
+  "restrictedWorkerReadbackAndPrivilegeDenialAfterRestart": true,
+  "persistence": "EXACT_TABLE_CONTENT_FUNCTIONS_GRANTS_ACCEPTED_AND_PENDING_READBACK_PRESERVED",
+  "receiptWriterIntegrated": false
+}

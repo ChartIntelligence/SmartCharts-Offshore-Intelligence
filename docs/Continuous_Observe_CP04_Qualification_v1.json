@@ -1,0 +1,182 @@
+{
+  "version": "pelora-cp04-qualification-v1",
+  "agent": "PELORA-01 — CRITICAL PATH",
+  "mission": "CP-04 Restart / Uncertain-Write Recovery",
+  "status": "QUALIFIED_FOR_ISOLATED_LOCAL_USE",
+  "baselineCommit": "5ef987a74de774e857ddc2f12ea71f8c27df74eb",
+  "branch": "codex/pelora-remote-setup",
+  "reportedAt": "2026-10-06T00:11:54.877Z",
+  "contracts": {
+    "admission": "Privileged local server composition fixes jobId/capability, injected PostgreSQL query/transaction/lock, policy, transport, clock and timers. run/inspect accept only an opaque handle (run also accepts cancellation). No interactive entry point, session, captain, viewport or mission input.",
+    "authority": "CP-02 row-locked claim/check/accept plus deferred fenced_commit remains the sole acceptance authority. CP-02/CP-03 source/functions/contracts remain unchanged. Recovery inspection takes the same registry/ownership lock order and waits for in-flight acceptance before reporting a decision.",
+    "raw": "cp04.raw_checkpoints atomically associates an attempt with its exact cp02.raw content hash, original server transport URL/provider/dataset and first database retention time. It never attributes legacy raw-only orphans lacking a protected source association.",
+    "replay": "cp04.replays immutably links each replaying attempt to the source attempt and exact raw hash. Reclaimed attempt-local acquisition/normalization timestamps describe durable transport replay, not a new external HTTP response; original origin/first retention and any old staged execution are preserved. Selected provider time must still come from the unchanged protected policy and match the original URL exactly.",
+    "evidence": "A live staged original attempt accepts its exact validated original record without selecting time, acquiring transport or normalizing again. Reclaim uses authoritative exact retained raw bytes through unchanged Phase 2 processing and must reproduce the original exact capture/reference if one already exists; only execution/binding identity changes for the new fence. No replacement capture identity is minted merely to make recovery succeed.",
+    "ancestry": "Bounded immutable replay ancestry preserves the original evidence constraint through repeated raw-only crashes. A live same-attempt replay retry preserves its existing replay-source link. A source reference is required when prior attributed artifacts exist.",
+    "uncertain": "After a lost staging ACK, exact original readback reconciles staging. After uncertain acceptance/COMMIT, fresh authoritative PostgreSQL inspection determines whether acceptance committed. No blind acceptance retry. If reconciliation is unavailable, return INDETERMINATE with accepted:null. If rollback is confirmed only through an authoritative missing decision, a later explicit retry verifies staging and current fencing before reclaim/accept.",
+    "accepted": "Already accepted jobs return the fully validated original CP-03 chain as ACCEPTED_HISTORICAL without acquisition or writes. An archival retry of a stale/expired/revoked capability is a historical read, never a new stale acceptance.",
+    "intermediate": "Accepted lookup paths never expose unaccepted raw/evidence/binding. Evidence, binding and staging commit atomically in CP-03; process death inside either insertion rolls the partial transaction back.",
+    "conflicts": "Raw hash/reference/origin, exact capture/reference, record hash, execution/binding or source ancestry conflicts fail closed as INTEGRITY_FAILED. No runtime overwrite or delete is used to repair history.",
+    "serialization": "Dedicated-session per-job PostgreSQL advisory locking serializes bounded recovery invocations and disappears on process/database death. It is operational serialization only, not a fencing or acceptance authority."
+  },
+  "recoveryState": {
+    "computedFrom": "Existing CP-02 registry/ownership/attempts/acceptance plus immutable CP-03 staging and CP-04 checkpoints/replays",
+    "states": [
+      "READY",
+      "OWNED",
+      "BUSY",
+      "FENCED",
+      "BLOCKED",
+      "RECOVERABLE",
+      "INDETERMINATE",
+      "INTEGRITY_FAILED",
+      "STOPPED",
+      "ACCEPTED_HISTORICAL"
+    ],
+    "stageLabels": [
+      "EMPTY",
+      "RAW_RETAINED",
+      "STAGED"
+    ],
+    "newMutableState": false,
+    "noScheduler": true
+  },
+  "schema": {
+    "schema": "cp04",
+    "tables": [
+      "raw_checkpoints",
+      "replays"
+    ],
+    "functions": [
+      "staged(text,text) -- internal ancestry/readback helper",
+      "inspect(text,uuid) -- authoritative recovery snapshot",
+      "worker(text,text,uuid,text,bytea) -- narrow checkpoint/replay wrapper around existing cp02.worker"
+    ],
+    "immutableTriggers": "Both cp04 tables reuse cp02.immutable()",
+    "migration": "Owner-only additive local schema, no rewrite/backfill of CP-02/03 artifacts",
+    "receiptWriterIntegrated": false
+  },
+  "privileges": {
+    "owner": "Existing pelora_cp02_owner, non-login migration authority",
+    "worker": "Existing pelora_cp02_worker, original restricted attributes and outside-Git credential",
+    "newGrants": [
+      "USAGE cp04",
+      "EXECUTE cp04.inspect(text,uuid)",
+      "EXECUTE cp04.worker(text,text,uuid,text,bytea)"
+    ],
+    "existingGrantsPreserved": [
+      "cp02.worker API",
+      "cp03.lookup archival API",
+      "already available PostgreSQL advisory-lock primitives"
+    ],
+    "denied": [
+      "Direct table SELECT/INSERT/UPDATE/DELETE/TRUNCATE",
+      "Schema/table/database/role administration",
+      "Owner role assumption",
+      "cp04.staged helper execution",
+      "Public schema/table/function access"
+    ],
+    "runtimeMutationSurface": "Only granted guarded procedures; no DML grants. Both CP-04 tables immutable, including ordinary owner updates/deletes.",
+    "gateForNewCredentials": false
+  },
+  "qualification": {
+    "tests": 391,
+    "pass": 391,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "priorCP01CP02CP03AndFocusedSuite": 361,
+    "newCP04": 30,
+    "newCP04LeafCases": 29,
+    "nodeParentTests": 3,
+    "phase1Phase2Baseline": 184,
+    "phase1Phase2Final": 184,
+    "baselineDifferences": 0,
+    "proven": [
+      "Interruption before raw retention",
+      "Interruption after exact raw retention, raw reuse without transport",
+      "Actual process death inside evidence insertion, full staging rollback",
+      "Actual process death inside binding insertion, full staging rollback",
+      "Process death after complete stage, live exact-record resume",
+      "Process death after complete stage, reclaimed exact evidence with new binding",
+      "Interruption after acceptance insertion before COMMIT, no accepted index",
+      "Process death after COMMIT, existing-chain reconciliation",
+      "Lost raw ACK, committed checkpoint reuse",
+      "Lost stage ACK, exact original stage readback",
+      "Lost COMMIT ACK, one acceptance attempt",
+      "Commit unknown with actual rollback, indeterminate then safe rechecked reclaim",
+      "Unavailable reconciliation never fabricates success/failure or blindly accepts",
+      "Duplicate concurrent/retry attempts serialize and resolve one chain",
+      "Legacy CP-03 stage replay without capture mutation",
+      "Repeated raw-replay crash retains ancestor evidence constraint",
+      "Live same-attempt raw replay preserves immutable source link",
+      "Stale/revoked claimant rejection following reclaim",
+      "Wrong provider-time/request origin fails closed without transport",
+      "Conflicting immutable raw and staged artifacts never overwritten",
+      "Lost advisory unlock reply cannot erase verified acceptance",
+      "Actual raw/evidence/capture-reference/binding corruption fails closed in rolled-back fault transactions",
+      "Real database restart between EMPTY/RAW_RETAINED/STAGED and deterministic retry",
+      "Worker denied DML/admin/helper bypass",
+      "Opaque handles and poisoned captain/user/session context excluded",
+      "Reviewed applied functions use fixed search paths",
+      "Final exact record/grant/readback persistence through real database restart"
+    ],
+    "finalRestart": {
+      "validatedAcceptedObservations": 224,
+      "validatedPendingCandidates": 14,
+      "exactDurableTables": 12,
+      "restrictedWorkerReadbackAndDenialAfterRestart": true
+    },
+    "testEvidence": "Continuous_Observe_CP04_Test_Evidence_v1.json",
+    "restartEvidence": "Continuous_Observe_CP04_Restart_Evidence_v1.json"
+  },
+  "developmentReconciliation": [
+    "Qualification subprocesses required authorized elevated execution to leave sandbox spawn restriction; no system configuration changes",
+    "Owner fixture setup made sequential so three registry transactions cannot interleave on one admin connection",
+    "Original staged capture constraint is retained through replay ancestry, including repeated intermediate crashes",
+    "Same-attempt raw replay keeps its existing source pointer; added regression passes",
+    "Advisory unlock failure destroys the lock connection while preserving a verified committed result"
+  ],
+  "boundariesPreserved": [
+    "Acquisition remains server-controlled and independent of captain/session/app activity",
+    "CP-02 transactional ownership/fencing unchanged",
+    "CP-03 immutable exact evidence/binding/index unchanged",
+    "Existing CURRENTS V3 and normalization validators unchanged",
+    "Historical/unaccepted artifacts never asserted current",
+    "Receipt Writer remains disabled",
+    "No Ocean State, publishing, frontend or production work"
+  ],
+  "remainingLimitations": [
+    "Isolated synthetic-provider qualification only, not an operational scheduler or production/science qualification",
+    "Recovery is explicit and bounded to one registered job; caller retries BUSY/RECOVERABLE/INDETERMINATE and provides a new private capability for a fenced/released attempt",
+    "Lock composition requires a dedicated session connection plus query/transaction capacity; the qualified harness uses a six-connection pool",
+    "Legacy raw-only orphans with no authoritative attempt/source attribution cannot safely be reused; legacy revoked stages without original context remain audit-only/fail closed",
+    "Original request/receive timestamps lost before stage creation are not fabricated; raw-only replay preserves first retention/origin and records new local replay timings",
+    "Request/provider-time mismatch and integrity conflict require trusted investigation; recovery does not overwrite, select alternate evidence or contact transport as a fallback",
+    "Migration/admin/superuser authority remains a trust root and can disable protections; tamper qualification rolled such fault changes back",
+    "No automatic restart, service, recovery queue, garbage collection, retention policy, Receipt Writer, Ocean State or publishing integration"
+  ],
+  "isolation": {
+    "database": "pelora_phase3_qualification",
+    "endpoint": "127.0.0.1:55432",
+    "newSecrets": false,
+    "packagesInstalled": false,
+    "servicesOrFirewallChanges": false,
+    "externalProviderCalls": false,
+    "productionSupabaseOrDeploymentTouched": false,
+    "liveProviderConfigChanged": false,
+    "frontendChanged": false,
+    "paidServices": false,
+    "manualRestartsOfExistingClusterOnly": true,
+    "untrackedSupabaseFilesPreserved": true
+  },
+  "disposition": {
+    "P0": [],
+    "P1": [],
+    "humanGate": null,
+    "nextMission": "CP-05 Least-Privilege Qualification",
+    "safeToAutoContinueLocally": true,
+    "constraints": "Existing credential/install/system/production/paid/governance/science gates remain; no later mission executed or Receipt Writer authorization",
+    "CP05Started": false
+  }
+}
