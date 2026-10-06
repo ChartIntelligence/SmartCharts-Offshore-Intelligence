@@ -30,7 +30,7 @@ test('empty-history fail-closed outputs recorded for nonquarantined active consu
  assert.equal(evidence.insufficient.length,15);
 });
 for(const family of ['direct','gap'])test(family+': faithful resolver then test-only availability exclusion before dependent arithmetic',async t=>{
- const {points,rows}=await sourceRows(t,family),r=await resolve(rows);assert.equal(r.series.historicalSnapshots.length,2);assert.equal(r.results.productivity.values.concentrationChangeMgM3,-Infinity);
+ const {points,rows}=await sourceRows(t,family),r=await resolve(rows);assert.equal(r.series.historicalSnapshots.length,2);assert.equal(r.results.productivity.values.concentrationChangeMgM3,null);
  const captures=points.map(p=>captureCurrentEvidenceV2(captureInput(p,family))),refs=captures.map(currentCaptureReferenceV2);const witnesses=refs.map((ref,i)=>witnessedFixture(ref,at(i?2:-1),'receipt-'+i));
  // Fixture provenance explicitly binds each actual parser endpoint to its row;
  // this relation is synthetic and is NOT present in the current production row.

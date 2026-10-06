@@ -26132,6 +26132,21 @@ export function buildTemporalFeatureContinuity({
  * cold intrusions, water masses, habitat, species opportunity, or
  * fishing quality.
  */
+// R9: numeric derivation failure is local to the temporal feature, never its sources.
+function rejectNonfiniteTemporalDerivation(featureType, featureFamily, values, derivedKeys) {
+  const failed = derivedKeys.filter(key => typeof values[key] === "number" && !Number.isFinite(values[key]));
+  if (failed.length === 0) return null;
+  return buildFeaturePersistenceContract({
+    available: false, featureType, featureFamily,
+    classification: "unavailable", lifecycleState: null,
+    reason: "nonfinite-temporal-derivation",
+    values: { ...values, ...Object.fromEntries(failed.map(key => [key, null])) },
+    confidence: { score: 0, level: "Unavailable" },
+    limitations: ["nonfinite-temporal-derivation", ...failed.map(key => "nonfinite-derived-" + key),
+      "dependent-temporal-classification-confidence-continuity-not-established"]
+  });
+}
+
 export function buildSeaSurfaceTemperaturePersistence({
   historicalSnapshots = []
 } = {}) {
@@ -26332,6 +26347,21 @@ export function buildSeaSurfaceTemperaturePersistence({
       ? lastTemperatureFahrenheit -
         firstTemperatureFahrenheit
       : null;
+
+  const arithmeticFailure = rejectNonfiniteTemporalDerivation(
+    "sea-surface-temperature", "physical-ocean",
+    {
+      sampleCount,
+      firstObservedAt,
+      lastObservedAt,
+      durationHours,
+      firstTemperatureFahrenheit,
+      lastTemperatureFahrenheit,
+      temperatureChangeFahrenheit,
+    },
+    ["temperatureChangeFahrenheit"]
+  );
+  if (arithmeticFailure) return arithmeticFailure;
 
   if (
     sampleCount ===
@@ -26875,6 +26905,25 @@ export function buildCurrentPersistence({
       firstDirectionDegrees,
       lastDirectionDegrees
     );
+
+  const arithmeticFailure = rejectNonfiniteTemporalDerivation(
+    "current", "physical-ocean",
+    {
+      sampleCount,
+      firstObservedAt,
+      lastObservedAt,
+      durationHours,
+      firstSpeedKnots,
+      lastSpeedKnots,
+      speedChangeKnots,
+      firstDirectionDegrees,
+      lastDirectionDegrees,
+      directionChangeDegrees,
+      directionalStability: null,
+    },
+    ["speedChangeKnots", "directionChangeDegrees"]
+  );
+  if (arithmeticFailure) return arithmeticFailure;
 
   if (
     sampleCount ===
@@ -33363,6 +33412,29 @@ export function buildProductivityPersistence({
     firstObservation
       .freshnessScore;
 
+  const arithmeticFailure = rejectNonfiniteTemporalDerivation(
+    "surface-productivity", "biological-ocean",
+    {
+      sampleCount,
+      firstObservedAt,
+      lastObservedAt,
+      durationHours,
+      firstClassification: firstObservation.productivityClassification,
+      lastClassification: lastObservation.productivityClassification,
+      classificationChange,
+      firstConcentrationMgM3: firstObservation.concentrationMgM3,
+      lastConcentrationMgM3: lastObservation.concentrationMgM3,
+      concentrationChangeMgM3,
+      firstFreshness: firstObservation.freshness,
+      lastFreshness: lastObservation.freshness,
+      freshnessChange,
+      firstAgeHours: firstObservation.ageHours,
+      lastAgeHours: lastObservation.ageHours,
+    },
+    ["classificationChange", "concentrationChangeMgM3", "freshnessChange"]
+  );
+  if (arithmeticFailure) return arithmeticFailure;
+
   let classification =
     "stable-surface-productivity-context";
 
@@ -34039,6 +34111,31 @@ export function buildClarityPersistence({
       .freshnessScore -
     firstObservation
       .freshnessScore;
+
+  const arithmeticFailure = rejectNonfiniteTemporalDerivation(
+    "surface-water-clarity", "physical-ocean",
+    {
+      sampleCount,
+      firstObservedAt,
+      lastObservedAt,
+      durationHours,
+      firstClassification: firstObservation.classification,
+      lastClassification: lastObservation.classification,
+      clarityRankChange,
+      firstWaterClassification: firstObservation.waterClassification,
+      lastWaterClassification: lastObservation.waterClassification,
+      firstConcentrationMgM3: firstObservation.concentrationMgM3,
+      lastConcentrationMgM3: lastObservation.concentrationMgM3,
+      concentrationChangeMgM3,
+      firstFreshness: firstObservation.freshness,
+      lastFreshness: lastObservation.freshness,
+      freshnessChange,
+      firstAgeHours: firstObservation.ageHours,
+      lastAgeHours: lastObservation.ageHours,
+    },
+    ["clarityRankChange", "concentrationChangeMgM3", "freshnessChange"]
+  );
+  if (arithmeticFailure) return arithmeticFailure;
 
   let classification =
     "stable-surface-water-clarity-context";

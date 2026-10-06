@@ -12,13 +12,13 @@ import {projectCandidateSemanticSurfacesV2} from '../candidateSemanticProjection
 import {buildFeaturePersistenceContract,buildTemporalFeatureContinuity,buildHistoricalSnapshotQuery,buildSeaSurfaceTemperaturePersistence,buildCurrentPersistence} from '../server.js';
 import {frame,observation} from './fixtures/temporalEvidenceFixture.mjs';
 const evidence={counterexamples:[],timeControls:[],valueControls:[],mixing:[],dependencies:[],siblings:[]};
-for(const family of ['direct','gap'])test(family+' finite captured endpoints overflow actual productivity and clarity subtraction',async t=>{
+for(const family of ['direct','gap'])test(family+' finite captured endpoints reject overflowing productivity and clarity subtraction',async t=>{
  const points=await endpoints(t,family);
  for(const point of points){assert(Number.isFinite(point.concentrationMgM3));assert.equal(point.source.availability,'available');for(const capture of [captureCurrentEvidenceV1,captureCurrentEvidenceV2])assert.doesNotThrow(()=>capture(captureInput(point,family)));}
- for(const kind of Object.keys(consumers)){const r=run(points,kind);assert.equal(r.available,true);assert.equal(r.values.concentrationChangeMgM3,-Infinity);assert.equal(r.values.durationHours,24);assert.equal(r.confidence.score,60);assert.equal(r.confidence.level,'Moderate');assert.throws(()=>exactJson(r));evidence.counterexamples.push({family,kind,points,history:history(points,kind),result:r});}
+ for(const kind of Object.keys(consumers)){const r=run(points,kind);assert.equal(r.available,false);assert.equal(r.values.concentrationChangeMgM3,null);assert.equal(r.values.durationHours,24);assert.equal(r.confidence.score,0);assert.equal(r.confidence.level,'Unavailable');assert.doesNotThrow(()=>exactJson(r));evidence.counterexamples.push({family,kind,points,history:history(points,kind),result:r});}
 });
 test('positive overflow is symmetric; equal extreme endpoints do not fail',async t=>{
- for(const [values,want] of [[[-1e308,1e308],Infinity],[[1e308,1e308],0]]){const points=await endpoints(t,'direct',values);for(const kind of Object.keys(consumers))assert.equal(run(points,kind).values.concentrationChangeMgM3,want);}
+ for(const [values,want] of [[[-1e308,1e308],null],[[1e308,1e308],0]]){const points=await endpoints(t,'direct',values);for(const kind of Object.keys(consumers))assert.equal(run(points,kind).values.concentrationChangeMgM3,want);}
 });
 test('positive time span is a gate, not a denominator for concentration change',async t=>{
  const points=await endpoints(t,'direct',[.3,.4]);
@@ -47,11 +47,11 @@ test('missing null nonfinite and unavailable endpoint evidence is excluded',asyn
 test('recorded stale and unknown freshness are accepted without historical as-of policy',async t=>{
  const points=await endpoints(t,'direct',[.3,.4]);for(const kind of Object.keys(consumers))for(const freshness of ['stale','unknown']){const rows=history(points,kind);for(const row of rows){row.snapshot.observation.evidence.groups[kind].values.freshness=freshness;row.snapshot.observation.evidence.groups[kind].values.ageHours=100000;}const r=consumers[kind]({historicalSnapshots:rows});assert(r.available);assert.equal(r.confidence.score,60);}
 });
-test('clarity rank is independent arithmetic but returned temporal object contains failed concentration change',async t=>{
- const points=await endpoints(t);for(const kind of Object.keys(consumers)){const r=run(points,kind),c=buildTemporalFeatureContinuity({featurePersistence:r});assert.equal(c.available,true);if(kind==='clarity')assert.equal(c.continuity.supported,true);assert(leaves.buildProductivityEvidence(points[0]).available);assert(leaves.buildClarityEvidence(points[0]).available);evidence.dependencies.push({kind,result:r,continuity:c});}
+test('clarity rank remains independent while failed full temporal tuple cannot establish continuity',async t=>{
+ const points=await endpoints(t);for(const kind of Object.keys(consumers)){const r=run(points,kind),c=buildTemporalFeatureContinuity({featurePersistence:r});assert.equal(c.available,false);assert.equal(c.continuity.supported,false);assert(leaves.buildProductivityEvidence(points[0]).available);assert(leaves.buildClarityEvidence(points[0]).available);evidence.dependencies.push({kind,result:r,continuity:c});}
 });
 test('existing unavailable shape must clear dependent lifecycle and confidence as well as availability',async t=>{
- const points=await endpoints(t);for(const kind of Object.keys(consumers)){const r=run(points,kind);const flagOnly={...r,available:false};assert.equal(buildTemporalFeatureContinuity({featurePersistence:flagOnly}).available,true);
+ const points=await endpoints(t);for(const kind of Object.keys(consumers)){const r=run(points,kind);const flagOnly={...r,available:false,lifecycleState:"strengthening"};assert.equal(buildTemporalFeatureContinuity({featurePersistence:flagOnly}).available,true);
  const diagnostic=buildFeaturePersistenceContract({...r,available:false,classification:'unavailable',lifecycleState:null,reason:'qualification-only-arithmetic-failure',values:{...r.values,concentrationChangeMgM3:null},confidence:{score:0,level:'Unavailable'}});
  assert.equal(buildTemporalFeatureContinuity({featurePersistence:diagnostic}).available,false);assert.doesNotThrow(()=>exactJson(diagnostic));assert.equal(diagnostic.values.firstConcentrationMgM3,1e308);evidence.dependencies.push({kind,diagnosticShapeOnly:diagnostic,flagOnlyInsufficient:true});}
 });
@@ -61,12 +61,12 @@ test('synthetic low-level wrapper is not an admitted production history storage 
 test('qualified temporal primitive can represent finite endpoints but is not a chlorophyll history adapter',()=>{
  for(const family of ['CHLOROPHYLL_DIRECT','CHLOROPHYLL_GAP_FILLED'])for(const value of [1e308,-1e308]){const f=frame(0,'original',value);f.product.family=family;f.product.evidenceClass=family.endsWith('DIRECT')?'DIRECT_OBSERVATION':'RECONSTRUCTED';f.payload.components[0].variableId='chlor_a';f.payload.components[0].unit='mg/m3';const o=observation(f);assert.equal(o.component.value,value);assert.equal(o.product.family,family);for(const consumer of Object.values(consumers))assert.equal(consumer({historicalSnapshots:[o]}).available,false);}
 });
-test('strict semantic and publication copy boundaries reject failed results; replay deterministically preserves failure',async t=>{
- const points=await endpoints(t);for(const kind of Object.keys(consumers)){const rows=history(points,kind),r=consumers[kind]({historicalSnapshots:rows});assert.deepEqual(r,consumers[kind]({historicalSnapshots:structuredClone(rows)}));for(const fn of [exactJson,copy,projectCandidateSemanticSurfacesV1,projectCandidateSemanticSurfacesV2])assert.throws(()=>fn({temporal:r}));}
+test('strict semantic and publication copy boundaries retain unavailable finite results; replay preserves rejection',async t=>{
+ const points=await endpoints(t);for(const kind of Object.keys(consumers)){const rows=history(points,kind),r=consumers[kind]({historicalSnapshots:rows});assert.deepEqual(r,consumers[kind]({historicalSnapshots:structuredClone(rows)}));for(const fn of [exactJson,copy,projectCandidateSemanticSurfacesV1,projectCandidateSemanticSurfacesV2])assert.doesNotThrow(()=>fn({temporal:r}));}
 });
 test('same subtraction pattern exists in SST/current low-level persistence, not proof of source reachability',()=>{
  const rows=[1e308,-1e308].map((v,i)=>({snapshot:{available:true,identity:{snapshotId:'sibling-'+i},metadata:{time:{observedAt:times[i]}},observation:{observations:{sst:{temperatureFahrenheit:v},currents:{speedKnots:v,directionDegrees:90}}}}}));
- for(const [name,fn,key]of [['sst',buildSeaSurfaceTemperaturePersistence,'temperatureChangeFahrenheit'],['current',buildCurrentPersistence,'speedChangeKnots']]){const r=fn({historicalSnapshots:rows});assert.equal(r.values[key],-Infinity);evidence.siblings.push({name,result:r,scope:'synthetic low-level history; negative current speed is not default converter output'});}
+ for(const [name,fn,key]of [['sst',buildSeaSurfaceTemperaturePersistence,'temperatureChangeFahrenheit'],['current',buildCurrentPersistence,'speedChangeKnots']]){const r=fn({historicalSnapshots:rows});assert.equal(r.values[key],null);assert.equal(r.available,false);assert.equal(r.reason,"nonfinite-temporal-derivation");evidence.siblings.push({name,result:r,scope:'synthetic low-level history; negative current speed is not default converter output'});}
 });
 test('history source-policy gates remain explicit and default retrieval has no qualified shared selector',()=>{
  const s=readFileSync(new URL('../server.js',import.meta.url),'utf8'),start=s.indexOf('const privateHistory = await',s.indexOf('async function getOceanConditionsAtAssessment')),call=s.slice(start,s.indexOf('const adaptedHistoricalStorageRecords',start));assert(call.includes('normalizedBearerToken'));assert(call.includes('assessment, context:historyContext'));const collector=s.slice(s.indexOf('export async function collectPrivateOceanHistoryAtAssessment'));assert(/maximumRows:\s*48/.test(collector));assert(collector.includes('assessment:explicit'));const doc=readFileSync(new URL('../../docs/Temporal_History_Selection_Semantics_v1.md',import.meta.url),'utf8');assert(doc.includes('CONSUMER_AWARE_POLICY_REQUIRED'));assert(doc.includes('HISTORY_SELECTION_POLICY_REQUIRED'));

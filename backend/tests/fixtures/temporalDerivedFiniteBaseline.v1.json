@@ -1,0 +1,2601 @@
+{
+  "baseline": "2c18e6482cdea2ade5f8db690c7bdd2280900b03",
+  "scope": "CONTROLLED_LOW_LEVEL_HISTORY_ONLY",
+  "controls": [
+    {
+      "values": [
+        0.3,
+        0.3
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "stable-surface-productivity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-productivity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "productive-blue-green-transition",
+          "lastClassification": "productive-blue-green-transition",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.3,
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        0.3,
+        0.3
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "transitional-surface-water",
+          "lastClassification": "transitional-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "productive-blue-green-transition",
+          "lastWaterClassification": "productive-blue-green-transition",
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.3,
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        0.3,
+        0.4
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.4,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "increasing-surface-productivity-context",
+        "lifecycleState": "strengthening",
+        "reason": "governed-surface-productivity-increased",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "productive-blue-green-transition",
+          "lastClassification": "productive-blue-green-transition",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-strengthening"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        0.3,
+        0.4
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.4,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "transitional-surface-water",
+          "lastClassification": "transitional-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "productive-blue-green-transition",
+          "lastWaterClassification": "productive-blue-green-transition",
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        0.4,
+        0.3
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.4,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "decreasing-surface-productivity-context",
+        "lifecycleState": "weakening",
+        "reason": "governed-surface-productivity-decreased",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "productive-blue-green-transition",
+          "lastClassification": "productive-blue-green-transition",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0.4,
+          "lastConcentrationMgM3": 0.3,
+          "concentrationChangeMgM3": -0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-weakening"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        0.4,
+        0.3
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.4,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0.3,
+          "waterClassification": "productive-blue-green-transition",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "transitional-surface-water",
+          "lastClassification": "transitional-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "productive-blue-green-transition",
+          "lastWaterClassification": "productive-blue-green-transition",
+          "firstConcentrationMgM3": 0.4,
+          "lastConcentrationMgM3": 0.3,
+          "concentrationChangeMgM3": -0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        0,
+        {
+          "signedZero": "-0"
+        }
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0,
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "stable-surface-productivity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-productivity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "very-clear-low-productivity",
+          "lastClassification": "very-clear-low-productivity",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0,
+          "lastConcentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        0,
+        {
+          "signedZero": "-0"
+        }
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0,
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "very-clear-surface-water",
+          "lastClassification": "very-clear-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "very-clear-low-productivity",
+          "lastWaterClassification": "very-clear-low-productivity",
+          "firstConcentrationMgM3": 0,
+          "lastConcentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        {
+          "signedZero": "-0"
+        },
+        0
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0,
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "stable-surface-productivity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-productivity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "very-clear-low-productivity",
+          "lastClassification": "very-clear-low-productivity",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "lastConcentrationMgM3": 0,
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        {
+          "signedZero": "-0"
+        },
+        0
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0,
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "very-clear-surface-water",
+          "lastClassification": "very-clear-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "very-clear-low-productivity",
+          "lastWaterClassification": "very-clear-low-productivity",
+          "firstConcentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "lastConcentrationMgM3": 0,
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        5e-324,
+        -5e-324
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0,
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "stable-surface-productivity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-productivity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "very-clear-low-productivity",
+          "lastClassification": "very-clear-low-productivity",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0,
+          "lastConcentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "values": [
+        5e-324,
+        -5e-324
+      ],
+      "points": [
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": 0,
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-23T00:00:00Z",
+          "ageHours": 25,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        },
+        {
+          "resolvedLatitude": 25,
+          "resolvedLongitude": -90,
+          "requestedLatitude": 25,
+          "requestedLongitude": -90,
+          "concentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "waterClassification": "very-clear-low-productivity",
+          "observedAt": "2026-09-24T00:00:00Z",
+          "ageHours": 1,
+          "source": {
+            "provider": "NOAA CoastWatch",
+            "platform": "Suomi-NPP VIIRS",
+            "dataset": "noaacwNPPVIIRSchlaDaily",
+            "variable": "chlor_a",
+            "units": "mg m^-3",
+            "classification": "satellite-observation",
+            "availability": "available"
+          }
+        }
+      ],
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "very-clear-surface-water",
+          "lastClassification": "very-clear-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "very-clear-low-productivity",
+          "lastWaterClassification": "very-clear-low-productivity",
+          "firstConcentrationMgM3": 0,
+          "lastConcentrationMgM3": {
+            "signedZero": "-0"
+          },
+          "concentrationChangeMgM3": 0,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    }
+  ],
+  "mixing": [
+    {
+      "name": "direct-direct",
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "increasing-surface-productivity-context",
+        "lifecycleState": "strengthening",
+        "reason": "governed-surface-productivity-increased",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "productive-blue-green-transition",
+          "lastClassification": "productive-blue-green-transition",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-strengthening"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "direct-direct",
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "transitional-surface-water",
+          "lastClassification": "transitional-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "productive-blue-green-transition",
+          "lastWaterClassification": "productive-blue-green-transition",
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "gap-gap",
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "increasing-surface-productivity-context",
+        "lifecycleState": "strengthening",
+        "reason": "governed-surface-productivity-increased",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "productive-blue-green-transition",
+          "lastClassification": "productive-blue-green-transition",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-strengthening"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "gap-gap",
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "transitional-surface-water",
+          "lastClassification": "transitional-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "productive-blue-green-transition",
+          "lastWaterClassification": "productive-blue-green-transition",
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "direct-gap",
+      "kind": "productivity",
+      "result": {
+        "available": true,
+        "featureType": "surface-productivity",
+        "featureFamily": "biological-ocean",
+        "classification": "increasing-surface-productivity-context",
+        "lifecycleState": "strengthening",
+        "reason": "governed-surface-productivity-increased",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "productive-blue-green-transition",
+          "lastClassification": "productive-blue-green-transition",
+          "classificationChange": 0,
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-productivity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-productivity-contracts-available",
+          "chronological-productivity-observation-window-established",
+          "surface-productivity-lifecycle-strengthening"
+        ],
+        "limitations": [
+          "surface-productivity-persistence-is-derived-from-satellite-chlorophyll",
+          "surface-productivity-persistence-does-not-establish-full-water-column-productivity",
+          "surface-productivity-persistence-does-not-confirm-bait-or-prey",
+          "surface-productivity-persistence-does-not-confirm-feeding-activity",
+          "surface-productivity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity",
+          "high-chlorophyll-values-may-reflect-coastal-bloom-or-sediment-influence"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "direct-gap",
+      "kind": "clarity",
+      "result": {
+        "available": true,
+        "featureType": "surface-water-clarity",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-surface-water-clarity-context",
+        "lifecycleState": "stable",
+        "reason": "governed-surface-water-clarity-context-remained-stable",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstClassification": "transitional-surface-water",
+          "lastClassification": "transitional-surface-water",
+          "clarityRankChange": 0,
+          "firstWaterClassification": "productive-blue-green-transition",
+          "lastWaterClassification": "productive-blue-green-transition",
+          "firstConcentrationMgM3": 0.3,
+          "lastConcentrationMgM3": 0.4,
+          "concentrationChangeMgM3": 0.1,
+          "firstFreshness": "recent",
+          "lastFreshness": "recent",
+          "freshnessChange": 0,
+          "firstAgeHours": 25,
+          "lastAgeHours": 1,
+          "sourceInterpretation": "species-neutral-surface-water-clarity-evidence"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-clarity-contracts-available",
+          "chronological-clarity-observation-window-established",
+          "surface-water-clarity-lifecycle-stable"
+        ],
+        "limitations": [
+          "surface-water-clarity-persistence-is-inferred-from-satellite-chlorophyll",
+          "surface-water-clarity-persistence-is-not-a-direct-visibility-measurement",
+          "surface-water-clarity-persistence-does-not-establish-subsurface-clarity",
+          "surface-water-clarity-persistence-does-not-assess-sediment-or-dissolved-material-directly",
+          "surface-water-clarity-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    }
+  ],
+  "siblings": [
+    {
+      "name": "buildSeaSurfaceTemperaturePersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 78
+                },
+                "currents": {
+                  "speedKnots": 78,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "sea-surface-temperature",
+        "featureFamily": "physical-ocean",
+        "classification": "warming",
+        "lifecycleState": "strengthening",
+        "reason": "governed-sst-history-shows-measurable-warming",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstTemperatureFahrenheit": 77,
+          "lastTemperatureFahrenheit": 78,
+          "temperatureChangeFahrenheit": 1,
+          "absoluteTemperatureChangeFahrenheit": 1,
+          "stabilityThresholdFahrenheit": 1
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-sst-observations-available",
+          "chronological-sst-observation-window-established",
+          "sst-lifecycle-strengthening"
+        ],
+        "limitations": [
+          "raw-temperature-change-does-not-establish-temperature-front-persistence",
+          "temperature-change-does-not-establish-water-mass-identity",
+          "sst-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildSeaSurfaceTemperaturePersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 78
+                },
+                "currents": {
+                  "speedKnots": 78,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "sea-surface-temperature",
+        "featureFamily": "physical-ocean",
+        "classification": "cooling",
+        "lifecycleState": "weakening",
+        "reason": "governed-sst-history-shows-measurable-cooling",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstTemperatureFahrenheit": 78,
+          "lastTemperatureFahrenheit": 77,
+          "temperatureChangeFahrenheit": -1,
+          "absoluteTemperatureChangeFahrenheit": 1,
+          "stabilityThresholdFahrenheit": 1
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-sst-observations-available",
+          "chronological-sst-observation-window-established",
+          "sst-lifecycle-weakening"
+        ],
+        "limitations": [
+          "raw-temperature-change-does-not-establish-temperature-front-persistence",
+          "temperature-change-does-not-establish-water-mass-identity",
+          "sst-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildSeaSurfaceTemperaturePersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "sea-surface-temperature",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-temperature",
+        "lifecycleState": "stable",
+        "reason": "governed-sst-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstTemperatureFahrenheit": 77,
+          "lastTemperatureFahrenheit": 77,
+          "temperatureChangeFahrenheit": 0,
+          "absoluteTemperatureChangeFahrenheit": 0,
+          "stabilityThresholdFahrenheit": 1
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-sst-observations-available",
+          "chronological-sst-observation-window-established",
+          "sst-lifecycle-stable"
+        ],
+        "limitations": [
+          "raw-temperature-change-does-not-establish-temperature-front-persistence",
+          "temperature-change-does-not-establish-water-mass-identity",
+          "sst-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildSeaSurfaceTemperaturePersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": {
+                    "signedZero": "-0"
+                  }
+                },
+                "currents": {
+                  "speedKnots": {
+                    "signedZero": "-0"
+                  },
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 0
+                },
+                "currents": {
+                  "speedKnots": 0,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "sea-surface-temperature",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-temperature",
+        "lifecycleState": "stable",
+        "reason": "governed-sst-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstTemperatureFahrenheit": {
+            "signedZero": "-0"
+          },
+          "lastTemperatureFahrenheit": 0,
+          "temperatureChangeFahrenheit": 0,
+          "absoluteTemperatureChangeFahrenheit": 0,
+          "stabilityThresholdFahrenheit": 1
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-sst-observations-available",
+          "chronological-sst-observation-window-established",
+          "sst-lifecycle-stable"
+        ],
+        "limitations": [
+          "raw-temperature-change-does-not-establish-temperature-front-persistence",
+          "temperature-change-does-not-establish-water-mass-identity",
+          "sst-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildSeaSurfaceTemperaturePersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 5e-324
+                },
+                "currents": {
+                  "speedKnots": 5e-324,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": -5e-324
+                },
+                "currents": {
+                  "speedKnots": -5e-324,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "sea-surface-temperature",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-temperature",
+        "lifecycleState": "stable",
+        "reason": "governed-sst-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstTemperatureFahrenheit": 5e-324,
+          "lastTemperatureFahrenheit": -5e-324,
+          "temperatureChangeFahrenheit": -1e-323,
+          "absoluteTemperatureChangeFahrenheit": 1e-323,
+          "stabilityThresholdFahrenheit": 1
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-sst-observations-available",
+          "chronological-sst-observation-window-established",
+          "sst-lifecycle-stable"
+        ],
+        "limitations": [
+          "raw-temperature-change-does-not-establish-temperature-front-persistence",
+          "temperature-change-does-not-establish-water-mass-identity",
+          "sst-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildSeaSurfaceTemperaturePersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 1e+308
+                },
+                "currents": {
+                  "speedKnots": 1e+308,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 1e+308
+                },
+                "currents": {
+                  "speedKnots": 1e+308,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "sea-surface-temperature",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-temperature",
+        "lifecycleState": "stable",
+        "reason": "governed-sst-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstTemperatureFahrenheit": 1e+308,
+          "lastTemperatureFahrenheit": 1e+308,
+          "temperatureChangeFahrenheit": 0,
+          "absoluteTemperatureChangeFahrenheit": 0,
+          "stabilityThresholdFahrenheit": 1
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-sst-observations-available",
+          "chronological-sst-observation-window-established",
+          "sst-lifecycle-stable"
+        ],
+        "limitations": [
+          "raw-temperature-change-does-not-establish-temperature-front-persistence",
+          "temperature-change-does-not-establish-water-mass-identity",
+          "sst-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildCurrentPersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 78
+                },
+                "currents": {
+                  "speedKnots": 78,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "current",
+        "featureFamily": "physical-ocean",
+        "classification": "strengthening-current-speed",
+        "lifecycleState": "strengthening",
+        "reason": "governed-current-speed-history-increased",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstSpeedKnots": 77,
+          "lastSpeedKnots": 78,
+          "speedChangeKnots": 1,
+          "absoluteSpeedChangeKnots": 1,
+          "firstDirectionDegrees": 90,
+          "lastDirectionDegrees": 100,
+          "directionChangeDegrees": 10,
+          "directionalStability": "stable",
+          "speedChangeThresholdKnots": 0.25,
+          "directionStabilityThresholdDegrees": 15,
+          "thresholdVersion": "pelora-current-persistence-threshold-v1"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-current-observations-available",
+          "chronological-current-observation-window-established",
+          "current-speed-lifecycle-strengthening",
+          "current-direction-stable"
+        ],
+        "limitations": [
+          "current-speed-change-does-not-establish-current-edge-persistence",
+          "current-direction-change-does-not-establish-current-shear",
+          "current-direction-change-does-not-establish-current-convergence",
+          "current-feature-movement-not-assessed",
+          "current-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildCurrentPersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 78
+                },
+                "currents": {
+                  "speedKnots": 78,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "current",
+        "featureFamily": "physical-ocean",
+        "classification": "weakening-current-speed",
+        "lifecycleState": "weakening",
+        "reason": "governed-current-speed-history-decreased",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstSpeedKnots": 78,
+          "lastSpeedKnots": 77,
+          "speedChangeKnots": -1,
+          "absoluteSpeedChangeKnots": 1,
+          "firstDirectionDegrees": 90,
+          "lastDirectionDegrees": 100,
+          "directionChangeDegrees": 10,
+          "directionalStability": "stable",
+          "speedChangeThresholdKnots": 0.25,
+          "directionStabilityThresholdDegrees": 15,
+          "thresholdVersion": "pelora-current-persistence-threshold-v1"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-current-observations-available",
+          "chronological-current-observation-window-established",
+          "current-speed-lifecycle-weakening",
+          "current-direction-stable"
+        ],
+        "limitations": [
+          "current-speed-change-does-not-establish-current-edge-persistence",
+          "current-direction-change-does-not-establish-current-shear",
+          "current-direction-change-does-not-establish-current-convergence",
+          "current-feature-movement-not-assessed",
+          "current-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildCurrentPersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 77
+                },
+                "currents": {
+                  "speedKnots": 77,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "current",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-current-speed",
+        "lifecycleState": "stable",
+        "reason": "governed-current-speed-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstSpeedKnots": 77,
+          "lastSpeedKnots": 77,
+          "speedChangeKnots": 0,
+          "absoluteSpeedChangeKnots": 0,
+          "firstDirectionDegrees": 90,
+          "lastDirectionDegrees": 100,
+          "directionChangeDegrees": 10,
+          "directionalStability": "stable",
+          "speedChangeThresholdKnots": 0.25,
+          "directionStabilityThresholdDegrees": 15,
+          "thresholdVersion": "pelora-current-persistence-threshold-v1"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-current-observations-available",
+          "chronological-current-observation-window-established",
+          "current-speed-lifecycle-stable",
+          "current-direction-stable"
+        ],
+        "limitations": [
+          "current-speed-change-does-not-establish-current-edge-persistence",
+          "current-direction-change-does-not-establish-current-shear",
+          "current-direction-change-does-not-establish-current-convergence",
+          "current-feature-movement-not-assessed",
+          "current-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildCurrentPersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": {
+                    "signedZero": "-0"
+                  }
+                },
+                "currents": {
+                  "speedKnots": {
+                    "signedZero": "-0"
+                  },
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 0
+                },
+                "currents": {
+                  "speedKnots": 0,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "current",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-current-speed",
+        "lifecycleState": "stable",
+        "reason": "governed-current-speed-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstSpeedKnots": {
+            "signedZero": "-0"
+          },
+          "lastSpeedKnots": 0,
+          "speedChangeKnots": 0,
+          "absoluteSpeedChangeKnots": 0,
+          "firstDirectionDegrees": 90,
+          "lastDirectionDegrees": 100,
+          "directionChangeDegrees": 10,
+          "directionalStability": "stable",
+          "speedChangeThresholdKnots": 0.25,
+          "directionStabilityThresholdDegrees": 15,
+          "thresholdVersion": "pelora-current-persistence-threshold-v1"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-current-observations-available",
+          "chronological-current-observation-window-established",
+          "current-speed-lifecycle-stable",
+          "current-direction-stable"
+        ],
+        "limitations": [
+          "current-speed-change-does-not-establish-current-edge-persistence",
+          "current-direction-change-does-not-establish-current-shear",
+          "current-direction-change-does-not-establish-current-convergence",
+          "current-feature-movement-not-assessed",
+          "current-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildCurrentPersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 5e-324
+                },
+                "currents": {
+                  "speedKnots": 5e-324,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": -5e-324
+                },
+                "currents": {
+                  "speedKnots": -5e-324,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "current",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-current-speed",
+        "lifecycleState": "stable",
+        "reason": "governed-current-speed-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstSpeedKnots": 5e-324,
+          "lastSpeedKnots": -5e-324,
+          "speedChangeKnots": -1e-323,
+          "absoluteSpeedChangeKnots": 1e-323,
+          "firstDirectionDegrees": 90,
+          "lastDirectionDegrees": 100,
+          "directionChangeDegrees": 10,
+          "directionalStability": "stable",
+          "speedChangeThresholdKnots": 0.25,
+          "directionStabilityThresholdDegrees": 15,
+          "thresholdVersion": "pelora-current-persistence-threshold-v1"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-current-observations-available",
+          "chronological-current-observation-window-established",
+          "current-speed-lifecycle-stable",
+          "current-direction-stable"
+        ],
+        "limitations": [
+          "current-speed-change-does-not-establish-current-edge-persistence",
+          "current-direction-change-does-not-establish-current-shear",
+          "current-direction-change-does-not-establish-current-convergence",
+          "current-feature-movement-not-assessed",
+          "current-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    },
+    {
+      "name": "buildCurrentPersistence",
+      "rows": [
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-0"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-23T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 1e+308
+                },
+                "currents": {
+                  "speedKnots": 1e+308,
+                  "directionDegrees": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "snapshot": {
+            "available": true,
+            "identity": {
+              "snapshotId": "controlled-r9-1"
+            },
+            "metadata": {
+              "time": {
+                "observedAt": "2026-09-24T00:00:00Z"
+              }
+            },
+            "observation": {
+              "observations": {
+                "sst": {
+                  "temperatureFahrenheit": 1e+308
+                },
+                "currents": {
+                  "speedKnots": 1e+308,
+                  "directionDegrees": 100
+                }
+              }
+            }
+          }
+        }
+      ],
+      "result": {
+        "available": true,
+        "featureType": "current",
+        "featureFamily": "physical-ocean",
+        "classification": "stable-current-speed",
+        "lifecycleState": "stable",
+        "reason": "governed-current-speed-history-remained-within-stability-threshold",
+        "values": {
+          "sampleCount": 2,
+          "firstObservedAt": "2026-09-23T00:00:00Z",
+          "lastObservedAt": "2026-09-24T00:00:00Z",
+          "durationHours": 24,
+          "firstSpeedKnots": 1e+308,
+          "lastSpeedKnots": 1e+308,
+          "speedChangeKnots": 0,
+          "absoluteSpeedChangeKnots": 0,
+          "firstDirectionDegrees": 90,
+          "lastDirectionDegrees": 100,
+          "directionChangeDegrees": 10,
+          "directionalStability": "stable",
+          "speedChangeThresholdKnots": 0.25,
+          "directionStabilityThresholdDegrees": 15,
+          "thresholdVersion": "pelora-current-persistence-threshold-v1"
+        },
+        "confidence": {
+          "score": 60,
+          "level": "Moderate"
+        },
+        "drivers": [
+          "multiple-governed-historical-current-observations-available",
+          "chronological-current-observation-window-established",
+          "current-speed-lifecycle-stable",
+          "current-direction-stable"
+        ],
+        "limitations": [
+          "current-speed-change-does-not-establish-current-edge-persistence",
+          "current-direction-change-does-not-establish-current-shear",
+          "current-direction-change-does-not-establish-current-convergence",
+          "current-feature-movement-not-assessed",
+          "current-persistence-does-not-establish-habitat-quality-or-fishing-opportunity"
+        ],
+        "responsibility": "Compare",
+        "interpretation": "species-neutral-feature-persistence",
+        "contractVersion": "pelora-feature-persistence-v1"
+      }
+    }
+  ]
+}

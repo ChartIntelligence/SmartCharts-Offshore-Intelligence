@@ -48,8 +48,8 @@ test('acquisition metadata is digest-bound when in Frame, but a digest does not 
 for(const family of ['direct','gap'])test(family+' overflow history has represented times but lacks complete as-of authority',async t=>{
  const {points,rows}=await sourceRows(t,family),r=await resolve(rows);
  for(const p of points){assert(scientificAgeHoursV1(p.observedAt,context(1))>=0);assert(!Object.hasOwn(p,'providerPublishedAt'));assert(!Object.hasOwn(p,'acquiredAt'));}
- assert.equal(r.results.productivity.values.concentrationChangeMgM3,-Infinity);assert.equal(r.results.clarity.values.concentrationChangeMgM3,-Infinity);
- assert(r.results.productivity.available);assert.equal(r.results.productivity.confidence.score,60);
+ assert.equal(r.results.productivity.values.concentrationChangeMgM3,null);assert.equal(r.results.clarity.values.concentrationChangeMgM3,null);
+ assert.equal(r.results.productivity.available,false);assert.equal(r.results.productivity.reason,"nonfinite-temporal-derivation");assert.equal(r.results.productivity.confidence.score,0);
 });
 test('existing archive worker capability is receipt-bound but not a first-seen default history selector',()=>{
  const n=source('../oceanState/noaaSstSource.mjs'),w=source('../oceanState/sstWorker.mjs');

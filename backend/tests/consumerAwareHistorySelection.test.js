@@ -7,7 +7,7 @@ const evidence={reachability:[],cutoff:null};
 for(const family of ['direct','gap'])test(family+' finite endpoints cross actual storage response adapter/query/time-series boundary',async t=>{
  const {points,rows}=await sourceRows(t,family),r=await resolve(rows);
  assert.equal(r.transportCalls,1);assert.equal(r.adapted.length,2);assert.equal(r.series.historicalSnapshots.length,2);
- for(const output of Object.values(r.results)){assert.equal(output.available,true);assert.equal(output.values.concentrationChangeMgM3,-Infinity);assert.equal(output.confidence.score,60);}
+ for(const output of Object.values(r.results)){assert.equal(output.available,false);assert.equal(output.reason,"nonfinite-temporal-derivation");assert.equal(output.values.concentrationChangeMgM3,null);assert.equal(output.confidence.score,0);}
  evidence.reachability.push({family,points,rows,result:r,boundary:'Conditional production resolver/selection reachability with synthetic database-transport source; not observed provider/database occurrence or shared-history qualification.'});
 });
 test('historical unassessed helper counterexample retained; active handoff is repaired',async t=>{
