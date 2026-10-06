@@ -105,3 +105,6 @@ export function createHistoricalReceiptRuntime() {
 }
 // Explicit offline seam. This is not a production witness authority by itself.
 export function createHistoricalReceiptRuntimeForTests(dependencies) {return runtime(dependencies);}
+// Internal composition for the governed durable-observation adapter. No route.
+export function createHistoricalReceiptRuntimeWithConnection(dependencies) {return runtime(dependencies);}
+export function validateHistoricalReceiptEnvelope(text,evidenceReference) {return readEnvelope(text,evidenceReference);}

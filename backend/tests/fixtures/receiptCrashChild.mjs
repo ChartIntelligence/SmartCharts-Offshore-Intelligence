@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import pg from 'pg';
+if(process.env.PELORA_CP06_LOCAL!=='1')throw Error('local-opt-in');
+const root=path.join(process.env.LOCALAPPDATA,'Pelora/PostgreSQL/pelora_phase3_qualification');
+const c=JSON.parse(fs.readFileSync(path.join(root,'worker-credentials.json'),'utf8'));
+if(c.host!=='127.0.0.1'||Number(c.port)!==55432||c.database!=='pelora_phase3_qualification')throw Error('local-endpoint');
+const client=new pg.Client({host:c.host,port:c.port,user:c.username,password:c.password,database:c.database});await client.connect();
+await client.query('BEGIN');await client.query("SET LOCAL pelora.cp06_local='on'");
+await client.query('SELECT cp06.worker($1,$2)',[process.argv[2],process.argv[3]]);
+if(process.argv[4]==='committed')await client.query('COMMIT');
+process.send?.('READY');setInterval(()=>{},1000);
