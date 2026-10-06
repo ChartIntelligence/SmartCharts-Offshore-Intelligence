@@ -38,7 +38,7 @@ function validateCandidate(jobId,context,value){
 }
 
 // Session advisory serialization is operational only: CP-02 ownership, locks,
-// fences and commit checks remain the sole acceptance authority. It survives
+// fences and atomic terminal transition remain the acceptance authority. It survives
 // no crash/restart and supplies no stale authorization boolean.
 export function postgresRecoveryLock(pool){return async(jobId,operation)=>{
  const client=await pool.connect();let held=false,released=false;

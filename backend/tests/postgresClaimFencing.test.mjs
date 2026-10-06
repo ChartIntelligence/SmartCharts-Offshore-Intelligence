@@ -202,13 +202,15 @@ test('CP-02 real local PostgreSQL qualification',{skip:process.env.PELORA_CP02_L
    assert(reached);assert.equal(result.status,'STOPPED');assert.equal(result.accepted,false);
    assert.equal((await owner.query('SELECT count(*)::int AS n FROM cp02.accepted WHERE job_id=$1',[h.job.jobId])).rows[0].n,0);
   });
-  await t.test('database deferred acceptance check rejects lease expiry before commit',async()=>{
+  await t.test('atomic valid acceptance consumes claim even if former lease expires before commit',async()=>{
    const h=await staged({leaseMs:2000}),connection=await pool.connect();
    try {await connection.query('BEGIN');await connection.query('SELECT cp02.worker($1,$2,$3,$4,NULL)',
     ['accept',h.job.jobId,h.capability,JSON.stringify({recordText:JSON.stringify(h.record),retainedAt:at()})]);
-    await connection.query('SELECT pg_sleep(2.1)');await assert.rejects(connection.query('COMMIT'),/acceptance-not-owned-at-commit/);
+    await connection.query('SELECT pg_sleep(2.1)');await connection.query('COMMIT');
    } finally {await connection.query('ROLLBACK');connection.release();}
-   assert.equal((await owner.query('SELECT count(*)::int AS n FROM cp02.accepted WHERE job_id=$1',[h.job.jobId])).rows[0].n,0);
+   assert.equal((await owner.query('SELECT count(*)::int AS n FROM cp02.accepted WHERE job_id=$1',[h.job.jobId])).rows[0].n,1);
+   assert((await owner.query('SELECT consumed_at IS NOT NULL AND released AS consumed FROM cp02.ownership WHERE job_id=$1',[h.job.jobId])).rows[0].consumed);
+   const later=attemptFor({jobId:h.job.jobId});await assert.rejects(later.control.claim(later.handle,at()),/job-already-accepted/);
   });
   await t.test('uncertain staged write acknowledgment reconciles exact immutable readback',async()=>{
    const h=await setup();let lost=false;

@@ -46,8 +46,9 @@ export function createPostgresAttempt({query, transaction, jobId, capability = r
           acceptanceQuery = transactionQuery;
           try {
             // All async guard queries now use this same transaction/connection.
-            // Database locks remain held through the final local cancellation
-            // check and COMMIT; an aborted callback must roll back the insert.
+            // Database consumes the current valid claim at terminal acceptance.
+            // Locks remain held through cancellation and COMMIT; an aborted
+            // callback rolls back both consumption and the immutable chain.
             await authorize();
             const value = ack(await call('accept',JSON.stringify({recordText:JSON.stringify(copy),retainedAt})));
             await authorize(); return value;

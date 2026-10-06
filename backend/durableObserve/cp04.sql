@@ -38,6 +38,28 @@ CREATE FUNCTION cp04.staged(jid text,aid text) RETURNS jsonb LANGUAGE sql SECURI
  ORDER BY cardinality(ancestry.path) LIMIT 1
 $$;
 
+-- CP-05: enforce checkpoint/replay continuity on legacy entry points too.
+-- Internal only; both staging and terminal acceptance call this guard.
+CREATE FUNCTION cp04.validate_acceptance(jid text,cap uuid,record_text text) RETURNS void
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE q cp04.raw_checkpoints; replay cp04.replays; p jsonb; original_capture text;
+BEGIN
+ IF NOT EXISTS(SELECT 1 FROM cp04.raw_checkpoints raw JOIN cp02.attempts a USING(token) WHERE a.job_id=jid) THEN RETURN; END IF;
+ p:=record_text::jsonb; SELECT * INTO q FROM cp04.raw_checkpoints WHERE token=cap;
+ IF q.token IS NULL OR q.raw_hash IS DISTINCT FROM p->'execution'->'acquisition'->'retainedResponseReference'->>'sha256'
+  OR q.origin IS DISTINCT FROM jsonb_build_object('url',p->>'requestUrl','provider',p->'execution'->'acquisition'->'request'->>'provider',
+   'dataset',p->'execution'->'acquisition'->'request'->>'dataset') THEN RAISE EXCEPTION 'recovery-checkpoint-mismatch'; END IF;
+ SELECT * INTO replay FROM cp04.replays WHERE token=cap;
+ IF replay.token IS NULL AND EXISTS(SELECT 1 FROM cp02.attempts a LEFT JOIN cp04.raw_checkpoints prior ON prior.token=a.token
+  LEFT JOIN cp02.results s ON s.token=a.token WHERE a.job_id=jid AND a.token<>cap AND (prior.token IS NOT NULL OR s.token IS NOT NULL))
+ THEN RAISE EXCEPTION 'recovery-replay-source-required'; END IF;
+ IF replay.token IS NOT NULL THEN
+  IF replay.raw_hash IS DISTINCT FROM q.raw_hash THEN RAISE EXCEPTION 'recovery-raw-conflict'; END IF;
+  original_capture:=cp04.staged(jid,replay.source_attempt_id)->>'captureText';
+  IF original_capture IS NOT NULL AND original_capture IS DISTINCT FROM p->>'captureText' THEN RAISE EXCEPTION 'recovery-evidence-conflict'; END IF;
+ END IF;
+END $$;
+
 CREATE FUNCTION cp04.inspect(jid text,cap uuid) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 DECLARE j cp02.jobs; r cp02.registry; o cp02.ownership; instant timestamptz; status_value text; candidate_value jsonb;
 BEGIN
@@ -83,7 +105,7 @@ BEGIN
 END $$;
 
 -- New composition routes through this narrow wrapper. Existing CP-02 API and
--- all its locks/deferred checks remain intact; no independent accept operation.
+-- all its locks/atomic terminal checks remain intact; no independent accept operation.
 CREATE FUNCTION cp04.worker(op text,jid text,cap uuid,payload text DEFAULT NULL,raw_bytes bytea DEFAULT NULL)
 RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
 DECLARE result_value jsonb; p jsonb; origin_value jsonb; hash_value text; source_id text; prior_hash text; prior_origin jsonb;

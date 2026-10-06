@@ -19,7 +19,9 @@ CREATE TABLE cp02.jobs (
 );
 CREATE TABLE cp02.ownership (
  job_id text PRIMARY KEY REFERENCES cp02.jobs, fence bigint NOT NULL DEFAULT 0 CHECK(fence BETWEEN 0 AND 9007199254740991),
- token uuid, lease_until timestamptz, released boolean NOT NULL DEFAULT true
+ token uuid, lease_until timestamptz, released boolean NOT NULL DEFAULT true,
+ consumed_at timestamptz,
+ CHECK(consumed_at IS NULL OR (released AND token IS NOT NULL))
 );
 CREATE TABLE cp02.attempts (
  token uuid PRIMARY KEY, job_id text NOT NULL REFERENCES cp02.jobs,
@@ -45,23 +47,66 @@ CREATE TRIGGER immutable BEFORE UPDATE OR DELETE ON cp02.attempts FOR EACH ROW E
 CREATE TRIGGER immutable BEFORE UPDATE OR DELETE ON cp02.raw FOR EACH ROW EXECUTE FUNCTION cp02.immutable();
 CREATE TRIGGER immutable BEFORE UPDATE OR DELETE ON cp02.results FOR EACH ROW EXECUTE FUNCTION cp02.immutable();
 CREATE TRIGGER immutable BEFORE UPDATE OR DELETE ON cp02.accepted FOR EACH ROW EXECUTE FUNCTION cp02.immutable();
-CREATE FUNCTION cp02.fenced_commit() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
-DECLARE j cp02.jobs; r cp02.registry; o cp02.ownership; a cp02.attempts; instant timestamptz;
+-- CP-05: ordinary immutable terminal-state guard, NOT a deferred clock check.
+CREATE FUNCTION cp02.terminal_immutable() RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $$
 BEGIN
- SELECT * INTO j FROM cp02.jobs WHERE job_id=NEW.job_id;
- SELECT * INTO r FROM cp02.registry WHERE manifest_id=j.manifest_id FOR UPDATE;
- SELECT * INTO o FROM cp02.ownership WHERE job_id=NEW.job_id FOR UPDATE;
- SELECT * INTO a FROM cp02.attempts WHERE token=NEW.token;
- instant := clock_timestamp();
- IF NOT r.enabled OR o.token IS DISTINCT FROM NEW.token OR o.fence IS DISTINCT FROM a.fence
-  OR o.released OR instant >= o.lease_until OR instant >= j.deadline
-  OR instant < (r.context->'activation'->>'effectiveAt')::timestamptz
-  OR (SELECT record_text::jsonb->'binding'->>'activationDigest' FROM cp02.results WHERE token=NEW.token)
-   IS DISTINCT FROM (r.context->'activation'->>'digest') THEN RAISE EXCEPTION 'acceptance-not-owned-at-commit'; END IF;
+ IF OLD.consumed_at IS NOT NULL THEN RAISE EXCEPTION 'immutable-terminal-claim'; END IF;
  RETURN NEW;
 END $$;
-CREATE CONSTRAINT TRIGGER fenced_acceptance AFTER INSERT ON cp02.accepted
- DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION cp02.fenced_commit();
+CREATE TRIGGER terminal_immutable BEFORE UPDATE OR DELETE ON cp02.ownership
+ FOR EACH ROW EXECUTE FUNCTION cp02.terminal_immutable();
+
+-- The authoritative instant is this locked, atomic terminal transition. The
+-- consumed claim is no longer a renewable lease while the transaction awaits
+-- COMMIT. Rollback restores both the claim and the accepted chain together.
+-- Internal only: the worker requests acceptance via its existing narrow API.
+CREATE FUNCTION cp02.accept_terminal(jid text,cap uuid,payload text) RETURNS jsonb
+LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE j cp02.jobs; r cp02.registry; o cp02.ownership; a cp02.attempts;
+ s cp02.results; decision cp02.accepted; p jsonb; e jsonb; instant timestamptz;
+BEGIN
+ SELECT * INTO j FROM cp02.jobs WHERE job_id=jid;
+ IF NOT FOUND THEN RAISE EXCEPTION 'unknown-job'; END IF;
+ SELECT * INTO r FROM cp02.registry WHERE manifest_id=j.manifest_id FOR UPDATE;
+ SELECT * INTO o FROM cp02.ownership WHERE job_id=jid FOR UPDATE;
+ SELECT * INTO a FROM cp02.attempts WHERE token=cap AND job_id=jid FOR UPDATE;
+ SELECT * INTO decision FROM cp02.accepted WHERE job_id=jid;
+ p:=payload::jsonb;
+ SELECT * INTO s FROM cp02.results WHERE token=cap;
+ IF decision.job_id IS NOT NULL THEN
+  IF decision.token IS DISTINCT FROM cap THEN RAISE EXCEPTION 'job-already-accepted'; END IF;
+  IF s.record_text IS DISTINCT FROM p->>'recordText' THEN RAISE EXCEPTION 'accepted-retry-conflict'; END IF;
+  IF o.consumed_at IS DISTINCT FROM decision.accepted_at OR o.token IS DISTINCT FROM cap OR o.fence IS DISTINCT FROM a.fence THEN RAISE EXCEPTION 'terminal-state-integrity'; END IF;
+  RETURN jsonb_build_object('status','ACKNOWLEDGED','retainedAt',decision.retained_at,'recordText',s.record_text);
+ END IF;
+ instant := clock_timestamp();
+ IF NOT r.enabled OR instant < j.window_start OR instant >= j.deadline
+  OR instant < (r.context->'activation'->>'effectiveAt')::timestamptz
+  OR instant < (r.context->'manifest'->>'effectiveFrom')::timestamptz
+  OR instant >= (r.context->'manifest'->>'effectiveUntil')::timestamptz THEN RAISE EXCEPTION 'inactive-or-expired'; END IF;
+ IF a.token IS NULL OR o.token IS DISTINCT FROM cap OR o.fence IS DISTINCT FROM a.fence
+  OR o.released OR o.consumed_at IS NOT NULL OR instant >= o.lease_until THEN RAISE EXCEPTION 'attempt-not-owned'; END IF;
+ IF s.token IS NULL OR s.record_text IS DISTINCT FROM p->>'recordText' THEN RAISE EXCEPTION 'pending-readback-mismatch'; END IF;
+ e:=s.record_text::jsonb;
+ IF e->'execution'->>'jobId' IS DISTINCT FROM jid OR e->'execution'->>'attemptId' IS DISTINCT FROM a.attempt_id
+  OR (e->'execution'->>'fencingToken')::bigint IS DISTINCT FROM a.fence
+  OR e->'binding'->>'activationDigest' IS DISTINCT FROM r.context->'activation'->>'digest' THEN RAISE EXCEPTION 'authorization-changed'; END IF;
+ IF NOT coalesce(p ?& ARRAY['recordText','retainedAt'] AND (SELECT count(*) FROM jsonb_object_keys(p))=2,false)
+  OR NOT coalesce(p->>'retainedAt' ~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$',false)
+  OR (p->>'retainedAt')::timestamptz < (e->'execution'->>'finishedAt')::timestamptz
+  OR (p->>'retainedAt')::timestamptz > instant OR (p->>'retainedAt')::timestamptz >= j.deadline THEN RAISE EXCEPTION 'retention-time-order'; END IF;
+ instant:=clock_timestamp();
+ IF instant >= o.lease_until OR instant >= j.deadline THEN RAISE EXCEPTION 'attempt-expired-at-accept'; END IF;
+ IF to_regclass('cp04.raw_checkpoints') IS NOT NULL THEN PERFORM cp04.validate_acceptance(jid,cap,s.record_text); END IF;
+ -- Read authoritative time at the transition AFTER all consistency checks.
+ instant:=clock_timestamp();
+ IF instant >= o.lease_until OR instant >= j.deadline THEN RAISE EXCEPTION 'attempt-expired-at-accept'; END IF;
+ UPDATE cp02.ownership SET consumed_at=instant,released=true WHERE job_id=jid;
+ INSERT INTO cp02.accepted VALUES(jid,cap,p->>'retainedAt',instant);
+ -- CP-03's ordinary insert trigger builds the immutable observation index
+ -- synchronously here. Any failure aborts this entire transition.
+ RETURN jsonb_build_object('status','ACKNOWLEDGED','retainedAt',p->>'retainedAt','recordText',s.record_text);
+END $$;
 
 -- One narrowly granted API; all object references qualified, fixed search_path.
 -- Capabilities are private process-issued UUIDs, never job/manifest payloads.
@@ -74,6 +119,7 @@ BEGIN
  IF op NOT IN ('claim','check','release','raw-write','raw-read','write','read','accept','accepted') THEN
   RAISE EXCEPTION 'unknown-operation';
  END IF;
+ IF op='accept' THEN RETURN cp02.accept_terminal(jid,cap,payload); END IF;
  SELECT * INTO j FROM cp02.jobs WHERE job_id=jid;
  IF NOT FOUND THEN RAISE EXCEPTION 'unknown-job'; END IF;
  -- Global lock order: protected registry then job ownership. Admin revocation
@@ -83,21 +129,26 @@ BEGIN
  instant := clock_timestamp(); -- AFTER lock waits, never transaction-start time.
  SELECT * INTO a FROM cp02.attempts WHERE token=cap AND job_id=jid;
  SELECT * INTO accepted FROM cp02.accepted WHERE job_id=jid;
- IF op IN ('accepted','accept') AND accepted.job_id IS NOT NULL THEN
+ IF op='accepted' AND accepted.job_id IS NOT NULL THEN
   IF accepted.token IS DISTINCT FROM cap THEN RAISE EXCEPTION 'job-already-accepted'; END IF;
   SELECT * INTO s FROM cp02.results WHERE token=cap;
-  IF op='accept' AND s.record_text IS DISTINCT FROM (payload::jsonb->>'recordText') THEN
-   RAISE EXCEPTION 'accepted-retry-conflict';
-  END IF;
   -- Reconciliation of an already committed decision, never a new acceptance.
   RETURN jsonb_build_object('status','ACKNOWLEDGED','retainedAt',accepted.retained_at,'recordText',s.record_text);
  END IF;
  IF op='accepted' THEN RETURN NULL; END IF;
  IF op='release' THEN
-  IF o.token=cap THEN UPDATE cp02.ownership SET released=true WHERE job_id=jid; END IF;
+  IF o.token=cap AND o.consumed_at IS NULL THEN UPDATE cp02.ownership SET released=true WHERE job_id=jid; END IF;
   RETURN '{}'::jsonb;
  END IF;
  IF accepted.job_id IS NOT NULL AND op <> 'check' THEN RAISE EXCEPTION 'job-already-accepted'; END IF;
+ IF accepted.job_id IS NOT NULL AND op='check' THEN
+  IF accepted.token IS DISTINCT FROM cap OR a.token IS NULL OR o.token IS DISTINCT FROM cap
+   OR o.fence IS DISTINCT FROM a.fence OR o.consumed_at IS DISTINCT FROM accepted.accepted_at THEN RAISE EXCEPTION 'attempt-not-owned'; END IF;
+  -- Post-transition consistency/cancellation guard, never a reusable lease.
+  RETURN jsonb_build_object('context',r.context || jsonb_build_object('job',j.job),
+   'attempt',jsonb_build_object('attemptId',a.attempt_id,'attemptNumber',a.fence,'fencingToken',a.fence));
+ END IF;
+ IF o.consumed_at IS NOT NULL THEN RAISE EXCEPTION 'terminal-state-integrity'; END IF;
  IF NOT r.enabled OR instant < j.window_start OR instant >= j.deadline
   OR instant < (r.context->'activation'->>'effectiveAt')::timestamptz
   OR instant < (r.context->'manifest'->>'effectiveFrom')::timestamptz
@@ -136,6 +187,7 @@ BEGIN
  END IF;
  IF op='write' THEN
   p := payload::jsonb; e := p->'execution'; b := p->'binding';
+  IF to_regclass('cp04.raw_checkpoints') IS NOT NULL THEN PERFORM cp04.validate_acceptance(jid,cap,payload); END IF;
   IF e->>'jobId' IS DISTINCT FROM jid OR e->>'attemptId' IS DISTINCT FROM a.attempt_id
    OR (e->>'fencingToken')::bigint IS DISTINCT FROM a.fence OR (e->>'attemptNumber')::bigint IS DISTINCT FROM a.fence
    OR e->>'manifestDigest' IS DISTINCT FROM j.manifest_id OR e->>'outcome' IS DISTINCT FROM 'NORMALIZED'
@@ -153,19 +205,6 @@ BEGIN
  END IF;
  SELECT * INTO s FROM cp02.results WHERE token=cap;
  IF op='read' THEN RETURN to_jsonb(s.record_text); END IF;
- IF op='accept' THEN
-  p := payload::jsonb;
-  IF s.token IS NULL OR s.record_text IS DISTINCT FROM (p->>'recordText') THEN RAISE EXCEPTION 'pending-readback-mismatch'; END IF;
-  e := s.record_text::jsonb;
-  IF e->'binding'->>'activationDigest' IS DISTINCT FROM (r.context->'activation'->>'digest') THEN RAISE EXCEPTION 'authorization-changed'; END IF;
-  IF (p->>'retainedAt')::timestamptz < (e->'execution'->>'finishedAt')::timestamptz
-   OR (p->>'retainedAt')::timestamptz > instant OR (p->>'retainedAt')::timestamptz >= j.deadline THEN RAISE EXCEPTION 'retention-time-order'; END IF;
-  -- Repeat the live clock check immediately before the unique insertion.
-  instant := clock_timestamp();
-  IF instant >= o.lease_until OR instant >= j.deadline THEN RAISE EXCEPTION 'attempt-expired-at-accept'; END IF;
-  INSERT INTO cp02.accepted VALUES(jid,cap,p->>'retainedAt',instant);
-  RETURN jsonb_build_object('status','ACKNOWLEDGED','retainedAt',p->>'retainedAt','recordText',s.record_text);
- END IF;
  RAISE EXCEPTION 'unknown-operation';
 END $$;
 REVOKE ALL ON ALL TABLES IN SCHEMA cp02 FROM PUBLIC,pelora_cp02_worker;
