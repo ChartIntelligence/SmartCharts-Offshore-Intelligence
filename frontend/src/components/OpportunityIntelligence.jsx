@@ -34,6 +34,24 @@ const INTELLIGENCE_SECTIONS = [
   }
 ];
 
+function validateNarrativeDisplay(narrative) {
+  const record = value => typeof value === "object" && value !== null && !Array.isArray(value);
+  if (!record(narrative) || !record(narrative.sections)) {
+    throw new TypeError("Invalid Intelligence narrative display structure");
+  }
+  for (const { key } of INTELLIGENCE_SECTIONS) {
+    const section = narrative.sections[key];
+    if (section == null) continue;
+    if (!record(section)) throw new TypeError("Invalid Intelligence section display structure");
+    // The v1 section translators emit string or null. Missing fields stay absent.
+    for (const field of ["observed", "interpreted", "supported", "limited"]) {
+      if (section[field] != null && typeof section[field] !== "string") {
+        throw new TypeError("Invalid Intelligence statement display type");
+      }
+    }
+  }
+}
+
 
 function formatState(state) {
   switch (state) {
@@ -151,6 +169,8 @@ function OpportunityIntelligence({
     );
   }
 
+
+  validateNarrativeDisplay(narrative);
 
   return (
     <section className="opportunity-intelligence">

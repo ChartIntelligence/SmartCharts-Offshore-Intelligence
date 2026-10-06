@@ -17,6 +17,7 @@ import MapLegend from "./MapLegend";
 import TopOpportunity from "./TopOpportunity";
 import OpportunityRanking from "./OpportunityRanking";
 import OpportunityIntelligence from "./OpportunityIntelligence";
+import IntelligenceRecovery from "./IntelligenceRecovery";
 import HistoricalOpportunityContinuity
   from "./HistoricalOpportunityContinuity";
 import SelectedTarget from "./SelectedTarget";
@@ -836,14 +837,22 @@ return (
 
           <section className="intelligence-analysis-section">
 
-            <OpportunityIntelligence
-              opportunity={
-                activeOpportunity
-              }
-              opportunityState={
-                opportunityState
-              }
-            />
+            <IntelligenceRecovery
+              key={activeOpportunity?.id ?? "no-opportunity"}
+              narrative={activeOpportunity?.captainNarrative}
+              opportunityState={opportunityState}
+              onHome={() => setActiveTab("today")}
+              onMap={() => setActiveTab("map")}
+            >
+              <OpportunityIntelligence
+                opportunity={
+                  activeOpportunity
+                }
+                opportunityState={
+                  opportunityState
+                }
+              />
+            </IntelligenceRecovery>
 
           </section>
 
