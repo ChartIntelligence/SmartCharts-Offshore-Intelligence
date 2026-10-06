@@ -1,0 +1,210 @@
+{
+  "version": "pelora-cp08-publication-privilege-manifest-v1",
+  "database": "pelora_phase3_qualification",
+  "workerRole": "pelora_cp02_worker",
+  "migrationOwner": "pelora_cp02_owner",
+  "creationRoles": [
+    "pelora_cp02_owner",
+    "pelora_admin"
+  ],
+  "workerAttributes": {
+    "rolsuper": false,
+    "rolcreatedb": false,
+    "rolcreaterole": false,
+    "rolbypassrls": false,
+    "rolreplication": false,
+    "rolinherit": false,
+    "rolcanlogin": true
+  },
+  "protectedSchemas": [
+    "cp02",
+    "cp03",
+    "cp04",
+    "cp06",
+    "cp07",
+    "cp08"
+  ],
+  "protectedTables": [
+    "cp02.accepted",
+    "cp02.attempts",
+    "cp02.jobs",
+    "cp02.ownership",
+    "cp02.raw",
+    "cp02.registry",
+    "cp02.results",
+    "cp03.bindings",
+    "cp03.evidence",
+    "cp03.observations",
+    "cp04.raw_checkpoints",
+    "cp04.replays",
+    "cp06.envelopes",
+    "cp06.links",
+    "cp06.policy",
+    "cp08.contexts",
+    "cp08.heads",
+    "cp08.versions"
+  ],
+  "routines": [
+    {
+      "name": "cp02.accept_terminal(text,uuid,text)",
+      "securityDefiner": true,
+      "workerExecute": false,
+      "bodySha256": "29b4565ab95cb03a7b1df2fd216291ce9e85d2e7283c5ed6b95fcf56f917f042"
+    },
+    {
+      "name": "cp02.immutable()",
+      "securityDefiner": false,
+      "workerExecute": false,
+      "bodySha256": "6815b892e078db49879f7e3e2826111a72c6463e8b06b63e2876b1401d6f9b27"
+    },
+    {
+      "name": "cp02.terminal_immutable()",
+      "securityDefiner": false,
+      "workerExecute": false,
+      "bodySha256": "629f85b29e61760c826ab1d8155d9e4f9eff8db4546bda51edd87b77df74ac17"
+    },
+    {
+      "name": "cp02.worker(text,text,uuid,text,bytea)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "44d490a0eed33b3c512b6ee03f4d4d717ca21f8406510c9f4e5b0e91b57fcdff"
+    },
+    {
+      "name": "cp03.canonical(jsonb)",
+      "securityDefiner": false,
+      "workerExecute": false,
+      "bodySha256": "45aaf8732fa0ae47b14e126b6b82399441d8c264149093957c937f99b8e308e1"
+    },
+    {
+      "name": "cp03.index_acceptance()",
+      "securityDefiner": true,
+      "workerExecute": false,
+      "bodySha256": "790bd9bf2dccc2a89a73ded1fc5768dbbea9746e165975bdfe0864aa146f896d"
+    },
+    {
+      "name": "cp03.lookup(text)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "ed6e68be6057d2b0a93be41a03fbebcac3162743d47d20e9b8ab790db9306a91"
+    },
+    {
+      "name": "cp03.retain_result()",
+      "securityDefiner": true,
+      "workerExecute": false,
+      "bodySha256": "992dc5117a5abd3c845b17f61f060d903282a2ef77a0a8a25940035f81ffd5e8"
+    },
+    {
+      "name": "cp03.sealed_digest(text,jsonb)",
+      "securityDefiner": false,
+      "workerExecute": false,
+      "bodySha256": "83034635323257a074c41261e6f0a85ed2fed1b99d3385b26f63ae0e97800566"
+    },
+    {
+      "name": "cp04.inspect(text,uuid)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "bd682e0309e679c1b49c2211ba40b94a6058553150ad838dbfab2af733249589"
+    },
+    {
+      "name": "cp04.staged(text,text)",
+      "securityDefiner": true,
+      "workerExecute": false,
+      "bodySha256": "156f405fad4e40d21bf3ffb97118262b245b2a80105536be5924c6964793a117"
+    },
+    {
+      "name": "cp04.validate_acceptance(text,uuid,text)",
+      "securityDefiner": true,
+      "workerExecute": false,
+      "bodySha256": "147c30e2690472b1feb6f86ea4607f2336c9e03078f93555857205cafd7e68b1"
+    },
+    {
+      "name": "cp04.worker(text,text,uuid,text,bytea)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "2aaa1b05a59e114ce03959c0200c91776574c0b31556e33b7b36be15a10129c7"
+    },
+    {
+      "name": "cp06.lookup(text)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "23c986767abf8c2159467ee8901f74ddadd9aecac3902239469f63cdb250a8a4"
+    },
+    {
+      "name": "cp06.worker(text,uuid)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "b28fbab489a7b59a13b902e73bb67c031df0a46bedde99adc841222b708b252c"
+    },
+    {
+      "name": "cp07.read_scope(text,text,timestamp with time zone,timestamp with time zone,timestamp with time zone,integer)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "65cb67d6b72efd6cf956fd6c00e231ab15d12cf1378747312cebd45c4985fa07"
+    },
+    {
+      "name": "cp08.lookup(text,timestamp with time zone,text)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "9b547a2e7cd2d3eeca3c0b192309542da3bcf7d82b7826d4f11b48a23e05c66e"
+    },
+    {
+      "name": "cp08.submit(text)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "367af252b05b1d259f58bfee41a7c1a7dcb41a4bd6794c14abca68230098f34c"
+    }
+  ],
+  "requiredTriggers": [
+    "cp02.accepted:durable_index",
+    "cp02.accepted:immutable",
+    "cp02.attempts:immutable",
+    "cp02.jobs:immutable",
+    "cp02.ownership:terminal_immutable",
+    "cp02.raw:immutable",
+    "cp02.results:durable_result",
+    "cp02.results:immutable",
+    "cp03.bindings:immutable",
+    "cp03.evidence:immutable",
+    "cp03.observations:immutable",
+    "cp04.raw_checkpoints:immutable",
+    "cp04.replays:immutable",
+    "cp06.envelopes:immutable",
+    "cp06.links:immutable",
+    "cp06.policy:immutable",
+    "cp08.contexts:immutable",
+    "cp08.versions:immutable"
+  ],
+  "platformPrivileges": "Ordinary PostgreSQL catalog/session/advisory-lock features remain available; no table/schema/admin or application-routine exposure beyond this manifest.",
+  "acceptanceInvariant": "Current valid fenced claim at locked atomic consumption into terminal acceptance, never deferred COMMIT timing.",
+  "behavioralTestsRequired": [
+    "constraint timing independence",
+    "late transition rejection",
+    "reclaimer commit/rollback serialization",
+    "stale and duplicate rejection",
+    "legacy entrypoint replay guard",
+    "direct DML/admin denial",
+    "defaults and session/reconnect safety"
+  ],
+  "deniedLargeObjectRoutines": [
+    "pg_catalog.lo_close(integer)",
+    "pg_catalog.lo_creat(integer)",
+    "pg_catalog.lo_create(oid)",
+    "pg_catalog.lo_export(oid, text)",
+    "pg_catalog.lo_from_bytea(oid, bytea)",
+    "pg_catalog.lo_get(oid)",
+    "pg_catalog.lo_get(oid, bigint, integer)",
+    "pg_catalog.lo_import(text)",
+    "pg_catalog.lo_import(text, oid)",
+    "pg_catalog.lo_lseek(integer, integer, integer)",
+    "pg_catalog.lo_lseek64(integer, bigint, integer)",
+    "pg_catalog.lo_open(oid, integer)",
+    "pg_catalog.lo_put(oid, bigint, bytea)",
+    "pg_catalog.lo_tell(integer)",
+    "pg_catalog.lo_tell64(integer)",
+    "pg_catalog.lo_truncate(integer, integer)",
+    "pg_catalog.lo_truncate64(integer, bigint)",
+    "pg_catalog.lo_unlink(oid)",
+    "pg_catalog.loread(integer, integer)",
+    "pg_catalog.lowrite(integer, bytea)"
+  ]
+}
