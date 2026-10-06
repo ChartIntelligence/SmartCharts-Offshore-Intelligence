@@ -1,3 +1,4 @@
+import {CONTROLLED_P4_BUNDLE,CONTROLLED_P4_ADAPTER,controlledQualification,validateControlledBundle,validateControlledComposition} from './controlledPublicationBinding.mjs';
 import {createHash} from 'node:crypto';
 import {copy,keys,check,freeze,utc,reference,cycleV2,freezeEvidenceV1} from '../../shared/oceanPublication.mjs';
 import {exactJson} from '../exactScientificEvidence.mjs';
@@ -10,6 +11,7 @@ export const CONTEXT='pelora-governed-publication-context-v1';
 export const byteHash=text=>createHash('sha256').update(text).digest('hex');
 const equal=(a,b)=>exactJson(a)===exactJson(b);
 function sourceSnapshot(content,cutoff,context){
+ if(content?.contractVersion===CONTROLLED_P4_BUNDLE){const b=validateControlledBundle(content,cutoff);check(b.compositionInput.context.regionId===context.region.id);return;}
  if(content?.contractVersion==='pelora-retained-publication-inputs-v1'){
   keys(content,['contractVersion','assessmentCutoff','constructedAt','snapshots','requireHistoricalReceipt']);check(content.assessmentCutoff===cutoff&&utc(content.constructedAt)>=cutoff&&typeof content.requireHistoricalReceipt==='boolean');
   for(const item of content.snapshots){keys(item,['candidateId','snapshot']);const q=item.snapshot;check(q.contractVersion===OCEAN_STATE_READER&&['OK','MISSING','INVALID_QUERY','READ_UNAVAILABLE','UNKNOWN_SCOPE','INTEGRITY_FAILED'].includes(q.status));if(['OK','MISSING'].includes(q.status)){check(utc(q.readAt)<=content.constructedAt&&utc(q.readAt)>=cutoff);sourceSnapshot(q,cutoff,context);}else check(q.observations.length===0);}
@@ -27,7 +29,7 @@ function sourceSnapshot(content,cutoff,context){
  }
 }
 function artifactTiming(a,cutoff,context){
- if(Object.hasOwn(a,'constructedAt')){check(a.content.contractVersion==='pelora-retained-publication-inputs-v1'&&utc(a.constructedAt)===a.receivedAt&&a.content.constructedAt===a.constructedAt&&a.content.assessmentCutoff===cutoff);sourceSnapshot(a.content,cutoff,context);}
+ if(Object.hasOwn(a,'constructedAt')){check(['pelora-retained-publication-inputs-v1',CONTROLLED_P4_BUNDLE].includes(a.content.contractVersion)&&utc(a.constructedAt)===a.receivedAt&&a.content.constructedAt===a.constructedAt&&a.content.assessmentCutoff===cutoff);sourceSnapshot(a.content,cutoff,context);}
  else check(utc(a.receivedAt)<=cutoff);
 }
 function privacy(v){if(typeof v==='string')check(!/[\w.+-]+@[\w.-]+\.[a-z]{2,}/i.test(v));if(v&&typeof v==='object')for(const [key,value] of Object.entries(v)){
@@ -40,8 +42,8 @@ export function contextDescriptor(input){const c=copy(input);keys(c,['contractVe
 }
 export const contextKey=c=>'pcx1-'+byteHash(exactJson(contextDescriptor(c)));
 export const versionId=(key,scheduledAt,revision)=>'rpv1-'+byteHash(key+'\n'+utc(scheduledAt)+'\n'+revision);
-function fields(input){const p=copy(input);privacy(p);keys(p,['contractVersion','context','contextKey','cycle','assessmentCutoff','execution','publicationAt','revision','parentId','action','lifecycle','reason','producerBundle','versionId','contentDigest']);
- check(p.contractVersion===RANKED_PUBLICATION);const ctx=contextDescriptor(p.context);check(p.contextKey===contextKey(ctx));
+function fields(input){const p=copy(input);privacy(p);keys(p,['contractVersion','context','contextKey','cycle','assessmentCutoff','execution','publicationAt','revision','parentId','action','lifecycle','reason','producerBundle','versionId','contentDigest',...(p.cycle?.configuration?.evaluatorVersion===CONTROLLED_P4_ADAPTER?['controlledQualification']:[])]);
+ if(p.cycle?.configuration?.evaluatorVersion===CONTROLLED_P4_ADAPTER)check(equal(p.controlledQualification,controlledQualification));check(p.contractVersion===RANKED_PUBLICATION);const ctx=contextDescriptor(p.context);check(p.contextKey===contextKey(ctx));
  const cyc=cycleV2({scheduledAt:p.cycle.scheduledAt,region:p.cycle.region,configuration:p.cycle.configuration});check(equal(cyc,p.cycle)&&equal(ctx.region,cyc.region));
  check(cyc.configuration.species.length===1&&cyc.configuration.species[0]===ctx.species);check(utc(p.assessmentCutoff)===cyc.scheduledAt);
  keys(p.execution,['startedAt','finishedAt']);check(utc(p.execution.startedAt)>=p.assessmentCutoff);if(p.execution.finishedAt!==null)check(utc(p.execution.finishedAt)>=p.execution.startedAt);
@@ -50,9 +52,9 @@ function fields(input){const p=copy(input);privacy(p);keys(p,['contractVersion',
  if(p.parentId!==null)check(/^rpv1-[a-f0-9]{64}$/.test(p.parentId));check(['running','delayed','completed','failed','withdrawn'].includes(p.lifecycle));check(typeof p.reason==='string'&&p.reason.length>0&&p.reason.length<=200);
  check((p.action==='WITHDRAWAL')===(p.lifecycle==='withdrawn'));if(p.action==='CORRECTION')check(p.lifecycle==='completed');
  if(p.lifecycle==='completed'){
-  check(p.execution.finishedAt!==null);const b=p.producerBundle;keys(b,['binding','candidates','results','searchCounts','evidenceFreeze','inputsUsed','delivery','evaluationState','producerVersions','producerText','producerDigest']);
+  check(p.execution.finishedAt!==null);const b=p.producerBundle,controlled=Object.hasOwn(b,'controlledComposition');keys(b,['binding','candidates','results','searchCounts','evidenceFreeze','inputsUsed','delivery','evaluationState','producerVersions','producerText','producerDigest',...(controlled?['controlledComposition']:[])]);
   keys(b.binding,['cycleId','contextKey','assessmentCutoff','cohortReference','evidenceSetId']);check(b.binding.cycleId===cyc.cycleId&&b.binding.contextKey===p.contextKey&&b.binding.assessmentCutoff===p.assessmentCutoff&&equal(b.binding.cohortReference,cyc.configuration.candidateUniverse.reference));
-  check(equal(freezeEvidenceV1(cyc,b.evidenceFreeze.entries),b.evidenceFreeze)&&b.evidenceFreeze.evidenceSetId===b.binding.evidenceSetId);check(equal(b.candidates.map(c=>c.id),cyc.configuration.candidateUniverse.candidateIds)&&b.binding.cohortReference.sha256===byteHash(exactJson(b.candidates)));check(b.results.length===b.candidates.length);
+  check(equal(freezeEvidenceV1(cyc,b.evidenceFreeze.entries),b.evidenceFreeze)&&b.evidenceFreeze.evidenceSetId===b.binding.evidenceSetId);check(equal(controlled?b.candidates.map(c=>c.id).sort():b.candidates.map(c=>c.id),cyc.configuration.candidateUniverse.candidateIds)&&b.binding.cohortReference.sha256===byteHash(exactJson(b.candidates)));check(b.results.length===b.candidates.length);
   for(let i=0;i<b.results.length;i++){const r=b.results[i];check(equal(r.candidate,b.candidates[i])&&['fulfilled','rejected'].includes(r.status));if(r.status==='fulfilled')check(r.value.species===ctx.species&&equal(r.value.candidate,r.candidate));}
   check(b.delivery.contractVersion==='pelora-unified-captain-opportunity-delivery-v1'&&b.delivery.species===ctx.species);check(b.evaluationState.contractVersion===EVALUATION_STATE_CONTRACT&&b.evaluationState.scope==='selected-analysis-cohort'&&b.evaluationState.establishesSpatialCoverage===false);
   // Existing classifier owns this decision. Structural replay checks it, never ranks.
@@ -61,6 +63,7 @@ function fields(input){const p=copy(input);privacy(p);keys(p,['contractVersion',
   check(b.producerText===exactJson({binding:b.binding,delivery:b.delivery,evaluationState:b.evaluationState})&&b.producerDigest===byteHash(b.producerText));
   check(equal(b.producerVersions,{delivery:'pelora-unified-captain-opportunity-delivery-v1',ranking:'pelora-unified-species-opportunity-ranking-v1',evaluationState:EVALUATION_STATE_CONTRACT}));
   for(const a of b.inputsUsed){keys(a,['reference','receivedAt','assessmentCutoff','content','candidateIds',...(Object.hasOwn(a,'constructedAt')?['constructedAt']:[])]);artifactTiming(a,p.assessmentCutoff,ctx);if(a.constructedAt)check(a.constructedAt<=p.execution.startedAt);reference(a.reference);check(a.candidateIds.length>0&&a.candidateIds.every(id=>b.candidates.some(c=>c.id===id))&&b.evidenceFreeze.entries.some(e=>equal(e.reference,a.reference))&&a.assessmentCutoff===p.assessmentCutoff&&a.reference.sha256===byteHash(exactJson(a.content)));sourceSnapshot(a.content,p.assessmentCutoff,ctx);}
+  if(controlled){check(cyc.configuration.evaluatorVersion===CONTROLLED_P4_ADAPTER);check(b.inputsUsed.length===1&&b.inputsUsed[0].content.contractVersion===CONTROLLED_P4_BUNDLE);const source=validateControlledBundle(b.inputsUsed[0].content,p.assessmentCutoff);check(equal(source.candidateBinding.publicationCohortReference,b.binding.cohortReference));validateControlledComposition(b.controlledComposition,source,b.results,b.delivery,b.evaluationState);}else check(!b.inputsUsed.some(a=>a.content.contractVersion===CONTROLLED_P4_BUNDLE));
   for(const r of b.results.filter(r=>r.status==='fulfilled'))check(b.inputsUsed.some(a=>a.candidateIds.includes(r.candidate.id)));
  }else check(p.producerBundle===null);
  check(p.versionId===versionId(p.contextKey,cyc.scheduledAt,p.revision));const {contentDigest,...body}=p;check(contentDigest===byteHash(exactJson(body)));return freeze(p);
@@ -77,23 +80,23 @@ export async function createRankedPublicationComposer({evaluate,clock={now:()=>n
  return Object.freeze({async compose(input){
   const x=copy(input);privacy(x);keys(x,['context','cycle','candidates','evidenceFreeze','artifacts','searchCounts','revision','parentId','action','lifecycle','reason']);
   const context=contextDescriptor(x.context),key=contextKey(context),cycle=cycleV2(x.cycle),cutoff=cycle.scheduledAt;
-  check(equal(x.candidates.map(c=>c.id),cycle.configuration.candidateUniverse.candidateIds)&&cycle.configuration.candidateUniverse.reference.sha256===byteHash(exactJson(x.candidates)));check(equal(context.region,cycle.region));check(equal(freezeEvidenceV1(cycle,x.evidenceFreeze.entries),x.evidenceFreeze));
+  const controlled=x.artifacts.length===1&&x.artifacts[0].content.contractVersion===CONTROLLED_P4_BUNDLE;check(equal(controlled?x.candidates.map(c=>c.id).sort():x.candidates.map(c=>c.id),cycle.configuration.candidateUniverse.candidateIds)&&cycle.configuration.candidateUniverse.reference.sha256===byteHash(exactJson(x.candidates)));check(equal(context.region,cycle.region));check(equal(freezeEvidenceV1(cycle,x.evidenceFreeze.entries),x.evidenceFreeze));
   const startedAt=utc(clock.now()),used=new Map();let bundle=null;
   if(x.lifecycle==='completed'){
    const binding=freeze({cycleId:cycle.cycleId,contextKey:key,assessmentCutoff:cutoff,cohortReference:cycle.configuration.candidateUniverse.reference,evidenceSetId:x.evidenceFreeze.evidenceSetId});
    const artifacts=copy(x.artifacts);const result=copy(await withScientificAssessmentV1({contractVersion:'pelora-scientific-assessment-v1',assessmentAt:cutoff},()=>evaluate(freeze({binding,candidates:copy(x.candidates),species:context.species}), (ref,candidateId)=>{
     reference(ref);check(x.candidates.some(c=>c.id===candidateId));const a=artifacts.find(a=>equal(a.reference,ref));check(a&&a.assessmentCutoff===cutoff&&a.reference.sha256===byteHash(exactJson(a.content)));artifactTiming(a,cutoff,context);sourceSnapshot(a.content,cutoff,context);
     const key=exactJson(ref),item=used.get(key)??{...copy(a),candidateIds:[]};if(!item.candidateIds.includes(candidateId))item.candidateIds.push(candidateId);used.set(key,item);return freeze(copy(a.content));
-   })));keys(result,['binding','results']);check(equal(result.binding,binding));
+   })));keys(result,['binding','results',...(controlled?['controlledComposition']:[])]);check(equal(result.binding,binding));
    const results=result.results;check(results.length===x.candidates.length);for(let i=0;i<results.length;i++)check(equal(results[i].candidate,x.candidates[i]));
    const delivery=copy(buildUnifiedCaptainOpportunityDeliveryV1({species:context.species,speciesInterpretations:results.filter(r=>r.status==='fulfilled').map(r=>r.value)}));
    const evaluationState=buildGovernedOpportunityEvaluationStateV1({candidates:x.candidates,results,delivery,searchCounts:x.searchCounts});
    const producerText=exactJson({binding,delivery,evaluationState});
    bundle={binding,candidates:x.candidates,results,searchCounts:x.searchCounts,evidenceFreeze:x.evidenceFreeze,inputsUsed:[...used.values()],delivery,evaluationState,
-    producerVersions:{delivery:delivery.contractVersion,ranking:delivery.ranking.contractVersion,evaluationState:EVALUATION_STATE_CONTRACT},producerText,producerDigest:byteHash(producerText)};
+    producerVersions:{delivery:delivery.contractVersion,ranking:delivery.ranking.contractVersion,evaluationState:EVALUATION_STATE_CONTRACT},producerText,producerDigest:byteHash(producerText),...(controlled?{controlledComposition:result.controlledComposition}:{})};
   }
   const finishedAt=x.lifecycle==='running'?null:utc(clock.now()),publicationAt=utc(clock.now());
-  const body={contractVersion:RANKED_PUBLICATION,context,contextKey:key,cycle,assessmentCutoff:cutoff,execution:{startedAt,finishedAt},publicationAt,revision:x.revision,parentId:x.parentId,action:x.action,lifecycle:x.lifecycle,reason:x.reason,producerBundle:bundle,versionId:versionId(key,cutoff,x.revision)};
+  const body={contractVersion:RANKED_PUBLICATION,context,contextKey:key,cycle,assessmentCutoff:cutoff,execution:{startedAt,finishedAt},publicationAt,revision:x.revision,parentId:x.parentId,action:x.action,lifecycle:x.lifecycle,reason:x.reason,producerBundle:bundle,versionId:versionId(key,cutoff,x.revision),...(cycle.configuration.evaluatorVersion===CONTROLLED_P4_ADAPTER?{controlledQualification}: {})};
   return fields({...body,contentDigest:byteHash(exactJson(body))});
  }});
 }

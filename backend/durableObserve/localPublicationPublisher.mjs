@@ -26,7 +26,7 @@ export function createLocalFourHourPublisher({enabled=false,createRuntime,clock=
    signal.throwIfAborted();stage='SUBMIT';await r.ledger.finalize(id,cap,claim.fence);stage='READBACK';const accepted=await r.ledger.inspect(id);check(accepted.completion&&accepted.completion.digest===byteHash(accepted.submissionText));readRankedPublication(accepted.submissionText);return {jobId:id,status:'COMMITTED',versionId:accepted.completion.version_id};
   }catch(error){
    const authoritative=await r.ledger.inspect(id);if(authoritative.completion){check(authoritative.completion.digest===byteHash(authoritative.submissionText));return {jobId:id,status:'RECONCILED',stage};}
-   try{await r.ledger.release(id,cap);}catch{}return {jobId:id,status:'RECOVERABLE',stage,errorCode:signal.aborted?'INTERRUPTED':'LOCAL_EXECUTION_FAILED'};
+   try{await r.ledger.release(id,cap);}catch{/* A superseding owner can deny release; authoritative state was inspected above. */}return {jobId:id,status:'RECOVERABLE',stage,errorCode:signal.aborted?'INTERRUPTED':'LOCAL_EXECUTION_FAILED',...(c.adapterVersion==='controlled-p2-p1-publication-explicit-assessment-v1'&&['ABSENT','UNRESOLVED_SUPPLY','CONFLICT_OR_CORRUPT','READ_UNAVAILABLE'].includes(error.supplyStatus)?{supplyStatus:error.supplyStatus,resolutions:error.resolutions??[]}: {})};
   }
  }
  async function tick(){
