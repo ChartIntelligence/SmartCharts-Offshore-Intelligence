@@ -20,7 +20,7 @@ export function createPublicationStore({query,transaction,clock={now:()=>new Dat
    return freeze({contractVersion:PUBLICATION_STORE,mode:q.mode,historicalOnly:historical,requestedCycle:slot,currentCycle,currentCycleStatus:currentRecord?.lifecycle??'missing',
     lifecycle:record?.lifecycle??'missing',scientificState:record?.producerBundle?.evaluationState.state??null,record,
     activePublication:record?.lifecycle==='completed'&&record.producerBundle.evaluationState.state!=='unavailable'?record:null,isCurrent:!historical&&record?.lifecycle==='completed'&&record.producerBundle.evaluationState.state!=='unavailable',readAt,
-    sourceAgesAtRead:record?.producerBundle?.inputsUsed.flatMap(a=>a.content.observations?.map(o=>({reference:a.reference,observationId:o.observationId,sourceTime:o.observationTime,milliseconds:Date.parse(readAt)-Date.parse(o.observationTime)}))??[{reference:a.reference,sourceTime:a.content.sourceTime??null,milliseconds:typeof a.content.sourceTime==='string'?Date.parse(readAt)-Date.parse(a.content.sourceTime):null}])??[]});
+    sourceAgesAtRead:record?.producerBundle?.inputsUsed.flatMap(a=>(a.content.snapshots?.flatMap(s=>s.snapshot.observations)??a.content.observations)?.map(o=>({reference:a.reference,observationId:o.observationId,sourceTime:o.observationTime,milliseconds:Date.parse(readAt)-Date.parse(o.observationTime)}))??[{reference:a.reference,sourceTime:a.content.sourceTime??null,milliseconds:typeof a.content.sourceTime==='string'?Date.parse(readAt)-Date.parse(a.content.sourceTime):null}])??[]});
   }
  });
 }

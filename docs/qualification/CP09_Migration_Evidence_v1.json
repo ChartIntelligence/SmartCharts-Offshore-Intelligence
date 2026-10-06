@@ -1,0 +1,27 @@
+{
+  "contractVersion": "pelora-cp09-fresh-ddl-rollback-qualification-v1",
+  "status": "PASS",
+  "scope": "ISOLATED_CONTROLLED_FIXTURE_ONLY",
+  "finalDdlSha256": "a4ecd5d9f8b7baf8594a3ce2d5299b9d3cdad26018cbeb82f11dbb22463dbcb3",
+  "finalDdlAppliedInRollback": true,
+  "workerClaimFreezePrepareFinalizeReadback": true,
+  "privileges": {
+    "status": "PASS",
+    "workerRole": "pelora_cp02_worker",
+    "runtimeExecute": [
+      "cp02.worker(text,text,uuid,text,bytea)",
+      "cp03.lookup(text)",
+      "cp04.inspect(text,uuid)",
+      "cp04.worker(text,text,uuid,text,bytea)",
+      "cp06.lookup(text)",
+      "cp06.worker(text,uuid)",
+      "cp07.read_scope(text,text,timestamp with time zone,timestamp with time zone,timestamp with time zone,integer)",
+      "cp08.lookup(text,timestamp with time zone,text)",
+      "cp08.submit(text)",
+      "cp09.worker(text,text,uuid,text)"
+    ],
+    "protectedTables": 25,
+    "triggerCount": 25
+  },
+  "originalRecordsExactlyPreserved": true
+}

@@ -10,6 +10,11 @@ export const CONTEXT='pelora-governed-publication-context-v1';
 export const byteHash=text=>createHash('sha256').update(text).digest('hex');
 const equal=(a,b)=>exactJson(a)===exactJson(b);
 function sourceSnapshot(content,cutoff,context){
+ if(content?.contractVersion==='pelora-retained-publication-inputs-v1'){
+  keys(content,['contractVersion','assessmentCutoff','constructedAt','snapshots','requireHistoricalReceipt']);check(content.assessmentCutoff===cutoff&&utc(content.constructedAt)>=cutoff&&typeof content.requireHistoricalReceipt==='boolean');
+  for(const item of content.snapshots){keys(item,['candidateId','snapshot']);const q=item.snapshot;check(q.contractVersion===OCEAN_STATE_READER&&['OK','MISSING','INVALID_QUERY','READ_UNAVAILABLE','UNKNOWN_SCOPE','INTEGRITY_FAILED'].includes(q.status));if(['OK','MISSING'].includes(q.status)){check(utc(q.readAt)<=content.constructedAt&&utc(q.readAt)>=cutoff);sourceSnapshot(q,cutoff,context);}else check(q.observations.length===0);}
+  return;
+ }
  if(content?.contractVersion!==OCEAN_STATE_READER)return;
  check(content.queryContext==='historical'&&content.assessmentAt===cutoff&&['OK','MISSING'].includes(content.status)&&equal(content.policy,CURRENTS_READER_POLICY)&&equal(content.scope.region,context.region));
  for(const o of content.observations){
@@ -20,6 +25,10 @@ function sourceSnapshot(content,cutoff,context){
   check(o.freshnessState===(age<=72*3600000?'fresh':'stale')&&o.liveAuthorityState===(age<=96*3600000?'eligible':'not-current'));
   const receipt=o.provenance.receipt;check(receipt.status!=='AVAILABLE_BY_ASSESSMENT'||receipt.record?.receivedAt<=cutoff);
  }
+}
+function artifactTiming(a,cutoff,context){
+ if(Object.hasOwn(a,'constructedAt')){check(a.content.contractVersion==='pelora-retained-publication-inputs-v1'&&utc(a.constructedAt)===a.receivedAt&&a.content.constructedAt===a.constructedAt&&a.content.assessmentCutoff===cutoff);sourceSnapshot(a.content,cutoff,context);}
+ else check(utc(a.receivedAt)<=cutoff);
 }
 function privacy(v){if(typeof v==='string')check(!/[\w.+-]+@[\w.-]+\.[a-z]{2,}/i.test(v));if(v&&typeof v==='object')for(const [key,value] of Object.entries(v)){
  check(!/^(captainid|captaincontext|userid|session|sessionid|authtoken|credentials|token|privatecoordinates|triporigin|origin|fishingreport|reportcontents|email|captainname|boatname)$/i.test(key.replace(/[_-]/g,'')));
@@ -51,7 +60,7 @@ function fields(input){const p=copy(input);privacy(p);keys(p,['contractVersion',
   check(equal(b.delivery.opportunities,b.delivery.ranking.rankedOpportunities)&&equal(b.delivery.opportunities,b.delivery.presentation.presentedOpportunities));
   check(b.producerText===exactJson({binding:b.binding,delivery:b.delivery,evaluationState:b.evaluationState})&&b.producerDigest===byteHash(b.producerText));
   check(equal(b.producerVersions,{delivery:'pelora-unified-captain-opportunity-delivery-v1',ranking:'pelora-unified-species-opportunity-ranking-v1',evaluationState:EVALUATION_STATE_CONTRACT}));
-  for(const a of b.inputsUsed){keys(a,['reference','receivedAt','assessmentCutoff','content','candidateIds']);reference(a.reference);check(a.candidateIds.length>0&&a.candidateIds.every(id=>b.candidates.some(c=>c.id===id))&&b.evidenceFreeze.entries.some(e=>equal(e.reference,a.reference))&&a.assessmentCutoff===p.assessmentCutoff&&utc(a.receivedAt)<=p.assessmentCutoff&&a.reference.sha256===byteHash(exactJson(a.content)));sourceSnapshot(a.content,p.assessmentCutoff,ctx);}
+  for(const a of b.inputsUsed){keys(a,['reference','receivedAt','assessmentCutoff','content','candidateIds',...(Object.hasOwn(a,'constructedAt')?['constructedAt']:[])]);artifactTiming(a,p.assessmentCutoff,ctx);if(a.constructedAt)check(a.constructedAt<=p.execution.startedAt);reference(a.reference);check(a.candidateIds.length>0&&a.candidateIds.every(id=>b.candidates.some(c=>c.id===id))&&b.evidenceFreeze.entries.some(e=>equal(e.reference,a.reference))&&a.assessmentCutoff===p.assessmentCutoff&&a.reference.sha256===byteHash(exactJson(a.content)));sourceSnapshot(a.content,p.assessmentCutoff,ctx);}
   for(const r of b.results.filter(r=>r.status==='fulfilled'))check(b.inputsUsed.some(a=>a.candidateIds.includes(r.candidate.id)));
  }else check(p.producerBundle===null);
  check(p.versionId===versionId(p.contextKey,cyc.scheduledAt,p.revision));const {contentDigest,...body}=p;check(contentDigest===byteHash(exactJson(body)));return freeze(p);
@@ -73,7 +82,7 @@ export async function createRankedPublicationComposer({evaluate,clock={now:()=>n
   if(x.lifecycle==='completed'){
    const binding=freeze({cycleId:cycle.cycleId,contextKey:key,assessmentCutoff:cutoff,cohortReference:cycle.configuration.candidateUniverse.reference,evidenceSetId:x.evidenceFreeze.evidenceSetId});
    const artifacts=copy(x.artifacts);const result=copy(await withScientificAssessmentV1({contractVersion:'pelora-scientific-assessment-v1',assessmentAt:cutoff},()=>evaluate(freeze({binding,candidates:copy(x.candidates),species:context.species}), (ref,candidateId)=>{
-    reference(ref);check(x.candidates.some(c=>c.id===candidateId));const a=artifacts.find(a=>equal(a.reference,ref));check(a&&a.assessmentCutoff===cutoff&&utc(a.receivedAt)<=cutoff&&a.reference.sha256===byteHash(exactJson(a.content)));sourceSnapshot(a.content,cutoff,context);
+    reference(ref);check(x.candidates.some(c=>c.id===candidateId));const a=artifacts.find(a=>equal(a.reference,ref));check(a&&a.assessmentCutoff===cutoff&&a.reference.sha256===byteHash(exactJson(a.content)));artifactTiming(a,cutoff,context);sourceSnapshot(a.content,cutoff,context);
     const key=exactJson(ref),item=used.get(key)??{...copy(a),candidateIds:[]};if(!item.candidateIds.includes(candidateId))item.candidateIds.push(candidateId);used.set(key,item);return freeze(copy(a.content));
    })));keys(result,['binding','results']);check(equal(result.binding,binding));
    const results=result.results;check(results.length===x.candidates.length);for(let i=0;i<results.length;i++)check(equal(results[i].candidate,x.candidates[i]));

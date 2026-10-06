@@ -1,5 +1,5 @@
 {
-  "version": "pelora-cp08-publication-privilege-manifest-v1",
+  "version": "pelora-cp09-publisher-privilege-manifest-v1",
   "database": "pelora_phase3_qualification",
   "workerRole": "pelora_cp02_worker",
   "migrationOwner": "pelora_cp02_owner",
@@ -22,7 +22,8 @@
     "cp04",
     "cp06",
     "cp07",
-    "cp08"
+    "cp08",
+    "cp09"
   ],
   "protectedTables": [
     "cp02.accepted",
@@ -42,7 +43,14 @@
     "cp06.policy",
     "cp08.contexts",
     "cp08.heads",
-    "cp08.versions"
+    "cp08.versions",
+    "cp09.attempts",
+    "cp09.completions",
+    "cp09.configurations",
+    "cp09.disables",
+    "cp09.freezes",
+    "cp09.jobs",
+    "cp09.submissions"
   ],
   "routines": [
     {
@@ -158,6 +166,18 @@
       "securityDefiner": true,
       "workerExecute": false,
       "bodySha256": "367af252b05b1d259f58bfee41a7c1a7dcb41a4bd6794c14abca68230098f34c"
+    },
+    {
+      "name": "cp09.terminal_immutable()",
+      "securityDefiner": true,
+      "workerExecute": false,
+      "bodySha256": "fed820073f4d511cb131ae98c571225620b6701209b562330d5c82947481f943"
+    },
+    {
+      "name": "cp09.worker(text,text,uuid,text)",
+      "securityDefiner": true,
+      "workerExecute": true,
+      "bodySha256": "c1cbce84bdea04b09eca1f7a96fea9bb0dbc4d98ecdfd67f1d7ddc72972a5011"
     }
   ],
   "requiredTriggers": [
@@ -178,7 +198,14 @@
     "cp06.links:immutable",
     "cp06.policy:immutable",
     "cp08.contexts:immutable",
-    "cp08.versions:immutable"
+    "cp08.versions:immutable",
+    "cp09.attempts:immutable",
+    "cp09.completions:immutable",
+    "cp09.configurations:immutable",
+    "cp09.disables:immutable",
+    "cp09.freezes:immutable",
+    "cp09.jobs:terminal_immutable",
+    "cp09.submissions:immutable"
   ],
   "platformPrivileges": "Ordinary PostgreSQL catalog/session/advisory-lock features remain available; no table/schema/admin or application-routine exposure beyond this manifest.",
   "acceptanceInvariant": "Current valid fenced claim at locked atomic consumption into terminal acceptance, never deferred COMMIT timing.; managed publication cycles require CP-09 atomic authority.",

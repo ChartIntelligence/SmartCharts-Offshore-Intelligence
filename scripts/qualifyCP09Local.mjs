@@ -1,0 +1,12 @@
+// Fresh-process offline suites and sequential PG suites; no scientific result changes.
+import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import {spawnSync} from 'node:child_process';
+if(process.env.PELORA_CP09_LOCAL!=='1')throw Error('isolated-local-opt-in-required');
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.resolve(process.argv[2]??'work/cp09-qualification');fs.mkdirSync(out,{recursive:true});
+const prior=['asyncWorkerAuthority.test.mjs','continuousObserveContracts.test.mjs','currentObservationWorker.test.mjs','currentProviderAdapter.test.mjs','currentProviderSelectorBinding.test.mjs','currentEvidenceCaptureV3.test.js','sourceNormalizationRuntime.test.js','sourceNormalizationRuntimeAdversarial.test.js','sourceNormalizationCurrentProducer.test.js','sourceNormalizationTransitiveCurrent.test.js','historicalReceiptWriter.test.mjs','historicalReceiptWriterAdversarial.test.mjs'];
+const regressions=['opportunityEvaluationState.test.js','oceanPublication.test.js','oceanPublicationAssessment.test.js','oceanPublicationHistory.test.js','publicationEnvelope.test.mjs','localPublicationScheduler.test.mjs'];
+const pg=['postgresClaimFencing.test.mjs','postgresObservationStorage.test.mjs','postgresRecovery.test.mjs','postgresLeastPrivilege.test.mjs','postgresReceiptWriter.test.mjs','postgresOceanStateReader.test.mjs','postgresPublicationStore.test.mjs','postgresPublicationScheduler.test.mjs'];
+const env={...process.env,PELORA_TEST_OCEAN_CONDITIONS:'1',...Object.fromEntries([2,3,4,5,6,7,8,9].map(i=>['PELORA_CP0'+i+'_LOCAL','1']))},results=[];
+for(const files of [...prior.map(n=>[n]),...regressions.map(n=>[n]),pg]){
+ const args=['--test','--test-isolation=none',...files.map(f=>'backend/tests/'+f)],r=spawnSync(process.execPath,args,{cwd:root,env,encoding:'utf8',timeout:600000,windowsHide:true,maxBuffer:16e6}),log=(r.stdout??'')+'\n'+(r.stderr??''),name=files.length>1?'postgres-all':files[0];fs.writeFileSync(path.join(out,name+'.log'),log);
+ const count=k=>Number(log.match(new RegExp('(?:\\u2139|#)\\s+'+k+'\\s+(\\d+)'))?.[1]??0),record={name,command:['node',...args],exit:r.status,tests:count('tests'),pass:count('pass'),fail:count('fail'),skip:count('skipped'),cancelled:count('cancelled')};results.push(record);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(results,null,2)+'\n');console.log(JSON.stringify(record));if(r.status!==0||record.fail||record.cancelled)process.exit(1);
+}
