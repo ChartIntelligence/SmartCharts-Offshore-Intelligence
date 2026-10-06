@@ -5,6 +5,10 @@ export function createViewportFieldRequests({request,onState,setTimer=setTimeout
   function cancel(){generation++;if(timer!==null)clearTimer(timer);timer=null;controller?.abort();}
   return {
     cancel,
+    // Presentation rejection is separate from transport failure; never publish here.
+    invalidate(layer,contextKey){
+      if (successful.get(layer)?.contextKey === contextKey) successful.delete(layer);
+    },
     schedule(viewport,active){
       if (disposed) return;
       cancel();

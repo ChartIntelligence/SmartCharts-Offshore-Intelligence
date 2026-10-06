@@ -52,3 +52,35 @@ assert.equal(states.length,stateCount,"cancelled response cannot publish");
 controller.schedule(b,["currents"]);const queued=scheduled;controller.dispose();await queued();
 assert.equal(pending.at(-1),cancelledRequest,"disposed queued callback cannot issue a request");
 console.log("PASS initial/refresh success, retained degraded failure, unchanged provenance/time, viewport/density identity, late-response rejection and cancellation");
+
+// Presentation invalidation is silent, exact-context and independent per layer.
+let next;
+const emitted=[],queue=[];
+const invalidation=createViewportFieldRequests({setTimer:fn=>(next=fn,1),clearTimer:()=>{},
+  request:(layer)=>new Promise((resolve,reject)=>queue.push({layer,resolve,reject})),
+  onState:(layer,state)=>emitted.push({layer,...state})});
+const keyA=JSON.stringify(a),keyB=JSON.stringify(b);
+const sibling={...first,fieldId:"sibling"};
+async function settle(viewport,fail=false){
+  invalidation.schedule(viewport,["currents","bathymetry"]);const execution=next();
+  for(const item of queue.splice(0))fail?item.reject(new Error("transport")):item.resolve(item.layer==="currents"?first:sibling);
+  await execution;
+}
+await settle(a);
+const count=emitted.length,unchanged=JSON.stringify(first);
+invalidation.invalidate("currents",keyA);invalidation.invalidate("currents",keyA);
+invalidation.invalidate("missing",keyA);
+assert.equal(emitted.length,count,"invalidation never publishes");
+assert.equal(JSON.stringify(first),unchanged,"invalidation never mutates field");
+await settle(a,true);
+assert.equal(emitted.at(-2).field,null);assert.equal(emitted.at(-2).status,"unavailable");
+assert.equal(emitted.at(-1).field,sibling);assert.equal(emitted.at(-1).status,"degraded");
+await settle(b);invalidation.invalidate("currents",keyA);
+await settle(b,true);
+assert.equal(emitted.at(-2).field,first,"old context cannot clear new context");
+assert.equal(emitted.at(-2).status,"degraded");
+invalidation.invalidate("currents",keyB);await settle(b,true);
+assert.equal(emitted.at(-2).field,null,"matching new context removed");
+assert.equal(emitted.at(-1).field,sibling,"sibling retained");
+invalidation.dispose();invalidation.invalidate("currents",keyB);
+console.log("PASS exact-context per-layer invalidation, stale-context safety, idempotence, silent/nonmutating invalidation and no rejected-field retention");

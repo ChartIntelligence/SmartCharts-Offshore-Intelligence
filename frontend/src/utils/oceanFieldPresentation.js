@@ -18,7 +18,8 @@ export function fieldViewport(bounds,zoom) {
     currentDensity:zoom<4?8:zoom<6?12:20,bathymetryDensity:48};
 }
 export function currentFieldGeoJson(field) {
-  if (!field || field.payloadType!=="geostrophic-vector-grid") return EMPTY_FIELD;
+  if (!field) return EMPTY_FIELD;
+  validateFieldPresentation(field,"currents");
   return {type:"FeatureCollection",features:field.payload.cells.flatMap(([lon,lat,u,v])=>{
     if (![lon,lat,u,v].every(Number.isFinite) || Math.hypot(u,v)===0) return [];
     return [{type:"Feature",geometry:{type:"Point",coordinates:[lon,lat]},properties:{
@@ -53,7 +54,45 @@ export function fieldInsertBefore(map) {
     l.id.startsWith("structure-") || l.id.startsWith("fad-") || l.type==="symbol")?.id;
 }
 const mercator = latitude => Math.log(Math.tan(Math.PI/4+latitude*Math.PI/360));
+// Validate the legacy spatial presentation contract, not source admission/science.
+export function validateFieldPresentation(field,layer) {
+  const fail=()=>{throw new Error(`Invalid ${layer} field presentation`);};
+  const finiteOrMissing=value=>value===null||Number.isFinite(value);
+  const {payload:p,bounds:b,resolution:r,coverage:c}=field;
+  if(field.contractVersion!=="pelora-spatial-field-v1"||field.layer!==layer||
+    typeof field.fieldId!=="string"||!field.fieldId||
+    !["static","stale","latest-available"].includes(field.status)||
+    !(field.validTime===null||typeof field.validTime==="string"&&Number.isFinite(Date.parse(field.validTime)))||
+    !field.freshness||!(field.freshness.maxFreshAgeHours===null||
+      Number.isFinite(field.freshness.maxFreshAgeHours)&&field.freshness.maxFreshAgeHours>=0)||
+    !Array.isArray(b)||b.length!==4||!b.every(Number.isFinite)||
+    b[0]<-180||b[2]>180||b[1]<-90||b[3]>90||b[0]>=b[2]||b[1]>=b[3]||
+    !r||!Number.isFinite(r.deliveredDegrees)||r.deliveredDegrees<=0||
+    !c||!Number.isSafeInteger(c.validCells)||!Number.isSafeInteger(c.returnedCells)||
+    c.validCells<0||c.returnedCells<c.validCells||!p)fail();
+  if(layer==="bathymetry") {
+    const axis=(a,min,max)=>Array.isArray(a)&&a.length>0&&a.every((v,i)=>Number.isFinite(v)&&v>=min&&v<=max&&(i===0||v>a[i-1]));
+    if(field.payloadType!=="rectilinear-elevation-grid"||p.type!==field.payloadType||
+      p.order!=="latitude-ascending-rows,longitude-ascending-columns"||p.positive!=="up"||
+      !axis(p.longitudes,-180,180)||!axis(p.latitudes,-90,90)||
+      !Array.isArray(p.values)||p.values.length!==p.longitudes.length*p.latitudes.length||
+      !p.values.every(finiteOrMissing))fail();
+  } else if(layer==="currents") {
+    if(field.payloadType!=="geostrophic-vector-grid"||p.type!==field.payloadType||
+      p.coordinateOrder!=="longitude,latitude,u,v"||p.directionConvention!=="degrees-toward"||
+      p.interpolation!=="none"||!Array.isArray(p.cells)||p.cells.length!==c.returnedCells||
+      !p.cells.every(cell=>Array.isArray(cell)&&cell.length===4&&
+        Number.isFinite(cell[0])&&cell[0]>=-180&&cell[0]<=180&&
+        Number.isFinite(cell[1])&&cell[1]>=-90&&cell[1]<=90&&
+        cell.slice(2).every(finiteOrMissing)&&
+        (!cell.slice(2).every(Number.isFinite)||Number.isFinite(Math.hypot(cell[2],cell[3])))))fail();
+  } else fail();
+  const valid=layer==="currents"?p.cells.filter(cell=>cell.slice(2).every(Number.isFinite)).length:
+    p.values.filter(Number.isFinite).length;
+  if(valid!==c.validCells)fail();
+}
 export function bathymetryRasterPlan(field) {
+  validateFieldPresentation(field,"bathymetry");
   const {longitudes:xs,latitudes:ys,values}=field.payload;
   if (!xs.length||!ys.length) return null;
   const half=field.resolution.deliveredDegrees/2;
