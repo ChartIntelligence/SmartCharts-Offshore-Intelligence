@@ -53,7 +53,18 @@ export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldSt
       request:async(layer,viewport,signal)=>{
         const params=new URLSearchParams({layer,bbox:viewport.bbox.join(","),density:String(layer==="bathymetry"?viewport.bathymetryDensity:viewport.currentDensity),time:"latest-available"});
         const response=await fetch(resolvePeloraApiUrl(`/api/ocean/field?${params}`),{signal});
-        const field=await response.json();if(!response.ok)throw new Error(field.reason??`Field request ${response.status}`);
+        // Read failures remain transport failures, even if named SyntaxError.
+        let body;
+        try{body=await response.text();}
+        catch(error){if(!response.ok)throw new Error(`Field request ${response.status}`);throw error;}
+        let field;
+        try{field=JSON.parse(body);}
+        catch{
+          if(!response.ok)throw new Error(`Field request ${response.status}`);
+          // The helper classifies this unusable success after its race guards.
+          return null;
+        }
+        if(!response.ok)throw new Error(field?.reason??`Field request ${response.status}`);
         return field;
       },
       onState:(layer,state)=>{

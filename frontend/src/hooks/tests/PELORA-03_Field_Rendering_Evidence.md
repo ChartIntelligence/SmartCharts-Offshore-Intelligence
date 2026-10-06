@@ -89,3 +89,54 @@ Repaired executable SHA-256 fingerprints:
 - frontend/src/utils/tests/viewportFieldRequests.test.js: ac98719a15136da398a10fe01458f75db1b68bb80d19a1245edfcebaba4bca35
 
 Browser/React rendering, mobile/device performance, actual GPU/style implementation behavior, and the reported physical black-screen incident remain unverified. No environmental-source, integration, beta, production or independent QA qualification is inferred. Original exclusions above remain in force.
+
+## Successful-response JSON decoding repair — 2026-10-06
+
+Entering workspace/root C:\Projects\Pelora-Agent-Worktrees\pelora-03-living-ocean, branch codex/pelora-03-living-ocean, full HEAD 7abfaf3b667a7ba5ac932fbe1c4617ce237a0ed7, clean tracked/staged/untracked status. PELORA-00 accepted the remaining PELORA-04 P1: response.json() mixed body reading and syntax parsing into the request-failure path. The earlier null-envelope source/assertion repair remains closed; this is a distinct decoder-stage defect.
+
+### Pre-repair reproduction
+
+Added a raw controlled response whose json() executes actual JSON.parse on the malformed string {"privateFixture": (and an empty-body variant). Ran node frontend/src/hooks/tests/useMapLibreOceanFields.test.js before the implementation edit. The first syntax case failed as expected: actual degraded versus required unavailable. It exercised the actual hook fetch/response.json/request-helper path with the recorded valid current already displayed, not a preclassified error. The initial assertion stopped at the first malformed string; both syntax and empty-body variants passed after repair. No network/service was involved. Baseline source identities are the unchanged full entering commit above and its tracked hook/test blobs.
+
+### Bounded stage classification
+
+The hook adapter now awaits response.text() once, outside the JSON.parse catch. A successful body-read exception is rethrown unchanged, even when named SyntaxError; the request helper retains valid same-context data under its existing failure contract. JSON.parse executes only after a completed read. Parsing exceptions for HTTP success return the existing unusable null result; helper generation/disposal checks run before malformed-success classification, exact-context cache deletion, or publication. The hook's existing rejection boundary converts that internal marker to unavailable/field:null and clears/hides only the affected layer. No direct decoder invalidation, alternate cache or lifecycle framework was added. HTTP error reads/parses use a generic Field request <status> fallback; a valid HTTP-error reason remains the existing provider reason. Raw malformed body text is never displayed.
+
+### Response-failure matrix and actual results
+
+| Controlled result | Required and observed developer result |
+| --- | --- |
+| HTTP 200 body {"privateFixture": | unavailable/field:null, empty/hidden currents, same sibling bathymetry source and valid field preserved; generic malformed-success reason |
+| HTTP 200 empty body | same parse-rejection result, never degraded retention |
+| HTTP-success JSON null and malformed envelopes | existing null and helper primitive/array/status tests retained and passing |
+| HTTP-success body read throws SyntaxError("controlled body-stream failure") | degraded with the exact prior parsed field object and truthful stream-failure reason |
+| Abort during pending body reading | no publication after cancellation; later genuine transport failure still retains the prior valid field |
+| Older pending read resolves invalid syntax after newer density/context field succeeds | no publication; later newer-context transport failure retains the exact newer field object newer-decoding-context |
+| Pending read resolves invalid syntax after disposal | no publication or renderer-buffer identity change; cleanup listeners remain removed |
+| HTTP 502 non-JSON error page / HTTP 503 unreadable error body | valid previous field retained as degraded with HTTP status reason, not malformed-success |
+| HTTP 400 valid JSON error reason | valid previous field retained as degraded with controlled HTTP rejection reason |
+| Valid HTTP-success provider-unavailable | prior field retained as degraded with provider no data reason |
+| Valid replacement after syntax rejection | normal recorded-field recovery with visible currents |
+
+For each syntax/empty-body case, assertions run clear/unavailable -> deferred idle/style application -> further syntax rejection -> genuine transport failure -> still no predecessor/rejected-field restoration. Bathymetry remains visible and becomes legitimate degraded retention on that genuine failure. Successful body/deferred response fixtures assert one text read. The prior null, layer/source/image failures, canvas failures, zero/missing, retention, density/context identity, cancellation, late response and disposal assertions remain in the suites. Because explicit parsing creates new field objects, fixture equivalence checks compare serialized original values; transport-retention checks still require exact previously parsed object identity.
+
+Final commands/results:
+- node frontend/src/hooks/tests/useMapLibreOceanFields.test.js — PASS, including decoding matrix, original P1 null sequence, application failures, zero vectors and disposal.
+- node frontend/src/utils/tests/oceanFields.test.js — PASS.
+- node frontend/src/utils/tests/viewportFieldRequests.test.js — PASS.
+- node --check for the six existing packet JavaScript paths — PASS.
+- git diff --check — PASS.
+Node remains v24.18.0; existing MapLibre style validator resolves version 24.10.0 and loads. No new dependencies or backend/database exercises. These scripts report assertion completion, not a node:test case total.
+
+### Instruction reconciliation and identities
+
+Narrowly amended docs/agents/missions/PELORA-03_Field_Rendering_Consistency_v1.md on this branch to make viewportFieldRequests.js and its dedicated test editable for the authorized invalidation/malformed-success mechanisms, remove the contradictory read-only test/helper designation, and record this repair's bounded acceptance. Initial setup disposition remains historical. No governance-branch or other-agent instruction changes.
+
+Repaired candidate is the normal follow-up commit containing this section, parent 7abfaf3b667a7ba5ac932fbe1c4617ce237a0ed7. Changed files are the three fingerprinted paths below and this evidence record; the helper, presentation utility, and their two tests are unchanged in this decoding delta. Exact tested fixture identity remains recorded/bathy, fixed original timestamp/vector/viewport above; the newer context uses zoom 7 (current density 20) and fieldId newer-decoding-context.
+
+Tested working-tree SHA-256 fingerprints:
+- frontend/src/hooks/useMapLibreOceanFields.js: ae26f30fd93534d456fca6d6cae0c2c91b16a62adb7f220419937a47f04156fb
+- frontend/src/hooks/tests/useMapLibreOceanFields.test.js: c001aa18547233be42be5819620004c3e419424f882079d2a8e9281181b392f1
+- docs/agents/missions/PELORA-03_Field_Rendering_Consistency_v1.md: 58f91161771dcc11ba9060c44765ddba356d6ee003766984bc112094fb254f3c
+
+Independent PELORA-04 delta review remains required. Browser/React, real body-stream implementations, mobile performance, GPU behavior and the reported device incident remain unverified. Developer passes are developer evidence only. No source admission, science, ranking, providers, Auth, database, backend qualification, integration, PR or deployment. CP-10 and operational rollout remain blocked.

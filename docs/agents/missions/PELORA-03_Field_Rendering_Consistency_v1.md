@@ -16,9 +16,20 @@ Owned paths at source baseline:
 
 - `frontend/src/hooks/useMapLibreOceanFields.js`.
 - `frontend/src/utils/oceanFieldPresentation.js`, only where presentation validation/conversion requires it.
+- `frontend/src/utils/viewportFieldRequests.js`, only for the authorized exact-context per-layer invalidation and malformed-success response classification.
 - Dedicated tests in existing hook/util test directories; record their exact paths before edits.
 
-Read-only supporting contracts: `frontend/src/utils/viewportFieldRequests.js`, `frontend/src/hooks/tests/useMapLibreOceanFields.test.js`, `frontend/src/utils/tests/oceanFields.test.js`, [field delivery](../../Ocean_Scalar_Field_Delivery_v1.md), [scalar runtime governance](../../Governed_Scalar_Field_Runtime_v1.md) and [captain state governance](../../Beta_Safety_Captain_State_v1.md). Inspect each actual baseline contract rather than substituting a new scientific schema.
+Editable dedicated tests: `frontend/src/hooks/tests/useMapLibreOceanFields.test.js`, `frontend/src/utils/tests/oceanFields.test.js`, and `frontend/src/utils/tests/viewportFieldRequests.test.js`. Retain controlled evidence in `frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md`.
+
+Read-only supporting contracts: [field delivery](../../Ocean_Scalar_Field_Delivery_v1.md), [scalar runtime governance](../../Governed_Scalar_Field_Runtime_v1.md) and [captain state governance](../../Beta_Safety_Captain_State_v1.md). Inspect each actual baseline contract rather than substituting a new scientific schema.
+
+### PELORA-00 authorized decoding repair amendment — 2026-10-06
+
+This amendment applies only on `codex/pelora-03-living-ocean`; the initial provisioning disposition above remains historical. Starting repair HEAD: `7abfaf3b667a7ba5ac932fbe1c4617ce237a0ed7`. The earlier null-envelope repair remains closed at source/assertion level; independent QA acceptance is not implied.
+
+Reproduce HTTP-success invalid JSON using actual controlled parsing before repairing. A bounded body-read/JSON-parse separation in the hook request adapter is authorized: consume the body once, classify successful syntactically invalid/empty content only at the parse stage, and carry the unusable result through existing generation/disposal checks into malformed-success rejection. Body-read/fetch failures remain eligible for valid exact-context degradation, regardless of misleading error names. HTTP error bodies and provider-unavailable responses retain the existing failure contract. Do not expose raw body text or invalidate from a late decoder callback.
+
+Acceptance must cover invalid/empty successful JSON, null and other malformed envelopes, genuine body-stream failure, abort during reading, obsolete/disposed syntax completion, unreadable/non-JSON HTTP errors, valid provider-unavailable responses and valid replacement recovery. Verify affected-layer unavailable/field:null and cleared/hidden rendering, sibling retention, idle/style/later-failure non-resurrection and newer-context protection. Preserve the original map-application, zero/missing, cancellation and context/race assertions. Run the three dedicated focused scripts, affected JavaScript syntax checks and whitespace checks; retain exact reproduction/candidate identities and developer results. No new dependencies, lifecycle framework, alternate cache, backend qualification or database exercise. Normal follow-up commit/push only on the assigned branch, then stop for PELORA-04 delta review. CP-10 and operational rollout remain blocked.
 
 Do not edit Dashboard.jsx, LayerControls.jsx, MapLegend.jsx or shell CSS in this packet. No shared captain-control changes, new acquisition, source admission, SST/chlorophyll activation, current derivatives, science thresholds, ranking/gates, backend/database, CP storage or default Receipt Writer changes. Presentation validity does not establish source science/admission.
 
