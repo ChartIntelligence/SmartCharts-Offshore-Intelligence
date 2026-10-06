@@ -1,4 +1,4 @@
-import {existingDeclaration} from './sourceDeclarationFixture.mjs';
+import {existingDeclaration, declarationSource} from './sourceDeclarationFixture.mjs';
 // New Task 12B.6M harness. No imports from failed qualification or draft projection.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -13,11 +13,8 @@ const band=existingDeclaration(source,'classifySeaSurfaceTemperature');
 const pointSource=section('function createSstSpatialSamplePoints(','export async function getSeaSurfaceTemperaturePoint(');
 const radius=Number(source.match(/const SST_SPATIAL_SAMPLE_RADIUS_NM\s*=\s*(\d+)/)[1]);
 const samplePoints=new Function('SST_SPATIAL_SAMPLE_RADIUS_NM',pointSource+';return createSstSpatialSamplePoints;')(radius);
-const route=source.indexOf('async function getOceanConditionsAtAssessment(');
-const sstStart=source.indexOf('    const sst = {',route),sstEnd=source.indexOf('const oceanEvidence =',sstStart);
-assert(sstStart>route&&sstEnd>sstStart);
-const assembleSst=new Function('marine','sstSpatial','governedEnvironmentalFeatureObservation','classifySeaSurfaceTemperature',source.slice(sstStart,sstEnd)+';return sst;');
-
+// CP-09B P1: same source body now owned by the pure center-assembly helper.
+const assembleSst=new Function("classifySeaSurfaceTemperature", declarationSource(source, "buildSstConditionsFromRetainedSpatialV1")+";return buildSstConditionsFromRetainedSpatialV1;")(band);
 const definitions=[];
 function add(id,values,center=25,extra={}){
  definitions.push(Object.freeze({id,coordinates:Object.freeze({latitude:25,longitude:-91}),values:Object.freeze(values),center,

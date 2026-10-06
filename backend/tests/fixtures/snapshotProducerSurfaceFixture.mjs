@@ -1,4 +1,4 @@
-import {existingDeclaration} from './sourceDeclarationFixture.mjs';
+import {existingDeclaration, declarationSource} from './sourceDeclarationFixture.mjs';
 // Offline producer inventory only. No candidate reconstruction or species evaluation.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -9,9 +9,8 @@ import {composite,spatialCorpus} from './candidateSemanticFixture.mjs';
 export const assessment={contractVersion:'pelora-scientific-assessment-v1',assessmentAt:'2026-09-24T01:00:00Z'};
 const server=readFileSync(new URL('../../server.js',import.meta.url),'utf8');
 const band=existingDeclaration(server,'classifySeaSurfaceTemperature');
-const start=server.indexOf('    const sst = {',server.indexOf('async function getOceanConditionsAtAssessment('));
-const end=server.indexOf('const oceanEvidence =',start);assert(start>0&&end>start);
-const assembleSst=new Function('marine','sstSpatial','governedEnvironmentalFeatureObservation','classifySeaSurfaceTemperature',server.slice(start,end)+'return sst;');
+// CP-09B P1: same source body now owned by the pure center-assembly helper.
+const assembleSst=new Function("classifySeaSurfaceTemperature", declarationSource(server, "buildSstConditionsFromRetainedSpatialV1")+";return buildSstConditionsFromRetainedSpatialV1;")(band);
 export const scenarios=[
   ...Array.from({length:16},(_,mask)=>({name:'direction-mask-'+mask,values:[25,26,27,28].map((x,i)=>mask&(1<<i)?x:null),center:26})),
   {name:'center-and-directions-missing',values:[null,null,null,null],center:null},

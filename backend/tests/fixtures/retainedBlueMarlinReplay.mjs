@@ -1,0 +1,10 @@
+import http from 'node:http';import https from 'node:https';import net from 'node:net';import tls from 'node:tls';
+const denied = () => {throw Error('P1 acquisition/Auth/cache transport/listen or implicit-clock use forbidden');};
+globalThis.fetch = denied;Date.now = denied;
+for (const module of [http, https]) for (const key of ['get', 'request']) module[key] = denied;
+for (const module of [net, tls]) for (const key of ['connect', 'createConnection']) if (module[key]) module[key] = denied;
+net.Server.prototype.listen = denied;
+const {retainedBlueMarlinFixture} = await import('./retainedBlueMarlinFixture.mjs');
+const {composeRetainedBlueMarlinV1} = await import('../../durableObserve/retainedBlueMarlinComposition.mjs');
+const {exactJson} = await import('../../exactScientificEvidence.mjs');
+process.stdout.write(exactJson(composeRetainedBlueMarlinV1(retainedBlueMarlinFixture(2))) + '\n');

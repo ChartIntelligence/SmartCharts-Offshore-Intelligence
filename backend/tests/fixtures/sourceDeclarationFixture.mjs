@@ -7,7 +7,9 @@ export function declarationSource(source, name) {
   const marker = 'function ' + name + '(';
   const start = source.indexOf(marker);
   assert(start >= 0 && source.indexOf(marker, start + marker.length) === -1, 'Unique named declaration required');
-  const closing = source.indexOf('\n}', start + marker.length);
+  let closing = source.indexOf('\n}', start + marker.length);
+  // P1 center helper retains the old column-zero object literal; it is not a function terminator.
+  while (closing >= 0 && source[closing + 2] === ';') closing = source.indexOf('\n}', closing + 2);
   assert(closing > start, 'Named declaration closing boundary required');
   return source.slice(start, closing + 2);
 }

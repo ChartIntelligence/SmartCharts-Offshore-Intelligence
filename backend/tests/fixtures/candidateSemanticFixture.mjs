@@ -1,4 +1,4 @@
-import {existingDeclaration} from './sourceDeclarationFixture.mjs';
+import {existingDeclaration, declarationSource} from './sourceDeclarationFixture.mjs';
 // Controlled comparison surface; never invokes the request route, Auth, or species science.
 import {parsed,inputs,currentSupport} from './marineAssessorCompanionFixture.mjs';
 import {readFileSync} from 'node:fs';
@@ -69,11 +69,8 @@ const organization=existing('buildCurrentOrganizationAnalysis','function buildCu
 const relationship=existing('buildCurrentRelationshipContext','function getCurrentProjectionAxes(');
 const pattern=existing('buildCurrentSpatialPatternAnalysis','async function getCurrentConditions(');
 const temperatureBand=existingDeclaration(source,'classifySeaSurfaceTemperature');
-const sstStart=source.indexOf('    const sst = {',source.indexOf('async function getOceanConditionsAtAssessment('));
-const sstEnd=source.indexOf('const oceanEvidence =',sstStart);
-if(sstStart<0||sstEnd<=sstStart)throw Error('Current SST assembly unavailable');
-const currentSst=new Function('marine','sstSpatial','governedEnvironmentalFeatureObservation','classifySeaSurfaceTemperature',
-  source.slice(sstStart,sstEnd)+'\nreturn sst;');
+// CP-09B P1: same source body now owned by the pure center-assembly helper.
+const currentSst=new Function("classifySeaSurfaceTemperature", declarationSource(source, "buildSstConditionsFromRetainedSpatialV1")+";return buildSstConditionsFromRetainedSpatialV1;")(temperatureBand);
 export async function spatialCorpus(t){
   const assessment={contractVersion:'pelora-scientific-assessment-v1',assessmentAt:'2026-09-24T01:00:00Z'};
   let n=0;

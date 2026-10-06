@@ -13,7 +13,7 @@ const ttl = source.match(/const SST_POINT_CACHE_TTL_MS =\s*5 \* 60 \* 1000;/)[0]
 const pointsCode = block('function createSstSpatialSamplePoints(', 'export async function getSeaSurfaceTemperaturePoint(');
 const rangeCode = block('function classifySstSpatialRange(', 'function deriveSstTransitionOrientation(');
 const orientationCode = block('function deriveSstTransitionOrientation(', 'export function assessSstTransitionConfidence(');
-const assemblerCode = block('async function getSstSpatialStructureAtAssessment(', 'export async function getMarineConditions(');
+const assemblerCode = block('async function getSstSpatialStructureAtAssessment(', 'export async function getMarineConditions(').replace('export function buildSstSpatialStructureFromRetainedSamplesV1', 'function buildSstSpatialStructureFromRetainedSamplesV1');
 const points = new Function(radius + pointsCode + 'return createSstSpatialSamplePoints;')();
 const offline = new Function('getCachedSeaSurfaceTemperaturePoint', 'resolveScientificAssessmentV1', 'assessSstTransitionConfidence',
   radius + ttl + pointsCode + rangeCode + orientationCode + assemblerCode + 'return getSstSpatialStructureAtAssessment;');

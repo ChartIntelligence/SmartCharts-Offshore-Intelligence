@@ -2414,6 +2414,10 @@ async function getCurrentSpatialStructureAtAssessment(
       )
     );
 
+  return buildCurrentSpatialStructureFromRetainedSamplesV1({samplePoints, results});
+}
+
+export function buildCurrentSpatialStructureFromRetainedSamplesV1({samplePoints, results}) {
   const vectors =
     results
       .filter(
@@ -6649,6 +6653,13 @@ async function getSstSpatialStructureAtAssessment(
       )
     );
 
+  results.forEach((result, index) => {
+    if (result.status !== "fulfilled") console.warn(`SST spatial sample failed (${samplePoints[index]?.direction ?? "unknown"}):`, result.reason);
+  });
+  return buildSstSpatialStructureFromRetainedSamplesV1({samplePoints, results, centerTemperatureFahrenheit, assessment});
+}
+
+export function buildSstSpatialStructureFromRetainedSamplesV1({samplePoints, results, centerTemperatureFahrenheit, assessment}) {
   const samples =
     results.map(
       (result, index) => {
@@ -6658,11 +6669,6 @@ async function getSstSpatialStructureAtAssessment(
         ) {
           return result.value;
         }
-
-        console.warn(
-          `SST spatial sample failed (${samplePoints[index]?.direction ?? "unknown"}):`,
-          result.reason
-        );
 
         return {
           direction:
@@ -59738,6 +59744,168 @@ export async function getDynamicBlueMarlinOpportunities({
 }
 
 
+export function buildCurrentDerivedFromRetainedSpatialV1(currents, currentSpatialStructure) {
+           const currentOrganization =
+    buildCurrentOrganizationAnalysis(
+      currentSpatialStructure
+    );
+
+
+  const currentRelationshipContext =
+    buildCurrentRelationshipContext(
+      currentOrganization
+    );
+
+
+  const currentSpatialPattern =
+    buildCurrentSpatialPatternAnalysis(
+      currentSpatialStructure,
+      currentRelationshipContext
+    );
+
+
+  const currentVectorProjection =
+    buildCurrentVectorProjectionAnalysis(
+      currentSpatialStructure
+    );
+
+
+  const currentGradient =
+    buildCurrentGradientAnalysis(
+      currentVectorProjection
+    );
+
+
+    const currentShear =
+  buildCurrentShearAnalysis(
+    currentGradient
+  );
+
+
+  const currentConvergence =
+    buildCurrentConvergenceAnalysis(
+      currentVectorProjection
+    );
+
+
+
+
+  const currentEdge =
+    buildCurrentEdgeAnalysis(
+      currentGradient,
+      currentShear,
+      currentSpatialPattern,
+      currentConvergence
+    );
+return {
+    ...(
+      currents
+        ?.derived ??
+      {}
+    ),
+
+    spatialAnalysis: {
+      available:
+        currentSpatialStructure
+          ?.available ===
+        true,
+
+      spatialStructure:
+        currentSpatialStructure,
+
+      organization:
+        currentOrganization,
+
+      relationshipContext:
+        currentRelationshipContext,
+
+      spatialPattern:
+        currentSpatialPattern,
+
+      vectorProjection:
+        currentVectorProjection,
+
+      gradient:
+        currentGradient,
+
+      convergence:
+        currentConvergence,
+
+      edge:
+        currentEdge,
+
+      shear:
+        currentShear,
+
+      eddyBoundary:
+        null,
+
+      contractVersion:
+        "pelora-current-spatial-analysis-v1"
+    }
+  };
+
+}
+
+export function buildSstConditionsFromRetainedSpatialV1(marine, sstSpatial, governedEnvironmentalFeatureObservation) {
+    const sst = {
+  requestedLatitude: marine.sst?.requestedLatitude ?? null,
+  requestedLongitude: marine.sst?.requestedLongitude ?? null,
+  resolvedLatitude: marine.sst?.resolvedLatitude ?? null,
+  resolvedLongitude: marine.sst?.resolvedLongitude ?? null,
+  observedAt: marine.sst?.observedAt ?? null,
+  timestampProvenance: marine.sst?.timestampProvenance ?? null,
+  temperatureFahrenheit:
+    marine.sst
+      ?.temperatureFahrenheit ??
+    null,
+
+  temperatureCelsius:
+    marine.sst
+      ?.temperatureCelsius ??
+    null,
+
+  derived: {
+    temperatureBand:
+      classifySeaSurfaceTemperature(
+        marine.sst
+          ?.temperatureFahrenheit ??
+        null
+      ),
+
+    interpretation:
+      "single-point-temperature-description",
+
+    thresholdVersion:
+      "pelora-sst-band-v1",
+
+    limitations: [
+      "does-not-identify-fronts",
+      "does-not-identify-temperature-breaks",
+      "does-not-indicate-species-suitability"
+    ],
+
+    spatialStructure:
+      sstSpatial,
+
+    governedEnvironmentalFeatureObservation
+  },
+
+  source: {
+    provider:
+      "Open-Meteo",
+
+    classification:
+      "forecast-model"
+  }
+};
+  return sst;
+}
+
+export function retainedSpatialSampleLayoutV1(latitude, longitude) {
+  return {sst: createSstSpatialSamplePoints(latitude, longitude), currents: createCurrentSpatialSamplePoints(latitude, longitude)};
+}
+
 async function getOceanConditionsAtAssessment(
   latitude,
   longitude,
@@ -60122,105 +60290,7 @@ async function getOceanConditionsAtAssessment(
         };
 
 
-           const currentOrganization =
-    buildCurrentOrganizationAnalysis(
-      currentSpatialStructure
-    );
-
-
-  const currentRelationshipContext =
-    buildCurrentRelationshipContext(
-      currentOrganization
-    );
-
-
-  const currentSpatialPattern =
-    buildCurrentSpatialPatternAnalysis(
-      currentSpatialStructure,
-      currentRelationshipContext
-    );
-
-
-  const currentVectorProjection =
-    buildCurrentVectorProjectionAnalysis(
-      currentSpatialStructure
-    );
-
-
-  const currentGradient =
-    buildCurrentGradientAnalysis(
-      currentVectorProjection
-    );
-
-
-    const currentShear =
-  buildCurrentShearAnalysis(
-    currentGradient
-  );
-
-
-  const currentConvergence =
-    buildCurrentConvergenceAnalysis(
-      currentVectorProjection
-    );
-
-
-
-
-  const currentEdge =
-    buildCurrentEdgeAnalysis(
-      currentGradient,
-      currentShear,
-      currentSpatialPattern,
-      currentConvergence
-    );
-currents.derived = {
-    ...(
-      currents
-        ?.derived ??
-      {}
-    ),
-
-    spatialAnalysis: {
-      available:
-        currentSpatialStructure
-          ?.available ===
-        true,
-
-      spatialStructure:
-        currentSpatialStructure,
-
-      organization:
-        currentOrganization,
-
-      relationshipContext:
-        currentRelationshipContext,
-
-      spatialPattern:
-        currentSpatialPattern,
-
-      vectorProjection:
-        currentVectorProjection,
-
-      gradient:
-        currentGradient,
-
-      convergence:
-        currentConvergence,
-
-      edge:
-        currentEdge,
-
-      shear:
-        currentShear,
-
-      eddyBoundary:
-        null,
-
-      contractVersion:
-        "pelora-current-spatial-analysis-v1"
-    }
-  };
+  currents.derived = buildCurrentDerivedFromRetainedSpatialV1(currents, currentSpatialStructure);
 
   if (
     chlorophyllResult.status ===
@@ -60895,57 +60965,7 @@ currents.derived = {
     });
 
 
-    const sst = {
-  requestedLatitude: marine.sst?.requestedLatitude ?? null,
-  requestedLongitude: marine.sst?.requestedLongitude ?? null,
-  resolvedLatitude: marine.sst?.resolvedLatitude ?? null,
-  resolvedLongitude: marine.sst?.resolvedLongitude ?? null,
-  observedAt: marine.sst?.observedAt ?? null,
-  timestampProvenance: marine.sst?.timestampProvenance ?? null,
-  temperatureFahrenheit:
-    marine.sst
-      ?.temperatureFahrenheit ??
-    null,
-
-  temperatureCelsius:
-    marine.sst
-      ?.temperatureCelsius ??
-    null,
-
-  derived: {
-    temperatureBand:
-      classifySeaSurfaceTemperature(
-        marine.sst
-          ?.temperatureFahrenheit ??
-        null
-      ),
-
-    interpretation:
-      "single-point-temperature-description",
-
-    thresholdVersion:
-      "pelora-sst-band-v1",
-
-    limitations: [
-      "does-not-identify-fronts",
-      "does-not-identify-temperature-breaks",
-      "does-not-indicate-species-suitability"
-    ],
-
-    spatialStructure:
-      sstSpatial,
-
-    governedEnvironmentalFeatureObservation
-  },
-
-  source: {
-    provider:
-      "Open-Meteo",
-
-    classification:
-      "forecast-model"
-  }
-};
+  const sst = buildSstConditionsFromRetainedSpatialV1(marine, sstSpatial, governedEnvironmentalFeatureObservation);
 
 
 const oceanEvidence =
