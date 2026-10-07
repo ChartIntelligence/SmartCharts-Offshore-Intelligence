@@ -5,6 +5,10 @@ export function createViewportFieldRequests({request,onState,setTimer=setTimeout
   function cancel(){generation++;if(timer!==null)clearTimer(timer);timer=null;controller?.abort();}
   return {
     cancel,
+    // Presentation rejection is separate from transport failure; never publish here.
+    invalidate(layer,contextKey){
+      if (successful.get(layer)?.contextKey === contextKey) successful.delete(layer);
+    },
     schedule(viewport,active){
       if (disposed) return;
       cancel();
@@ -27,6 +31,15 @@ export function createViewportFieldRequests({request,onState,setTimer=setTimeout
           try {
             const field=await request(layer,requestedViewport,requestController.signal);
             if (disposed || identity!==generation) return;
+            // An unusable successful response is not a refresh transport failure.
+            // Leave full presentation validation to the consumer, but do not
+            // access/cache a missing envelope or retain its predecessor as degraded.
+            if (!field || typeof field!=="object" || Array.isArray(field) ||
+              !["static","stale","latest-available","unavailable"].includes(field.status)) {
+              if (successful.get(layer)?.contextKey===contextKey) successful.delete(layer);
+              onState(layer,{contextKey,status:"malformed-success",field:null,reason:"Malformed successful field response"});
+              return;
+            }
             if (field.status === "unavailable") throw new Error(field.reason ?? "Provider returned no available field");
             successful.set(layer,{contextKey,field});
             onState(layer,{contextKey,status:field.status,field});
