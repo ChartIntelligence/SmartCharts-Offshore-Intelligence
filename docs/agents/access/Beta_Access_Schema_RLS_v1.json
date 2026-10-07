@@ -1,0 +1,34 @@
+{
+  "contractVersion": "pelora-beta-access-schema-qualification-v1",
+  "baseline": "dadec5dbca7d360f70f633413fb6a347dc24cac1",
+  "branch": "codex/pelora-beta-access-schema-v1",
+  "disposition": "CANDIDATE COMPLETE",
+  "testedFileSha256": {
+    "supabase/migrations/20261007_captain_entitlement_v1.sql": "c7fcab8119d7f1d3edf3d207147d36d55269b56b2425de05ab3e4193b2c5df16",
+    "backend/tests/betaAccessSchema.test.mjs": "149d6be1b15b0545b2e755cae6273c4c9a6f7537d9a51f8cb65a1bfc935ed63a"
+  },
+  "dedicated": {
+    "tests": 29,
+    "command": "node --test backend/tests/betaAccessSchema.test.mjs",
+    "pass": 29,
+    "fail": 0,
+    "skip": 0
+  },
+  "existing": {
+    "tests": 16,
+    "command": "node --test backend/tests/clientPrivilegeHardening.test.js backend/tests/oceanSnapshotPrivileges.test.js",
+    "pass": 16,
+    "fail": 0
+  },
+  "qualificationLogSha256": "e826ee504d347f8384bd352d6c20e2a01c51e7f817d78c9e25e49477d2b75716",
+  "regressionLogSha256": "b0ec65168c096852e645fd9db0e85c41d71f35048cbe6f6e374c195f90a3e414",
+  "qualificationLog": "✔ beta access schema static boundaries (1.8041ms)\r\n▶ isolated PostgreSQL beta schema/RLS qualification\r\n  ✔ migration failure rolls back new schema and lifetime mapping (15.356ms)\r\n  ✔ late migration failure after DDL/data changes rolls back atomically (58.1323ms)\r\n  ✔ founder lifetime remains valid (3.0736ms)\r\n  ✔ founding lifetime remains valid and pending/revoked remain denied (6.5942ms)\r\n  ✔ missing access and anonymous founder fail closed (6.328ms)\r\n  ✔ inactive beta is not a lifetime grant; malformed interval denied (6.0064ms)\r\n  ✔ first redemption sets exactly one UTC calendar anniversary (14.2361ms)\r\n  ✔ leap day and timezone rules deterministic, not fixed 365 days (5.6446ms)\r\n  ✔ seven-day window, resend preserves window, reinvite preserves trial (13.3874ms)\r\n  ✔ revocation overrides active trial and restoration keeps clock (18.2792ms)\r\n  ✔ wrong recipient and unverified email cannot redeem (8.3531ms)\r\n  ✔ expired invitation is denied (6.5265ms)\r\n  ✔ beta invitation cannot convert lifetime user; beta management cannot change lifetime roles (13.1251ms)\r\n  ✔ ordinary captain cannot invite, self-approve or mutate role/status/expiry (15.3756ms)\r\n  ✔ expiry preserves data and own read/export while writes and cross-owner reads denied (13.0966ms)\r\n  ✔ original trial dates protected even against a trusted ordinary SQL update (7.548ms)\r\n  ✔ idempotent invitation/redemption/revoke events and conflicting request rejected (14.4781ms)\r\n  ✔ audit immutable; private tables and internal helper execution denied (9.2868ms)\r\n  ✔ all retained history tables keep owner reads, deny revoked writes and founder cross-owner reads (38.6711ms)\r\n  ✔ no PUBLIC/anon execution or runtime object ownership; protected search paths (11.1883ms)\r\n  ✔ invalid timestamp or missing policy does not admit beta (5.8882ms)\r\n  ✔ founder approval before activation does not start time; lifetime default removed (6.4567ms)\r\n  ✔ expired beta reinvitation and restore never create another free year (6.7858ms)\r\n  ✔ transaction rollback after activation restores unredeemed invitation and absent beta (8.7641ms)\r\n  ✔ a second verified Auth identity at the same recipient cannot receive another free year (8.1297ms)\r\n  ✔ missing authenticated subject denies current access and activation (3.2034ms)\r\n  ✔ unknown paid compatibility state grants no access (3.0577ms)\r\n✔ isolated PostgreSQL beta schema/RLS qualification (695.4699ms)\r\nℹ tests 29\r\nℹ suites 0\r\nℹ pass 29\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 828.147\r\n",
+  "regressionLog": "✔ exact executable SQL inventory contains only the approved transaction and ACL changes (2.5386ms)\r\n✔ exact six-table allowlist is reset (0.5181ms)\r\n✔ REVOKE ALL targets only anon and authenticated (0.4195ms)\r\n✔ RESTRICT fails closed on dependent grants instead of cascading (0.2997ms)\r\n✔ authenticated grants exactly match the approved matrix (0.7092ms)\r\n✔ no anon table grant exists (0.3663ms)\r\n✔ no grant option is introduced (1.6319ms)\r\n✔ no policy, default, ownership, function, sequence, role, data or destructive operation (0.7537ms)\r\n✔ PostgreSQL 17 ALL includes MAINTAIN and no client maintenance privilege is regranted (13.711ms)\r\n✔ all nine historical migration hashes remain unchanged apart from line endings (18.8084ms)\r\n✔ migration sorts immediately after 20260924 (0.8834ms)\r\n✔ transaction boundaries are exact and enclose all privilege changes (0.2503ms)\r\n✔ only SELECT and INSERT on ocean_snapshots are granted, only to authenticated (10.8818ms)\r\n✔ approved historical migrations remain unchanged apart from line endings (15.7344ms)\r\n✔ privilege migration follows the evidence column and known snapshot dependencies (0.7964ms)\r\n✔ historical RLS still defines exactly the owner SELECT and INSERT policies (0.904ms)\r\nℹ tests 16\r\nℹ suites 0\r\nℹ pass 16\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 215.8055\r\n",
+  "isolation": "Existing loopback qualification cluster; synthetic Auth; migration body; rollback-only; original namespaces restored",
+  "productionMigration": "NOT PERFORMED",
+  "deployedState": "NOT VERIFIED",
+  "applicationQualification": "NOT PERFORMED",
+  "newCredential": false,
+  "serviceRole": false,
+  "packageInstallation": false
+}
