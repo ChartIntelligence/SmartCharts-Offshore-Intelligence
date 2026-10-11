@@ -5,6 +5,46 @@ export const FIELD_CONTROLS = [
 export const FIELD_SOURCE = {bathymetry:"pelora-bathymetry-field",currents:"pelora-geostrophic-field"};
 export const FIELD_LAYER = {bathymetry:"pelora-bathymetry-shading",currents:"pelora-geostrophic-arrows"};
 export const EMPTY_FIELD = {type:"FeatureCollection",features:[]};
+// MapLibre 5.24 image textures have no mipmaps, but raster drawing requests a
+// mipmap min filter. Scope this compatibility adapter to one bathymetry source;
+// keep nearest sampling and let MapLibre own texture creation/binding/disposal.
+export function installBathymetryTextureSampling(source,onFailure) {
+  if(source?.type!=="image"||typeof source.prepare!=="function")throw new Error("Bathymetry texture API unavailable");
+  const originalPrepare=source.prepare;
+  let texture=null,originalBind=null,wrappedBind=null,disposed=false;
+  const restoreTexture=()=>{
+    if(texture?.bind===wrappedBind)texture.bind=originalBind;
+    texture=null;originalBind=null;wrappedBind=null;
+  };
+  const prepare=function(...args){
+    if(disposed)return originalPrepare.apply(this,args);
+    try{
+      const result=originalPrepare.apply(this,args);
+      if(this.texture&&this.texture!==texture){
+        restoreTexture();texture=this.texture;originalBind=texture.bind;
+        const bind=originalBind;
+        const gl=texture.context?.gl;
+        if(typeof originalBind!=="function"||typeof gl?.texParameteri!=="function"||
+          ![gl.NEAREST,gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER].every(Number.isFinite)||
+          typeof texture.useMipmap!=="boolean")throw new Error("Bathymetry texture API unavailable");
+        wrappedBind=function(filter,wrap,minFilter){
+          try{
+            if(disposed||this!==texture||source.texture!==texture)return bind.call(this,filter,wrap,minFilter);
+            const nearest=filter===gl.NEAREST&&this.useMipmap===false;
+            const result=bind.call(this,filter,wrap,nearest?gl.NEAREST:minFilter);
+            // Also correct an existing texture whose cached filter already matches.
+            if(nearest)gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);
+            return result;
+          }catch(error){if(!disposed&&this===texture&&source.texture===texture)onFailure(error);}
+        };
+        texture.bind=wrappedBind;
+      }
+      return result;
+    }catch(error){onFailure(error);}
+  };
+  source.prepare=prepare;
+  return()=>{disposed=true;if(source.prepare===prepare)source.prepare=originalPrepare;restoreTexture();};
+}
 export function sampleLayersForMode(layers, qaEnabled=false) {
   return qaEnabled ? layers : {...layers,temperatureSamples:false,chlorophyll:false,currents:false};
 }

@@ -192,3 +192,63 @@ Candidate source identity: the commit containing this section, directly descende
 - frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md
 
 No Dashboard, LayerControls, MapLegend, shell CSS, P02/integration files, backend, production, database, providers/Auth, source admission, ranking/publication or science-policy changes. No merge, deployment or independent QA claim. CP-10 and operational rollout remain blocked. Browser-only remaining validation: apply this candidate onto the b48e06 integration lineage, reproduce both layer-toggle directions without movement and profile actual style/source readiness, assess real ETOPO readability at Gulf/FAD zoom levels and inspect missing/land transparency and ordering. Real browser/React scheduling, body streams, mobile/GPU performance, scientific source qualification and exact manual-stall causality remain unverified. Candidate stops for combined integration/QA.
+
+## BATHYMETRY TEXTURE SAMPLING REPAIR v1 — candidate evidence (2026-10-11)
+
+Entering identity: C:\Projects\Pelora-Agent-Worktrees\pelora-03-living-ocean, codex/pelora-03-living-ocean, clean HEAD 98f3356834f2faed913798388cbab420897e8732. Integrated QA reference b98b3040d2f40102a3895e72b3bf82e4e03c8f6f. Implementation remains on P03 lineage; no merge/reset/rebase/cherry-pick, dependency upgrade or installation.
+
+### Confirmed diagnosis and exact correction
+
+Primary classification E: the correct bathymetry image is uploaded, but raster sampling requires absent mipmaps. In the installed MapLibre 5.24.0 image-source path, ImageSource.prepare creates a texture without useMipmap; Texture.update generates mipmaps only when that flag is true. Raster draw then binds LINEAR_MIPMAP_NEAREST for minification. For the 512-square power-of-two image, the library retains that mipmap-dependent filter. Actual decoded-image and GPU level-zero pixels were correct while the actual map footprint was black, including pixels that should have been transparent. Successful source/layer calls and static/valid status did not prove visible GPU output.
+
+Exact production fix: installBathymetryTextureSampling in oceanFieldPresentation.js wraps only the active bathymetry image source's prepare method and that source texture's bind method. After MapLibre prepares a new texture, a nearest bind with useMipmap=false delegates with minFilter=NEAREST (9728), then enforces TEXTURE_MIN_FILTER=NEAREST for an already-cached nearest bind too. No mipmaps are created or required. Original texture creation/binding ownership remains MapLibre's. Linear requests and valid mipmapped textures are delegated unchanged. Previous texture/source methods are restored on replacement, rejection and teardown. Detached/disposed callbacks cannot reject current/newer state. Texture API/bind failures follow the existing affected-layer-only reject/invalidate/clear path.
+
+The hook attaches this adapter only when applying bathymetry data to its image source; current source/texture behavior is untouched. The two fixed-order layer effects, own-toggle dependencies, exact request identities, generation/cancellation/retention mechanisms, acquisition/readiness retries, refresh interval and independent layer lifetimes are unchanged. No global class/prototype or node_modules file is patched. Source and texture method access is an intentionally narrow internal-API compatibility adapter qualified against MapLibre 5.24.0, not a general public texture configuration API; upgrades must requalify this seam. Unsupported API shape fails closed for bathymetry.
+
+No public image-source minification option was found in the exact installed implementation. The adapter implements the proven correction rather than changing canvas size, palette, opacity, band thresholds or the declared nearest sampling. Scientific values, units, 512x512 presentation size, sample geometry, NW/NE/SE/SW corners, all five band colors, thresholds (-4000/-2000/-1000/-200), transparent zero/nonnegative/missing cells, opacity 0.85 and map-order contracts remain unchanged.
+
+### Retained actual renderer regression
+
+frontend/src/hooks/tests/bathymetryTextureRender.test.mjs runs existing local MapLibre with real canvas/image decoding/GPU texture and the actual hook in isolated headless Edge. The useEffect seam is controlled; this is not full React/authenticated-app acceptance. Only the field request is fixture-intercepted; native data-image decoding remains intact. Page external routing is blocked, service workers blocked, and final runs report zero page network requests, map errors or page errors. No real provider/Auth/database calls. Geographic layers are empty synthetic fixtures; actual land-mask/basemap/device validation remains separate.
+
+The same synthetic fixture in both modes has 42x33 cells at .050 degrees, 1386 finite cells, 990 negative cells and 396 nonnegative cells, with 198 negative cells in each band. Canonical fixture SHA-256 a399fa53af713ac67dc084aee742dc2bd6d8e23b2c240e2ff43bfdf3543d091f. Negative depths range -5000 to -50. 71.428571% of source cells are eligible for shading. Canvas has 189440 nontransparent pixels (161280 fully opaque) and 72704 transparent pixels. Exact colors [32,78,114,255], [57,132,154,255], [96,166,173,255], [137,197,189,255], [201,217,189,255] are present. Loaded image/texture remains 512x512; geographic footprint [-91,26,-88.9,27.65] intersects the measured viewport with correct orientation, layer visibility/opacity/order.
+
+BEFORE: exact entering hook extracted by git show 98f3356834f2faed913798388cbab420897e8732:frontend/src/hooks/useMapLibreOceanFields.js. Live MIN_FILTER=9985, useMipmap=false. All five band locations and two transparent-cell locations are RGB [2,4,6] (black footprint). Baseline mode asserts that original defect rather than counting changed pixels as success.
+
+AFTER: candidate production adapter, with no diagnostic GL filter override. Live MIN_FILTER=9728 (NEAREST), useMipmap=false. Five screenshot sample RGB values are [[30,71,103],[51,117,137],[84,146,153],[119,172,167],[173,189,167]]. Zero/positive sample locations are base water [16,30,41]. A same-context image refresh and forced real style replacement (diff:false) both retain the exact five colors/transparency. The first test attempt used identical-style diffing, which correctly produced no style reload and timed out waiting for one; corrected only the test trigger to force recreation. No application workaround was added for that test issue.
+
+Artifacts are retained locally:
+- C:\Users\User\AppData\Local\Temp\pelora03-texture-repair-baseline: report.json, fixture.json, canvas.png, before-map.png, after-map.png
+- C:\Users\User\AppData\Local\Temp\pelora03-texture-repair-candidate: same artifacts plus after-refresh.png and after-style-reload.png
+The original diagnostic source-chain evidence remains under TEMP/pelora03-visible-render-98f3356. These fixtures are SYNTHETIC TEST EVIDENCE, not the founder's captured ETOPO response.
+
+Reproduction commands (PowerShell):
+1. git show 98f3356834f2faed913798388cbab420897e8732:frontend/src/hooks/useMapLibreOceanFields.js | Set-Content -Encoding utf8 (Join-Path $env:TEMP 'pelora03-texture-baseline-98f3356.js')
+2. Set PELORA_BROWSER_TEST_NODE_MODULES to the existing bundled Node module directory returned by load_workspace_dependencies; optional PELORA_TEST_BROWSER_CHANNEL=msedge on Windows.
+3. Set PELORA_TEXTURE_RENDER_MODE=baseline, PELORA_TEXTURE_BASELINE_HOOK to that extracted file and PELORA_TEXTURE_RENDER_OUTPUT to the baseline artifact directory; node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs — PASS original-black reproduction.
+4. Set PELORA_TEXTURE_RENDER_MODE=candidate and PELORA_TEXTURE_RENDER_OUTPUT to the candidate directory; run the same script — PASS five-color/transparency render, refreshed image and forced style recreation. Uses existing Playwright/sharp, no install. Starting an isolated browser process requires host sandbox approval; no signed-in profile is used.
+
+### Focused and broader validation
+
+All three focused scripts PASS:
+- node frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+- node frontend/src/utils/tests/oceanFields.test.js
+- node frontend/src/utils/tests/viewportFieldRequests.test.js
+
+New assertions cover nearest minification without mipmaps, cached binding, new textures, restoring original methods, unaffected linear/mipmapped requests, unsupported API handling, texture-bind error locality/cache invalidation, detached callbacks, exact threshold edges, original values/geometry/opacity, and transparent zero/positive/null cells. Original two-direction OFF/ON isolation and no-movement acquisition, malformed success, body decoding/abort, obsolete/disposed requests and source/map failure assertions remain passing. The request helper is unchanged.
+
+Broader regression scripts all PASS: peloraMapStyle.test.js (12 node:test cases), syntheticSstDisplay.test.js (12 node:test cases), mapObservationDisplay.test.js, mapEnvironmentalObservations.test.js, mapRuntimeResponse.test.js and useMapLibreEnvironmentalObservations.test.js. These are the existing controlled scripts in their hook/util test directories. The synthetic SST test is regression-only; no new activation. The six broader scripts provide 24 counted node:test cases plus completion-only assertion suites; no invented total. Syntax checks for all five changed JavaScript files and git diff --check PASS. Node v24.18.0, MapLibre 5.24.0, existing style validator 24.10.0.
+
+Candidate is the commit containing this section, directly descended from entering 98f3356834f2faed913798388cbab420897e8732. Exact changed JavaScript file fingerprints (tested working-tree SHA-256):
+- frontend/src/hooks/useMapLibreOceanFields.js: befbbbda099e6eef7de2f29018dc0dcd548168baf8fabaf64d0d3b7cfb369f49
+- frontend/src/utils/oceanFieldPresentation.js: 5fa558470ff2618c72bbec60817aa8a4e8acaa4a984e381cb9482d81fc7a5f48
+- frontend/src/hooks/tests/useMapLibreOceanFields.test.js: b63fc892d6f59029bc939c8137e8fd1588525a920bea44879123260d21b8491e
+- frontend/src/utils/tests/oceanFields.test.js: 8462b3ab754c684d49fc103d29d7ecf70450817990cd9cc87729b79715934042
+- frontend/src/hooks/tests/bathymetryTextureRender.test.mjs: d2a736f87be129677452a9e8613ead0c42f7c625885a48c0b85889c7511d84e7
+- frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md (evidence only)
+
+### Remaining gate and stop
+
+A valid-cell/data-success state remains distinct from proof of visible GPU output. This candidate adds controlled actual screenshot/color evidence for the repaired source/texture path; it does not redefine captain field statuses or claim source/science/operational qualification. Independent combined integration/QA must apply this P03 candidate onto the b98b3040 lineage and test the founder's actual field/viewport/geographic masks/browser/device/GPU, both toggle directions and texture replacement/style reload. React/authenticated-app acceptance, real ETOPO readability and other devices remain unverified. The internal MapLibre adapter requires library-upgrade requalification.
+
+No scientific values, thresholds, geometry, nearest sampling, colors, opacity/order or independent field-lifetime repair changed. No Dashboard/LayerControls/MapLegend/shell CSS, backend, providers, Auth, database, ranking, source admission or science-policy changes; no merge, deployment or operational rollout. CP-10 remains blocked. Stop after normal P03 candidate commit/push and verified remote SHA.

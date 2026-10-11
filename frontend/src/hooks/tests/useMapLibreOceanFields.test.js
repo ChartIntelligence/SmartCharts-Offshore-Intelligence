@@ -15,7 +15,7 @@ const sources=new Map(),images=new Set(),events=new Map();
 function eventHandlers(n){if(!events.has(n)){const handlers=new Set();const emit=()=>{for(const fn of [...handlers])fn();};emit.handlers=handlers;events.set(n,emit);}return events.get(n).handlers;}
 const layers=[{id:"ocean",type:"fill"},{id:"structure-clusters",type:"symbol"},{id:"pelora-ranked-targets",type:"symbol"}];
 const map={getStyle:()=>({layers}),isStyleLoaded:()=>styleLoaded,getSource:id=>sources.get(id),
-  addSource(id,s){sourceAdds++;sources.set(id,{...s,setData(data){this.data=data;},updateImage(image){Object.assign(this,image);}});},
+  addSource(id,s){sourceAdds++;sources.set(id,{...s,prepare(){},setData(data){this.data=data;},updateImage(image){Object.assign(this,image);}});},
   removeSource:id=>sources.delete(id),removeLayer:id=>{const i=layers.findIndex(l=>l.id===id);if(i>=0)layers.splice(i,1);},
   getLayer:id=>layers.find(l=>l.id===id),addLayer(l,before){const i=layers.findIndex(v=>v.id===before);layers.splice(i<0?layers.length:i,0,l);},
   moveLayer(id,before){const i=layers.findIndex(l=>l.id===id),[l]=layers.splice(i,1);layers.splice(layers.findIndex(v=>v.id===before),0,l);},
@@ -267,3 +267,16 @@ assert.equal(state.bathymetry,safeSiblingState);assert.equal(state.currents.stat
 assert.ok(!map.getLayer(presentation.FIELD_LAYER.currents),"teardown removes a layer whose visibility update fails");
 map.setLayoutProperty=teardownLayout;cleanup();assert.equal(events.size,0);assert.equal(refreshTimers.size,0);
 console.log("PASS affected-layer teardown fallback without sibling reset or leaked lifecycle resources");
+
+// A texture-binding failure follows the existing bathymetry-only rejection path.
+commitProps({});await scheduled();const samplingSibling=state.currents;
+const failingSamplerSource=sources.get(presentation.FIELD_SOURCE.bathymetry);
+failingSamplerSource.texture={useMipmap:false,context:{gl:{NEAREST:9728,TEXTURE_2D:3553,TEXTURE_MIN_FILTER:10241,texParameteri(){}}},bind(){throw new Error("controlled texture binding failure");}};
+failingSamplerSource.prepare();const staleBind=failingSamplerSource.texture.bind;
+staleBind.call(failingSamplerSource.texture,9728,33071,9985);
+absent("bathymetry");assert.equal(state.currents,samplingSibling);assert.match(state.bathymetry.reason,/texture binding/);
+context.fetch=async()=>{throw new Error("transport after sampling failure");};await refresh();absent("bathymetry");
+const afterSamplingFailure=state;staleBind.call(failingSamplerSource.texture,9728,33071,9985);
+assert.equal(state,afterSamplingFailure,"detached texture callback cannot reject a later context");
+cleanup();assert.equal(events.size,0);
+console.log("PASS texture failure clears only bathymetry cache/rendering, preserves currents, and rejects detached callbacks");

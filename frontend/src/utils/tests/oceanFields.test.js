@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {PELORA_MAP_COLORS} from "../peloraMapStyle.js";
 import {validateStyleMin} from "@maplibre/maplibre-gl-style-spec";
 import {currentFieldGeoJson,fieldViewport,fieldLayerDefinitions,FIELD_SOURCE,fieldInsertBefore,
-  sampleLayersForMode,bathymetryRasterPlan,bathymetryImage,validateFieldPresentation,fieldStatusText} from "../oceanFieldPresentation.js";
+  sampleLayersForMode,bathymetryRasterPlan,bathymetryImage,validateFieldPresentation,fieldStatusText,installBathymetryTextureSampling} from "../oceanFieldPresentation.js";
 import {createViewportFieldRequests} from "../viewportFieldRequests.js";
 const field={status:"latest-available",freshness:{maxFreshAgeHours:96},contractVersion:"pelora-spatial-field-v1",layer:"currents",bounds:[139,-36,146,-34],resolution:{deliveredDegrees:1},coverage:{returnedCells:6,validCells:5},fieldId:"one-time",validTime:"2026-09-19T00:00:00Z",payloadType:"geostrophic-vector-grid",
   payload:{type:"geostrophic-vector-grid",coordinateOrder:"longitude,latitude,u,v",directionConvention:"degrees-toward",interpolation:"none",cells:[[140,-35,0,1],[141,-35,1,0],[142,-35,0,-1],[143,-35,-1,0],[144,-35,null,1],[145,-35,0,0]]}};
@@ -79,3 +79,42 @@ for(const rect of reliefPlan.rectangles){
 assert.equal(fieldLayerDefinitions()[0].paint["raster-resampling"],"nearest");
 assert.equal(JSON.stringify(relief),reliefSnapshot,"no values or resolution changed for presentation");
 console.log("PASS non-empty, base-water-distinct fixed bathymetry bands with nearest sampling and unchanged scientific data");
+
+// Texture compatibility fix is local, nearest-only, and reapplied to replacement textures.
+const textureWrites=[],bindCalls=[],samplingFailures=[];
+const textureGl={NEAREST:9728,LINEAR:9729,TEXTURE_2D:3553,TEXTURE_MIN_FILTER:10241,LINEAR_MIPMAP_NEAREST:9985,
+  texParameteri:(...args)=>textureWrites.push(args)};
+function testTexture(id,mipmaps=false){return {id,useMipmap:mipmaps,context:{gl:textureGl},
+  bind(filter,wrap,minFilter){bindCalls.push({id:this.id,filter,wrap,minFilter});return this.id;}};}
+const textureSource={type:"image",prepare(){return "prepared";}};
+const prepareBefore=textureSource.prepare;
+const releaseTextureSampling=installBathymetryTextureSampling(textureSource,error=>samplingFailures.push(error));
+assert.equal(textureSource.prepare(),"prepared","preparation without an image is safe");
+const firstTexture=testTexture("first"),firstBind=firstTexture.bind;textureSource.texture=firstTexture;
+textureSource.prepare();assert.equal(firstTexture.bind(textureGl.NEAREST,33071,9985),"first");
+assert.equal(bindCalls.at(-1).minFilter,9728);assert.deepEqual(textureWrites.at(-1),[3553,10241,9728]);
+firstTexture.bind(textureGl.NEAREST,33071,9985);assert.equal(textureWrites.length,2,"cached nearest bind still enforces complete sampling");
+const newTexture=testTexture("replacement"),replacementBind=newTexture.bind;textureSource.texture=newTexture;
+textureSource.prepare();assert.equal(firstTexture.bind,firstBind,"replaced texture wrapper restored");
+newTexture.bind(textureGl.NEAREST,33071,9985);assert.equal(bindCalls.at(-1).minFilter,9728);
+newTexture.useMipmap=true;const writeCount=textureWrites.length;
+newTexture.bind(textureGl.NEAREST,33071,9985);assert.equal(bindCalls.at(-1).minFilter,9985);
+assert.equal(textureWrites.length,writeCount,"valid mipmapped textures retain their contract");
+newTexture.useMipmap=false;newTexture.bind(textureGl.LINEAR,33071,9729);
+assert.equal(bindCalls.at(-1).minFilter,9729);assert.equal(textureWrites.length,writeCount);
+releaseTextureSampling();releaseTextureSampling();assert.equal(textureSource.prepare,prepareBefore);
+assert.equal(newTexture.bind,replacementBind);assert.equal(samplingFailures.length,0);
+assert.throws(()=>installBathymetryTextureSampling({type:"geojson",prepare(){}},()=>{}),/API unavailable/);
+const badSource={type:"image",prepare(){},texture:{bind(){},useMipmap:false}};
+const releaseBad=installBathymetryTextureSampling(badSource,error=>samplingFailures.push(error));badSource.prepare();
+assert.match(samplingFailures.at(-1).message,/API unavailable/);releaseBad();
+console.log("PASS non-mipmapped nearest bathymetry binding, replacement textures, existing/mipmapped cache behavior, local API guards and teardown restoration");
+
+const thresholdFixture={...rasterField,bounds:[0,0,4,3],coverage:{validCells:11,returnedCells:12},payload:{...rasterField.payload,
+  longitudes:[.5,1.5,2.5,3.5],latitudes:[.5,1.5,2.5],values:[-4001,-4000,-2001,-2000,-1001,-1000,-201,-200,-1,0,10,null]}};
+const thresholdSnapshot=JSON.stringify(thresholdFixture),thresholdPlan=bathymetryRasterPlan(thresholdFixture);
+assert.deepEqual(thresholdPlan.rectangles.map(r=>r.color),["#204e72","#39849a","#39849a","#60a6ad","#60a6ad","#89c5bd","#89c5bd","#c9d9bd","#c9d9bd"]);
+assert.deepEqual(thresholdPlan.coordinates,[[0,3],[4,3],[4,0],[0,0]]);
+assert.equal(JSON.stringify(thresholdFixture),thresholdSnapshot);
+assert.equal(fieldLayerDefinitions()[0].paint["raster-opacity"],.85);
+console.log("PASS unchanged exact depth boundaries, transparent zero/positive/null cells, source values, north-up bounds and opacity");
