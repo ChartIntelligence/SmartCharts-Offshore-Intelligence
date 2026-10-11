@@ -140,3 +140,55 @@ Tested working-tree SHA-256 fingerprints:
 - docs/agents/missions/PELORA-03_Field_Rendering_Consistency_v1.md: 58f91161771dcc11ba9060c44765ddba356d6ee003766984bc112094fb254f3c
 
 Independent PELORA-04 delta review remains required. Browser/React, real body-stream implementations, mobile performance, GPU behavior and the reported device incident remain unverified. Developer passes are developer evidence only. No source admission, science, ranking, providers, Auth, database, backend qualification, integration, PR or deployment. CP-10 and operational rollout remain blocked.
+
+## MAP FIELD ISOLATION + BATHYMETRY PRESENTATION v1 — entering evidence (2026-10-11)
+
+Authorized worktree/branch: C:\Projects\Pelora-Agent-Worktrees\pelora-03-living-ocean / codex/pelora-03-living-ocean. Clean entering HEAD aabd800651b1c98e12b44b397139e811efc92cd5. Integration reference b48e06cad81717b95f0101d21430b48fd1805060 is context only, not a branch-movement target. Before implementation edits, git rev-parse <commit>:<path> verified:
+
+| Path | Entering blob | Integration-reference blob | Result |
+| --- | --- | --- | --- |
+| frontend/src/hooks/useMapLibreOceanFields.js | 935a0038774b69b9efc1398ac8940aaa45e6ffdd | 935a0038774b69b9efc1398ac8940aaa45e6ffdd | equal |
+| frontend/src/utils/oceanFieldPresentation.js | 9e7fd84048dfb7616438ced1ff6c0e30e90f678e | 9e7fd84048dfb7616438ced1ff6c0e30e90f678e | equal |
+| frontend/src/utils/viewportFieldRequests.js | 0d34424c323293f56600ad22e01621bcca031d11 | 0d34424c323293f56600ad22e01621bcca031d11 | equal |
+
+Later combined integration/QA must apply this P03 candidate onto the b48e06 lineage before browser qualification.
+
+### Controlled source reproduction and candidate repair
+
+Two diagnostic replays loaded the entering hook from git show aabd800651b1c98e12b44b397139e811efc92cd5:frontend/src/hooks/useMapLibreOceanFields.js into the updated controlled VM harness. The hook was extracted to TEMP/pelora03-lifecycle-aabd800-hook.js; the diagnostic module used the same import fixtures and changed only the hook source read. No baseline tracked file was edited. First replay failed the new assertion sibling state identity survives OFF: Currents OFF replaced valid static bathymetry with loading/field:null in the exact same context. A separate startup replay with isStyleLoaded false and no map event failed startup must acquire without movement/style event (0 requests, required 2). These expected baseline failures establish the shared-effect reset and conditional-startup dependency. They do not establish the precise browser A-versus-D stall path.
+
+Candidate gives each enabled layer its own fixed-order custom hook/effect, request-helper instance, generation/cache, buffer, events, refresh interval and readiness timer. Dependencies include only its own toggle. A sibling toggle neither disposes nor schedules the other layer. OFF clears/hides only that layer and publishes off/field:null; ON immediately schedules acquisition for the exact existing viewport. Acquisition no longer depends on style readiness. Application still waits for readiness, with idle/style events and a guarded 100 ms retry so a subsequent moveend/zoom is not required. Each timer/request/event is cancelled on disposal; captured readiness/refresh callbacks cannot republish or reattach. Teardown shares the same local hiding/removal fallback as presentation rejection. The request helper and its context/generation/invalidation/decoding behavior are unchanged. A not-ready style with no field no longer converts an unavailable state into loading.
+
+Confirmed presentation limitation in source: existing depth bands used dark colors close to the configured base ocean #101e29, blended at 0.65 opacity. Candidate changes only those five fixed-band colors and raster opacity to 0.85. The same thresholds (-4000/-2000/-1000/-200), sample footprints, 512-square canvas, Mercator positioning, clipping, transparent missing/non-negative cells and nearest resampling remain. No viewport normalization, interpolation, contours, ridges, relief derivatives, source-resolution change or invented structure. Tests measure each composited fixed band differs from the actual base water and real negative samples yield positive-area rectangles. This demonstrates a discernible render configuration, not human/browser acceptance. Source ordering and geometry review found no additional confirmed ordering/transform defect; actual absence versus imperceptibility in the reported browser remains uninstrumented.
+
+### Exact acceptance and commands
+
+The hook harness now models dependency-indexed React effect commits and independent multicast map event handlers/timers. It checks both OFF/ON directions: exact sibling state/source identity and transport counts unchanged, no sibling loading/reset, enabled layer success/visible application without movement. With style initially not ready, both requests initiate and the controlled readiness timer applies them once ready with no load/move event. Cleanup removes all request/readiness/interval/event resources; captured callbacks are inert. A visibility-operation teardown exception uses local removal without resetting the sibling. Original malformed-current/malformed-bathymetry, decoding matrix, body abort, obsolete/disposed response, style/idle non-resurrection, source/layer/image/canvas failure, valid degraded retention and zero/missing cases all still pass.
+
+Focused final commands/results (all PASS):
+- node frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+- node frontend/src/utils/tests/oceanFields.test.js
+- node frontend/src/utils/tests/viewportFieldRequests.test.js
+- node --check for the four changed JavaScript paths below
+- git diff --check
+
+Broader controlled regression commands/results (all PASS):
+- node frontend/src/utils/tests/peloraMapStyle.test.js — 12/12 node:test cases
+- node frontend/src/utils/tests/syntheticSstDisplay.test.js — 12/12 node:test cases; no new runtime activation
+- node frontend/src/utils/tests/mapObservationDisplay.test.js — assertion completion
+- node frontend/src/utils/tests/mapEnvironmentalObservations.test.js — assertion completion
+- node frontend/src/utils/tests/mapRuntimeResponse.test.js — captured fixture assertion completion
+- node frontend/src/hooks/tests/useMapLibreEnvironmentalObservations.test.js — controlled hook assertion completion
+
+Nine distinct scripts total; only the two node:test scripts provide counted cases (24 passed), while the others use completion assertions. Do not invent a combined case count or treat these as operational-source evidence. Node v24.18.0 and existing MapLibre style validator 24.10.0 verified; no packages installed. The first whitespace check caught a trailing blank line introduced in entering evidence; corrected before final checks. No candidate JavaScript failure remains.
+
+Test fixture identities: fixed recorded current and bathy fields retained above; lifecycle toggles use Gulf bbox [-90,27,-89,28], current density 12 and bathymetry density 48. Broader field harness retains its original changed-context/density fixtures. The bathymetry contrast fixture contains exact supplied depths [-5000,-3000,-1500,-500,-50,null,0,8], 4-by-2 ascending axes, unchanged resolution 1 degree and seven finite cells; only its five negative values are shaded. Color visibility checks are deterministic configuration assertions, not screenshot fitting or bathymetric science qualification.
+
+Candidate source identity: the commit containing this section, directly descended from aabd800651b1c98e12b44b397139e811efc92cd5. Integration-reference blob equivalence was recorded before implementation above. Changed files are these four JavaScript paths plus this evidence record:
+- frontend/src/hooks/useMapLibreOceanFields.js: SHA-256 a0d5af8c96b05efff0ff7f07e51b4a887fdad650e4f5fd2c064d162a15b9de0d
+- frontend/src/utils/oceanFieldPresentation.js: SHA-256 bb295259c0f5749beed6c07dd071e089d5f2fe11c9c20c82945b76121d5cd3cb
+- frontend/src/hooks/tests/useMapLibreOceanFields.test.js: SHA-256 182c132d54954296bf2a9f7f72240b94822170d01a1e68792fc3cbd49618bfdc
+- frontend/src/utils/tests/oceanFields.test.js: SHA-256 114d50924bc835f33d62423d41002c8a26db687f5c8c10b4ae29791aaaea8e1f
+- frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md
+
+No Dashboard, LayerControls, MapLegend, shell CSS, P02/integration files, backend, production, database, providers/Auth, source admission, ranking/publication or science-policy changes. No merge, deployment or independent QA claim. CP-10 and operational rollout remain blocked. Browser-only remaining validation: apply this candidate onto the b48e06 integration lineage, reproduce both layer-toggle directions without movement and profile actual style/source readiness, assess real ETOPO readability at Gulf/FAD zoom levels and inspect missing/land transparency and ordering. Real browser/React scheduling, body streams, mobile/GPU performance, scientific source qualification and exact manual-stall causality remain unverified. Candidate stops for combined integration/QA.

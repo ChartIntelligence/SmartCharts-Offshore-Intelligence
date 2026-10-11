@@ -5,8 +5,14 @@ import {resolvePeloraApiUrl} from "../../utils/peloraApi.js";
 import * as presentation from "../../utils/oceanFieldPresentation.js";
 import {observationImages} from "../../utils/mapObservationDisplay.js";
 import {createViewportFieldRequests} from "../../utils/viewportFieldRequests.js";
-let effect,scheduled,styleLoaded=false,state={};let requests=0,sourceAdds=0;
+let styleLoaded=false,state={};
+let effectFns=[],effectSlots=[],effectCursor=0;const timers=new Map(),readyTimers=new Map(),refreshTimers=new Map();let timerId=0;
+const scheduled=async()=>{const callbacks=[...timers.values()];timers.clear();await Promise.all(callbacks.map(fn=>fn()));};
+const effect=()=>{for(const {fn,deps,index} of effectFns){const old=effectSlots[index];
+  if(!old||deps.some((dep,i)=>dep!==old.deps[i])){old?.cleanup?.();effectSlots[index]={deps,cleanup:fn()};}}
+  effectFns=[];return()=>{effectSlots.forEach(slot=>slot?.cleanup?.());effectSlots=[];};};let requests=0,sourceAdds=0;
 const sources=new Map(),images=new Set(),events=new Map();
+function eventHandlers(n){if(!events.has(n)){const handlers=new Set();const emit=()=>{for(const fn of [...handlers])fn();};emit.handlers=handlers;events.set(n,emit);}return events.get(n).handlers;}
 const layers=[{id:"ocean",type:"fill"},{id:"structure-clusters",type:"symbol"},{id:"pelora-ranked-targets",type:"symbol"}];
 const map={getStyle:()=>({layers}),isStyleLoaded:()=>styleLoaded,getSource:id=>sources.get(id),
   addSource(id,s){sourceAdds++;sources.set(id,{...s,setData(data){this.data=data;},updateImage(image){Object.assign(this,image);}});},
@@ -15,19 +21,20 @@ const map={getStyle:()=>({layers}),isStyleLoaded:()=>styleLoaded,getSource:id=>s
   moveLayer(id,before){const i=layers.findIndex(l=>l.id===id),[l]=layers.splice(i,1);layers.splice(layers.findIndex(v=>v.id===before),0,l);},
   setLayoutProperty(id,k,v){const l=layers.find(l=>l.id===id);l.layout={...l.layout,[k]:v};},
   hasImage:id=>images.has(id),addImage:id=>images.add(id),
-  on(n,fn){events.set(n,fn);},once(n,fn){events.set(n,fn);},off(n,fn){if(events.get(n)===fn)events.delete(n);},
+  on(n,fn){eventHandlers(n).add(fn);},once(n,fn){eventHandlers(n).add(fn);},off(n,fn){const handlers=events.get(n)?.handlers;handlers?.delete(fn);if(handlers?.size===0)events.delete(n);},
   getBounds:()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28}),getZoom:()=>5};
 const current={freshness:{maxFreshAgeHours:96},contractVersion:"pelora-spatial-field-v1",layer:"currents",fieldId:"recorded",status:"stale",validTime:"2026-09-19T00:00:00Z",bounds:[-90,27,-89,28],resolution:{deliveredDegrees:.25},coverage:{validCells:1,returnedCells:1},payloadType:"geostrophic-vector-grid",payload:{type:"geostrophic-vector-grid",coordinateOrder:"longitude,latitude,u,v",directionConvention:"degrees-toward",interpolation:"none",cells:[[-89.875,27.125,-0.291,0.948]]}};
 const bathy={validTime:null,freshness:{maxFreshAgeHours:null},contractVersion:"pelora-spatial-field-v1",layer:"bathymetry",fieldId:"bathy",status:"static",bounds:[-90,27,-89,28],resolution:{deliveredDegrees:1},coverage:{validCells:1,returnedCells:1},payloadType:"rectilinear-elevation-grid",payload:{type:"rectilinear-elevation-grid",order:"latitude-ascending-rows,longitude-ascending-columns",positive:"up",longitudes:[-89.5],latitudes:[27.5],values:[-100]}};
 const context=vm.createContext({...presentation,observationImages,resolvePeloraApiUrl,URLSearchParams,
-  useEffect:fn=>{effect=fn;},window:{setInterval:()=>1,clearInterval:()=>{}},
+  useEffect:(fn,deps)=>{effectFns.push({fn,deps,index:effectCursor++});},window:{setInterval:fn=>{const id=++timerId;refreshTimers.set(id,fn);return id;},clearInterval:id=>refreshTimers.delete(id),setTimeout:fn=>{const id=++timerId;readyTimers.set(id,fn);return id;},clearTimeout:id=>readyTimers.delete(id)},
   bathymetryImage:()=>({url:"data:image/png;base64,test",coordinates:[[-90,28],[-89,28],[-89,27],[-90,27]]}),
-  createViewportFieldRequests:options=>createViewportFieldRequests({...options,setTimer:fn=>(scheduled=fn,1),clearTimer:()=>{scheduled=null;}}),
+  createViewportFieldRequests:options=>createViewportFieldRequests({...options,setTimer:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimer:id=>timers.delete(id)}),
   fetch:async url=>{requests++;return{ok:true,text:async()=>JSON.stringify(url.includes("layer=bathymetry")?bathy:current)};}
 });
 const source=fs.readFileSync(new URL("../useMapLibreOceanFields.js",import.meta.url),"utf8")
   .replace(/^import[\s\S]*?;\r?\n/gm,"").replace("export function","function");
 vm.runInContext(source,context);
+const renderHook=context.useMapLibreOceanFields;context.useMapLibreOceanFields=props=>{effectCursor=0;renderHook(props);};
 const props={mapRef:{current:map},bathymetry:true,currentField:true,onFieldStatus:update=>{state=typeof update==="function"?update(state):update;}};
 context.useMapLibreOceanFields(props);let cleanup=effect();assert.equal(requests,0);
 styleLoaded=true;events.get("load")();await scheduled();
@@ -209,8 +216,8 @@ await scheduled();assert.equal(state.currents.status,"unavailable");
 styleLoaded=false;events.get("moveend")();const disposedIdle=events.get("idle"),disposedRequest=scheduled;
 cleanup();assert.equal(events.size,0);const disposedState=state;disposedIdle();await disposedRequest();assert.equal(state,disposedState);styleLoaded=true;
 context.useMapLibreOceanFields({...props,bathymetry:false,currentField:false});cleanup=effect();
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"none");
-assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility,"none");cleanup();
+assert.ok(!map.getLayer(presentation.FIELD_LAYER.bathymetry)||map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility==="none");
+assert.ok(!map.getLayer(presentation.FIELD_LAYER.currents)||map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility==="none");cleanup();
 console.log("PASS actual field hook style load, viewport requests, image/vector sources, layer order, reuse, toggles and cleanup");
 
 // Disposal during body reading suppresses the eventual syntax-failure result.
@@ -221,3 +228,42 @@ pendingBody.resolve('{"disposedFixture":');await pendingRead;
 assert.equal(state,disposedSyntaxState);assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data,disposedBuffer);
 assert.equal(events.size,0);
 console.log("PASS disposed body-read syntax completion publishes nothing and preserves renderer identity");
+
+// Toggle commits rerun only the changed layer's effect, as React dependencies do.
+map.getBounds=()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28});
+const calls=[];context.fetch=async url=>{calls.push(url.includes("layer=bathymetry")?"bathymetry":"currents");return rawResponse(JSON.stringify(url.includes("layer=bathymetry")?bathy:current));};
+function commitProps(next){context.useMapLibreOceanFields({...props,...next});cleanup=effect();}
+commitProps({});await scheduled();
+for(const [offKey,sibling] of [["currentField","bathymetry"],["bathymetry","currents"]]){
+  const preservedState=state[sibling],preservedSource=sources.get(presentation.FIELD_SOURCE[sibling]),preservedCalls=calls.filter(layer=>layer===sibling).length;
+  commitProps({[offKey]:false});
+  assert.equal(state[sibling],preservedState,"sibling state identity survives OFF");
+  assert.equal(sources.get(presentation.FIELD_SOURCE[sibling]),preservedSource);
+  assert.equal(timers.size,0,"OFF does not schedule sibling acquisition");
+  commitProps({[offKey]:true});assert.equal(state[sibling],preservedState,"sibling state identity survives ON");
+  await scheduled();assert.equal(state[sibling],preservedState);
+  assert.equal(calls.filter(layer=>layer===sibling).length,preservedCalls,"no sibling transport caused by toggle");
+  const enabledLayer=offKey==="bathymetry"?"bathymetry":"currents";
+  assert.equal(state[enabledLayer].field.fieldId,enabledLayer==="bathymetry"?bathy.fieldId:current.fieldId);
+  assert.equal(map.getLayer(presentation.FIELD_LAYER[enabledLayer]).layout.visibility,"visible");
+}
+cleanup();styleLoaded=false;
+commitProps({});await scheduled();assert.equal(state.currents.status,"loading");assert.equal(state.bathymetry.status,"loading");
+assert.ok(readyTimers.size>0,"style readiness has its own retry without movement");
+styleLoaded=true;const capturedRefreshes=[...refreshTimers.values()];
+const readinessCallbacks=[...readyTimers.values()];readyTimers.clear();readinessCallbacks.forEach(fn=>fn());
+assert.equal(state.currents.status,current.status);assert.equal(state.bathymetry.status,bathy.status);
+assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+cleanup();assert.equal(timers.size,0);assert.equal(readyTimers.size,0);assert.equal(refreshTimers.size,0);assert.equal(events.size,0);
+const teardownState=state;readinessCallbacks.forEach(fn=>fn());capturedRefreshes.forEach(fn=>fn());
+assert.equal(state,teardownState);assert.equal(timers.size,0);assert.equal(events.size,0,"captured readiness/refresh callbacks do not reattach after teardown");
+console.log("PASS independent OFF/ON lifetimes, exact sibling state/source/cache preservation and startup acquisition/application without map movement");
+
+commitProps({});await scheduled();const safeSiblingState=state.bathymetry;
+const teardownLayout=map.setLayoutProperty;
+map.setLayoutProperty=(id,key,value)=>{if(id===presentation.FIELD_LAYER.currents)throw new Error("teardown layout failure");teardownLayout(id,key,value);};
+assert.doesNotThrow(()=>commitProps({currentField:false}));
+assert.equal(state.bathymetry,safeSiblingState);assert.equal(state.currents.status,"off");
+assert.ok(!map.getLayer(presentation.FIELD_LAYER.currents),"teardown removes a layer whose visibility update fails");
+map.setLayoutProperty=teardownLayout;cleanup();assert.equal(events.size,0);assert.equal(refreshTimers.size,0);
+console.log("PASS affected-layer teardown fallback without sibling reset or leaked lifecycle resources");
