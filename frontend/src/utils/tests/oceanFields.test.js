@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {PELORA_MAP_COLORS} from "../peloraMapStyle.js";
 import {validateStyleMin} from "@maplibre/maplibre-gl-style-spec";
 import {currentFieldGeoJson,fieldViewport,fieldLayerDefinitions,FIELD_SOURCE,fieldInsertBefore,
   sampleLayersForMode,bathymetryRasterPlan,bathymetryImage,validateFieldPresentation,fieldStatusText} from "../oceanFieldPresentation.js";
@@ -61,3 +62,20 @@ const zeros={...rasterField,payload:{...rasterField.payload,values:[0,0,null,0]}
 validateFieldPresentation(zeros,"bathymetry");assert.equal(bathymetryRasterPlan(zeros).rectangles.length,0);
 assert.equal(zeros.payload.values[0],0);assert.equal(zeros.payload.values[2],null);
 console.log("PASS malformed axes/cells/metadata, actual canvas context/draw/encode failures and zero versus null preservation");
+
+// Fixed real-depth bands must contrast with the actual configured base water.
+const relief={...rasterField,bounds:[0,0,4,2],coverage:{validCells:7,returnedCells:8},
+  payload:{...rasterField.payload,longitudes:[.5,1.5,2.5,3.5],values:[-5000,-3000,-1500,-500,-50,null,0,8]}};
+const reliefSnapshot=JSON.stringify(relief),reliefPlan=bathymetryRasterPlan(relief);
+assert.equal(reliefPlan.rectangles.length,5,"only supplied negative depths receive color");
+assert.equal(new Set(reliefPlan.rectangles.map(r=>r.color)).size,5,"existing depth bands stay distinguishable");
+const rgb=hex=>[1,3,5].map(offset=>parseInt(hex.slice(offset,offset+2),16));
+const baseWater=rgb(PELORA_MAP_COLORS.ocean),opacity=fieldLayerDefinitions()[0].paint["raster-opacity"];
+for(const rect of reliefPlan.rectangles){
+  const composite=rgb(rect.color).map((value,i)=>value*opacity+baseWater[i]*(1-opacity));
+  assert.ok(composite.reduce((sum,value,i)=>sum+Math.abs(value-baseWater[i]),0)>60,"rendered depth band distinctly differs from base water");
+  assert.ok(rect.width>0&&rect.height>0,"non-empty sample footprint");
+}
+assert.equal(fieldLayerDefinitions()[0].paint["raster-resampling"],"nearest");
+assert.equal(JSON.stringify(relief),reliefSnapshot,"no values or resolution changed for presentation");
+console.log("PASS non-empty, base-water-distinct fixed bathymetry bands with nearest sampling and unchanged scientific data");

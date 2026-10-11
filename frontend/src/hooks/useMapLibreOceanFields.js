@@ -6,17 +6,20 @@ import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,b
 import {createViewportFieldRequests} from "../utils/viewportFieldRequests.js";
 
 export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus}) {
+  useOceanField({mapRef,layer:"bathymetry",enabled:bathymetry,onFieldStatus});
+  useOceanField({mapRef,layer:"currents",enabled:currentField,onFieldStatus});
+}
+
+// Each layer owns its request generation, retention, events and render buffer.
+function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
   useEffect(()=>{
     const map=mapRef.current;if(!map)return;
-    let disposed=false, bathyImage=null,currentData=EMPTY_FIELD;
+    let disposed=false, bathyImage=null,currentData=EMPTY_FIELD,readyTimer=null;
+    const bathymetry=enabled&&layer==="bathymetry",currentField=enabled&&layer==="currents";
     const states={};
-    const active=[...(bathymetry?["bathymetry"]:[]),...(currentField?["currents"]:[])];
+    const active=enabled?[layer]:[];
     const publish=(layer,state)=>onFieldStatus(current=>({...current,[layer]:state}));
-    const reject=(layer,error)=>{
-      const state=states[layer];
-      requests.invalidate(layer,state?.contextKey);
-      if(layer==="bathymetry")bathyImage=null;else currentData=EMPTY_FIELD;
-      states[layer]={contextKey:state?.contextKey,status:"unavailable",field:null,reason:error.message};
+    const clearRendered=()=>{
       // Hide first; remove only this layer/source if the map operation fails.
       try{if(map.getLayer(FIELD_LAYER[layer]))map.setLayoutProperty(FIELD_LAYER[layer],"visibility","none");}
       catch{try{if(map.getLayer(FIELD_LAYER[layer]))map.removeLayer(FIELD_LAYER[layer]);}catch{/* map teardown */}}
@@ -25,30 +28,45 @@ export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldSt
         else {if(map.getLayer(FIELD_LAYER[layer]))map.removeLayer(FIELD_LAYER[layer]);map.removeSource(FIELD_SOURCE[layer]);}
       }}catch{try{if(map.getLayer(FIELD_LAYER[layer]))map.removeLayer(FIELD_LAYER[layer]);
         if(map.getSource(FIELD_SOURCE[layer]))map.removeSource(FIELD_SOURCE[layer]);}catch{/* map teardown */}}
+    };
+    const reject=(layer,error)=>{
+      const state=states[layer];
+      requests.invalidate(layer,state?.contextKey);
+      if(layer==="bathymetry")bathyImage=null;else currentData=EMPTY_FIELD;
+      states[layer]={contextKey:state?.contextKey,status:"unavailable",field:null,reason:error.message};
+      clearRendered();
       publish(layer,states[layer]);
     };
     const sync=()=>{
       if(disposed||mapRef.current!==map)return;
-      for(const layer of ["bathymetry","currents"]){
-        try{
-          const data=layer==="bathymetry"?bathyImage:currentData;
-          const visible=layer==="bathymetry"?bathymetry&&data:currentField&&data.features.length>0;
-          const source=map.getSource(FIELD_SOURCE[layer]);
-          if(layer==="currents"){
-            if(!map.hasImage("pelora-field-current-arrow"))map.addImage("pelora-field-current-arrow",observationImages()["pelora-current-arrow"]);
-            if(source)source.setData(data);else map.addSource(FIELD_SOURCE[layer],{type:"geojson",data});
-          }else if(data){
-            if(source)source.updateImage(data);else map.addSource(FIELD_SOURCE[layer],{type:"image",...data});
-          }
-          const definition=fieldLayerDefinitions().find(d=>d.id===FIELD_LAYER[layer]);
-          if(map.getSource(definition.source)&&!map.getLayer(definition.id))map.addLayer(definition,fieldInsertBefore(map));
-          if(map.getLayer(definition.id))map.setLayoutProperty(definition.id,"visibility",visible?"visible":"none");
-          if(layer==="bathymetry"&&map.getLayer(FIELD_LAYER.bathymetry)&&map.getLayer(FIELD_LAYER.currents))map.moveLayer(FIELD_LAYER.bathymetry,FIELD_LAYER.currents);
-          if(states[layer])publish(layer,states[layer]);
-        }catch(error){reject(layer,error);}
+      try{
+        const data=layer==="bathymetry"?bathyImage:currentData;
+        const visible=layer==="bathymetry"?bathymetry&&data:currentField&&data.features.length>0;
+        const source=map.getSource(FIELD_SOURCE[layer]);
+        if(layer==="currents"){
+          if(!map.hasImage("pelora-field-current-arrow"))map.addImage("pelora-field-current-arrow",observationImages()["pelora-current-arrow"]);
+          if(source)source.setData(data);else map.addSource(FIELD_SOURCE[layer],{type:"geojson",data});
+        }else if(data){
+          if(source)source.updateImage(data);else map.addSource(FIELD_SOURCE[layer],{type:"image",...data});
+        }
+        const definition=fieldLayerDefinitions().find(d=>d.id===FIELD_LAYER[layer]);
+        if(map.getSource(definition.source)&&!map.getLayer(definition.id))map.addLayer(definition,fieldInsertBefore(map));
+        if(map.getLayer(definition.id))map.setLayoutProperty(definition.id,"visibility",visible?"visible":"none");
+        if(layer==="bathymetry"&&map.getLayer(FIELD_LAYER.bathymetry)&&map.getLayer(FIELD_LAYER.currents))map.moveLayer(FIELD_LAYER.bathymetry,FIELD_LAYER.currents);
+        if(states[layer])publish(layer,states[layer]);
+      }catch(error){reject(layer,error);}
+    };
+    const apply=()=>{
+      if(disposed||mapRef.current!==map)return;
+      map.off("idle",apply);
+      if(map.isStyleLoaded()){
+        if(readyTimer!==null)window.clearTimeout(readyTimer);readyTimer=null;sync();
+      }else{
+        map.once("idle",apply);
+        // Retry readiness without movement; each layer owns its own timer.
+        if(readyTimer===null)readyTimer=window.setTimeout(()=>{readyTimer=null;apply();},100);
       }
     };
-    const apply=()=>{map.off("idle",sync);if(map.isStyleLoaded())sync();else map.once("idle",sync);};
     const requests=createViewportFieldRequests({
       request:async(layer,viewport,signal)=>{
         const params=new URLSearchParams({layer,bbox:viewport.bbox.join(","),density:String(layer==="bathymetry"?viewport.bathymetryDensity:viewport.currentDensity),time:"latest-available"});
@@ -78,23 +96,27 @@ export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldSt
             if(state.field?.coverage.validCells&&!bathyImage)throw new Error("Bathymetry conversion produced no image");
           }else currentData=currentFieldGeoJson(state.field);
           if(!state.field&&map.getLayer(FIELD_LAYER[layer]))map.setLayoutProperty(FIELD_LAYER[layer],"visibility","none");
-          if(!map.isStyleLoaded())publish(layer,{...state,status:"loading"});
+          if(!map.isStyleLoaded())publish(layer,{...state,status:state.field?"loading":state.status});
           apply();
         }catch(error){reject(layer,error);}
       }
     });
     const acquire=()=>{
-      if(!active.length)return;
+      if(disposed||mapRef.current!==map||!active.length)return;
       try{requests.schedule(fieldViewport(map.getBounds(),map.getZoom()),active);}
       catch(error){requests.cancel();for(const layer of active)reject(layer,error);}
     };
     const start=()=>requests.cancel();
     const loaded=()=>{apply();acquire();};
-    onFieldStatus({});apply();
+    if(!enabled){
+      clearRendered();publish(layer,{status:"off",field:null});return;
+    }
+    apply();
     map.on("movestart",start);map.on("moveend",acquire);map.on("load",loaded);map.on("style.load",loaded);
-    if(map.isStyleLoaded())acquire();
+    acquire();
     const refresh=window.setInterval(acquire,300000);
-    return()=>{disposed=true;requests.dispose();window.clearInterval(refresh);map.off("idle",sync);
+    return()=>{disposed=true;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
+      clearRendered();
       map.off("movestart",start);map.off("moveend",acquire);map.off("load",loaded);map.off("style.load",loaded);};
-  },[mapRef,bathymetry,currentField,onFieldStatus]);
+  },[mapRef,layer,enabled,onFieldStatus]);
 }

@@ -40,7 +40,7 @@ export function fieldStatusText(layer,state,now=Date.now()) {
 export function fieldLayerDefinitions() {
   return [
     {id:FIELD_LAYER.bathymetry,type:"raster",source:FIELD_SOURCE.bathymetry,
-      paint:{"raster-opacity":0.65,"raster-resampling":"nearest","raster-fade-duration":0}},
+      paint:{"raster-opacity":0.85,"raster-resampling":"nearest","raster-fade-duration":0}},
     {id:FIELD_LAYER.currents,type:"symbol",source:FIELD_SOURCE.currents,
       layout:{"icon-image":"pelora-field-current-arrow","icon-rotate":["get","directionDegrees"],
         "icon-rotation-alignment":"map","icon-pitch-alignment":"map","icon-allow-overlap":true,
@@ -109,7 +109,7 @@ export function bathymetryRasterPlan(field) {
     const left=i? (xs[i-1]+lon)/2:lon-half, right=i<xs.length-1?(lon+xs[i+1])/2:lon+half;
     const low=j?(ys[j-1]+lat)/2:lat-half,high=j<ys.length-1?(lat+ys[j+1])/2:lat+half;
     rectangles.push({x:pixelX(left),y:pixelY(high),width:pixelX(right)-pixelX(left),height:pixelY(low)-pixelY(high),
-      color:z< -4000?"#102737":z< -2000?"#173747":z< -1000?"#204757":z< -200?"#315b68":"#477781"});
+      color:z< -4000?"#204e72":z< -2000?"#39849a":z< -1000?"#60a6ad":z< -200?"#89c5bd":"#c9d9bd"});
   }));
   return {width,height,coordinates:[[west,north],[east,north],[east,south],[west,south]],rectangles};
 }
