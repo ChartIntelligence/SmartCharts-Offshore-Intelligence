@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "record_id": "pelora-real-world-validation-2026-10-09-hurricane-cloud-degraded-ocean-intelligence",
+  "record_class": "real_world_observational_qa",
+  "status": "preserved_not_scientific_admission",
+  "date": "2026-10-09",
+  "surface": "peloraoffshore.com mobile application",
+  "region": "Northern Gulf of Mexico / Florida Panhandle operating area",
+  "storm_context": {
+    "name": "Hurricane Isaias",
+    "official_context_source": "National Hurricane Center",
+    "advisory_time": "2026-10-09T19:00:00Z",
+    "position": {"latitude": 28.7, "longitude": -87.1},
+    "maximum_sustained_wind_mph": 120,
+    "minimum_central_pressure_mb": 959,
+    "saffir_simpson_category": 3,
+    "source_url": "https://www.nhc.noaa.gov/text/refresh/MIATCUAT4+shtml/091857.shtml",
+    "usage_boundary": "External storm context only; not Pelora hurricane-forecast validation."
+  },
+  "subcases": [
+    {
+      "id": "A",
+      "name": "Environmental evidence resilience near Okaloosa FAD 8",
+      "observed_ui_time_local_approx": "14:51",
+      "selected_location": "Okaloosa FAD 8",
+      "observations": {
+        "sea_state": "28 ft at 10.55 sec",
+        "swell": "12.3 ft at 10.9 sec",
+        "ride_context": "A high-impact combined sea state is present.",
+        "wind": "Unavailable",
+        "water_color": "Unavailable",
+        "partial_ocean_picture_message_present": true,
+        "independent_bathymetry_current_metadata_present": true
+      },
+      "evidence_file": "evidence/okaloosa-fad8-live-conditions-2026-10-09.jpeg",
+      "evidence_sha256": "a48a20ea083344c137ab76ceb17f6c93c457e2c72d403407d817f4b8b157b3f6"
+    },
+    {
+      "id": "B",
+      "name": "Cloud-covered Top Opportunity continuity",
+      "observed_ui_time_local_approx": "14:56",
+      "mission_context": "Panama City, FL · 200 NM · Blue Marlin",
+      "ranked_markers_visible": [1, 2],
+      "independent_current_metadata_present": true,
+      "independent_bathymetry_metadata_present": true,
+      "evidence_file": "evidence/cloud-covered-top-opportunities-2026-10-09.jpeg",
+      "evidence_sha256": "f4dffd8f9cdff26a1b8936ad3a8491a375cbbefae96d58a2489571ec7e06c5fb",
+      "qualification_boundary": "Continuity observation only; eligibility/rank correctness requires exact evidence-chain review against the Minimum Opportunity Evidence Gate."
+    }
+  ],
+  "derived_regression_requirements": [
+    "Cloud-sensitive source loss must not erase unrelated valid evidence.",
+    "Missing evidence must not be represented as current or silently inferred.",
+    "Opportunity continuity may persist only when upstream governance still permits it.",
+    "If current evidence falls below the Minimum Opportunity Evidence Gate, ranked delivery must cease.",
+    "Stale/latest-available evidence must retain age and provenance.",
+    "Degraded observing conditions must not collapse independent evidence channels into a shared unavailable state.",
+    "Severe-weather validation is evidence-governance validation, not safety certification."
+  ],
+  "follow_up_required": [
+    "Review exact evidence chains for ranked Opportunity #1 and #2 at the captured cycle.",
+    "Identify cloud-sensitive missing/stale/degraded evidence for each Opportunity.",
+    "Verify any fallback evidence and its freshness/provenance rule.",
+    "Confirm Minimum Opportunity Evidence Gate remained satisfied using only admissible current evidence.",
+    "Confirm rank persistence was governed rather than simply carried forward."
+  ]
+}
