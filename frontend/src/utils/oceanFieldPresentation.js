@@ -5,6 +5,80 @@ export const FIELD_CONTROLS = [
 export const FIELD_SOURCE = {bathymetry:"pelora-bathymetry-field",currents:"pelora-geostrophic-field"};
 export const FIELD_LAYER = {bathymetry:"pelora-bathymetry-shading",currents:"pelora-geostrophic-arrows"};
 export const EMPTY_FIELD = {type:"FeatureCollection",features:[]};
+export const BATHYMETRY_CONTOUR_SOURCE="pelora-bathymetry-contours";
+export const BATHYMETRY_CONTOUR_LAYERS=["pelora-bathymetry-minor","pelora-bathymetry-major","pelora-bathymetry-depth-labels"];
+// Display intervals in source meters; these are not source/science thresholds.
+export const BATHYMETRY_CONTOUR_LEVELS=Object.freeze([100,200,500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000]);
+// Presentation allocation guard, not scientific/source admission. Reject a
+// pathological display rather than flood the map with ambiguous tiny segments.
+export const BATHYMETRY_CONTOUR_MAX_FEATURES=6000;
+export function bathymetryContourLabel(depthMeters,unit="feet") {
+  return unit==="feet"?`${Math.round(depthMeters/0.3048).toLocaleString("en-US")} ft`:
+    unit==="fathoms"?`${Math.round(depthMeters/1.8288).toLocaleString("en-US")} fm`:`${depthMeters.toLocaleString("en-US")} m`;
+}
+// Threshold boundaries of the unchanged nearest-cell representation. No depth
+// interpolation, smoothing, extrapolation, or lines across land/missing samples.
+export function bathymetryContours(field,unit="feet") {
+  validateFieldPresentation(field,"bathymetry");
+  const {longitudes:xs,latitudes:ys,values}=field.payload;
+  const [west,south,east,north]=field.bounds;
+  const half=field.resolution.deliveredDegrees/2;
+  const edges=(axis,low,high)=>axis.map((v,i)=>Math.max(low,Math.min(high,i?(axis[i-1]+v)/2:v-half)))
+    .concat(Math.max(low,Math.min(high,axis.at(-1)+half)));
+  const xe=edges(xs,west,east),ye=edges(ys,south,north),features=[];
+  const append=feature=>{if(features.length>=BATHYMETRY_CONTOUR_MAX_FEATURES)throw new Error("Bathymetry contour presentation exceeds complexity limit");features.push(feature);};
+  for(const depthMeters of BATHYMETRY_CONTOUR_LEVELS){
+    const segments=[];
+    const crossing=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&a<0&&b<0&&((a<=-depthMeters)!==(b<=-depthMeters));
+    for(let j=0;j<ys.length;j++)for(let i=0;i<xs.length;i++){
+      const z=values[j*xs.length+i];
+      if(i+1<xs.length&&crossing(z,values[j*xs.length+i+1])&&ye[j]<ye[j+1])
+        segments.push([[xe[i+1],ye[j]],[xe[i+1],ye[j+1]]]);
+      if(j+1<ys.length&&crossing(z,values[(j+1)*xs.length+i])&&xe[i]<xe[i+1])
+        segments.push([[xe[i],ye[j+1]],[xe[i+1],ye[j+1]]]);
+    }
+    // Join degree-two vertices only. Ambiguous junctions stay separate rather
+    // than inventing a connection between diagonal sample regions.
+    const adjacency=new Map(),key=p=>JSON.stringify(p);
+    segments.forEach((s,index)=>s.forEach(p=>{const k=key(p);if(!adjacency.has(k))adjacency.set(k,[]);adjacency.get(k).push(index);}));
+    const used=new Set(),lines=[];
+    const walk=(index,start)=>{const line=[start];let point=start;
+      while(!used.has(index)){used.add(index);const s=segments[index];point=key(s[0])===key(point)?s[1]:s[0];line.push(point);
+        const next=adjacency.get(key(point));if(next.length!==2)break;const candidate=next.find(n=>!used.has(n));if(candidate===undefined)break;index=candidate;}
+      return line;};
+    segments.forEach((s,index)=>{if(used.has(index))return;const start=s.find(p=>adjacency.get(key(p)).length!==2);if(start)lines.push(walk(index,start));});
+    segments.forEach((s,index)=>{if(!used.has(index))lines.push(walk(index,s[0]));});
+    const major=depthMeters===200||depthMeters%1000===0;
+    // Smaller display intervals appear only regionally; no extra levels at
+    // close zoom because magnification does not improve source resolution.
+    const minZoom=major?0:depthMeters===100?8:6;
+    lines.forEach((coordinates,index)=>{
+      const properties={fieldId:field.fieldId,depthMeters,major,minZoom,
+        label:bathymetryContourLabel(depthMeters,unit),representation:"nearest-cell-threshold-boundary"};
+      const id=`${field.fieldId}:${depthMeters}:${index}`;
+      append({type:"Feature",id,geometry:{type:"LineString",coordinates},properties});
+      // One associated label per sufficiently long joined major line, never
+      // every cell edge. Anchor on an existing vertex; do not smooth the line.
+      const length=coordinates.slice(1).reduce((sum,p,i)=>sum+Math.hypot(p[0]-coordinates[i][0],p[1]-coordinates[i][1]),0);
+      if(major&&length>=field.resolution.deliveredDegrees*4)append({type:"Feature",id:`${id}:label`,
+        geometry:{type:"Point",coordinates:coordinates[Math.floor(coordinates.length/2)]},properties});
+    });
+  }
+  return {type:"FeatureCollection",features};
+}
+export function bathymetryContourLayerDefinitions(){
+  const common={source:BATHYMETRY_CONTOUR_SOURCE,metadata:{"pelora:visualSlot":"relief"}};
+  return [
+    {...common,id:BATHYMETRY_CONTOUR_LAYERS[0],type:"line",filter:["all",["==",["geometry-type"],"LineString"],["==",["get","major"],false]],
+      paint:{"line-color":"#668992","line-width":0.65,"line-opacity":["step",["zoom"],0,6,["case",["<=",["get","minZoom"],6],0.45,0],8,0.45]}},
+    {...common,id:BATHYMETRY_CONTOUR_LAYERS[1],type:"line",filter:["all",["==",["geometry-type"],"LineString"],["==",["get","major"],true]],
+      paint:{"line-color":"#8eaeb4","line-width":1.1,"line-opacity":0.65}},
+    {...common,id:BATHYMETRY_CONTOUR_LAYERS[2],type:"symbol",minzoom:5,filter:["==",["geometry-type"],"Point"],
+      layout:{"symbol-placement":"point","text-offset":[0,0.8],"text-anchor":"top","text-field":["get","label"],"text-font":["Open Sans Regular"],
+        "text-size":11,"text-padding":8,"text-allow-overlap":false,"text-ignore-placement":false},
+      paint:{"text-color":"#a6bfc3","text-halo-color":"#101e29","text-halo-width":1.5}}
+  ];
+}
 // MapLibre 5.24 image textures have no mipmaps, but raster drawing requests a
 // mipmap min filter. Scope this compatibility adapter to one bathymetry source;
 // keep nearest sampling and let MapLibre own texture creation/binding/disposal.
@@ -90,8 +164,8 @@ export function fieldLayerDefinitions() {
 // Insert below existing context layers; never move raw fields above ranked targets.
 export function fieldInsertBefore(map) {
   const layers=map.getStyle()?.layers ?? [];
-  return layers.find(l=>l.id.startsWith("pelora-")&&!Object.values(FIELD_LAYER).includes(l.id) ||
-    l.id.startsWith("structure-") || l.id.startsWith("fad-") || l.type==="symbol")?.id;
+  return layers.find(l=>!Object.values(FIELD_LAYER).includes(l.id)&&!BATHYMETRY_CONTOUR_LAYERS.includes(l.id)&&
+    (l.id.startsWith("pelora-")||l.id.startsWith("structure-")||l.id.startsWith("fad-")||l.type==="symbol"))?.id;
 }
 const mercator = latitude => Math.log(Math.tan(Math.PI/4+latitude*Math.PI/360));
 // Validate the legacy spatial presentation contract, not source admission/science.

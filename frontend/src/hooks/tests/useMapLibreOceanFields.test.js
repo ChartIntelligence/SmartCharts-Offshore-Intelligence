@@ -38,24 +38,25 @@ const renderHook=context.useMapLibreOceanFields;context.useMapLibreOceanFields=p
 const props={mapRef:{current:map},bathymetry:true,currentField:true,onFieldStatus:update=>{state=typeof update==="function"?update(state):update;}};
 context.useMapLibreOceanFields(props);let cleanup=effect();assert.equal(requests,0);
 styleLoaded=true;events.get("load")();await scheduled();
-assert.equal(requests,2);assert.equal(sourceAdds,2);assert.equal(state.currents.field.validTime,current.validTime);
+assert.equal(requests,2);assert.equal(sourceAdds,3);assert.equal(state.currents.field.validTime,current.validTime);
 assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data.features.length,1);
 assert.ok(layers.findIndex(l=>l.id===presentation.FIELD_LAYER.bathymetry)<layers.findIndex(l=>l.id===presentation.FIELD_LAYER.currents));
 assert.ok(layers.findIndex(l=>l.id===presentation.FIELD_LAYER.currents)<layers.findIndex(l=>l.id==="structure-clusters"));
-events.get("moveend")();await scheduled();assert.equal(sourceAdds,2,"viewport changes reuse sources");
+for(const id of presentation.BATHYMETRY_CONTOUR_LAYERS)assert.ok(layers.findIndex(l=>l.id===id)<layers.findIndex(l=>l.id===presentation.FIELD_LAYER.currents));
+events.get("moveend")();await scheduled();assert.equal(sourceAdds,3,"viewport changes reuse sources");
 const retainedCurrent=state.currents.field,retainedBathy=state.bathymetry.field;
 // Same-viewport failures must retain both rendered layers and original metadata.
 context.fetch=async()=>{throw new Error("temporary provider timeout");};
 events.get("moveend")();
 assert.equal(state.currents.status,"loading");assert.equal(state.currents.field,retainedCurrent);
 assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data.features.length,1);
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 await scheduled();
 assert.equal(state.currents.status,"degraded");assert.equal(state.currents.field,retainedCurrent);
 assert.equal(state.bathymetry.status,"degraded");assert.equal(state.bathymetry.field,retainedBathy);
 assert.match(state.currents.reason,/timeout/);
 assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility,"visible");
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 // Rejection must clear rendering and cache without affecting the sibling.
 const originalCanvas=context.bathymetryImage;
 const transport=(badLayer,bad)=>async url=>({ok:true,text:async()=>JSON.stringify(url.includes("layer=bathymetry")?(badLayer==="bathymetry"?bad:bathy):(badLayer==="currents"?bad:current))});
@@ -64,7 +65,9 @@ async function restore(){context.bathymetryImage=originalCanvas;context.fetch=tr
   assert.equal(JSON.stringify(state.currents.field),JSON.stringify(current));assert.equal(JSON.stringify(state.bathymetry.field),JSON.stringify(bathy));}
 function absent(layer){assert.equal(state[layer].status,"unavailable");assert.equal(state[layer].field,null);
   assert.ok(!map.getLayer(presentation.FIELD_LAYER[layer])||map.getLayer(presentation.FIELD_LAYER[layer]).layout.visibility==="none");
-  if(layer==="currents")assert.equal(sources.get(presentation.FIELD_SOURCE.currents)?.data.features.length??0,0);}
+  if(layer==="currents")assert.equal(sources.get(presentation.FIELD_SOURCE.currents)?.data.features.length??0,0);
+  else {for(const id of presentation.BATHYMETRY_CONTOUR_LAYERS)assert.ok(!map.getLayer(id)||map.getLayer(id).layout.visibility==="none");
+    assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE)?.data.features.length??0,0);}}
 // Actual syntax decoding at the hook request boundary, not a fake parse error.
 const rawResponse=(body,ok=true,status=200)=>{let reads=0;return {ok,status,
   json:async()=>JSON.parse(body),text:async()=>{assert.equal(++reads,1,"body consumed once");return body;}};};
@@ -73,7 +76,7 @@ for(const body of ['{"privateFixture":',""]){
   context.fetch=async url=>url.includes("layer=bathymetry")?rawResponse(JSON.stringify(bathy)):rawResponse(body);
   await refresh();absent("currents");assert.equal(state.bathymetry.field.fieldId,bathy.fieldId);
   assert.equal(sources.get(presentation.FIELD_SOURCE.bathymetry),siblingSource);
-  assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+  assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
   assert.equal(state.currents.reason,"Malformed successful field response");
   assert.ok(!state.currents.reason.includes("privateFixture"));
   styleLoaded=false;events.get("style.load")();const syntaxIdle=events.get("idle");
@@ -130,7 +133,7 @@ await restore();assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).lay
 const nullSibling=sources.get(presentation.FIELD_SOURCE.bathymetry);
 context.fetch=transport("currents",null);await refresh();absent("currents");
 assert.equal(JSON.stringify(state.bathymetry.field),JSON.stringify(bathy));assert.equal(sources.get(presentation.FIELD_SOURCE.bathymetry),nullSibling);
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 // Exercise deferred sync before any further request settles.
 styleLoaded=false;events.get("style.load")();const nullIdle=events.get("idle");
 assert.equal(state.currents.field,null);styleLoaded=true;nullIdle();
@@ -140,7 +143,7 @@ context.fetch=async()=>{throw new Error("genuine transport after null");};
 events.get("style.load")();await scheduled();absent("currents");
 assert.match(state.currents.reason,/genuine transport/);
 assert.equal(JSON.stringify(state.bathymetry.field),JSON.stringify(bathy));assert.equal(state.bathymetry.status,"degraded");
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 console.log("PASS PELORA-04 P1 valid render -> HTTP-success null -> clear/unavailable -> idle/style -> transport failure without resurrection");
 for(const [layer,bad] of [
   ["currents",{...current,contractVersion:"unsupported"}],
@@ -153,7 +156,7 @@ for(const [layer,bad] of [
 ]){
   await restore();const sibling=layer==="currents"?"bathymetry":"currents";
   context.fetch=transport(layer,bad);await refresh();absent(layer);
-  assert.equal(map.getLayer(presentation.FIELD_LAYER[sibling]).layout.visibility,"visible");
+  assert.equal(map.getLayer((sibling==="bathymetry"?presentation.BATHYMETRY_CONTOUR_LAYERS[1]:presentation.FIELD_LAYER[sibling])).layout.visibility,"visible");
   context.fetch=async()=>{throw new Error("controlled transport");};
   events.get("style.load")();assert.equal(state[layer].field,null);await scheduled();absent(layer);
   assert.equal(state[sibling].status,"degraded");
@@ -166,7 +169,7 @@ context.fetch=async()=>{throw new Error("controlled transport");};await refresh(
 // Persistent source failures, including clearing through a failing source.
 const sourceAdder=map.addSource;
 await restore();map.addSource=(id,data)=>{if(id===presentation.FIELD_SOURCE.currents)throw new Error("current source unavailable");sourceAdder(id,data);};sources.get(presentation.FIELD_SOURCE.currents).setData=()=>{throw new Error("setData failed");};
-await refresh();absent("currents");assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+await refresh();absent("currents");assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 map.addSource=sourceAdder;await restore();map.addSource=(id,data)=>{if(id===presentation.FIELD_SOURCE.bathymetry)throw new Error("bathy source unavailable");sourceAdder(id,data);};sources.get(presentation.FIELD_SOURCE.bathymetry).updateImage=()=>{throw new Error("updateImage failed");};
 await refresh();absent("bathymetry");assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility,"visible");
 map.addSource=sourceAdder;
@@ -179,24 +182,24 @@ events.get("style.load")();await scheduled();absent("currents");
 // Layout failure removes the affected layer when hiding also fails.
 await restore();const layoutSetter=map.setLayoutProperty;
 map.setLayoutProperty=(id,key,value)=>{if(id===presentation.FIELD_LAYER.currents)throw new Error("layout failed");layoutSetter(id,key,value);};
-await refresh();absent("currents");assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+await refresh();absent("currents");assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 map.setLayoutProperty=layoutSetter;
 // A style rebuild and addSource failure affect only the rejected layer.
 await restore();sources.clear();for(const id of Object.values(presentation.FIELD_LAYER))map.removeLayer(id);
 const addSource=map.addSource;map.addSource=(id,data)=>{if(id===presentation.FIELD_SOURCE.currents)throw new Error("addSource failed");addSource(id,data);};
 events.get("style.load")();await scheduled();absent("currents");
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");map.addSource=addSource;
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");map.addSource=addSource;
 // Direct layer-creation and arrow-image registration failures stay local.
 await restore();const layerAdder=map.addLayer;
 map.removeLayer(presentation.FIELD_LAYER.currents);
 map.addLayer=(definition,before)=>{if(definition.id===presentation.FIELD_LAYER.currents)throw new Error("addLayer failed");layerAdder(definition,before);};
 await refresh();absent("currents");assert.equal(JSON.stringify(state.bathymetry.field),JSON.stringify(bathy));
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 map.addLayer=layerAdder;
 await restore();const imageAdder=map.addImage;images.delete("pelora-field-current-arrow");
 map.addImage=()=>{throw new Error("arrow image registration failed");};
 await refresh();absent("currents");assert.equal(JSON.stringify(state.bathymetry.field),JSON.stringify(bathy));
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 map.addImage=imageAdder;
 console.log("PASS direct addLayer and arrow-image registration failure locality");
 // Valid zeros retain source identity and success even when no arrow is drawn.
@@ -211,12 +214,12 @@ map.getBounds=()=>({getWest:()=>140,getEast:()=>141,getSouth:()=>-40,getNorth:()
 events.get("moveend")();
 assert.equal(state.currents.field,null);assert.equal(state.bathymetry.field,null);
 assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility,"none");
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"none");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"none");
 await scheduled();assert.equal(state.currents.status,"unavailable");
 styleLoaded=false;events.get("moveend")();const disposedIdle=events.get("idle"),disposedRequest=scheduled;
 cleanup();assert.equal(events.size,0);const disposedState=state;disposedIdle();await disposedRequest();assert.equal(state,disposedState);styleLoaded=true;
 context.useMapLibreOceanFields({...props,bathymetry:false,currentField:false});cleanup=effect();
-assert.ok(!map.getLayer(presentation.FIELD_LAYER.bathymetry)||map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility==="none");
+assert.ok(!map.getLayer(presentation.FIELD_LAYER.bathymetry)||map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility==="none");
 assert.ok(!map.getLayer(presentation.FIELD_LAYER.currents)||map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility==="none");cleanup();
 console.log("PASS actual field hook style load, viewport requests, image/vector sources, layer order, reuse, toggles and cleanup");
 
@@ -245,7 +248,7 @@ for(const [offKey,sibling] of [["currentField","bathymetry"],["bathymetry","curr
   assert.equal(calls.filter(layer=>layer===sibling).length,preservedCalls,"no sibling transport caused by toggle");
   const enabledLayer=offKey==="bathymetry"?"bathymetry":"currents";
   assert.equal(state[enabledLayer].field.fieldId,enabledLayer==="bathymetry"?bathy.fieldId:current.fieldId);
-  assert.equal(map.getLayer(presentation.FIELD_LAYER[enabledLayer]).layout.visibility,"visible");
+  assert.equal(map.getLayer((enabledLayer==="bathymetry"?presentation.BATHYMETRY_CONTOUR_LAYERS[1]:presentation.FIELD_LAYER[enabledLayer])).layout.visibility,"visible");
 }
 cleanup();styleLoaded=false;
 commitProps({});await scheduled();assert.equal(state.currents.status,"loading");assert.equal(state.bathymetry.status,"loading");
@@ -253,7 +256,7 @@ assert.ok(readyTimers.size>0,"style readiness has its own retry without movement
 styleLoaded=true;const capturedRefreshes=[...refreshTimers.values()];
 const readinessCallbacks=[...readyTimers.values()];readyTimers.clear();readinessCallbacks.forEach(fn=>fn());
 assert.equal(state.currents.status,current.status);assert.equal(state.bathymetry.status,bathy.status);
-assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"visible");
+assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
 cleanup();assert.equal(timers.size,0);assert.equal(readyTimers.size,0);assert.equal(refreshTimers.size,0);assert.equal(events.size,0);
 const teardownState=state;readinessCallbacks.forEach(fn=>fn());capturedRefreshes.forEach(fn=>fn());
 assert.equal(state,teardownState);assert.equal(timers.size,0);assert.equal(events.size,0,"captured readiness/refresh callbacks do not reattach after teardown");
@@ -280,3 +283,21 @@ const afterSamplingFailure=state;staleBind.call(failingSamplerSource.texture,972
 assert.equal(state,afterSamplingFailure,"detached texture callback cannot reject a later context");
 cleanup();assert.equal(events.size,0);
 console.log("PASS texture failure clears only bathymetry cache/rendering, preserves currents, and rejects detached callbacks");
+context.fetch=transport();commitProps({});await scheduled();
+assert.equal(map.getLayer(presentation.FIELD_LAYER.bathymetry).layout.visibility,"none","internal raster is not captain presentation");
+const contourSibling=state.currents;
+const contourSource=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE);
+contourSource.setData=()=>{throw new Error("controlled contour source failure");};
+const contourAdder=map.addSource;
+map.addSource=(id,data)=>{if(id===presentation.BATHYMETRY_CONTOUR_SOURCE)throw new Error("controlled contour source failure");contourAdder(id,data);};
+await refresh();absent("bathymetry");assert.equal(JSON.stringify(state.currents.field),JSON.stringify(contourSibling.field));
+context.fetch=async()=>{throw new Error("transport after contour rejection");};
+events.get("style.load")();await scheduled();absent("bathymetry");map.addSource=contourAdder;cleanup();assert.equal(events.size,0);
+console.log("PASS hidden retained raster, contour failure clearing/invalidation and sibling preservation");
+context.fetch=transport();commitProps({});await scheduled();
+const contourConverter=context.bathymetryContours;
+context.bathymetryContours=()=>{throw new Error("Bathymetry contour presentation exceeds complexity limit");};
+await refresh();absent("bathymetry");assert.equal(state.currents.field.fieldId,current.fieldId);
+context.bathymetryContours=contourConverter;context.fetch=async()=>{throw new Error("transport after complexity rejection");};
+events.get("style.load")();await scheduled();absent("bathymetry");cleanup();
+console.log("PASS contour conversion/complexity rejection is fail-closed and cannot restore rejected bathymetry");
