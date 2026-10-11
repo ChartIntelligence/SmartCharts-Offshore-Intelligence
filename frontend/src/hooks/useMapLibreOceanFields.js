@@ -2,7 +2,7 @@ import {useEffect} from "react";
 import {resolvePeloraApiUrl} from "../utils/peloraApi.js";
 import {observationImages} from "../utils/mapObservationDisplay.js";
 import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,bathymetryImage,
-  fieldLayerDefinitions,fieldInsertBefore,validateFieldPresentation} from "../utils/oceanFieldPresentation.js";
+  fieldLayerDefinitions,fieldInsertBefore,validateFieldPresentation,installBathymetryTextureSampling} from "../utils/oceanFieldPresentation.js";
 import {createViewportFieldRequests} from "../utils/viewportFieldRequests.js";
 
 export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus}) {
@@ -15,11 +15,13 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
   useEffect(()=>{
     const map=mapRef.current;if(!map)return;
     let disposed=false, bathyImage=null,currentData=EMPTY_FIELD,readyTimer=null;
+    let sampledSource=null,releaseSampling=null;
     const bathymetry=enabled&&layer==="bathymetry",currentField=enabled&&layer==="currents";
     const states={};
     const active=enabled?[layer]:[];
     const publish=(layer,state)=>onFieldStatus(current=>({...current,[layer]:state}));
     const clearRendered=()=>{
+      releaseSampling?.();releaseSampling=null;sampledSource=null;
       // Hide first; remove only this layer/source if the map operation fails.
       try{if(map.getLayer(FIELD_LAYER[layer]))map.setLayoutProperty(FIELD_LAYER[layer],"visibility","none");}
       catch{try{if(map.getLayer(FIELD_LAYER[layer]))map.removeLayer(FIELD_LAYER[layer]);}catch{/* map teardown */}}
@@ -48,6 +50,13 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
           if(source)source.setData(data);else map.addSource(FIELD_SOURCE[layer],{type:"geojson",data});
         }else if(data){
           if(source)source.updateImage(data);else map.addSource(FIELD_SOURCE[layer],{type:"image",...data});
+          const imageSource=map.getSource(FIELD_SOURCE[layer]);
+          if(imageSource!==sampledSource){
+            releaseSampling?.();sampledSource=imageSource;
+            releaseSampling=installBathymetryTextureSampling(imageSource,error=>{
+              if(!disposed&&mapRef.current===map&&map.getSource(FIELD_SOURCE[layer])===imageSource)reject(layer,error);
+            });
+          }
         }
         const definition=fieldLayerDefinitions().find(d=>d.id===FIELD_LAYER[layer]);
         if(map.getSource(definition.source)&&!map.getLayer(definition.id))map.addLayer(definition,fieldInsertBefore(map));
