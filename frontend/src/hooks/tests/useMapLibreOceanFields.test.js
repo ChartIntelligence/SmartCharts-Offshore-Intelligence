@@ -301,3 +301,71 @@ await refresh();absent("bathymetry");assert.equal(state.currents.field.fieldId,c
 context.bathymetryContours=contourConverter;context.fetch=async()=>{throw new Error("transport after complexity rejection");};
 events.get("style.load")();await scheduled();absent("bathymetry");cleanup();
 console.log("PASS contour conversion/complexity rejection is fail-closed and cannot restore rejected bathymetry");
+
+// Static display continuity is not changed-context request-cache retention.
+const continuous={...bathy,fieldId:"SYNTHETIC-STATIC-CONTINUITY",provider:"SYNTHETIC TEST EVIDENCE",dataset:"controlled-static-v1",
+  coverage:{returnedCells:9,validCells:9},resolution:{deliveredDegrees:.3},
+  payload:{...bathy.payload,longitudes:[-89.9,-89.6,-89.3],latitudes:[27.1,27.4,27.7],values:[-50,-500,-1500,-500,-1500,-2500,-1500,-2500,-3500]}};
+context.fetch=transport("bathymetry",continuous);commitProps({});await scheduled();
+const displaySource=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),displayData=displaySource.data;
+const displayContext=state.bathymetry.contextKey,displayField=state.bathymetry.field,displayLayer=map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]);
+let conversionCalls=0;context.bathymetryContours=field=>{conversionCalls++;return contourConverter(field);};
+map.getBounds=()=>({getWest:()=>-89.85,getEast:()=>-89.35,getSouth:()=>27.15,getNorth:()=>27.65});
+events.get("movestart")();events.get("moveend")();
+assert.equal(state.bathymetry.status,"static");assert.equal(state.bathymetry.field,displayField);
+assert.equal(state.bathymetry.contextKey,displayContext);assert.notEqual(state.bathymetry.requestedContextKey,displayContext);
+assert.equal(state.bathymetry.displayContextKey,displayContext);assert.equal(state.bathymetry.refreshing,true);
+assert.equal(displaySource.data,displayData);assert.equal(displayLayer.layout.visibility,"visible");assert.equal(conversionCalls,0);
+let releaseZoom;context.fetch=async url=>url.includes("layer=bathymetry")?await new Promise(resolve=>{releaseZoom=resolve;}):rawResponse(JSON.stringify(current));
+const zoomPending=scheduled();await Promise.resolve();assert.equal(displaySource.data,displayData);assert.equal(displayLayer.layout.visibility,"visible");
+releaseZoom(rawResponse(JSON.stringify({...continuous,fieldId:"SYNTHETIC-STATIC-REPLACEMENT"})));await zoomPending;
+assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),displaySource);assert.equal(map.getLayer(displayLayer.id),displayLayer);
+assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-STATIC-REPLACEMENT");assert.equal(state.bathymetry.refreshing,undefined);
+assert.equal(conversionCalls,1);assert.notEqual(displaySource.data,displayData);
+const staticPending=[];context.fetch=async url=>url.includes("layer=bathymetry")?await new Promise(resolve=>staticPending.push(resolve)):rawResponse(JSON.stringify(current));
+map.getBounds=()=>({getWest:()=>-89.8,getEast:()=>-89.4,getSouth:()=>27.2,getNorth:()=>27.6});
+events.get("moveend")();const obsoleteStatic=scheduled();await Promise.resolve();
+map.getBounds=()=>({getWest:()=>-89.75,getEast:()=>-89.45,getSouth:()=>27.25,getNorth:()=>27.55});
+events.get("moveend")();const currentStatic=scheduled();await Promise.resolve();
+staticPending[1](rawResponse(JSON.stringify({...continuous,fieldId:"SYNTHETIC-NEWER-STATIC"})));await currentStatic;
+const newerStaticState=state.bathymetry,newerStaticData=displaySource.data;
+staticPending[0](rawResponse('null'));await obsoleteStatic;
+assert.equal(state.bathymetry,newerStaticState);assert.equal(displaySource.data,newerStaticData);
+assert.equal(newerStaticState.field.fieldId,"SYNTHETIC-NEWER-STATIC");
+// Geographic/style readiness during a zoom replacement must not publish a
+// loading flash or claim the unapplied new field as already displayed.
+styleLoaded=false;map.getBounds=()=>({getWest:()=>-89.7,getEast:()=>-89.5,getSouth:()=>27.3,getNorth:()=>27.5});
+context.fetch=transport("bathymetry",{...continuous,fieldId:"SYNTHETIC-STYLE-PENDING"});
+events.get("moveend")();await scheduled();assert.equal(state.bathymetry.status,"static");
+assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-NEWER-STATIC");assert.equal(displaySource.data,newerStaticData);
+styleLoaded=true;events.get("idle")();assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-STYLE-PENDING");
+const appliedBeforeSupersede=displaySource.data;
+styleLoaded=false;map.getBounds=()=>({getWest:()=>-89.68,getEast:()=>-89.52,getSouth:()=>27.32,getNorth:()=>27.48});
+context.fetch=transport("bathymetry",{...continuous,fieldId:"SYNTHETIC-CONVERTED-NOT-APPLIED"});events.get("moveend")();await scheduled();
+map.getBounds=()=>({getWest:()=>-89.66,getEast:()=>-89.54,getSouth:()=>27.34,getNorth:()=>27.46});
+context.fetch=transport("bathymetry",{...continuous,fieldId:"SYNTHETIC-AFTER-SUPERSEDE"});events.get("moveend")();
+styleLoaded=true;events.get("idle")();assert.equal(displaySource.data,appliedBeforeSupersede);
+assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-STYLE-PENDING","unapplied obsolete geometry cannot masquerade as the displayed field");
+await scheduled();assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-AFTER-SUPERSEDE");
+const beforeEdition=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE);
+styleLoaded=false;context.fetch=transport("bathymetry",{...continuous,fieldId:"SYNTHETIC-NEW-EDITION",productVersion:"controlled-edition-2"});
+events.get("moveend")();await scheduled();assert.equal(state.bathymetry.status,"loading");
+assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-NEW-EDITION");assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),undefined,
+  "source/edition identity change clears the old display instead of relabeling its GPU geometry");
+styleLoaded=true;events.get("idle")();assert.notEqual(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),beforeEdition);
+assert.equal(state.bathymetry.status,"static");
+// An overlapping zoom-out keeps only old source-supported geometry pending.
+map.getBounds=()=>({getWest:()=>-90.1,getEast:()=>-89.1,getSouth:()=>26.9,getNorth:()=>27.9});
+context.fetch=async()=>{throw new Error("new-context transport unavailable");};events.get("moveend")();
+assert.equal(state.bathymetry.status,"static");assert.equal(state.bathymetry.refreshing,true);
+await scheduled();absent("bathymetry");assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE).data.features.length,0);
+// Rejection must also erase the display-retention buffer, not only helper cache.
+context.fetch=transport("bathymetry",continuous);events.get("moveend")();await scheduled();
+map.getBounds=()=>({getWest:()=>-89.8,getEast:()=>-89.4,getSouth:()=>27.2,getNorth:()=>27.6});
+context.fetch=transport("bathymetry",null);events.get("moveend")();assert.equal(state.bathymetry.status,"static");await scheduled();absent("bathymetry");
+context.fetch=async()=>{throw new Error("after rejected zoom replacement");};events.get("moveend")();await scheduled();absent("bathymetry");
+context.fetch=transport("bathymetry",continuous);events.get("moveend")();await scheduled();
+map.getBounds=()=>({getWest:()=>140,getEast:()=>141,getSouth:()=>-40,getNorth:()=>-39});events.get("moveend")();
+assert.equal(state.bathymetry.field,null);assert.equal(displayLayer.layout.visibility,"none");
+cleanup();context.bathymetryContours=contourConverter;
+console.log("PASS zoom-in/out display continuity, explicit original/display/request context identity, no loading conversion, same-source atomic replacement, disjoint clearing and rejection/failure non-resurrection");

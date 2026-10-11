@@ -16,26 +16,54 @@ export function bathymetryContourLabel(depthMeters,unit="feet") {
   return unit==="feet"?`${Math.round(depthMeters/0.3048).toLocaleString("en-US")} ft`:
     unit==="fathoms"?`${Math.round(depthMeters/1.8288).toLocaleString("en-US")} fm`:`${depthMeters.toLocaleString("en-US")} m`;
 }
-// Threshold boundaries of the unchanged nearest-cell representation. No depth
-// interpolation, smoothing, extrapolation, or lines across land/missing samples.
+// Marching squares: interpolate only threshold-crossing LOCATION on a valid
+// sample edge. No new depths, smoothing, extrapolation or missing-cell bridges.
 export function bathymetryContours(field,unit="feet") {
   validateFieldPresentation(field,"bathymetry");
   const {longitudes:xs,latitudes:ys,values}=field.payload;
   const [west,south,east,north]=field.bounds;
-  const half=field.resolution.deliveredDegrees/2;
-  const edges=(axis,low,high)=>axis.map((v,i)=>Math.max(low,Math.min(high,i?(axis[i-1]+v)/2:v-half)))
-    .concat(Math.max(low,Math.min(high,axis.at(-1)+half)));
-  const xe=edges(xs,west,east),ye=edges(ys,south,north),features=[];
+  const features=[];let generatedSegments=0;
+  const quads=[];
+  for(let j=0;j+1<ys.length;j++)for(let i=0;i+1<xs.length;i++){
+    // Do not bridge an absent source row/column beyond the delivered spacing.
+    const support=field.resolution.deliveredDegrees*(1+1e-8);
+    if(xs[i+1]-xs[i]>support||ys[j+1]-ys[j]>support)continue;
+    const z=[values[j*xs.length+i],values[j*xs.length+i+1],values[(j+1)*xs.length+i+1],values[(j+1)*xs.length+i]];
+    if(!z.every(v=>Number.isFinite(v)&&v<0)||xs[i]<west||xs[i+1]>east||ys[j]<south||ys[j+1]>north)continue;
+    quads.push({z,min:Math.min(...z),max:Math.max(...z),points:[[xs[i],ys[j]],[xs[i+1],ys[j]],[xs[i+1],ys[j+1]],[xs[i],ys[j+1]]]});
+  }
   const append=feature=>{if(features.length>=BATHYMETRY_CONTOUR_MAX_FEATURES)throw new Error("Bathymetry contour presentation exceeds complexity limit");features.push(feature);};
   for(const depthMeters of BATHYMETRY_CONTOUR_LEVELS){
-    const segments=[];
-    const crossing=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&a<0&&b<0&&((a<=-depthMeters)!==(b<=-depthMeters));
-    for(let j=0;j<ys.length;j++)for(let i=0;i<xs.length;i++){
-      const z=values[j*xs.length+i];
-      if(i+1<xs.length&&crossing(z,values[j*xs.length+i+1])&&ye[j]<ye[j+1])
-        segments.push([[xe[i+1],ye[j]],[xe[i+1],ye[j+1]]]);
-      if(j+1<ys.length&&crossing(z,values[(j+1)*xs.length+i])&&xe[i]<xe[i+1])
-        segments.push([[xe[i],ye[j+1]],[xe[i+1],ye[j+1]]]);
+    const segments=[],segmentKeys=new Set();
+    const level=-depthMeters;
+    for(const {z,points,min,max} of quads){
+      if(level<min||level>=max)continue;
+      // Canonical ascending edge direction makes shared endpoints byte-identical.
+      const edgePairs=[[0,1],[1,2],[3,2],[0,3]],crossings=new Map();
+      edgePairs.forEach(([a,b],edge)=>{
+        if((z[a]<=level)===(z[b]<=level))return;
+        const t=(level-z[a])/(z[b]-z[a]);
+        if(!Number.isFinite(t)||!Number.isFinite(z[b]-z[a]))throw new Error("Invalid bathymetry contour arithmetic");
+        crossings.set(edge,t===0?points[a]:t===1?points[b]:[points[a][0]+t*(points[b][0]-points[a][0]),points[a][1]+t*(points[b][1]-points[a][1])]);
+      });
+      let pairs=[];
+      if(crossings.size===2)pairs=[[...crossings.keys()]];
+      else if(crossings.size===4){
+        // Asymptotic saddle decision from source corner differences only.
+        // Exact ties keep the deep diagonal regions disconnected.
+        const d=z.map(v=>v-level),q=d[0]*d[2]-d[1]*d[3];
+        if(!Number.isFinite(q))throw new Error("Invalid bathymetry contour arithmetic");
+        const connect02=q>0||(q===0&&z[0]>level);
+        pairs=connect02?[[0,1],[2,3]]:[[0,3],[1,2]];
+      }
+      for(const [a,b] of pairs){const p=crossings.get(a),q=crossings.get(b);
+        if(p[0]!==q[0]||p[1]!==q[1]){
+          const pk=JSON.stringify(p),qk=JSON.stringify(q),segmentKey=pk<qk?`${pk}|${qk}`:`${qk}|${pk}`;
+          // A threshold exactly on a shared sample edge can be emitted twice.
+          // Deduplicate it without coordinate rounding/snap or tiny closed loops.
+          if(segmentKeys.has(segmentKey))continue;segmentKeys.add(segmentKey);
+          if(++generatedSegments>BATHYMETRY_CONTOUR_MAX_FEATURES)throw new Error("Bathymetry contour presentation exceeds complexity limit");
+          segments.push([p,q]);}}
     }
     // Join degree-two vertices only. Ambiguous junctions stay separate rather
     // than inventing a connection between diagonal sample regions.
@@ -54,7 +82,7 @@ export function bathymetryContours(field,unit="feet") {
     const minZoom=major?0:depthMeters===100?8:6;
     lines.forEach((coordinates,index)=>{
       const properties={fieldId:field.fieldId,depthMeters,major,minZoom,
-        label:bathymetryContourLabel(depthMeters,unit),representation:"nearest-cell-threshold-boundary"};
+        label:bathymetryContourLabel(depthMeters,unit),representation:"marching-squares-linear-crossing"};
       const id=`${field.fieldId}:${depthMeters}:${index}`;
       append({type:"Feature",id,geometry:{type:"LineString",coordinates},properties});
       // One associated label per sufficiently long joined major line, never

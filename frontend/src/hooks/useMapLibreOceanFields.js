@@ -18,6 +18,8 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     let disposed=false, bathyImage=null,currentData=EMPTY_FIELD,readyTimer=null;
     let sampledSource=null,releaseSampling=null;
     let contourData=EMPTY_FIELD;
+    let displayedState=null,convertedField=null;
+    let displayedImage=null,displayedContours=EMPTY_FIELD;
     const bathymetry=enabled&&layer==="bathymetry",currentField=enabled&&layer==="currents";
     const states={};
     const active=enabled?[layer]:[];
@@ -44,7 +46,8 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     const reject=(layer,error)=>{
       const state=states[layer];
       requests.invalidate(layer,state?.contextKey);
-      if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;}else currentData=EMPTY_FIELD;
+      if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;displayedState=null;convertedField=null;
+        displayedImage=null;displayedContours=EMPTY_FIELD;}else currentData=EMPTY_FIELD;
       states[layer]={contextKey:state?.contextKey,status:"unavailable",field:null,reason:error.message};
       clearRendered();
       publish(layer,states[layer]);
@@ -85,7 +88,9 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
             if(map.getLayer(id))map.moveLayer(id,FIELD_LAYER.currents);
         }
         if(layer==="bathymetry"&&map.getLayer(FIELD_LAYER.bathymetry)&&map.getLayer(FIELD_LAYER.currents))map.moveLayer(FIELD_LAYER.bathymetry,FIELD_LAYER.currents);
-        if(states[layer])publish(layer,states[layer]);
+        if(states[layer]){publish(layer,states[layer]);
+          if(layer==="bathymetry"&&states[layer].field&&!states[layer].refreshing){
+            displayedState=states[layer];displayedImage=bathyImage;displayedContours=contourData;}}
       }catch(error){reject(layer,error);}
     };
     const apply=()=>{
@@ -119,19 +124,50 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
       },
       onState:(layer,state)=>{
         if(disposed||mapRef.current!==map)return;
+        // Display retention is separate from the exact-context request cache.
+        // Never attach the old field to the new request context or extrapolate it.
+        if(layer==="bathymetry"&&state.status==="loading"&&displayedState?.field?.status==="static"&&
+          displayedState.field.validTime===null&&displayedImage){
+          const field=displayedState.field,{longitudes:xs,latitudes:ys}=field.payload;
+          const bbox=JSON.parse(state.contextKey).bbox;
+          if(Math.max(bbox[0],field.bounds[0],xs[0])<Math.min(bbox[2],field.bounds[2],xs.at(-1))&&
+            Math.max(bbox[1],field.bounds[1],ys[0])<Math.min(bbox[3],field.bounds[3],ys.at(-1))){
+            states[layer]={...displayedState,refreshing:true,requestedContextKey:state.contextKey,
+              displayContextKey:displayedState.contextKey,retainedForViewportTransition:true};
+            // Supersede any converted-but-unapplied older replacement as well.
+            bathyImage=displayedImage;contourData=displayedContours;convertedField=displayedState.field;
+            publish(layer,states[layer]);return;
+          }
+        }
         states[layer]=state;
         try{
           if(state.status==="malformed-success")throw new Error(state.reason);
           if(state.field)validateFieldPresentation(state.field,layer);
           if(layer==="bathymetry"){
-            bathyImage=state.field&&state.field.coverage.validCells?bathymetryImage(state.field):null;
-            contourData=state.field?bathymetryContours(state.field):EMPTY_FIELD;
+            const identity=field=>JSON.stringify([field.productId,field.provider,field.dataset,field.productVersion,
+              field.validTime,field.units,field.crs,field.provenance?.providerUrl]);
+            if(state.field&&displayedState?.field&&identity(state.field)!==identity(displayedState.field)){
+              // A real source/edition/time change is not a camera transition.
+              clearRendered();displayedState=null;displayedImage=null;displayedContours=EMPTY_FIELD;
+            }
+            // Build both derivatives before swapping the displayed buffers.
+            if(state.field!==convertedField){
+              const image=state.field&&state.field.coverage.validCells?bathymetryImage(state.field):null;
+              const contours=state.field?bathymetryContours(state.field):EMPTY_FIELD;
+              bathyImage=image;contourData=contours;convertedField=state.field;
+            }
+            if(!state.field){displayedState=null;displayedImage=null;displayedContours=EMPTY_FIELD;}
             if(state.field?.coverage.validCells&&!bathyImage)throw new Error("Bathymetry conversion produced no image");
           }else currentData=currentFieldGeoJson(state.field);
           if(!state.field&&map.getLayer(FIELD_LAYER[layer]))map.setLayoutProperty(FIELD_LAYER[layer],"visibility","none");
           if(layer==="bathymetry"&&!state.field)for(const id of BATHYMETRY_CONTOUR_LAYERS)
             if(map.getLayer(id))map.setLayoutProperty(id,"visibility","none");
-          if(!map.isStyleLoaded())publish(layer,{...state,status:state.field?"loading":state.status});
+          if(!map.isStyleLoaded()){
+            if(layer==="bathymetry"&&displayedState?.field&&state.field?.status==="static")
+              publish(layer,state.field===displayedState.field?state:{...displayedState,refreshing:true,
+                requestedContextKey:state.contextKey,displayContextKey:displayedState.contextKey,retainedForViewportTransition:true});
+            else publish(layer,{...state,status:state.field?"loading":state.status});
+          }
           apply();
         }catch(error){reject(layer,error);}
       }
@@ -152,6 +188,7 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     const refresh=window.setInterval(acquire,300000);
     return()=>{disposed=true;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
       clearRendered();
+      if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;displayedState=null;convertedField=null;displayedImage=null;displayedContours=EMPTY_FIELD;}
       map.off("movestart",start);map.off("moveend",acquire);map.off("load",loaded);map.off("style.load",loaded);};
   },[mapRef,layer,enabled,onFieldStatus]);
 }
