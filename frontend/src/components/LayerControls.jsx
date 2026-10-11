@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FIELD_CONTROLS, fieldStatusText } from "../utils/oceanFieldPresentation.js";
+import { FIELD_CONTROLS } from "../utils/oceanFieldPresentation.js";
 import { OBSERVATION_CONTROLS } from "../utils/mapObservationDisplay.js";
 
 
@@ -118,12 +118,6 @@ function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, obs
                   <input type="checkbox" checked={!!layers[key]} onChange={() => toggleLayer(key)} />
                   <span>{label}<small className="observation-layer-note" role="status">{layers[key] ? captainFieldStatus(state, observationTime) : "Off"}</small></span>
                 </label>
-                <details>
-                  <summary>Source &amp; Evidence Details — {label}</summary>
-                  <p>{fieldStatusText(layer, state, observationTime)}</p>
-                  <pre>{JSON.stringify({status: state?.status ?? "loading", reason: state?.reason ?? null,
-                    metadata: state?.field ? {...state.field, payload: undefined} : null}, null, 2)}</pre>
-                </details>
               </div>;
             })}
             <p className="observation-layer-note">Bathymetry is not a navigation chart. Arrows show geostrophic surface flow only.</p>

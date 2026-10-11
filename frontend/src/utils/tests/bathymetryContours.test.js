@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import {performance} from "node:perf_hooks";
 import {pathToFileURL} from "node:url";
-import {validateStyleMin,createExpression} from "@maplibre/maplibre-gl-style-spec";
+import {validateStyleMin,createExpression,featureFilter} from "@maplibre/maplibre-gl-style-spec";
 import {bathymetryContours,bathymetryContourLayerDefinitions,bathymetryContourLabel,
-  BATHYMETRY_CONTOUR_LEVELS,BATHYMETRY_CONTOUR_SOURCE} from "../oceanFieldPresentation.js";
+  BATHYMETRY_CONTOUR_LEVELS,BATHYMETRY_CONTOUR_SPECS,BATHYMETRY_CONTOUR_SOURCE} from "../oceanFieldPresentation.js";
 import {orderPeloraLayers} from "../peloraMapStyle.js";
 const fixture={contractVersion:"pelora-spatial-field-v1",layer:"bathymetry",fieldId:"SYNTHETIC-CONTOUR-v1",
   status:"static",validTime:null,freshness:{maxFreshAgeHours:null},bounds:[-91,26,-89,28],
@@ -16,7 +16,7 @@ assert.ok(geo.features.length>0);assert.deepEqual(bathymetryContours(fixture),ge
 for(const feature of geo.features){
   const p=feature.properties;
   assert.ok(BATHYMETRY_CONTOUR_LEVELS.includes(p.depthMeters));
-  assert.equal(p.major,p.depthMeters===200||p.depthMeters%1000===0);
+  assert.equal(p.major,BATHYMETRY_CONTOUR_SPECS.find(spec=>spec.depthMeters===p.depthMeters).major);
   assert.equal(p.label,bathymetryContourLabel(p.depthMeters));assert.equal(p.fieldId,fixture.fieldId);
   const coordinates=feature.geometry.type==="Point"?[feature.geometry.coordinates]:feature.geometry.coordinates;
   for(const [x,y] of coordinates)assert.ok(x>=-91&&x<=-89&&y>=26&&y<=28);
@@ -27,6 +27,15 @@ assert.ok(broad.every(f=>f.properties.major));
 const tiny=values=>({...fixture,bounds:[0,0,2,2],resolution:{deliveredDegrees:1},coverage:{returnedCells:4,validCells:values.filter(Number.isFinite).length},payload:{...fixture.payload,longitudes:[.5,1.5],latitudes:[.5,1.5],values}});
 for(const values of [[0,20,0,null],[-500,null,0,-4000],[-1000,-1000,-1000,-1000]])assert.equal(bathymetryContours(tiny(values)).features.length,0);
 assert.throws(()=>bathymetryContours(tiny([-50,NaN,-4000,-4000])),/presentation/);
+const shallow=tiny([-.1,-100,-.1,-100]),shallowSnapshot=JSON.stringify(shallow);
+const shallowLines=bathymetryContours(shallow).features.filter(f=>f.geometry.type==="LineString");
+for(const feet of [5,10,20,50,100,200,300])assert.ok(shallowLines.some(f=>f.properties.depthFeet===feet),feet+" ft source-supported contour exists");
+assert.equal(JSON.stringify(shallow),shallowSnapshot);
+assert.equal(BATHYMETRY_CONTOUR_SPECS.length,176);
+for(const f of shallowLines){assert.equal(f.properties.depthMeters,f.properties.depthFeet*.3048);assert.equal(f.properties.label,f.properties.depthFeet.toLocaleString("en-US")+" ft");}
+const zoomCounts=[4,6,8,10].map(z=>shallowLines.filter(f=>f.properties.minZoom<=z).length);
+assert.ok(zoomCounts.every((n,i)=>!i||n>zoomCounts[i-1]),"shallow detail grows through all four zoom tiers");
+console.log("PASS source-supported 5–300 ft shallow contours, exact feet conversion, immutable depths and four density tiers",zoomCounts);
 const edges=bathymetryContours(tiny([-50,-250,-50,-250]));
 assert.equal(bathymetryContours({...tiny([-50,-250,-50,-250]),resolution:{deliveredDegrees:.1}}).features.length,0,
   "an absent row/column larger than declared delivered spacing cannot be bridged");
@@ -43,9 +52,9 @@ for(const f of geo.features.filter(f=>f.geometry.type==="LineString")){
 const hole={...tiny([-50,-250,-50,-250]),coverage:{returnedCells:9,validCells:8},payload:{...tiny([]).payload,
   longitudes:[.5,1,1.5],latitudes:[.5,1,1.5],values:[-50,-250,-50,-250,null,-250,-50,-250,-50]}};
 assert.equal(bathymetryContours(hole).features.length,0,"no quad crosses a missing center");
-const quantized={...hole,coverage:{returnedCells:9,validCells:9},payload:{...hole.payload,values:[-50,-50,-50,-50,-100,-50,-50,-50,-50]}};
+const quantized={...hole,coverage:{returnedCells:9,validCells:9},payload:{...hole.payload,values:[-.1,-.1,-.1,-.1,-1.524,-.1,-.1,-.1,-.1]}};
 assert.equal(bathymetryContours(quantized).features.length,0,"threshold at an isolated vertex creates no zero-length micro-loop");
-const ridge={...quantized,payload:{...quantized.payload,values:[-50,-50,-50,-100,-100,-100,-50,-50,-50]}};
+const ridge={...quantized,payload:{...quantized.payload,values:[-.1,-.1,-.1,-1.524,-1.524,-1.524,-.1,-.1,-.1]}};
 const ridgeLines=bathymetryContours(ridge).features.filter(f=>f.geometry.type==="LineString");
 assert.equal(ridgeLines.length,1);assert.equal(ridgeLines[0].geometry.coordinates.length,3);
 assert.notDeepEqual(ridgeLines[0].geometry.coordinates[0],ridgeLines[0].geometry.coordinates.at(-1),"duplicate exact-threshold edges cannot form a backtracking micro-loop");
@@ -53,9 +62,12 @@ for(const f of bathymetryContours(tiny([-50,-250,-250,-50])).features){
   assert.ok(f.geometry.coordinates.every(p=>p.every(Number.isFinite)));assert.notDeepEqual(f.geometry.coordinates[0],f.geometry.coordinates.at(-1));}
 const layers=bathymetryContourLayerDefinitions();
 const opacity=createExpression(layers[0].paint["line-opacity"]);assert.equal(opacity.result,"success");
-for(const [zoom,minZoom,expected] of [[4,6,0],[7,6,.45],[7,8,0],[8,8,.45]])
+for(const [zoom,minZoom,expected] of [[4,6,0],[7,6,.45],[7,8,0],[8,8,.45],[10,12,0],[12,12,.45]])
   assert.equal(opacity.value.evaluate({zoom},{properties:{minZoom}}),expected);
 assert.deepEqual(validateStyleMin({version:8,sources:{[BATHYMETRY_CONTOUR_SOURCE]:{type:"geojson",data:geo}},layers}),[]);
+const labelFilter=featureFilter(layers[2].filter).filter;
+assert.equal(labelFilter({zoom:5},{type:1,properties:{minZoom:10}}),false,"unrevealed labels cannot reserve collision space");
+assert.equal(labelFilter({zoom:10},{type:1,properties:{minZoom:10}}),true);
 assert.equal(layers[2].layout["symbol-placement"],"point");assert.equal(layers[2].layout["text-allow-overlap"],false);
 assert.equal(layers[2].layout["text-ignore-placement"],false);
 for(const label of geo.features.filter(f=>f.geometry.type==="Point")){

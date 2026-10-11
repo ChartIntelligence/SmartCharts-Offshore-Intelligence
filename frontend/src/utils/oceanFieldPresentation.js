@@ -1,5 +1,5 @@
 export const FIELD_CONTROLS = [
-  {key:"bathymetry",label:"Bathymetry · ETOPO"},
+  {key:"bathymetry",label:"Bathymetry"},
   {key:"currentField",label:"Geostrophic Surface Currents"}
 ];
 export const FIELD_SOURCE = {bathymetry:"pelora-bathymetry-field",currents:"pelora-geostrophic-field"};
@@ -8,7 +8,26 @@ export const EMPTY_FIELD = {type:"FeatureCollection",features:[]};
 export const BATHYMETRY_CONTOUR_SOURCE="pelora-bathymetry-contours";
 export const BATHYMETRY_CONTOUR_LAYERS=["pelora-bathymetry-minor","pelora-bathymetry-major","pelora-bathymetry-depth-labels"];
 // Display intervals in source meters; these are not source/science thresholds.
-export const BATHYMETRY_CONTOUR_LEVELS=Object.freeze([100,200,500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000]);
+// Feet-based DISPLAY intervals only; source elevations/provenance stay in meters.
+const contourSpecs=new Map();
+const addContour=(feet,minZoom,intervalFeet)=>{
+  const prior=contourSpecs.get(feet);
+  if(!prior||minZoom<prior.minZoom)contourSpecs.set(feet,{depthFeet:feet,depthMeters:feet*.3048,minZoom,intervalFeet,
+    major:[100,300,600,1000,2000,3000,5000,10000,15000,20000,30000,35000].includes(feet)|| (feet<100?feet%20===0||feet===50:feet<=300?feet%100===0:feet<1000?feet===500:feet<=6000?feet%1000===0:feet%5000===0)});
+};
+const addRange=(from,to,step,zoom)=>{for(let feet=from;feet<=to;feet+=step)addContour(feet,zoom,step);};
+[100,300,600,1000,2000,3000,5000,10000,15000,20000,30000,35000].forEach(feet=>addContour(feet,0,1000));
+addRange(50,300,50,6);addRange(300,1000,100,6);addRange(1000,6000,500,6);addRange(6000,20000,1000,6);
+addRange(10,100,10,8);addRange(100,300,25,8);addRange(300,1000,50,8);addRange(1000,3000,250,8);addRange(3000,10000,500,8);addRange(20000,36000,1000,8);
+addRange(5,100,5,10);addRange(100,300,10,10);addRange(300,1000,25,10);addRange(1000,3000,100,10);addRange(3000,10000,250,10);addRange(10000,36000,500,10);
+export const BATHYMETRY_CONTOUR_SPECS=Object.freeze([...contourSpecs.values()].sort((a,b)=>a.depthFeet-b.depthFeet).map(Object.freeze));
+export const BATHYMETRY_CONTOUR_LEVELS=Object.freeze(BATHYMETRY_CONTOUR_SPECS.map(spec=>spec.depthMeters));
+const contourOpacity=opacity=>{
+  const visible=zoom=>["case",["<=",["get","minZoom"],zoom],opacity,0];
+  const expression=["step",["zoom"],visible(0)];
+  for(let zoom=1;zoom<=22;zoom++)expression.push(zoom,visible(zoom));
+  return expression;
+};
 // Presentation allocation guard, not scientific/source admission. Reject a
 // pathological display rather than flood the map with ambiguous tiny segments.
 export const BATHYMETRY_CONTOUR_MAX_FEATURES=6000;
@@ -30,15 +49,31 @@ export function bathymetryContours(field,unit="feet") {
     if(xs[i+1]-xs[i]>support||ys[j+1]-ys[j]>support)continue;
     const z=[values[j*xs.length+i],values[j*xs.length+i+1],values[(j+1)*xs.length+i+1],values[(j+1)*xs.length+i]];
     if(!z.every(v=>Number.isFinite(v)&&v<0)||xs[i]<west||xs[i+1]>east||ys[j]<south||ys[j+1]>north)continue;
-    quads.push({z,min:Math.min(...z),max:Math.max(...z),points:[[xs[i],ys[j]],[xs[i+1],ys[j]],[xs[i+1],ys[j+1]],[xs[i],ys[j+1]]]});
+    const pixelSpan=Math.min((xs[i+1]-xs[i])/360*512,
+      (mercator(Math.min(85,Math.max(-85,ys[j+1])))-mercator(Math.min(85,Math.max(-85,ys[j]))))/(2*Math.PI)*512);
+    quads.push({z,min:Math.min(...z),max:Math.max(...z),pixelSpan,points:[[xs[i],ys[j]],[xs[i+1],ys[j]],[xs[i+1],ys[j+1]],[xs[i],ys[j+1]]]});
+  }
+  // Index only levels crossing each supported quad; avoid scanning every
+  // quad for all 176 levels. This preprocessing is once per accepted field.
+  const activeQuads=BATHYMETRY_CONTOUR_SPECS.map(()=>[]);let assignments=0;
+  for(const quad of quads){
+    let low=0,high=BATHYMETRY_CONTOUR_SPECS.length;
+    while(low<high){const mid=(low+high)>>>1;if(BATHYMETRY_CONTOUR_SPECS[mid].depthMeters<=-quad.max)low=mid+1;else high=mid;}
+    for(let i=low;i<BATHYMETRY_CONTOUR_SPECS.length&&BATHYMETRY_CONTOUR_SPECS[i].depthMeters<=-quad.min;i++){
+      if(++assignments>BATHYMETRY_CONTOUR_MAX_FEATURES*2)throw new Error("Bathymetry contour presentation exceeds complexity limit");
+      activeQuads[i].push(quad);
+    }
   }
   const append=feature=>{if(features.length>=BATHYMETRY_CONTOUR_MAX_FEATURES)throw new Error("Bathymetry contour presentation exceeds complexity limit");features.push(feature);};
-  for(const depthMeters of BATHYMETRY_CONTOUR_LEVELS){
-    const segments=[],segmentKeys=new Set();
+  for(const [levelIndex,spec] of BATHYMETRY_CONTOUR_SPECS.entries()){
+    const {depthMeters,depthFeet,major}=spec;
+    const segments=[],segmentKeys=new Map(),segmentZoom=[];
     const level=-depthMeters;
-    for(const {z,points,min,max} of quads){
-      if(level<min||level>=max)continue;
+    for(const {z,points,min,max,pixelSpan} of activeQuads[levelIndex]){
       // Canonical ascending edge direction makes shared endpoints byte-identical.
+      // Minor lines need about six pixels between equal-depth intervals on
+      // this source support. Camera magnification never creates new samples.
+      const requiredZoom=major?spec.minZoom:Math.max(spec.minZoom,Math.ceil(Math.log2(6*(max-min)/(.3048*spec.intervalFeet*pixelSpan))));
       const edgePairs=[[0,1],[1,2],[3,2],[0,3]],crossings=new Map();
       edgePairs.forEach(([a,b],edge)=>{
         if((z[a]<=level)===(z[b]<=level))return;
@@ -58,31 +93,28 @@ export function bathymetryContours(field,unit="feet") {
       }
       for(const [a,b] of pairs){const p=crossings.get(a),q=crossings.get(b);
         if(p[0]!==q[0]||p[1]!==q[1]){
-          const pk=JSON.stringify(p),qk=JSON.stringify(q),segmentKey=pk<qk?`${pk}|${qk}`:`${qk}|${pk}`;
+          const pk=p[0]+","+p[1],qk=q[0]+","+q[1],segmentKey=pk<qk?`${pk}|${qk}`:`${qk}|${pk}`;
           // A threshold exactly on a shared sample edge can be emitted twice.
           // Deduplicate it without coordinate rounding/snap or tiny closed loops.
-          if(segmentKeys.has(segmentKey))continue;segmentKeys.add(segmentKey);
+          if(segmentKeys.has(segmentKey)){const index=segmentKeys.get(segmentKey);segmentZoom[index]=Math.max(segmentZoom[index],requiredZoom);continue;}
+          segmentKeys.set(segmentKey,segments.length);segmentZoom.push(requiredZoom);
           if(++generatedSegments>BATHYMETRY_CONTOUR_MAX_FEATURES)throw new Error("Bathymetry contour presentation exceeds complexity limit");
           segments.push([p,q]);}}
     }
     // Join degree-two vertices only. Ambiguous junctions stay separate rather
     // than inventing a connection between diagonal sample regions.
-    const adjacency=new Map(),key=p=>JSON.stringify(p);
+    const adjacency=new Map(),key=p=>p[0]+","+p[1];
     segments.forEach((s,index)=>s.forEach(p=>{const k=key(p);if(!adjacency.has(k))adjacency.set(k,[]);adjacency.get(k).push(index);}));
     const used=new Set(),lines=[];
-    const walk=(index,start)=>{const line=[start];let point=start;
-      while(!used.has(index)){used.add(index);const s=segments[index];point=key(s[0])===key(point)?s[1]:s[0];line.push(point);
+    const walk=(index,start)=>{const line=[start];let point=start,lineZoom=spec.minZoom;
+      while(!used.has(index)){lineZoom=Math.max(lineZoom,segmentZoom[index]);used.add(index);const s=segments[index];point=key(s[0])===key(point)?s[1]:s[0];line.push(point);
         const next=adjacency.get(key(point));if(next.length!==2)break;const candidate=next.find(n=>!used.has(n));if(candidate===undefined)break;index=candidate;}
-      return line;};
+      return {coordinates:line,minZoom:Math.min(22,lineZoom)};};
     segments.forEach((s,index)=>{if(used.has(index))return;const start=s.find(p=>adjacency.get(key(p)).length!==2);if(start)lines.push(walk(index,start));});
     segments.forEach((s,index)=>{if(!used.has(index))lines.push(walk(index,s[0]));});
-    const major=depthMeters===200||depthMeters%1000===0;
-    // Smaller display intervals appear only regionally; no extra levels at
-    // close zoom because magnification does not improve source resolution.
-    const minZoom=major?0:depthMeters===100?8:6;
-    lines.forEach((coordinates,index)=>{
-      const properties={fieldId:field.fieldId,depthMeters,major,minZoom,
-        label:bathymetryContourLabel(depthMeters,unit),representation:"marching-squares-linear-crossing"};
+    lines.forEach(({coordinates,minZoom},index)=>{
+      const properties={fieldId:field.fieldId,depthMeters,depthFeet,major,minZoom,
+        label:unit==="feet"?depthFeet.toLocaleString("en-US")+" ft":bathymetryContourLabel(depthMeters,unit),representation:"marching-squares-linear-crossing"};
       const id=`${field.fieldId}:${depthMeters}:${index}`;
       append({type:"Feature",id,geometry:{type:"LineString",coordinates},properties});
       // One associated label per sufficiently long joined major line, never
@@ -95,16 +127,17 @@ export function bathymetryContours(field,unit="feet") {
   return {type:"FeatureCollection",features};
 }
 export function bathymetryContourLayerDefinitions(){
+  // Filter unrevealed labels out of collision placement as well as hiding paint.
   const common={source:BATHYMETRY_CONTOUR_SOURCE,metadata:{"pelora:visualSlot":"relief"}};
   return [
-    {...common,id:BATHYMETRY_CONTOUR_LAYERS[0],type:"line",filter:["all",["==",["geometry-type"],"LineString"],["==",["get","major"],false]],
-      paint:{"line-color":"#668992","line-width":0.65,"line-opacity":["step",["zoom"],0,6,["case",["<=",["get","minZoom"],6],0.45,0],8,0.45]}},
-    {...common,id:BATHYMETRY_CONTOUR_LAYERS[1],type:"line",filter:["all",["==",["geometry-type"],"LineString"],["==",["get","major"],true]],
-      paint:{"line-color":"#8eaeb4","line-width":1.1,"line-opacity":0.65}},
-    {...common,id:BATHYMETRY_CONTOUR_LAYERS[2],type:"symbol",minzoom:5,filter:["==",["geometry-type"],"Point"],
+    {...common,id:BATHYMETRY_CONTOUR_LAYERS[0],type:"line",filter:["all",["==",["geometry-type"],"LineString"],["==",["get","major"],false],["<=",["get","minZoom"],["zoom"]]],
+      paint:{"line-color":"#668992","line-width":0.65,"line-opacity":contourOpacity(0.45)}},
+    {...common,id:BATHYMETRY_CONTOUR_LAYERS[1],type:"line",filter:["all",["==",["geometry-type"],"LineString"],["==",["get","major"],true],["<=",["get","minZoom"],["zoom"]]],
+      paint:{"line-color":"#8eaeb4","line-width":1.1,"line-opacity":contourOpacity(0.65)}},
+    {...common,id:BATHYMETRY_CONTOUR_LAYERS[2],type:"symbol",minzoom:5,filter:["all",["==",["geometry-type"],"Point"],["<=",["get","minZoom"],["zoom"]]],
       layout:{"symbol-placement":"point","text-offset":[0,0.8],"text-anchor":"top","text-field":["get","label"],"text-font":["Open Sans Regular"],
         "text-size":11,"text-padding":8,"text-allow-overlap":false,"text-ignore-placement":false},
-      paint:{"text-color":"#a6bfc3","text-halo-color":"#101e29","text-halo-width":1.5}}
+      paint:{"text-opacity":contourOpacity(1),"text-color":"#a6bfc3","text-halo-color":"#101e29","text-halo-width":1.5}}
   ];
 }
 // MapLibre 5.24 image textures have no mipmaps, but raster drawing requests a

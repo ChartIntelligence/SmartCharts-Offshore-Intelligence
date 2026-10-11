@@ -9,7 +9,7 @@ import {execFileSync} from 'node:child_process';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../../..');
 const require=createRequire(import.meta.url);
 const baseline=process.env.PELORA_CONTOUR_BASELINE==='1';
-const entering='31d4e4de975ddc019d5f87378f2278d3a87c80b3';
+const entering='e8820d13d9f39df40274267c12a7ac23eeff6ce1';
 const {chromium}=require(process.env.PELORA_BROWSER_TEST_NODE_MODULES+'/playwright');
 const output=process.env.PELORA_CONTOUR_RENDER_OUTPUT||fs.mkdtempSync(path.join(os.tmpdir(),'pelora03-contours-'));
 fs.mkdirSync(output,{recursive:true});
@@ -72,8 +72,7 @@ try{
     return {frames,sameSource:map.getSource(BATHYMETRY_CONTOUR_SOURCE)===beforeZoomSource,displayContextKey:states.bathymetry.displayContextKey,
       contextKey:states.bathymetry.contextKey,requestedContextKey:states.bathymetry.requestedContextKey};
   });
-  if(baseline)assert.ok(continuity.frames.every(f=>f.status==='loading'&&f.visible==='none'&&f.lines===0),'entering zoom dropout reproduced');
-  else {assert.ok(continuity.frames.every(f=>f.status==='static'&&f.visible==='visible'&&f.lines>0),'pending zoom refresh keeps GPU contour presentation');
+  {assert.ok(continuity.frames.every(f=>f.status==='static'&&f.visible==='visible'&&f.lines>0),'pending zoom refresh keeps GPU contour presentation');
     assert.equal(continuity.contextKey,continuity.displayContextKey);assert.notEqual(continuity.contextKey,continuity.requestedContextKey);}
   await page.evaluate(()=>{holdResponses=false;pendingReplies.splice(0).forEach(resolve=>resolve({ok:true,text:async()=>JSON.stringify(fixture)}));});
   const replacementFrames=await page.evaluate(async()=>{const frames=[];
@@ -97,11 +96,49 @@ try{
     await page.evaluate(()=>{holdResponses=false;pendingReplies.splice(0).forEach(resolve=>resolve({ok:true,text:async()=>JSON.stringify(fixture)}));});
     await page.waitForFunction(()=>!states.bathymetry.refreshing&&map.isStyleLoaded());await idle();
   }
+  // Same source support; shallow synthetic depths are an explicit fixture, not a provider substitute.
+  const shallowFixture={...fixture,fieldId:'SYNTHETIC-SHALLOW-40x40-vNEXT',payload:{...fixture.payload,
+    values:Array.from({length:1600},(_,k)=>-.1-Math.floor(k/40)*.5-(k%40)*.25)}};
+  fs.writeFileSync(output+'/shallow-fixture.json',JSON.stringify(shallowFixture,null,2));
+  await page.evaluate(field=>{fixture=field;map.fire('load');},shallowFixture);
+  await page.waitForFunction(()=>states.bathymetry?.field?.fieldId==='SYNTHETIC-SHALLOW-40x40-vNEXT'&&map.isStyleLoaded());
+  const detailFrames=[];
+  if(!baseline)for(const width of [1000,390]){
+    await page.setViewportSize({width,height:width===390?844:750});await page.evaluate(()=>map.resize());
+    for(const zoom of [7,9,11]){
+      await page.evaluate(z=>map.jumpTo({center:[-90,27],zoom:z}),zoom);
+      await page.waitForFunction(()=>!states.bathymetry.refreshing&&map.isStyleLoaded());await idle();
+      const detail=await page.evaluate(async()=>{
+        const data=bathymetryContours(fixture);
+        const lines=data.features.filter(f=>f.geometry.type==='LineString'&&f.properties.minZoom<=map.getZoom());
+        const placed=map.queryRenderedFeatures({layers:BATHYMETRY_CONTOUR_LAYERS}).filter(f=>f.properties.minZoom<=map.getZoom());
+        const elapsed=[];let last=performance.now();for(let i=0;i<30;i++){await new Promise(r=>requestAnimationFrame(r));let now=performance.now();elapsed.push(now-last);last=now;}
+        return {zoom:map.getZoom(),eligibleLines:lines.length,placedFeatures:placed.length,feet:lines.map(f=>f.properties.depthFeet),
+          placedLabels:placed.filter(f=>f.geometry.type==='Point').map(f=>f.properties.label),maxFrameMs:Math.max(...elapsed),
+          medianFrameMs:elapsed.sort((a,b)=>a-b)[15],status:states.bathymetry.status};
+      });detail.width=width;detailFrames.push(detail);
+      assert.ok(detail.eligibleLines>0&&detail.placedFeatures>0);assert.equal(detail.status,'static');
+      assert.ok(detail.placedLabels.every(label=>label.endsWith(' ft')));
+      await page.screenshot({path:output+'/shallow-'+width+'-z'+zoom+'.png'});
+    }
+    const navigation=await page.evaluate(async()=>{
+      holdResponses=true;const samples=[];let last=performance.now();
+      map.easeTo({center:[-89.99,27.005],duration:500});
+      for(let i=0;i<40;i++){await new Promise(r=>requestAnimationFrame(r));const now=performance.now();
+        samples.push({ms:now-last,status:states.bathymetry.status,visible:map.getLayoutProperty(BATHYMETRY_CONTOUR_LAYERS[1],'visibility')});last=now;}
+      holdResponses=false;pendingReplies.splice(0).forEach(resolve=>resolve({ok:true,text:async()=>JSON.stringify(fixture)}));return samples;
+    });
+    assert.ok(navigation.every(frame=>frame.status==='static'&&frame.visible==='visible'));
+    fs.writeFileSync(output+'/navigation-'+width+'.json',JSON.stringify(navigation,null,2));
+    console.log(JSON.stringify({navigationWidth:width,frames:navigation.length,maxFrameMs:Math.max(...navigation.map(f=>f.ms)),
+      medianFrameMs:navigation.map(f=>f.ms).sort((a,b)=>a-b)[20],noLoadingFlash:true}));
+    const tiers=detailFrames.filter(f=>f.width===width);assert.ok(tiers[0].eligibleLines<tiers[1].eligibleLines&&tiers[1].eligibleLines<tiers[2].eligibleLines);
+  }
   assert.equal(denied.length,0);assert.equal(errors.length,0);
   const mapErrors=await page.evaluate(()=>globalThis.mapErrors);assert.deepEqual(mapErrors,[]);
-  const report={scope:'SYNTHETIC TEST EVIDENCE; empty geography, local fallback glyphs, headless desktop Edge; not mobile/authenticated qualification',
-    entering,baseline,sourceSha256,fixtureSha256:crypto.createHash('sha256').update(JSON.stringify(fixture)).digest('hex'),broad,regional,continuity,replacementFrames,zoomOutFrames,denied,errors,mapErrors};
+  const report={scope:'SYNTHETIC TEST EVIDENCE; empty geography, local fallback glyphs, headless desktop Edge plus 390px phone emulation; not physical-mobile/authenticated qualification',
+    entering,baseline,sourceSha256,fixtureSha256:crypto.createHash('sha256').update(JSON.stringify(fixture)).digest('hex'),broad,regional,continuity,replacementFrames,zoomOutFrames,detailFrames,shallowFixtureSha256:crypto.createHash("sha256").update(JSON.stringify(shallowFixture)).digest("hex"),denied,errors,mapErrors};
   fs.writeFileSync(output+'/report.json',JSON.stringify(report,null,2));
-  console.log(JSON.stringify({result:baseline?'PASS entering staircase/zoom dropout reproduced':'PASS marching-square geometry and zoom continuity',output,broadFeatures:broad.length,regionalLabels:regional.labels.length,regionalMinor:regional.minor.length,continuityFrames:continuity.frames.length,network:denied.length}));
+  console.log(JSON.stringify({result:'PASS marching-square geometry and zoom continuity',output,broadFeatures:broad.length,regionalLabels:regional.labels.length,regionalMinor:regional.minor.length,continuityFrames:continuity.frames.length,detailFrames,network:denied.length}));
   await page.evaluate(()=>{cleanups.forEach(fn=>fn());map.remove();});await context.close();
 }finally{await browser.close();}

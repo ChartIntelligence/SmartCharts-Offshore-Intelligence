@@ -1,0 +1,28 @@
+{
+  "scope": "Controlled offline React UI, phone viewport emulation; external font import excluded; not authenticated/physical-device QA",
+  "result": "PASS actual React controls, independent toggle interaction, no disclosures, immutable internal evidence, desktop/phone layout",
+  "sourceSha256": "948164e9aa9bf6a244084beb23f76381356ed72be050f3260d1dda4d24df4656",
+  "output": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-vnext-controls-b3CboI",
+  "measurements": [
+    {
+      "width": 1000,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 1000,
+        "height": 403
+      }
+    },
+    {
+      "width": 390,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 418.390625
+      }
+    }
+  ],
+  "errors": [],
+  "denied": []
+}
