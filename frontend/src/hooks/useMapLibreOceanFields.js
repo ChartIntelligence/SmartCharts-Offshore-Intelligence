@@ -172,20 +172,28 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
         }catch(error){reject(layer,error);}
       }
     });
-    const acquire=()=>{
+    const acquire=(force=false)=>{
       if(disposed||mapRef.current!==map||!active.length)return;
-      try{requests.schedule(fieldViewport(map.getBounds(),map.getZoom()),active);}
+      try{
+        const viewport=fieldViewport(map.getBounds(),map.getZoom());
+        // A camera event with the exact already-applied static request identity
+        // needs neither a provider refresh nor contour regeneration. Poll/style
+        // recovery explicitly force acquisition; changed viewports still acquire.
+        if(layer==="bathymetry"&&force!==true&&states[layer]?.status==="static"&&displayedState?.field?.status==="static"&&
+          !states[layer]?.refreshing&&JSON.stringify(viewport)===displayedState.contextKey)return;
+        requests.schedule(viewport,active);
+      }
       catch(error){requests.cancel();for(const layer of active)reject(layer,error);}
     };
     const start=()=>requests.cancel();
-    const loaded=()=>{apply();acquire();};
+    const loaded=()=>{apply();acquire(true);};
     if(!enabled){
       clearRendered();publish(layer,{status:"off",field:null});return;
     }
     apply();
     map.on("movestart",start);map.on("moveend",acquire);map.on("load",loaded);map.on("style.load",loaded);
     acquire();
-    const refresh=window.setInterval(acquire,300000);
+    const refresh=window.setInterval(()=>acquire(true),300000);
     return()=>{disposed=true;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
       clearRendered();
       if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;displayedState=null;convertedField=null;displayedImage=null;displayedContours=EMPTY_FIELD;}

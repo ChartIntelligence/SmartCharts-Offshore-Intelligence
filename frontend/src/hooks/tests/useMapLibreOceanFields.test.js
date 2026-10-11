@@ -47,7 +47,7 @@ events.get("moveend")();await scheduled();assert.equal(sourceAdds,3,"viewport ch
 const retainedCurrent=state.currents.field,retainedBathy=state.bathymetry.field;
 // Same-viewport failures must retain both rendered layers and original metadata.
 context.fetch=async()=>{throw new Error("temporary provider timeout");};
-events.get("moveend")();
+[...refreshTimers.values()].forEach(fn=>fn());
 assert.equal(state.currents.status,"loading");assert.equal(state.currents.field,retainedCurrent);
 assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data.features.length,1);
 assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,"visible");
@@ -60,7 +60,7 @@ assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visi
 // Rejection must clear rendering and cache without affecting the sibling.
 const originalCanvas=context.bathymetryImage;
 const transport=(badLayer,bad)=>async url=>({ok:true,text:async()=>JSON.stringify(url.includes("layer=bathymetry")?(badLayer==="bathymetry"?bad:bathy):(badLayer==="currents"?bad:current))});
-async function refresh(){events.get("moveend")();await scheduled();}
+async function refresh(){[...refreshTimers.values()].forEach(fn=>fn());await scheduled();}
 async function restore(){context.bathymetryImage=originalCanvas;context.fetch=transport();await refresh();
   assert.equal(JSON.stringify(state.currents.field),JSON.stringify(current));assert.equal(JSON.stringify(state.bathymetry.field),JSON.stringify(bathy));}
 function absent(layer){assert.equal(state[layer].status,"unavailable");assert.equal(state[layer].field,null);
@@ -307,6 +307,18 @@ const continuous={...bathy,fieldId:"SYNTHETIC-STATIC-CONTINUITY",provider:"SYNTH
   coverage:{returnedCells:9,validCells:9},resolution:{deliveredDegrees:.3},
   payload:{...bathy.payload,longitudes:[-89.9,-89.6,-89.3],latitudes:[27.1,27.4,27.7],values:[-50,-500,-1500,-500,-1500,-2500,-1500,-2500,-3500]}};
 context.fetch=transport("bathymetry",continuous);commitProps({});await scheduled();
+// Identical static camera context avoids bathymetry transport/conversion; currents refresh normally.
+let bathyReads=0,currentReads=0;context.fetch=async url=>{if(url.includes("layer=bathymetry"))bathyReads++;else currentReads++;
+  return rawResponse(JSON.stringify(url.includes("layer=bathymetry")?continuous:current));};
+const unchangedState=state.bathymetry,unchangedData=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE).data;
+events.get("moveend")();await scheduled();assert.equal(bathyReads,0);assert.equal(currentReads,1);
+assert.equal(state.bathymetry,unchangedState);assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE).data,unchangedData);
+[...refreshTimers.values()].forEach(fn=>fn());await scheduled();assert.equal(bathyReads,1,"periodic refresh remains eligible");
+assert.equal(currentReads,2);
+context.fetch=async()=>{throw new Error("controlled periodic failure");};[...refreshTimers.values()].forEach(fn=>fn());await scheduled();
+assert.equal(state.bathymetry.status,"degraded");context.fetch=transport("bathymetry",continuous);
+events.get("moveend")();await scheduled();assert.equal(state.bathymetry.status,"static","camera may recover degraded static state in the same context");
+console.log("PASS exact-context static camera deduplication with independent current and forced periodic refresh");
 const displaySource=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),displayData=displaySource.data;
 const displayContext=state.bathymetry.contextKey,displayField=state.bathymetry.field,displayLayer=map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]);
 let conversionCalls=0;context.bathymetryContours=field=>{conversionCalls++;return contourConverter(field);};
@@ -349,7 +361,7 @@ assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-STYLE-PENDING","unapplied
 await scheduled();assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-AFTER-SUPERSEDE");
 const beforeEdition=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE);
 styleLoaded=false;context.fetch=transport("bathymetry",{...continuous,fieldId:"SYNTHETIC-NEW-EDITION",productVersion:"controlled-edition-2"});
-events.get("moveend")();await scheduled();assert.equal(state.bathymetry.status,"loading");
+[...refreshTimers.values()].forEach(fn=>fn());await scheduled();assert.equal(state.bathymetry.status,"loading");
 assert.equal(state.bathymetry.field.fieldId,"SYNTHETIC-NEW-EDITION");assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),undefined,
   "source/edition identity change clears the old display instead of relabeling its GPU geometry");
 styleLoaded=true;events.get("idle")();assert.notEqual(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),beforeEdition);

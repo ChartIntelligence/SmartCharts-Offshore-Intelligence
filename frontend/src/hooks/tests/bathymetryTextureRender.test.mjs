@@ -17,14 +17,14 @@ const {chromium}=require(process.env.PELORA_BROWSER_TEST_NODE_MODULES?process.en
 const sharp=require(process.env.PELORA_BROWSER_TEST_NODE_MODULES?process.env.PELORA_BROWSER_TEST_NODE_MODULES+'/sharp':'sharp');
 const presentation=await import(pathToFileURL(root+'/frontend/src/utils/oceanFieldPresentation.js'));
 const bands=[-5000,-3000,-1500,-500,-50,0,50];
-const field={contractVersion:'pelora-spatial-field-v1',layer:'bathymetry',fieldId:'SYNTHETIC-VISIBLE-RENDER-42x33-v1',
+const field={contractVersion:'pelora-spatial-field-v1',layer:'bathymetry',fieldId:'SYNTHETIC-VISIBLE-RENDER-42x33-vNEXT',
   provider:'SYNTHETIC TEST EVIDENCE',status:'static',validTime:null,freshness:{maxFreshAgeHours:null},
   bounds:[-91,26,-88.9,27.65],resolution:{deliveredDegrees:.05},coverage:{returnedCells:1386,validCells:1386},
   payloadType:'rectilinear-elevation-grid',payload:{type:'rectilinear-elevation-grid',positive:'up',
     order:'latitude-ascending-rows,longitude-ascending-columns',
     longitudes:Array.from({length:42},(_,i)=>-90.975+i*.05),
     latitudes:Array.from({length:33},(_,j)=>26.025+j*.05),
-    values:Array.from({length:1386},(_,index)=>bands[index%42%7])}};
+    values:Array.from({length:1386},(_,index)=>bands[Math.min(index%42,6)])}};
 fs.writeFileSync(output+'/fixture.json',JSON.stringify(field,null,2)+'\n');
 const values=field.payload.values,negative=values.filter(v=>Number.isFinite(v)&&v<0);
 const distribution={grid:[42,33],spacingDegrees:.05,total:values.length,finite:values.filter(Number.isFinite).length,
@@ -64,7 +64,7 @@ const canvasResult=await page.evaluate(async field=>{
 fs.writeFileSync(output+'/canvas.png',Buffer.from(canvasResult.url.split(',')[1],'base64'));
 delete canvasResult.url;
 assert.equal(canvasResult.width,512);assert.equal(canvasResult.decodedWidth,512);
-assert.ok(canvasResult.nontransparent>0);assert.equal(canvasResult.rectangles,990);
+assert.ok(canvasResult.nontransparent>0);assert.equal(canvasResult.rectangles,165);
 assert.equal(canvasResult.plannedColors.length,5);
 assert.ok(canvasResult.samples.every(s=>s.rgba[3]===255));
 // A real MapLibre map and real image texture, with empty geographic fixture layers.
@@ -175,7 +175,7 @@ if(baseline){
 }
 // Refresh the same image source and verify its newly created texture is repaired too.
 if(!baseline){
-  await page.evaluate(()=>map.fire('moveend'));
+  await page.evaluate(()=>map.fire('load'));
   await page.waitForFunction(()=>fixtureRequests===2&&diagFieldStatus.bathymetry?.status==='static'&&map.isStyleLoaded(),null,{timeout:15000});
   await page.evaluate(()=>{for(const id of globalThis.BATHYMETRY_CONTOUR_LAYERS||[])if(map.getLayer(id))map.setLayoutProperty(id,'visibility','none');map.setLayoutProperty(presentation.FIELD_LAYER.bathymetry,'visibility','visible');});
   await page.evaluate(()=>new Promise(resolve=>{map.once('idle',resolve);map.triggerRepaint();}));

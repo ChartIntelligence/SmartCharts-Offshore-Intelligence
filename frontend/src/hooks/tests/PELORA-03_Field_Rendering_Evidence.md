@@ -433,3 +433,90 @@ Five affected JS/mjs files pass `node --check`; whitespace `git diff --check` pa
 Later combined integration/QA must apply this P03 candidate onto the f78666a66e76e65ff53e5d2da767f9c8988db90c lineage before founder browser qualification. Required: actual ETOPO naturally readable structure at broad/regional/closer scales, zoom/pan/replacement continuity against real geographic loading, source/edition/failure boundaries, label/context/Opportunity collisions, provisional units/interval decisions, mobile CPU/memory/GPU and physical-device readability. No navigation-grade, new observational resolution, source admission, beta-ready or operational claim.
 
 No source scientific values/provenance/time/bounds/native or delivered resolution changes, nearest-value sampling change, current behavior change, independent layer-lifetime change, texture repair change, backend/database/science-policy/production changes, merge or deployment. CP-10 and operational rollout remain blocked. Normal follow-up candidate commit/push only on P03, verify remote full SHA and clean tree, then stop.
+
+
+## Bathymetry Detail + Map Intelligence Cleanup vNEXT — developer candidate (2026-10-11)
+
+### Binding, authorization and preserved lineage
+
+Human-confirmed starting integration: e8820d13d9f39df40274267c12a7ac23eeff6ce1, codex/pelora-ui-integration-contours-v11-metadata-v1. Its remote ref was checked unchanged before checkpointing. Source-only P03 5941ce99d6ecc0fc0f74194a0dffc4d0fba340f3 was not used as the starting point.
+
+Managed worktree: C:\Users\User\.codex\worktrees\bathymetry-detail-vnext\pelora-03-living-ocean. Branch: codex/pelora-03-bathymetry-detail-vnext. Entering HEAD e8820d13d9f39df40274267c12a7ac23eeff6ce1, clean tracked/staged/untracked status. The original permanent P03 checkout and integration branch were preserved. No reset/rebase/merge/cherry-pick or session handoff. Governance router checkpoint remains 94cc8b41fbf1e440dc2a27618617704a93025782.
+
+This current human request explicitly authorizes removal of the Bathymetry/Current disclosures. That narrow LayerControls.jsx presentation change supersedes the earlier packet's read-only ownership for this specific block; it does not authorize Dashboard, shell CSS, other agent work or governance changes. Root router/board/mission and existing state/scalar-delivery/runtime contracts apply. Legacy pelora-spatial-field-v1 remains distinct from governed scalar delivery; no scalar activation/source admission is added.
+
+### Before/after and scientific boundary
+
+Before: actual integration LayerControls contained collapsed field Source & Evidence Details, a technical formatter and raw metadata JSON. After: neither field disclosure nor raw provider/grid/count/version/contract/reason JSON is in the captain panel. Bathymetry caption no longer includes ETOPO. Governed Available/Loading/Stale/Unavailable/Degraded labels, age and active-layer logic are unchanged. Original field objects, metadata, freshness logic and the internal fieldStatusText diagnostic formatter survive. Tests snapshot internal state before/after interaction. No other disclosure/product block changed.
+
+Before: 14 metric display levels, beginning at 100 m (about 328 ft), with a major 200 m (about 656 ft) and limited close detail. After: 176 unique FEET display levels, converted to contour thresholds by exact meters = feet * 0.3048 at the presentation boundary. Native source elevations, source/provider/time/value identity, units, sampling spacing and geography are untouched. This is more vertical isobath detail, NOT higher observational resolution.
+
+Marching squares and linear edge-crossing geometry from v1.1 remain: interpolate crossing LOCATION between valid negative neighboring samples only; no interpolated new source depth, smoothing, spline, missing/nonnegative bridge, extrapolation or fabricated ridge/canyon. Source support, saddle resolution, deterministic joining and degenerate/duplicate-edge rejection remain tested. Existing nearest raster/value sampling and five raster bands are unchanged; raster remains hidden internal support.
+
+### Exact interval and zoom strategy
+
+Levels are the union of tiers; prior tier levels persist. All values below are feet, ranges inclusive:
+
+| Minimum zoom | Display levels added |
+|---|---|
+| Broad (<6) | Major 100, 300, 600, 1000, 2000, 3000, 5000, 10000, 15000, 20000, 30000, 35000 |
+| 6 | 50–300/50; 300–1000/100; 1000–6000/500; 6000–20000/1000 |
+| 8 | 10–100/10; 100–300/25; 300–1000/50; 1000–3000/250; 3000–10000/500; 20000–36000/1000 |
+| 10 | 5–100/5; 100–300/10; 300–1000/25; 1000–3000/100; 3000–10000/250; 10000–36000/500 |
+
+Major classification: all broad explicit levels; below 100 ft, multiples of 20 ft plus 50 ft; 100–300 ft multiples of 100; 300–1000 ft also 500; 1000–6000 ft multiples of 1000; deeper multiples of 5000. Other levels are minor. Source-supported 5 ft is reachable at close zoom; absent shallow values do not produce a shallow contour.
+
+Minor visibility additionally waits until the source quad's pixel support / elevation span predicts about 6 pixels between that interval. Per joined line, use the strictest constituent segment's minimum zoom, clamped to 22. This is a deterministic clutter guard, not bathymetry smoothing or scientific precision. It can defer an entire fine isobath where part crosses a steep slope; that is an explicit readability tradeoff.
+
+MapLibre integer-zoom filters and step opacity reveal precomputed geometry. Unrevealed labels are filtered out of collision placement. Existing major/minor line color, width (.65 / 1.1), maximum opacity (.45 / .65), relief slot and hidden-raster behavior stay. Labels: feet only in captain use; one anchor on an existing vertex per sufficiently long joined MAJOR line, beginning zoom 5 and its level's own minimum zoom, 11 px, collision aware, no overlap/ignore-placement. No per-cell repeated labels. Contours remain below geographic/context layers, currents and ranked Opportunity presentation; no Opportunity/Signal/Place code edited.
+
+### Continuity, transport and scalability
+
+Independent effects, source/edition checks, actual displayed field/context identity, supported-footprint overlap retention and atomic replacement from v1.1 remain. A changed viewport acquires its exact request context and can keep the supported old static display pending; disjoint context or rejected/unavailable replacement clears under existing rules. It never labels a different source/time as current.
+
+An identical healthy, already-applied static request context skips redundant camera-triggered bathymetry acquisition/conversion. Degraded static state remains eligible for a same-context camera retry and normal recovery. Currents continue their original acquisition behavior. Periodic refresh and load/style recovery explicitly force acquisition; enabled-layer startup still works without map movement. The exact request identity includes bbox/density; no new cross-context request cache. True context changes still request replacements. No provider-grid/backend/storage change.
+
+All levels are preprocessed once per accepted field; binary-search quad-to-level indexing avoids every-level/every-quad scans. Per-quad support calculations are reused. Zoom density itself uses MapLibre filtering, without regenerating contours per animation frame. No general worker/cache/tiling framework or new dependency was added. Existing 6000 segment/feature guard is retained, plus a bounded 12000 quad-level assignment guard to avoid unbounded allocations. Complex valid terrain can fail presentation safely instead of creating an unusable map; source-specific cost still needs live QA.
+
+### Measured developer evidence
+
+Controlled planar Gulf fixture: 1600 cells, 123 features (115 lines / 8 label anchors), 2793 vertices, 87996 serialized GeoJSON bytes. Regional 400-cell subset: 30 features, 576 vertices, 25150 bytes. These are client derivatives; source/network payload/storage contract is unchanged. GC-observed one-result heap delta about 261056 bytes; not peak allocation/GPU memory.
+
+Same-process alternating accepted-integration/candidate calls: Gulf median 2.05 -> 16.37 ms; regional .67 -> 3.47 ms. Separate 25-call normal run median 18.47 ms, max 38.94 ms. 50 alternating regenerations median 15.51 ms, max 33.45 ms. Increased detail costs CPU; no claim of cost parity. Adversarial 2600-cell checkerboard rejected in 6.70 ms. Desktop timings vary; no physical-device benchmark claim.
+
+Controlled actual MapLibre 5.24.0 / headless Edge candidate: pending zoom-in 20 frames, real source replacement 30 frames and pending zoom-out 20 frames remain visible/static without blanking. Baseline integration also retains continuity, as expected; this packet does not claim to repair it again. Reports query tiled rendered features (duplicates possible), not unique contour count. Deep fixture broad rendered query 12 -> 14, regional candidate has 37 minor rendered query entries and 5 placed labels.
+
+Shallow identical numerical fixture: eligible complete-source line counts at zoom 7/9/11 = 1 / 9 / 19, at both 1000 px and 390 px widths. Source-supported levels reach 5–95 ft; actual placed labels include 40/50/60 ft. Screenshots show visible line pixels and feet labels. Forty animated pan frames at each width never publish loading/hidden: desktop median 17.9 ms, max 18.7; phone-emulation median 18.2, max 19.4. This is the desktop GPU with phone layout, not physical mobile throughput.
+
+Texture GPU regression: same five raster depth colors plus zero/positive transparency, NEAREST (9728), useMipmap false; replacement and style recreation pass. The controlled texture fixture is explicitly vNEXT: retain the seven original band values and first seven sample locations, but stop repeating extreme alternating bands across the other 35 columns (positive cells instead). Negative rectangles 165; total/finite cells 1386; native raster behavior unchanged. The original repeated-band fixture exceeded the unchanged 6000 contour guard with denser levels and correctly became unavailable; the guard was not disabled. Historical original-fixture evidence is preserved.
+
+Actual React controls bundled from current worktree, unchanged CSS with ONLY external font import omitted in the offline harness: both toggles work independently, no details/pre/raw telemetry, internal JSON snapshot unchanged, desktop and 390 px layout fits, zero page/runtime/external-request errors. This is component layout qualification, not the full authenticated application.
+
+### Commands and results
+
+All execute from this worktree using Node v24.18.0. No installed package/.env directory copied or new install. Tracked MapLibre 5.24.0 and style spec; existing read-only React 19.2.7 / rolldown toolchain path C:/Projects/Pelora-Agent-Worktrees/pelora-02-captain-experience/frontend/node_modules; bundled browser tools C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules. No other checkout is edited.
+
+- node frontend/src/hooks/tests/useMapLibreOceanFields.test.js — PASS all original decoding/null/body-read/HTTP/provider-unavailable/malformed/canvas/source/addLayer/image-registration/style/idle/zero/sibling/abort/dispose/obsolete/toggle/texture/zoom continuity cases, plus unchanged-camera deduplication and forced-refresh assertions.
+- node frontend/src/utils/tests/oceanFields.test.js — PASS original presentation, values/units/geometry/masks/five-band/texture/filter/teardown checks.
+- node frontend/src/utils/tests/viewportFieldRequests.test.js — PASS original context/density/cache/per-layer invalidation/sibling/race/cancellation/provider/null/malformed-success checks; helper implementation unchanged.
+- node --expose-gc frontend/src/utils/tests/bathymetryContours.test.js — PASS threshold/footprint/support/gaps/saddle/quantization/determinism/immutability plus 5–300 ft, four density tiers, actual MapLibre expressions/style and unrevealed-label collision filter. Performance baseline loaded from temporary .mjs extracted by git show e8820d1:frontend/src/utils/oceanFieldPresentation.js via PELORA_CONTOUR_BASELINE_PRESENTATION.
+- node frontend/src/hooks/tests/mapMetadataCleanup.test.js C:/Projects/Pelora-Agent-Worktrees/pelora-02-captain-experience/frontend/node_modules — PASS 19/19, actual JSX/SSR/freshness/metadata preservation.
+- Set PELORA_BROWSER_TEST_NODE_MODULES to bundled path above; node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs — PASS actual candidate GPU/continuity/shallow density/pan; PELORA_CONTOUR_BASELINE=1 — PASS accepted integration comparison. External routes denied; zero attempted external requests/map/page errors.
+- Same browser env; node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs — PASS production NEAREST/no-mipmap, 5 colors/transparency/replacement/style.
+- Same browser env; node frontend/src/hooks/tests/mapIntelligenceCleanupRender.test.mjs C:/Projects/Pelora-Agent-Worktrees/pelora-02-captain-experience/frontend/node_modules — PASS desktop/phone React interaction/immutable evidence/no disclosure/layout.
+- node frontend/src/utils/tests/peloraMapStyle.test.js — PASS 12/12 hierarchy/style/mobile-sheet/Opportunity stacking regressions.
+- node frontend/src/utils/tests/syntheticSstDisplay.test.js — PASS 12/12 existing isolated synthetic display regressions; no activation.
+- node frontend/src/utils/tests/mapObservationDisplay.test.js; mapEnvironmentalObservations.test.js; mapRuntimeResponse.test.js; node frontend/src/hooks/tests/useMapLibreEnvironmentalObservations.test.js; node frontend/src/utils/tests/opportunityEvaluationState.test.js — PASS unchanged controlled context/observation/current/Opportunity contracts.
+- node --loader <temporary file URL> frontend/src/hooks/tests/intelligenceRecovery.test.js — PASS 55/55 actual Dashboard/Today/Intelligence recovery. Temporary ESM resolver points react/react-dom/rolldown bare imports to the read-only toolchain.
+- Same loader; intelligenceCaptainStateRegression.test.js — 66/71 PASS (Opportunity navigation/selection, mobile, state/race/privacy/access fixtures); five documentary backend-builder cases cannot resolve ../../../../backend/server.js from the existing data-URL replay wrapper (ERR_UNSUPPORTED_RESOLVE_REQUEST). No backend was run or modified. Both full attempt and frontend selection retry retain this harness limitation; no full-suite pass claim.
+- node --check on all 8 affected JS/mjs and git diff --check — PASS before explicit scoped staging; JSX parsed by actual rolldown tests. No app build/provider/Auth/database/server/restart/production access.
+
+### Artifacts, exact changes and qualification limits
+
+New controlled artifacts under fixtures/bathymetryDetail-vNEXT: integration-report.json, integration-broad.png, candidate-report.json, deep-fixture.json, shallow-fixture.json, candidate-broad.png, candidate-regional.png, shallow-phone-z9.png, shallow-phone-z11.png, navigation-desktop.json, navigation-phone.json, texture-report.json, controls-report.json, controls-phone.png. JSON reports pin actual tested source SHA256 and fixture identities. Historical artifacts are untouched.
+
+Implementation: components/LayerControls.jsx; hooks/useMapLibreOceanFields.js; utils/oceanFieldPresentation.js. Dedicated tests: hooks/tests/useMapLibreOceanFields.test.js, bathymetryContoursRender.test.mjs, bathymetryTextureRender.test.mjs, mapMetadataCleanup.test.js, mapIntelligenceCleanupRender.test.mjs (new); utils/tests/bathymetryContours.test.js. This evidence file is appended, not historically rewritten.
+
+Remaining: founder visual acceptance on actual ETOPO shallow/mid/deep viewports with real base geography; full authenticated Opportunity/Signal/Place overlay interaction/collision and runtime console check; physical iOS/Android rendering, low-end CPU/heap/GPU/navigation cost; source-dependent complexity guard frequency and steep-slope minor deferral. Offline fixture/map/component passes are developer evidence, not independent QA, live-source admission, navigation-chart quality, physical-device acceptance or rollout qualification. Feet is now human-locked presentation; intervals/readability remain subject to visual acceptance.
+
+No source science/provenance/evidence/freshness/privacy/ranking/Opportunity/governance policy changed. No database, production, merge or deployment. CP-10 and operational rollout remain blocked. Normal candidate checkpoint on this new P03 branch only; verify full remote SHA and clean tree, then stop for combined integration/QA.

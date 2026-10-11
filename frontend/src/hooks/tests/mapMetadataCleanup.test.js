@@ -39,15 +39,15 @@ const {renderToStaticMarkup}=await import(new URL('react-dom/server.node.js',run
 const {transformSync}=await import(new URL('rolldown/dist/utils-index.mjs',runtime));
 const compiled=transformSync('LayerControls.jsx',source.replace(/^import[\s\S]*?;\s*/gm,'').replace('export default LayerControls;',''),{jsx:{runtime:'classic'}}).code;
 const Controls=vm.runInNewContext(compiled+'\nLayerControls',{React,useState:()=>[true,()=>{}],FIELD_CONTROLS,OBSERVATION_CONTROLS,fieldStatusText});
-test('actual open controls keep raw telemetry inside collapsed evidence details',()=>{
+test('actual open controls exclude field evidence details without mutating internal state',()=>{
  const states={currents:{status:'degraded',field,reason:'Synthetic transport failure'},bathymetry:{status:'static',field:{...field,displayName:'Bathymetry',provider:'NOAA/NCEI',status:'static',validTime:null,productVersion:'2022-v1-60s',freshness:{maxFreshAgeHours:null}}}};
  const before=JSON.stringify(states);
  const html=renderToStaticMarkup(React.createElement(Controls,{layers:{locations:true,bathymetry:true,currentField:true},setLayers(){},fieldStatus:states,observationTime:now}));
- assert(!html.includes('<details open'));
+ assert(!html.includes('<details'));assert(!html.includes('<pre'));assert(!html.includes('Source &amp; Evidence Details'));
  const primary=html.replace(/<details>[\s\S]*?<\/details>/g,'');
  for(const raw of ['NOAA','2022-v1-60s','2026-10-09','199/238','0.500','synthetic-dataset','Synthetic transport failure'])assert(!primary.includes(raw),raw);
  assert(primary.includes('Bathymetry'));assert(primary.includes('Available'));assert(primary.includes('Degraded · Stale · latest available · 65h old'));
- for(const raw of ['Source &amp; Evidence Details','NOAA','2022-v1-60s','2026-10-09','199/238','0.500','synthetic-dataset','Synthetic transport failure'])assert(html.includes(raw),raw);
+ for(const raw of ['Source &amp; Evidence Details','ETOPO','NOAA','2022-v1-60s','2026-10-09','199/238','0.500','synthetic-dataset','Synthetic transport failure'])assert(!html.includes(raw),raw);
  assert.equal(JSON.stringify(states),before);
 });
 test('actual controls never label initial loading unavailable',()=>{

@@ -1,0 +1,911 @@
+{
+  "scope": "SYNTHETIC TEST EVIDENCE; empty geography, local fallback glyphs, headless desktop Edge plus 390px phone emulation; not physical-mobile/authenticated qualification",
+  "entering": "e8820d13d9f39df40274267c12a7ac23eeff6ce1",
+  "baseline": false,
+  "sourceSha256": {
+    "utils/oceanFieldPresentation.js": "e32818196537af89a6967e91f377abc441279479834458bd75cc8d35e760eb26",
+    "utils/viewportFieldRequests.js": "efb6c023bed2ee6b136aa172c0c406a77d2dc566b896e0f73edbcef364f95be0",
+    "utils/peloraMapStyle.js": "470d85399811cd9bea19facccda8f4a70e1dec427a20f03f8dcca961dc3ae948",
+    "hooks/useMapLibreOceanFields.js": "bede4c30e2c7d50d3ca200ad3366cd24db956d08f3d199bcf993f155f1339e09"
+  },
+  "fixtureSha256": "5a9f0bd3d6d28b6bc2220ca367f30a95c1a6b9aca4d30b59b5c27472bb80afdf",
+  "broad": [
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 304.8,
+      "depthFeet": 1000,
+      "major": true,
+      "minZoom": 0,
+      "label": "1,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 4572,
+      "depthFeet": 15000,
+      "major": true,
+      "minZoom": 0,
+      "label": "15,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 3048,
+      "depthFeet": 10000,
+      "major": true,
+      "minZoom": 0,
+      "label": "10,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 4572,
+      "depthFeet": 15000,
+      "major": true,
+      "minZoom": 0,
+      "label": "15,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 3048,
+      "depthFeet": 10000,
+      "major": true,
+      "minZoom": 0,
+      "label": "10,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 1524,
+      "depthFeet": 5000,
+      "major": true,
+      "minZoom": 0,
+      "label": "5,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 914.4000000000001,
+      "depthFeet": 3000,
+      "major": true,
+      "minZoom": 0,
+      "label": "3,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 609.6,
+      "depthFeet": 2000,
+      "major": true,
+      "minZoom": 0,
+      "label": "2,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 304.8,
+      "depthFeet": 1000,
+      "major": true,
+      "minZoom": 0,
+      "label": "1,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 182.88,
+      "depthFeet": 600,
+      "major": true,
+      "minZoom": 0,
+      "label": "600 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 91.44,
+      "depthFeet": 300,
+      "major": true,
+      "minZoom": 0,
+      "label": "300 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 4572,
+      "depthFeet": 15000,
+      "major": true,
+      "minZoom": 0,
+      "label": "15,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 3048,
+      "depthFeet": 10000,
+      "major": true,
+      "minZoom": 0,
+      "label": "10,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    },
+    {
+      "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+      "depthMeters": 1524,
+      "depthFeet": 5000,
+      "major": true,
+      "minZoom": 0,
+      "label": "5,000 ft",
+      "representation": "marching-squares-linear-crossing"
+    }
+  ],
+  "regional": {
+    "labels": [
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 4572,
+        "depthFeet": 15000,
+        "major": true,
+        "minZoom": 0,
+        "label": "15,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 1524,
+        "depthFeet": 5000,
+        "major": true,
+        "minZoom": 0,
+        "label": "5,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 914.4000000000001,
+        "depthFeet": 3000,
+        "major": true,
+        "minZoom": 0,
+        "label": "3,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 304.8,
+        "depthFeet": 1000,
+        "major": true,
+        "minZoom": 0,
+        "label": "1,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3048,
+        "depthFeet": 10000,
+        "major": true,
+        "minZoom": 0,
+        "label": "10,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      }
+    ],
+    "minor": [
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 4876.8,
+        "depthFeet": 16000,
+        "major": false,
+        "minZoom": 6,
+        "label": "16,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 4267.2,
+        "depthFeet": 14000,
+        "major": false,
+        "minZoom": 6,
+        "label": "14,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3962.4,
+        "depthFeet": 13000,
+        "major": false,
+        "minZoom": 6,
+        "label": "13,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3657.6000000000004,
+        "depthFeet": 12000,
+        "major": false,
+        "minZoom": 6,
+        "label": "12,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3352.8,
+        "depthFeet": 11000,
+        "major": false,
+        "minZoom": 6,
+        "label": "11,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2743.2000000000003,
+        "depthFeet": 9000,
+        "major": false,
+        "minZoom": 6,
+        "label": "9,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2438.4,
+        "depthFeet": 8000,
+        "major": false,
+        "minZoom": 6,
+        "label": "8,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2133.6,
+        "depthFeet": 7000,
+        "major": false,
+        "minZoom": 6,
+        "label": "7,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 5791.200000000001,
+        "depthFeet": 19000,
+        "major": false,
+        "minZoom": 6,
+        "label": "19,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 5486.400000000001,
+        "depthFeet": 18000,
+        "major": false,
+        "minZoom": 6,
+        "label": "18,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 5181.6,
+        "depthFeet": 17000,
+        "major": false,
+        "minZoom": 6,
+        "label": "17,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 4876.8,
+        "depthFeet": 16000,
+        "major": false,
+        "minZoom": 6,
+        "label": "16,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 4267.2,
+        "depthFeet": 14000,
+        "major": false,
+        "minZoom": 6,
+        "label": "14,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3962.4,
+        "depthFeet": 13000,
+        "major": false,
+        "minZoom": 6,
+        "label": "13,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3657.6000000000004,
+        "depthFeet": 12000,
+        "major": false,
+        "minZoom": 6,
+        "label": "12,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3352.8,
+        "depthFeet": 11000,
+        "major": false,
+        "minZoom": 6,
+        "label": "11,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2743.2000000000003,
+        "depthFeet": 9000,
+        "major": false,
+        "minZoom": 6,
+        "label": "9,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2438.4,
+        "depthFeet": 8000,
+        "major": false,
+        "minZoom": 6,
+        "label": "8,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3657.6000000000004,
+        "depthFeet": 12000,
+        "major": false,
+        "minZoom": 6,
+        "label": "12,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3352.8,
+        "depthFeet": 11000,
+        "major": false,
+        "minZoom": 6,
+        "label": "11,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2743.2000000000003,
+        "depthFeet": 9000,
+        "major": false,
+        "minZoom": 6,
+        "label": "9,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2438.4,
+        "depthFeet": 8000,
+        "major": false,
+        "minZoom": 6,
+        "label": "8,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2133.6,
+        "depthFeet": 7000,
+        "major": false,
+        "minZoom": 6,
+        "label": "7,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 1676.4,
+        "depthFeet": 5500,
+        "major": false,
+        "minZoom": 7,
+        "label": "5,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 1371.6000000000001,
+        "depthFeet": 4500,
+        "major": false,
+        "minZoom": 7,
+        "label": "4,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 1066.8,
+        "depthFeet": 3500,
+        "major": false,
+        "minZoom": 7,
+        "label": "3,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 762,
+        "depthFeet": 2500,
+        "major": false,
+        "minZoom": 7,
+        "label": "2,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 457.20000000000005,
+        "depthFeet": 1500,
+        "major": false,
+        "minZoom": 7,
+        "label": "1,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3962.4,
+        "depthFeet": 13000,
+        "major": false,
+        "minZoom": 6,
+        "label": "13,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3657.6000000000004,
+        "depthFeet": 12000,
+        "major": false,
+        "minZoom": 6,
+        "label": "12,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 3352.8,
+        "depthFeet": 11000,
+        "major": false,
+        "minZoom": 6,
+        "label": "11,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2743.2000000000003,
+        "depthFeet": 9000,
+        "major": false,
+        "minZoom": 6,
+        "label": "9,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2438.4,
+        "depthFeet": 8000,
+        "major": false,
+        "minZoom": 6,
+        "label": "8,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 2133.6,
+        "depthFeet": 7000,
+        "major": false,
+        "minZoom": 6,
+        "label": "7,000 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 1676.4,
+        "depthFeet": 5500,
+        "major": false,
+        "minZoom": 7,
+        "label": "5,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 1371.6000000000001,
+        "depthFeet": 4500,
+        "major": false,
+        "minZoom": 7,
+        "label": "4,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      },
+      {
+        "fieldId": "SYNTHETIC-CONTOURS-40x40-v1",
+        "depthMeters": 1066.8,
+        "depthFeet": 3500,
+        "major": false,
+        "minZoom": 7,
+        "label": "3,500 ft",
+        "representation": "marching-squares-linear-crossing"
+      }
+    ],
+    "raster": "none",
+    "status": "static",
+    "order": [
+      "background",
+      "pelora-bathymetry-shading",
+      "pelora-bathymetry-minor",
+      "pelora-bathymetry-major",
+      "pelora-bathymetry-depth-labels",
+      "coastline",
+      "countries-fill",
+      "countries-boundary",
+      "countries-label"
+    ]
+  },
+  "continuity": {
+    "frames": [
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      },
+      {
+        "status": "static",
+        "visible": "visible",
+        "lines": 19
+      }
+    ],
+    "sameSource": true,
+    "displayContextKey": "{\"bbox\":[-100.99,19.43,-79.01,34.09],\"currentDensity\":12,\"bathymetryDensity\":48}",
+    "contextKey": "{\"bbox\":[-100.99,19.43,-79.01,34.09],\"currentDensity\":12,\"bathymetryDensity\":48}",
+    "requestedContextKey": "{\"bbox\":[-92.75,25.14,-87.25,28.83],\"currentDensity\":20,\"bathymetryDensity\":48}"
+  },
+  "replacementFrames": [
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "zoomOutFrames": [
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    },
+    {
+      "status": "static",
+      "lines": 19
+    }
+  ],
+  "detailFrames": [
+    {
+      "zoom": 7,
+      "eligibleLines": 1,
+      "placedFeatures": 5,
+      "feet": [
+        50
+      ],
+      "placedLabels": [
+        "50 ft"
+      ],
+      "maxFrameMs": 18.699999999254942,
+      "medianFrameMs": 18.199999999254942,
+      "status": "static",
+      "width": 1000
+    },
+    {
+      "zoom": 9,
+      "eligibleLines": 9,
+      "placedFeatures": 15,
+      "feet": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "placedLabels": [
+        "60 ft",
+        "50 ft",
+        "40 ft"
+      ],
+      "maxFrameMs": 18.600000001490116,
+      "medianFrameMs": 18.199999999254942,
+      "status": "static",
+      "width": 1000
+    },
+    {
+      "zoom": 11,
+      "eligibleLines": 19,
+      "placedFeatures": 9,
+      "feet": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55,
+        60,
+        65,
+        70,
+        75,
+        80,
+        85,
+        90,
+        95
+      ],
+      "placedLabels": [
+        "50 ft"
+      ],
+      "maxFrameMs": 18.199999999254942,
+      "medianFrameMs": 17.900000002235174,
+      "status": "static",
+      "width": 1000
+    },
+    {
+      "zoom": 7,
+      "eligibleLines": 1,
+      "placedFeatures": 5,
+      "feet": [
+        50
+      ],
+      "placedLabels": [
+        "50 ft"
+      ],
+      "maxFrameMs": 18.200000002980232,
+      "medianFrameMs": 17.899999998509884,
+      "status": "static",
+      "width": 390
+    },
+    {
+      "zoom": 9,
+      "eligibleLines": 9,
+      "placedFeatures": 13,
+      "feet": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90
+      ],
+      "placedLabels": [
+        "60 ft",
+        "50 ft",
+        "40 ft"
+      ],
+      "maxFrameMs": 18.199999999254942,
+      "medianFrameMs": 18,
+      "status": "static",
+      "width": 390
+    },
+    {
+      "zoom": 11,
+      "eligibleLines": 19,
+      "placedFeatures": 9,
+      "feet": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55,
+        60,
+        65,
+        70,
+        75,
+        80,
+        85,
+        90,
+        95
+      ],
+      "placedLabels": [
+        "50 ft"
+      ],
+      "maxFrameMs": 18.400000002235174,
+      "medianFrameMs": 17.900000002235174,
+      "status": "static",
+      "width": 390
+    }
+  ],
+  "shallowFixtureSha256": "81fbc7253e5d6fee2f6477fdc1cc0ac864dc3e46d51f0b6ae2e1bbed1f5239c7",
+  "denied": [],
+  "errors": [],
+  "mapErrors": []
+}
