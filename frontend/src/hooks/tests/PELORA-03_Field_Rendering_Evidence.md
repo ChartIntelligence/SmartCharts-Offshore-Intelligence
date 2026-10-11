@@ -252,3 +252,83 @@ Candidate is the commit containing this section, directly descended from enterin
 A valid-cell/data-success state remains distinct from proof of visible GPU output. This candidate adds controlled actual screenshot/color evidence for the repaired source/texture path; it does not redefine captain field statuses or claim source/science/operational qualification. Independent combined integration/QA must apply this P03 candidate onto the b98b3040 lineage and test the founder's actual field/viewport/geographic masks/browser/device/GPU, both toggle directions and texture replacement/style reload. React/authenticated-app acceptance, real ETOPO readability and other devices remain unverified. The internal MapLibre adapter requires library-upgrade requalification.
 
 No scientific values, thresholds, geometry, nearest sampling, colors, opacity/order or independent field-lifetime repair changed. No Dashboard/LayerControls/MapLegend/shell CSS, backend, providers, Auth, database, ranking, source admission or science-policy changes; no merge, deployment or operational rollout. CP-10 remains blocked. Stop after normal P03 candidate commit/push and verified remote SHA.
+
+## BATHYMETRIC CONTOURS v1 — developer candidate evidence (2026-10-11)
+
+### Binding and authorization
+
+Entering local and remote SHA: `e3f81e11b6132213e4533985c2bf1a1162070972`; clean worktree `C:\Projects\Pelora-Agent-Worktrees\pelora-03-living-ocean`, branch `codex/pelora-03-living-ocean`. Integrated reference `bd94c4a34b72c9d2ba39b6b224b82d1b5eff50d7` is QA context only; no branch movement/integration. The human contour mission supersedes the prior prohibition on adding contours for this presentation packet. Its acceptance update qualifies the existing lifecycle/texture repairs but leaves captain bathymetry UX open. This record does not rewrite historical evidence or claim independent QA of the new presentation.
+
+Read root router, board, mission, product vision, field-delivery, scalar-runtime and captain-state contracts. The acquired legacy spatial field remains separate from governed scalar delivery/source admission. Read-only legacy field builder confirms explicit ascending sample axes, positive-up meters and native-grid stride/no interpolation; bathymetry maximum returned rectangular grid is 2600 cells. No backend execution/modification.
+
+### Architecture and honest contour representation
+
+Client-side GeoJSON is derived synchronously from the already acquired field inside the existing bathymetry-only presentation boundary. No backend, dependency, second cache, new acquisition or field-lifetime change. Each accepted replacement replaces the whole contour source; `fieldId` and depth level identify features, while the unchanged request helper/contextKey/generation checks control acceptance. Rejected conversions/applications clear the raster and all three contour layers/source and invalidate only exact-context bathymetry retention. Changed-context clearing also immediately hides contours, including style-not-ready states. Disposal cleans contour resources with the existing layer lifetime.
+
+Contours are **approximate nearest-cell threshold boundaries**, not interpolated exact-depth locations. Adjacent finite negative-depth samples on opposite sides of a configured level produce their existing nearest-cell midpoint edge. Domain edges are clipped to field bounds. Missing/nonnegative neighbors produce no line; no coastline, gap bridge, extrapolation, marching-squares depth interpolation, smoothing, ridges, hillshade or continuous-resolution claim. Degree-two vertices join; ambiguous four-way junctions stay disconnected. Uniform fields may correctly produce no contour. Several levels can coincide across a steep coarse sample transition; this does not resolve their physical separation. Angular lines deliberately expose coarse source support and remain a founder/QA acceptance question.
+
+Major source-meter levels: **200, 1000, 2000, 3000, 4000, 5000, 6000**, visible at all zooms. Regional minors: **500, 1500, 2500, 3500, 4500, 5500**, visible from zoom 6. **100 m** minor appears from zoom 8. No additional levels at higher zoom: magnification does not improve resolution. Major width 1.1 / opacity .65; minor width .65 / opacity .45. These are display levels, not changes to scientific values or the five preserved raster depth thresholds.
+
+Recommend **feet as the sole displayed unit** for the mission's U.S. offshore audience, while generating levels in unchanged source meters. Recommendation was presented before implementation of labels; candidate feet are provisional for founder review, not a final unit-policy lock. Labels convert with exact international-foot factor .3048 and round displayed feet to integers; e.g. 1000 m -> 3,281 ft. No competing fathom labels or captain control added. No values/provenance change.
+
+An initial real MapLibre line-label experiment rendered no labels because unsmoothed 90-degree turns failed line-following placement. Final labels use **one existing vertex anchor per sufficiently long joined major line** (length at least four delivered sample spacings), associated visually by an 0.8-em offset and dark halo. Zoom >=5; 11 px; collisions enabled; no overlap/ignore-placement override. No label per cell segment. All three layers declare the existing `relief` slot, below opaque land/geographic layers, currents, Places, Signals and Opportunities. Supporting styling is independently selected conventional semantics, not copied commercial styling. Active-layer insertion excludes its own contour labels to preserve current/context order.
+
+The original raster remains **hidden/internal**, with its unchanged colors, five thresholds, geometry, nearest sampling, opacity .85 and production NEAREST/no-mipmap adapter. No optional tint in this candidate. Successful source calls remain configuration evidence, not proof of visible GPU output; the controlled visual test additionally proves actual lines/placed labels, and the preserved raster GPU test explicitly exposes only the internal raster for its original pixel assertions.
+
+### Performance and pathological input
+
+Normal synthetic 40x40 (1600-cell) slope fixture produces 13 joined lines plus six sparse label anchors. Desktop Node runs: median approximately 2.3–2.5 ms, max approximately 6–8 ms over 25 repetitions. Algorithm scans the bounded grid once per 14 levels and joins only generated edges; cost O(levels * cells + generated edges).
+
+An alternating 52x50/2600-cell shallow/deep stress fixture initially produced 71,372 tiny features in 368.81 ms. A **6000-feature presentation allocation guard** now rejects the complete conversion in approximately 48–54 ms on this desktop, with affected-layer unavailable/field:null and no retained-data resurrection. No partial result, altered levels, source admission restriction or fabricated simplification. This guard bounds map feature load, not all input parsing/segment allocations or mobile execution time. Physical mobile CPU/GPU profiling and actual ETOPO complexity distributions remain required.
+
+### Controlled visual fixture and source identities
+
+Fixture `SYNTHETIC-CONTOURS-40x40-v1`; 1600 finite negative values; bounds [-91,26,-89,28]; ascending .050-degree axes; depth range -5900 to -50 m. Formula is an explicitly synthetic planar slope, not alleged real seafloor structure. Canonical JSON SHA256: `5a9f0bd3d6d28b6bc2220ca367f30a95c1a6b9aca4d30b59b5c27472bb80afdf`.
+
+Retained dedicated fixture/evidence paths:
+
+- `frontend/src/hooks/tests/fixtures/bathymetryContours-v1/fixture.json`
+- `frontend/src/hooks/tests/fixtures/bathymetryContours-v1/before-raster.png` — same fixture using the qualified internal colored-cell raster, fitted view.
+- `frontend/src/hooks/tests/fixtures/bathymetryContours-v1/after-broad.png` — zoom 5, major contours/sparse labels, no primary raster.
+- `frontend/src/hooks/tests/fixtures/bathymetryContours-v1/after-regional.png` — zoom 7, major/minor lines and six placed major labels, no primary raster.
+
+Actual MapLibre 5.24.0/headless installed Edge; actual production hook, canvas and source/layers; controlled field fetch; empty synthetic geography; local glyph fallback because fixture style has no remote glyph URL. Screenshots visually inspected. Broad query found 12 major/label feature instances; regional query found six placed labels and 15 minor feature instances (tile duplication and opacity-hidden feature queries are not distinct-visible-line counts). Evaluated style expressions separately prove minor opacity is zero below its zoom threshold. Zero external requests/page errors/map errors. Regional label strings are feet and associated with major contours. This fixture does not prove live geographic-mask or ranked-marker collision acceptance.
+
+Preserved original GPU texture regression: all five bands retain screenshot RGB samples [30,71,103], [51,117,137], [84,146,153], [119,172,167], [173,189,167]; zero/positive pixels remain base water [16,30,41]. minFilter 9728 (NEAREST), useMipmap=false; unchanged 512x512 image and bounds. Same-context texture replacement and forced style recreation pass. Actual texture test only unhides the internal raster in the harness; no diagnostic GL override.
+
+### Actual commands/results
+
+Node v24.18.0; existing root MapLibre 5.24.0/style validator and bundled Playwright/sharp; installed Edge. No package/environment copying or installation. PASS:
+
+```text
+node frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+node frontend/src/utils/tests/oceanFields.test.js
+node frontend/src/utils/tests/viewportFieldRequests.test.js
+node frontend/src/utils/tests/bathymetryContours.test.js
+node frontend/src/utils/tests/peloraMapStyle.test.js
+node frontend/src/utils/tests/syntheticSstDisplay.test.js
+node frontend/src/utils/tests/mapObservationDisplay.test.js
+node frontend/src/utils/tests/mapEnvironmentalObservations.test.js
+node frontend/src/utils/tests/mapRuntimeResponse.test.js
+node frontend/src/hooks/tests/useMapLibreEnvironmentalObservations.test.js
+```
+
+New utility assertions cover negative-only levels, masks/no missing-cell bridges, exact configured depths, bounded coordinates, deterministic output/major-minor identity, unchanged input, evaluated zoom rules, label unit/vertex association, style validity/hierarchy/collision properties, and complexity rejection. Original hook/helper decoding/body/HTTP/provider/race/obsolete/dispose/zero/transport-retention tests remain; hook assertions now inspect visible contour layers in addition to hidden raster and clear all contours on rejection. Added contour-source failure and conversion-limit rejection/later-transport non-resurrection. Both independent OFF/ON lifecycle directions still pass without movement or sibling restart. Current conversion and transport behavior unchanged.
+
+```powershell
+$env:PELORA_BROWSER_TEST_NODE_MODULES='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules'
+$env:PELORA_CONTOUR_RENDER_OUTPUT=Join-Path $env:TEMP 'pelora03-contours-v1'
+node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs
+$env:PELORA_TEXTURE_RENDER_OUTPUT=Join-Path $env:TEMP 'pelora03-contours-texture-regression'
+node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs
+```
+
+Both browser scripts PASS. Six affected JS/mjs files pass `node --check`; `git diff --check` passes. Full scoped diff inspected, including synthetic fixtures/screenshots; no unrelated/sensitive content. Initial expected harness updates (three sources instead of two and visible contours instead of raster), failed sharp-bend labels, and unguarded stress performance were repaired and rerun; none represent independent QA passes. Candidate is the normal commit containing this appended section, parent e3f81e11b6132213e4533985c2bf1a1162070972, with full SHA reported after push rather than a self-referential hash here.
+
+Final hook hierarchy assertion also caught currents being inserted before late-arriving contours in the map mock without style-slot enforcement. Bathymetry sync now explicitly moves its three contour layers below an existing current layer; insertion skips its own field/contour layers. Final focused and surrounding scripts all rerun PASS after this ordering repair. Lifecycle dependencies and current source/data/arrow definitions remain unchanged.
+
+### Remaining qualification and exclusions
+
+Later combined integration/QA must apply this P03 candidate onto the bd94c4a34b72c9d2ba39b6b224b82d1b5eff50d7 lineage before authenticated founder-browser qualification. Required: real ETOPO field/viewport, coarse/angular contour readability and coincident levels, feet recommendation acceptance, labels against actual geographic/context/Opportunity overlays, repeated panning/style reload/toggle behavior, mobile CPU/GPU load and physical-device legibility. No full React/app build or live provider acquisition; developer results are not independent QA or beta/operational acceptance. MapLibre internal texture-adapter upgrade requalification still applies.
+
+No lifecycle dependency/timer/request-helper change, current-field behavior change, scientific value/provenance/freshness/bounds/nearest-value-sampling change, or scientific raster-threshold change. No Dashboard/LayerControls/MapLegend/shell CSS, backend/database/Auth/provider/science-policy/ranking/source-admission/production edits or access. No merge/deployment; CP-10 and operational rollout remain blocked. Stop after candidate commit/push, clean tree and verified P03 remote SHA.

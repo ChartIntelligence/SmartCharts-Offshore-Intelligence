@@ -2,7 +2,8 @@ import {useEffect} from "react";
 import {resolvePeloraApiUrl} from "../utils/peloraApi.js";
 import {observationImages} from "../utils/mapObservationDisplay.js";
 import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,bathymetryImage,
-  fieldLayerDefinitions,fieldInsertBefore,validateFieldPresentation,installBathymetryTextureSampling} from "../utils/oceanFieldPresentation.js";
+  fieldLayerDefinitions,fieldInsertBefore,validateFieldPresentation,installBathymetryTextureSampling,
+  BATHYMETRY_CONTOUR_SOURCE,BATHYMETRY_CONTOUR_LAYERS,bathymetryContours,bathymetryContourLayerDefinitions} from "../utils/oceanFieldPresentation.js";
 import {createViewportFieldRequests} from "../utils/viewportFieldRequests.js";
 
 export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus}) {
@@ -16,12 +17,21 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     const map=mapRef.current;if(!map)return;
     let disposed=false, bathyImage=null,currentData=EMPTY_FIELD,readyTimer=null;
     let sampledSource=null,releaseSampling=null;
+    let contourData=EMPTY_FIELD;
     const bathymetry=enabled&&layer==="bathymetry",currentField=enabled&&layer==="currents";
     const states={};
     const active=enabled?[layer]:[];
     const publish=(layer,state)=>onFieldStatus(current=>({...current,[layer]:state}));
     const clearRendered=()=>{
       releaseSampling?.();releaseSampling=null;sampledSource=null;
+      if(layer==="bathymetry"){
+        for(const id of BATHYMETRY_CONTOUR_LAYERS){
+          try{if(map.getLayer(id))map.setLayoutProperty(id,"visibility","none");}catch{/* teardown */}
+          try{if(map.getLayer(id))map.removeLayer(id);}catch{/* teardown */}
+        }
+        try{if(map.getSource(BATHYMETRY_CONTOUR_SOURCE))map.getSource(BATHYMETRY_CONTOUR_SOURCE).setData(EMPTY_FIELD);}catch{/* teardown */}
+        try{if(map.getSource(BATHYMETRY_CONTOUR_SOURCE))map.removeSource(BATHYMETRY_CONTOUR_SOURCE);}catch{/* teardown */}
+      }
       // Hide first; remove only this layer/source if the map operation fails.
       try{if(map.getLayer(FIELD_LAYER[layer]))map.setLayoutProperty(FIELD_LAYER[layer],"visibility","none");}
       catch{try{if(map.getLayer(FIELD_LAYER[layer]))map.removeLayer(FIELD_LAYER[layer]);}catch{/* map teardown */}}
@@ -34,7 +44,7 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     const reject=(layer,error)=>{
       const state=states[layer];
       requests.invalidate(layer,state?.contextKey);
-      if(layer==="bathymetry")bathyImage=null;else currentData=EMPTY_FIELD;
+      if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;}else currentData=EMPTY_FIELD;
       states[layer]={contextKey:state?.contextKey,status:"unavailable",field:null,reason:error.message};
       clearRendered();
       publish(layer,states[layer]);
@@ -61,6 +71,19 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
         const definition=fieldLayerDefinitions().find(d=>d.id===FIELD_LAYER[layer]);
         if(map.getSource(definition.source)&&!map.getLayer(definition.id))map.addLayer(definition,fieldInsertBefore(map));
         if(map.getLayer(definition.id))map.setLayoutProperty(definition.id,"visibility",visible?"visible":"none");
+        if(layer==="bathymetry"){
+          // Preserve the repaired image internally; contours are the captain view.
+          if(map.getLayer(definition.id))map.setLayoutProperty(definition.id,"visibility","none");
+          const contours=map.getSource(BATHYMETRY_CONTOUR_SOURCE);
+          if(contours)contours.setData(contourData);
+          else if(data)map.addSource(BATHYMETRY_CONTOUR_SOURCE,{type:"geojson",data:contourData});
+          if(map.getSource(BATHYMETRY_CONTOUR_SOURCE))for(const line of bathymetryContourLayerDefinitions()){
+            if(!map.getLayer(line.id))map.addLayer(line,fieldInsertBefore(map));
+            map.setLayoutProperty(line.id,"visibility",visible?"visible":"none");
+          }
+          if(map.getLayer(FIELD_LAYER.currents))for(const id of BATHYMETRY_CONTOUR_LAYERS)
+            if(map.getLayer(id))map.moveLayer(id,FIELD_LAYER.currents);
+        }
         if(layer==="bathymetry"&&map.getLayer(FIELD_LAYER.bathymetry)&&map.getLayer(FIELD_LAYER.currents))map.moveLayer(FIELD_LAYER.bathymetry,FIELD_LAYER.currents);
         if(states[layer])publish(layer,states[layer]);
       }catch(error){reject(layer,error);}
@@ -102,9 +125,12 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
           if(state.field)validateFieldPresentation(state.field,layer);
           if(layer==="bathymetry"){
             bathyImage=state.field&&state.field.coverage.validCells?bathymetryImage(state.field):null;
+            contourData=state.field?bathymetryContours(state.field):EMPTY_FIELD;
             if(state.field?.coverage.validCells&&!bathyImage)throw new Error("Bathymetry conversion produced no image");
           }else currentData=currentFieldGeoJson(state.field);
           if(!state.field&&map.getLayer(FIELD_LAYER[layer]))map.setLayoutProperty(FIELD_LAYER[layer],"visibility","none");
+          if(layer==="bathymetry"&&!state.field)for(const id of BATHYMETRY_CONTOUR_LAYERS)
+            if(map.getLayer(id))map.setLayoutProperty(id,"visibility","none");
           if(!map.isStyleLoaded())publish(layer,{...state,status:state.field?"loading":state.status});
           apply();
         }catch(error){reject(layer,error);}

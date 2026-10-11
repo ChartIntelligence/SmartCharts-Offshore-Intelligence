@@ -40,7 +40,7 @@ const page=await context.newPage();const pageErrors=[];page.on('pageerror',error
 await page.setContent('<!doctype html><html><body style="margin:0"><div id="map" style="width:900px;height:700px"></div></body></html>');
 await page.addStyleTag({content:fs.readFileSync(root+'/node_modules/maplibre-gl/dist/maplibre-gl.css','utf8')});
 await page.addScriptTag({content:fs.readFileSync(root+'/node_modules/maplibre-gl/dist/maplibre-gl.js','utf8')});
-await page.evaluate(fs.readFileSync(root+'/frontend/src/utils/oceanFieldPresentation.js','utf8').replace(/^export /gm,'')+'\nglobalThis.presentation={bathymetryImage,bathymetryRasterPlan,fieldLayerDefinitions,fieldInsertBefore,fieldViewport,validateFieldPresentation,currentFieldGeoJson,FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,installBathymetryTextureSampling};');
+await page.evaluate(fs.readFileSync(root+'/frontend/src/utils/oceanFieldPresentation.js','utf8').replace(/^export /gm,'')+'\nglobalThis.presentation={bathymetryImage,bathymetryRasterPlan,fieldLayerDefinitions,fieldInsertBefore,fieldViewport,validateFieldPresentation,currentFieldGeoJson,FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,installBathymetryTextureSampling,BATHYMETRY_CONTOUR_SOURCE,BATHYMETRY_CONTOUR_LAYERS,bathymetryContours,bathymetryContourLayerDefinitions};');
 await page.evaluate(fs.readFileSync(root+'/frontend/src/utils/peloraMapStyle.js','utf8').replace(/^export /gm,'')+'\nglobalThis.visual={createPeloraMapStyle,enforcePeloraLayerOrder,PELORA_MAP_COLORS};');
 const canvasResult=await page.evaluate(async field=>{
   let canvas;
@@ -103,6 +103,11 @@ await page.evaluate(()=>{
 });
 try{await page.waitForFunction(()=>diagFieldStatus.bathymetry?.status==='static'&&map.isStyleLoaded(),null,{timeout:15000});}
 catch(error){console.log('DIAGNOSTIC FAILURE SNAPSHOT',await page.evaluate(()=>({diagFieldStatus,mapErrors,styleLoaded:map.isStyleLoaded()})));throw error;}
+await page.evaluate(()=>new Promise(resolve=>{map.once('idle',resolve);map.triggerRepaint();}));
+// The captain view now uses contours. Explicitly expose the retained internal
+// raster only in this texture regression, preserving its original pixel checks.
+await page.evaluate(()=>{for(const id of globalThis.BATHYMETRY_CONTOUR_LAYERS||[])if(map.getLayer(id))map.setLayoutProperty(id,'visibility','none');
+  map.setLayoutProperty(presentation.FIELD_LAYER.bathymetry,'visibility','visible');});
 await page.evaluate(()=>new Promise(resolve=>{map.once('idle',resolve);map.triggerRepaint();}));
 const application=await page.evaluate(()=>{
   const id=presentation.FIELD_SOURCE.bathymetry,layerId=presentation.FIELD_LAYER.bathymetry;
@@ -172,6 +177,7 @@ if(baseline){
 if(!baseline){
   await page.evaluate(()=>map.fire('moveend'));
   await page.waitForFunction(()=>fixtureRequests===2&&diagFieldStatus.bathymetry?.status==='static'&&map.isStyleLoaded(),null,{timeout:15000});
+  await page.evaluate(()=>{for(const id of globalThis.BATHYMETRY_CONTOUR_LAYERS||[])if(map.getLayer(id))map.setLayoutProperty(id,'visibility','none');map.setLayoutProperty(presentation.FIELD_LAYER.bathymetry,'visibility','visible');});
   await page.evaluate(()=>new Promise(resolve=>{map.once('idle',resolve);map.triggerRepaint();}));
   await page.screenshot({path:output+'/after-refresh.png'});
   const refreshed=await sharp(output+'/after-refresh.png').removeAlpha().raw().toBuffer();
@@ -179,6 +185,7 @@ if(!baseline){
     assert.deepEqual([...refreshed.slice(i,i+3)],sample.rgb,"image replacement retains rendered colors/transparency");}
   await page.evaluate(()=>map.setStyle(map.getStyle(),{diff:false}));
   await page.waitForFunction(()=>fixtureRequests>=3&&diagFieldStatus.bathymetry?.status==='static'&&map.isStyleLoaded(),null,{timeout:15000});
+  await page.evaluate(()=>{for(const id of globalThis.BATHYMETRY_CONTOUR_LAYERS||[])if(map.getLayer(id))map.setLayoutProperty(id,'visibility','none');map.setLayoutProperty(presentation.FIELD_LAYER.bathymetry,'visibility','visible');});
   await page.evaluate(()=>new Promise(resolve=>{map.once('idle',resolve);map.triggerRepaint();}));
   await page.screenshot({path:output+'/after-style-reload.png'});
   const reloaded=await sharp(output+'/after-style-reload.png').removeAlpha().raw().toBuffer();
