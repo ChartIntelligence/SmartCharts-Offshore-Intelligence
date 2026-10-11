@@ -332,3 +332,104 @@ Final hook hierarchy assertion also caught currents being inserted before late-a
 Later combined integration/QA must apply this P03 candidate onto the bd94c4a34b72c9d2ba39b6b224b82d1b5eff50d7 lineage before authenticated founder-browser qualification. Required: real ETOPO field/viewport, coarse/angular contour readability and coincident levels, feet recommendation acceptance, labels against actual geographic/context/Opportunity overlays, repeated panning/style reload/toggle behavior, mobile CPU/GPU load and physical-device legibility. No full React/app build or live provider acquisition; developer results are not independent QA or beta/operational acceptance. MapLibre internal texture-adapter upgrade requalification still applies.
 
 No lifecycle dependency/timer/request-helper change, current-field behavior change, scientific value/provenance/freshness/bounds/nearest-value-sampling change, or scientific raster-threshold change. No Dashboard/LayerControls/MapLegend/shell CSS, backend/database/Auth/provider/science-policy/ranking/source-admission/production edits or access. No merge/deployment; CP-10 and operational rollout remain blocked. Stop after candidate commit/push, clean tree and verified P03 remote SHA.
+
+## BATHYMETRIC CONTOURS v1.1 — natural geometry and zoom continuity (2026-10-11)
+
+### Entering identity and accepted finding
+
+Entering SHA `31d4e4de975ddc019d5f87378f2278d3a87c80b3`, branch `codex/pelora-03-living-ocean`, worktree `C:\Projects\Pelora-Agent-Worktrees\pelora-03-living-ocean`, clean on entry. Integrated QA reference `f78666a66e76e65ff53e5d2da767f9c8988db90c` is context, not a branch target. The founder rejected v1's staircase geometry and observed zoom/loading/drop-out in the authenticated integrated browser. Historical v1 developer passes above remain developer evidence, not founder acceptance. The explicit v1.1 authorization permits interpolation solely for locating contour crossings; no source/delivery/science policy is amended.
+
+### Confirmed zoom root cause and controlled reproduction
+
+`moveend` invokes acquisition. A changed bbox (or density identity) creates a new exact request context. The unchanged request helper deletes changed-context transport retention and immediately publishes loading/field:null before its 350 ms debounce. The entering hook then overwrites contour buffers with EMPTY_FIELD, hides contour layers and applies empty source data. Thus a valid static display disappears while the replacement is still pending. This is normally **data clearing**, not destruction of both layer lifetimes or recreation of every layer. Moveend/idle/style readiness still participate in acquisition/application; full-map event instrumentation in the founder browser was not performed here.
+
+Controlled actual MapLibre/Edge baseline loads all relevant modules from the exact entering commit using read-only `git show`. The actual hook path receives the same synthetic static field, then a zoom replacement is held. All 20 sampled baseline frames: loading, major layer hidden, zero rendered major features. The baseline screenshot confirms absence of contours, not just a status assertion.
+
+### Geometry comparison and selection
+
+| Approach | Source support and visual consequence | Decision |
+| --- | --- | --- |
+| v1 nearest-cell threshold boundaries | No location interpolation; contours follow 90-degree midpoint cell edges and can stack multiple levels on the same edge | Rejected founder presentation; retained as before evidence only |
+| Marching squares with linear edge crossings | Uses valid adjacent samples to locate each threshold on its source edge; piecewise straight segments connect crossings within one quad | Selected; conventional, deterministic, no extra smoothing |
+| Fixed-diagonal marching triangles | Also deterministic, but selects a triangulation diagonal and can add directional bias inside each quad | Considered, not implemented; adds an unnecessary representation assumption |
+
+The chosen implementation precomputes supported quads, then scans them for the unchanged provisional contour levels. Each quad requires four finite **negative** source samples. Null/nonnegative corners suppress that quad; there is no gap bridge, land bridge, inferred mask, extrapolation, spline, smoothing, pseudo-ridge or shaded relief. Quads outside declared bounds are omitted. A missing row/column gap larger than delivered spacing is not bridged (relative 1e-8 tolerance only for floating-point spacing comparisons; coordinates are not rounded/snapped).
+
+For an edge with elevations za/zb and contour elevation L=-depthMeters, geometric crossing fraction is `(L-za)/(zb-za)`; the source elevations remain unchanged. Canonical ascending edge orientation gives adjoining quads identical endpoints. Two crossings form one segment. Four-crossing saddle cases use the determinant of source corner differences (asymptotic decision); exact ties keep deep diagonal regions disconnected. No center elevation is inserted into the scientific field. Shared exact-threshold segments are deduplicated, zero-length segments discarded, and degree-two endpoints joined. Quantized isolated vertices and duplicate-edge backtracking loops have dedicated assertions. Real closed contours supported by differing source samples are permitted; tiny unsupported loops are not synthesized by rounding/smoothing.
+
+**Interpolation changes crossing LOCATION only.** Every segment remains inside one source quad, with endpoints on valid neighboring source edges, bounded by the actual source-coordinate envelope. A planar-fixture test evaluates every endpoint against the original sample plane and proves its elevation equals the configured level. Constituent segments cannot exceed a source-quad diagonal. ETOPO delivered/native spacing still limits interpretation; no new seafloor measurement or finer observational resolution is claimed. Source values, units, provenance, bounds, freshness and nearest-value acquisition/sampling are not changed.
+
+### Display continuity and identity boundary
+
+Bathymetry-only hook render state remembers the last successfully applied field and its image/contour buffer references. On a pending camera refresh, it may keep that static, null-validTime display only when the new viewport intersects its original bounds/sample footprint. Old geometry is never expanded into the newly exposed area. Partial overlap displays only the old supported geometry; it is not complete coverage of the new viewport. A disjoint viewport clears immediately.
+
+The published field and `contextKey` remain those of the old display. `displayContextKey`, `requestedContextKey`, `refreshing:true` and `retainedForViewportTransition:true` explicitly distinguish that display from the pending request. It does not publish the predecessor as the new context. Static status remains static while that valid display persists; no camera-only loading flash, conversion or setData(EMPTY_FIELD) occurs. Exact-context request-cache semantics, cancellation, generation checks and transport-degradation contracts are **unchanged**; this is a bounded transient display buffer, not another request cache.
+
+Both new derivatives are fully constructed before switching pending buffer references. Same-source accepted replacements update the existing image/GeoJSON source and layer objects, without a blank-first step. If geographic/style readiness delays application, the old applied field remains published until application. A later zoom superseding a converted-but-unapplied response restores the actual last-applied buffers; old metadata cannot be published over obsolete pending geometry. Matching source/edition/time identity uses productId/provider/dataset/productVersion/validTime/units/crs/providerUrl, excluding viewport-derived fieldId. A real identity change explicitly clears the old rendering before the new field applies. Malformed success, conversion/application rejection and unavailable changed-context replacement clear the display buffer and invalidate only matching affected-layer request retention. A later idle/style/transport failure cannot restore it. Disposal clears transient references and preserves existing teardown guards.
+
+Actual candidate MapLibre/Edge checks: 20 held zoom-in frames remain static/visible with rendered major lines; 20 held zoom-out frames remain static with rendered major lines; all 30 sampled actual replacement frames keep rendered major lines. The existing source remains the same during ordinary replacement. Same synthetic field and camera views are used before/after. Five candidate regional major labels are placed; the shorter source-supported 200 m contour correctly has no label under the preserved minimum-length rule. No outgoing requests/page errors/map errors. These sampled controlled frames do not prove every animation frame on every GPU or the authenticated integrated app.
+
+### Presentation and lifecycle preservation
+
+Major/minor rules, restrained styling, label collision settings, relief hierarchy and hidden/internal raster are unchanged. Feet and intervals are **still provisional**; founder unit/interval acceptance is open and not locked by this candidate. Currents source/data/arrows and both independent layer effect dependencies/listeners/timers remain unchanged. Original sibling OFF/ON tests, reacquisition without movement, exact-context genuine degradation, malformed-success/JSON/body failure matrix, obsolete/disposed response rejection and texture adapter tests remain and pass. Additional static-zoom tests cover stale null completion after a newer accepted field, unapplied replacement supersession, source edition changes and disjoint clearing.
+
+### Controlled fixture/evidence identities
+
+Exact before/after field: `SYNTHETIC-CONTOURS-40x40-v1`, 1600 finite negative cells, .050-degree grid, [-91,26,-89,28], -5900..-50 m. Canonical fixture SHA256 remains `5a9f0bd3d6d28b6bc2220ca367f30a95c1a6b9aca4d30b59b5c27472bb80afdf`. It is an explicitly synthetic planar slope, not live ETOPO or claimed real seafloor. The same source plane yields staircase boundaries before and oblique linear-crossing contours after. All retained new artifacts are under `frontend/src/hooks/tests/fixtures/bathymetryContours-v11/`:
+
+- `fixture.json`
+- `before-staircase.png`, `after-marching-squares.png`
+- `before-broad.png`, `after-broad.png`
+- `before-zoom-loading.png`, `after-zoom-retained.png`
+- `baseline-report.json`, `candidate-report.json`
+
+Screenshots were visually inspected. Reports contain fixture scope, exact entering reference, frame observations and synthetic display/request identities. Empty synthetic geographic layers and local font fallback are controlled limitations; real coastlines/context markers and physical mobile are not represented. Candidate report/source fingerprints belong to the commit containing this section; full candidate SHA is reported after commit/push, not self-referenced here.
+
+### Performance and memory evidence
+
+Measured controlled desktop Node v24.18.0, no new package. Normal regional-size 1600-cell fixture: 13 lines plus five label points. Isolated generation medians roughly 3–4 ms; cold/GC outliers roughly 10–16 ms. Broader .25-degree Gulf fixture, also 1600 cells: 18 features, 327 vertices, 10,220 serialized bytes. 400-cell regional source subset: eight features, 81 vertices, 4,525 bytes. The subset uses exact original source indices/values, not an upsampled field.
+
+Final alternating same-process original-source/candidate ESM run (30 per fixture): Gulf median 2.1643 ms before / 2.4220 ms after; regional 0.6840 ms before / 0.5986 ms after. Fifty alternating normal/regional regenerations: median 2.3829 ms, max 6.4235 ms. With `--expose-gc`, one retained Gulf result showed a process heap delta of 88,696 bytes. This is an observation, not peak allocation, total browser/GPU memory or a leak qualification. Serialized bytes are only another memory proxy; the internal raster/texture remains additional unchanged memory. Pending refreshes do zero contour regeneration in the hook regression. Concurrent runs showed normal/GC outliers up to about 25 ms; these are not hidden by the isolated median comparison.
+
+The existing 6000-feature complexity guard now also bounds total generated constituent segments before expensive joining. Alternating 2600-cell pathological input fails closed rather than producing a dense field of tiny contours. Observed isolated rejection about 36–50 ms, with a concurrent-browser stress run up to 115 ms. No device timing guarantee; mobile performance and actual ETOPO complexity still require qualification. Initial unoptimized quad allocation and a misleading VM-realm comparison were replaced by supported-quad precomputation/range skipping and same-realm alternating ESM comparison. No favorable VM figures are presented as a production speedup.
+
+### Actual validation commands/results
+
+All PASS:
+
+```text
+node frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+node frontend/src/utils/tests/oceanFields.test.js
+node frontend/src/utils/tests/viewportFieldRequests.test.js
+node frontend/src/utils/tests/bathymetryContours.test.js
+node frontend/src/utils/tests/peloraMapStyle.test.js
+node frontend/src/utils/tests/syntheticSstDisplay.test.js
+node frontend/src/utils/tests/mapObservationDisplay.test.js
+node frontend/src/utils/tests/mapEnvironmentalObservations.test.js
+node frontend/src/utils/tests/mapRuntimeResponse.test.js
+node frontend/src/hooks/tests/useMapLibreEnvironmentalObservations.test.js
+```
+
+Controlled baseline/candidate browser comparison and preserved texture regression:
+
+```powershell
+$env:PELORA_BROWSER_TEST_NODE_MODULES='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules'
+$env:PELORA_CONTOUR_BASELINE='1'
+$env:PELORA_CONTOUR_RENDER_OUTPUT=Join-Path $env:TEMP 'pelora03-contours-v11-baseline'
+node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs
+$env:PELORA_CONTOUR_BASELINE='0'
+$env:PELORA_CONTOUR_RENDER_OUTPUT=Join-Path $env:TEMP 'pelora03-contours-v11-candidate'
+node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs
+$env:PELORA_TEXTURE_RENDER_OUTPUT=Join-Path $env:TEMP 'pelora03-contours-v11-texture'
+node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs
+```
+
+All three PASS, actual installed headless Edge/MapLibre 5.24.0, controlled fetch/body/image/render pipeline, external requests blocked. Internal raster regression still proves NEAREST minification (9728), no mipmaps, five same band colors, transparent nonnegative cells, image replacement and forced style recreation. Performance comparison extracted only the known entering presentation file via read-only `git show` to TEMP, set `PELORA_CONTOUR_BASELINE_PRESENTATION` to that .mjs, then ran `node --expose-gc frontend/src/utils/tests/bathymetryContours.test.js`. Optional baseline comparison does not require child-process privileges for ordinary utility assertions; an initial restricted Node `git` spawn was replaced by explicit read-only extraction.
+
+Five affected JS/mjs files pass `node --check`; whitespace `git diff --check` passes. Scoped source/test/fixture diff inspected for unrelated/sensitive changes before explicit staging. No install/copy of dependencies/environment, real provider/Auth/database access, backend qualification or app build. Developer results do not establish independent QA.
+
+### Remaining acceptance and stop
+
+Later combined integration/QA must apply this P03 candidate onto the f78666a66e76e65ff53e5d2da767f9c8988db90c lineage before founder browser qualification. Required: actual ETOPO naturally readable structure at broad/regional/closer scales, zoom/pan/replacement continuity against real geographic loading, source/edition/failure boundaries, label/context/Opportunity collisions, provisional units/interval decisions, mobile CPU/memory/GPU and physical-device readability. No navigation-grade, new observational resolution, source admission, beta-ready or operational claim.
+
+No source scientific values/provenance/time/bounds/native or delivered resolution changes, nearest-value sampling change, current behavior change, independent layer-lifetime change, texture repair change, backend/database/science-policy/production changes, merge or deployment. CP-10 and operational rollout remain blocked. Normal follow-up candidate commit/push only on P03, verify remote full SHA and clean tree, then stop.
