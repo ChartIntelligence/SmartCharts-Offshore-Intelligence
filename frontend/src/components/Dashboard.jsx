@@ -11,7 +11,7 @@ import { buildMapEnvironmentalObservations } from "../utils/mapEnvironmentalObse
 import { buildMapObservationDisplay } from "../utils/mapObservationDisplay.js";
 
 import LayerControls from "./LayerControls";
-import { fieldStatusText, sampleLayersForMode } from "../utils/oceanFieldPresentation.js";
+import { sampleLayersForMode } from "../utils/oceanFieldPresentation.js";
 import MapLibreIntelligenceMap from "./MapLibreIntelligenceMap";
 import MapLegend from "./MapLegend";
 import TopOpportunity from "./TopOpportunity";
@@ -663,6 +663,7 @@ return (
 
               <LayerControls
                 fieldStatus={fieldStatus}
+                observationTime={observationDisplayTime}
                 qaSamples={qaSamples}
                 layers={layers}
                 setLayers={setLayers}
@@ -729,10 +730,6 @@ return (
               </button>
 
 
-              <div className="ocean-field-status" role="status">
-                {layers.bathymetry && <div>{fieldStatusText("bathymetry", fieldStatus.bathymetry, observationDisplayTime)}</div>}
-                {layers.currentField && <div>{fieldStatusText("currents", fieldStatus.currents, observationDisplayTime)}</div>}
-              </div>
               <MapLegend
                 observationDisplay={mapObservationDisplay}
                 layers={sampleLayersForMode(layers, qaSamples)}
