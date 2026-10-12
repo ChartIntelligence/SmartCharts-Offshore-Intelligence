@@ -1,3 +1,5 @@
+import {useCaptainContinuity} from '../hooks/useCaptainContinuity.js';
+import {validateWorkspace} from '../utils/captainContinuity.js';
 import { interpretOpportunityEvaluation } from "../utils/opportunityEvaluationState.js";
 import TodayDashboard from "./TodayDashboard";
 import {
@@ -49,33 +51,29 @@ function Dashboard({
   authLoading,
   tripMission,
   captainSpatialContext,
-  onEditTripMission
+  onEditTripMission,
+  missionPersistenceError
 }) {
-  const [activeTab, setActiveTab] =
-    useState("today");
-
-  const [layers, setLayers] = useState({
-    marlin: true,
-    yellowfin: true,
-    blackfin: true,
-    locations: true,
-
-    bathymetry: true,
-    currentField: true,
-    temperatureSamples: false,
-    chlorophyll: false,
-    currents: false,
-    temperatureTransition: false,
-    baitProbability: false
-  });
-
-  const [selectedSpot, setSelectedSpot] =
-    useState(null);
-
-  const [
-    opportunitySelection,
-    setOpportunitySelection
-  ] = useState(null);
+  const {value:workspace,setValue:setWorkspace,error:workspaceError} = useCaptainContinuity(user,'workspace',()=>({
+    activeTab:'today', layers:{marlin:true,yellowfin:true,blackfin:true,locations:true,bathymetry:true,currentField:true,
+      temperatureSamples:false,chlorophyll:false,currents:false,temperatureTransition:false,baitProbability:false},
+    selectedSpotId:null,opportunitySelection:null,mapCamera:null,sheetExpanded:false,reportPanelOpen:false
+  }),validateWorkspace);
+  const activeTab = workspace.activeTab;
+  const setActiveTab = useCallback(activeTab=>setWorkspace(current=>({...current,activeTab})),[setWorkspace]);
+  const layers = workspace.layers;
+  const setLayers = useCallback(update=>setWorkspace(current=>({...current,layers:typeof update==='function'?update(current.layers):update})),[setWorkspace]);
+  const selectedSpot = structures.find(spot=>spot.id===workspace.selectedSpotId) ?? null;
+  const setSelectedSpot = useCallback(spot=>setWorkspace(current=>({...current,selectedSpotId:spot?.id ?? null,opportunitySelection:spot?null:current.opportunitySelection,
+    sheetExpanded:(spot?.id ?? null)===current.selectedSpotId?current.sheetExpanded:false})),[setWorkspace]);
+  useEffect(()=>{
+    if (workspace.selectedSpotId && !selectedSpot) setSelectedSpot(null);
+  },[workspace.selectedSpotId,selectedSpot,setSelectedSpot]);
+  const opportunitySelection = workspace.opportunitySelection;
+  const setOpportunitySelection = useCallback(selection=>setWorkspace(current=>({...current,opportunitySelection:selection,selectedSpotId:selection?null:current.selectedSpotId,
+    sheetExpanded:selection?.opportunity?.id===current.opportunitySelection?.opportunity?.id?current.sheetExpanded:false})),[setWorkspace]);
+  const setMapCamera = useCallback(mapCamera=>setWorkspace(current=>({...current,mapCamera})),[setWorkspace]);
+  const setSheetExpanded = useCallback(update=>setWorkspace(current=>({...current,sheetExpanded:typeof update==='function'?update(current.sheetExpanded):update})),[setWorkspace]);
 
   // Selection belongs to a governed context, not a rank or an old result object.
   const opportunityContext = JSON.stringify([
@@ -86,9 +84,11 @@ function Dashboard({
   const selectedOpportunity = opportunitySelection?.context === opportunityContext
     ? opportunitySelection.opportunity : null;
   const setSelectedOpportunity = useCallback(opportunity => {
-    setOpportunitySelection(opportunity ? {context: opportunityContext, opportunity} : null);
-  }, [opportunityContext]);
-  useEffect(() => {setOpportunitySelection(null);}, [opportunityContext]);
+    setOpportunitySelection(opportunity ? {context: opportunityContext, opportunity:{id:opportunity.id}} : null);
+  }, [opportunityContext,setOpportunitySelection]);
+  useEffect(() => {
+    if (opportunitySelection && opportunitySelection.context !== opportunityContext) setOpportunitySelection(null);
+  }, [opportunityContext,opportunitySelection,setOpportunitySelection]);
 
   const [
     mapRecenterRequest,
@@ -99,7 +99,7 @@ function Dashboard({
     useCallback((spot) => {
       setSelectedSpot(spot);
       setSelectedOpportunity(null);
-    }, [setSelectedOpportunity]);
+    }, [setSelectedOpportunity,setSelectedSpot]);
 
   const handleSelectOpportunity =
     useCallback((opportunity) => {
@@ -108,24 +108,22 @@ function Dashboard({
       );
 
       setSelectedSpot(null);
-    }, [setSelectedOpportunity]);
+    }, [setSelectedOpportunity,setSelectedSpot]);
 
   const handleCloseMapSelection =
     useCallback(() => {
       setSelectedOpportunity(null);
       setSelectedSpot(null);
-    }, [setSelectedOpportunity]);
+    }, [setSelectedOpportunity,setSelectedSpot]);
 
   const navigateToTopZoneMap = useCallback(() => {
     setActiveTab("map");
-  }, []);
+  }, [setActiveTab]);
 
 
 
-  const [
-    reportPanelOpen,
-    setReportPanelOpen
-  ] = useState(false);
+  const reportPanelOpen = workspace.reportPanelOpen;
+  const setReportPanelOpen = useCallback(reportPanelOpen=>setWorkspace(current=>({...current,reportPanelOpen})),[setWorkspace]);
 
   const [
     reportsRefreshToken,
@@ -361,8 +359,10 @@ const {
 
 
 const mapSelectedTarget =
-  selectedGovernedOpportunity ??
-  selectedSpot;
+  selectedGovernedOpportunity ?? selectedSpot ??
+  (selectedOpportunity && dynamicOpportunityLoading
+    ? {id:selectedOpportunity.id,awaitingAuthoritative:true}
+    : null);
 
 
 const mapSelectedMarineData =
@@ -559,6 +559,7 @@ return (
   </nav>
 
 </header>
+{(workspaceError || missionPersistenceError) && <p role="status">{workspaceError || missionPersistenceError}</p>}
 
 
 <button
@@ -672,6 +673,9 @@ return (
               />
 
               <MapLibreIntelligenceMap
+                camera={workspace.mapCamera}
+                onCameraChange={setMapCamera}
+                restoredSelectionId={selectedOpportunity?.id ?? selectedSpot?.id ?? null}
                 qaSamples={qaSamples}
                 onFieldStatus={setFieldStatus}
                 observationDisplay={mapObservationDisplay}
@@ -750,6 +754,8 @@ return (
               {mapSelectedTarget && (
                 <SelectedTarget
                   mapPanel
+                  expanded={workspace.sheetExpanded}
+                  onExpandedChange={setSheetExpanded}
                   selectedSpot={
                     mapSelectedTarget
                   }
@@ -1006,6 +1012,7 @@ return (
 
 
       <FishingDayReportPanel
+  key={user?.id ?? "no-captain"}
   isOpen={reportPanelOpen}
   onClose={() =>
     setReportPanelOpen(false)

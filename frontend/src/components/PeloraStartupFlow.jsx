@@ -150,8 +150,9 @@ function PeloraStartupFlow({
     captainSpatialContext,
     missionReady,
     missionLoading,
+    missionPersistenceError,
     updateTripMission
-  } = useTripMission();
+  } = useTripMission(user);
 
 
   const [
@@ -331,6 +332,7 @@ function PeloraStartupFlow({
   ) {
     return (
       <main className="pelora-startup-screen">
+        {missionPersistenceError && <p role="status">{missionPersistenceError}</p>}
 
         <section className="pelora-startup-splash">
 
@@ -374,6 +376,7 @@ function PeloraStartupFlow({
         user={user}
         authLoading={authLoading}
         tripMission={tripMission}
+        missionPersistenceError={missionPersistenceError}
         captainSpatialContext={
           captainSpatialContext
         }

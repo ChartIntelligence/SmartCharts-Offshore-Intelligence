@@ -10,18 +10,24 @@ function SelectedTarget({
   oceanError,
   mapPanel = false,
   onViewIntelligence,
-  onClose
+  onClose,
+  expanded,
+  onExpandedChange
 }) {
 
   const [
-    mapPanelExpanded,
-    setMapPanelExpanded
+    localExpanded,
+    setLocalExpanded
   ] = useState(false);
 
+  const mapPanelExpanded = expanded ?? localExpanded;
+  const setMapPanelExpanded = onExpandedChange ?? setLocalExpanded;
+
   useEffect(() => {
-    setMapPanelExpanded(false);
+    if (expanded === undefined) setLocalExpanded(false);
   }, [
-    selectedSpot?.id
+    selectedSpot?.id,
+    expanded
   ]);
 
   if (!selectedSpot) {
@@ -53,6 +59,20 @@ const reportedPosition =
 
 const positionFreshness =
   selectedSpot.position?.freshness;
+
+  if (selectedSpot.awaitingAuthoritative === true) {
+    return (
+      <div className={mapPanel ? `selected-target selected-target-map-panel selected-target-map-panel-${mapPanelExpanded ? "expanded" : "peek"}` : "selected-target"}>
+        {mapPanel && <button type="button" className="selected-target-map-expand" aria-expanded={mapPanelExpanded}
+          onClick={() => setMapPanelExpanded(current => !current)}>
+          {mapPanelExpanded ? "Show Less" : "More Map Intelligence"}
+        </button>}
+        <h2>Selected Opportunity</h2>
+        <p role="status">Refreshing current governed evidence…</p>
+        <button type="button" onClick={onClose}>Close selection</button>
+      </div>
+    );
+  }
 
   return (
     <div

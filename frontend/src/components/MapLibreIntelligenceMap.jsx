@@ -1,3 +1,4 @@
+import {useMapCameraContinuity} from '../hooks/useMapCameraContinuity.js';
 import {
   useEffect,
   useMemo,
@@ -40,7 +41,10 @@ function MapLibreIntelligenceMap({
   openWaterOpportunities = [],
   selectedOpportunity = null,
   setSelectedOpportunity,
-  recenterRequest = 0
+  recenterRequest = 0,
+  camera = null,
+  onCameraChange,
+  restoredSelectionId = null
 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
@@ -236,6 +240,11 @@ function MapLibreIntelligenceMap({
     mapRef,
     selectedSpot
   });
+
+  useMapCameraContinuity({mapRef,camera:qaSamples || syntheticSstReview ? null : camera,
+    onCameraChange:qaSamples || syntheticSstReview ? undefined : onCameraChange,
+    restoredSelectionId:qaSamples || syntheticSstReview ? null : restoredSelectionId,
+    selectedIdentity:selectedOpportunity?.id ?? selectedSpot?.id ?? null});
 
   return (
     <div

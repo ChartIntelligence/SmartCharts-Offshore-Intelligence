@@ -1,3 +1,5 @@
+import {useCaptainContinuity} from '../hooks/useCaptainContinuity.js';
+import {validateFishingDraft} from '../utils/captainContinuity.js';
 import { useMemo, useRef, useState } from "react";
 import { supabase } from "../lib/supabase";
 import FishingLogTemporalControls from "./FishingLogTemporalControls";
@@ -136,16 +138,17 @@ function FishingDayReportPanel({
   user
 }) {
 
-  const [report, setReport] = useState(
-    createInitialReport
-  );
-
-  const [fishingLocationDraft, setFishingLocationDraft] = useState(emptyLocationDraft);
+  const {value:draft,setValue:setDraft,error:draftError,capture,isActive,complete} = useCaptainContinuity(user,'fishing-draft',()=>({
+    report:createInitialReport(),fishingLocationDraft:emptyLocationDraft(),areaSearch:''
+  }),value=>validateFishingDraft(value,createInitialReport()));
+  const report = draft.report;
+  const fishingLocationDraft = draft.fishingLocationDraft;
+  const areaSearch = draft.areaSearch;
+  const setReport = update=>setDraft(current=>({...current,report:typeof update==='function'?update(current.report):update}));
+  const setFishingLocationDraft = update=>setDraft(current=>({...current,fishingLocationDraft:typeof update==='function'?update(current.fishingLocationDraft):update}));
+  const setAreaSearch = areaSearch=>setDraft(current=>({...current,areaSearch}));
   const [omissionDraft, setOmissionDraft] = useState(null);
   const latitudeRef = useRef(null);
-
-  const [areaSearch, setAreaSearch] =
-    useState("");
 
 const [isSaving, setIsSaving] =
   useState(false);
@@ -299,6 +302,7 @@ const persistReport = async () => {
   if (isSaving) return;
   setOmissionDraft(null);
   setIsSaving(true);
+  const submitted = capture();
 
   try {
     const reportRow = {
@@ -362,24 +366,20 @@ const persistReport = async () => {
 
     const savedReport = await insertReportWithTime(supabase, reportRow, report);
 
-    onReportSaved?.(
-      savedReport
-    );
-
-    setReport(
-      createInitialReport()
-    );
-
-    setFishingLocationDraft(emptyLocationDraft());
-
-    setAreaSearch("");
+    // Edits made during the request are a newer draft and must survive.
+    const stillActive = isActive(submitted);
+    const cleared = complete(submitted);
+    if (!stillActive) return;
+    onReportSaved?.(savedReport);
+    if (cleared) {setOmissionDraft(null);}
 
     window.alert(
-      "Fishing day saved privately to Pelora."
+      cleared ? "Fishing day saved privately to Pelora." : "Fishing day saved privately. Newer edits remain in your draft."
     );
 
-    onClose?.();
+    if (cleared) onClose?.();
   } catch (error) {
+    if (!isActive(submitted)) return;
     console.error(
       "Unable to save fishing day:",
       error
@@ -446,6 +446,8 @@ const persistReport = async () => {
 
         </header>
 
+
+        {draftError && <p role="status">{draftError}</p>}
 
         <form
           className="fishing-report-form"
