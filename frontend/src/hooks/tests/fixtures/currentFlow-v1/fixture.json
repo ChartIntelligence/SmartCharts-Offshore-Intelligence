@@ -1,0 +1,112 @@
+{
+  "current": {
+    "contractVersion": "pelora-spatial-field-v1",
+    "layer": "currents",
+    "fieldId": "SYNTHETIC-CURRENT-TRACE-v1",
+    "provider": "SYNTHETIC TEST EVIDENCE",
+    "units": "m/s",
+    "status": "latest-available",
+    "validTime": "2026-10-12T23:34:12.651Z",
+    "freshness": {
+      "maxFreshAgeHours": 96
+    },
+    "bounds": [
+      -90.5,
+      26.5,
+      -89,
+      28
+    ],
+    "resolution": {
+      "deliveredDegrees": 0.5
+    },
+    "coverage": {
+      "returnedCells": 4,
+      "validCells": 3
+    },
+    "payloadType": "geostrophic-vector-grid",
+    "payload": {
+      "type": "geostrophic-vector-grid",
+      "coordinateOrder": "longitude,latitude,u,v",
+      "directionConvention": "degrees-toward",
+      "interpolation": "none",
+      "cells": [
+        [
+          -90,
+          27,
+          1,
+          0
+        ],
+        [
+          -89.5,
+          27,
+          0,
+          1
+        ],
+        [
+          -90,
+          27.5,
+          null,
+          null
+        ],
+        [
+          -89.5,
+          27.5,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  "bathy": {
+    "contractVersion": "pelora-spatial-field-v1",
+    "layer": "bathymetry",
+    "fieldId": "SYNTHETIC-TRACE-SIBLING",
+    "provider": "SYNTHETIC TEST EVIDENCE",
+    "units": "m/s",
+    "status": "static",
+    "validTime": null,
+    "freshness": {
+      "maxFreshAgeHours": null
+    },
+    "bounds": [
+      -90.5,
+      26.5,
+      -89,
+      28
+    ],
+    "resolution": {
+      "deliveredDegrees": 0.5
+    },
+    "coverage": {
+      "returnedCells": 9,
+      "validCells": 9
+    },
+    "payloadType": "rectilinear-elevation-grid",
+    "payload": {
+      "type": "rectilinear-elevation-grid",
+      "positive": "up",
+      "order": "latitude-ascending-rows,longitude-ascending-columns",
+      "longitudes": [
+        -90.25,
+        -89.75,
+        -89.25
+      ],
+      "latitudes": [
+        26.75,
+        27.25,
+        27.75
+      ],
+      "values": [
+        -50,
+        -500,
+        -1500,
+        -500,
+        -1500,
+        -2500,
+        -1500,
+        -2500,
+        -3500
+      ]
+    }
+  }
+}

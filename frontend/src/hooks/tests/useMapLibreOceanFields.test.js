@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
 import {resolvePeloraApiUrl} from "../../utils/peloraApi.js";
+import * as flowPresentation from "../../utils/currentFlowPresentation.js";
 import * as presentation from "../../utils/oceanFieldPresentation.js";
 import {observationImages} from "../../utils/mapObservationDisplay.js";
 import {createViewportFieldRequests} from "../../utils/viewportFieldRequests.js";
@@ -25,7 +26,7 @@ const map={getStyle:()=>({layers}),isStyleLoaded:()=>styleLoaded,getSource:id=>s
   getBounds:()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28}),getZoom:()=>5};
 const current={freshness:{maxFreshAgeHours:96},contractVersion:"pelora-spatial-field-v1",layer:"currents",fieldId:"recorded",status:"stale",validTime:"2026-09-19T00:00:00Z",bounds:[-90,27,-89,28],resolution:{deliveredDegrees:.25},coverage:{validCells:1,returnedCells:1},payloadType:"geostrophic-vector-grid",payload:{type:"geostrophic-vector-grid",coordinateOrder:"longitude,latitude,u,v",directionConvention:"degrees-toward",interpolation:"none",cells:[[-89.875,27.125,-0.291,0.948]]}};
 const bathy={validTime:null,freshness:{maxFreshAgeHours:null},contractVersion:"pelora-spatial-field-v1",layer:"bathymetry",fieldId:"bathy",status:"static",bounds:[-90,27,-89,28],resolution:{deliveredDegrees:1},coverage:{validCells:1,returnedCells:1},payloadType:"rectilinear-elevation-grid",payload:{type:"rectilinear-elevation-grid",order:"latitude-ascending-rows,longitude-ascending-columns",positive:"up",longitudes:[-89.5],latitudes:[27.5],values:[-100]}};
-const context=vm.createContext({...presentation,observationImages,resolvePeloraApiUrl,URLSearchParams,
+const context=vm.createContext({...presentation,...flowPresentation,observationImages,resolvePeloraApiUrl,URLSearchParams,
   useEffect:(fn,deps)=>{effectFns.push({fn,deps,index:effectCursor++});},window:{setInterval:fn=>{const id=++timerId;refreshTimers.set(id,fn);return id;},clearInterval:id=>refreshTimers.delete(id),setTimeout:fn=>{const id=++timerId;readyTimers.set(id,fn);return id;},clearTimeout:id=>readyTimers.delete(id)},
   bathymetryImage:()=>({url:"data:image/png;base64,test",coordinates:[[-90,28],[-89,28],[-89,27],[-90,27]]}),
   createViewportFieldRequests:options=>createViewportFieldRequests({...options,setTimer:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimer:id=>timers.delete(id)}),
@@ -381,3 +382,24 @@ map.getBounds=()=>({getWest:()=>140,getEast:()=>141,getSouth:()=>-40,getNorth:()
 assert.equal(state.bathymetry.field,null);assert.equal(displayLayer.layout.visibility,"none");
 cleanup();context.bathymetryContours=contourConverter;
 console.log("PASS zoom-in/out display continuity, explicit original/display/request context identity, no loading conversion, same-source atomic replacement, disjoint clearing and rejection/failure non-resurrection");
+
+// A synchronous animation rejection must not let the interrupted sync restore its old data.
+map.getBounds=()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28});
+context.fetch=transport();const originalTraceFactory=context.createCurrentTraceImage;
+let lateTraceFailure;
+context.createCurrentTraceImage=options=>{lateTraceFailure=options.onFailure;return {
+  image:{width:32,height:32,data:new Uint8Array(4096)},
+  setState(next){if(next?.field)options.onFailure(new Error("controlled trace setup rejection"),next.field);},clear(){},dispose(){}};};
+commitProps({});await scheduled();absent("currents");assert.equal(state.bathymetry.status,"static");
+assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data.features.length,0);
+cleanup();context.createCurrentTraceImage=originalTraceFactory;context.fetch=transport();commitProps({});await scheduled();
+const recoveredTraceState=state.currents;lateTraceFailure(new Error("detached old trace failure"),current);
+assert.equal(state.currents,recoveredTraceState,"disposed renderer callback cannot reject a new field lifetime");
+assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data.features.length,1);cleanup();
+console.log("PASS synchronous trace rejection cannot restore rejected rendering and detached trace failure cannot invalidate a new layer lifetime");
+
+images.delete(flowPresentation.CURRENT_TRACE_IMAGE);const traceAdder=map.addImage;
+map.addImage=(id,image)=>{if(id===flowPresentation.CURRENT_TRACE_IMAGE)throw new Error("controlled trace image registration");traceAdder(id,image);};
+context.fetch=transport();commitProps({});await scheduled();absent("currents");assert.equal(state.bathymetry.status,"static");
+cleanup();map.addImage=traceAdder;
+console.log("PASS trace image registration failure remains current-only and fail-closed");

@@ -520,3 +520,8 @@ Implementation: components/LayerControls.jsx; hooks/useMapLibreOceanFields.js; u
 Remaining: founder visual acceptance on actual ETOPO shallow/mid/deep viewports with real base geography; full authenticated Opportunity/Signal/Place overlay interaction/collision and runtime console check; physical iOS/Android rendering, low-end CPU/heap/GPU/navigation cost; source-dependent complexity guard frequency and steep-slope minor deferral. Offline fixture/map/component passes are developer evidence, not independent QA, live-source admission, navigation-chart quality, physical-device acceptance or rollout qualification. Feet is now human-locked presentation; intervals/readability remain subject to visual acceptance.
 
 No source science/provenance/evidence/freshness/privacy/ranking/Opportunity/governance policy changed. No database, production, merge or deployment. CP-10 and operational rollout remain blocked. Normal candidate checkpoint on this new P03 branch only; verify full remote SHA and clean tree, then stop for combined integration/QA.
+
+
+## Current-flow point presentation v1 (2026-10-12)
+
+Separate human-approved candidate from combined governance/continuity baseline 10150d5a8187e4ba52f62c0c747d919b30345b7d. Bathymetry source and history untouched. See [current-flow developer evidence](currentFlowPresentation.evidence.md) for exact scope, bounded point-glyph science boundary, tests/source identities, performance and inherited harness exclusions. This does not grant independent QA, integration, physical-mobile acceptance or deployment.

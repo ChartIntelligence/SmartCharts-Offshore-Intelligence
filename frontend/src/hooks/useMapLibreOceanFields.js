@@ -1,3 +1,4 @@
+import {CURRENT_TRACE_IMAGE,createCurrentTraceImage} from "../utils/currentFlowPresentation.js";
 import {useEffect} from "react";
 import {resolvePeloraApiUrl} from "../utils/peloraApi.js";
 import {observationImages} from "../utils/mapObservationDisplay.js";
@@ -16,7 +17,7 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
   useEffect(()=>{
     const map=mapRef.current;if(!map)return;
     let disposed=false, bathyImage=null,currentData=EMPTY_FIELD,readyTimer=null;
-    let sampledSource=null,releaseSampling=null;
+    let sampledSource=null,releaseSampling=null,currentTrace=null;
     let contourData=EMPTY_FIELD;
     let displayedState=null,convertedField=null;
     let displayedImage=null,displayedContours=EMPTY_FIELD;
@@ -25,6 +26,7 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     const active=enabled?[layer]:[];
     const publish=(layer,state)=>onFieldStatus(current=>({...current,[layer]:state}));
     const clearRendered=()=>{
+      if(layer==="currents")currentTrace?.clear();
       releaseSampling?.();releaseSampling=null;sampledSource=null;
       if(layer==="bathymetry"){
         for(const id of BATHYMETRY_CONTOUR_LAYERS){
@@ -60,6 +62,13 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
         const source=map.getSource(FIELD_SOURCE[layer]);
         if(layer==="currents"){
           if(!map.hasImage("pelora-field-current-arrow"))map.addImage("pelora-field-current-arrow",observationImages()["pelora-current-arrow"]);
+          if(!currentTrace)currentTrace=createCurrentTraceImage({onFailure:(error,field)=>{
+            if(!disposed&&mapRef.current===map&&states[layer]?.field===field)reject(layer,error);
+          }});
+          const traceState=states[layer];currentTrace.setState(data.features.length?traceState:null);
+          if(disposed||states[layer]!==traceState)return;
+          if(!map.hasImage(CURRENT_TRACE_IMAGE))map.addImage(CURRENT_TRACE_IMAGE,currentTrace.image);
+          if(disposed||states[layer]!==traceState)return;
           if(source)source.setData(data);else map.addSource(FIELD_SOURCE[layer],{type:"geojson",data});
         }else if(data){
           if(source)source.updateImage(data);else map.addSource(FIELD_SOURCE[layer],{type:"image",...data});
@@ -74,6 +83,7 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
         const definition=fieldLayerDefinitions().find(d=>d.id===FIELD_LAYER[layer]);
         if(map.getSource(definition.source)&&!map.getLayer(definition.id))map.addLayer(definition,fieldInsertBefore(map));
         if(map.getLayer(definition.id))map.setLayoutProperty(definition.id,"visibility",visible?"visible":"none");
+        if(layer==="currents"&&map.getLayer(definition.id))map.setLayoutProperty(definition.id,"icon-image",CURRENT_TRACE_IMAGE);
         if(layer==="bathymetry"){
           // Preserve the repaired image internally; contours are the captain view.
           if(map.getLayer(definition.id))map.setLayoutProperty(definition.id,"visibility","none");
@@ -196,6 +206,11 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     const refresh=window.setInterval(()=>acquire(true),300000);
     return()=>{disposed=true;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
       clearRendered();
+      currentTrace?.dispose();currentTrace=null;
+      if(layer==="currents"){
+        try{if(map.getLayer(FIELD_LAYER.currents))map.setLayoutProperty(FIELD_LAYER.currents,"icon-image","pelora-field-current-arrow");
+          if(map.hasImage(CURRENT_TRACE_IMAGE))map.removeImage?.(CURRENT_TRACE_IMAGE);}catch{/* map teardown */}
+      }
       if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;displayedState=null;convertedField=null;displayedImage=null;displayedContours=EMPTY_FIELD;}
       map.off("movestart",start);map.off("moveend",acquire);map.off("load",loaded);map.off("style.load",loaded);};
   },[mapRef,layer,enabled,onFieldStatus]);
