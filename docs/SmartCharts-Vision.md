@@ -1,3 +1,5 @@
+> Historical alpha vision. Current product authority: [Pelora product constitution](PELORA_PRODUCT_CONSTITUTION.md). Feature listings here do not establish current science admission, implementation or release scope.
+
 # Smart Charts
 
 ## Offshore Intelligence Platform
