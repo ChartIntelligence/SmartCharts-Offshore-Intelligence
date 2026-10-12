@@ -1,6 +1,8 @@
+import {invalidateStoredSelection} from '../utils/captainContinuity.js';
 import {
   useEffect,
-  useState
+  useState,
+  useRef
 } from "react";
 
 import PeloraStartupFlow from "./PeloraStartupFlow";
@@ -29,6 +31,16 @@ function FoundingCaptainAccessGate() {
 
   const {principalId, approved, initialLoading, accessError} =
     useCaptainAccess({session, authLoading, client:supabase});
+
+  const lastCaptain = useRef(null);
+  useEffect(() => {
+    if (authLoading) return;
+    const owner = user?.is_anonymous !== true && session?.access_token ? user?.id ?? null : null;
+    if (lastCaptain.current && (lastCaptain.current !== owner || (owner && !approved && !initialLoading))) {
+      try {invalidateStoredSelection(window.localStorage,lastCaptain.current);} catch { /* Storage may be disabled. */ }
+    }
+    lastCaptain.current = owner;
+  },[user?.id,user?.is_anonymous,authLoading,session?.access_token,approved,initialLoading]);
 
   const [email, setEmail] =
     useState("");
