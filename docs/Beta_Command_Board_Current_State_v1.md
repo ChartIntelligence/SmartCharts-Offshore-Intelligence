@@ -246,3 +246,10 @@ Fresh P01 commands: `node frontend/src/hooks/tests/mapMetadataCleanup.test.js R`
 Preview remains unavailable: repository documentation/configuration-template inspection found no verified non-production API URL; no listener was found on common local QA ports 3000/3001/5000/5173/4173. These checks do not prove no backend exists elsewhere. Explicit verified non-production `VITE_PELORA_API_BASE` (or authorized running local QA backend), temporary approved public non-production Supabase configuration and an approved preview target remain prerequisites. Do not build/serve a preview with the default hosted API. No private environment files inspected, production request, Auth, database or preview launched. A configured offline build/serve was not run in this packet.
 
 Founder visual/device acceptance, five historical documentary-builder exclusions, operational source admission, CP-10 and release gates remain unchanged. No production/main merge/deploy.
+## Founder-confirmed preview prerequisite
+
+Founder confirmation: QA frontend target is Pelora Non-Production, project reference `vqzskzoizpomwzgbgdwl` (`https://vqzskzoizpomwzgbgdwl.supabase.co`). This public project identity is not a credential and does not establish backend identity or binding.
+
+No currently verified approved non-production `VITE_PELORA_API_BASE` exists. Backend existence and association with that non-production project remain unverified. Founder browser preview is BLOCKED pending explicit backend identification and approved configuration, in addition to pending visual/device acceptance. Do not infer an API from frontend configuration, repeat URL requests/searches, use hosted production fallback, launch a backend, deploy, install dependencies or create/copy secrets. A future authorized local preview must bind loopback and preserve database-write restrictions.
+
+Offline current-flow implementation, independent QA and bounded integration may continue. No preview execution or release approval follows from this confirmation. P04 owns its separate QA checklist; this board records the shared prerequisite without rewriting QA-only branches.
