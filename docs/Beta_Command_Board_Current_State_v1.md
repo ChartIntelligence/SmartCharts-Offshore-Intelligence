@@ -4,6 +4,23 @@ Canonical beta board, consolidated at its existing location. Status snapshot is 
 
 Governance: [product](PELORA_PRODUCT_CONSTITUTION.md), [science](PELORA_SCIENCE_GOVERNANCE.md), [privacy](PELORA_PRIVACY_AND_EVIDENCE_RULES.md), [release](PELORA_RELEASE_GATES.md), [decisions/conflicts](PELORA_DECISION_LOG.md).
 
+## October 12, 2026 map-packet coordination snapshot
+
+This additive snapshot supersedes the implementation routing baseline above, not the recorded historical qualification limits. Current accepted combined baseline: **10150d5a8187e4ba52f62c0c747d919b30345b7d**. Founder/device acceptance and BETA READY remain ungranted.
+
+Verified ancestry: `e8820d13d9f39df40274267c12a7ac23eeff6ce1` → `789de11a6aedd50e6e3a8dcf366d4d662f4dc4f5` (bathymetry vNEXT) → `f871e9db0979f1140bd12964a7824666af9466a4` (Captain Continuity) → `10150d5a8187e4ba52f62c0c747d919b30345b7d` (governance). All 24 paths in P03's `e8820d13` → `19a9afdbacf305b616368f25b9609f675ce35891` delta have exact matching Git blobs at the accepted baseline. Do not reapply that delta or replace continuity with an older map checkout.
+
+[Continuity integration evidence](agents/integration/PELORA_Captain_Continuity_Integration_v1.md) records controlled qualification; real authenticated saves, device/process recovery and founder QA remain open. P04's `4df8fdce2bc869a93c72a746bf502a8519c966e4` is a QA-documentation checkpoint targeting `f871e9db`, not an implementation successor. Governance source `a45110113ad903335bc8e36ef1d6540d89b47b2c` is already applied at `10150d5a`.
+
+| Packet / reported state | Owned paths and dependencies | Integration / remaining gate |
+|---|---|---|
+| P02 narrow map caption repair — IN PROGRESS | `frontend/src/components/MapLegend.jsx`, focused metadata tests/evidence. Removes residual ETOPO/decimated-grid caption; internal provenance and rendering remain unchanged. Reports 20 focused checks and offline desktop/phone-width controls checks; exact committed repair not yet collected. | Based on latest combined lineage. Independent P04 clearance and exact-delta checks required before integration. |
+| P04 independent combined QA — IN PROGRESS | Isolated QA checkout/evidence; no application repair authority implied. Reviewing `10150d5a`; exact-source successor tests reused only with identity checks; combined continuity checks pending. | Full successor replay remains 66/71, with five known documentary-builder data-URL import failures, not passes. Physical device/auth/live-provider QA remains separate. |
+| P03 sampled-vector flow presentation — IN PROGRESS | `frontend/src/hooks/useMapLibreOceanFields.js`, `frontend/src/utils/oceanFieldPresentation.js`, focused rendering/qualification tests. Preserve `interpolation:none`; short traces anchored to actual samples, no integrated paths or unsupported intermediate velocities. | No qualified flow candidate collected. Independent QA, combined lifecycle/texture/continuity/current regressions and founder visual judgment required. Stale/reduced-motion presentation must retain its stated limits. |
+| P01 assembly/status — preparation only | This canonical board and decision log; isolated `codex/pelora-map-packets-integration-v1` from `10150d5a`. | No new application delta integrated in this snapshot. Await exact cleared P02 repair, then separately cleared P03 flow; run combined checks/build without moving existing branches. |
+
+Reports of ongoing work do not establish completed qualification. No production, main merge, source-admission, science/ranking, Receipt Writer, CP-10 or beta authorization follows from this snapshot. Founder visual acceptance remains the final presentation gate; production/operational gates remain independent.
+
 ## Status vocabulary
 
 **DONE / QUALIFIED** means the named bounded artifact meets its recorded acceptance scope. **IN PROGRESS** means recorded partial implementation/qualification, without implying an active session. **BLOCKED** means an unresolved prerequisite prevents closure. **WAITING FOR FOUNDER QA** means a candidate exists but human/device acceptance remains. **NOT STARTED** means the reviewed repository has no evidenced implementation of that named operational closure; it is not a claim about external work.

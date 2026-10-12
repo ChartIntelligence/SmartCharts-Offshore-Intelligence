@@ -29,3 +29,13 @@ Review scope: tracked repository Markdown at baseline 789de11a6aedd50e6e3a8dcf36
 - **Founder release review remains open:** full beta/device QA, live Auth/RLS/grants/TLS and recovery proof, operational Observe/publish/nightly qualification, final beta/launch decisions.
 - **Naming/scope review remains open:** whether to retire remaining historical alpha branding/features and how Open Water Opportunity labels should map to existing candidates without changing eligibility. Historical feature lists (AI Hot Spots, fronts, eddies, radar) are not admission or release permission.
 - **Qualification discrepancy remains open:** vNEXT records five harness import failures before builder execution. Earlier safety evidence remains valid for its own checkpoint; later 66/71 cannot become 71/71 by documentary reconciliation. Repair/replay requires a bounded follow-up.
+
+## October 12, 2026 — accepted UI lineage reconciliation
+
+Type: coordination/implementation-routing clarification; no new scientific or release policy.
+
+The orchestrator's e8820d13 handoff is a historical starting point. Verified accepted successor chain is e8820d13 → 789de11a (exact P03 vNEXT plus integration evidence) → f871e9db (account-scoped continuity) → 10150d5a (approved governance). Use full identities and pending packet dependencies in the [canonical beta board](Beta_Command_Board_Current_State_v1.md#october-12-2026-map-packet-coordination-snapshot). All 24 P03 source/test/evidence delta paths remain exact at 10150d5a. No semantic conflict or application re-integration is needed for the existing vNEXT candidate.
+
+Authority: founder authorized preservation of newer accepted checkpoints and lineage reconciliation; orchestrator accepted 10150d5a as the preservation baseline. QA-only checkpoint 4df8fdce and component source 19a9afdb do not supersede the combined implementation. Original board/bootstrap qualification statements remain scoped history; this entry does not revise their test totals.
+
+P02's new residual-caption repair, P04's independent combined QA and P03's sampled-vector flow packet are pending at this snapshot. No new repair/flow approval, completed QA, physical-device acceptance or deployment is claimed. Integrate only exact independently cleared deltas; preserve continuity, governance, science/privacy gates and historical exclusions. No source-admission decision or release authorization is created.
