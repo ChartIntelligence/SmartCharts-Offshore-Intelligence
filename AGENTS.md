@@ -1,13 +1,19 @@
-# Pelora agent instruction router
+# Pelora governance router
 
-Read [Execution Board v1](docs/agents/EXECUTION_BOARD_v1.md), then the mission for your established identity. These files route bounded work; they do not replace existing product canon, scientific governance or historical qualification evidence. Read the relevant original contracts before editing their consumers. Human authorization controls scope.
+Read only the documents relevant to the current task, then their applicable contracts.
 
-- PELORA-02 — Captain Experience: [Intelligence validation/recovery](docs/agents/missions/PELORA-02_Intelligence_Recovery_v1.md).
-- PELORA-03 — Living Ocean: [Field rendering/state consistency](docs/agents/missions/PELORA-03_Field_Rendering_Consistency_v1.md).
-- Other identities: consult the board; no additional implementation packet is assigned here.
+| Category | Canonical source |
+|---|---|
+| Product and map language | [Product constitution](docs/PELORA_PRODUCT_CONSTITUTION.md) |
+| Science, evidence and operating timescales | [Science governance](docs/PELORA_SCIENCE_GOVERNANCE.md) |
+| Privacy and captain data | [Privacy and evidence rules](docs/PELORA_PRIVACY_AND_EVIDENCE_RULES.md) |
+| Release, deployment and status | [Release gates](docs/PELORA_RELEASE_GATES.md) |
+| Beta critical path | [Beta command board](docs/Beta_Command_Board_Current_State_v1.md) |
+| Major decisions and conflicts | [Decision log](docs/PELORA_DECISION_LOG.md) |
+| Assigned missions and file ownership | [Execution board](docs/agents/EXECUTION_BOARD_v1.md) |
 
-Both packets are READY_FOR_WORKSPACE_BINDING — IMPLEMENTATION NOT STARTED. A branch/worktree does not rebind or launch a Codex session. Before implementation, verify the assigned directory/branch, governance commit, entering changes and explicit workspace binding. Do not launch duplicate agents or use private session storage.
+Prefer bounded tasks and reuse qualified contracts. Verify worktree, branch, baseline and entering changes. Preserve other workspaces and unrelated files; mission assignment requires explicit scope and workspace binding.
 
-Respect file ownership. PELORA-02 owns the narrowly scoped Intelligence mounting edits in Dashboard.jsx; PELORA-03 must not edit that file. Do not edit another packet's files or integrate its changes without coordination through PELORA-00/01. Record controlled before/after evidence and exact tested identities; never label fixture success as physical-device, operational-source or production qualification.
+Never weaken locked gates merely to make tests pass. Never infer that implemented means deployed/live. Stop the conflicting part of a requested change when it conflicts with canonical Pelora governance; record the conflict for human review. Do not silently resolve uncertain science or privacy authority.
 
-Preserve unrelated files and original checkouts. No reset/restore/clean/stash/rebase/merge/delete/force operation. New packages, credentials, system changes, database access, production actions or genuine science/governance conflicts require the existing human gate. No operational source admission, CP-10, beta-ready claim, Receipt Writer enablement or quarantined-science reopening.
+Detailed contracts retain their existing qualification limits. Historical reports are evidence at their recorded checkpoints, not current deployment proof. New canon does not reopen CP-10, paused science, quarantined projections or Receipt Writer enablement. Follow the release document's human gates.

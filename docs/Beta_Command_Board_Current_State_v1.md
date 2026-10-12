@@ -1,3 +1,38 @@
+# Pelora beta command board — canonical critical path
+
+Canonical beta board, consolidated at its existing location. Status snapshot is bounded to repository baseline **789de11a6aedd50e6e3a8dcf366d4d662f4dc4f5**. Branches/worktrees outside that baseline are not integrated evidence. **BETA NOT READY; LIVE PRODUCTION STATUS NOT ESTABLISHED FROM REPOSITORY.**
+
+Governance: [product](PELORA_PRODUCT_CONSTITUTION.md), [science](PELORA_SCIENCE_GOVERNANCE.md), [privacy](PELORA_PRIVACY_AND_EVIDENCE_RULES.md), [release](PELORA_RELEASE_GATES.md), [decisions/conflicts](PELORA_DECISION_LOG.md).
+
+## Status vocabulary
+
+**DONE / QUALIFIED** means the named bounded artifact meets its recorded acceptance scope. **IN PROGRESS** means recorded partial implementation/qualification, without implying an active session. **BLOCKED** means an unresolved prerequisite prevents closure. **WAITING FOR FOUNDER QA** means a candidate exists but human/device acceptance remains. **NOT STARTED** means the reviewed repository has no evidenced implementation of that named operational closure; it is not a claim about external work.
+
+## Dependency-aware tracks
+
+| Track / bounded status | Evidence at baseline | Prerequisites and remaining closure |
+|---|---|---|
+| Continuous Observe / durable Ocean State — **IN PROGRESS**; local CP-05–08 foundations **DONE / QUALIFIED** | [Evidence index](qualification/CP05_CP08_Local_Evidence_Index_v1.md), [CP-07](../backend/durableObserve/CP07-OCEAN-STATE.md), [Observe contracts](Continuous_Observe_Currents_Phase_1.md) | Approved independent manifests/source admission, operational scheduler/store/activation, restart/retention and privileges. Captain requests cannot select shared scope. Operational closure not established. |
+| Six-slot governed publishing — **BLOCKED**; controlled P4-A **DONE / QUALIFIED** | [Four-hour contract](Four_Hour_Governed_Publication_v1.md), [CP-08](Continuous_Observe_CP08_Publication_Store_v1.md), [P4-A](Continuous_Observe_CP09B_P4A_Controlled_Integration_v1.md), [R9](CP09B_R9_Temporal_Derived_Finiteness_Repair_v1.md) | Source admission/full historical selection (CP-10 blocked), qualified independent Observe, operational composition, latest-published captain read/projection, failure/restart/retention acceptance. Fixed slots are 00/04/08/12/16/20 UTC; scheduler/live wiring not proved. |
+| Captain continuity/draft protection — **IN PROGRESS**; bounded owner/refresh safety **DONE / QUALIFIED** | [Auth revalidation](Captain_Workspace_Auth_Revalidation_v1.md), [captain safety](Beta_Safety_Captain_State_v1.md), [combined vNEXT evidence](agents/integration/PELORA_Bathymetry_vNEXT_Integration_v1.md) | Full reload/process eviction, real save/recovery and device QA; published-state integration; five later replay assertions unqualified due to harness imports. No claim of cloud trip continuity. |
+| Living Ocean fields/bathymetry — **WAITING FOR FOUNDER QA** | [Combined vNEXT integration](agents/integration/PELORA_Bathymetry_vNEXT_Integration_v1.md) | Real ETOPO geography/readability, Place/Signal/Opportunity dominance, physical iOS/Android performance, complexity guards. Controlled rendering qualification is not source-science admission. |
+| Nightly Learn / Daily Evidence Audit operational loop — **NOT STARTED** | Historical audit below; [P3 decisions](CP09B_P3_Source_History_Policy_Decisions_v1.md), [association readiness](Fishing_Log_Association_Readiness_v1.md) | Qualified retained history/provenance, owner/approved anonymous-sharing boundary, governed pairing, scheduled audit and reviewed outputs. Ingredients exist; no operational loop evidenced. Never auto-rewrite production science/ranking. |
+| Founder QA — **WAITING FOR FOUNDER QA** | [Combined candidate remaining QA](agents/integration/PELORA_Bathymetry_vNEXT_Integration_v1.md) | Authenticated end-to-end Today/Map/Intelligence/Reports, real geography, physical phones, console and failure/recovery evidence. |
+| Security / RLS / least privilege — **BLOCKED** for release closure; local application safety **DONE / QUALIFIED** | [Captain safety](Beta_Safety_Captain_State_v1.md), [client privilege hardening](Client_Privilege_Hardening_v1.md) | Authorized environment verification of effective grants/RLS, two-owner isolation, Auth redirects/revocation, stored report recovery and TLS configuration. Tracked migration does not prove application. |
+| Release qualification — **BLOCKED** | [Release gates](PELORA_RELEASE_GATES.md), [R9](CP09B_R9_Temporal_Derived_Finiteness_Repair_v1.md), [vNEXT integration](agents/integration/PELORA_Bathymetry_vNEXT_Integration_v1.md) | All required operating/science/privacy/device dependencies above plus explicit production authorization and final human BETA READY decision. No deployment/launch authorization exists in this bootstrap. |
+
+## Critical path and next bounded queue entries
+
+Independent Observe/source authority → durable retained evidence and qualified history → governed publication → latest-state captain consumption → integrated failure/recovery/device/privacy qualification → final human beta decision. Nightly Audit depends on governed evidence and privacy; Living Ocean/founder QA and security work may progress independently within authorized scope, but join before beta closure.
+
+Next queue proposals (not implementation authorization): resolve P3/provider science decisions; qualify operational Observe composition; repair the five replay harness assertions and replay the exact candidate; execute founder QA; qualify latest-state delivery after source/history admission; define the privacy-safe nightly audit. Each entry must name its exact contract, dependency, owned files and acceptance evidence. See [PELORA-CONTROL routing](PELORA_RELEASE_GATES.md#pelora-control-readiness).
+
+Update this board only from exact implementation/qualification or approval evidence. Retain superseded reports as history, link successor records, and never turn a design or a remote branch into a DONE claim.
+
+## Historical audit retained below
+
+The original audit below remains evidence at its stated 30b9957 checkpoint. Its missing-foundation findings, selected-object defect and package counts are historical, not current checklist authority. The table above and successor references govern this baseline. No original audit text or evidence counts are rewritten.
+
 # Pelora Beta Command Board — current repository / captain experience v1
 
 Audit baseline: `30b99575e6390d371cc2f526d68e5ae64e8fe014`, branch `codex/pelora-remote-setup`. Read-only source audit; only these two new reports are authorized outputs. No service, provider, database, Auth or live-site access occurred.

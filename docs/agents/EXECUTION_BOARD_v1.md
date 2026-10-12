@@ -1,3 +1,5 @@
+> Historical mission/setup and file-ownership record. Current repository governance routes through [AGENTS.md](../../AGENTS.md); beta status lives in the [canonical beta board](../Beta_Command_Board_Current_State_v1.md). Setup-only status statements below retain their original checkpoint scope.
+
 # Pelora execution board v1
 
 ## Checkpoint and setup disposition
