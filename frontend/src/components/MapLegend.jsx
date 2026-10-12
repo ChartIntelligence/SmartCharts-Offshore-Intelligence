@@ -298,7 +298,7 @@ function MapLegend({ layers, observationDisplay }) {
           )}
 
 
-          {layers.bathymetry && <div className="legend-row"><span className="field-bathy-swatch" /><span>ETOPO depth shading · darker = deeper · decimated grid</span></div>}
+          {layers.bathymetry && <div className="legend-row"><span className="field-bathy-swatch" /><span>Depth shading · darker = deeper</span></div>}
           {layers.currentField && <div className="legend-row"><span className="observation-legend-arrow">↑</span><span>Geostrophic surface flow · toward arrow</span></div>}
           {layers.temperatureSamples && <div className="legend-row">
             <span className="observation-legend-temperature" />

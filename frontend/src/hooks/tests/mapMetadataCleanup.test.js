@@ -55,3 +55,12 @@ test('actual controls never label initial loading unavailable',()=>{
  const primary=html.replace(/<details>[\s\S]*?<\/details>/g,'');assert(primary.includes('Loading…'));assert(!primary.includes('Unavailable'));
 });
 for(const name of ['Dashboard','LayerControls'])test('JSX parse '+name,()=>{transformSync(name+'.jsx',readFileSync(new URL('../../components/'+name+'.jsx',import.meta.url),'utf8'),{jsx:{runtime:'automatic'}});});
+
+test('actual open captain legend excludes bathymetry source/grid caption',()=>{
+ const source=readFileSync(new URL('../../components/MapLegend.jsx',import.meta.url),'utf8');
+ const code=transformSync('MapLegend.jsx',source.replace(/^import[\s\S]*?;\s*/gm,'').replace('export default MapLegend;',''),{jsx:{runtime:'classic'}}).code;
+ const Legend=vm.runInNewContext(code+'\nMapLegend',{React,useState:()=>[true,()=>{}]});
+ const html=renderToStaticMarkup(React.createElement(Legend,{layers:{bathymetry:true,currentField:true,locations:true},observationDisplay:{counts:{}}}));
+ assert(html.includes('Depth shading'));assert(html.includes('Geostrophic surface flow'));
+ for(const raw of ['ETOPO','NOAA','decimated grid','Source &amp; Evidence Details','valid cells'])assert(!html.includes(raw),raw);
+});
