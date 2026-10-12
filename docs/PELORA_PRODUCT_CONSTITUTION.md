@@ -27,3 +27,17 @@ Gulf of Mexico is deployment/validation region #1, not the architecture boundary
 [SmartCharts vision](SmartCharts-Vision.md) remains historical alpha context. Its Smart Charts naming, initial corridor, event target and feature list do not authorize current scope, scientific claims or deployment. This constitution governs current product decisions; the historical vision is not a competing canon.
 
 See [decision log](PELORA_DECISION_LOG.md) for unresolved naming/scope questions and [beta board](Beta_Command_Board_Current_State_v1.md) for evidence-backed completion status.
+
+## Locked amendment — Pelora Persistent Map Shell v1
+
+Founder-approved October 12, 2026 in the human product-direction message in orchestration task `01a13260-b7f1-7551-bcc9-1cc48bd56674`. This supersedes the traditional header/page-shell direction only; it does not change scientific, privacy or access authority. Implemented/deployed status is not implied.
+
+The governed map is the persistent edge-to-edge full-viewport workspace, remaining mounted while other application surfaces are used. Remove the large header/navigation container. Use a restrained floating Pelora mark readable against changing backgrounds without obstructing intelligence.
+
+Navigation is a compact collapsible dock with Home, Intelligence, Reports and Profile, accessible icons/labels/tooltips, and no Map button. Desktop prefers a floating edge rail with minimal permanent width; mobile prefers a safe-area-aware bottom pill within thumb reach. These four destinations open viewport-appropriate sheets/panels above the existing map. Closing returns to unchanged map state.
+
+Preserve center/zoom, mission/context/species/origin/range, valid governed Opportunity/Place/Ocean Signal selection, layers and exploration state. Intelligence from a selected Opportunity preserves that valid selection underneath; terminal authority invalidation still clears it and cannot be undone by navigation or retry. Authentication, account isolation, loading/fail-closed behavior, field lifecycle, recovery and science contracts remain authoritative.
+
+Map and governed markers/signals remain dominant; floating UI has minimal footprint, with opaque panels opened intentionally. Use Pelora's independent visual language, not imitation of Windy, Navionics, Garmin, C-MAP, GulfWire or SatFish.
+
+P02 must first produce a concise desktop/mobile proposal, collapsed/expanded docks, all four overlays and state-persistence contract, then implement in isolation. P03 participates only in map mounting/lifecycle effects. P04 independently qualifies layout, overlay navigation, map/selection persistence, back/forward, keyboard/accessibility, black-screen avoidance and absence of duplicate instances/listeners/render loops. Founder visual/device acceptance remains required. No production deployment is authorized.

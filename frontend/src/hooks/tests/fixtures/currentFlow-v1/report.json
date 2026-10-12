@@ -1,0 +1,51 @@
+{
+  "scope": "Controlled offline MapLibre 5.24.0/headless Edge; not physical-device/live-source QA",
+  "hashes": {
+    "utils/oceanFieldPresentation.js": "e32818196537af89a6967e91f377abc441279479834458bd75cc8d35e760eb26",
+    "utils/currentFlowPresentation.js": "a0b1587b184f96eb57d6c55f544a93b24658aa6c5230ded156779be7e6d60096",
+    "utils/viewportFieldRequests.js": "efb6c023bed2ee6b136aa172c0c406a77d2dc566b896e0f73edbcef364f95be0",
+    "utils/mapObservationDisplay.js": "0adea4d579fb30ca8ead57c280f9f2cee4068bde89f405d516824873eb50135a",
+    "hooks/useMapLibreOceanFields.js": "4239c1f9b319ce274f4c830cf7c9c38abf2babdab706ec2342c868a916a96240"
+  },
+  "fixtureSha256": "a49e5c85e73adb30eacac90d83dc94305eb7b2ba73cfa8796cdc60ca2f579f75",
+  "positions": [
+    [
+      -90,
+      27.00010210140195
+    ],
+    [
+      -89.5001220703125,
+      27.00010210140195
+    ]
+  ],
+  "changedPixels": 165,
+  "frameBudget": [
+    {
+      "width": 1000,
+      "frames": 40,
+      "imageUpdates": 8,
+      "medianFrameMs": 16.700000002980232,
+      "maxFrameMs": 18.799999997019768,
+      "sourceCells": 500
+    },
+    {
+      "width": 390,
+      "frames": 40,
+      "imageUpdates": 8,
+      "medianFrameMs": 16.69999998807907,
+      "maxFrameMs": 18.599999994039536,
+      "sourceCells": 500
+    }
+  ],
+  "animation": "shared 32x32 point glyph; <=12.5fps; no geographic displacement",
+  "reducedMotion": true,
+  "staleStatic": true,
+  "degradedIdentityPreserved": true,
+  "malformedCleared": true,
+  "siblingPreserved": true,
+  "nonResurrection": true,
+  "disposed": true,
+  "zeroRemainsAvailableWithoutAnimation": true,
+  "errors": [],
+  "denied": []
+}
