@@ -13,26 +13,26 @@ import {types} from 'node:util';
 // run accepts only an opaque control-port handle and optional cancellation signal.
 export function createCurrentObservationWorker({control, policy, transport, responses, results, clock, timers}) {
   return Object.freeze({async run(handle, signal = null) {
-    let owned = false, live = true, state, attempt, stopTimer, abortListener;
+    let owned = false, live = true, state, attempt, stopTimer, abortListener, acceptanceStarted = false, outcome;
     const abort = new AbortController();
     let lastTime = -Infinity;
     const now = () => { const value = clock.now(), instant = utc(value); check(instant >= lastTime,'clock-regression'); lastTime = instant; return value; };
-    function guard() { check(live && !abort.signal.aborted, 'attempt-stopped'); const fresh = snapshot(control.check(handle,now()));
-      check(same(fresh,state), 'authorization-changed'); return fresh; }
+    async function guard() { check(live && !abort.signal.aborted, 'attempt-stopped'); const fresh = snapshot(await control.check(handle,now()));
+      check(live && !abort.signal.aborted, 'attempt-stopped'); check(same(fresh,state), 'authorization-changed'); return fresh; }
     async function bounded(operation, milliseconds) {
-      guard(); let timer, listener;
+      await guard(); let timer, listener;
       const cancelled = new Promise((_,reject) => {
         listener = () => reject(new Error('attempt-stopped'));
         abort.signal.addEventListener('abort',listener,{once:true});
         timer = timers.arm(milliseconds,() => { abort.abort('timeout'); });
       });
-      try { const value = await Promise.race([Promise.resolve().then(() => { guard(); return operation(); }),cancelled]); guard(); return value; }
+      try { const value = await Promise.race([Promise.resolve().then(async () => { await guard(); return operation(); }),cancelled]); await guard(); return value; }
       finally { timers.clear(timer); abort.signal.removeEventListener('abort',listener); }
     }
     try {
       check(signal === null || signal instanceof AbortSignal, 'cancellation-signal');
       check(!signal?.aborted, 'cancelled-before-start');
-      const startedAt = now(); state = snapshot(control.claim(handle,startedAt)); owned = true;
+      const startedAt = now(); state = snapshot(await control.claim(handle,startedAt)); owned = true;
       const {context} = state; attempt = state.attempt;
       const {manifest,job} = context;
       authorizeJob(manifest,context.activation,context.trustedState,job,startedAt);
@@ -51,17 +51,17 @@ export function createCurrentObservationWorker({control, policy, transport, resp
       check(Buffer.byteLength(requestUrl) <= manifest.limits.maxRequestBytes,'request-size');
       let receivedAt, responseRetainedAt, rawReference;
       const point = await bounded(() => acquireCurrentProviderPoint(latitude,longitude,assessment,async url => {
-        guard(); check(url.href === requestUrl,'actual-request-mismatch');
-        const envelope = await transport(Object.freeze({url:url.href,signal:abort.signal})); guard();
+        await guard(); check(url.href === requestUrl,'actual-request-mismatch');
+        const envelope = await transport(Object.freeze({url:url.href,signal:abort.signal})); await guard();
         // Bytes cannot go through the ordinary JSON data snapshot. Inspect descriptors first.
         check(envelope && !types.isProxy(envelope) && Object.getPrototypeOf(envelope) === Object.prototype,'transport-envelope');
         const descriptors = Object.getOwnPropertyDescriptors(envelope);
         check(Reflect.ownKeys(descriptors).length === 4 && ['bytes','status','provider','dataset'].every(k => descriptors[k]?.enumerable && Object.hasOwn(descriptors[k],'value')), 'transport-envelope');
         check(descriptors.status.value === 200 && descriptors.provider.value === manifest.product.provider && descriptors.dataset.value === manifest.product.dataset,'transport-source');
         const bytes = responseBytes(descriptors.bytes.value,manifest.limits.maxResponseBytes); receivedAt = now();
-        const expected = responseReference(bytes), ack = snapshot(await responses.retain(Buffer.from(bytes))); guard();
+        const expected = responseReference(bytes), ack = snapshot(await responses.retain(Buffer.from(bytes))); await guard();
         keys(ack,['status','reference']); check(['ACKNOWLEDGED','UNCERTAIN'].includes(ack.status) && same(ack.reference,expected),'response-retention');
-        const back = await responses.read(expected); guard();
+        const back = await responses.read(expected); await guard();
         check(back && !types.isProxy(back) && Object.getPrototypeOf(back) === Object.prototype,'response-readback');
         const bd = Object.getOwnPropertyDescriptors(back);
         check(bd.status?.value === 'FOUND' && bd.bytes && Object.hasOwn(bd.bytes,'value'),'response-readback');
@@ -77,8 +77,8 @@ export function createCurrentObservationWorker({control, policy, transport, resp
           rows.every(row => Array.isArray(row) && row.length === columns.length),'malformed-provider-table');
         return parsed;
       },selector),manifest.limits.requestTimeoutMs);
-      guard();
-      if (point.source.availability === 'no-valid-pixel') return freeze({status:'NO_DATA',accepted:false});
+      await guard();
+      if (point.source.availability === 'no-valid-pixel') return outcome = freeze({status:'NO_DATA',accepted:false});
       check(point.source.availability === 'available','source-availability');
       const normalizedAt = now(), handoff = encodeNormalizedCurrentHandoff(point,SOURCE_NORMALIZATION_VERSION);
       const observationTime = typeof point.observedAt === 'string' && !point.observedAt.includes('.') ? point.observedAt.replace('Z','.000Z') : point.observedAt;
@@ -93,23 +93,40 @@ export function createCurrentObservationWorker({control, policy, transport, resp
       const record = freeze({execution,binding,captureText:handoff.captureText,assessment,responseRetainedAt,requestUrl,
         metadataBasis:{providerDataset:'ALLOWLISTED_REQUEST_AND_ADAPTER_NOT_PROVIDER_REPORTED',grid:'APPROVED_REQUEST_GRID_NOT_PROVIDER_REPORTED',coordinatesTime:'RETURNED_RESPONSE',revision:'NOT_REPORTED'}});
       const ack = snapshot(await bounded(async () => { const result = await results.write(record);
-        if (!live || abort.signal.aborted) results.discard(attempt.attemptId); return result;
+        if (!live || abort.signal.aborted) await results.discard(attempt.attemptId); return result;
       },Math.max(0,utc(job.deadline)-utc(now()))));
       keys(ack,['status']); check(['ACKNOWLEDGED','UNCERTAIN'].includes(ack.status),'result-write-rejected');
       const back = snapshot(await bounded(() => results.read(attempt.attemptId),Math.max(0,utc(job.deadline)-utc(now()))));
       check(JSON.stringify(back) === JSON.stringify(record),'result-readback-integrity');
       const capture = readCurrentEvidenceCaptureV3(back.captureText); validateCurrentCaptureReferenceV3(back.execution.evidenceReference,capture);
-      validateBinding(context,back.execution,back.captureText,back.binding); guard();
+      validateBinding(context,back.execution,back.captureText,back.binding); await guard();
       const retainedAt = now(); check(utc(retainedAt) >= utc(execution.finishedAt),'retention-time-order');
-      const accepted = snapshot(results.accept(record,guard,retainedAt));
-      check(accepted.status === 'ACKNOWLEDGED' && accepted.retainedAt === retainedAt && JSON.stringify(accepted.record) === JSON.stringify(record),'acceptance-acknowledgment');
-      return freeze({...accepted,status:'ACCEPTED',accepted:true,reconciled:ack.status === 'UNCERTAIN'});
+      let accepted, reconciledAcceptance = false;
+      acceptanceStarted = true;
+      try {
+        accepted = snapshot(await results.accept(record,Object.freeze({handle,attempt}),retainedAt));
+        if (accepted.status !== 'ACKNOWLEDGED') throw new Error('acceptance-outcome-uncertain');
+      } catch {
+        // Absence after an ambiguous call is not proof that an in-flight commit cannot finish.
+        // Reconciliation is read-only; this invocation never blindly replays acceptance.
+        try { accepted = snapshot(await results.readAccepted(job.jobId)); }
+        catch { accepted = null; }
+        if (!accepted) return outcome = freeze({status:'UNKNOWN',accepted:false,reason:'acceptance-unresolved'});
+        reconciledAcceptance = true;
+      }
+      check(accepted.status === 'ACKNOWLEDGED' && utc(accepted.retainedAt) >= utc(execution.finishedAt) && JSON.stringify(accepted.record) === JSON.stringify(record),'acceptance-acknowledgment');
+      return outcome = freeze({...accepted,status:'ACCEPTED',accepted:true,reconciled:reconciledAcceptance || ack.status === 'UNCERTAIN'});
     } catch (error) {
-      return freeze({status:abort.signal.aborted ? 'STOPPED' : 'REJECTED',accepted:false,reason:abort.signal.aborted ? String(abort.signal.reason) : error.message});
+      return outcome = freeze({status:acceptanceStarted ? 'UNKNOWN' : abort.signal.aborted ? 'STOPPED' : 'REJECTED',accepted:false,reason:error.message});
     } finally {
       live = false; abort.abort('finished'); if (stopTimer !== undefined) timers.clear(stopTimer);
       if (abortListener) signal?.removeEventListener('abort',abortListener);
-      if (owned) { if (attempt) results.discard(attempt.attemptId); control.release(handle); }
+      if (owned) {
+        let cleanupPending = false;
+        if (attempt && !acceptanceStarted) { try { await results.discard(attempt.attemptId); } catch { cleanupPending = true; } }
+        try { await control.release(handle,attempt); } catch { cleanupPending = true; }
+        if (cleanupPending && outcome) return freeze({...outcome,cleanup:'PENDING'});
+      }
     }
   }});
 }

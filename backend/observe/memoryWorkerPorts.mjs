@@ -22,7 +22,7 @@ export function createMemoryControl(initialContext) {
     port:Object.freeze({
       claim(handle, at) { const state = current(handle, at, false), a = handles.get(handle); check(!a.running, 'duplicate-attempt'); a.running = true; return state; },
       check(handle, at) { return current(handle, at, true); },
-      release(handle) { const a = handles.get(handle); if (a) { a.done = true; a.running = false; } }
+      release(handle, expected) { const a = handles.get(handle); if (a && expected && jobs.get(a.job.jobId) === a && a.attemptId === expected.attemptId && a.fencingToken === expected.fencingToken) { a.done = true; a.running = false; } }
     }),
     issue(jobInput, at) {
       const job = validateJob(manifest, snapshot(jobInput)); authorizeJob(manifest, activation, trustedState, job, at);
@@ -50,17 +50,21 @@ export function createMemoryResponseStore() {
   });
 }
 
-export function createMemoryResultStore() {
+export function createMemoryResultStore(control) {
   const pending = new Map(), accepted = new Map();
   return Object.freeze({
     async write(record) { const copy = snapshot(record); if (accepted.has(copy.execution.jobId)) return {status:'REJECTED'};
       pending.set(copy.execution.attemptId,copy); return {status:'ACKNOWLEDGED'}; },
     async read(attemptId) { return pending.get(attemptId) ?? null; },
     // Synchronous compare-and-accept in one JS turn, deliberately not a database guarantee.
-    accept(record, authorize, retainedAt) {
+    accept(record, claim, retainedAt) {
       const copy = snapshot(record), jobId = copy.execution.jobId;
       check(pending.get(copy.execution.attemptId) && JSON.stringify(pending.get(copy.execution.attemptId)) === JSON.stringify(copy), 'pending-readback-mismatch');
-      check(!accepted.has(jobId), 'job-already-accepted'); authorize(); utc(retainedAt);
+      check(!accepted.has(jobId), 'job-already-accepted');
+      const authority = snapshot(control.check(claim.handle,retainedAt));
+      check(same(authority.attempt,claim.attempt) && authority.context.job.jobId === jobId &&
+        copy.execution.attemptId === authority.attempt.attemptId && copy.execution.fencingToken === authority.attempt.fencingToken, 'acceptance-claim-mismatch');
+      utc(retainedAt);
       const result = freeze({status:'ACKNOWLEDGED',retainedAt,record:copy}); accepted.set(jobId,result); pending.delete(copy.execution.attemptId); return result;
     },
     discard(attemptId) { pending.delete(attemptId); },
