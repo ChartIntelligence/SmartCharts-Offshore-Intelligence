@@ -6,6 +6,10 @@ QA workspace: `C:\Projects\Pelora-Agent-Worktrees\pelora-04-qa-release`.
 Isolated documentation branch: `codex/pelora-04-founder-qa-package-v1`.
 Checklist: [Founder UI acceptance](Founder_UI_Acceptance_789de11_v1.md).
 
+## Confirmed preview prerequisite
+
+Founder/operator confirmation: no verified approved non-production `VITE_PELORA_API_BASE`; backend existence and project binding are unverified. The frontend's approved non-production Supabase project is insufficient to identify a backend. Founder browser preview is BLOCKED pending explicit backend identification and verified non-production pairing, in addition to pending visual/device acceptance. No production fallback, repeated endpoint searches, backend launch/deployment, installs or new secrets are authorized. Offline exact-candidate QA can continue. This prerequisite update records no newly executed test or founder acceptance and does not retarget the checklist to an unqualified packet.
+
 ## Current continuity integration update
 
 Read exact-commit `docs/agents/integration/PELORA_Captain_Continuity_Integration_v1.md`, `frontend/src/hooks/tests/captainContinuity.evidence.md` and `frontend/src/utils/captainContinuity.js` at the new target. Its parent is exactly the historical accepted bathymetry baseline above. The integration record identifies P02 source `a17e65c23600418c69294a8e2071636898bf4948`, fourteen matched delta paths and unchanged P03 application blobs. This documentation update does not alter or check out the new application source and does not independently rerun its tests.
