@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "agents": [
+    {"id":"PELORA-01","lane":"Backend critical path; integration/release coordination","types":["implementation","analysis","documentation","integration"],"scopes":["backend/**","docs/**","pelora-control/**"]},
+    {"id":"PELORA-02","lane":"Captain experience / continuity","types":["implementation","analysis","documentation"],"scopes":["frontend/src/**","docs/**"]},
+    {"id":"PELORA-03","lane":"Living Ocean / bathymetry","types":["implementation","analysis","documentation"],"scopes":["frontend/src/**","docs/**"]},
+    {"id":"PELORA-04","lane":"Independent QA & release evidence","types":["QA","analysis","documentation"],"scopes":["docs/**"]},
+    {"id":"PELORA-05","lane":"Science review; Nightly Learn/Audit","types":["analysis","documentation"],"scopes":["docs/**"]},
+    {"id":"PELORA-06","lane":"Independent red team","types":["QA","analysis","documentation"],"scopes":["docs/**"]},
+    {"id":"PELORA-GOV","lane":"Governance/documentation","types":["documentation","analysis"],"scopes":["docs/**","AGENTS.md"]},
+    {"id":"PELORA-CONTROL","lane":"Development orchestration only","types":["implementation","analysis","documentation"],"scopes":["pelora-control/**"]}
+  ]
+}

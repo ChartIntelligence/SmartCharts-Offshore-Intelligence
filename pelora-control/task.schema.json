@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pelora:control:task:v1",
+  "title": "Pelora bounded development task v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,79}$"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000
+    },
+    "baseline": {
+      "const": "10150d5a8187e4ba52f62c0c747d919b30345b7d"
+    },
+    "repository": {
+      "const": "ChartIntelligence/SmartCharts-Offshore-Intelligence"
+    },
+    "worktree": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,79}$"
+    },
+    "branch": {
+      "type": "string",
+      "pattern": "^codex/pelora-[a-z0-9-]+$"
+    },
+    "environment": {
+      "enum": [
+        "local",
+        "cloud"
+      ]
+    },
+    "dependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 8000
+      }
+    },
+    "allowedFiles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_.\\/-]+(?:/\\*\\*)?$"
+      }
+    },
+    "protectedFiles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_.\\/-]+(?:/\\*\\*)?$"
+      }
+    },
+    "protectedContracts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "observe",
+          "opportunity",
+          "map-intelligence",
+          "captain-logging",
+          "migrations",
+          "release",
+          "governance"
+        ]
+      }
+    },
+    "governance": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "product",
+          "science",
+          "privacy",
+          "release",
+          "beta",
+          "decisions",
+          "ownership"
+        ]
+      }
+    },
+    "type": {
+      "enum": [
+        "implementation",
+        "analysis",
+        "documentation",
+        "QA",
+        "integration"
+      ]
+    },
+    "permittedActions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "read",
+          "write",
+          "test",
+          "worktree",
+          "commit",
+          "push",
+          "merge",
+          "production-deploy",
+          "production-migration",
+          "production-schema",
+          "production-grants",
+          "production-rls",
+          "credentials",
+          "secrets",
+          "paid-services",
+          "system-install",
+          "elevation",
+          "render-production",
+          "supabase-production",
+          "locked-governance-change",
+          "beta-ready",
+          "launch-ready"
+        ]
+      }
+    },
+    "blockedActions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "read",
+          "write",
+          "test",
+          "worktree",
+          "commit",
+          "push",
+          "merge",
+          "production-deploy",
+          "production-migration",
+          "production-schema",
+          "production-grants",
+          "production-rls",
+          "credentials",
+          "secrets",
+          "paid-services",
+          "system-install",
+          "elevation",
+          "render-production",
+          "supabase-production",
+          "locked-governance-change",
+          "beta-ready",
+          "launch-ready"
+        ]
+      }
+    },
+    "requiredTests": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 8000
+      }
+    },
+    "commitPolicy": {
+      "enum": [
+        "forbid",
+        "allow"
+      ]
+    },
+    "pushPolicy": {
+      "enum": [
+        "forbid",
+        "allow"
+      ]
+    },
+    "mergePolicy": {
+      "enum": [
+        "forbid",
+        "human"
+      ]
+    },
+    "approvalRequirements": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "read",
+          "write",
+          "test",
+          "worktree",
+          "commit",
+          "push",
+          "merge",
+          "production-deploy",
+          "production-migration",
+          "production-schema",
+          "production-grants",
+          "production-rls",
+          "credentials",
+          "secrets",
+          "paid-services",
+          "system-install",
+          "elevation",
+          "render-production",
+          "supabase-production",
+          "locked-governance-change",
+          "beta-ready",
+          "launch-ready"
+        ]
+      }
+    },
+    "stopConditions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 8000
+      },
+      "minItems": 1
+    },
+    "expectedDisposition": {
+      "enum": [
+        "COMPLETE",
+        "READY_FOR_INTEGRATION",
+        "READY_FOR_FOUNDER_QA"
+      ]
+    }
+  },
+  "$comment": "Runtime validator additionally enforces owner registry, path safety, mandatory governance, permissions/Git consistency, pinned queue baseline and dependency graph. A schema-valid task is not execution authorization.",
+  "required": [
+    "version",
+    "id",
+    "owner",
+    "title",
+    "goal",
+    "baseline",
+    "repository",
+    "worktree",
+    "branch",
+    "environment",
+    "dependencies",
+    "allowedFiles",
+    "protectedFiles",
+    "protectedContracts",
+    "governance",
+    "type",
+    "permittedActions",
+    "blockedActions",
+    "requiredTests",
+    "commitPolicy",
+    "pushPolicy",
+    "mergePolicy",
+    "approvalRequirements",
+    "stopConditions",
+    "expectedDisposition"
+  ]
+}
