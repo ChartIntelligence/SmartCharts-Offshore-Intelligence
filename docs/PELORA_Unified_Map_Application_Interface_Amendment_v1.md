@@ -1,0 +1,72 @@
+# Unified Map / Application Interface Amendment v1
+
+Contract: `pelora-unified-map-application-interface-amendment-v1`. FOUNDER-APPROVED unified product direction, October 13, 2026. Source: latest human UNIFIED MAP / APPLICATION INTERFACE AMENDMENT relayed by the orchestrator; no new attachment hash or screenshot provenance invented. Supersedes fragmented specific UI directions where they conflict. [Earlier consolidated browser amendment](PELORA_Founder_Browser_Review_Amendment_v1.md) and [canonical science/privacy/release routing](PELORA_PRODUCT_CONSTITUTION.md) retain every nonconflicting boundary.
+
+Documentation successor parent: **3c82ce1fd9fb40acbd50f4d69873121e3e5ab194**. Application tree still exact frozen **b0cd2b1c3b967644d3bb00b4b488addfe777b1e9**. Current source/build/read-only preview untouched. No application edit, build, temporal rerun or preview replacement. Product approval, implementation, independent QA, actual founder/browser/device acceptance and deployment remain distinct.
+
+## Unified requirements and dispositions
+
+| Requirement | Locked direction | Present disposition / next owner |
+|---|---|---|
+| Top view | Top Opportunities FIRST, contextual Ocean Evidence SECOND, compact expandable Ocean Brief THIRD. List or one concise truthful unavailable/zero explanation; preserve rank/context/evidence, no duplicate empty recommendations or hidden uncertainty | P02 UI-1; reuse cleared B source; QA-disabled route is disabled capability, not an ocean diagnosis |
+| Headings | Remove duplicate dark visible outer titles; preserve meaningful/screen-reader accessible name, focus and visible Close/keyboard behavior | P02 UI-1; no recolor-only fix |
+| Dock | EXACT Top Opportunities / Opportunity Analysis / My Reports / Profile; crisp consistent vector icons, stable internal route/state IDs | P02 UI-1; no fifth Access destination or duplicate navigation |
+| Access/Profile | Access type readonly INFORMATION INSIDE Profile from authoritative signed-in owner account. No fabricated defaults, protected-field edits, fake saving or privilege broadening | P01 read-seam/access contract; P02 UI-3 presentation/drafts. Missing write authority blocks Save only, not safe UI |
+| Initial setup | No visible OR mounted map until valid initial mission admission; returning validated mission/workspace/draft retained; one persistent map after admission; first-entry summary truthful, no forced resume interruption | P02 UI-2 after UI-1, P03 lifecycle review; preserve established mission strip |
+| Brand | Existing approved genuinely transparent centered/larger wordmark, no opaque box/tile/header or destructive transparency trick | P02 UI-1 asset verification; no new design/package/download |
+| Dock/tool layout | One UP Collapse / DOWN Expand navigation action that never hides tools/warnings. Size-aware/safe-area coordination of brand/Search/mission/Layers/Legend/dock/sheets; one expanded shared tool panel | P02 UI-1; actual notice dimensions/desktop/narrow tests, no z-index-only patch |
+| Countdown | Six absolute UTC slots 00/04/08/12/16/20; trusted schedule/server reference/skew; truthful pending/delayed/failed/unavailable/paused/deadline states. No launch/fetch-origin clock, fake success, age reset or UI scheduler | P01 schedule/publication dependency, P02 later qualified presentation. LIVE TIMER INACTIVE until authority; does not block UI-1 |
+| Bathymetry | Default-on permanent versioned/static foundation; retain valid coverage, explicit user toggle respected, independent of live TTL/Opportunity cycles, no unqualified replacement or refresh-failure erasure | P03 bounded diagnostics/static provision/cache plan; P05 source/resolution meaning. b0 defaults true already; preserve owner-restored opt-out |
+| Currents | Coherent supported flowlines/direction markers with governed relative speed AND actual kt readout through existing conversion. Preserve masks/native resolution/source age, static/stale/reduced-motion fallbacks and independent lifecycle | P03/P05 FLOW-C1 CONTRACT REVIEW FIRST; P02 legend/UI ownership remains. Do not claim current point-anchored traces already meet a new continuous-flow requirement |
+| Scientific current limits | No unsupported gap interpolation, extra measured resolution, parcel trajectories, fronts/fish/catch meaning or source/policy/ranking change | Existing authority preserved; new visual connectivity needs exact support review, not a product-direction shortcut to science admission |
+| Consolidated QA/release | New exact candidates, requirement dispositions, files/SHAs, actual screenshots/interactions, real test/baseline failures, blockers, physical-iPhone exclusions and deployment status | P04 independent candidate/combined qualification; P01 consolidated report. Founder acceptance OPEN; no deploy/main/DB/real mutation |
+
+Routine bounded implementation/regression iteration is authorized within the assigned scope. Missing authority blocks the dependent portion only; no monolithic rewrite or withholding simple shell fixes behind source infrastructure. No new packages/downloads/providers/credentials, database migrations/real writes, science admission, CP-10 or deployment. Old completed requests remain superseded, never restarted.
+
+## Exact lineage and UI-1 release
+
+- Accepted observed preview baseline remains b0cd on codex/pelora-shell-local-qa-integration-v1; do not move it.
+- P02 new isolated CODE parent is the verified independently cleared **1a011d1450a77893c5f02151b4f109e0cd0120a0** on codex/pelora-02-truthful-status-v1. It descends directly through the cleared B work from b0cd; relative delta is six scoped source/test/evidence paths. The prior08e1e737 candidate and1a successor have identical application blobs; only truthfulStatus.static.mjs EOF changed in1a. No duplicate B implementation or claimed newer frozen integration.
+- This documentation successor is based on3c82, with b0 application blobs; it is NOT an application merge of B or A. P02 may carry the approved docs checkpoint into its separately bound isolated workspace without overwriting B's application paths. Exact later integration identity is not invented here.
+- Reuse P01 adapter **87742e1daf6491f7dea2c5a119a42f6223aeb07d** as independently cleared OFFLINE preservation mechanics, not operational schedule/API/materiality/view ACK. Do not duplicate or silently wire it into the frozen preview.
+
+**UI-1 RELEASED FOR SEQUENTIAL BOUNDED IMPLEMENTATION after this documentation checkpoint is verified**, under the existing founder authorization and exact reservations below. This record releases the plan; it does not claim an agent was launched/rebound, a runtime patch made, tests passed or a preview changed. Orchestrator performs the existing owner/workspace dispatch; no unapproved destination messaging is inferred.
+
+| Packet | Exact reservation / owner | Ordered dependencies |
+|---|---|---|
+| UI-1 | P02: frontend/src/components/PersistentMapShell.jsx, Dashboard.jsx, TodayDashboard.jsx, LocationSearch.jsx, LayerControls.jsx, MapLegend.jsx; styles/persistentMapShell.css, dashboard.css; dedicated tests/evidence | From1a code parent, preserve B/source/QA guards; no P01/P03 concurrent edits. Headings/names/vector icons/dock/tool placement/brand/top hierarchy first |
+| UI-2 | P02: PeloraStartupFlow.jsx + Dashboard admission seam/styles/tests | SERIAL after UI-1; existing mission readiness/owner continuity, no map before/one after; returning drafts/state preserved. P03 lifecycle review only |
+| PROFILE-R1 | P01: authoritative private read-seam/access/sign-out contract and proposed pure readonly helpers/tests; NO Dashboard/shell edits | Current useCaptainAccess SELECT reads own fields but does not expose account DTO. Any shared hook/gate edit requires explicit agreed reservation before coding. P02 consumes agreed seam in UI-3; no duplicate approval engine |
+| UI-3 | P02: agreed CaptainProfile.jsx or Dashboard Profile area, draft/loading/error/Cancel/readonly controls/tests | AFTER owner-bound read seam; Access type inside Profile only. Secure persistence absent; no writes, broad grants, roles editing or real Auth action under this docs pass |
+| SCHEDULE-R1 | P01: authoritative schedule/publication gap contract; reuse A87742 | Qualified context/config/server clock + actual cycle publication required before timer/ACK/materiality; UTC arithmetic alone insufficient |
+| BATH-D1 / FLOW-C1 | P03 diagnostics/static bathy/cache plan and current-flow contract/render proposal; P05 scientific meaning/source review | P03 owns useMapLibreOceanFields.js/oceanFieldPresentation.js/currentFlowPresentation.js and dedicated renderer tests WHEN bounded packet assigned; no P02 Dashboard/LayerControls/MapLegend/CSS edits. P02 updates legend only from agreed meaning |
+| QA / integration | P04 independent source/controlled/browser review; P01 later isolated assembly/report | Exact candidates, source/blob preservation, no edits of frozen preview or automatic integration; actual founder/device acceptance separate |
+
+## P01 contracts and dependent blocks
+
+Reuse [source-backed Profile/admission/publication contract review](agents/architecture/P01_Profile_Publication_Contracts_Browser_Amendment_v1.md). Existing owner SELECT, current Auth identity and approved gate must bind the private read snapshot; protected access fields are informational, missing data stays missing. Legacy founder/founding roles do not establish deployed Beta entitlement columns. No account creation or invented membership/start/expiry. Save port remains UNAVAILABLE until separately reviewed secure owner-only contract; QA blocking retains draft.
+
+P01 retains ownership of the read seam, not an authority to edit P02's reserved components. Shared useCaptainAccess/FoundingCaptainAccessGate changes are not authorized implicitly by a UI-label task; reserve paths, preserve gate/cancellation/access behavior and qualify the pure source seam before UI-3 wiring. Profile sign-out reuses the authenticated flow with truthful failure semantics and owner teardown; controlled ports first, no live Auth operation here.
+
+Schedule authority still lacks a qualified captain context/config/timing/publication read. Preserve operational lifecycle versus scientific available/partial/governed-zero/unavailable, exact revision/correction/withdrawal and source/freeze/cutoff/receipt ages. Current store uses separate queries; A87742 cannot turn a lifecycle string into latest transactional revision or materiality. Keep countdown inactive/explicitly unavailable; deadline does not manufacture completion or roll past missed state. Actual rendered/viewed ACK and qualified material comparison remain separate dependencies, no pulse inferred from changed arrays/timestamp.
+
+## FLOW-C1 existing boundary and required P03/P05 decision
+
+Inspected source only at b0 application tree:
+
+- `frontend/src/utils/oceanFieldPresentation.js: currentFieldGeoJson` validates currents presentation, preserves sample lon/lat and derives point direction from u/v, with speedMetersPerSecond. It supplies point Features, not integrated streamlines or native kt display. Zero-motion cells currently yield no direction Feature; that omission is not proof zero speed is missing evidence.
+- `frontend/src/utils/currentFlowPresentation.js: createCurrentTraceImage` and `useMapLibreOceanFields.js` supply existing illustrative trace/controller/static fallback and layer-local lifecycle. Existing point-anchored display qualification does not qualify a new connecting trajectory.
+- `backend/currentProviderAdapter.mjs: metersPerSecondToKnots` is the existing sourceScaledNumber-based quantity conversion; it is the numeric authority to reuse/establish equivalent handoff, NOT permission to import Node/backend dependencies into the browser. P03 identifies an existing compatible scalar/unit seam or narrowly reviewed equivalence, no parallel formula/science policy.
+- `MapLegend.jsx` currently says Geostrophic surface flow / toward arrow; P02 owns captain language, P03/P05 specify supported trace/direction/relative-speed/kt and static fallback meanings. Legend says Currents without widening geostrophic-only source/model scope.
+
+P03/P05 review must bind actual valid source vectors/point/edition/native support/masks/time and finite converted speed to readout, not animation phase/pixel speed/zoom. Relative-speed visual scaling needs existing governed meaning; no invented physical threshold, extra resolution or unsupported cross-cell/gap interpolation. Preserve genuine zero speed as data while absence/unavailable remains distinct. Clearly separate direction illustration from parcel motion/forecast/path/physical trajectory. If coherent connections cannot be supported by existing contracts, report that exact display limitation and scope needed rather than silently build an interpolator or call previous traces equivalent.
+
+P03 first returns bounded contract/renderer plan and static-bathymetry diagnosis/provision/cache/size/coverage plan with existing approved source only. P05 reviews source/product/meaning, not a blanket approval of new scientific interpretation. Do not commence unassigned renderer edits or let this gate block independent UI-1 names/headings/layout.
+
+## Consolidated final report / preserved evidence
+
+For each exact new candidate: requirement → disposition (implemented/controlled-tested/browser-observed/blocked/unverified), exact paths/SHA, owned source/fixture identities, actual test commands/failures/exclusions, screenshot provenance and actual interactions, blocked authority, desktop/narrow and physical-iPhone exclusions, combined qualification and deployment status. No guessed raw logs/screenshots, combined unlike test counts or "beta ready" from controlled success. Reuse completed A/B/temporal evidence, no reruns solely for this amendment.
+
+The SINGLE existing beta board and decision log are updated additively. Original canon and historical byte prefixes remain. Completed caller bfbf65df / transport f8a94209 and committed P04 review11471d0c stay superseded/completed; no old request execution or duplicate checkpoint. No supported UI pending-request cancellation API is exposed; recorded status is not a claimed dismissal.
+
+STOP after the coordinated checkpoint/report. Frozen source/build/preview and production untouched. No deploy/main merge/migration/real profile or database mutation/new dependency/provider/download/credential/scientific source admission.
