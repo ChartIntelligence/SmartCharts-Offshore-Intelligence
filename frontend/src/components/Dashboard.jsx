@@ -873,32 +873,14 @@ return <PersistentMapShell
               </h2>
 
               <p>
-                Manage your account,
-                captain information and
-                Founding Captain status.
+                Review captain information.
               </p>
 
             </div>
 
 
-            <div className="captain-status-grid">
+            <p>Account roles, status and subscription details are not supplied to this view.</p>
 
-              <ProfileStatus
-                label="Program"
-                value="Tournament Alpha"
-              />
-
-              <ProfileStatus
-                label="Status"
-                value="Alpha Captain"
-              />
-
-              <ProfileStatus
-                label="Subscription"
-                value="Founding Access"
-              />
-
-            </div>
 
           </section>
 
@@ -936,26 +918,6 @@ return <PersistentMapShell
   user={user}
 />}
 />;
-}
-
-
-function ProfileStatus({
-  label,
-  value
-}) {
-  return (
-    <div className="profile-status-item">
-
-      <span>
-        {label}
-      </span>
-
-      <strong>
-        {value}
-      </strong>
-
-    </div>
-  );
 }
 
 

@@ -349,26 +349,7 @@ const structureDetail =
 
   <div className="ocean-brief-meta">
    
-    <div className="ocean-brief-online-metric">
 
-  <span
-    className="velion-live-indicator"
-  />
-
-  <span className="ocean-brief-online-copy">
-
-    <strong>
-      Pelora Intelligence Online
-    </strong>
-
-    <small>
-      Brief and opportunity engine
-      operational
-    </small>
-
-  </span>
-
-</div>
 
     <div>
 
@@ -696,6 +677,7 @@ const structureDetail =
             <div className="velion-reason-grid">
 
               <ReasonCard
+                loading={opportunityState === "loading"}
                 label="Temperature Pattern"
                 value={temperatureValue}
                 available={
@@ -705,6 +687,8 @@ const structureDetail =
               />
 
               <ReasonCard
+                loading={opportunityState === "loading"}
+                freshness={currentFreshness}
                 label="Current Evidence"
                 value={currentValue}
                 available={
@@ -714,6 +698,8 @@ const structureDetail =
               />
 
               <ReasonCard
+                loading={opportunityState === "loading"}
+                freshness={productivityFreshness}
                 label="Productivity Context"
                 value={productivityValue}
                 available={
@@ -725,6 +711,7 @@ const structureDetail =
               />
 
               <ReasonCard
+                loading={opportunityState === "loading"}
                 label="Verified Structure Context"
                 value={structureValue}
                 available={
@@ -810,6 +797,7 @@ const structureDetail =
           <div className="velion-condition-list">
 
             <ConditionCard
+              loading={opportunityState === "loading"}
               accent="temperature"
               label="Sea Surface Temperature"
               value={temperatureValue}
@@ -821,7 +809,9 @@ const structureDetail =
             />
 
             <ConditionCard
+              loading={opportunityState === "loading"}
               accent="chlorophyll"
+              freshness={productivityFreshness}
               label="Chlorophyll"
               value={productivityValue}
               detail={productivityDetail}
@@ -834,7 +824,9 @@ const structureDetail =
             />
 
             <ConditionCard
+              loading={opportunityState === "loading"}
               accent="current"
+              freshness={currentFreshness}
               label="Ocean Current"
               value={currentValue}
               detail={currentDetail}
@@ -845,6 +837,8 @@ const structureDetail =
             />
 
             <ConditionCard
+                loading={Boolean(liveMarineLoading)}
+                failed={Boolean(liveMarineError)}
                 accent="weather"
                 label="Wind and Waves"
                 value={windAndWaveValue}
@@ -968,6 +962,8 @@ const structureDetail =
 function ReasonCard({
   label,
   value,
+  loading = false,
+  freshness = null,
   available
 }) {
   return (
@@ -991,7 +987,7 @@ function ReasonCard({
         </small>
 
         <strong>
-          {value}
+          {loading && !available && freshness !== "stale" && freshness !== "aging" ? "Loading…" : value}
         </strong>
 
       </div>
@@ -1006,8 +1002,16 @@ function ConditionCard({
   label,
   value,
   detail,
-  available
+  available,
+  loading = false,
+  failed = false,
+  freshness = null
 }) {
+  const freshnessKnown = freshness === "stale" || freshness === "aging";
+  const evidenceState = freshness === "stale" ? "Stale" : freshness === "aging" ? "Latest available · aging" :
+    available ? "Available" : "Unavailable";
+  const labelState = loading ? (freshnessKnown ? "Loading · " + evidenceState : available ? "Refreshing" : "Loading") :
+    failed ? (available || freshnessKnown ? evidenceState + " · refresh failed" : "Unavailable") : evidenceState;
   return (
     <article
       className={[
@@ -1028,24 +1032,22 @@ function ConditionCard({
 
           <small
             className={
-              available
+              available && !loading && !failed && freshness !== "stale"
                 ? "condition-live"
                 : "condition-pending"
             }
           >
-            {available
-              ? "Available"
-              : "Pending"}
+            {labelState}
           </small>
 
         </div>
 
         <strong>
-          {value}
+          {loading && !available && !freshnessKnown ? "Loading…" : value}
         </strong>
 
         <p>
-          {detail}
+          {loading && !available && !freshnessKnown ? "Evidence is loading." : detail}
         </p>
 
       </div>
