@@ -1,7 +1,10 @@
+import {validateLocalQaClientConfiguration} from '../utils/localQaStartup.js';
 import {
   createClient
 } from "@supabase/supabase-js";
 
+
+validateLocalQaClientConfiguration(import.meta.env); // Validate before SDK creation/Auth effects.
 
 const supabaseUrl =
   import.meta.env

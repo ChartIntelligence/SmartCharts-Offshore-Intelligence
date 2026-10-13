@@ -1,8 +1,10 @@
+import {localQaReadOnly} from './localQaReadOnly.js';
 const HOSTED_PELORA_API = "https://velion-ocean-engine.onrender.com";
 
 // The optional environment argument supports deterministic, network-free tests.
 // Endpoints and species are request data, never environment selectors.
 export function resolvePeloraApiUrl(path, environment = import.meta.env ?? {}) {
+  localQaReadOnly(environment); // Explicit QA refuses missing/hosted API before URL construction.
   const override = environment.VITE_PELORA_API_BASE?.trim();
   let base = override || (environment.DEV ? "" : HOSTED_PELORA_API);
   if (base.startsWith("//") || /[?#]/.test(base)) {
