@@ -10,8 +10,13 @@ import {createViewportFieldRequests} from "../utils/viewportFieldRequests.js";
 
 export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus,session}) {
   const sessionRef=useRef(session);
-  if(sessionRef.current?.user?.id!==session?.user?.id||sessionRef.current?.user?.is_anonymous!==session?.user?.is_anonymous)
+  // Copy primitive identity: the supplied session/user object may mutate in place.
+  const principal={present:session!=null,id:typeof session?.user?.id==="string"?session.user.id:null,
+    anonymous:typeof session?.user?.is_anonymous==="boolean"?session.user.is_anonymous:null};
+  const previous=sessionRef.principalIdentity;
+  if(previous&&(previous.present!==principal.present||previous.id!==principal.id||previous.anonymous!==principal.anonymous))
     sessionRef.principalRevision=(sessionRef.principalRevision??0)+1;
+  sessionRef.principalIdentity=principal;
   sessionRef.current=session;
   useOceanField({mapRef,layer:"bathymetry",enabled:bathymetry,onFieldStatus,sessionRef,session});
   useOceanField({mapRef,layer:"currents",enabled:currentField,onFieldStatus,sessionRef,session});
@@ -252,5 +257,5 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
       if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;displayedState=null;convertedField=null;displayedImage=null;displayedContours=EMPTY_FIELD;}
       map.off("movestart",start);map.off("moveend",acquire);map.off("load",loaded);map.off("style.load",loaded);};
   },[mapRef,layer,enabled,onFieldStatus,sessionRef]);
-  useEffect(()=>{transportRef.current?.sessionChanged();},[session?.access_token,session?.user?.id,session?.user?.is_anonymous]);
+  useEffect(()=>{transportRef.current?.sessionChanged();},[session?.access_token,session?.user?.id,session?.user?.is_anonymous,sessionRef.principalRevision??0]);
 }

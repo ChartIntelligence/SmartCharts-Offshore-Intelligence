@@ -638,3 +638,35 @@ Final successor tested SHA-256 fingerprints:
 - frontend/src/utils/qaFieldTransport.js: `d4453ec92dee8a9915af8aab615c197a92f378bd07a9ee05ab3f303469246ab6`
 - frontend/src/hooks/tests/useMapLibreOceanFields.test.js: `ad7df88d98f8bc559b5e44ba52c70d84f54b18a79eb4ce6aa71e092fd1947712`
 - frontend/src/utils/tests/qaFieldTransport.test.js: `b9a972d9bfb958f7040a453be7b725bdd185a61aa8070ace41f997c9dbe86911`
+
+## P04 mutable-principal roundtrip repair
+
+Entering clean successor `e818e612beb70902856223607dd928d5480c818a` on the same isolated `codex/pelora-03-field-auth-transport-v1` worktree. Independent P04 evidence `dd830c3115cc9c42d655d54bed56a124ef107cd5` confirms the prior logout/style fix, but rejects same-object A-to-B-to-A. No prior independent clearance is inferred.
+
+Before repair, appended the exact synthetic session-object mutation sequence to the actual hook harness: valid bathymetry/current buffers acquired while style not ready; mutate the same user ID/token to B and render without effects; restore A in the same object and render; make style ready and fire idle. `node frontend/src/hooks/tests/useMapLibreOceanFields.test.js` failed on e818 implementation: `same-object A-B-A must obsolete prior current`, actual 1 rendered feature versus expected 0. The existing twenty-two grouped sections passed before this added failure. This reproduces P04's accepted residual P1 without real credentials or service connections.
+
+Confirmed cause: previous identity was read from sessionRef.current, an alias of the incoming mutable session/user object. Mutation erased the previous identity before comparison. Repair copies only primitive session-present, string principal ID and tri-state anonymous flag into a fresh internal snapshot each render; comparisons never read the previous caller object. Every observed principal/anonymous/session-presence transition advances the existing monotonic revision, including return to A. The revision is also a passive reconciliation dependency, so a final A render still invalidates/reacquires after an intermediate B render even if only the final effects commit. Token-only updates are not owner transitions, preserving valid same-owner renewal. The copied snapshot contains no access token; existing approved session interface and transport/expiry/backend authority checks are unchanged.
+
+Only three paths changed:
+
+- frontend/src/hooks/useMapLibreOceanFields.js
+- frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+- frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md
+
+The transport helper, request helper, P02 callers, backend/Auth policy, SDK/resolver, scientific values/provenance, bathymetry thresholds/geometry/nearest texture sampling, current-flow algorithm and P01 assembly are unchanged.
+
+Validation on actual source:
+
+- `node frontend/src/hooks/tests/useMapLibreOceanFields.test.js` — PASS original twenty-two grouped sections plus exact mutable A-B-A deferred field/render rejection; same-object principal, anonymous and malformed-identity roundtrips; final-render-only effect recovery exactly once per enabled layer without movement; old bathymetry success/current malformed body completions suppressed; later failure retains only newly accepted current; in-place token-only renewal preserves valid pending bathymetry/current display. Original logout/null/expiry/cancel/dispose/context/style/zero/field-failure/locality/continuity guards remain asserted.
+- `node frontend/src/utils/tests/qaFieldTransport.test.js`, `node frontend/src/utils/tests/viewportFieldRequests.test.js`, `node frontend/src/utils/tests/oceanFields.test.js`, `node frontend/src/utils/tests/currentFlowPresentation.test.js` — PASS unchanged auth/request/science/presentation/current regressions, including synthetic actual QA HTTP boundary and normal-mode controls.
+- Both affected JS files: `node --check` — PASS; whitespace and exact staged-scope/sensitive-content inspection before commit.
+- One editing script mistakenly reassigned a const path after the hook write and stopped before LF normalization; the intended hook change was already saved. Corrected normalization in the subsequent test edit; tests/checks above passed. No unrelated file change or permission/control bypass.
+
+All identity/token values used in execution are generated clearly synthetic fixtures; no tokens/session objects are logged, persisted or included as literal credentials in evidence. No real-token retrieval/transmission, provider/Auth/database/production connection, data-connected launch, new package, backend relaxation, merge or deployment. Prior live-browser/mobile/CP-10/launch and documentary-harness exclusions remain open. Independent P04 re-review of this exact successor and final P02/P01 combination is REQUIRED; developer passes do not qualify or integrate a failed candidate. Existing broader captain results remain predecessor evidence, not rerun/recertified here. Final controlled browser results follow below.
+
+Final-source controlled render scripts PASS: `bathymetryTextureRender.test.mjs` output `TEMP/pelora03-texture-render-olXVpN` (512x512, NEAREST 9728, no mipmaps, original bands/transparency, zero external requests/map errors); `bathymetryContoursRender.test.mjs` output `TEMP/pelora03-contours-zkANPr` (14 broad features, 37 regional minor, 5 regional labels, 20 continuity frames; 1000/390px navigation medians 17.3/18.2ms, maxima 18.8/18.9ms, no loading flash, zero external requests); `currentFlowRender.test.mjs` output `TEMP/pelora-current-traces-heOrJx` (original animation/fallback/malformed/style/idle/failure/disposal assertions PASS). Existing headless Edge/runtime configuration and blocked external routes are unchanged. These are developer controlled GPU/viewport checks, not physical-device or independent QA clearance.
+
+Final mutable-identity successor SHA-256 fingerprints:
+
+- frontend/src/hooks/useMapLibreOceanFields.js: `55da4e51a0d5a30522230296d6469dc9df05d358fb85062f25419b97f7b27e3e`
+- frontend/src/hooks/tests/useMapLibreOceanFields.test.js: `e32387b6fc60d7db41b3cd1267fffc4d9a453259d24c2fe1924034780b2f5026`

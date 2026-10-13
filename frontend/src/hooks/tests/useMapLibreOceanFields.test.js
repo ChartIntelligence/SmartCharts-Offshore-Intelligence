@@ -543,3 +543,54 @@ qaCommit();await scheduled();const qaToggleCurrentState=state.currents,qaToggleC
 qaCommit({bathymetry:false});assert.equal(state.bathymetry.status,'off');assert.equal(state.currents,qaToggleCurrentState);assert.equal(sources.get(presentation.FIELD_SOURCE.currents),qaToggleCurrentSource);
 qaCommit();await scheduled();assert.equal(state.bathymetry.status,'static');cleanup();
 console.log('PASS QA OFF publishes truthfully with queued-owner guards and both ON/OFF directions preserve sibling lifetime');
+
+// P04 exact residual: same caller object mutates A -> B -> A before passive effects.
+qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+const mutableOwner=qaSession,originalMutableToken=qaSession.access_token,originalMutableId=qaSession.user.id;
+const mutableReplacement=syntheticSession({id:'SYNTHETIC-MUTABLE-OWNER-B'});
+mutableOwner.user.id=mutableReplacement.user.id;mutableOwner.access_token=mutableReplacement.access_token;
+context.useMapLibreOceanFields({...props,session:mutableOwner});
+mutableOwner.user.id=originalMutableId;mutableOwner.access_token=originalMutableToken;
+context.useMapLibreOceanFields({...props,session:mutableOwner});
+try{
+ styleLoaded=true;events.get('idle')();
+ assert.equal(sources.get(presentation.FIELD_SOURCE.currents)?.data.features.length??0,0,'same-object A-B-A must obsolete prior current');
+ absent('currents');absent('bathymetry');
+}finally{cleanup=effect();cleanup();assert.equal(events.size,0);}
+console.log('PASS P04 exact same-object A-B-A deferred bathymetry/current buffers are rejected');
+for(const mutation of ['principal','anonymous','invalid identity']){
+ qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+ const reusedSession=qaSession,oldUser=qaSession.user,oldId=oldUser.id,oldToken=qaSession.access_token;
+ if(mutation==='principal'){const replacement=syntheticSession({id:'SYNTHETIC-MUTABLE-B'});reusedSession.user.id=replacement.user.id;reusedSession.access_token=replacement.access_token;}
+ if(mutation==='anonymous')reusedSession.user.is_anonymous=true;
+ if(mutation==='invalid identity')reusedSession.user={id:7,is_anonymous:null};
+ context.useMapLibreOceanFields({...props,session:reusedSession});
+ // Only the final render's effects are committed, as in a batched intermediate render.
+ effectFns=[];reusedSession.user=oldUser;oldUser.id=oldId;oldUser.is_anonymous=false;reusedSession.access_token=oldToken;
+ context.useMapLibreOceanFields({...props,session:reusedSession});
+ styleLoaded=true;events.get('idle')();absent('currents');absent('bathymetry');
+ let recoveredCalls=0;context.fetch=async url=>{recoveredCalls++;return rawResponse(JSON.stringify(url.includes('layer=bathymetry')?{...bathy,fieldId:'SYNTHETIC-MUTABLE-RECOVERY-BATHY'}:{...current,fieldId:'SYNTHETIC-MUTABLE-RECOVERY-CURRENT'}));};
+ cleanup=effect();await scheduled();assert.equal(recoveredCalls,2,'revision effect reacquires each layer once without movement');
+ assert.equal(state.bathymetry.field.fieldId,'SYNTHETIC-MUTABLE-RECOVERY-BATHY');assert.equal(state.currents.field.fieldId,'SYNTHETIC-MUTABLE-RECOVERY-CURRENT');cleanup();
+}
+// Both old body reads must remain obsolete after the same caller object returns to A.
+qaSession=syntheticSession();styleLoaded=true;context.fetch=transport();qaCommit();await scheduled();
+const mutableReads={bathymetry:qaDeferred(),currents:qaDeferred()},mutableStarted={bathymetry:qaDeferred(),currents:qaDeferred()};
+context.fetch=async url=>{const layer=url.includes('layer=bathymetry')?'bathymetry':'currents';return {ok:true,status:200,text:()=>{mutableStarted[layer].resolve();return mutableReads[layer].promise;}};};
+[...refreshTimers.values()].forEach(fn=>fn());const mutablePending=scheduled();await Promise.all(Object.values(mutableStarted).map(d=>d.promise));
+const originalMutableBodyId=qaSession.user.id,originalMutableBodyToken=qaSession.access_token,mutableBodyB=syntheticSession({id:'SYNTHETIC-BODY-OWNER-B'});
+qaSession.user.id=mutableBodyB.user.id;qaSession.access_token=mutableBodyB.access_token;context.useMapLibreOceanFields({...props,session:qaSession});
+qaSession.user.id=originalMutableBodyId;qaSession.access_token=originalMutableBodyToken;context.useMapLibreOceanFields({...props,session:qaSession});
+const beforeMutableCompletion=state;mutableReads.bathymetry.resolve(JSON.stringify({...bathy,fieldId:'SYNTHETIC-OLD-BODY-BATHY'}));mutableReads.currents.resolve('null');await mutablePending;
+assert.equal(state,beforeMutableCompletion,'old success/malformed bodies publish nothing after mutable owner roundtrip');
+context.fetch=transport('currents',{...current,fieldId:'SYNTHETIC-NEW-MUTABLE-BODY-CURRENT'});cleanup=effect();await scheduled();
+const currentAfterMutable=state.currents.field;context.fetch=async()=>{throw new Error('synthetic transport after mutable recovery');};await refresh();
+assert.equal(state.currents.field,currentAfterMutable);assert.equal(state.currents.status,'degraded');cleanup();
+// Token-only in-place renewal has no owner transition and preserves pending valid display.
+qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+const renewalBathy=state.bathymetry.field,renewalCurrent=state.currents.field;
+qaSession.access_token=syntheticSession({claims:{exp:Math.floor(Date.now()/1000)+7200}}).access_token;
+context.useMapLibreOceanFields({...props,session:qaSession});styleLoaded=true;events.get('idle')();
+assert.equal(state.bathymetry.field,renewalBathy);assert.equal(state.currents.field,renewalCurrent);
+cleanup=effect();await scheduled();assert.ok(state.currents.field&&state.bathymetry.field);cleanup();
+console.log('PASS immutable owner/anonymous/invalid tuple roundtrip, final-effect recovery, old bathymetry/current responses, newest-cache retention and in-place same-owner renewal');
