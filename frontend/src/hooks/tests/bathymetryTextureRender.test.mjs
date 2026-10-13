@@ -40,6 +40,7 @@ const page=await context.newPage();const pageErrors=[];page.on('pageerror',error
 await page.setContent('<!doctype html><html><body style="margin:0"><div id="map" style="width:900px;height:700px"></div></body></html>');
 await page.addStyleTag({content:fs.readFileSync(root+'/node_modules/maplibre-gl/dist/maplibre-gl.css','utf8')});
 await page.addScriptTag({content:fs.readFileSync(root+'/node_modules/maplibre-gl/dist/maplibre-gl.js','utf8')});
+  await page.addScriptTag({content:'globalThis.useRef=value=>({current:value});globalThis.localQaReadOnly=()=>false;'+fs.readFileSync(root+'/frontend/src/utils/qaFieldTransport.js','utf8').replace(/^import[\s\S]*?;\r?\n/gm,'').replace(/^export /gm,'').replace('import.meta.env??{}','{}')});
 await page.evaluate(fs.readFileSync(root+'/frontend/src/utils/oceanFieldPresentation.js','utf8').replace(/^export /gm,'')+'\nglobalThis.presentation={bathymetryImage,bathymetryRasterPlan,fieldLayerDefinitions,fieldInsertBefore,fieldViewport,validateFieldPresentation,currentFieldGeoJson,FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,installBathymetryTextureSampling,BATHYMETRY_CONTOUR_SOURCE,BATHYMETRY_CONTOUR_LAYERS,bathymetryContours,bathymetryContourLayerDefinitions};');
 await page.evaluate(fs.readFileSync(root+'/frontend/src/utils/peloraMapStyle.js','utf8').replace(/^export /gm,'')+'\nglobalThis.visual={createPeloraMapStyle,enforcePeloraLayerOrder,PELORA_MAP_COLORS};');
 const canvasResult=await page.evaluate(async field=>{

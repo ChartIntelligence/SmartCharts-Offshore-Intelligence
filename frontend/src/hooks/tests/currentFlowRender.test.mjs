@@ -22,6 +22,7 @@ try{
  await page.setContent('<div id="map" style="position:absolute;inset:0"></div>');
  await page.addStyleTag({content:fs.readFileSync(root+'/node_modules/maplibre-gl/dist/maplibre-gl.css','utf8')});
  await page.addScriptTag({content:fs.readFileSync(root+'/node_modules/maplibre-gl/dist/maplibre-gl.js','utf8')});
+  await page.addScriptTag({content:'globalThis.useRef=value=>({current:value});globalThis.localQaReadOnly=()=>false;'+fs.readFileSync(root+'/frontend/src/utils/qaFieldTransport.js','utf8').replace(/^import[\s\S]*?;\r?\n/gm,'').replace(/^export /gm,'').replace('import.meta.env??{}','{}')});
  const hashes={};
  for(const relative of ['utils/oceanFieldPresentation.js','utils/currentFlowPresentation.js','utils/viewportFieldRequests.js','utils/mapObservationDisplay.js','hooks/useMapLibreOceanFields.js']){
   const source=fs.readFileSync(root+'/frontend/src/'+relative,'utf8');hashes[relative]=crypto.createHash('sha256').update(source).digest('hex');

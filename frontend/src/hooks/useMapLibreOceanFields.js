@@ -1,5 +1,6 @@
 import {CURRENT_TRACE_IMAGE,createCurrentTraceImage} from "../utils/currentFlowPresentation.js";
-import {useEffect} from "react";
+import {useEffect,useRef} from "react";
+import {createQaFieldTransport} from "../utils/qaFieldTransport.js";
 import {resolvePeloraApiUrl} from "../utils/peloraApi.js";
 import {observationImages} from "../utils/mapObservationDisplay.js";
 import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,bathymetryImage,
@@ -7,13 +8,15 @@ import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,b
   BATHYMETRY_CONTOUR_SOURCE,BATHYMETRY_CONTOUR_LAYERS,bathymetryContours,bathymetryContourLayerDefinitions} from "../utils/oceanFieldPresentation.js";
 import {createViewportFieldRequests} from "../utils/viewportFieldRequests.js";
 
-export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus}) {
-  useOceanField({mapRef,layer:"bathymetry",enabled:bathymetry,onFieldStatus});
-  useOceanField({mapRef,layer:"currents",enabled:currentField,onFieldStatus});
+export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus,session}) {
+  const sessionRef=useRef(session);sessionRef.current=session;
+  useOceanField({mapRef,layer:"bathymetry",enabled:bathymetry,onFieldStatus,sessionRef,session});
+  useOceanField({mapRef,layer:"currents",enabled:currentField,onFieldStatus,sessionRef,session});
 }
 
 // Each layer owns its request generation, retention, events and render buffer.
-function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
+function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) {
+  const transportRef=useRef(null);
   useEffect(()=>{
     const map=mapRef.current;if(!map)return;
     let disposed=false, bathyImage=null,currentData=EMPTY_FIELD,readyTimer=null;
@@ -114,26 +117,44 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
         if(readyTimer===null)readyTimer=window.setTimeout(()=>{readyTimer=null;apply();},100);
       }
     };
+    const transport=createQaFieldTransport({getSession:()=>sessionRef.current,
+      onChange:({principalChanged,authorized})=>{
+        if(disposed||mapRef.current!==map)return;
+        requests.cancel();
+        if(principalChanged||!authorized)reject(layer,new Error("QA field authentication unavailable"));
+        if(authorized)acquire(true);
+      },
+      onDenied:error=>{if(!disposed&&mapRef.current===map){requests.cancel();reject(layer,error);}}
+    });
+    transportRef.current=transport;
     const requests=createViewportFieldRequests({
       request:async(layer,viewport,signal)=>{
         const params=new URLSearchParams({layer,bbox:viewport.bbox.join(","),density:String(layer==="bathymetry"?viewport.bathymetryDensity:viewport.currentDensity),time:"latest-available"});
-        const response=await fetch(resolvePeloraApiUrl(`/api/ocean/field?${params}`),{signal});
-        // Read failures remain transport failures, even if named SyntaxError.
-        let body;
-        try{body=await response.text();}
-        catch(error){if(!response.ok)throw new Error(`Field request ${response.status}`);throw error;}
-        let field;
-        try{field=JSON.parse(body);}
-        catch{
-          if(!response.ok)throw new Error(`Field request ${response.status}`);
-          // The helper classifies this unusable success after its race guards.
-          return null;
-        }
-        if(!response.ok)throw new Error(field?.reason??`Field request ${response.status}`);
-        return field;
+        return transport.request(resolvePeloraApiUrl(`/api/ocean/field?${params}`),{signal},async response=>{
+          // Read failures remain transport failures, even if named SyntaxError.
+          let body;
+          try{body=await response.text();}
+          catch(error){if(!response.ok)throw new Error(`Field request ${response.status}`);throw error;}
+          let field;
+          try{field=JSON.parse(body);}
+          catch{
+            if(!response.ok)throw new Error(`Field request ${response.status}`);
+            // The helper classifies this unusable success after its race guards.
+            return null;
+          }
+          if(!response.ok)throw new Error(field?.reason??`Field request ${response.status}`);
+          return field;
+        });
       },
       onState:(layer,state)=>{
         if(disposed||mapRef.current!==map)return;
+        // Recheck at publication too: a render can change principal between
+        // transport completion and the request helper continuation.
+        if(!transport.canPublish()){
+          requests.invalidate(layer,state.contextKey);requests.cancel();
+          reject(layer,new Error("QA field authentication unavailable"));
+          transport.sessionChanged();return;
+        }
         // Display retention is separate from the exact-context request cache.
         // Never attach the old field to the new request context or extrapolate it.
         if(layer==="bathymetry"&&state.status==="loading"&&displayedState?.field?.status==="static"&&
@@ -198,13 +219,13 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
     const start=()=>requests.cancel();
     const loaded=()=>{apply();acquire(true);};
     if(!enabled){
-      clearRendered();publish(layer,{status:"off",field:null});return;
+      transport.dispose();transportRef.current=null;clearRendered();publish(layer,{status:"off",field:null});return;
     }
     apply();
     map.on("movestart",start);map.on("moveend",acquire);map.on("load",loaded);map.on("style.load",loaded);
     acquire();
     const refresh=window.setInterval(()=>acquire(true),300000);
-    return()=>{disposed=true;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
+    return()=>{disposed=true;transport.dispose();if(transportRef.current===transport)transportRef.current=null;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
       clearRendered();
       currentTrace?.dispose();currentTrace=null;
       if(layer==="currents"){
@@ -213,5 +234,6 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus}) {
       }
       if(layer==="bathymetry"){bathyImage=null;contourData=EMPTY_FIELD;displayedState=null;convertedField=null;displayedImage=null;displayedContours=EMPTY_FIELD;}
       map.off("movestart",start);map.off("moveend",acquire);map.off("load",loaded);map.off("style.load",loaded);};
-  },[mapRef,layer,enabled,onFieldStatus]);
+  },[mapRef,layer,enabled,onFieldStatus,sessionRef]);
+  useEffect(()=>{transportRef.current?.sessionChanged();},[session?.access_token,session?.user?.id,session?.user?.is_anonymous]);
 }
