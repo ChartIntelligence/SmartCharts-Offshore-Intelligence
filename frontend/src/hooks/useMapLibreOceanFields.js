@@ -9,7 +9,10 @@ import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,b
 import {createViewportFieldRequests} from "../utils/viewportFieldRequests.js";
 
 export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus,session}) {
-  const sessionRef=useRef(session);sessionRef.current=session;
+  const sessionRef=useRef(session);
+  if(sessionRef.current?.user?.id!==session?.user?.id||sessionRef.current?.user?.is_anonymous!==session?.user?.is_anonymous)
+    sessionRef.principalRevision=(sessionRef.principalRevision??0)+1;
+  sessionRef.current=session;
   useOceanField({mapRef,layer:"bathymetry",enabled:bathymetry,onFieldStatus,sessionRef,session});
   useOceanField({mapRef,layer:"currents",enabled:currentField,onFieldStatus,sessionRef,session});
 }
@@ -27,7 +30,10 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
     const bathymetry=enabled&&layer==="bathymetry",currentField=enabled&&layer==="currents";
     const states={};
     const active=enabled?[layer]:[];
-    const publish=(layer,state)=>onFieldStatus(current=>({...current,[layer]:state}));
+    const publish=(layer,state)=>{
+      const mayApply=transport.captureApplicationGuard(),mayPublish=transport.capturePublicationGuard();
+      onFieldStatus(current=>disposed||mapRef.current!==map||!mayPublish()||(state.field&&!mayApply())?current:{...current,[layer]:state});
+    };
     const clearRendered=()=>{
       if(layer==="currents")currentTrace?.clear();
       releaseSampling?.();releaseSampling=null;sampledSource=null;
@@ -57,8 +63,15 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
       clearRendered();
       publish(layer,states[layer]);
     };
+    const mayApply=()=>{
+      if(disposed||mapRef.current!==map)return false;
+      if(transport.canApply())return true;
+      requests.cancel();map.off("idle",apply);
+      if(readyTimer!==null)window.clearTimeout(readyTimer);readyTimer=null;
+      reject(layer,new Error("QA field authentication unavailable"));return false;
+    };
     const sync=()=>{
-      if(disposed||mapRef.current!==map)return;
+      if(!mayApply())return;
       try{
         const data=layer==="bathymetry"?bathyImage:currentData;
         const visible=layer==="bathymetry"?bathymetry&&data:currentField&&data.features.length>0;
@@ -101,13 +114,14 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
             if(map.getLayer(id))map.moveLayer(id,FIELD_LAYER.currents);
         }
         if(layer==="bathymetry"&&map.getLayer(FIELD_LAYER.bathymetry)&&map.getLayer(FIELD_LAYER.currents))map.moveLayer(FIELD_LAYER.bathymetry,FIELD_LAYER.currents);
+        if(!mayApply())return;
         if(states[layer]){publish(layer,states[layer]);
           if(layer==="bathymetry"&&states[layer].field&&!states[layer].refreshing){
             displayedState=states[layer];displayedImage=bathyImage;displayedContours=contourData;}}
       }catch(error){reject(layer,error);}
     };
     const apply=()=>{
-      if(disposed||mapRef.current!==map)return;
+      if(!mayApply())return;
       map.off("idle",apply);
       if(map.isStyleLoaded()){
         if(readyTimer!==null)window.clearTimeout(readyTimer);readyTimer=null;sync();
@@ -117,7 +131,7 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
         if(readyTimer===null)readyTimer=window.setTimeout(()=>{readyTimer=null;apply();},100);
       }
     };
-    const transport=createQaFieldTransport({getSession:()=>sessionRef.current,
+    const transport=createQaFieldTransport({getSession:()=>sessionRef.current,getPrincipalRevision:()=>sessionRef.principalRevision??0,
       onChange:({principalChanged,authorized})=>{
         if(disposed||mapRef.current!==map)return;
         requests.cancel();
@@ -205,6 +219,8 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
     });
     const acquire=(force=false)=>{
       if(disposed||mapRef.current!==map||!active.length)return;
+      // Reconcile once before scheduling; renewal may keep the valid display.
+      if(transport.sessionChanged())return;
       try{
         const viewport=fieldViewport(map.getBounds(),map.getZoom());
         // A camera event with the exact already-applied static request identity
@@ -219,7 +235,8 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
     const start=()=>requests.cancel();
     const loaded=()=>{apply();acquire(true);};
     if(!enabled){
-      transport.dispose();transportRef.current=null;clearRendered();publish(layer,{status:"off",field:null});return;
+      transportRef.current=null;clearRendered();publish(layer,{status:"off",field:null});
+      return()=>{disposed=true;transport.dispose();requests.dispose();};
     }
     apply();
     map.on("movestart",start);map.on("moveend",acquire);map.on("load",loaded);map.on("style.load",loaded);

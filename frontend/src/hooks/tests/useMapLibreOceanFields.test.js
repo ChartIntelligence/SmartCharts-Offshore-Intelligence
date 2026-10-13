@@ -487,3 +487,59 @@ cleanup=effect();absent("bathymetry");absent("currents");
 context.fetch=async()=>{throw new Error("after publication boundary");};events.get("style.load")();await scheduled();absent("currents");absent("bathymetry");
 cleanup();context.createViewportFieldRequests=standardRequestFactory;
 console.log("PASS render-time principal change in post-decoder/pre-publication microtask gap cannot cache/display or later restore old-owner data");
+
+// P04 exact race: decoded buffers await style, logout render precedes passive cleanup.
+qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+assert.ok(state.bathymetry.field&&state.currents.field);
+context.useMapLibreOceanFields({...props,session:null});
+try{
+ styleLoaded=true;events.get('idle')();
+ assert.ok(!state.currents.field,'pending idle must not publish prior-owner current');
+ assert.ok(!state.bathymetry.field,'pending idle must not publish prior-owner bathymetry');
+ absent('currents');absent('bathymetry');
+}finally{cleanup=effect();cleanup();assert.equal(events.size,0);}
+console.log('PASS P04 pending-style idle/logout baseline regression repaired for both layers');
+for(const trigger of ['idle','style.load','readiness timer'])for(const transition of ['logout','principal','owner roundtrip','renewal']){
+ qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+ assert.ok(state.bathymetry.field&&state.currents.field);
+ const priorBathy=state.bathymetry.field,priorCurrent=state.currents.field;
+ if(transition==='logout')context.useMapLibreOceanFields({...props,session:null});
+ if(transition==='principal'){qaSession=syntheticSession({id:'SYNTHETIC-OWNER-B'});context.useMapLibreOceanFields({...props,session:qaSession});}
+ if(transition==='owner roundtrip'){context.useMapLibreOceanFields({...props,session:null});context.useMapLibreOceanFields({...props,session:qaSession});}
+ if(transition==='renewal'){qaSession=syntheticSession({claims:{exp:Math.floor(Date.now()/1000)+7200}});context.useMapLibreOceanFields({...props,session:qaSession});}
+ styleLoaded=true;
+ if(trigger==='readiness timer'){const callbacks=[...readyTimers.values()];readyTimers.clear();callbacks.forEach(fn=>fn());}
+ else events.get(trigger)?.();
+ if(transition==='renewal'){
+  assert.equal(state.bathymetry.field,priorBathy);assert.equal(state.currents.field,priorCurrent);
+  assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,'visible');
+  assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility,'visible');
+ }else{
+  assert.equal(sources.get(presentation.FIELD_SOURCE.currents)?.data.features.length??0,0);
+  assert.ok(!map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1])||map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility==='none');
+  assert.equal(state.currents.field,null);assert.equal(state.bathymetry.field,null);
+ }
+ cleanup=effect();await scheduled();
+ if(transition==='logout'){absent('currents');absent('bathymetry');}
+ else {assert.ok(state.currents.field&&state.bathymetry.field);}
+ cleanup();assert.equal(events.size,0);assert.equal(readyTimers.size,0);
+}
+console.log('PASS idle/style.load/readiness timer deny logout/principal/owner-roundtrip buffers before effects and preserve valid same-owner renewal/recovery');
+// Queued React state updaters are themselves owner-bound, even after transport reconciliation.
+qaSession=syntheticSession();styleLoaded=true;context.fetch=transport();const queued=[],queuedPublisher=update=>queued.push(update);
+qaCommit({onFieldStatus:queuedPublisher});await scheduled();
+const oldPublications=[...queued];queued.length=0;
+qaSession=syntheticSession({id:'SYNTHETIC-OWNER-B'});context.useMapLibreOceanFields({...props,session:qaSession,onFieldStatus:queuedPublisher});cleanup=effect();await scheduled();
+for(const update of queued)state=update(state);const newOwnerPublication=state;
+for(const update of oldPublications){const result=update(state);assert.equal(result,state,'old-owner queued success/loading must not replace new owner');state=result;}
+assert.equal(state,newOwnerPublication);cleanup();
+console.log('PASS delayed success-state updater cannot publish an old owner after reconciliation to a new owner');
+// Off publication is truthful even when React queues it; sibling lifetimes are untouched.
+qaSession=syntheticSession();context.fetch=transport();qaCommit();await scheduled();
+const qaToggleBathyState=state.bathymetry,qaToggleBathySource=sources.get(presentation.FIELD_SOURCE.bathymetry);
+qaCommit({currentField:false});assert.equal(state.currents.status,'off');assert.equal(state.currents.field,null);
+assert.equal(state.bathymetry,qaToggleBathyState);assert.equal(sources.get(presentation.FIELD_SOURCE.bathymetry),qaToggleBathySource);
+qaCommit();await scheduled();const qaToggleCurrentState=state.currents,qaToggleCurrentSource=sources.get(presentation.FIELD_SOURCE.currents);
+qaCommit({bathymetry:false});assert.equal(state.bathymetry.status,'off');assert.equal(state.currents,qaToggleCurrentState);assert.equal(sources.get(presentation.FIELD_SOURCE.currents),qaToggleCurrentSource);
+qaCommit();await scheduled();assert.equal(state.bathymetry.status,'static');cleanup();
+console.log('PASS QA OFF publishes truthfully with queued-owner guards and both ON/OFF directions preserve sibling lifetime');

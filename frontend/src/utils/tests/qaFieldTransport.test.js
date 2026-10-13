@@ -98,3 +98,26 @@ try{
  assert.equal(denials,prior+1);assert.equal(deniedBoundary.counts.authority,1);assert.equal(deniedBoundary.counts.handler,0);
 }finally{await deniedBoundary.close();}
 console.log('PASS matching decoded claims grant no access when synthetic authoritative verification rejects');
+let ownerRevision=0;session=syntheticSession();changes=[];
+transport=make({getPrincipalRevision:()=>ownerRevision});
+const oldApply=transport.captureApplicationGuard(),oldPublish=transport.capturePublicationGuard();
+assert.equal(oldApply(),true);assert.equal(oldPublish(),true);
+session=syntheticSession({claims:{exp:Math.floor(Date.now()/1000)+7200}});
+assert.equal(oldApply(),true,'valid same-owner renewal preserves authorized geometry');
+assert.equal(transport.canPublish(),false,'new request publication still waits for credential reconciliation');
+transport.sessionChanged();assert.equal(changes.at(-1).principalChanged,false);
+ownerRevision++;session=syntheticSession({id:'SYNTHETIC-OWNER-B'});
+assert.equal(oldApply(),false);assert.equal(oldPublish(),false);transport.sessionChanged();
+assert.equal(changes.at(-1).principalChanged,true);assert.equal(transport.canApply(),true);
+ownerRevision++;session=syntheticSession();transport.sessionChanged();assert.equal(oldApply(),false);assert.equal(oldPublish(),false,'owner roundtrip cannot reuse old authorization');
+const revisionPending=deferred();transport=make({getPrincipalRevision:()=>ownerRevision,fetchPort:()=>revisionPending.promise});
+const revisionRequest=transport.request(fieldUrl('currents'));ownerRevision+=2;revisionPending.resolve({ok:true,status:200});
+await assert.rejects(revisionRequest,{name:'AbortError'});
+transport.dispose();assert.equal(transport.captureApplicationGuard()(),false);
+console.log('PASS captured deferred-application/publication owner revision, same-owner renewal, roundtrip and pending-request lifetime guards');
+const ownerBody=deferred(),ownerReading=deferred();session=syntheticSession();
+transport=make({getPrincipalRevision:()=>ownerRevision,fetchPort:async()=>({ok:true,status:200})});
+const ownerFailure=transport.request(fieldUrl('currents'),{},async()=>{ownerReading.resolve();return ownerBody.promise;});
+await ownerReading.promise;const denialsBeforeRoundtrip=denials;ownerRevision+=2;ownerBody.reject(new Error('synthetic obsolete body failure'));
+await assert.rejects(ownerFailure,{name:'AbortError'});assert.equal(denials,denialsBeforeRoundtrip);
+console.log('PASS obsolete owner-roundtrip body error is suppressed before retained-cache failure handling');

@@ -599,3 +599,42 @@ Final tested SHA-256 source/fixture fingerprints (before evidence-only commit):
 - frontend/src/hooks/tests/qaFieldTransportFixtures.mjs: `06258df0bfb947e990aa345139b9adf7b399c2c09a2933e8de9e9be622334a2a`
 - frontend/src/utils/tests/qaFieldTransport.test.js: `2c55ffb1bd6fd2c0f54226d81d21a44098bfb3f848e8d87ef6ff7291e70a83ef`
 - frontend/src/hooks/tests/useMapLibreOceanFields.test.js: `c33333e00800f13cca91c3ba0ca7b2f2b28c9e3201202bb85132341646666176`
+
+## P04 deferred-application race repair — October 12, 2026 (America/New_York)
+
+Original candidate `a7835851fb69b68ef4a1881633296347e5ad3595` was independently rejected by P04 at evidence commit `151359d358abe684edcf3bc8dd076a64646aacd0`. Earlier developer passes did not close the pending-style/idle race. This successor is on the same isolated `codex/pelora-03-field-auth-transport-v1` branch/root, entering clean at a7835851; no P02 caller/backend/P01 assembly edits or history rewrite.
+
+Read P04's exact source/report and additional probe retained at `TEMP/pelora04-field-auth-a7835851/frontend/src/hooks/tests/useMapLibreOceanFields.idleProbe.qa.js`. Before changing implementation, appended the same acquired/converted-before-style-ready, render-null-before-passive-effects, idle-ready sequence to the dedicated hook test. Running `node frontend/src/hooks/tests/useMapLibreOceanFields.test.js` on a7835851 implementation failed as expected: `pending idle must not publish prior-owner current`. Both prior field buffers had been acquired while style was not ready. Existing eighteen grouped sections passed before the new failure. P04's recorded observation was old static bathymetry/stale currents and visible layers after logout; this is controlled environmental fixture evidence, not private-data exfiltration or live-browser qualification.
+
+Confirmed root cause: apply/sync deferred map operations and queued status updaters lacked the render-time session/principal boundary checked by transport/onState. Waiting for passive cancellation was insufficient.
+
+Narrow repair: the existing shared session ref now advances a principal revision synchronously during render on principal/anonymous changes. Existing per-layer transports capture that revision, including requests, body-error completion and application/publication authorization. Deferred apply/sync checks current owner revision plus valid current credentials before touching old render buffers and before success publication. Invalid authorization cancels requests/readiness callbacks, invalidates matching retained layer context and uses the existing affected-layer rejection/clearing path. Queued status updaters capture the publication revision; queued success additionally captures owner-bound application authorization. Old loading/null/success cannot clobber a later principal after delayed updater execution. Owner A-to-B-to-A cannot reuse the old revision even before passive effects. Valid same-owner token renewal remains authorized to retain static/current rendering; credential reconciliation before acquisition schedules once and avoids a style-event renewal blank.
+
+Changed successor paths only:
+
+- frontend/src/hooks/useMapLibreOceanFields.js
+- frontend/src/utils/qaFieldTransport.js
+- frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+- frontend/src/utils/tests/qaFieldTransport.test.js
+- frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md
+
+No destination/header/method/issuer/backend-authority contract change. No SDK/storage/login/refresh flow, real token retrieval/transmission, provider/Auth/database connection, data-connected launch, scientific/source/presentation/geometry/sampling change, P02 caller or P01 staged-assembly mutation.
+
+Developer validation on actual successor source:
+
+- `node frontend/src/hooks/tests/useMapLibreOceanFields.test.js` — PASS original field/auth/lifecycle/race/malformed/style/continuity/current/zero/cleanup assertions plus P04 pending idle/logout; idle/style.load/readiness timer crossed with logout/new principal/owner roundtrip/valid same-owner renewal; delayed React success/loading updaters with stable callback identity across owner change. Old owner geometry is absent and field:null before passive cleanup; valid same-owner renewal remains visible and recovers. Rejection may remove layers/sources, consistent with existing clear/hide contract; tests accept absent or hidden layers rather than requiring an otherwise unnecessary retained hidden layer.
+- `node frontend/src/utils/tests/qaFieldTransport.test.js` — PASS all existing exact payload/target/denial/backend authority/async/cookie/redirect/normal-mode controls plus captured application/publication revision, owner roundtrip, renewal, disposed capture and obsolete roundtrip body-error suppression. An added disposed-capture assertion initially found a nullable observed-identity access; fixed to handle null safely and rerun PASS. No tests were removed/weakened.
+- `node frontend/src/utils/tests/viewportFieldRequests.test.js`, `node frontend/src/utils/tests/oceanFields.test.js`, `node frontend/src/utils/tests/currentFlowPresentation.test.js` — PASS unchanged dedicated request/presentation/current regression suites.
+- Four affected JS files: `node --check` — PASS; scoped diff/whitespace checks — PASS before checkpoint.
+- Existing headless MapLibre texture/contour/current render scripts rerun with synthetic fixtures and blocked external routes; final-source results appended below. Prior 29/19/20/12 broader captain/metadata/map suites remain source-scoped predecessor evidence; no new unrelated broader claims or exclusions closed.
+
+Independent QA is still REQUIRED on the exact successor and final combined P02/P01 candidate, including P04's race and actual caller composition. This record does not mark P04 as passed. Live Auth, connected preview, founder/physical mobile/GPU/source qualification, CP-10 and rollout remain separate blocked/pending gates. No merge/deployment/production/database mutation or migration.
+
+Final-source render validation: all three existing controlled MapLibre scripts PASS. Texture output `TEMP/pelora03-texture-render-zVOy8F`: 512x512, NEAREST 9728, useMipmap:false, original five color samples/transparency, 0 external requests/map errors. Contour output `TEMP/pelora03-contours-r2aVZe`: 14 broad features, 37 regional minor, 5 regional labels, 20 continuity frames; 1000/390px navigation medians 18.2/18.1ms, maxima 19.1/18.7ms, no loading flash; zoom 7/9/11 static, 0 external requests. Current output `TEMP/pelora-current-traces-9pQEy3`: PASS animation/static/malformed/style/idle/failure/disposal. Commands and existing runtime variable are unchanged from the preceding packet. Final hook sweep additionally verifies truthful QA OFF/ON both directions and sibling state/source identity. Disabled field effect retains publication authorization until its cleanup so queued OFF can publish truthfully; cleanup disposes its empty request/transport lifetime and prevents old queued OFF overriding a new lifetime.
+
+Final successor tested SHA-256 fingerprints:
+
+- frontend/src/hooks/useMapLibreOceanFields.js: `ca0323610ba821f46a7eb55353515ce2b2d05ef5dfeb86a052b888422b7c94d9`
+- frontend/src/utils/qaFieldTransport.js: `d4453ec92dee8a9915af8aab615c197a92f378bd07a9ee05ab3f303469246ab6`
+- frontend/src/hooks/tests/useMapLibreOceanFields.test.js: `ad7df88d98f8bc559b5e44ba52c70d84f54b18a79eb4ce6aa71e092fd1947712`
+- frontend/src/utils/tests/qaFieldTransport.test.js: `b9a972d9bfb958f7040a453be7b725bdd185a61aa8070ace41f997c9dbe86911`

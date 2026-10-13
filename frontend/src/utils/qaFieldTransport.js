@@ -38,26 +38,38 @@ const same=(a,b)=>a.id===b.id&&a.anonymous===b.anonymous&&a.token===b.token;
 
 // Field-lifetime port: no SDK, session retrieval, storage, sign-in or global headers.
 export function createQaFieldTransport({getSession,fetchPort=(...args)=>fetch(...args),
-  environment=import.meta.env??{},now=Date.now,onChange=()=>{},onDenied=()=>{}}){
+  environment=import.meta.env??{},getPrincipalRevision=()=>0,now=Date.now,onChange=()=>{},onDenied=()=>{}}){
   const qa=localQaReadOnly(environment);
   let disposed=false,revision=0,observed=qa?identity(getSession()):null;
+  let principalRevision=getPrincipalRevision();
   function current(snapshot,signal){
-    if(disposed||signal?.aborted||snapshot.revision!==revision||!same(snapshot.identity,identity(getSession())))throw obsolete();
+    if(disposed||signal?.aborted||snapshot.revision!==revision||snapshot.principalRevision!==getPrincipalRevision()||!same(snapshot.identity,identity(getSession())))throw obsolete();
     if(!credential(getSession(),now))throw denied();
   }
+  // Capture owner authorization, not a token: valid same-owner renewal may retain display.
+  function captureApplicationGuard(){
+    if(!qa)return ()=>true;
+    const owner=observed?.id,ownerRevision=principalRevision;
+    return ()=>!disposed&&ownerRevision===getPrincipalRevision()&&owner===getSession()?.user?.id&&!!credential(getSession(),now);
+  }
   return {
-    canPublish(){return !qa||(!disposed&&same(observed,identity(getSession()))&&!!credential(getSession(),now));},
+    captureApplicationGuard,
+    capturePublicationGuard(){
+      const boundary=getPrincipalRevision();return ()=>!qa||(!disposed&&boundary===getPrincipalRevision());
+    },
+    canApply(){return captureApplicationGuard()();},
+    canPublish(){return !qa||(!disposed&&principalRevision===getPrincipalRevision()&&same(observed,identity(getSession()))&&!!credential(getSession(),now));},
     sessionChanged(){
       if(!qa||disposed)return;
-      const next=getSession(),nextIdentity=identity(next);if(same(observed,nextIdentity))return;
-      const principalChanged=observed.id!==nextIdentity.id;
-      observed=nextIdentity;revision++;
-      onChange({principalChanged,authorized:!!credential(next,now)});
+      const next=getSession(),nextIdentity=identity(next);if(same(observed,nextIdentity)&&principalRevision===getPrincipalRevision())return;
+      const principalChanged=observed.id!==nextIdentity.id||principalRevision!==getPrincipalRevision();
+      observed=nextIdentity;principalRevision=getPrincipalRevision();revision++;
+      onChange({principalChanged,authorized:!!credential(next,now)});return true;
     },
     async request(url,{signal,method='GET',body}={},readResponse=response=>response){
       if(!qa)return readResponse(await fetchPort(url,{signal})); // Original non-QA contract.
       if(disposed||signal?.aborted)throw obsolete();
-      const snapshot={revision,identity:identity(getSession())};
+      const snapshot={revision,principalRevision:getPrincipalRevision(),identity:identity(getSession())};
       try{
         validateTarget(url,method,body); // Final URL first, before token attachment.
         const access=credential(getSession(),now);if(!access)throw denied();
@@ -71,7 +83,7 @@ export function createQaFieldTransport({getSession,fetchPort=(...args)=>fetch(..
         current(snapshot,signal);return result;
       }catch(error){
         // An obsolete completion cannot invalidate a newer principal or publish state.
-        if(disposed||signal?.aborted||snapshot.revision!==revision||!same(snapshot.identity,identity(getSession())))throw obsolete();
+        if(disposed||signal?.aborted||snapshot.revision!==revision||snapshot.principalRevision!==getPrincipalRevision()||!same(snapshot.identity,identity(getSession())))throw obsolete();
         if(error instanceof QaFieldDenied){onDenied(new Error(error.message));throw obsolete();}
         if(!credential(getSession(),now)){onDenied(denied());throw obsolete();}
         throw error;
