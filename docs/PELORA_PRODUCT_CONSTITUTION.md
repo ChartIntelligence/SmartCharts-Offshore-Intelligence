@@ -45,3 +45,7 @@ P02 must first produce a concise desktop/mobile proposal, collapsed/expanded doc
 ## Superseding universal-dock decision
 
 Founder-approved [Persistent Map Workspace + Universal Dock + Top Opportunities Attention v1](PELORA_Persistent_Map_Workspace_Universal_Dock_Attention_v1.md) supersedes Home as global dock destination and earlier page/header/tab shell. Top Opportunities replaces Home; mission strip is already implemented and explicitly excluded from redesign/duplication. Preserve useful Today/brief/environment functions. Product approval is distinct from implementation, independent QA and founder acceptance; follow the new document's staged contracts and ownership.
+
+## Superseding founder browser-review amendment — October 13, 2026
+
+[Consolidated app experience amendment v1](PELORA_Founder_Browser_Review_Amendment_v1.md) is the current founder-approved display/interaction direction. Dock names are Top Opportunities / Opportunity Analysis / My Reports / Profile; Access type is protected informational data INSIDE Profile, not a destination. One Collapse-up/Expand-down affects navigation only. Dedicated initial Current Trip/Species setup mounts no map until valid mission; established workspace retains one map and the existing mission strip. Preserve auth/privacy/governed science and source limits. New UI candidates require separate qualification; observed b0cd source/build/preview stays frozen. Earlier nonconflicting canon remains unchanged; product approval is not runtime implementation or release.

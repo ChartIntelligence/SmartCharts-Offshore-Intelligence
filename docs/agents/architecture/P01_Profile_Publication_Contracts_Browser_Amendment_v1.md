@@ -1,0 +1,78 @@
+# P01 profile, admission and publication contracts — browser amendment v1
+
+READ-ONLY SOURCE REVIEW / PROPOSALS ONLY. Parent application baseline b0cd2b1c3b967644d3bb00b4b488addfe777b1e9. Cleared status successor1a011d1450a77893c5f02151b4f109e0cd0120a0 and offline adapter87742e1daf6491f7dea2c5a119a42f6223aeb07d inspected by exact Git source. No runtime/schema/grant/DB/Auth operations. [Approved amendment](../../PELORA_Founder_Browser_Review_Amendment_v1.md) owns product direction; this report does not mint live authority.
+
+## Profile read authority — current facts
+
+| Exact file/function | Actual capability | Limit / smallest dependency |
+|---|---|---|
+| frontend/src/hooks/useSupabaseAuth.js: useSupabaseAuth | getSession, anonymous fallback and auth-state lifecycle; exposes session/user | Local session/Auth identity is separate from entitlement. Only current signed-in nonanonymous owner may use private account presentation. No names/access inferred from arbitrary user metadata |
+| frontend/src/hooks/useCaptainAccess.js: useCaptainAccess | Current principal derives from nonanonymous session + token; owner-filtered SELECT user_id/display_name/boat_name/access_role/access_status; cancels stale reads and rejects wrong-owner rows | Return currently exposes principalId/approved/loading/revalidating/error only, NOT row/name/role DTO. An agreed additive owner-bound read seam is required, preserving approval logic/ABA cancellation; no duplicated competing access evaluator |
+| frontend/src/components/FoundingCaptainAccessGate.jsx | Requires current user/nonanonymous/approved; passes session/user/authLoading to owner-keyed PeloraStartupFlow; invalidates stored selection on owner/access change | No access-row DTO passed downstream. Do not weaken gate to show unknown/expired/unapproved profiles. Separate future limited account/history surface remains outside this UI repair |
+| frontend/src/components/Dashboard.jsx | b0 hardcoded Program/Role/Access; B successor removes these unsupported claims and truthfully says account details not supplied | REUSE B; UI-3 displays own fields only once DTO supplied; absence is missing/unavailable, never default founding membership |
+| 20260810_captain_access_v1.sql | UUID owner FK; nullable display_name/boat_name; roles founder/founding_captain, approved/pending/revoked; owner SELECT auth.uid()=user_id | Legacy contract, no Beta/expiry columns. Repository migration is not deployed-state proof |
+| 20260925_client_privilege_hardening_v1.sql | Revokes client table privileges and restores captain_access SELECT only | No client UPDATE or profile-write RPC found in inspected migration path. Cannot safely wire .update() for a form |
+| Beta candidate25ce753f3f1b18a4f24645c6c5778f66ca8d6d60 | Separate entitlement/schema/RLS candidate, not integrated into b0; legacy profile columns retained | Not applied/deployed proof. Do not read proposed beta activation/expiry as actual data; no Beta migration or access activation authorized here |
+
+### Proposed additive readonly DTO (not implemented)
+
+Version `pelora-private-account-profile-read-v1`: private owner-bound snapshot, resolution LOADING/RESOLVED/MISSING/UNAVAILABLE/INVALID_BINDING, request/owner generation, own Auth email, own displayName/boatName, exact accessRole/accessStatus and optional authoritative entitlement fields with their contract/source reference. Unknown fields carry null/explicit reason, not implied lifetime/Beta/subscription. Private owner identity stays in the owner-scoped UI context, never shared publication artifacts/logs.
+
+Resolve through the existing owner SELECT and current Auth principal. Reject wrong-owner, anonymous, malformed or late generation responses; revalidation cannot promote cached entitlement into new authority. Display read/loading/error distinctly; do not treat last-confirmed pending data as freshly verified. No owner supplied by the edit form and no field inferred from token text or arbitrary Auth metadata. Actual email comes from the matching signed-in Auth account; verification source/lifecycle follows the existing authenticated flow, with no speculative authenticated external request in this packet.
+
+Exact legacy role labels may display Founder or Founding Captain from a validated matching row. No universal default role; no Beta trial expiry from created_at. Founder permanent and Founding lifetime policy remains locked. Future Beta contract retains first successful activation/calendar-year anniversary and no reset on revocation/reinvite; it is not made operational by this read proposal. Access type/status/entitlement/expiry are always readonly INSIDE Profile; dock still Profile.
+
+P02 UI-3 owns consumption/presentation. Before shared hook/gate changes, reserve their exact paths with the integration owner. Smallest route is an additive validated account snapshot from the existing access read into existing startup/Dashboard props, or an explicitly agreed equivalent readonly seam; do not create a second approval authority. This task implements neither alternative.
+
+## Edit/write/sign-out contract — secure save missing
+
+Editable fields are displayName and boatName ONLY. Email display is Auth-owned; changing email/identity/Auth invitation is not profile editing here. Role/status/approval/entitlement/activation/expiry/revision/paid grant remain protected. QA Edit may prepare owner-scoped drafts; Save is disabled at UI AND mutation-port guard, failure/blocked Save retains draft and never claims persistence. Cancel restores the last authoritative snapshot, not another account's values. Drafts cannot outlive owner authorization visibly or leak across logout/account changes; existing private report/workspace continuity remains intact.
+
+No secure save operation exists in the inspected path. A future operation updates an EXISTING owned authorized row only; no INSERT/UPSERT, implicit provisioning/default founding role, self-approval or entitlement bypass. Missing/revoked/expired authority remains fail-closed under its applicable qualified access contract. Required separate proposal: narrow authenticated owner-only server/database operation with a closed displayName/boatName request, trusted auth.uid() owner rather than caller target ID, current access/owner checks, validation/error/concurrency contract, exact returned saved snapshot. Runtime ordinary captains keep direct table UPDATE denied. If SECURITY DEFINER is necessary, qualified non-client owner, safe fixed search_path/object resolution, PUBLIC EXECUTE revoked, exact authenticated execution grant, no founder cross-captain privileges and no protected-column updates. Migration/privilege/deployed-state checks require separate explicit scope; NO SQL routine/migration is created now.
+
+Existing updated_at defaults do not constitute an implemented profile revision/concurrency guarantee. Beta entitlement revision must not be repurposed as a profile-edit revision. Blank/length and conflict/version semantics must be defined in that small backend proposal; do not silently choose a schema or grant to make the form work. No real save, test account mutation, service role or broad UPDATE permitted by this amendment.
+
+Existing sign-out implementation: frontend/src/components/CaptainSignIn.jsx uses supabase.auth.signOut and reports errors; useSupabaseAuth listens to Auth changes and the gate releases owner workspace. Reuse that authenticated flow via P02 UI callback; preserve draft/owner isolation and truthful sign-out error/loading state. Do not clear private UI as if successful while Auth sign-out failed. Actual Auth operation needs the separate approved exact preview/test context; initial tests use controlled ports only. This doc performs no sign-out or external Auth call.
+
+## Initial mission admission / first-summary contract
+
+Existing useTripMission uses owner-scoped mission continuity, normalizeTripMission and buildCaptainSpatialContext; missionReady is explicit entire-gulf OR available within-range context + selected species. This readiness is local mission/workspace validity, not complete regional evidence, scientific eligibility or shared acquisition authorization. Do not change its scientific/coordinate policy here.
+
+PeloraStartupFlow currently receives the approved gate session/user, restores readiness and uses workspaceAdmitted/missionReady/startupStep; Dashboard receives missionAdmitted. Founder now requires zero map before initial admission (not hidden/zero-size), one map after. P02 owns the sequencing seam; P03 reviews map lifetime without changing the readiness predicate or field hooks in UI-2.
+
+useCaptainContinuity returns value/setValue/error/capture/isActive/isCurrent/complete, NOT an authoritative first-ever-visit or restored Boolean. Do not invent such a signal or infer first entry from missing DB history. Smallest allowed presentation signal is owner-bound, one-shot initial-setup completion in this entry. A hydrated valid saved mission is RETURNING, not a newly completed setup event; restored report/draft/active navigation takes priority and is never overwritten by forced summary. Existing capture/revision and validated continuity may supply recovery evidence under an agreed additive UI seam, no general continuity schema migration. Do not reset selection tombstones or mark a publication viewed by opening this onboarding summary.
+
+P02 controls optional GPS/manual departure/range/species flow, owner-change cancellation, initial summary once and existing mission editor. No new species/science admission, alternate map instance, request-scope expansion or acquisition trigger. Storage failure remains visible; valid in-memory setup is not a claim of successful persisted recovery.
+
+## Publication/countdown authority — reusable mechanics, missing operational read
+
+| Producer / exact functions | Reuse | Cannot imply |
+|---|---|---|
+| backend/durableObserve/publicationScheduler.mjs: utcBoundary/dueSlots/validatePublisherConfiguration/createPublisherLedger | Six fixed UTC slots, approved/effective local config identity, separate cycle/attempt/fencing, disabled/catch-up settings; internal durable local port | Operational captain schedule API, running publisher, availability/admission or permission to start workers |
+| publicationStore.mjs: createPublicationStore.read | Exact/current/history modes, native source identities, lifecycle/scientific state, readAt/sourceAges | Two independent queries are not coherent current revision/schedule witness; no pause/config authority from lifecycle string |
+| publicationEnvelope.mjs: contextDescriptor/contextKey/versionId | Context/species/cutoff/evidence/revision/correction/withdrawal authority within qualified local contract | UTC arithmetic/digest does not prove authorized active schedule, materiality or pre-cutoff possession; validator still replays classification |
+| captainPublicationReadProjection.mjs at87742e1: createOfflinePublicationReadProjection | Independently cleared pure offline injected-preservation boundary, source identity/age/state, unknown materiality/admission | No live API, authenticated captain-to-context resolver, server clock, view ACK, material comparison or operational source qualification |
+| frontend useDynamicOpportunities | Existing request-time evaluation and context/race containment | Published cycle identity, timer success or unread/material signal; a fetch timestamp is not a publication |
+
+### Proposed future schedule-read port (not implemented/qualified)
+
+`pelora-authoritative-publication-schedule-read-v1` would need: trusted producer/version; exact approved configuration/context/species/region identity and effective activation; enabled/paused/disabled/unknown state; authoritative server time/reference with clock-skew/transport uncertainty semantics; explicit scheduled due/current cycle identity; actual cycle lifecycle and committed publication version/revision/action; truthful awaiting/delayed/failed/read-unavailable; next-boundary meaning and any missed-cycle state. Its relationship to the preserved publication must be explicitly bound, not attached later from a plausible timestamp or another scope.
+
+Until this port and operational publication/context admission are qualified, no ticking live timer or success claim. Static approved-cadence information or explicit unavailable/paused/unknown limitation is safe; an offline synthetic timer must be labelled and isolated, never real schedule authority. Client deadline performs only authorized readonly state check; does not create jobs, acquire/evaluate/rank, auto-correct/withdraw/resurrect or hide a missed cycle by rolling ahead. No clock-skew tolerance/new polling policy chosen here.
+
+Keep operational lifecycle separate from available/partial/governed-zero/unavailable science and query intent. Exact-cycle at current boundary can still be historical intent. Preserve source/freeze/cutoff/receipt/publication/read times; no source-age reset. New timestamp/clock tick is not new evidence. Active material comparison producer absent: fixed unresolved marker, no pulse from list order/score/source/cadence. Actual rendered/viewed owner+context+version ACK remains separate P02 contract dependency, not a timer side effect.
+
+## Bounded next packets / tests to require (not run)
+
+1. P02 UI-1 then UI-2 from cleared B code; no need operational read for truthful QA-disabled/missing first-position content. P04 exact layout/accessibility/continuity tests; P03 lifecycle input.
+2. P01/P02 agree typed private profile read seam; P02 UI-3 controlled reads/draft/Cancel/signout fake port. Require wrong-owner/anonymous/late response/error/missing fields/revalidation/unknown entitlement cases and immutable protected fields. No real write.
+3. Separately review minimal profile-save proposal/deployed assumptions if persistence needed. Owner/direct-DML denial, protected-role escalation, cross-account, QA guard, uncertain/failing save draft retention and exact saved readback are future acceptance gates.
+4. P01 schedule-read design/producer qualification before countdown; explicit server clock/skew/resume, deadline without success, missed/delayed/failed/paused/read-unavailable, correction/withdrawal/history and view race tests. Reuse87742 mechanics, no new evaluator/store/scheduler or fake materiality.
+5. P03 static-bathymetry diagnostic/edition/cache architecture; P05 product/meaning gate; no new download/provider/renderer change here. P02 legend wording only after that meaning review.
+
+Documentation-only scope checks/relative-link/source-identity checks are performed separately before checkpoint. No builds/lint/application imports/tests/database operations or temporal reruns. Product approval does not imply implemented save, operational timer, source/history admission, deployment, physical acceptance, beta readiness or CP-10 clearance.
+
+
+## Documentation checkpoint validation
+
+Performed source-only Git reads and applicable instruction/hook/worktree checks; no active checkout/commit hooks found beyond samples. Validated all relative links across the six scoped documents (126, no missing target/anchor); four existing canonical documents preserve their complete original Git-byte prefixes, with additive routing only. Branch/worktree starts exactly b0cd and application tree is untouched. Sensitive-value exclusions and staged whitespace/scope checks performed before commit. No application imports/tests/builds/lint, source reconstruction, temporal rerun, database/Auth/profile mutation, new packages/environment or preview operation. Exact checkpoint/remote SHA is reported externally; no self-hashing report required.
