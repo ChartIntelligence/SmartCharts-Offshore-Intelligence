@@ -1,3 +1,5 @@
+> Current assignment successor: [founder-approved Persistent Map Workspace / Universal Dock / Top Opportunities Attention v1](../PELORA_Persistent_Map_Workspace_Universal_Dock_Attention_v1.md). P02 updates proposal then bounded shell/UI implementation; P03 map lifecycle only; P01 integration/publication/access/persistence contracts; P04 independent QA; P05 meaning only if needed. Mission strip already implemented, excluded from redesign/duplication. Earlier setup/mission text below remains historical, not current implementation status.
+
 > Historical mission/setup and file-ownership record. Current repository governance routes through [AGENTS.md](../../AGENTS.md); beta status lives in the [canonical beta board](../Beta_Command_Board_Current_State_v1.md). Setup-only status statements below retain their original checkpoint scope.
 
 # Pelora execution board v1

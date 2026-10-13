@@ -41,3 +41,7 @@ Preserve center/zoom, mission/context/species/origin/range, valid governed Oppor
 Map and governed markers/signals remain dominant; floating UI has minimal footprint, with opaque panels opened intentionally. Use Pelora's independent visual language, not imitation of Windy, Navionics, Garmin, C-MAP, GulfWire or SatFish.
 
 P02 must first produce a concise desktop/mobile proposal, collapsed/expanded docks, all four overlays and state-persistence contract, then implement in isolation. P03 participates only in map mounting/lifecycle effects. P04 independently qualifies layout, overlay navigation, map/selection persistence, back/forward, keyboard/accessibility, black-screen avoidance and absence of duplicate instances/listeners/render loops. Founder visual/device acceptance remains required. No production deployment is authorized.
+
+## Superseding universal-dock decision
+
+Founder-approved [Persistent Map Workspace + Universal Dock + Top Opportunities Attention v1](PELORA_Persistent_Map_Workspace_Universal_Dock_Attention_v1.md) supersedes Home as global dock destination and earlier page/header/tab shell. Top Opportunities replaces Home; mission strip is already implemented and explicitly excluded from redesign/duplication. Preserve useful Today/brief/environment functions. Product approval is distinct from implementation, independent QA and founder acceptance; follow the new document's staged contracts and ownership.
