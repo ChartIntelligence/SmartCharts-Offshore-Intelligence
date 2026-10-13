@@ -1,3 +1,4 @@
+import {assertLocalQaWriteAllowed} from './localQaReadOnly.js';
 import {buildFishingLogEvidenceCaptureV1, projectFishingLogLegacyFieldsV1,
   interpretFishingLogEvidenceCaptureV1} from '../../../shared/fishingLogEvidenceCapture.mjs';
 
@@ -51,6 +52,7 @@ export function temporalGuidance(report) {
 }
 
 export async function insertReportWithTime(client, row, report) {
+  assertLocalQaWriteAllowed();
   const evidence_capture = captureReportTime(report);
   const payload = {...row, ...projectFishingLogLegacyFieldsV1(evidence_capture), evidence_capture};
   const {data,error} = await client.from('fishing_day_reports').insert(payload).select().single();

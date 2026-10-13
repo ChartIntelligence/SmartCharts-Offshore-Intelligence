@@ -1,0 +1,170 @@
+[
+  {
+    "path": "backend/localQaPolicy.mjs",
+    "blob": "4abfba5873be34d9cc80d6f2b3df23489db2d828"
+  },
+  {
+    "path": "backend/localQaServer.mjs",
+    "blob": "2c3e98a6ce2cc20df36cf56cc1bf16d72ef7e323"
+  },
+  {
+    "path": "backend/tests/localQaLaunch.test.mjs",
+    "blob": "32c0c43471b6cbf1961c6ff1902163fbee6081c5"
+  },
+  {
+    "path": "frontend/src/components/Dashboard.jsx",
+    "blob": "e07faad7c7b4be5cc52688c39efbf1dfdbae3a24"
+  },
+  {
+    "path": "frontend/src/components/FishingDayReportPanel.jsx",
+    "blob": "3ba83a4745b733cb5347e6aa907e9e76ce87fd02"
+  },
+  {
+    "path": "frontend/src/components/LayerControls.jsx",
+    "blob": "84d189e76740e634cd5a3f02738e069e25da19cd"
+  },
+  {
+    "path": "frontend/src/components/MapLibreIntelligenceMap.jsx",
+    "blob": "b252d34b488f8235aadb840d39fce5ceec129665"
+  },
+  {
+    "path": "frontend/src/components/PeloraStartupFlow.jsx",
+    "blob": "00548f378d0903a00c19f32c018b8e1c33f657a2"
+  },
+  {
+    "path": "frontend/src/components/PersistentMapShell.jsx",
+    "blob": "61719c081823a0430aff117daf2486075fd42952"
+  },
+  {
+    "path": "frontend/src/hooks/tests/bathymetryContoursRender.test.mjs",
+    "blob": "c1e1616360640d337095c1d68386777d784a7257"
+  },
+  {
+    "path": "frontend/src/hooks/tests/bathymetryTextureRender.test.mjs",
+    "blob": "63f638d049e99f4eb8fed05da875b63889bf9222"
+  },
+  {
+    "path": "frontend/src/hooks/tests/currentFlowRender.test.mjs",
+    "blob": "39612b2e411c875d4dfd7c6e1756400e334e69d9"
+  },
+  {
+    "path": "frontend/src/hooks/tests/fieldSessionCaller.static.mjs",
+    "blob": "330454fd8c38dd842f7cf8a7b16718234a3d149d"
+  },
+  {
+    "path": "frontend/src/hooks/tests/fieldSessionCaller.test.js",
+    "blob": "d54ae5702c564b1f48d06f84c0c63ad7c00ddb0b"
+  },
+  {
+    "path": "frontend/src/hooks/tests/fieldSessionCallerAssertions.fixture.js",
+    "blob": "ae3ecc96d6591334931ee5b75a605e3bea4760b6"
+  },
+  {
+    "path": "frontend/src/hooks/tests/localQaContractCompatibility.test.mjs",
+    "blob": "243e7d077ed67f160e5dbc09b5e01877ec806a29"
+  },
+  {
+    "path": "frontend/src/hooks/tests/localQaReadOnly.static.mjs",
+    "blob": "bfbe431d66877ccab12f65f6ba4ef74ab666d874"
+  },
+  {
+    "path": "frontend/src/hooks/tests/localQaReadOnlyAssertions.fixture.js",
+    "blob": "0a62eeb0d5b73ce0b6e0963e9051ccbd4f850f86"
+  },
+  {
+    "path": "frontend/src/hooks/tests/localQaReadOnlyGuard.test.js",
+    "blob": "64035b995c3c382afa5fdb9fa1ac3414ce2da096"
+  },
+  {
+    "path": "frontend/src/hooks/tests/localQaSelectionCompatibility.test.js",
+    "blob": "a6aeb90fb53aa3e35cd9120a11eacdc9357881e8"
+  },
+  {
+    "path": "frontend/src/hooks/tests/mapMetadataCleanup.test.js",
+    "blob": "6051f1acf98ce0f94604af992d37503049aa7a8e"
+  },
+  {
+    "path": "frontend/src/hooks/tests/persistentMapShell.browser.test.mjs",
+    "blob": "a90ace6511fdd3018a647792ed14de99e9950e56"
+  },
+  {
+    "path": "frontend/src/hooks/tests/persistentShell.static.mjs",
+    "blob": "81e2bb84673ca05c22034bec65a1a2849a9d1e2c"
+  },
+  {
+    "path": "frontend/src/hooks/tests/persistentShellContinuity.test.js",
+    "blob": "3257dbe419c691ad3a7ae3b9ed9c08c1aeab2340"
+  },
+  {
+    "path": "frontend/src/hooks/tests/persistentShellSelectionRegression.test.js",
+    "blob": "5d4fd1bfef1c7e3d69cffa27d1ba98dfe10d517f"
+  },
+  {
+    "path": "frontend/src/hooks/tests/qaFieldTransportFixtures.mjs",
+    "blob": "2568ee6d7fd9e2fab42588b445fb13f7aa29312d"
+  },
+  {
+    "path": "frontend/src/hooks/tests/shellNavigation.test.js",
+    "blob": "0792dcbb44581f100f0f767f860266ac1e4883f2"
+  },
+  {
+    "path": "frontend/src/hooks/tests/useMapLibreOceanFields.test.js",
+    "blob": "f2a932b20c4aa850d12c618f0785033f6739e3bb"
+  },
+  {
+    "path": "frontend/src/hooks/useMapLibreOceanFields.js",
+    "blob": "4d5b7a07617ba61b644841fa4a6c6bc5b1390d05"
+  },
+  {
+    "path": "frontend/src/hooks/useOceanMemoryPersistence.js",
+    "blob": "4f235ef61c4324e4059b6d754089b7389ab22127"
+  },
+  {
+    "path": "frontend/src/hooks/useShellNavigation.js",
+    "blob": "ed84ba3f1ddc460b6c7f484667b420d21835b232"
+  },
+  {
+    "path": "frontend/src/lib/oceanMemoryStorage.js",
+    "blob": "497bc1b214329af99666b9b8eeef3fcb65afed92"
+  },
+  {
+    "path": "frontend/src/lib/supabase.js",
+    "blob": "6ee03ee78c5f69d8f7cafa7ef58641bee1f6ec2b"
+  },
+  {
+    "path": "frontend/src/utils/captainFieldStatus.js",
+    "blob": "947f66ea68a01398d1bdf41d8c8c1939503556f2"
+  },
+  {
+    "path": "frontend/src/utils/fishingLogTemporalCapture.js",
+    "blob": "2bfb0a7e991009b1b336731f8742782de679fbd2"
+  },
+  {
+    "path": "frontend/src/utils/localQaReadOnly.js",
+    "blob": "72cd55ebd49aedf763c8b285e57ff4c63f7a37ac"
+  },
+  {
+    "path": "frontend/src/utils/localQaStartup.js",
+    "blob": "bac2e44f1205db62cecce85fa8424e57affd9a60"
+  },
+  {
+    "path": "frontend/src/utils/peloraApi.js",
+    "blob": "4ea4528f4be3cb74f69759e5f29c94bccc27d8eb"
+  },
+  {
+    "path": "frontend/src/utils/qaFieldTransport.js",
+    "blob": "5bb95d39931fd0392d008ad63316bdca237dc49e"
+  },
+  {
+    "path": "frontend/src/utils/shellNavigation.js",
+    "blob": "e041e5d9a26c00dd66d69dfc4d2085c86ade324c"
+  },
+  {
+    "path": "frontend/src/utils/tests/localQaStartup.test.js",
+    "blob": "6958ce3cc3e0f7b2327c6f50a3d29fe7bc3e40c9"
+  },
+  {
+    "path": "frontend/src/utils/tests/qaFieldTransport.test.js",
+    "blob": "7dda3875211f3e70dc19b8f6a3a1a848e48ffddc"
+  }
+]

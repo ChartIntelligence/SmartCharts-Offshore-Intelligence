@@ -1,3 +1,7 @@
+import {localQaReadOnly} from '../utils/localQaReadOnly.js';
+import {useShellNavigation} from '../hooks/useShellNavigation.js';
+import {captainFieldStatus} from '../utils/captainFieldStatus.js';
+import PersistentMapShell from './PersistentMapShell.jsx';
 import {useCaptainContinuity} from '../hooks/useCaptainContinuity.js';
 import {validateWorkspace} from '../utils/captainContinuity.js';
 import { interpretOpportunityEvaluation } from "../utils/opportunityEvaluationState.js";
@@ -45,22 +49,32 @@ import "../styles/dashboard.css";
 
 import peloraHeaderLockup from "../assets/branding/pelora-header-lockup.png";
 
-function Dashboard({
+function DashboardWorkspace({
   session,
   user,
   authLoading,
   tripMission,
   captainSpatialContext,
   onEditTripMission,
-  missionPersistenceError
+  missionPersistenceError,
+  missionEditor = null,
+  onCloseMissionEditor,
+  missionAdmitted = true,
+  qaReadOnly = false
 }) {
   const {value:workspace,setValue:setWorkspace,error:workspaceError} = useCaptainContinuity(user,'workspace',()=>({
-    activeTab:'today', layers:{marlin:true,yellowfin:true,blackfin:true,locations:true,bathymetry:true,currentField:true,
+    activeTab:'map', layers:{marlin:true,yellowfin:true,blackfin:true,locations:true,bathymetry:true,currentField:true,
       temperatureSamples:false,chlorophyll:false,currents:false,temperatureTransition:false,baitProbability:false},
     selectedSpotId:null,opportunitySelection:null,mapCamera:null,sheetExpanded:false,reportPanelOpen:false
   }),validateWorkspace);
   const activeTab = workspace.activeTab;
-  const setActiveTab = useCallback(activeTab=>setWorkspace(current=>({...current,activeTab})),[setWorkspace]);
+  const applyNavigation=useCallback(next=>{
+    setWorkspace(current=>({...current,activeTab:next.tab,reportPanelOpen:next.report}));
+    if(!next.mission && missionEditor && onCloseMissionEditor)onCloseMissionEditor();
+    if(next.mission && !missionEditor && onEditTripMission)onEditTripMission();
+  },[setWorkspace,missionEditor,onCloseMissionEditor,onEditTripMission]);
+  const navigation=useShellNavigation({tab:activeTab,report:workspace.reportPanelOpen,mission:Boolean(missionEditor)},applyNavigation);
+  const setActiveTab = navigation.navigate;
   const layers = workspace.layers;
   const setLayers = useCallback(update=>setWorkspace(current=>({...current,layers:typeof update==='function'?update(current.layers):update})),[setWorkspace]);
   const selectedSpot = structures.find(spot=>spot.id===workspace.selectedSpotId) ?? null;
@@ -123,7 +137,7 @@ function Dashboard({
 
 
   const reportPanelOpen = workspace.reportPanelOpen;
-  const setReportPanelOpen = useCallback(reportPanelOpen=>setWorkspace(current=>({...current,reportPanelOpen})),[setWorkspace]);
+  const setReportPanelOpen = navigation.report;
 
   const [
     reportsRefreshToken,
@@ -147,8 +161,7 @@ const {
   loading: dynamicOpportunityLoading,
   error: dynamicOpportunityError
 } = useDynamicOpportunities(
-  tripMission?.selectedSpecies ??
-    "blue-marlin",
+  missionAdmitted ? (tripMission?.selectedSpecies ?? "blue-marlin") : null,
 
   session?.access_token ?? null,
 
@@ -387,11 +400,9 @@ const [fieldStatus, setFieldStatus] = useState({});
 const qaSamples = import.meta.env.DEV && import.meta.env.VITE_OCEAN_SAMPLE_QA === "true";
 const [observationDisplayTime, setObservationDisplayTime] = useState(Date.now);
 useEffect(() => {
-  if (activeTab !== "map") return;
-  setObservationDisplayTime(Date.now());
   const timer = window.setInterval(() => setObservationDisplayTime(Date.now()), 60000);
   return () => window.clearInterval(timer);
-}, [activeTab]);
+}, []);
 
 const mapObservationDisplay = useMemo(() => buildMapObservationDisplay(
   buildMapEnvironmentalObservations({
@@ -466,103 +477,10 @@ const captainContextSpeciesLabel =
   "Target Species";
 
 
-return (
-  <div
-    className={
-      activeTab === "map"
-        ? "dashboard dashboard-map-mode"
-        : "dashboard"
-    }
-  >
-
-    <header className="smartcharts-app-header">
-
-<div className="pelora-header-brand">
-
-<button
-  type="button"
-  className="pelora-logo-lockup"
-  onClick={() =>
-    setActiveTab("intelligence")
-  }
-  aria-label="Open Pelora Intelligence"
-  title="Open Pelora Intelligence"
->
-<img
-  src={peloraHeaderLockup}
-  alt="Pelora"
-  className="pelora-header-lockup-image"
-/>
-
-<span className="pelora-logo-subtitle">
-  OCEAN INTELLIGENCE
-</span>
-</button>
-
-</div>
-
-   <nav
-     className="dashboard-tabs"
-    aria-label="Pelora navigation"
-  >
-
-    <DashboardTab
-      label="Home"
-      active={
-        activeTab === "today"
-      }
-      onClick={() =>
-        setActiveTab("today")
-      }
-    />
-
-    <DashboardTab
-      label="Map"
-      active={
-        activeTab === "map"
-      }
-      onClick={() =>
-        setActiveTab("map")
-      }
-    />
-
-    <DashboardTab
-      label="Intelligence"
-      active={
-        activeTab === "intelligence"
-      }
-      onClick={() =>
-        setActiveTab("intelligence")
-      }
-    />
-
-    <DashboardTab
-      label="Reports"
-      active={
-        activeTab === "reports"
-      }
-      onClick={() =>
-        setActiveTab("reports")
-      }
-    />
-
-    <DashboardTab
-      label="Profile"
-      active={
-        activeTab === "profile"
-      }
-      onClick={() =>
-        setActiveTab("profile")
-      }
-    />
-
-  </nav>
-
-</header>
-{(workspaceError || missionPersistenceError) && <p role="status">{workspaceError || missionPersistenceError}</p>}
-
-
-<button
+return <PersistentMapShell
+ user={user} activeTab={activeTab} onNavigate={setActiveTab}
+ brand={<img src={peloraHeaderLockup} alt="Pelora" />}
+ mission={<button
   type="button"
   className={
     activeTab === "map" &&
@@ -570,7 +488,7 @@ return (
       ? "captain-context-control captain-context-control-map-hidden"
       : "captain-context-control"
   }
-  onClick={onEditTripMission}
+  onClick={()=>navigation.mission(true)}
   aria-label="Change current trip mission"
 >
   <span className="captain-context-control-label">
@@ -605,52 +523,9 @@ return (
   >
     ▾
   </span>
-</button>
-
-
-{["today", "map", "intelligence"].includes(activeTab) && (
-        <p role="status" className="opportunity-evaluation-status">
-          {evaluationView.narrative}
-          {evaluationView.scopeNarrative && <> {evaluationView.scopeNarrative}</>}
-        </p>
-      )}
-      {activeTab === "today" && (
-  <TodayDashboard
-    topOpportunities={
-      displayedTopOpportunities
-    }
-    activeOpportunity={
-      activeOpportunity
-    }
-    opportunityState={
-      opportunityState
-    }
-    historicalFallback={
-      historicalFallback
-    }
-    setSelectedOpportunity={
-      setSelectedOpportunity
-    }
-    setActiveTab={setActiveTab}
-    navigateToTopZoneMap={navigateToTopZoneMap}
-    setSelectedSpot={setSelectedSpot}
-    setReportPanelOpen={
-      setReportPanelOpen
-    }
-    liveMarineData={
-      activeOpportunityMarineData
-    }
-    liveMarineLoading={
-      activeOpportunityMarineLoading
-    }
-    liveMarineError={
-      activeOpportunityMarineError
-    }
-  />
-)}
-
-
-      {activeTab === "map" && (
+</button>}
+ warnings={<>{qaReadOnly&&<p>Local QA is read-only: automatic snapshots and report saving are disabled. Drafts remain on this device.</p>}<span className="pelora-field-warnings">{Object.entries(fieldStatus).filter(([key])=>layers[key==='currents'?'currentField':key]).map(([key,state])=><span key={key}>{key==='currents'?'Geostrophic Currents':'Bathymetry'} · {captainFieldStatus(state,observationDisplayTime)} </span>)}</span>{(workspaceError || missionPersistenceError)&&<p>{workspaceError || missionPersistenceError}</p>}<p>{evaluationView.narrative}{evaluationView.scopeNarrative&&<> {evaluationView.scopeNarrative}</>}</p></>}
+ map={
         <main className="dashboard-tab-content map-intelligence-workspace">
 
 
@@ -673,6 +548,7 @@ return (
               />
 
               <MapLibreIntelligenceMap
+                session={session}
                 camera={workspace.mapCamera}
                 onCameraChange={setMapCamera}
                 restoredSelectionId={selectedOpportunity?.id ?? selectedSpot?.id ?? null}
@@ -788,7 +664,41 @@ return (
 
 
         </main>
-      )}
+      }
+ overlay={<>      {activeTab === "today" && (
+  <TodayDashboard
+    topOpportunities={
+      displayedTopOpportunities
+    }
+    activeOpportunity={
+      activeOpportunity
+    }
+    opportunityState={
+      opportunityState
+    }
+    historicalFallback={
+      historicalFallback
+    }
+    setSelectedOpportunity={
+      setSelectedOpportunity
+    }
+    setActiveTab={setActiveTab}
+    navigateToTopZoneMap={navigateToTopZoneMap}
+    setSelectedSpot={setSelectedSpot}
+    setReportPanelOpen={
+      setReportPanelOpen
+    }
+    liveMarineData={
+      activeOpportunityMarineData
+    }
+    liveMarineLoading={
+      activeOpportunityMarineLoading
+    }
+    liveMarineError={
+      activeOpportunityMarineError
+    }
+  />
+)}
 
 
       {activeTab ===
@@ -1011,7 +921,9 @@ return (
       )}
 
 
-      <FishingDayReportPanel
+</>}
+ missionEditor={missionEditor} onMissionClose={onCloseMissionEditor?()=>navigation.mission(false):undefined}
+ reportOpen={reportPanelOpen} onReportClose={()=>setReportPanelOpen(false)} report={      <FishingDayReportPanel
   key={user?.id ?? "no-captain"}
   isOpen={reportPanelOpen}
   onClose={() =>
@@ -1022,33 +934,8 @@ return (
   }
   structures={structures}
   user={user}
-/>
-    </div>
-  );
-}
-
-
-function DashboardTab({
-  label,
-  active,
-  onClick
-}) {
-  return (
-    <button
-      type="button"
-      className={[
-        "dashboard-tab",
-        active
-          ? "active-dashboard-tab"
-          : ""
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      onClick={onClick}
-    >
-      {label}
-    </button>
-  );
+/>}
+/>;
 }
 
 
@@ -1072,4 +959,11 @@ function ProfileStatus({
 }
 
 
+// Validate explicit QA binding before any workspace acquisition effect may commit.
+function Dashboard(props){
+ let qaReadOnly;
+ try{qaReadOnly=localQaReadOnly();}
+ catch(error){return <section role="alert"><h1>Local QA configuration unavailable</h1><p>{error.message}</p></section>;}
+ return <DashboardWorkspace {...props} qaReadOnly={qaReadOnly}/>;
+}
 export default Dashboard;

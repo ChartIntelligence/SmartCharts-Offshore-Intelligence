@@ -1,3 +1,4 @@
+import {createQaFieldTransport} from "../../utils/qaFieldTransport.js";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
@@ -7,6 +8,7 @@ import * as presentation from "../../utils/oceanFieldPresentation.js";
 import {observationImages} from "../../utils/mapObservationDisplay.js";
 import {createViewportFieldRequests} from "../../utils/viewportFieldRequests.js";
 let styleLoaded=false,state={};
+const refSlots=[];let refCursor=0;
 let effectFns=[],effectSlots=[],effectCursor=0;const timers=new Map(),readyTimers=new Map(),refreshTimers=new Map();let timerId=0;
 const scheduled=async()=>{const callbacks=[...timers.values()];timers.clear();await Promise.all(callbacks.map(fn=>fn()));};
 const effect=()=>{for(const {fn,deps,index} of effectFns){const old=effectSlots[index];
@@ -27,15 +29,17 @@ const map={getStyle:()=>({layers}),isStyleLoaded:()=>styleLoaded,getSource:id=>s
 const current={freshness:{maxFreshAgeHours:96},contractVersion:"pelora-spatial-field-v1",layer:"currents",fieldId:"recorded",status:"stale",validTime:"2026-09-19T00:00:00Z",bounds:[-90,27,-89,28],resolution:{deliveredDegrees:.25},coverage:{validCells:1,returnedCells:1},payloadType:"geostrophic-vector-grid",payload:{type:"geostrophic-vector-grid",coordinateOrder:"longitude,latitude,u,v",directionConvention:"degrees-toward",interpolation:"none",cells:[[-89.875,27.125,-0.291,0.948]]}};
 const bathy={validTime:null,freshness:{maxFreshAgeHours:null},contractVersion:"pelora-spatial-field-v1",layer:"bathymetry",fieldId:"bathy",status:"static",bounds:[-90,27,-89,28],resolution:{deliveredDegrees:1},coverage:{validCells:1,returnedCells:1},payloadType:"rectilinear-elevation-grid",payload:{type:"rectilinear-elevation-grid",order:"latitude-ascending-rows,longitude-ascending-columns",positive:"up",longitudes:[-89.5],latitudes:[27.5],values:[-100]}};
 const context=vm.createContext({...presentation,...flowPresentation,observationImages,resolvePeloraApiUrl,URLSearchParams,
+  createQaFieldTransport:options=>createQaFieldTransport({...options,fetchPort:(...args)=>context.fetch(...args)}),
+  useRef:value=>{const i=refCursor++;return refSlots[i]??(refSlots[i]={current:value});},
   useEffect:(fn,deps)=>{effectFns.push({fn,deps,index:effectCursor++});},window:{setInterval:fn=>{const id=++timerId;refreshTimers.set(id,fn);return id;},clearInterval:id=>refreshTimers.delete(id),setTimeout:fn=>{const id=++timerId;readyTimers.set(id,fn);return id;},clearTimeout:id=>readyTimers.delete(id)},
   bathymetryImage:()=>({url:"data:image/png;base64,test",coordinates:[[-90,28],[-89,28],[-89,27],[-90,27]]}),
   createViewportFieldRequests:options=>createViewportFieldRequests({...options,setTimer:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimer:id=>timers.delete(id)}),
   fetch:async url=>{requests++;return{ok:true,text:async()=>JSON.stringify(url.includes("layer=bathymetry")?bathy:current)};}
 });
-const source=fs.readFileSync(new URL("../useMapLibreOceanFields.js",import.meta.url),"utf8")
+const source=fs.readFileSync(process.env.PELORA_QA_AUTH_BASELINE_HOOK??new URL("../useMapLibreOceanFields.js",import.meta.url),"utf8")
   .replace(/^import[\s\S]*?;\r?\n/gm,"").replace("export function","function");
 vm.runInContext(source,context);
-const renderHook=context.useMapLibreOceanFields;context.useMapLibreOceanFields=props=>{effectCursor=0;renderHook(props);};
+const renderHook=context.useMapLibreOceanFields;context.useMapLibreOceanFields=props=>{effectCursor=0;refCursor=0;renderHook(props);};
 const props={mapRef:{current:map},bathymetry:true,currentField:true,onFieldStatus:update=>{state=typeof update==="function"?update(state):update;}};
 context.useMapLibreOceanFields(props);let cleanup=effect();assert.equal(requests,0);
 styleLoaded=true;events.get("load")();await scheduled();
@@ -403,3 +407,190 @@ map.addImage=(id,image)=>{if(id===flowPresentation.CURRENT_TRACE_IMAGE)throw new
 context.fetch=transport();commitProps({});await scheduled();absent("currents");assert.equal(state.bathymetry.status,"static");
 cleanup();map.addImage=traceAdder;
 console.log("PASS trace image registration failure remains current-only and fail-closed");
+import {environment as qaEnvironment,syntheticSession,syntheticBoundary,deferred as qaDeferred} from './qaFieldTransportFixtures.mjs';
+
+// Actual hook + request helper + real QA HTTP boundary, all authority/data synthetic.
+map.getBounds=()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28});styleLoaded=true;
+context.resolvePeloraApiUrl=path=>resolvePeloraApiUrl(path,qaEnvironment);
+context.createQaFieldTransport=options=>createQaFieldTransport({...options,environment:qaEnvironment,fetchPort:(...args)=>context.fetch(...args)});
+const qaBoundary=await syntheticBoundary(layer=>layer==='bathymetry'?bathy:current);
+let qaSession=syntheticSession();qaBoundary.setExpected(qaSession);
+const qaFetch=(...args)=>qaBoundary.fetchPort(...args);context.fetch=qaFetch;
+function qaCommit(next={}){commitProps({session:qaSession,...next});}
+try{
+  qaCommit();await scheduled();
+  if(process.env.PELORA_QA_AUTH_BASELINE_HOOK)console.log('BASELINE QA boundary '+JSON.stringify({...qaBoundary.counts,bathymetry:state.bathymetry.status,currents:state.currents.status}));
+  assert.equal(state.bathymetry.status,'static');assert.equal(state.currents.status,'stale');
+  assert.equal(qaBoundary.counts.requests,2);assert.equal(qaBoundary.counts.authority,4);assert.equal(qaBoundary.counts.handler,2);
+  const sourceIdentity=sources.get(presentation.FIELD_SOURCE.bathymetry),contourIdentity=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),currentIdentity=sources.get(presentation.FIELD_SOURCE.currents);
+  const adds=sourceAdds,acquisitions=qaBoundary.counts.requests,qaPriorBathy=state.bathymetry.field;
+  qaSession={...qaSession,user:{...qaSession.user}};qaCommit();await scheduled();assert.equal(qaBoundary.counts.requests,acquisitions,'same credentials do not reacquire');
+  qaSession=syntheticSession({claims:{exp:Math.floor(Date.now()/1000)+7200}});qaBoundary.setExpected(qaSession);
+  qaCommit();assert.equal(state.bathymetry.field,qaPriorBathy);assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,'visible');
+  await scheduled();assert.equal(qaBoundary.counts.requests,acquisitions+2,'credential refresh acquires each enabled layer once without movement');
+  assert.equal(sourceAdds,adds);assert.equal(sources.get(presentation.FIELD_SOURCE.bathymetry),sourceIdentity);
+  assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),contourIdentity);assert.equal(sources.get(presentation.FIELD_SOURCE.currents),currentIdentity);
+  context.fetch=async(url,options)=>url.includes('layer=currents')?{ok:false,status:403,text:async()=>{throw new Error('auth body must not be read');}}:qaFetch(url,options);
+  await refresh();absent('currents');assert.equal(state.bathymetry.status,'static');assert.equal(sources.get(presentation.FIELD_SOURCE.bathymetry),sourceIdentity);
+  events.get('style.load')();await scheduled();absent('currents');
+  context.fetch=async()=>{throw new Error('controlled genuine transport after auth rejection');};await refresh();absent('currents');assert.equal(state.bathymetry.status,'degraded');
+  context.fetch=qaFetch;await refresh();assert.equal(state.currents.status,'stale');
+  for(const badLayer of ['currents','bathymetry']){
+    const sibling=badLayer==='currents'?'bathymetry':'currents';const siblingBefore=sources.get(presentation.FIELD_SOURCE[sibling]);
+    context.fetch=async(url,options)=>url.includes('layer='+badLayer)?rawResponse('null'):qaFetch(url,options);
+    await refresh();absent(badLayer);assert.ok(state[sibling].field);assert.equal(sources.get(presentation.FIELD_SOURCE[sibling]),siblingBefore);
+    context.fetch=qaFetch;await refresh();
+  }
+  console.log('PASS actual hook authenticated bathymetry/current GET through QA backend, refresh without remount/movement, same-credential dedupe, auth-denial and malformed-success locality');
+  const pending=qaDeferred(),reading=qaDeferred();
+  context.fetch=async(url,options)=>url.includes('layer=currents')?{ok:true,status:200,text:async()=>{reading.resolve();return pending.promise;}}:qaFetch(url,options);
+  [...refreshTimers.values()].forEach(fn=>fn());const oldPrincipalRead=scheduled();await reading.promise;
+  qaSession=null;qaCommit();absent('currents');absent('bathymetry');await scheduled();
+  const afterLogout=state;pending.resolve(JSON.stringify(current));await oldPrincipalRead;assert.equal(state,afterLogout,'late old-owner body cannot publish after logout');
+  events.get('style.load')();await scheduled();absent('currents');absent('bathymetry');
+  context.fetch=async()=>{throw new Error('signed-out transport must not dispatch');};await refresh();absent('currents');absent('bathymetry');
+  qaSession=syntheticSession();qaBoundary.setExpected(qaSession);context.fetch=qaFetch;qaCommit();await scheduled();assert.equal(state.currents.status,'stale');assert.equal(state.bathymetry.status,'static');
+  const principalPending=qaDeferred(),principalReading=qaDeferred();
+  context.fetch=async url=>url.includes('layer=currents')?{ok:true,status:200,text:async()=>{principalReading.resolve();return principalPending.promise;}}:rawResponse(JSON.stringify(bathy));
+  [...refreshTimers.values()].forEach(fn=>fn());const oldOwnerRequest=scheduled();await principalReading.promise;
+  qaSession=syntheticSession({id:'SYNTHETIC-OWNER-B'});context.fetch=transport('currents',{...current,fieldId:'SYNTHETIC-NEW-OWNER-FIELD'});
+  qaCommit();assert.equal(state.currents.field,null);assert.equal(state.bathymetry.field,null);await scheduled();const newOwnerState=state,newOwnerCurrent=state.currents.field;
+  principalPending.resolve('null');await oldOwnerRequest;assert.equal(state,newOwnerState,'old malformed completion cannot invalidate new owner');
+  context.fetch=async()=>{throw new Error('new owner transport');};await refresh();assert.equal(state.currents.field,newOwnerCurrent);assert.equal(state.currents.status,'degraded');
+  // Credential changes after render but before passive effects still guard completions.
+  const preEffect=qaDeferred(),preEffectReading=qaDeferred();context.fetch=async url=>url.includes('layer=currents')?{ok:true,status:200,text:async()=>{preEffectReading.resolve();return preEffect.promise;}}:rawResponse(JSON.stringify(bathy));
+  [...refreshTimers.values()].forEach(fn=>fn());const preEffectRequest=scheduled();await preEffectReading.promise;
+  context.useMapLibreOceanFields({...props,session:null});const beforeEffectState=state;preEffect.resolve(JSON.stringify(current));await preEffectRequest;
+  assert.equal(state,beforeEffectState,'render-time principal ref guards before passive effects');cleanup=effect();absent('currents');absent('bathymetry');
+  // Obsolete viewport and disposed responses must not clear newer credentials/cache.
+  qaSession=syntheticSession();context.fetch=transport();qaCommit();await scheduled();
+  const obsoletePending=qaDeferred(),obsoleteReading=qaDeferred();context.fetch=async url=>url.includes('layer=currents')?{ok:true,status:200,text:async()=>{obsoleteReading.resolve();return obsoletePending.promise;}}:rawResponse(JSON.stringify(bathy));
+  events.get('moveend')();const obsoleteRequest=scheduled();await obsoleteReading.promise;
+  map.getZoom=()=>7;context.fetch=transport('currents',{...current,fieldId:'SYNTHETIC-QA-NEW-CONTEXT'});events.get('moveend')();await scheduled();const newerQaState=state;
+  obsoletePending.resolve('null');await obsoleteRequest;assert.equal(state,newerQaState);
+  const disposePending=qaDeferred(),disposeReading=qaDeferred();context.fetch=async url=>url.includes('layer=currents')?{ok:true,status:200,text:async()=>{disposeReading.resolve();return disposePending.promise;}}:rawResponse(JSON.stringify(bathy));
+  events.get('moveend')();const disposeRequest=scheduled();await disposeReading.promise;cleanup();const qaDisposedState=state;
+  disposePending.resolve('null');await disposeRequest;assert.equal(state,qaDisposedState);assert.equal(events.size,0);
+  console.log('PASS actual QA hook logout/principal clear + late-body/malformed non-resurrection, render-before-effect guard, normal authorized recovery, newer viewport and disposal guards');
+}finally{cleanup();await qaBoundary.close();}
+
+// Simulate the exact microtask gap after decoding but before helper cache/state publication.
+const standardRequestFactory=context.createViewportFieldRequests;let publishGap=false;
+context.createViewportFieldRequests=options=>standardRequestFactory({...options,request:async(...args)=>{
+  const result=await options.request(...args);
+  if(publishGap&&args[0]==="currents"){publishGap=false;context.useMapLibreOceanFields({...props,session:null});}
+  return result;
+}});
+qaSession=syntheticSession();map.getZoom=()=>5;context.fetch=transport();qaCommit();await scheduled();
+publishGap=true;[...refreshTimers.values()].forEach(fn=>fn());await scheduled();absent("currents");
+cleanup=effect();absent("bathymetry");absent("currents");
+context.fetch=async()=>{throw new Error("after publication boundary");};events.get("style.load")();await scheduled();absent("currents");absent("bathymetry");
+cleanup();context.createViewportFieldRequests=standardRequestFactory;
+console.log("PASS render-time principal change in post-decoder/pre-publication microtask gap cannot cache/display or later restore old-owner data");
+
+// P04 exact race: decoded buffers await style, logout render precedes passive cleanup.
+qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+assert.ok(state.bathymetry.field&&state.currents.field);
+context.useMapLibreOceanFields({...props,session:null});
+try{
+ styleLoaded=true;events.get('idle')();
+ assert.ok(!state.currents.field,'pending idle must not publish prior-owner current');
+ assert.ok(!state.bathymetry.field,'pending idle must not publish prior-owner bathymetry');
+ absent('currents');absent('bathymetry');
+}finally{cleanup=effect();cleanup();assert.equal(events.size,0);}
+console.log('PASS P04 pending-style idle/logout baseline regression repaired for both layers');
+for(const trigger of ['idle','style.load','readiness timer'])for(const transition of ['logout','principal','owner roundtrip','renewal']){
+ qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+ assert.ok(state.bathymetry.field&&state.currents.field);
+ const priorBathy=state.bathymetry.field,priorCurrent=state.currents.field;
+ if(transition==='logout')context.useMapLibreOceanFields({...props,session:null});
+ if(transition==='principal'){qaSession=syntheticSession({id:'SYNTHETIC-OWNER-B'});context.useMapLibreOceanFields({...props,session:qaSession});}
+ if(transition==='owner roundtrip'){context.useMapLibreOceanFields({...props,session:null});context.useMapLibreOceanFields({...props,session:qaSession});}
+ if(transition==='renewal'){qaSession=syntheticSession({claims:{exp:Math.floor(Date.now()/1000)+7200}});context.useMapLibreOceanFields({...props,session:qaSession});}
+ styleLoaded=true;
+ if(trigger==='readiness timer'){const callbacks=[...readyTimers.values()];readyTimers.clear();callbacks.forEach(fn=>fn());}
+ else events.get(trigger)?.();
+ if(transition==='renewal'){
+  assert.equal(state.bathymetry.field,priorBathy);assert.equal(state.currents.field,priorCurrent);
+  assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,'visible');
+  assert.equal(map.getLayer(presentation.FIELD_LAYER.currents).layout.visibility,'visible');
+ }else{
+  assert.equal(sources.get(presentation.FIELD_SOURCE.currents)?.data.features.length??0,0);
+  assert.ok(!map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1])||map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility==='none');
+  assert.equal(state.currents.field,null);assert.equal(state.bathymetry.field,null);
+ }
+ cleanup=effect();await scheduled();
+ if(transition==='logout'){absent('currents');absent('bathymetry');}
+ else {assert.ok(state.currents.field&&state.bathymetry.field);}
+ cleanup();assert.equal(events.size,0);assert.equal(readyTimers.size,0);
+}
+console.log('PASS idle/style.load/readiness timer deny logout/principal/owner-roundtrip buffers before effects and preserve valid same-owner renewal/recovery');
+// Queued React state updaters are themselves owner-bound, even after transport reconciliation.
+qaSession=syntheticSession();styleLoaded=true;context.fetch=transport();const queued=[],queuedPublisher=update=>queued.push(update);
+qaCommit({onFieldStatus:queuedPublisher});await scheduled();
+const oldPublications=[...queued];queued.length=0;
+qaSession=syntheticSession({id:'SYNTHETIC-OWNER-B'});context.useMapLibreOceanFields({...props,session:qaSession,onFieldStatus:queuedPublisher});cleanup=effect();await scheduled();
+for(const update of queued)state=update(state);const newOwnerPublication=state;
+for(const update of oldPublications){const result=update(state);assert.equal(result,state,'old-owner queued success/loading must not replace new owner');state=result;}
+assert.equal(state,newOwnerPublication);cleanup();
+console.log('PASS delayed success-state updater cannot publish an old owner after reconciliation to a new owner');
+// Off publication is truthful even when React queues it; sibling lifetimes are untouched.
+qaSession=syntheticSession();context.fetch=transport();qaCommit();await scheduled();
+const qaToggleBathyState=state.bathymetry,qaToggleBathySource=sources.get(presentation.FIELD_SOURCE.bathymetry);
+qaCommit({currentField:false});assert.equal(state.currents.status,'off');assert.equal(state.currents.field,null);
+assert.equal(state.bathymetry,qaToggleBathyState);assert.equal(sources.get(presentation.FIELD_SOURCE.bathymetry),qaToggleBathySource);
+qaCommit();await scheduled();const qaToggleCurrentState=state.currents,qaToggleCurrentSource=sources.get(presentation.FIELD_SOURCE.currents);
+qaCommit({bathymetry:false});assert.equal(state.bathymetry.status,'off');assert.equal(state.currents,qaToggleCurrentState);assert.equal(sources.get(presentation.FIELD_SOURCE.currents),qaToggleCurrentSource);
+qaCommit();await scheduled();assert.equal(state.bathymetry.status,'static');cleanup();
+console.log('PASS QA OFF publishes truthfully with queued-owner guards and both ON/OFF directions preserve sibling lifetime');
+
+// P04 exact residual: same caller object mutates A -> B -> A before passive effects.
+qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+const mutableOwner=qaSession,originalMutableToken=qaSession.access_token,originalMutableId=qaSession.user.id;
+const mutableReplacement=syntheticSession({id:'SYNTHETIC-MUTABLE-OWNER-B'});
+mutableOwner.user.id=mutableReplacement.user.id;mutableOwner.access_token=mutableReplacement.access_token;
+context.useMapLibreOceanFields({...props,session:mutableOwner});
+mutableOwner.user.id=originalMutableId;mutableOwner.access_token=originalMutableToken;
+context.useMapLibreOceanFields({...props,session:mutableOwner});
+try{
+ styleLoaded=true;events.get('idle')();
+ assert.equal(sources.get(presentation.FIELD_SOURCE.currents)?.data.features.length??0,0,'same-object A-B-A must obsolete prior current');
+ absent('currents');absent('bathymetry');
+}finally{cleanup=effect();cleanup();assert.equal(events.size,0);}
+console.log('PASS P04 exact same-object A-B-A deferred bathymetry/current buffers are rejected');
+for(const mutation of ['principal','anonymous','invalid identity']){
+ qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+ const reusedSession=qaSession,oldUser=qaSession.user,oldId=oldUser.id,oldToken=qaSession.access_token;
+ if(mutation==='principal'){const replacement=syntheticSession({id:'SYNTHETIC-MUTABLE-B'});reusedSession.user.id=replacement.user.id;reusedSession.access_token=replacement.access_token;}
+ if(mutation==='anonymous')reusedSession.user.is_anonymous=true;
+ if(mutation==='invalid identity')reusedSession.user={id:7,is_anonymous:null};
+ context.useMapLibreOceanFields({...props,session:reusedSession});
+ // Only the final render's effects are committed, as in a batched intermediate render.
+ effectFns=[];reusedSession.user=oldUser;oldUser.id=oldId;oldUser.is_anonymous=false;reusedSession.access_token=oldToken;
+ context.useMapLibreOceanFields({...props,session:reusedSession});
+ styleLoaded=true;events.get('idle')();absent('currents');absent('bathymetry');
+ let recoveredCalls=0;context.fetch=async url=>{recoveredCalls++;return rawResponse(JSON.stringify(url.includes('layer=bathymetry')?{...bathy,fieldId:'SYNTHETIC-MUTABLE-RECOVERY-BATHY'}:{...current,fieldId:'SYNTHETIC-MUTABLE-RECOVERY-CURRENT'}));};
+ cleanup=effect();await scheduled();assert.equal(recoveredCalls,2,'revision effect reacquires each layer once without movement');
+ assert.equal(state.bathymetry.field.fieldId,'SYNTHETIC-MUTABLE-RECOVERY-BATHY');assert.equal(state.currents.field.fieldId,'SYNTHETIC-MUTABLE-RECOVERY-CURRENT');cleanup();
+}
+// Both old body reads must remain obsolete after the same caller object returns to A.
+qaSession=syntheticSession();styleLoaded=true;context.fetch=transport();qaCommit();await scheduled();
+const mutableReads={bathymetry:qaDeferred(),currents:qaDeferred()},mutableStarted={bathymetry:qaDeferred(),currents:qaDeferred()};
+context.fetch=async url=>{const layer=url.includes('layer=bathymetry')?'bathymetry':'currents';return {ok:true,status:200,text:()=>{mutableStarted[layer].resolve();return mutableReads[layer].promise;}};};
+[...refreshTimers.values()].forEach(fn=>fn());const mutablePending=scheduled();await Promise.all(Object.values(mutableStarted).map(d=>d.promise));
+const originalMutableBodyId=qaSession.user.id,originalMutableBodyToken=qaSession.access_token,mutableBodyB=syntheticSession({id:'SYNTHETIC-BODY-OWNER-B'});
+qaSession.user.id=mutableBodyB.user.id;qaSession.access_token=mutableBodyB.access_token;context.useMapLibreOceanFields({...props,session:qaSession});
+qaSession.user.id=originalMutableBodyId;qaSession.access_token=originalMutableBodyToken;context.useMapLibreOceanFields({...props,session:qaSession});
+const beforeMutableCompletion=state;mutableReads.bathymetry.resolve(JSON.stringify({...bathy,fieldId:'SYNTHETIC-OLD-BODY-BATHY'}));mutableReads.currents.resolve('null');await mutablePending;
+assert.equal(state,beforeMutableCompletion,'old success/malformed bodies publish nothing after mutable owner roundtrip');
+context.fetch=transport('currents',{...current,fieldId:'SYNTHETIC-NEW-MUTABLE-BODY-CURRENT'});cleanup=effect();await scheduled();
+const currentAfterMutable=state.currents.field;context.fetch=async()=>{throw new Error('synthetic transport after mutable recovery');};await refresh();
+assert.equal(state.currents.field,currentAfterMutable);assert.equal(state.currents.status,'degraded');cleanup();
+// Token-only in-place renewal has no owner transition and preserves pending valid display.
+qaSession=syntheticSession();styleLoaded=false;context.fetch=transport();qaCommit();await scheduled();
+const renewalBathy=state.bathymetry.field,renewalCurrent=state.currents.field;
+qaSession.access_token=syntheticSession({claims:{exp:Math.floor(Date.now()/1000)+7200}}).access_token;
+context.useMapLibreOceanFields({...props,session:qaSession});styleLoaded=true;events.get('idle')();
+assert.equal(state.bathymetry.field,renewalBathy);assert.equal(state.currents.field,renewalCurrent);
+cleanup=effect();await scheduled();assert.ok(state.currents.field&&state.bathymetry.field);cleanup();
+console.log('PASS immutable owner/anonymous/invalid tuple roundtrip, final-effect recovery, old bathymetry/current responses, newest-cache retention and in-place same-owner renewal');

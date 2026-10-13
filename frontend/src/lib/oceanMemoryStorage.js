@@ -1,3 +1,4 @@
+import {assertLocalQaWriteAllowed} from '../utils/localQaReadOnly.js';
 import {
   supabase as defaultSupabase
 } from "./supabase";
@@ -65,6 +66,7 @@ export async function saveOceanSnapshot({
   oceanSnapshot,
   fishingDayReportId = null
 }) {
+  assertLocalQaWriteAllowed();
   const row =
     buildOceanSnapshotStorageRow({
       userId,

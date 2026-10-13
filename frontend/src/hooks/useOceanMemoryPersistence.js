@@ -1,3 +1,4 @@
+import {localQaReadOnly} from '../utils/localQaReadOnly.js';
 import {
   useEffect,
   useRef
@@ -22,6 +23,7 @@ export function useOceanMemoryPersistence({
 
 
   useEffect(() => {
+    try {if(localQaReadOnly())return;} catch {return;}
     const snapshotId =
       oceanSnapshot
         ?.identity

@@ -38,6 +38,7 @@ function MapLibreIntelligenceMap({
   qaSamples = false,
   syntheticSstReview = null,
   onFieldStatus,
+  session = null,
   openWaterOpportunities = [],
   selectedOpportunity = null,
   setSelectedOpportunity,
@@ -141,7 +142,7 @@ function MapLibreIntelligenceMap({
   });
 
   useMapLibreEnvironmentalObservations({ mapRef, observationDisplay, layers: sampleLayersForMode(layers, qaSamples) });
-  useMapLibreOceanFields({ mapRef, bathymetry: layers.bathymetry, currentField: layers.currentField, onFieldStatus });
+  useMapLibreOceanFields({ mapRef, bathymetry: layers.bathymetry, currentField: layers.currentField, onFieldStatus, session });
   useSyntheticSstReview({mapRef, review: syntheticSstReview});
 
   useMapLibreOpenWaterOpportunities({

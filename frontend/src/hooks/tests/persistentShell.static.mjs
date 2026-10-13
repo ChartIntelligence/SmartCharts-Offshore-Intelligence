@@ -1,0 +1,12 @@
+import fs from 'node:fs';import {execFileSync} from 'node:child_process';import os from 'node:os';import path from 'node:path';import {createRequire} from 'node:module';import {pathToFileURL} from 'node:url';
+const runtime=path.resolve(process.argv[2]),require=createRequire(runtime+'/package.json');
+const config=fs.readFileSync('frontend/eslint.config.js','utf8').replace(/from '([^']+)'/g,(_,p)=>'from '+JSON.stringify(pathToFileURL(require.resolve(p)).href));
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pelora-shell-lint-')),file=dir+'/eslint.config.mjs';fs.writeFileSync(file,config);
+const {ESLint}=await import(pathToFileURL(require.resolve('eslint')));const lint=new ESLint({overrideConfigFile:file});
+const results=await lint.lintFiles(['frontend/src/components/PersistentMapShell.jsx','frontend/src/components/Dashboard.jsx','frontend/src/components/LayerControls.jsx','frontend/src/utils/captainFieldStatus.js','frontend/src/hooks/useShellNavigation.js','frontend/src/utils/shellNavigation.js','frontend/src/components/PeloraStartupFlow.jsx']);console.log((await lint.loadFormatter('stylish')).format(results));const startupBaseline=await lint.lintText(execFileSync('git',['show','d5d40020:frontend/src/components/PeloraStartupFlow.jsx'],{encoding:'utf8'}),{filePath:'frontend/src/components/PeloraStartupFlow.jsx'});
+const inheritedStartup=results.find(r=>r.filePath.endsWith('PeloraStartupFlow.jsx'))?.messages.filter(m=>m.ruleId==='react-hooks/set-state-in-effect')??[];if(inheritedStartup.length!==startupBaseline[0].messages.filter(m=>m.ruleId==='react-hooks/set-state-in-effect').length)throw Error('Unexpected Startup finding');
+const inherited=results.filter(r=>r.filePath.endsWith('LayerControls.jsx')).flatMap(r=>r.messages).filter(m=>m.ruleId==='react-hooks/purity');
+const baseline=await lint.lintText(execFileSync('git',['show','d5d40020:frontend/src/components/LayerControls.jsx'],{encoding:'utf8'}),{filePath:'frontend/src/components/LayerControls.jsx'});
+if(inherited.length!==baseline[0].messages.filter(m=>m.ruleId==='react-hooks/purity').length)throw Error('Unexpected inherited finding');
+const newErrors=results.flatMap(r=>r.messages.map(m=>({file:r.filePath,...m}))).filter(m=>m.severity===2 && !((m.file.endsWith('LayerControls.jsx')&&m.ruleId==='react-hooks/purity')||(m.file.endsWith('PeloraStartupFlow.jsx')&&m.ruleId==='react-hooks/set-state-in-effect')));
+console.log('New scoped errors: '+newErrors.length+'; baseline LayerControls purity finding: '+inherited.length);process.exitCode=newErrors.length?1:0;

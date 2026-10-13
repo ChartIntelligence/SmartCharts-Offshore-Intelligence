@@ -1,0 +1,65 @@
+{
+  "scope": "OFFLINE_SYNTHETIC_PUBLIC_KEY_BUILD_ONLY_NOT_LAUNCH",
+  "files": [
+    {
+      "path": "assets/index-DwiNr6iC.js",
+      "sha256": "a49dc84fc70dd04683536cb5b618c2779ce4829d6473b8f3ffd6eba62dcdca48"
+    },
+    {
+      "path": "assets/index-ImlS3VCF.css",
+      "sha256": "baa0112130297edea01b803543d966c4b920eacba3ea575b9aadd5f9a780507a"
+    },
+    {
+      "path": "assets/pelora-bathymetry-real-DzJAN8D8.svg",
+      "sha256": "6193a10e9aad0ca7b472055946329c4a807319680e8877c09ea01aab9ecf4bea"
+    },
+    {
+      "path": "assets/pelora-header-lockup-BnB9nN0C.png",
+      "sha256": "d58e8ec778ae6633fc893ff96618de6e572d9bb82dcae81aa90f4c1bd4a6a507"
+    },
+    {
+      "path": "assets/pelora-wordmark-web-cropped-ziFwHJzC.png",
+      "sha256": "55df23afa17cf30afdbe7b5ce567a6c7be3efe32046252f82f66cac531cc15fb"
+    },
+    {
+      "path": "brand/archive-compass/pelora-compass-final.svg",
+      "sha256": "c22a07039a7e1498d0b718a596ef46724aa6e0a2ceae0dd7b5f0c6e4add14e9c"
+    },
+    {
+      "path": "brand/archive-compass/pelora-compass-header.svg",
+      "sha256": "ebac015d9d14a5e7988fbdff05dadaef9b5877f97defcb36279c87edeeaf2770"
+    },
+    {
+      "path": "favicon.svg",
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66"
+    },
+    {
+      "path": "icons.svg",
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a"
+    },
+    {
+      "path": "index.html",
+      "sha256": "182a1db9234c28378f57709967d55a9062dd2f2790a1066a43f6925655690166"
+    },
+    {
+      "path": "logos/pelora-compass-final.svg",
+      "sha256": "c22a07039a7e1498d0b718a596ef46724aa6e0a2ceae0dd7b5f0c6e4add14e9c"
+    },
+    {
+      "path": "logos/pelora-compass-header.svg",
+      "sha256": "ebac015d9d14a5e7988fbdff05dadaef9b5877f97defcb36279c87edeeaf2770"
+    },
+    {
+      "path": "logos/pelora-fulllockup.svg",
+      "sha256": "c1e2d73a37c35d0b45097339bf8d830361fa03b9d04fc2f68a0f3a1b2977e0a2"
+    },
+    {
+      "path": "logos/pelora-mark.svg",
+      "sha256": "4d58cb56b5297d5983ba78f07e0e74423da8e890440df21034875bad7cebd967"
+    },
+    {
+      "path": "logos/pelora-wordmark-horrizon-descriptor.svg",
+      "sha256": "3b7f2eb9c15ef7f546575a8cf27e5e46d63add449712db1ed51791b6928d8893"
+    }
+  ]
+}

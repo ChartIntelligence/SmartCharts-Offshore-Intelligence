@@ -1,3 +1,4 @@
+import {captainFieldStatus as helper} from '../../utils/captainFieldStatus.js';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
@@ -6,7 +7,6 @@ import {pathToFileURL} from 'node:url';
 import {FIELD_CONTROLS,fieldStatusText} from '../../utils/oceanFieldPresentation.js';
 import {OBSERVATION_CONTROLS} from '../../utils/mapObservationDisplay.js';
 const source=readFileSync(new URL('../../components/LayerControls.jsx',import.meta.url),'utf8');
-const helper=vm.runInNewContext(source.slice(source.indexOf('function captainFieldStatus'),source.indexOf('function LayerControls'))+'\ncaptainFieldStatus');
 const now=Date.parse('2026-10-11T17:00:00Z');
 const field={displayName:'Geostrophic Surface Currents',provider:'NOAA NESDIS CoastWatch',datasetId:'synthetic-dataset',productVersion:'synthetic-version',validTime:'2026-10-09T00:00:00Z',status:'latest-available',freshness:{maxFreshAgeHours:24},coverage:{validCells:199,returnedCells:238},resolution:{deliveredDegrees:0.5},payload:{values:[1,null]}};
 const cases=[
@@ -38,7 +38,7 @@ const React=(await import(new URL('react/index.js',runtime))).default;
 const {renderToStaticMarkup}=await import(new URL('react-dom/server.node.js',runtime));
 const {transformSync}=await import(new URL('rolldown/dist/utils-index.mjs',runtime));
 const compiled=transformSync('LayerControls.jsx',source.replace(/^import[\s\S]*?;\s*/gm,'').replace('export default LayerControls;',''),{jsx:{runtime:'classic'}}).code;
-const Controls=vm.runInNewContext(compiled+'\nLayerControls',{React,useState:()=>[true,()=>{}],FIELD_CONTROLS,OBSERVATION_CONTROLS,fieldStatusText});
+const Controls=vm.runInNewContext(compiled+'\nLayerControls',{React,useState:()=>[true,()=>{}],FIELD_CONTROLS,OBSERVATION_CONTROLS,fieldStatusText,captainFieldStatus:helper});
 test('actual open controls exclude field evidence details without mutating internal state',()=>{
  const states={currents:{status:'degraded',field,reason:'Synthetic transport failure'},bathymetry:{status:'static',field:{...field,displayName:'Bathymetry',provider:'NOAA/NCEI',status:'static',validTime:null,productVersion:'2022-v1-60s',freshness:{maxFreshAgeHours:null}}}};
  const before=JSON.stringify(states);

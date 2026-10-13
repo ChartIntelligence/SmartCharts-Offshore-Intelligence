@@ -326,6 +326,9 @@ function PeloraStartupFlow({
   ]);
 
 
+  const [workspaceAdmitted,setWorkspaceAdmitted]=useState(false);
+  if(!workspaceAdmitted && missionReady && startupStep==='dashboard')setWorkspaceAdmitted(true);
+  const missionEditor=(()=>{
   if (
     missionLoading ||
     startupStep === "loading"
@@ -365,62 +368,7 @@ function PeloraStartupFlow({
   }
 
 
-  if (
-    missionReady &&
-    startupStep ===
-      "dashboard"
-  ) {
-    return (
-      <Dashboard
-        session={session}
-        user={user}
-        authLoading={authLoading}
-        tripMission={tripMission}
-        missionPersistenceError={missionPersistenceError}
-        captainSpatialContext={
-          captainSpatialContext
-        }
-        onEditTripMission={() => {
-          setOriginName(
-            tripMission
-              ?.origin
-              ?.name ??
-            ""
-          );
-
-          setLatitude(
-            tripMission
-              ?.origin
-              ?.coordinates
-              ?.[0] ??
-            ""
-          );
-
-          setLongitude(
-            tripMission
-              ?.origin
-              ?.coordinates
-              ?.[1] ??
-            ""
-          );
-
-          setOperatingRangeNm(
-            tripMission
-              ?.operatingRangeNm ??
-            150
-          );
-
-          setLocationError("");
-
-          setStartupStep(
-            "mission"
-          );
-        }}
-      />
-    );
-  }
-
-
+  if(missionReady && startupStep==='dashboard')return null;
   if (
     startupStep ===
       "species"
@@ -752,6 +700,57 @@ function PeloraStartupFlow({
 
     </main>
   );
+  })();
+  return (<Dashboard
+
+        missionAdmitted={workspaceAdmitted && missionReady}
+        missionEditor={missionEditor}
+        onCloseMissionEditor={workspaceAdmitted && missionReady ? ()=>setStartupStep('dashboard') : undefined}
+        session={session}
+        user={user}
+        authLoading={authLoading}
+        tripMission={tripMission}
+        missionPersistenceError={missionPersistenceError}
+        captainSpatialContext={
+          captainSpatialContext
+        }
+        onEditTripMission={() => {
+          setOriginName(
+            tripMission
+              ?.origin
+              ?.name ??
+            ""
+          );
+
+          setLatitude(
+            tripMission
+              ?.origin
+              ?.coordinates
+              ?.[0] ??
+            ""
+          );
+
+          setLongitude(
+            tripMission
+              ?.origin
+              ?.coordinates
+              ?.[1] ??
+            ""
+          );
+
+          setOperatingRangeNm(
+            tripMission
+              ?.operatingRangeNm ??
+            150
+          );
+
+          setLocationError("");
+
+          setStartupStep(
+            "mission"
+          );
+        }}
+      />);
 }
 
 

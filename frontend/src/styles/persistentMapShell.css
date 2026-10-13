@@ -1,0 +1,37 @@
+/* Scoped shell: overlays never change the map's measured dimensions. */
+.pelora-persistent-shell{font-family:system-ui,sans-serif;position:fixed;inset:0;width:100%;height:100dvh;overflow:hidden;background:#0b1d28;color:#ecf5f7;isolation:isolate}
+.pelora-map-surface .maplibre-map{width:100%!important;height:100%!important;min-height:0!important;border-radius:0!important}
+.pelora-map-surface{position:absolute;inset:0;z-index:0}
+.pelora-map-surface .map-intelligence-workspace,.pelora-map-surface .map-area,.pelora-map-surface .map-wrapper{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important;border-radius:0!important}
+.pelora-floating-mark{position:absolute;top:max(12px,env(safe-area-inset-top));left:16px;z-index:2;padding:6px 10px;border-radius:8px;background:#0b1d28e6;pointer-events:none}
+.pelora-floating-mark img{width:104px;height:auto;display:block}
+.pelora-existing-mission{position:absolute;top:max(12px,env(safe-area-inset-top));left:150px;right:160px;z-index:3;width:fit-content;max-width:calc(100% - 320px)}
+.pelora-existing-mission .captain-context-control{margin:0}
+.pelora-shell-warnings{position:absolute;left:150px;right:24px;top:72px;z-index:5;pointer-events:none;font-size:12px}.pelora-shell-warnings p{margin:2px 0;padding:4px 8px;background:#0b1d28ed;border-radius:5px}
+.pelora-universal-dock{position:absolute;z-index:30;left:max(12px,env(safe-area-inset-left));top:50%;transform:translateY(-50%);padding:6px;background:#0b1d28f5;border:1px solid #43606f;border-radius:14px;box-shadow:0 6px 24px #0005}
+.pelora-universal-dock button{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 10px;border:0;background:transparent;color:#edf7f9;border-radius:8px;font:inherit;font-size:12px;cursor:pointer;width:100%;text-align:left}
+.pelora-universal-dock button[aria-current=page]{background:#264c60;box-shadow:inset 3px 0 #71d2df}.pelora-universal-dock button:hover{background:#234253}
+.pelora-persistent-shell button:focus-visible,.pelora-persistent-shell input:focus-visible{outline:2px solid #83e1ed;outline-offset:3px}
+.pelora-shell-overlay{position:absolute;z-index:10;right:16px;top:100px;bottom:16px;width:min(540px,calc(100% - 240px));padding:18px;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;border:1px solid #3b5968;border-radius:16px;background:#0c202ef7;box-shadow:0 10px 40px #0007;animation:pelora-enter .16s ease-out}
+.pelora-shell-overlay[hidden]{display:none}.pelora-overlay-heading{display:flex;gap:12px;justify-content:space-between;align-items:center;position:sticky;top:-18px;z-index:2;background:#0c202e;padding:10px 0}.pelora-overlay-heading h1{font-size:19px;margin:0}.pelora-overlay-heading button{min-height:44px;padding:8px 14px;background:#264557;color:inherit;border:1px solid #476473;border-radius:9px}
+.pelora-shell-overlay .dashboard-tab-content{width:100%;margin:0;padding:0;max-width:none}.pelora-shell-overlay .velion-command-grid,.pelora-shell-overlay .velion-reason-grid,.pelora-shell-overlay .captain-status-grid{grid-template-columns:1fr}
+.pelora-shell-editor{z-index:20;background:#0c202e;width:min(620px,calc(100% - 240px))}.pelora-shell-editor .pelora-startup-screen{min-height:0;padding:0;background:transparent}.pelora-shell-editor .pelora-startup-panel{width:100%;max-width:none;margin:0}
+.pelora-shell-editor .report-panel-backdrop{position:static;padding:0;background:transparent;display:block}.pelora-shell-editor .fishing-report-panel{position:static;width:100%;max-width:none;max-height:none;box-shadow:none;border:0;margin:0}
+.pelora-map-focused .pelora-map-surface :is(.layer-controls,.legend-control,.floating-location-search,.map-recenter-control,.map-report-shortcut){visibility:hidden;pointer-events:none}
+@keyframes pelora-enter{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:700px){
+.pelora-floating-mark{left:10px;padding:5px}.pelora-floating-mark img{width:75px}
+.pelora-existing-mission{left:100px;right:10px;max-width:calc(100% - 110px)}
+.pelora-shell-warnings{left:10px;right:10px;top:74px}
+.pelora-universal-dock{top:auto;bottom:max(8px,env(safe-area-inset-bottom));left:8px;right:8px;transform:none;display:flex;align-items:center;gap:3px;padding:4px}.pelora-universal-dock #pelora-dock-destinations{display:flex;flex:1;min-width:0}.pelora-universal-dock #pelora-dock-destinations[hidden]{display:none}.pelora-universal-dock button{justify-content:center;flex-direction:column;gap:3px;padding:6px 3px;min-width:0;width:auto;font-size:10px;flex:1}.pelora-universal-dock .pelora-dock-label{display:none}.pelora-universal-dock .pelora-dock-toggle,.pelora-universal-dock .pelora-map-focus{flex:0 0 34px}
+.pelora-shell-overlay{left:8px;right:8px;top:110px;bottom:calc(88px + env(safe-area-inset-bottom));width:auto;padding:14px;border-radius:14px}.pelora-overlay-heading{top:-14px}.pelora-shell-editor{width:auto}
+.pelora-map-surface .selected-target-map-panel{bottom:calc(88px + env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){.pelora-shell-overlay{animation:none}.pelora-persistent-shell *{scroll-behavior:auto!important}}
+
+.pelora-map-surface .layer-controls{top:110px!important;left:12px!important;max-height:calc(100dvh - 220px);overflow:auto}
+.pelora-map-surface .floating-location-search{top:110px!important}
+
+.pelora-persistent-shell{padding:0!important;margin:0!important;max-width:none!important}
+.pelora-field-warnings{display:none;background:#0b1d28ed;padding:4px 8px;border-radius:5px}.pelora-map-focused .pelora-field-warnings{display:block}
+.pelora-map-surface .map-report-shortcut,.pelora-map-surface .legend-control{bottom:calc(88px + env(safe-area-inset-bottom))!important}

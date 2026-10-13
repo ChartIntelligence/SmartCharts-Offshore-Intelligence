@@ -1,3 +1,4 @@
+import {localQaReadOnly,assertLocalQaWriteAllowed} from '../utils/localQaReadOnly.js';
 import {useCaptainContinuity} from '../hooks/useCaptainContinuity.js';
 import {validateFishingDraft} from '../utils/captainContinuity.js';
 import { useMemo, useRef, useState } from "react";
@@ -305,6 +306,7 @@ const persistReport = async () => {
   const submitted = capture();
 
   try {
+    assertLocalQaWriteAllowed();
     const reportRow = {
       user_id: user.id,
 
@@ -397,6 +399,7 @@ const persistReport = async () => {
 };
 
 
+  const qaReadOnly=localQaReadOnly();
   if (!isOpen) {
     return null;
   }
@@ -449,6 +452,7 @@ const persistReport = async () => {
 
         {draftError && <p role="status">{draftError}</p>}
 
+        {qaReadOnly&&<p role="status">Local QA is read-only. Your draft is retained; saving is disabled.</p>}
         <form
           className="fishing-report-form"
           onSubmit={saveReport}
@@ -1021,7 +1025,7 @@ const persistReport = async () => {
               setOmissionDraft(null);
               requestAnimationFrame(() => latitudeRef.current?.focus());
             }}>Return to location</button>
-            <button type="submit" value="omit-location" disabled={isSaving}>Save without this location</button>
+            <button type="submit" value="omit-location" disabled={isSaving || qaReadOnly}>Save without this location</button>
           </div>}
           <footer className="report-panel-footer">
 
@@ -1036,7 +1040,7 @@ const persistReport = async () => {
             <button
             type="submit"
             className="report-submit-button"
-            disabled={isSaving}
+            disabled={isSaving || qaReadOnly}
           >
             {isSaving
               ? "Saving..."
