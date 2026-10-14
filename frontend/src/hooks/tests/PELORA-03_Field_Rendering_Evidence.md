@@ -670,3 +670,56 @@ Final mutable-identity successor SHA-256 fingerprints:
 
 - frontend/src/hooks/useMapLibreOceanFields.js: `55da4e51a0d5a30522230296d6469dc9df05d358fb85062f25419b97f7b27e3e`
 - frontend/src/hooks/tests/useMapLibreOceanFields.test.js: `e32387b6fc60d7db41b3cd1267fffc4d9a453259d24c2fe1924034780b2f5026`
+
+
+## FLOW-C1 developer producer candidate — 2026-10-13
+
+Direct founder approval in this P03 chat authorizes point-anchored existing qualified u/v presentation and exact-sample knots conversion under Unified UI Amendment canonical checkpoint79ba90b44c5ab1d18fb0055e1327e53b4da4ea49. Assigned isolated branch codex/pelora-03-flow-c1-v1 starts at cleared code parent1a011d1450a77893c5f02151b4f109e0cd0120a0 (parent08e1e7373c07904ec0dfe0f0de76e241c9262bdd). BATH-D1A is separate; no integration or preview changes. Earlier auto-review rejected a numeric-seam write based on relayed authorization; no write occurred from that command. After direct founder approval the normal authorized edit succeeded; no approval control was bypassed.
+
+### Presentation and exact interface
+
+Existing qualified point-glyph presentation is retained:32x32 shared image, bounded80ms pulse cadence <=12.5fps, original native Point locations and direction toward atan2(u,v), original relative size thresholds0.5/1m/s, static reduced-motion/hidden/stale/degraded/loading fallback. Pulse timing does not encode measured speed or geographic travel. No continuous streamlines, trajectories, particle motion, spatial interpolation or new scientific values.
+
+New browser-only currentSpeedKnots numeric seam matches existing reviewed sourceScaledNumber(value,1.94384), one decimal, signed zero/overflow behavior. Test-only backend import proves equivalence; production module has no backend dependency. Magnitude is Math.hypot(u,v) from the exact validated cell. Genuine zero returns0kt, isZeroVector:true, directionDegrees:null; a small nonzero vector rounded to0kt retains direction and roundedNonzero:true. Missing/invalid is sample:null, never zero.
+
+Accepted P01/P02 contract, acknowledged before hook plumbing: optional selectedCurrentSample:{fieldId,sampleIndex}|null; onCurrentSampleReadout({status,sample}). status uses only latest-available/stale/loading/degraded/unavailable/error/off; malformed-success/unknown normalize unavailable. Readonly sample contains fieldId,sampleIndex,coordinates,validTime,ageAsOf UTC ISO,ageHours,units:kt,speedMetersPerSecond,speedKnots,directionDegrees,isZeroVector,roundedNonzero,freshnessStatus. Age uses existing Date.now and declared field maxFreshAgeHours; P02 does not recompute a different clock/threshold. Retained loading/degraded preserves request status and separately reports sample freshness. Null/future/unusable freshness does not produce a readout.
+
+Actual nonzero rendered features in source pelora-geostrophic-field / symbol layer pelora-geostrophic-arrows now include string fieldId and native integer sampleIndex. Indices refer to original payload.cells, not filtered feature order; missing/zero filtering and original coordinates remain unchanged. Zero does not gain a fabricated directional glyph. P02 must use exact rendered feature identity or explicit reviewed cell intent, never cursor/nearest-neighbor selection. P03 does not edit hit handling or shared UI.
+
+Selection has an independent lifecycle. New source field object, unavailable/error rejection, OFF, principal change or disposal invalidates and emits sample:null. Old keyed wrappers cannot rebind after invalidation; an explicit clear then reselect is required. Same-object valid retention during loading/degraded remains readable. Optional selector/callback changes do not remount either field lifetime; publication rechecks existing owner/application guards, including mutable A-B-A before effects. Underlying field/provenance objects are unchanged. P01 owns coordination; eventual P02-only consumer files are Dashboard.jsx, MapLibreIntelligenceMap.jsx and LayerControls.jsx Currents details. No consumer wiring/base/integration is included here.
+
+### Developer validation
+
+All PASS on actual candidate contents:
+- node frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+- node frontend/src/utils/tests/oceanFields.test.js
+- node frontend/src/utils/tests/viewportFieldRequests.test.js
+- node frontend/src/utils/tests/qaFieldTransport.test.js
+- node frontend/src/utils/tests/currentFlowPresentation.test.js
+- node frontend/src/utils/tests/bathymetryContours.test.js
+- node frontend/src/hooks/tests/currentFlowRender.test.mjs
+- node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs
+- node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs
+
+New assertions cover reviewed numeric equivalence, exact original cell/time/location, signed zero, rounded small nonzero, missing/overflow, frozen DTO, stale age/ageAsOf, malformed enum/freshness, native indices after filtering, retained request status, field replacement, clear/reselect, OFF/ON, owner/disposal and render-before-effect mutable owner roundtrip. All existing null/invalid JSON, canvas/map failure, source race, cancellation, auth/expiry, pending-style owner guards, sibling toggles, static contour continuity and texture tests remain passing.
+
+Offline headless Edge/MapLibre5.24.0 current render output C:/Users/User/AppData/Local/Temp/pelora-current-traces-631el5: actual worker-rendered properties identify native indices0/1; readout binds exact cell1 [-89.5,27], native1m/s =>1.9kt, direction0degrees. Existing500-sample desktop1000px/390px frame-budget exercise, animation, reduced-motion/stale/degraded fallback and non-resurrection pass; exact report includes source/fixture hashes. Contour output pelora03-contours-J4UA7P: no loading flash at1000/390px,40frames, median17.9ms/max19.2ms desktop and median17.9ms/max18.5ms narrow viewport. Texture output pelora03-texture-render-gK2UvH proves filter9728 NEAREST/no mipmaps, original five bands/transparency, no map errors. All external browser routes blocked;0 external requests. Existing bundled Playwright/sharp only; no package install. Synthetic auth/injected transports and synthetic QA HTTP authority only; no real token retrieval or transmission.
+
+Node --check for all changed JavaScript/mjs and git diff --check / staged checks required before commit. Scoped diff inspected for unintended/sensitive changes.
+
+### Exact tested source identities
+
+- `frontend/src/hooks/useMapLibreOceanFields.js`: SHA-256 `fa4541bb869a4e580d79ee1b288a6831736b0e995321dcc8448177d58c1115ca`
+- `frontend/src/utils/currentFlowPresentation.js`: SHA-256 `c26be2821264cb9b6c21d3ac2ea2dfc372fb78eab5c9c726b6e59cebae7b327f`
+- `frontend/src/utils/oceanFieldPresentation.js`: SHA-256 `1d3643f5b51e155c322cb778b2b7fd6191c862c993f91a0490c6e648dc2a6ede`
+- `frontend/src/hooks/tests/useMapLibreOceanFields.test.js`: SHA-256 `3c97c025e5bc6e70b862a8f935b79d6aadcc50d7f828faddae0e4f791065000e`
+- `frontend/src/utils/tests/currentFlowPresentation.test.js`: SHA-256 `1f46037170afcb914d89ceba0c9e9999be33b8faed4c21e87c279f07e64feba8`
+- `frontend/src/hooks/tests/currentFlowRender.test.mjs`: SHA-256 `23e7927dc0a5b58b1b7cffe7c6c991f59e7de2ba3f98264b9dbecb094cd02ed8`
+- `frontend/src/hooks/tests/bathymetryContoursRender.test.mjs`: SHA-256 `c0e7584491870b1a07ccd339dd61e66d03c1305ff0a1cdc20d815e26d3f0fbbe`
+- `frontend/src/hooks/tests/bathymetryTextureRender.test.mjs`: SHA-256 `18a05181ecf84ec30caf872b40305089571e5a2ba04e0d806983fe2f43ff67f1`
+
+### Residual limits
+
+This is a P03 producer candidate; P02 interaction/readout placement remains separately owned and must be wired and independently qualified before any captain-visible readout claim. Existing native field resolution/masks, freshness thresholds, source evidence/provenance, sampling and scientific meaning remain unchanged. No body/provider/DB/science-policy/ranking/Opportunity/geographic flow changes. Headless narrow viewport is not physical mobile qualification. Founder browser acceptance, GPU/device variability, combined UI interaction and independent P04 QA remain required. Developer passes are not independent qualification, release authorization, operational source admission or CP-10 clearance. Frozen preview unchanged; no merge/integration/deployment.
+
+FLOW-C1 measured500-cell render budget from the exact report:1000px/40frames,9 image updates, median18.30ms/max20.20ms;390px/40frames,8 image updates, median17.40ms/max19.50ms. Shared glyph memory is4096 pixel bytes per current frame, independent of sample count; these measurements do not prove physical mobile or total GPU memory bounds. Synthetic render fixture SHA-256:4aaa8388538c9d814e519a1b8a87d9eda718707c20788a4766dfb5e5c066dae7.

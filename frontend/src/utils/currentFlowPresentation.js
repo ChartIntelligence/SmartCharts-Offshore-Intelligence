@@ -1,3 +1,4 @@
+import {validateFieldPresentation} from "./oceanFieldPresentation.js";
 // Point-anchored direction glyph. No geographic advection, interpolation,
 // trajectory coordinates, invented velocities or persistent particle trails.
 export const CURRENT_TRACE_IMAGE='pelora-field-current-trace';
@@ -58,4 +59,57 @@ export function createCurrentTraceImage({environment=globalThis,onFailure=()=>{}
       media?.removeEventListener?.('change',changed);doc?.removeEventListener?.('visibilitychange',changed);
       image.data=currentTracePixels(0,false,false);},
     isAnimating:()=>!disposed&&!!map&&allowed()};
+}
+
+// Numeric presentation equivalent of sourceScaledNumber(value, 1.94384).
+// This seam accepts already validated numeric m/s, not provider strings.
+export function currentSpeedKnots(value){
+  if(!Number.isFinite(value))return null;
+  const knots=value*1.94384;
+  if(!Number.isFinite(knots))return null;
+  return Object.is(knots,-0)?-0:Number(knots.toFixed(1));
+}
+
+export function currentSampleReadout(state,selection,now=Date.now()){
+  const emitted=["latest-available","stale","loading","degraded","unavailable","error","off"];
+  const requestStatus=emitted.includes(state?.status)?state.status:"unavailable";
+  const empty=Object.freeze({status:requestStatus,sample:null});
+  const field=state?.field;
+  if(!field||!selection||["off","unavailable","error"].includes(requestStatus))return empty;
+  if(selection.fieldId!==field.fieldId||!Number.isSafeInteger(selection.sampleIndex)||selection.sampleIndex<0)return empty;
+  try{validateFieldPresentation(field,"currents");}catch{return {status:"unavailable",sample:null};}
+  const cell=field.payload.cells[selection.sampleIndex];
+  if(!cell||!cell.every(Number.isFinite))return empty;
+  const [lon,lat,u,v]=cell,speed=Math.hypot(u,v),knots=currentSpeedKnots(speed);
+  if(knots===null)return {status:"unavailable",sample:null};
+  if(!Number.isFinite(now)||!Number.isFinite(new Date(now).getTime()))return {status:"unavailable",sample:null};
+  const limit=field.freshness.maxFreshAgeHours;
+  if(!Number.isFinite(limit)||limit<0||!["latest-available","stale"].includes(field.status))return {status:"unavailable",sample:null};
+  const ageHours=(now-Date.parse(field.validTime))/3600000;
+  if(!Number.isFinite(ageHours)||ageHours<0)return {status:"unavailable",sample:null};
+  const freshnessStatus=field.status==="stale"||ageHours>limit?"stale":"latest-available";
+  const status=requestStatus==="latest-available"?freshnessStatus:requestStatus;
+  return Object.freeze({status,sample:Object.freeze({fieldId:field.fieldId,sampleIndex:selection.sampleIndex,
+    coordinates:Object.freeze([lon,lat]),validTime:field.validTime,ageAsOf:new Date(now).toISOString(),ageHours,units:"kt",speedMetersPerSecond:speed,speedKnots:knots,
+    directionDegrees:speed===0?null:(Math.atan2(u,v)*180/Math.PI+360)%360,
+    isZeroVector:speed===0,roundedNonzero:speed>0&&knots===0,freshnessStatus})});
+}
+
+// An invalidated selection cannot revive until the consumer clears or selects another cell.
+export function createCurrentSampleSelection(){
+  let selection=null,key=null,blocked=null,state={status:"unavailable",field:null};
+  const identity=value=>value&&typeof value.fieldId==="string"&&Number.isSafeInteger(value.sampleIndex)&&value.sampleIndex>=0
+    ?JSON.stringify([value.fieldId,value.sampleIndex]):null;
+  return {
+    select(value){const next=identity(value);if(next!==key)blocked=null;
+      key=next;selection=next?{fieldId:value.fieldId,sampleIndex:value.sampleIndex}:null;
+      if(["off","unavailable","error"].includes(state.status))blocked=key;},
+    update(next){
+      if(state.field&&next.field!==state.field||["off","unavailable","error","malformed-success"].includes(next.status))blocked=key;
+      state=next;
+      if(selection&&next.field&&selection.fieldId!==next.field.fieldId)blocked=key;
+    },
+    invalidate(status="unavailable"){blocked=key;state={status,field:null};},
+    read(now=Date.now()){return currentSampleReadout(state,blocked!==null&&blocked===key?null:selection,now);}
+  };
 }
