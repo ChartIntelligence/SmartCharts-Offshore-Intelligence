@@ -31,7 +31,7 @@ Snapshot2026-10-14 America/New_York; no tests/build/device/Auth/DB/provider acti
 | Stable ID | Acceptance | Status / owner | Exact evidence / dependency / beta blocker |
 |---|---|---|---|
 |SPEC.DOSSIER_BASE|Frozen seven-species primary claim/reference dossier/register exists with applicability and evidence gaps explicit.|COMPLETE / P05|`1e2b158531e5de1660ed324e32f27171bd7572dc`; dependencies none; approvals none; Beta blocker false|
-|SPEC.VNEXT_RESEARCH|Expanded reproducible primary search/method screening and independent-reference applicability reviewed and checkpointed without score/policy invention.|IN_PROGRESS / P05|`1e2b158531e5de1660ed324e32f27171bd7572dc`; dependencies SPEC.DOSSIER_BASE; approvals none; Beta blocker true|
+|SPEC.VNEXT_RESEARCH|Expanded reproducible primary search/method screening and independent-reference applicability reviewed and checkpointed without score/policy invention.|IN_PROGRESS / P05|`956e674465b48a4485ad46b1d6b3e6228d05a2b9`; dependencies SPEC.DOSSIER_BASE; approvals none; Beta blocker true|
 |SPEC.SOURCE_CONTRACT|Exact species-neutral interpretation contract/qualified relationship packets, source/time/depth/region applicability and negative scenarios independently reviewed.|BLOCKED / P01|`b2270987ffac63e4c4459bb71bdd282e6559b934`; dependencies SPEC.VNEXT_RESEARCH; approvals G.SCIENCE_POLICY; Beta blocker true|
 |SPEC.SEVEN_ENGINES|All seven engines scientifically/source/contract qualified; Blue Marlin controlled software alone and six labels do not qualify other engines.|BLOCKED / P01|`4e1b49ba52c26089e24dd94f377109c13d8586b6`; dependencies SPEC.SOURCE_CONTRACT, OBS.OPERATIONAL_HISTORY; approvals G.SCIENCE_POLICY, G.SHADOW_IMPLEMENTATION; Beta blocker true|
 
@@ -69,7 +69,7 @@ Snapshot2026-10-14 America/New_York; no tests/build/device/Auth/DB/provider acti
 | Stable ID | Acceptance | Status / owner | Exact evidence / dependency / beta blocker |
 |---|---|---|---|
 |ACCESS.LEGACY_PROFILE|Qualified legacy owner-bound read/Profile/signout preserves owner isolation, readonly role, disabled Save and truthful drafts/ACK.|COMPLETE / P02|`4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2`; dependencies none; approvals none; Beta blocker false|
-|ACCESS.OFFLINE_CONTRACT|Exact v1.1 typed owner/generation/cursor/query/request/op correlation fixtures independently cleared before pure mobile prototype release.|BLOCKED / P01|`60bbacb22efb7ab4a0a8dde28becfdac9673dea4`; dependencies none; approvals G.ENROLL_REVIEW_MESSAGE; Beta blocker false|
+|ACCESS.OFFLINE_CONTRACT|Exact v1.2 typed correlation, supplied-term and count-truthfulness fixtures independently cleared before pure mobile prototype release.|BLOCKED / P01|`53ed84b96dba087b38b1e465dc0be9033c9798eb`; dependencies none; approvals G.ENROLL_REVIEW_MESSAGE; Beta blocker false|
 |ACCESS.ENROLLMENT|25–30 applicants enrolled through verified capacity and server first-qualifying-login calendar term; Founder-only mobile admin, lifetime Founding and existing private data preserved.|BLOCKED / P01|`2f82b593ae4ffe871a1da9df44d51a521aaabfcd`; dependencies ACCESS.CONFIG, ACCESS.OFFLINE_CONTRACT; approvals G.CALENDAR_LOGIN_POLICY, G.MIGRATION_RLS, G.AUTH_ADMIN; Beta blocker true|
 |ACCESS.CONFIG|Actual non-prod signup/SMTP/confirmation/invite/rate/redirect capability and deployed catalog reconciled via approved nonsecret readonly inspection.|BLOCKED / P01|`4e1b49ba52c26089e24dd94f377109c13d8586b6`; dependencies ACCESS.LEGACY_PROFILE; approvals G.CONFIG_INSPECTION; Beta blocker true|
 
@@ -108,3 +108,9 @@ Human gates are exactsourcepush, separatepreview/Authsideeffects, specificdenied
 ## Additional existing-captain preview lane (Captain UX category)
 
 StableID UX.FOUNDING_EARLY_PREVIEW: BLOCKED/P01, exact4e1candidate. Founder reports two existing productionFoundingCaptains with realreports; no account IDs/rows/reports inspected. Preserve lifetime/status/ownerRLS and workingapp availability. Isolatednonprodsynthetic/emptyreports cannot establish productionreportcontinuity; production-backedreadonly preview needs separateexplicitsecurity/target/session approval, never flipping the hardcoded QAguard to production. Beta blockerfalse for this optionalearly-preview milestone, while underlying privacy/live/device release requirements remain mandatory. Componentpath proposals/returnURL/privatefeedbackport need exactscope beforemount. Sole execution item Q.FOUNDING_PREVIEW onexistingboard, not a secondqueue.
+
+## October 14 bounded successor reconciliation
+
+Enrollment60bbacb independent review required two P2 repairs. Local successor53ed84b96dba087b38b1e465dc0be9033c9798eb has60/60 focused checks and was delivered to P04. Its exact P04 acknowledgment is withheld by a destination-specific permission gate; no acceptance or P02 release inferred from coordinator status or local report presence. Historical status above remains checkpoint evidence, not current clearance.
+
+VNEXT956e674465b48a4485ad46b1d6b3e6228d05a2b9 documentation-integrity closure verified from the already-acknowledged report/hash. It permits interpretation-contract design only; no engines, biological thresholds, source admission or operational science qualification. Scalar assignment delivered; P03 reports a separate direct implementation gate, no code execution confirmed.

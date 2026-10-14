@@ -47,7 +47,7 @@
       "lane": "enrollment",
       "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-enrollment-offline-contract-v1",
       "branch": "codex/pelora-enrollment-offline-contract-v1",
-      "head": "60bbacb22efb7ab4a0a8dde28becfdac9673dea4",
+      "head": "53ed84b96dba087b38b1e465dc0be9033c9798eb",
       "status": {
         "staged": 0,
         "tracked": 0,
@@ -179,7 +179,7 @@
     "G.SOURCE_PUSH": "Exact4e1 branch/outgoing consumer-containing source authorization pending; no push",
     "G.PREVIEW": "Separate supervised build/launch/assets/environment approval pending; oldb0 approval not transferable",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
-    "G.ENROLL_REVIEW_MESSAGE": "P04 review and P02 correction purposes denied, user permission pending; NOT dispatched",
+    "G.ENROLL_REVIEW_MESSAGE": "Exact60bbacb delivery and P02 correction succeeded after founder authorization. Exact53ed84b repair dispatched to P04; P04-to-P01 repair acknowledgment withheld by permission gate, not received; no P02 release.",
     "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
     "G.FIELD_MESSAGE": "P02 field-doc binding message denied; queued only, no execution release",
     "G.CONFIG_INSPECTION": "No connector; exact allowlisted nonsecret non-prod config/catalog read approval required",
@@ -196,7 +196,8 @@
     "G.LIVE_TEST": "Real account/provider/device execution separately authorized and privacy-sanitized",
     "G.FOUNDER_ACCEPTANCE": "Physical/visual product judgment remains human",
     "G.PRODUCTION": "Explicit deployment/migration/release approval not granted",
-    "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod"
+    "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod",
+    "G.SCALAR_IMPLEMENTATION": "Prepared assignment delivered; P03 reports direct local implementation approval still pending. No execution inferred from communication permission."
   },
   "requirements": [
     {
@@ -396,9 +397,9 @@
       "status": "IN_PROGRESS",
       "owner": "P05",
       "task": "01a11267-bf87-77e3-b42f-8c677ace0caa",
-      "sha": "1e2b158531e5de1660ed324e32f27171bd7572dc",
-      "branch": "SOURCE_OBJECT_1e2b158",
-      "evidence": "P05 reported24queries/6batches; no VNEXT successor artifact yet",
+      "sha": "956e674465b48a4485ad46b1d6b3e6228d05a2b9",
+      "branch": "SOURCE_OBJECT_956e674",
+      "evidence": "P04 documentation-integrity P2 closed; report SHA2567d252eded6385cd5f65e7bd5d7dbff32915defba6d8b377011283c9504efb4f8. 77 relationships/15 studies; no engines/science admission; exact applicability remains bounded.",
       "dependencies": [
         "SPEC.DOSSIER_BASE"
       ],
@@ -407,7 +408,7 @@
       "dimensions": {
         "documentation": "COMPLETE",
         "code": "NOT_STARTED",
-        "scopedQA": "NOT_STARTED",
+        "scopedQA": "COMPLETE",
         "operational": "BLOCKED",
         "preview": "NOT_STARTED",
         "production": "NOT_STARTED",
@@ -745,16 +746,17 @@
     {
       "id": "ACCESS.OFFLINE_CONTRACT",
       "category": "Audience / enrollment / privacy",
-      "acceptance": "Exact v1.1 typed owner/generation/cursor/query/request/op correlation fixtures independently cleared before pure mobile prototype release.",
+      "acceptance": "Exact v1.2 owner/generation/cursor/query/request/op correlation, consistent supplied Beta terms and count truthfulness independently cleared before pure mobile prototype release.",
       "status": "BLOCKED",
       "owner": "P01",
       "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
-      "sha": "60bbacb22efb7ab4a0a8dde28becfdac9673dea4",
+      "sha": "53ed84b96dba087b38b1e465dc0be9033c9798eb",
       "branch": "codex/pelora-enrollment-offline-contract-v1",
       "evidence": {
-        "meaning": "NOT_DISPATCHED_PERMISSION_DENIED",
-        "localTests": 54,
-        "independent": "NOT_REVIEWED"
+        "meaning": "LOCAL_REPAIR_DISPATCHED_ACK_WITHHELD",
+        "localTests": 60,
+        "independent": "60bbacb CHANGES REQUIRED; 53ed84b acknowledgment not received",
+        "priorReportSHA256": "93704c736ae01625e49b2314a4918c00d162a0324c9fb814a4103486a7b90cbe"
       },
       "dependencies": [],
       "founderApproval": [
