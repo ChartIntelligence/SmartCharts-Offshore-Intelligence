@@ -146,13 +146,13 @@
       "lane": "p02Enrollment",
       "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-enrollment-offline-v1",
       "branch": "codex/pelora-02-enrollment-offline-v1",
-      "head": "53ed84b96dba087b38b1e465dc0be9033c9798eb",
+      "head": "0adc63a0ccb37605b1e3b3be815ca79e4223e823",
       "status": {
         "staged": 0,
         "tracked": 0,
         "untracked": 0
       },
-      "statusScope": "Entering status independently verified; P02 actual binding ACK, implementation active thereafter"
+      "statusScope": "Exact final candidate clean independently verified P04; scoped unmounted offline PASS"
     }
   ],
   "qa": {
@@ -434,9 +434,9 @@
       "status": "BLOCKED",
       "owner": "P01",
       "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
-      "sha": "251c2593958c556a150290bba268e2f24dcb836f",
+      "sha": "c65ca36f39749017b86a96f2d49e5d1e111c1eaf",
       "branch": "codex/pelora-unified-ui-amendment-v1",
-      "evidence": "Architecturecc1b accepted; exact251c reference schema definitions dispatched P04, pending clearance; no executable validator or scientific relationship packets.",
+      "evidence": "Synthetic reference schema design acceptable; P04 report3340c3686a74dc634e0e03a51c1480df19bd01b4417d115c789bd3d6734f0c9a; no validator implementation/release or scientific approval",
       "dependencies": [
         "SPEC.VNEXT_RESEARCH"
       ],
@@ -447,7 +447,7 @@
       "dimensions": {
         "documentation": "COMPLETE",
         "code": "NOT_STARTED",
-        "scopedQA": "IN_PROGRESS",
+        "scopedQA": "COMPLETE",
         "operational": "BLOCKED",
         "preview": "NOT_STARTED",
         "production": "NOT_STARTED",
@@ -1068,6 +1068,29 @@
         "production": "NOT_STARTED",
         "founderAcceptance": "NOT_STARTED"
       }
+    }
+  ],
+  "boundedMilestones": [
+    {
+      "packet": "Q.RETAINED_SCALAR_LIFECYCLE",
+      "sha": "99d7698b73183d490671d87ed74cc0f77a63080c",
+      "status": "SCOPED_CONTROLLED_PASS_WITH_INHERITED_EXCLUSION",
+      "qaSHA256": "b35bae130e07874ff12931a3d44a12ddfedba7c7935dd80be40ac8feef71fa18",
+      "limits": "Default-off unmounted historical only; existing static5/6 excluded, no operational/admission/mobiledevice pass"
+    },
+    {
+      "packet": "Q.ENROLL_COMPONENTS",
+      "sha": "0adc63a0ccb37605b1e3b3be815ca79e4223e823",
+      "status": "PURE_OFFLINE_COMPONENT_SCOPED_PASS",
+      "qaSHA256": "d3deca885d1c19e8e9870c5b45e407266b1ea2fbae145592ccb138a3e8072cfa",
+      "limits": "Unmounted memory-only; no live authority/durable admin/calendar/sourcepush/integration"
+    },
+    {
+      "packet": "Q.SPEC_ARCH",
+      "sha": "c65ca36f39749017b86a96f2d49e5d1e111c1eaf",
+      "status": "SYNTHETIC_REFERENCE_SCHEMA_DESIGN_ACCEPTABLE",
+      "qaSHA256": "3340c3686a74dc634e0e03a51c1480df19bd01b4417d115c789bd3d6734f0c9a",
+      "limits": "No executable validator release/engine/science; pure code packet permission requested"
     }
   ]
 }
