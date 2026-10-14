@@ -17,6 +17,7 @@ registerHooks({resolve(specifier,context,next){
 const temporal=await import('../../utils/fishingLogTemporalCapture.js');
 const spatial=await import('../../utils/fishingLogSpatialCapture.js');
 const continuity=await import('../../utils/captainContinuity.js');
+const {captainProfileRead}=await import('../../utils/captainProfileRead.js');
 const {buildCaptainSpatialContext}=await import('../../utils/captainSpatialContext.js');
 import {interpretOpportunityEvaluation,EVALUATION_MESSAGES} from '../../utils/opportunityEvaluationState.js';
 
@@ -89,7 +90,7 @@ const principal=id=>({id,is_anonymous:false});
 const hook=compile('../useCaptainContinuity.js','useCaptainContinuity',{...continuity,window:new Proxy({}, {get:(_,key)=>globalThis.window?.[key]})});
 const browserWindow=new Proxy({}, {get:(_,key)=>globalThis.window?.[key]});
 const browserDocument=new Proxy({}, {get:(_,key)=>globalThis.document?.[key]});
-const common={...continuity,window:browserWindow,document:browserDocument,useCaptainContinuity:hook};
+const common={...continuity,window:browserWindow,document:browserDocument,useCaptainContinuity:hook,captainProfileRead};
 const observedReact={...React,createElement(type,props,...children){
  const text=children.flat(Infinity).filter(value=>typeof value==='string').join('').trim();
  if(type==='button' && props?.onClick)buttons.set(props['aria-label'] ?? text,props.onClick);

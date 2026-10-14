@@ -1,0 +1,484 @@
+{
+  "version": "pelora-unified-ui-local-candidate-manifest-v1",
+  "base": "1a011d1450a77893c5f02151b4f109e0cd0120a0",
+  "approved": {
+    "ui": "73bd810e5eda1bdc0b33a17f92e8fda5986efa87",
+    "flow": "d7e8ba0e6cff5291e63fd02d9be96072340de3cb",
+    "bath": "174b271a530565dce43b5848776a23f2821e6004",
+    "profile": "488e60d8e77e656e392a0ea65d1673b4c1184206",
+    "consumer": "aaf185ff66b507c470da9383178b057af6242325"
+  },
+  "localAssemblyBeforeEvidence": "72f09a6a5a1b0b5ee14ac0e8dfba81ad524e9ec6",
+  "scope": [
+    {
+      "path": "docs/agents/access/P01_Profile_Read_Seam_v1.md",
+      "indexBlob": "f535c0e21d10cba7b0e1adea7a535566baaf93b9",
+      "matchingApprovedSources": [
+        "profile"
+      ],
+      "composition": false,
+      "sha256": "d3a8b1b2888299d39ccc85ad80b4371cbbd0cd227c7b7d53111fca2e50de65af"
+    },
+    {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "indexBlob": "a3701e7ec0ebffefd4be0880b32b95c03fa314ea",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "e6c27d4d0e5b9cba5b0e0774c914f412d1a31612b5f914b33b1922f50195849f"
+    },
+    {
+      "path": "frontend/src/components/LayerControls.jsx",
+      "indexBlob": "584c2ae5eb5334bb7238ced315c8bc397c6a20b3",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "198da2203397b86be7ceacc81164988863c01fee94cc511ff94c429120a55465"
+    },
+    {
+      "path": "frontend/src/components/LocationSearch.jsx",
+      "indexBlob": "580793f941dbe6dd10eab3b3b7dca3f3266bb813",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "32a45c2ac01b6a2786f6634b9858aa834f45c30c220f9f6dad353005db34ac3f"
+    },
+    {
+      "path": "frontend/src/components/MapLegend.jsx",
+      "indexBlob": "d6982cec1fd12ff5070485492222c27cd1fc03ed",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "4743d402c53b96eac9a31ff54019f9cd0a42230bb704e4709e3636d6d8fd341b"
+    },
+    {
+      "path": "frontend/src/components/MapLibreIntelligenceMap.jsx",
+      "indexBlob": "1fecaf0fbd8c1e5d5f3cd123c668569c252bbb10",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "a91d0a8dab794b0e188aa12ae057e0e3a308c0dbea336bf42f303893919d8858"
+    },
+    {
+      "path": "frontend/src/components/PeloraStartupFlow.jsx",
+      "indexBlob": "015c7cac4b2909f69f9fca7c41967a90c5d433df",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "80ae2bc8876fb2f9222aad3757da470b297a7347c92f0977b4a4fb6abc471ac4"
+    },
+    {
+      "path": "frontend/src/components/PersistentMapShell.jsx",
+      "indexBlob": "d3268e2f83e818d8c41dba5509d8b3f77cb062af",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "08acc62780d4a44e3567fed984aca1fe9e4b0abb586287403d9919f8d506ada4"
+    },
+    {
+      "path": "frontend/src/components/TodayDashboard.jsx",
+      "indexBlob": "34d0087ac305e7465276e412ea85be21313bb05c",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "dbd98c03069d106aaf53ef60cececc395e1e0e901038e41a17cbc50f5c91454b"
+    },
+    {
+      "path": "frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md",
+      "indexBlob": "bb581ff341d19866cc021892376aba18adc870dc",
+      "matchingApprovedSources": [],
+      "composition": true,
+      "sha256": "c70a982a9ed9672d0f105fe611f5b23566ff05e9694cad7501884ab576b09a63"
+    },
+    {
+      "path": "frontend/src/hooks/tests/acceptedBathymetryExpiry.test.js",
+      "indexBlob": "4759b183507807eed5729b841f5a2cd7741b8ef0",
+      "matchingApprovedSources": [
+        "bath"
+      ],
+      "composition": false,
+      "sha256": "345fe0c6a7f2c705d92fde4c52b720adf1932aa38dbd10fd317808df88dd17c8"
+    },
+    {
+      "path": "frontend/src/hooks/tests/bathymetryContoursRender.test.mjs",
+      "indexBlob": "e9aa6f2f03ba96792cfc2b83d018aa120ea5f7f9",
+      "matchingApprovedSources": [],
+      "composition": true,
+      "sha256": "5d9c06c8e47e13d2a03a0b6a37916de57cfa77194bb13bc4a233d57caf76dab0"
+    },
+    {
+      "path": "frontend/src/hooks/tests/bathymetryTextureRender.test.mjs",
+      "indexBlob": "10c064888a523efb05c8d5317940e9d71e0fdeb4",
+      "matchingApprovedSources": [
+        "flow"
+      ],
+      "composition": false,
+      "sha256": "18a05181ecf84ec30caf872b40305089571e5a2ba04e0d806983fe2f43ff67f1"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainContinuity.test.js",
+      "indexBlob": "ee404e83ae5b85f632772c58f31ee7f95f18a9a0",
+      "matchingApprovedSources": [],
+      "composition": true,
+      "sha256": "61fa998efd890117dede624accddbbdebf4bb828662241f50fe3fe1262ecbfc0"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileHook.test.js",
+      "indexBlob": "c44883455ff761af5bc68309951004ce5578f43c",
+      "matchingApprovedSources": [
+        "profile"
+      ],
+      "composition": false,
+      "sha256": "1574ebf04739c56798b1bf425a10aa3620b832ec75abcf1f6c99e9b82b07b6d0"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileQualification.mjs",
+      "indexBlob": "83698366a6dff7893aee02546f5d95091a485d7b",
+      "matchingApprovedSources": [
+        "profile"
+      ],
+      "composition": false,
+      "sha256": "e23756d9add3165fe0b914e9e46d8ae2da9d8ce1e8afe4b8709e64e485952dc6"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileRead.test.js",
+      "indexBlob": "b85ddc3cb69eccd14c4aaac22f70a8f5a974dca1",
+      "matchingApprovedSources": [
+        "profile"
+      ],
+      "composition": false,
+      "sha256": "92a651467e4dcbca430aa7362218da0bb0e148313f593527bb0fb9cb7633ecd9"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentFlowRender.test.mjs",
+      "indexBlob": "4cacecd9dd89de8e7154325db0d646cb0e15d0ea",
+      "matchingApprovedSources": [
+        "flow"
+      ],
+      "composition": false,
+      "sha256": "23e7927dc0a5b58b1b7cffe7c6c991f59e7de2ba3f98264b9dbecb094cd02ed8"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumer.browser.test.mjs",
+      "indexBlob": "49e62da2df67f71e3ac02787c29e134439ea2927",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "f9d93cc13f95894f6707c652e37639fcc7a103ce01eb7a6614e5cee3e63ee096"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumer.evidence.md",
+      "indexBlob": "d1b8c3c7e5e371c01d4b694e0dbf7530f8787d42",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "df38a7c5ba1c10943f171762e2b434e7f48eed95124314a72c268c11be8b4338"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumer.static.mjs",
+      "indexBlob": "3b09da24c4f8e10afe5f8f3b9cd291dbe536a0a3",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "65d06704d73072f4b4e01ec63d0c0d564913e8f7a7520cc5968f056af41ba7b0"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumer.test.js",
+      "indexBlob": "cfd46db4170ada43c65e998d68a2de7cd716ab48",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "45e04f224a3c2ef26f0eeb004cd1fe98dd3d10b1c2491db67cc161e8a2b5e622"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumerAssertions.fixture.js",
+      "indexBlob": "56a2364a5225bd3844c548ecf454e60740a7bff9",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "a883ed020cc862df9f34091f6f1f1150a450606e3bc9f26b6c50115db42e256e"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumerEpoch.browser.test.mjs",
+      "indexBlob": "1f9b915746c3fdb4ae9b61c0e99a6b73cf11f92a",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "1beb0f735299e7b60076c5a868ff66d853ba6a9ba3f117c635a3a9770b1e3286"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumerEpoch.evidence.md",
+      "indexBlob": "a3205746997755e2bc5c095268c5c947e5e00e6b",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "6f865b0db8486a87af681f86664abe40998dede8166d6668e06dd4492d2f3fba"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumerEpoch.test.js",
+      "indexBlob": "785ce4323c0525a2feffe79543cae6d77cd59997",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "bab822e953a6e2389d2b081ddc5708bcf5944cff56c208e00cef44b4feba440b"
+    },
+    {
+      "path": "frontend/src/hooks/tests/currentSampleConsumerEpochAssertions.fixture.js",
+      "indexBlob": "674b60eff5bc142fcff61fb4f30989f1d5d5b992",
+      "matchingApprovedSources": [
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "ad3108fef89baacd925971e15f052a64c56cd0a6879d4be57f54bffe2dc243a4"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedApplication.browser.test.mjs",
+      "indexBlob": "5a8206f7a59717b9830f579bcfa2c10d0ad35528",
+      "matchingApprovedSources": [],
+      "composition": true,
+      "sha256": "4ed45f0e919089854cdd0dba8c00f76a80b4e4496802df3edaa46864fba0bfe6"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedUI.browser.test.mjs",
+      "indexBlob": "f8ebd87513cb0e9d508cd3097809fc78be3bf097",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "9c402a05f82607aca16416bba7f0115298257b111ab1813f4ceaeeea93fb8864"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedUI.evidence.md",
+      "indexBlob": "3e51e89552ff79ab844dd89cbaa0e2a426388629",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "5f8a9c292c90d6200abb6fb67fb518cab3f9ab93e012d7408876558655d29ba9"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedUI.static.mjs",
+      "indexBlob": "113192bc9b0fcbfda551b44a8e48efaff7c5dfed",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "0f145ab9cca31f235f64d0952b82fdf10830f641ae73fc117d1b88fc24989fc8"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedUICards.test.mjs",
+      "indexBlob": "e9d164721404e0c4a25cb682cd40a21729df9aa3",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "21a24715e2c04be8e826576a11ffda8bd40f76361ef5517ebde0fbb59d3dde5c"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedUIContinuity.test.js",
+      "indexBlob": "c9733ac0a5b0a3131c4cf2e67be98fe452cb06df",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "c331163c03bd35ddc152275e2cc1db257bfd19e205a1b2cc9c5c72faf53f7a72"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedUIControls.browser.test.mjs",
+      "indexBlob": "1eebe368c7a641c742a7d1551bf56d44f4cf65a1",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "84cb90ac580dd26261200f9fb4f4d5fdb7b664db2c85822992d417b0f9e457b8"
+    },
+    {
+      "path": "frontend/src/hooks/tests/unifiedUIControls.evidence.md",
+      "indexBlob": "fd4c17777e5d3865c314644e22f7810f9f2a524c",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "d57f83e8c351ba3031e078876471194cc9939e15c5941a88c725ad341c78ee7c"
+    },
+    {
+      "path": "frontend/src/hooks/tests/useMapLibreOceanFields.test.js",
+      "indexBlob": "d6b5a77509d3f9ca723897d0e27cc25e753e93f7",
+      "matchingApprovedSources": [],
+      "composition": true,
+      "sha256": "54753de91edb278a3b2453b0b523248415fc6f97647ec7b871365031b8e4e9c3"
+    },
+    {
+      "path": "frontend/src/hooks/useCaptainAccess.js",
+      "indexBlob": "be305fa312985839b401b68e3c9516e419386318",
+      "matchingApprovedSources": [
+        "profile"
+      ],
+      "composition": false,
+      "sha256": "848123f216200883c777d1d0d48295cff3418edb82271be98fd3f78c5cc2afeb"
+    },
+    {
+      "path": "frontend/src/hooks/useMapLibreOceanFields.js",
+      "indexBlob": "74d1a5bb93f1403b917980b364d4dbea9640c481",
+      "matchingApprovedSources": [],
+      "composition": true,
+      "sha256": "2bd8244abcf9399dfb9e3b3429c8ea59f08e39e2b780a9e04abad891db715590"
+    },
+    {
+      "path": "frontend/src/styles/dashboard.css",
+      "indexBlob": "4ee75da122b58576dd340152362d8adb793d77b3",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "7712811624cde4013a7ecd8960a63bfa5bdf7f3eef06b256a0644129f7cf57de"
+    },
+    {
+      "path": "frontend/src/styles/persistentMapShell.css",
+      "indexBlob": "2ce3542474a3534f4fe3a25157a18848da315a6d",
+      "matchingApprovedSources": [
+        "ui",
+        "consumer"
+      ],
+      "composition": false,
+      "sha256": "1851cdc8f84e130abc49a6d61748c93672fc7c95636b6d266e6070d99e5c3442"
+    },
+    {
+      "path": "frontend/src/utils/captainProfileRead.js",
+      "indexBlob": "b1462a720666d006ecb2ef5410336c48b9a05d27",
+      "matchingApprovedSources": [
+        "profile"
+      ],
+      "composition": false,
+      "sha256": "5e6cf1af41c4bac75f7fb87b6f2a62108192d87206487f9f4f24c9b7a9366dc7"
+    },
+    {
+      "path": "frontend/src/utils/currentFlowPresentation.js",
+      "indexBlob": "04ad8daa7d82ec6352fffc7d942b6c18a6eee832",
+      "matchingApprovedSources": [
+        "flow"
+      ],
+      "composition": false,
+      "sha256": "c26be2821264cb9b6c21d3ac2ea2dfc372fb78eab5c9c726b6e59cebae7b327f"
+    },
+    {
+      "path": "frontend/src/utils/oceanFieldPresentation.js",
+      "indexBlob": "f1e23b30620ee0181b9910b8bce26b6e8c69f34b",
+      "matchingApprovedSources": [
+        "flow"
+      ],
+      "composition": false,
+      "sha256": "1d3643f5b51e155c322cb778b2b7fd6191c862c993f91a0490c6e648dc2a6ede"
+    },
+    {
+      "path": "frontend/src/utils/tests/currentFlowPresentation.test.js",
+      "indexBlob": "ab8aa9a71b53980fe31d384734bd0e5ebec99670",
+      "matchingApprovedSources": [
+        "flow"
+      ],
+      "composition": false,
+      "sha256": "1f46037170afcb914d89ceba0c9e9999be33b8faed4c21e87c279f07e64feba8"
+    }
+  ],
+  "limits": {
+    "localOnly": true,
+    "noUpload": true,
+    "independentCombinedQA": "PENDING",
+    "profilePresentation": "NOT_WIRED",
+    "liveAuth": "NOT_TESTED",
+    "physicalDevice": "NOT_TESTED"
+  },
+  "verifiedExecutionIndexTree": "53a8d7b07b3b82a0dffad84c4af0d2728b0b10d0",
+  "protectedTreeEquality": [
+    "backend",
+    "shared",
+    "supabase",
+    "frontend/package.json",
+    "frontend/package-lock.json",
+    "package.json"
+  ],
+  "browserEvidence": {
+    "root": "C:/Users/User/AppData/Local/Temp/pelora-p02-consumer-epoch-EylwLa",
+    "widths": [
+      1000,
+      390,
+      320
+    ],
+    "mapsPerWidth": 1,
+    "externalRequests": 0,
+    "writeAttempts": 0,
+    "pageErrors": 0,
+    "profilePresentation": "NOT_WIRED"
+  },
+  "actualLogs": [
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-profile.log",
+      "sha256": "5440d03bd299fb74a36e19684f34b16ea03524615c4e3dc1386a325b25893b75"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-consumer-epoch.log",
+      "sha256": "390ff88b6c5b37d5f8f3baa512df41104f8f26b0e2aa399606903e41b14943b2"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-consumer-epoch-repaired.log",
+      "sha256": "b5545fdffec351f0045f04185942bed1b51a49ab4614b998fa22b6a392630c41"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-consumer-epoch-repaired2.log",
+      "sha256": "f56cfe4573befb12717e2fc72e16fe72000f3cf0293337762132eae527936c92"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-runtime-browser.log",
+      "sha256": "9496d8b36a2edb363e575f02c58bb590a1dd59313e33bc45ec566168660c27a9"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-useMapLibreOceanFields.test.js.log",
+      "sha256": "a4538e34069ce2cbe75dc2f862129eb681fba8111f41d8e8cc20333fb070cfd4"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-acceptedBathymetryExpiry.test.js.log",
+      "sha256": "9bb504eb6717596787f9a378e289a5c5b601f5b59c8013c773a036e52de7d0a4"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-bathymetryContoursRender.test.mjs.log",
+      "sha256": "cb99c0ec36f33ca5ca5970c3ad24f08d6fd0eea729910dc1704971792e3a934b"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-bathymetryTextureRender.test.mjs.log",
+      "sha256": "c0cb651e5fb74580b5dd58fee7156fb2490bcd82c72e0a7ad19f2ec2a4524b87"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/combined-currentFlowRender.test.mjs.log",
+      "sha256": "6209ee023bda9b7db99bbd947f4460b46b910c2cae8ae14c8a886174932a888c"
+    }
+  ]
+}
