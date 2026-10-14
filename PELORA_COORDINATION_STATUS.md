@@ -73,3 +73,13 @@ Milestone timestamp: 2026-10-14T14:06:53Z.
 - P01 next isolated local combined checkpoint requested from qualified 8e79ac3bbb63998bff29a64e3ebd49f9ec5d21be plus this exact descendant delta. New candidate and fresh full-application independent review remain pending.
 - P05 documentation-only species evidence plan: 4d0d5e15be7d03a4e11232e1d388137b9987701b, parent c4bec910ad0500d333ef4d89bc727e38f9186c07. Seven evidence packets and qualification gaps documented; no engine, scoring or source admission claimed.
 - Founder gates remain exact source publication approval and later visual/device acceptance. No preview, main, database, production or Receipt Writer changes.
+
+Milestone timestamp: 2026-10-14T15:36:11Z.
+
+- Latest unified LOCAL candidate: 4e1b49ba52c26089e24dd94f377109c13d8586b6, parent 495a3b2be2c69adbab065507ef3acdeb7695ea3e. Exact HEAD and clean workspace verified; not pushed.
+- P04 scoped controlled captain-application PASS: actual App/Gate/Startup/Dashboard/Profile with synthetic ports, FLOW/BATH, privacy, drafts, sign-out, keyboard and visible control geometry at 1000/390/320px. Supplied 84/84 and extended 88/88 overlap; read 33/33, cards 19/19 and seven field scripts passed.
+- Integration evidence attribution P2 closed on the one-document successor. Runtime and test trees unchanged; prior independent results reused, no new test execution claimed. Closure report SHA256 ea48e0403e598e1ddc0951600df8ea8082d29812818f3fa5cac7ef28aa289553; application report SHA256 a590438b5bf6700e141e62955e6511f434f3232b17540d011cb92e4157c0c968.
+- P01/P02 implementation and local integration complete within approved scope. P03 qualified sample-anchored current and accepted-edition lifetime retention limits preserved. P05 species evidence plan remains documentation-only at 4d0d5e15be7d03a4e11232e1d388137b9987701b.
+- Remaining gates: exact source publication permission; new supervised preview approval/configuration; live Auth/startup, physical iPhone/founder visual acceptance. Profile Save, durable Profile drafts, operational publication countdown, continuous geographic streamlines and new bathymetry provisioning remain unavailable or separately gated. CP-10 remains blocked.
+- Six inherited lint findings and historical harness exclusions remain visible. No overall operational/scientific/Beta Ready claim.
+- Frozen b0cd2b1c3b967644d3bb00b4b488addfe777b1e9, main, Supabase, production and Receipt Writer unchanged. No deployment or preview replacement.
