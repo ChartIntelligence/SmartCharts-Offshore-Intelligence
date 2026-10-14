@@ -1,3 +1,4 @@
+import {captainProfileRead} from '../utils/captainProfileRead.js';
 import {useEffect, useState} from 'react';
 
 // Approval is bound to a principal, never to the identity of a session/user object.
@@ -42,5 +43,6 @@ export function useCaptainAccess({session, authLoading, client}) {
     ['founder', 'founding_captain'].includes(current?.record?.access_role));
   const pending = Boolean(principalId && (!current || current.status === 'pending'));
   return {principalId, approved, initialLoading:pending && !approved,
-    revalidating:pending && approved, accessError:current?.error || ''};
+    revalidating:pending && approved, accessError:current?.error || '',
+    profileRead:captainProfileRead({principalId,user:session?.user,access:current})};
 }
