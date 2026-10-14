@@ -1,5 +1,8 @@
+import {assertLocalQaWriteAllowed} from '../utils/localQaReadOnly.js';
 import {
   useCallback,
+  useLayoutEffect,
+  useMemo,
   useEffect,
   useRef,
   useState
@@ -16,7 +19,14 @@ function SavedFishingDayReports({
 
   const [reportRows, setReports] =
     useState([]);
-  const ownerId = !authLoading && user?.is_anonymous !== true ? user?.id ?? null : null;
+  const ownerId = !authLoading && user?.is_anonymous !== true && typeof user?.id === 'string' && user.id.trim() ? user.id : null;
+  const ownerBinding = useMemo(() => ({ownerId}), [ownerId]);
+  const activeOwner = useRef(null);
+  useLayoutEffect(() => {
+    activeOwner.current = ownerBinding;
+    return () => { if (activeOwner.current === ownerBinding) activeOwner.current = null; };
+  }, [ownerBinding]);
+  const [deletionStatus, setDeletionStatus] = useState(null);
   const [reportsOwner, setReportsOwner] = useState(null);
   const requestScope = useRef({ownerId, sequence: 0});
   if (requestScope.current.ownerId !== ownerId) requestScope.current = {ownerId, sequence: 0};
@@ -124,18 +134,25 @@ const deleteReport = async (
   reportId
 ) => {
 
-  if (!ownerId) {
-    return;
-  }
+  const currentOwner = () => ownerId && activeOwner.current === ownerBinding;
+  if (!currentOwner() || reportsOwner !== ownerId) return;
+  const deletionBlocked = () => {
+    try { assertLocalQaWriteAllowed(); return false; }
+    catch {
+      setDeletionStatus({binding:ownerBinding, message:'Report was not deleted. Deletion is blocked in local QA or its target could not be verified.'});
+      return true;
+    }
+  };
+  if (deletionBlocked()) return;
+  setDeletionStatus(null);
 
   const confirmed =
     window.confirm(
       "Delete this fishing day report? This cannot be undone."
     );
 
-  if (!confirmed) {
-    return;
-  }
+  if (!confirmed || !currentOwner()) return;
+  if (deletionBlocked()) return;
 
   const scope = requestScope.current;
 
@@ -156,7 +173,7 @@ const deleteReport = async (
         ownerId
       );
 
-  if (requestScope.current !== scope) return;
+  if (!currentOwner() || requestScope.current !== scope) return;
 
   if (error) {
     console.error(
@@ -218,6 +235,13 @@ if (authLoading || isLoading || (ownerId && reportsOwner !== ownerId)) {
   );
 }
 
+
+if (!ownerId) {
+  return <section className="saved-reports-section">
+    <h2>Saved Fishing Days</h2>
+    <p role="status">Private reports are unavailable without a current captain account.</p>
+  </section>;
+}
 
 if (ownerId && reportsOwner === ownerId && loadError) {
   return (
@@ -328,6 +352,8 @@ if (ownerId && reportsOwner === ownerId && loadError) {
 
       </div>
 
+
+      {deletionStatus?.binding === ownerBinding && <p role="status">{deletionStatus.message}</p>}
 
       <div className="saved-reports-list">
 
