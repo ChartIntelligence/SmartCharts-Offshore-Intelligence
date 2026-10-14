@@ -113,3 +113,12 @@ Milestone timestamp: 2026-10-14T19:00:33Z.
 - P02 Founder mobile presentation is design/contract-dependent; legacy Profile stays independently qualified within unified 4e1b49ba52c26089e24dd94f377109c13d8586b6. No new mobile admin runtime claimed.
 - Master 5236aecb925de5f85a7d1b2e24349628641e29b9 update requested on the existing single queue; next tracker successor is not yet claimed. Source publication, supervised preview, real Auth/device and separate Observe/publishing operation remain gated.
 - Founder action: exact P04 successor acknowledgment permission and direct P03 packet approval. Existing source/preview approvals remain separate. No main merge, preview replacement, Supabase/Auth mutation, production deployment, Receipt Writer activation or Beta Ready claim.
+
+Milestone timestamp: 2026-10-14T20:05:55Z.
+
+- P03 historical scalar lifecycle 99d7698b73183d490671d87ed74cc0f77a63080c: exact clean local HEAD verified; independent scoped PASS. Default-off retained September 22 SST only, no application mount or operational freshness claim. Seven relevant regressions and offline GPU checks passed; static scan remains inherited 5/6. Chlorophyll remains unsupported in this packet.
+- P02 standalone offline enrollment repair 0adc63a0ccb37605b1e3b3be815ca79e4223e823: exact clean local HEAD verified; P04 P2 closed/scoped PASS. 34 React and 60 contract cases, unchanged independent probe and 320/390px browser checks passed. No live Founder authority, application mount, durable operations or Auth mutation.
+- P01 species schema c65ca36f39749017b86a96f2d49e5d1e111c1eaf: exact two-document checkpoint resolved; P04 empty-source correction closed. No executable validator or species engine qualification claimed.
+- P04 exact local reports completed for all three candidates; source unchanged. Scoped qualification does not establish operational, live or physical-device acceptance.
+- Remaining dependencies: permitted pure structural-validator stage; operational SST/chlorophyll admission/freshness; server enrollment, entitlement and project configuration authority; source publication and supervised preview; Observe/publishing operation and physical-device/founder acceptance.
+- Qualified application 4e1b49ba52c26089e24dd94f377109c13d8586b6 and frozen preview remain distinct. No main merge, source-candidate upload, preview replacement, database/RLS/Auth mutation, deployment or Receipt Writer activation. Beta is not ready.
