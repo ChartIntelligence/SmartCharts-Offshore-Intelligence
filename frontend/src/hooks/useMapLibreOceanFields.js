@@ -261,7 +261,13 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
     apply();
     map.on("movestart",start);map.on("moveend",acquire);map.on("load",loaded);map.on("style.load",loaded);
     acquire();
-    const refresh=window.setInterval(()=>{if(layer==="bathymetry"&&acceptedEdition()&&states[layer]?.field)return;acquire(true);},300000);
+    const refresh=window.setInterval(()=>{
+      if(layer==="bathymetry"&&acceptedEdition()&&states[layer]?.field){
+        // Static source retention skips provider polling, never the auth heartbeat.
+        mayApply();return;
+      }
+      acquire(true);
+    },300000);
     return()=>{disposed=true;transport.dispose();if(transportRef.current===transport)transportRef.current=null;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
       clearRendered();
       currentTrace?.dispose();currentTrace=null;
