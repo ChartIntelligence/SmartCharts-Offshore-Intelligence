@@ -974,6 +974,844 @@
         "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
         "approvedForExecution": false
       }
-    ]
+    ],
+    "supersededForExecutableSchema": true
+  },
+  "referenceSchemaDesignV2": {
+    "version": "pelora-species-claim-reference-design-v2",
+    "status": "DESIGN_REVIEW_REQUIRED",
+    "runtimeImplemented": false,
+    "scope": "CONTROLLED_SYNTHETIC_REFERENCE_ONLY",
+    "inputKeys": [
+      "contractVersion",
+      "scope",
+      "catalogReference",
+      "relationshipId",
+      "sourceIds",
+      "literatureSpeciesId",
+      "candidateReference",
+      "staticParentReferences",
+      "contextReference",
+      "assessment",
+      "applicability",
+      "inputs",
+      "history"
+    ],
+    "capturedReference": {
+      "keys": [
+        "kind",
+        "referenceId",
+        "contractVersion",
+        "sha256"
+      ],
+      "kind": "captured",
+      "referenceId": "Nonempty CONTROLLED_FIXTURE_ prefixed string",
+      "contractVersion": "Nonempty version string",
+      "sha256": "64 lowercase hexadecimal characters; synthetic transport consistency only",
+      "nativeShapeValidator": "shared/oceanPublication.mjs:reference",
+      "nullable": false
+    },
+    "catalogReference": {
+      "keys": [
+        "commit",
+        "path",
+        "sha256"
+      ],
+      "commit": "956e674465b48a4485ad46b1d6b3e6228d05a2b9",
+      "path": "docs/agents/science/PELORA_05_Seven_Species_Register_VNEXT_v1.json",
+      "sha256": "7ef0f94fca0231ff1f729146bc6acebe04617165920893037c1ad373c871b35d"
+    },
+    "namespace": {
+      "relationshipId": "Exact VN1-* literature relationship ID",
+      "sourceIds": "Exact ordered bibliographic source_ids array of selected pinned relationship; no duplicates, no empty list",
+      "literatureSpeciesId": "Exact register species_id; not runtime species ID",
+      "staticParentReferences": "Ordered nonempty array of capturedReference, unique referenceId; no sorting or substitution",
+      "candidateReference": "capturedReference",
+      "contextReference": "capturedReference",
+      "assessment": "Exact existing requireScientificAssessmentV1 input: contractVersion and assessmentAt; no missing/default clock"
+    },
+    "applicability": {
+      "keys": [
+        "region",
+        "season",
+        "lifeStage",
+        "diel",
+        "depthDomain"
+      ],
+      "eachValueKeys": [
+        "state",
+        "label",
+        "reference"
+      ],
+      "states": [
+        "DECLARED_SYNTHETIC",
+        "UNKNOWN"
+      ],
+      "knownRule": "DECLARED_SYNTHETIC requires CONTROLLED_FIXTURE_ label and capturedReference, no scientific applicability established",
+      "unknownRule": "UNKNOWN requires label:null and reference:null",
+      "notApplicableAllowed": false
+    },
+    "inputEntry": {
+      "keys": [
+        "slotId",
+        "family",
+        "status",
+        "reference",
+        "codec",
+        "byteIdentity"
+      ],
+      "slotId": "Unique nonempty CONTROLLED_FIXTURE_ string",
+      "family": [
+        "SST",
+        "CURRENTS",
+        "CHLOROPHYLL_DIRECT",
+        "CHLOROPHYLL_GAP_FILLED"
+      ],
+      "status": [
+        "REFERENCE_PRESENT",
+        "ABSENT",
+        "LOOKUP_UNAVAILABLE"
+      ],
+      "reference": "capturedReference when present; null otherwise",
+      "codec": "SST/CHL: scalarEvidenceHandoff.mjs:decodeScalarHandoff; CURRENTS: normalizedEvidenceCapture.mjs:decodeNormalizedCurrentHandoff; null when absent/unavailable",
+      "byteIdentity": "NOT_VERIFIED in reference-only packet",
+      "arrayRule": "Supplied ordered array, including empty; no claim that supplied slots are complete scientific requirements",
+      "numericPayloadAllowed": false
+    },
+    "history": {
+      "keys": [
+        "state",
+        "resolutionReference",
+        "asUsedSelectionReference"
+      ],
+      "states": [
+        "UNAVAILABLE",
+        "UNRESOLVED"
+      ],
+      "resolutionReference": "null or capturedReference",
+      "asUsedSelectionReference": "null only",
+      "availableEmptyAllowed": false,
+      "privateOwnerAllowed": false
+    },
+    "outputKeys": [
+      "contractVersion",
+      "scope",
+      "structuralState",
+      "authorityState",
+      "relationshipId",
+      "sourceIds",
+      "binding",
+      "reasonCodes",
+      "limitations"
+    ],
+    "structuralStates": [
+      "UNSUPPORTED_CLAIM",
+      "MISSING_REFERENCED_INPUT",
+      "LOOKUP_UNAVAILABLE",
+      "REFERENCE_BOUND_ONLY"
+    ],
+    "authorityState": "UNRESOLVED_NOT_ADMITTED",
+    "precedence": [
+      "Malformed/extra/private keys, wrong namespace/order/duplicate ID/version/catalog/candidate reference shape: throw fixed INVALID_SPECIES_REFERENCE_INPUT before output; never echo values.",
+      "Valid catalog classification UNSUPPORTED_IN_REVIEWED_CORPUS => UNSUPPORTED_CLAIM even when slots absent/unavailable.",
+      "Otherwise any ABSENT supplied slot => MISSING_REFERENCED_INPUT; means missing declared transport reference, not scientific required input.",
+      "Otherwise any LOOKUP_UNAVAILABLE supplied slot => LOOKUP_UNAVAILABLE; never substitute absent/empty or try I/O.",
+      "Otherwise REFERENCE_BOUND_ONLY; zero supplied slots remain structurally bound with EMPTY_DECLARED_INPUT_SET, not complete evidence.",
+      "All valid outputs authorityState UNRESOLVED_NOT_ADMITTED, byteIdentity NOT_VERIFIED; no source/approval lookup or qualified packet resolver exists in this scope."
+    ],
+    "reasonCodes": [
+      "UNSUPPORTED_CATALOG_CLAIM",
+      "DECLARED_REFERENCE_ABSENT",
+      "DECLARED_LOOKUP_UNAVAILABLE",
+      "REFERENCE_ONLY_NO_ADMISSION",
+      "EMPTY_DECLARED_INPUT_SET",
+      "UNKNOWN_APPLICABILITY",
+      "HISTORY_UNAVAILABLE",
+      "HISTORY_UNRESOLVED",
+      "NATIVE_BYTES_NOT_VERIFIED"
+    ],
+    "safeLimitations": [
+      "CONTROLLED_SYNTHETIC_ONLY",
+      "NO_SCIENTIFIC_ADMISSION",
+      "NO_NATIVE_BYTE_VERIFICATION",
+      "NO_HISTORY_SELECTION",
+      "NO_ENGINE_EXECUTION"
+    ],
+    "privacy": "Closed exact schema; synthetic prefixed opaque IDs/labels only; no emails, bearer/session/owner IDs, coordinates, report bodies, free-form reasons/limitations, URLs or implicit dereferencing. Synthetic designation alone does not prove arbitrary supplied content safe; fixtures inspected and only fixed placeholders accepted in first packet.",
+    "nativeVerification": "This packet never parses/reencodes sample payloads or claims byte equality. Future separately authorized exact native material is validated by decodeScalarHandoff/decodeNormalizedCurrentHandoff and their existing capture/reference codecs with unchanged captureText/contextText bytes and Object.is(sourceValue,-0) checks; no ordinary JSON round-trip/digest substitutes for native identity, provider authenticity or cutoff possession.",
+    "approvalValidation": "Approval/source-admission/validation refs are intentionally excluded from v2 pure input; supplied fields are rejected. Future trusted resolver needs a distinct approved version and exact owned port; no inferred absent requirements or caller requiredByApprovedPacket/QUALIFIED enum.",
+    "catalogScopes": [
+      {
+        "relationshipId": "VN1-blue-marlin-01",
+        "sourceIds": [
+          "N03",
+          "N14"
+        ],
+        "proposedClaimScope": "Observed fish ingestion across distinct North Atlantic sampled cohorts; prey proportions remain contextual.",
+        "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-02",
+        "sourceIds": [
+          "N07"
+        ],
+        "proposedClaimScope": "Gulf seasonal movement, not universal migration calendar.",
+        "validationPrerequisite": "Individual routes, deployment/recovery bias, available habitat and independent seasons/regions; founder's exact observation must be supplied before testing it."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-03",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "proposedClaimScope": "Larval occurrence; spawning-site transport unresolved.",
+        "validationPrerequisite": "Histology or correctly identified larvae with transport uncertainty; distinguish nursery occurrence from adult spawning at a mapped place."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-04",
+        "sourceIds": [
+          "S-BM",
+          "N09"
+        ],
+        "proposedClaimScope": "Vertical exposure and thermocline context; no surface-only tolerance.",
+        "validationPrerequisite": "Fish-level depth/temperature and available habitat; separate exposure, preference and physiology; no surface-derived whole-water-column suitability."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-05",
+        "sourceIds": [
+          "N01"
+        ],
+        "proposedClaimScope": "Larval water-mass/Loop Current associations; no admitted derivative.",
+        "validationPrerequisite": "Exact current product/support and independently observed water-mass boundaries; association does not validate gradient/convergence/upwelling algorithms."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-06",
+        "sourceIds": [
+          "N02"
+        ],
+        "proposedClaimScope": "Larval chlorophyll covariate; adult trophic lag NOT ESTABLISHED.",
+        "validationPrerequisite": "Exact DIRECT or GAP_FILLED lineage separately; prey/feeding series and lagged alternatives with held-out seasons. No chlorophyll-to-prey/fish equivalence."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-07",
+        "sourceIds": [
+          "N01"
+        ],
+        "proposedClaimScope": "Larval salinity association; adult plume response NOT ESTABLISHED.",
+        "validationPrerequisite": "Matched salinity, plume chemistry/turbidity/prey and fish reference; distinguish river-proximate sampling from plume selection and adult from larval response."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-08",
+        "sourceIds": [
+          "N09"
+        ],
+        "proposedClaimScope": "Pacific short-tag oxygen context; assigned profiles distinguished.",
+        "validationPrerequisite": "Concurrent depth-resolved oxygen/temperature with sensor versus assigned-profile identity; life-stage/region-specific exposure or physiology and individual uncertainty."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-09",
+        "sourceIds": [
+          "N07",
+          "N01"
+        ],
+        "proposedClaimScope": "Shelf-edge use and larval bottom-depth context; no attraction rule.",
+        "validationPrerequisite": "Independent bottom-depth/terrain and fish position uncertainty; occupied water depth is not bottom depth; no attraction claim without availability/effort controls."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-10",
+        "sourceIds": [
+          "S-BM",
+          "N09"
+        ],
+        "proposedClaimScope": "Diel depth context; lunar and tidal effects UNSUPPORTED here.",
+        "validationPrerequisite": "Separate solar diel, moon phase/illumination and tide/current mechanisms; lunar/tidal predictive claim needs effort-controlled species-specific replication."
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-11",
+        "sourceIds": [
+          "N07",
+          "N02"
+        ],
+        "proposedClaimScope": "Seasonal/annual variability; interval persistence NOT ESTABLISHED.",
+        "validationPrerequisite": "Actual support/revision/possession, independent fish/time units and held-out temporal outcome series; no publication cadence equals independence or interval continuity."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-01",
+        "sourceIds": [
+          "N03",
+          "N05"
+        ],
+        "proposedClaimScope": "Diet and isotope evidence measure different feeding timescales.",
+        "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-02",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "proposedClaimScope": "Regional telemetry with deployment-site and duration limits.",
+        "validationPrerequisite": "Individual routes, deployment/recovery bias, available habitat and independent seasons/regions; founder's exact observation must be supplied before testing it."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-03",
+        "sourceIds": [
+          "N10"
+        ],
+        "proposedClaimScope": "Histology-based Gulf reproductive season; no encounter calendar.",
+        "validationPrerequisite": "Histology or correctly identified larvae with transport uncertainty; distinguish nursery occurrence from adult spawning at a mapped place."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-04",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "proposedClaimScope": "Vertical thermal exposure; not a causal thermal threshold.",
+        "validationPrerequisite": "Fish-level depth/temperature and available habitat; separate exposure, preference and physiology; no surface-derived whole-water-column suitability."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-05",
+        "sourceIds": [],
+        "proposedClaimScope": "No newly reviewed primary result establishes adult Gulf current/front response.",
+        "validationPrerequisite": "Exact current product/support and independently observed water-mass boundaries; association does not validate gradient/convergence/upwelling algorithms."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-06",
+        "sourceIds": [
+          "N05"
+        ],
+        "proposedClaimScope": "Candidate trophic integration question; chlorophyll-to-fish lag not measured.",
+        "validationPrerequisite": "Exact DIRECT or GAP_FILLED lineage separately; prey/feeding series and lagged alternatives with held-out seasons. No chlorophyll-to-prey/fish equivalence."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-07",
+        "sourceIds": [
+          "N10"
+        ],
+        "proposedClaimScope": "Mississippi-proximate sampling does not establish plume selection.",
+        "validationPrerequisite": "Matched salinity, plume chemistry/turbidity/prey and fish reference; distinguish river-proximate sampling from plume selection and adult from larval response."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-08",
+        "sourceIds": [],
+        "proposedClaimScope": "Reviewed corpus lacks suitable Yellowfin DO experiment; larval paper access blocked.",
+        "validationPrerequisite": "Concurrent depth-resolved oxygen/temperature with sensor versus assigned-profile identity; life-stage/region-specific exposure or physiology and individual uncertainty."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-09",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "proposedClaimScope": "Platform-proximate capture is not structure attraction corrected for availability.",
+        "validationPrerequisite": "Independent bottom-depth/terrain and fish position uncertainty; occupied water depth is not bottom depth; no attraction claim without availability/effort controls."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-10",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "proposedClaimScope": "Diel depth use only; lunar/tidal predictive effects UNSUPPORTED here.",
+        "validationPrerequisite": "Separate solar diel, moon phase/illumination and tide/current mechanisms; lunar/tidal predictive claim needs effort-controlled species-specific replication."
+      },
+      {
+        "relationshipId": "VN1-yellowfin-11",
+        "sourceIds": [
+          "S-YF",
+          "N05"
+        ],
+        "proposedClaimScope": "Track and tissue integration differ; continuous interval conditions unproven.",
+        "validationPrerequisite": "Actual support/revision/possession, independent fish/time units and held-out temporal outcome series; no publication cadence equals independence or interval continuity."
+      },
+      {
+        "relationshipId": "VN1-blackfin-01",
+        "sourceIds": [
+          "N13",
+          "N12"
+        ],
+        "proposedClaimScope": "Adult-size diet and presumptive larval feeding remain distinct.",
+        "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims."
+      },
+      {
+        "relationshipId": "VN1-blackfin-02",
+        "sourceIds": [
+          "S-BF"
+        ],
+        "proposedClaimScope": "April short tags cannot establish annual migration.",
+        "validationPrerequisite": "Individual routes, deployment/recovery bias, available habitat and independent seasons/regions; founder's exact observation must be supplied before testing it."
+      },
+      {
+        "relationshipId": "VN1-blackfin-03",
+        "sourceIds": [
+          "N04"
+        ],
+        "proposedClaimScope": "Summer larval occurrence, not adult spawning at exact fix.",
+        "validationPrerequisite": "Histology or correctly identified larvae with transport uncertainty; distinguish nursery occurrence from adult spawning at a mapped place."
+      },
+      {
+        "relationshipId": "VN1-blackfin-04",
+        "sourceIds": [
+          "N12",
+          "S-BF"
+        ],
+        "proposedClaimScope": "Prey-temperature covariation in presumptive larvae; separate adult exposure.",
+        "validationPrerequisite": "Fish-level depth/temperature and available habitat; separate exposure, preference and physiology; no surface-derived whole-water-column suitability."
+      },
+      {
+        "relationshipId": "VN1-blackfin-05",
+        "sourceIds": [
+          "N04"
+        ],
+        "proposedClaimScope": "Larval water-mass association; convergence language quarantined.",
+        "validationPrerequisite": "Exact current product/support and independently observed water-mass boundaries; association does not validate gradient/convergence/upwelling algorithms."
+      },
+      {
+        "relationshipId": "VN1-blackfin-06",
+        "sourceIds": [
+          "N02"
+        ],
+        "proposedClaimScope": "Larval occurrence models; no adult trophic-lag result.",
+        "validationPrerequisite": "Exact DIRECT or GAP_FILLED lineage separately; prey/feeding series and lagged alternatives with held-out seasons. No chlorophyll-to-prey/fish equivalence."
+      },
+      {
+        "relationshipId": "VN1-blackfin-07",
+        "sourceIds": [
+          "N04"
+        ],
+        "proposedClaimScope": "Larval measured salinity; adult plume preference unresolved.",
+        "validationPrerequisite": "Matched salinity, plume chemistry/turbidity/prey and fish reference; distinguish river-proximate sampling from plume selection and adult from larval response."
+      },
+      {
+        "relationshipId": "VN1-blackfin-08",
+        "sourceIds": [],
+        "proposedClaimScope": "No reviewed Blackfin-specific oxygen threshold experiment.",
+        "validationPrerequisite": "Concurrent depth-resolved oxygen/temperature with sensor versus assigned-profile identity; life-stage/region-specific exposure or physiology and individual uncertainty."
+      },
+      {
+        "relationshipId": "VN1-blackfin-09",
+        "sourceIds": [
+          "N04"
+        ],
+        "proposedClaimScope": "Larval slope-context association; no adult bottom-depth gate.",
+        "validationPrerequisite": "Independent bottom-depth/terrain and fish position uncertainty; occupied water depth is not bottom depth; no attraction claim without availability/effort controls."
+      },
+      {
+        "relationshipId": "VN1-blackfin-10",
+        "sourceIds": [
+          "S-BF"
+        ],
+        "proposedClaimScope": "No adequate newly reviewed lunar/tidal effect; do not infer diel feeding from sparse tags.",
+        "validationPrerequisite": "Separate solar diel, moon phase/illumination and tide/current mechanisms; lunar/tidal predictive claim needs effort-controlled species-specific replication."
+      },
+      {
+        "relationshipId": "VN1-blackfin-11",
+        "sourceIds": [
+          "N04",
+          "N12"
+        ],
+        "proposedClaimScope": "Interannual larval variability; no production continuity rule.",
+        "validationPrerequisite": "Actual support/revision/possession, independent fish/time units and held-out temporal outcome series; no publication cadence equals independence or interval continuity."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-01",
+        "sourceIds": [
+          "N14"
+        ],
+        "proposedClaimScope": "Cephalopod-heavy sampled diet; Blue Marlin/roundscale are not substitutes.",
+        "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-02",
+        "sourceIds": [
+          "S-WM"
+        ],
+        "proposedClaimScope": "Regional fall-biased telemetry; no annual Gulf route.",
+        "validationPrerequisite": "Individual routes, deployment/recovery bias, available habitat and independent seasons/regions; founder's exact observation must be supplied before testing it."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-03",
+        "sourceIds": [
+          "N01"
+        ],
+        "proposedClaimScope": "Identified larvae in summer corridor; transport matters.",
+        "validationPrerequisite": "Histology or correctly identified larvae with transport uncertainty; distinguish nursery occurrence from adult spawning at a mapped place."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-04",
+        "sourceIds": [
+          "S-WM"
+        ],
+        "proposedClaimScope": "Diel vertical/thermal exposure, not physiological exclusion.",
+        "validationPrerequisite": "Fish-level depth/temperature and available habitat; separate exposure, preference and physiology; no surface-derived whole-water-column suitability."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-05",
+        "sourceIds": [
+          "N01"
+        ],
+        "proposedClaimScope": "Larval frontal/water-mass associations only.",
+        "validationPrerequisite": "Exact current product/support and independently observed water-mass boundaries; association does not validate gradient/convergence/upwelling algorithms."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-06",
+        "sourceIds": [],
+        "proposedClaimScope": "No reviewed White Marlin-specific chlorophyll trophic-lag evidence.",
+        "validationPrerequisite": "Exact DIRECT or GAP_FILLED lineage separately; prey/feeding series and lagged alternatives with held-out seasons. No chlorophyll-to-prey/fish equivalence."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-07",
+        "sourceIds": [
+          "N01"
+        ],
+        "proposedClaimScope": "Larval salinity context; adult plume response unestablished.",
+        "validationPrerequisite": "Matched salinity, plume chemistry/turbidity/prey and fish reference; distinguish river-proximate sampling from plume selection and adult from larval response."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-08",
+        "sourceIds": [],
+        "proposedClaimScope": "Do not transfer Blue Marlin/Sailfish oxygen findings.",
+        "validationPrerequisite": "Concurrent depth-resolved oxygen/temperature with sensor versus assigned-profile identity; life-stage/region-specific exposure or physiology and individual uncertainty."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-09",
+        "sourceIds": [
+          "N01",
+          "S-WM"
+        ],
+        "proposedClaimScope": "Larval bottom-depth context; bathymetry-assisted geolocation is dependent.",
+        "validationPrerequisite": "Independent bottom-depth/terrain and fish position uncertainty; occupied water depth is not bottom depth; no attraction claim without availability/effort controls."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-10",
+        "sourceIds": [
+          "S-WM"
+        ],
+        "proposedClaimScope": "Diel depth context; lunar/tidal effects UNSUPPORTED here.",
+        "validationPrerequisite": "Separate solar diel, moon phase/illumination and tide/current mechanisms; lunar/tidal predictive claim needs effort-controlled species-specific replication."
+      },
+      {
+        "relationshipId": "VN1-white-marlin-11",
+        "sourceIds": [
+          "S-WM",
+          "N01"
+        ],
+        "proposedClaimScope": "Sampled temporal variation; continuous interval persistence unproven.",
+        "validationPrerequisite": "Actual support/revision/possession, independent fish/time units and held-out temporal outcome series; no publication cadence equals independence or interval continuity."
+      },
+      {
+        "relationshipId": "VN1-sailfish-01",
+        "sourceIds": [
+          "N15",
+          "N16"
+        ],
+        "proposedClaimScope": "Observed sardine hunts; modeled energetic gains separate and correction retained.",
+        "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims."
+      },
+      {
+        "relationshipId": "VN1-sailfish-02",
+        "sourceIds": [
+          "S-SA"
+        ],
+        "proposedClaimScope": "Regional dispersal of adult-tagged fish; not SST-only migration trigger.",
+        "validationPrerequisite": "Individual routes, deployment/recovery bias, available habitat and independent seasons/regions; founder's exact observation must be supplied before testing it."
+      },
+      {
+        "relationshipId": "VN1-sailfish-03",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "proposedClaimScope": "Summer larval occurrence; no whole-year spawning map.",
+        "validationPrerequisite": "Histology or correctly identified larvae with transport uncertainty; distinguish nursery occurrence from adult spawning at a mapped place."
+      },
+      {
+        "relationshipId": "VN1-sailfish-04",
+        "sourceIds": [
+          "S-SA",
+          "N09"
+        ],
+        "proposedClaimScope": "Surface covariates/vertical exposure differ; no thermal trigger.",
+        "validationPrerequisite": "Fish-level depth/temperature and available habitat; separate exposure, preference and physiology; no surface-derived whole-water-column suitability."
+      },
+      {
+        "relationshipId": "VN1-sailfish-05",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "proposedClaimScope": "Larval water-mass associations; no operational convergence.",
+        "validationPrerequisite": "Exact current product/support and independently observed water-mass boundaries; association does not validate gradient/convergence/upwelling algorithms."
+      },
+      {
+        "relationshipId": "VN1-sailfish-06",
+        "sourceIds": [
+          "S-SA"
+        ],
+        "proposedClaimScope": "Study NPP is not Pelora chlorophyll or validated trophic lag.",
+        "validationPrerequisite": "Exact DIRECT or GAP_FILLED lineage separately; prey/feeding series and lagged alternatives with held-out seasons. No chlorophyll-to-prey/fish equivalence."
+      },
+      {
+        "relationshipId": "VN1-sailfish-07",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "proposedClaimScope": "Larval salinity models; adult plume mechanism unestablished.",
+        "validationPrerequisite": "Matched salinity, plume chemistry/turbidity/prey and fish reference; distinguish river-proximate sampling from plume selection and adult from larval response."
+      },
+      {
+        "relationshipId": "VN1-sailfish-08",
+        "sourceIds": [
+          "N09"
+        ],
+        "proposedClaimScope": "Pacific oxygen boundary use; not a universal low-oxygen exclusion.",
+        "validationPrerequisite": "Concurrent depth-resolved oxygen/temperature with sensor versus assigned-profile identity; life-stage/region-specific exposure or physiology and individual uncertainty."
+      },
+      {
+        "relationshipId": "VN1-sailfish-09",
+        "sourceIds": [
+          "N01"
+        ],
+        "proposedClaimScope": "Larval slope context; bottom structure attraction unresolved.",
+        "validationPrerequisite": "Independent bottom-depth/terrain and fish position uncertainty; occupied water depth is not bottom depth; no attraction claim without availability/effort controls."
+      },
+      {
+        "relationshipId": "VN1-sailfish-10",
+        "sourceIds": [
+          "N09"
+        ],
+        "proposedClaimScope": "Diel tag behavior; lunar/tidal predictive effects UNSUPPORTED here.",
+        "validationPrerequisite": "Separate solar diel, moon phase/illumination and tide/current mechanisms; lunar/tidal predictive claim needs effort-controlled species-specific replication."
+      },
+      {
+        "relationshipId": "VN1-sailfish-11",
+        "sourceIds": [
+          "S-SA",
+          "N15"
+        ],
+        "proposedClaimScope": "Tracks and short selected hunts do not establish interval feeding persistence.",
+        "validationPrerequisite": "Actual support/revision/possession, independent fish/time units and held-out temporal outcome series; no publication cadence equals independence or interval continuity."
+      },
+      {
+        "relationshipId": "VN1-wahoo-01",
+        "sourceIds": [
+          "N03",
+          "N11"
+        ],
+        "proposedClaimScope": "Fish ingestion across Atlantic/Pacific cohorts; regional prey composition differs.",
+        "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims."
+      },
+      {
+        "relationshipId": "VN1-wahoo-02",
+        "sourceIds": [
+          "S-WA",
+          "N08"
+        ],
+        "proposedClaimScope": "Vertical tags/reproductive season do not establish Gulf migration.",
+        "validationPrerequisite": "Individual routes, deployment/recovery bias, available habitat and independent seasons/regions; founder's exact observation must be supplied before testing it."
+      },
+      {
+        "relationshipId": "VN1-wahoo-03",
+        "sourceIds": [
+          "N08"
+        ],
+        "proposedClaimScope": "Florida/Bahamas reproductive season; full methods limited.",
+        "validationPrerequisite": "Histology or correctly identified larvae with transport uncertainty; distinguish nursery occurrence from adult spawning at a mapped place."
+      },
+      {
+        "relationshipId": "VN1-wahoo-04",
+        "sourceIds": [
+          "S-WA"
+        ],
+        "proposedClaimScope": "Tagged vertical thermal exposure; no adult preference threshold.",
+        "validationPrerequisite": "Fish-level depth/temperature and available habitat; separate exposure, preference and physiology; no surface-derived whole-water-column suitability."
+      },
+      {
+        "relationshipId": "VN1-wahoo-05",
+        "sourceIds": [],
+        "proposedClaimScope": "No suitable reviewed Wahoo-specific current/front experiment.",
+        "validationPrerequisite": "Exact current product/support and independently observed water-mass boundaries; association does not validate gradient/convergence/upwelling algorithms."
+      },
+      {
+        "relationshipId": "VN1-wahoo-06",
+        "sourceIds": [],
+        "proposedClaimScope": "No reviewed Wahoo chlorophyll-to-prey lag validation.",
+        "validationPrerequisite": "Exact DIRECT or GAP_FILLED lineage separately; prey/feeding series and lagged alternatives with held-out seasons. No chlorophyll-to-prey/fish equivalence."
+      },
+      {
+        "relationshipId": "VN1-wahoo-07",
+        "sourceIds": [],
+        "proposedClaimScope": "No reviewed Wahoo plume-response experiment.",
+        "validationPrerequisite": "Matched salinity, plume chemistry/turbidity/prey and fish reference; distinguish river-proximate sampling from plume selection and adult from larval response."
+      },
+      {
+        "relationshipId": "VN1-wahoo-08",
+        "sourceIds": [],
+        "proposedClaimScope": "No reviewed Wahoo oxygen exclusion reference.",
+        "validationPrerequisite": "Concurrent depth-resolved oxygen/temperature with sensor versus assigned-profile identity; life-stage/region-specific exposure or physiology and individual uncertainty."
+      },
+      {
+        "relationshipId": "VN1-wahoo-09",
+        "sourceIds": [
+          "S-WA"
+        ],
+        "proposedClaimScope": "Deep excursions do not establish bottom-depth requirement.",
+        "validationPrerequisite": "Independent bottom-depth/terrain and fish position uncertainty; occupied water depth is not bottom depth; no attraction claim without availability/effort controls."
+      },
+      {
+        "relationshipId": "VN1-wahoo-10",
+        "sourceIds": [
+          "S-WA"
+        ],
+        "proposedClaimScope": "Diel depth use; no established moon/tide fishing bonus.",
+        "validationPrerequisite": "Separate solar diel, moon phase/illumination and tide/current mechanisms; lunar/tidal predictive claim needs effort-controlled species-specific replication."
+      },
+      {
+        "relationshipId": "VN1-wahoo-11",
+        "sourceIds": [
+          "N11"
+        ],
+        "proposedClaimScope": "Seasonal diet composition differs; no condition-continuity rule.",
+        "validationPrerequisite": "Actual support/revision/possession, independent fish/time units and held-out temporal outcome series; no publication cadence equals independence or interval continuity."
+      },
+      {
+        "relationshipId": "VN1-mahi-01",
+        "sourceIds": [
+          "N03"
+        ],
+        "proposedClaimScope": "Broad sampled diet with size context; no mapped prey presence.",
+        "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims."
+      },
+      {
+        "relationshipId": "VN1-mahi-02",
+        "sourceIds": [
+          "N06",
+          "S-MA"
+        ],
+        "proposedClaimScope": "US Atlantic catch geography and limited adult male tracks.",
+        "validationPrerequisite": "Individual routes, deployment/recovery bias, available habitat and independent seasons/regions; founder's exact observation must be supplied before testing it."
+      },
+      {
+        "relationshipId": "VN1-mahi-03",
+        "sourceIds": [
+          "N02"
+        ],
+        "proposedClaimScope": "Gulf larval occurrence; reproductive paper access unavailable.",
+        "validationPrerequisite": "Histology or correctly identified larvae with transport uncertainty; distinguish nursery occurrence from adult spawning at a mapped place."
+      },
+      {
+        "relationshipId": "VN1-mahi-04",
+        "sourceIds": [
+          "N06",
+          "S-MA"
+        ],
+        "proposedClaimScope": "Gear-specific thermal associations and vertical exposure differ.",
+        "validationPrerequisite": "Fish-level depth/temperature and available habitat; separate exposure, preference and physiology; no surface-derived whole-water-column suitability."
+      },
+      {
+        "relationshipId": "VN1-mahi-05",
+        "sourceIds": [
+          "N06"
+        ],
+        "proposedClaimScope": "Frontal mechanism candidate, not an explicitly validated Pelora front predictor.",
+        "validationPrerequisite": "Exact current product/support and independently observed water-mass boundaries; association does not validate gradient/convergence/upwelling algorithms."
+      },
+      {
+        "relationshipId": "VN1-mahi-06",
+        "sourceIds": [
+          "N06"
+        ],
+        "proposedClaimScope": "Contextual chlorophyll association; no universal more-is-better or validated lag.",
+        "validationPrerequisite": "Exact DIRECT or GAP_FILLED lineage separately; prey/feeding series and lagged alternatives with held-out seasons. No chlorophyll-to-prey/fish equivalence."
+      },
+      {
+        "relationshipId": "VN1-mahi-07",
+        "sourceIds": [],
+        "proposedClaimScope": "No suitable reviewed adult Mahi plume-response result.",
+        "validationPrerequisite": "Matched salinity, plume chemistry/turbidity/prey and fish reference; distinguish river-proximate sampling from plume selection and adult from larval response."
+      },
+      {
+        "relationshipId": "VN1-mahi-08",
+        "sourceIds": [],
+        "proposedClaimScope": "No suitable reviewed Mahi oxygen-limit experiment.",
+        "validationPrerequisite": "Concurrent depth-resolved oxygen/temperature with sensor versus assigned-profile identity; life-stage/region-specific exposure or physiology and individual uncertainty."
+      },
+      {
+        "relationshipId": "VN1-mahi-09",
+        "sourceIds": [
+          "N02",
+          "N06"
+        ],
+        "proposedClaimScope": "Larval depth/Sargassum association; size and life stage kept separate.",
+        "validationPrerequisite": "Independent bottom-depth/terrain and fish position uncertainty; occupied water depth is not bottom depth; no attraction claim without availability/effort controls."
+      },
+      {
+        "relationshipId": "VN1-mahi-10",
+        "sourceIds": [
+          "S-MA"
+        ],
+        "proposedClaimScope": "Diel and two contrasting lunar-tag cases; no universal lunar/tidal bonus.",
+        "validationPrerequisite": "Separate solar diel, moon phase/illumination and tide/current mechanisms; lunar/tidal predictive claim needs effort-controlled species-specific replication."
+      },
+      {
+        "relationshipId": "VN1-mahi-11",
+        "sourceIds": [
+          "S-MA",
+          "N06"
+        ],
+        "proposedClaimScope": "Sampled variability; no persistence duration or feature tracking admitted.",
+        "validationPrerequisite": "Actual support/revision/possession, independent fish/time units and held-out temporal outcome series; no publication cadence equals independence or interval continuity."
+      }
+    ],
+    "dataOnlyExamples": [
+      {
+        "id": "EXACT_SCOPE_REFERENCE",
+        "relationshipId": "VN1-blue-marlin-07",
+        "sourceIds": [
+          "N01"
+        ],
+        "inputStatus": "REFERENCE_PRESENT",
+        "structuralState": "REFERENCE_BOUND_ONLY",
+        "authorityState": "UNRESOLVED_NOT_ADMITTED"
+      },
+      {
+        "id": "SOURCE_NAMESPACE_CONFLICT",
+        "relationshipId": "VN1-blue-marlin-07",
+        "sourceIds": [
+          "CL-BM-01"
+        ],
+        "expected": "INVALID_SPECIES_REFERENCE_INPUT"
+      },
+      {
+        "id": "ABSENT_AND_UNAVAILABLE",
+        "relationshipId": "VN1-blue-marlin-07",
+        "inputStatuses": [
+          "ABSENT",
+          "LOOKUP_UNAVAILABLE"
+        ],
+        "structuralState": "MISSING_REFERENCED_INPUT",
+        "authorityState": "UNRESOLVED_NOT_ADMITTED"
+      },
+      {
+        "id": "CLAIMED_QUALIFICATION",
+        "extraKey": "requiredByApprovedPacket",
+        "expected": "INVALID_SPECIES_REFERENCE_INPUT"
+      },
+      {
+        "id": "PRIVATE_OR_RAW_PAYLOAD",
+        "extraKeys": [
+          "principalId",
+          "reportBody",
+          "sampleValue"
+        ],
+        "expected": "INVALID_SPECIES_REFERENCE_INPUT"
+      },
+      {
+        "id": "EMPTY_SUPPLIED_LIST",
+        "inputs": [],
+        "structuralState": "REFERENCE_BOUND_ONLY",
+        "reason": "EMPTY_DECLARED_INPUT_SET",
+        "authorityState": "UNRESOLVED_NOT_ADMITTED"
+      }
+    ],
+    "examplesExecutedAsValidator": false
   }
 }
