@@ -78,3 +78,23 @@
 @media(max-width:700px){.pelora-universal-dock #pelora-dock-destinations button{width:100%;min-width:0;align-items:center;justify-content:flex-start}.pelora-universal-dock button span{max-width:100%;overflow-wrap:anywhere;white-space:normal;text-align:center;line-height:1.2}.pelora-universal-dock{max-height:160px}}
 
 @media(max-width:440px){.pelora-universal-dock #pelora-dock-destinations{grid-template-columns:repeat(2,minmax(0,1fr))}.pelora-universal-dock #pelora-dock-destinations button{flex-direction:row;justify-content:flex-start;gap:5px;padding:6px 4px}.pelora-universal-dock #pelora-dock-destinations button span{overflow-wrap:normal;text-align:left;flex:1;min-width:0}.pelora-universal-dock .pelora-dock-toggle{justify-content:center}}
+
+/* P04 control-access correction: existing mission strip participates in chrome;
+   native zoom has its own edge lane; shared sheets start below all launchers. */
+.pelora-persistent-shell .pelora-existing-mission{display:flex;justify-content:center;width:100%}
+.pelora-persistent-shell .pelora-existing-mission .captain-context-control{position:static!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;width:min(520px,100%)!important;max-width:100%!important;margin:0}
+.pelora-persistent-shell .pelora-map-surface .maplibregl-ctrl-top-right{top:calc(var(--pelora-chrome-height,190px) + 28px + var(--pelora-tool-row-height,64px) + 8px)!important;right:8px!important;bottom:auto!important}
+.pelora-persistent-shell .pelora-map-surface .legend-control{position:absolute!important;top:calc(var(--pelora-chrome-height,190px) + 28px + var(--pelora-tool-row-height,64px) + 8px)!important;left:calc(var(--pelora-dock-width,180px) + 28px)!important;right:auto!important;bottom:auto!important;width:fit-content;max-width:calc(100% - var(--pelora-dock-width,180px) - 116px)}
+.pelora-persistent-shell .pelora-map-surface .legend-toggle-button{min-height:44px}
+.pelora-persistent-shell .pelora-map-surface :is(.floating-location-search-panel,.layer-controls-content,.map-legend){position:fixed!important;top:calc(var(--pelora-chrome-height,190px) + 28px + var(--pelora-tool-row-height,64px) + 8px + var(--pelora-legend-height,44px) + 8px)!important;left:calc(var(--pelora-dock-width,180px) + 28px)!important;right:80px!important;bottom:16px!important;width:auto!important;max-width:none!important;max-height:none!important;overflow:auto;box-sizing:border-box;background:#102c3d}
+@media(max-width:700px){
+.pelora-persistent-shell .pelora-map-surface .legend-control{left:8px!important;max-width:calc(100% - 88px)}
+.pelora-persistent-shell .pelora-map-surface :is(.floating-location-search-panel,.layer-controls-content,.map-legend){left:8px!important;bottom:calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 18px)!important}
+}
+
+.pelora-persistent-shell .pelora-map-surface .layer-controls.is-open{width:210px;max-width:210px}
+.pelora-persistent-shell .pelora-map-surface :is(.floating-location-search-panel,.layer-controls-content,.map-legend){bottom:68px!important}
+@media(max-width:700px){.pelora-persistent-shell .pelora-map-surface .layer-controls.is-open{width:155px;max-width:155px}.pelora-persistent-shell .pelora-map-surface :is(.floating-location-search-panel,.layer-controls-content,.map-legend){bottom:calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 70px)!important}}
+
+.pelora-persistent-shell .pelora-map-surface :is(.floating-location-search-panel,.layer-controls-content,.map-legend){bottom:var(--pelora-footer-reserve,132px)!important}
+@media(max-width:700px){.pelora-persistent-shell .pelora-map-surface :is(.floating-location-search-panel,.layer-controls-content,.map-legend){bottom:max(var(--pelora-footer-reserve,180px),calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 18px))!important}}

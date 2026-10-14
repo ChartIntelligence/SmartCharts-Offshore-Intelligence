@@ -1,0 +1,35 @@
+# P02 bounded P04 UI-1 control-access correction
+
+Exact parent: c0792fb32fa52ff34824ab5f4459522cbb65d10d. Isolated worktree C:/Projects/Pelora-Agent-Worktrees/pelora-02-unified-ui-v1, branch codex/pelora-02-unified-ui-v1, clean exact parent verified before work. Canonical79ba90b44c5ab1d18fb0055e1327e53b4da4ea49; direct human UI1/UI2 authorization includes bounded regression iteration. c079 was CHANGES REQUIRED, NOT independently cleared; this successor requires fresh P04 qualification. Candidate identity is the commit containing this record.
+
+Read exact P04 report C:/Projects/Pelora-Agent-Worktrees/pelora-04-qa-release/docs/agents/qa/P04_Unified_UI_Independent_QA_c0792fb_v1.md; independently computed SHA256 aa58f12976983f6658e78bddbc26ce12d81f4292296afad0e5c8d88845066fb3. Read diagnostic artifact manifest and findings. Three P2 findings: notices block native zoom centers; narrow dock covers actual mission button; narrow Map Intelligence sheet blocks direct Legend switch.
+
+## Exact delta and tested blobs
+
+frontend/src/components/PersistentMapShell.jsx d3268e2f83e818d8c41dba5509d8b3f77cb062af
+frontend/src/styles/persistentMapShell.css 2ce3542474a3534f4fe3a25157a18848da315a6d
+frontend/src/hooks/tests/unifiedUIControls.browser.test.mjs 1eebe368c7a641c742a7d1551bf56d44f4cf65a1
+
+Plus this evidence file. Exactly two application files change. All other tracked source remains byte-identical to c079, including Dashboard mission/Profile/state, PeloraStartupFlow/UI2, Today truthful status/content, tool state, map hook/render/science, auth/access, selection/draft continuity and QA/write guards. No new interface/science/current-flow/Profile/countdown work.
+
+Shell effect now measures actual tool launch row/Legend and visible footer bounds along with existing chrome/dock measurements; existing ResizeObserver/window listener cleanup preserved. CSS rehosts the unchanged mission control in measured chrome, moves actual top-right native control group into a separate edge lane below chrome/tool row, keeps tool launchers outside shared sheets, stabilizes expanded layer-launcher width and reserves visible footer controls. This is geometry correction, not z-index-only or mission-strip redesign. Existing desktop-hidden Recenter remains hidden; tests check all visible controls only.
+
+## Before/after controlled evidence
+
+New dedicated host derives from P04 actual-Dashboard test scaffolding, adapted into owned test without altering P04 artifacts. Actual Startup/useTripMission → actual Dashboard → actual shell/Today/tools/Profile/report/Intelligence children and native MapLibre component/setup/camera/field lifecycle use production CSS. Auth/gate, environmental/Opportunity acquisition and report client remain explicit synthetic offline ports; feature marker hooks and temporal/spatial editor widgets substituted as in P04. No fixture Dashboard bridge. Existing actual-child tests independently cover report logic. Controlled field attempts intercepted locally and unavailable, not operational provider qualification.
+
+Commands from worktree root, R=C:/Projects/Pelora-Agent-Worktrees/pelora-02-captain-experience/frontend/node_modules; process-local PELORA_BROWSER_TEST_NODE_MODULES=C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules:
+- node frontend/src/hooks/tests/unifiedUIControls.browser.test.mjs R --baseline: three widths1000/390/320 reproduce exact c079 defects from Git-object application/CSS bytes. Desktop blocked zoom center, narrow blocked zoom/mission/Legend centers asserted. Baseline artifacts C:/Users/User/AppData/Local/Temp/pelora-p02-controls-29VPXk, baseline-{width}.json, baseline-layers-{width}.png and artifact-identities.json.
+- node frontend/src/hooks/tests/unifiedUIControls.browser.test.mjs R: PASS at1000/390/320. Normal unforced zoom-in/out clicks; warm Change current trip mission/Keep Current Trip; direct Map Intelligence→Legend→Search; query retention; independent Bathymetry toggle flags; dock collapse keeps tools. ElementFromPoint and rectangle bounds verify each visible Search/Map Intelligence/Legend/mission/native zoom/compass/footer control outside all open Search/Map Intelligence/Legend sheets and dock. Same map canvas/camera -91/26 zoom6 bearing32/listeners; one map per width; zero external application fetches/blocked network requests/page errors/write attempts. One synthetic saved-report port read per width, not a database read. All actual destination content captured under those fixture limitations.
+- node frontend/src/hooks/tests/unifiedUIContinuity.test.js R:49/49 PASS on final application source, including UI2 admission/returning mission/first-summary/report precedence, selection invalidation, account isolation/drafts, QA writes and caller reference.
+- node frontend/src/hooks/tests/unifiedUI.static.mjs R: baseline finding comparison PASS, six inherited raw lint findings unchanged; not clean global lint. Four Today unused vars, Layer Date.now purity, Startup synchronous effect state remain outside repair.
+- node --check frontend/src/hooks/tests/unifiedUIControls.browser.test.mjs: PASS.
+- git diff --check: PASS. Boundary assertion: only shell/CSS application delta, all seven other UI1/2 app files byte-identical to c079. Existing independent19 card/19 selection results are prior evidence, not rerun or added pass counts here.
+
+Final candidate artifacts C:/Users/User/AppData/Local/Temp/pelora-p02-controls-68WCQ7:30 PNG, three capture JSON and three full hit-test/bounds JSON. SHA256/byte-size manifest artifact-identities.json. Screenshots inspected for actual narrow mission/notices/native controls, stable layer launcher, direct-access Legend and sheet/footer/dock separation. No old screenshot relabeled or missing scene invented.
+
+Iteration notes: initial hit helper omitted its serialized selector argument; fixed test only. Extra geometry assertion initially treated inherited hidden desktop Recenter as reachable; visible-only predicate preserves that contract. Full bounds caught an unreserved report-shortcut footer; measured actual footer reserve corrected it. Native zoom animation test initially clicked inverse before first animation settled; wait for zoom7 then6 avoids false timing failure. All final assertions pass; no force click or approval bypass.
+
+## Limits / preservation
+
+Physical iPhone/Safari touch/safe-area/keyboard/Photos/process eviction/GPS/live Auth/real providers/marker density/GPU/performance/founder visual acceptance remain unqualified. Actual auth gate and connected source science are not exercised; console stream not exhaustively audited. No application build, service launch, frozen preview replacement, combined integration, main/prod merge, deploy, DB/schema/RLS change, new package/provider/download/credential or real report/Profile mutation. Frozen preview remains exact clean b0cd2b1c3b967644d3bb00b4b488addfe777b1e9. P04 independent requalification required. Completed legacy QA guard/caller/transport requests remain superseded; no reapplication.

@@ -36,7 +36,30 @@ function PersistentMapShell({user,activeTab,onNavigate,map,overlay,mission,warni
   const [mobile,setMobile]=useState(()=>window.matchMedia?.('(max-width: 700px)').matches??false);
   useEffect(()=>{const media=window.matchMedia?.('(max-width: 700px)');if(!media)return;const update=()=>setMobile(media.matches);media.addEventListener?.('change',update);return()=>media.removeEventListener?.('change',update);},[]);
   const frame=useRef(null),chrome=useRef(null),dock=useRef(null);
-  useEffect(()=>{const measure=()=>{const root=frame.current;root?.style?.setProperty?.('--pelora-chrome-height',(chrome.current?.getBoundingClientRect?.().height??0)+'px');root?.style?.setProperty?.('--pelora-dock-height',(dock.current?.getBoundingClientRect?.().height??0)+'px');root?.style?.setProperty?.('--pelora-dock-width',(dock.current?.getBoundingClientRect?.().width??0)+'px');};measure();const observer=window.ResizeObserver?new window.ResizeObserver(measure):null;[chrome.current,dock.current].filter(Boolean).forEach(n=>observer?.observe(n));window.addEventListener?.('resize',measure);return()=>{observer?.disconnect();window.removeEventListener?.('resize',measure);};},[ui.dockExpanded,mobile,warnings]);
+  useEffect(()=>{
+    const launchers='.floating-location-search-toggle,.layer-controls-toggle,.legend-toggle-button';
+    const footerControls='.map-recenter-control,.map-report-shortcut';
+    const measure=()=>{
+      const root=frame.current;
+      const set=(name,value)=>root?.style?.setProperty?.(name,value+'px');
+      set('--pelora-chrome-height',chrome.current?.getBoundingClientRect?.().height??0);
+      set('--pelora-dock-height',dock.current?.getBoundingClientRect?.().height??0);
+      set('--pelora-dock-width',dock.current?.getBoundingClientRect?.().width??0);
+      const bottom=root?.getBoundingClientRect?.().bottom??0;
+      const footers=[...(root?.querySelectorAll?.(footerControls)??[])]
+        .map(n=>n.getBoundingClientRect()).filter(r=>r.width>0&&r.height>0);
+      set('--pelora-footer-reserve',Math.max(68,...footers.map(r=>bottom-r.top+8)));
+      const row=[...(root?.querySelectorAll?.('.floating-location-search-toggle,.layer-controls-toggle')??[])];
+      set('--pelora-tool-row-height',Math.max(44,...row.map(n=>n.getBoundingClientRect().height)));
+      set('--pelora-legend-height',Math.max(44,root?.querySelector?.('.legend-toggle-button')?.getBoundingClientRect?.().height??0));
+    };
+    measure();
+    const observer=window.ResizeObserver?new window.ResizeObserver(measure):null;
+    [chrome.current,dock.current,...(frame.current?.querySelectorAll?.(launchers+','+footerControls)??[])]
+      .filter(Boolean).forEach(n=>observer?.observe(n));
+    window.addEventListener?.('resize',measure);
+    return()=>{observer?.disconnect();window.removeEventListener?.('resize',measure);};
+  },[ui.dockExpanded,mobile,warnings]);
   const editor=Boolean(missionEditor)||reportOpen;
   const closeOverlay=()=>onNavigate('map');
   return <div ref={frame} className="dashboard dashboard-map-mode pelora-persistent-shell">
