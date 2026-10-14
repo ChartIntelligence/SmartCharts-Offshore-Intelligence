@@ -24,3 +24,13 @@ Milestone timestamp: 2026-10-14T03:55:43Z.
 - P05: exact documentation checkpoint review requested; previously completed current-source boundaries retained.
 - Founder action required: authorize P01's specific Profile-hook ownership coordination message in its pending approval request. This does not authorize profile writes.
 - No combined candidate, preview replacement or deployment authorized. Other released independent work continues.
+
+Milestone timestamp: 2026-10-14T04:55:44Z.
+
+- P01 Profile read successor 488e60d8e77e656e392a0ea65d1673b4c1184206: independent scoped QA PASS, 33 supplied cases and five independent controls. Presentation wiring remains pending. Predecessor 38f290afb85c7a7d7de14bf05176126620fb7a3b remains changes required.
+- P02 UI 73bd810e5eda1bdc0b33a17f92e8fda5986efa87 remains scoped-qualified. Consumer-only workspace is prepared, but purpose-specific binding-message permission is pending; no wiring claimed.
+- P03 FLOW d7e8ba0e6cff5291e63fd02d9be96072340de3cb: independent producer-scope QA PASS. BATH successor 174b271a530565dce43b5848776a23f2821e6004: independent scoped QA PASS, seven controlled scripts and three offline browser regressions. Predecessor 4fefcae2b9ef9d17a3312f261db8cd5c63c5e1c7 remains changes required.
+- P04 exact successor reviews completed; reports local. Six inherited UI lint findings and historical Profile harness exclusions remain.
+- P05 c4bec910ad0500d333ef4d89bc727e38f9186c07 documentation claim-boundary review acceptable; not a claim of operational or scientific engine qualification.
+- Dependencies: consumer presentation and final combined qualification; profile writes and publication metadata authority; physical-device/founder acceptance. Founder action: pending purpose-specific consumer coordination permission; exact QA-document checkpoint path confirmation if checkpointing is desired.
+- No combined candidate, preview replacement, database change or deployment.
