@@ -35,3 +35,46 @@
 .pelora-persistent-shell{padding:0!important;margin:0!important;max-width:none!important}
 .pelora-field-warnings{display:none;background:#0b1d28ed;padding:4px 8px;border-radius:5px}.pelora-map-focused .pelora-field-warnings{display:block}
 .pelora-map-surface .map-report-shortcut,.pelora-map-surface .legend-control{bottom:calc(88px + env(safe-area-inset-bottom))!important}
+
+/* Unified UI-1: chrome measured independently of persistent map dimensions. */
+.pelora-sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.pelora-shell-chrome{position:absolute;inset:max(8px,env(safe-area-inset-top)) 12px auto;z-index:5;display:grid;justify-items:center;gap:8px;pointer-events:none}
+.pelora-shell-chrome .pelora-floating-mark{position:static;padding:0;background:transparent;border:0;border-radius:0}
+.pelora-floating-mark img{width:clamp(150px,22vw,220px);max-height:96px;object-fit:contain}
+.pelora-shell-chrome .pelora-existing-mission{position:static;max-width:100%;width:auto;pointer-events:auto}
+.pelora-shell-chrome .pelora-shell-warnings{position:static;width:100%;max-height:15dvh;overflow:auto;pointer-events:auto;text-align:center}
+.pelora-shell-overlay{top:calc(var(--pelora-chrome-height,190px) + max(8px,env(safe-area-inset-top)) + 12px);left:calc(var(--pelora-dock-width,180px) + 28px);right:16px;width:auto;bottom:16px}
+.pelora-overlay-heading{justify-content:flex-end}.pelora-overlay-heading button{color:#edf7f9}
+.pelora-map-surface .floating-location-search{top:calc(var(--pelora-chrome-height,190px) + 28px)!important;left:calc(var(--pelora-dock-width,180px) + 28px)!important;right:auto;max-width:calc(100% - var(--pelora-dock-width,180px) - 235px)}
+.pelora-map-surface .floating-location-search-panel{width:min(350px,100%);max-width:100%;max-height:calc(100dvh - var(--pelora-chrome-height,190px) - 120px);overflow:auto}
+.pelora-map-surface .layer-controls{top:calc(var(--pelora-chrome-height,190px) + 28px)!important;right:16px!important;left:auto!important;max-height:calc(100dvh - var(--pelora-chrome-height,190px) - 120px);max-width:210px}
+.pelora-map-surface .legend-control{right:16px;left:auto;bottom:calc(140px + env(safe-area-inset-bottom))!important;max-width:300px}
+.pelora-map-surface .map-legend{max-height:calc(100dvh - var(--pelora-chrome-height,190px) - 190px);overflow:auto}
+.pelora-map-surface .maplibregl-ctrl-bottom-right{bottom:48px!important}.pelora-map-surface .map-recenter-control{bottom:16px!important;right:72px!important;top:auto!important}
+.pelora-universal-dock{max-height:calc(100dvh - var(--pelora-chrome-height,190px) - 40px);overflow:auto;top:calc(var(--pelora-chrome-height,190px) + 28px);transform:none}
+.pelora-universal-dock svg{flex:none;width:22px;height:22px}.pelora-universal-dock button span{overflow-wrap:normal}
+.pelora-shell-overlay :is(h2,h3,h4){color:#edf7f9}.pelora-shell-overlay .section-page-header{margin-top:0}
+@media(max-width:700px){
+.pelora-shell-chrome{left:8px;right:8px}.pelora-floating-mark img{width:160px;max-height:75px}
+.pelora-universal-dock{top:auto;bottom:max(8px,env(safe-area-inset-bottom));max-height:140px;align-items:stretch}.pelora-universal-dock #pelora-dock-destinations{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}.pelora-universal-dock #pelora-dock-destinations[hidden]{display:none}.pelora-universal-dock .pelora-dock-toggle{flex:0 0 54px}.pelora-universal-dock button{font-size:11px;white-space:normal}.pelora-universal-dock .pelora-dock-toggle span{display:block}
+.pelora-shell-overlay{left:8px;right:8px;bottom:calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 18px)}
+.pelora-map-surface .floating-location-search{left:8px!important;max-width:calc(100% - 175px);top:calc(var(--pelora-chrome-height,190px) + 24px)!important}
+.pelora-map-surface .layer-controls{right:8px!important;max-width:155px;top:calc(var(--pelora-chrome-height,190px) + 24px)!important}
+.pelora-map-surface .floating-location-search-panel,.pelora-map-surface .layer-controls-content,.pelora-map-surface .map-legend{position:fixed!important;top:calc(var(--pelora-chrome-height,190px) + 78px);left:8px!important;right:8px!important;width:auto!important;max-width:none;max-height:calc(100dvh - var(--pelora-chrome-height,190px) - var(--pelora-dock-height,90px) - 110px);overflow:auto;background:#102c3d;z-index:8}
+.pelora-map-surface .legend-control{bottom:calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 65px)!important;right:8px}
+.pelora-map-surface .maplibregl-ctrl-bottom-right{bottom:calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 18px)!important}
+.pelora-map-surface .map-recenter-control{bottom:calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 18px)!important}
+.pelora-map-surface .selected-target-map-panel,.pelora-map-surface .map-report-shortcut{bottom:calc(var(--pelora-dock-height,90px) + env(safe-area-inset-bottom) + 18px)!important}
+}
+
+.pelora-persistent-shell .pelora-shell-chrome .pelora-floating-mark img{height:auto;max-width:100%;margin:0;transform:none}
+.pelora-persistent-shell .pelora-map-surface .layer-controls{top:calc(var(--pelora-chrome-height,190px) + 28px)!important;bottom:auto!important;left:auto!important;right:16px!important;transform:none!important}
+.pelora-persistent-shell .pelora-map-surface .floating-location-search{top:calc(var(--pelora-chrome-height,190px) + 28px)!important;bottom:auto!important;transform:none!important}
+@media(max-width:700px){.pelora-persistent-shell .pelora-map-surface .layer-controls{right:8px!important}.pelora-persistent-shell .pelora-map-surface .floating-location-search-toggle{white-space:normal;overflow-wrap:anywhere;line-height:1.3;min-height:44px}.pelora-persistent-shell .pelora-map-surface .layer-controls-toggle{min-height:44px}}
+
+.pelora-persistent-shell .pelora-map-surface .layer-controls{position:absolute!important}
+.pelora-persistent-shell .pelora-shell-chrome{position:absolute!important;top:max(8px,env(safe-area-inset-top))!important;bottom:auto!important;transform:none!important}.pelora-persistent-shell .pelora-shell-chrome .pelora-floating-mark{position:static!important;transform:none!important;height:auto!important;align-self:start}
+
+@media(max-width:700px){.pelora-universal-dock #pelora-dock-destinations button{width:100%;min-width:0;align-items:center;justify-content:flex-start}.pelora-universal-dock button span{max-width:100%;overflow-wrap:anywhere;white-space:normal;text-align:center;line-height:1.2}.pelora-universal-dock{max-height:160px}}
+
+@media(max-width:440px){.pelora-universal-dock #pelora-dock-destinations{grid-template-columns:repeat(2,minmax(0,1fr))}.pelora-universal-dock #pelora-dock-destinations button{flex-direction:row;justify-content:flex-start;gap:5px;padding:6px 4px}.pelora-universal-dock #pelora-dock-destinations button span{overflow-wrap:normal;text-align:left;flex:1;min-width:0}.pelora-universal-dock .pelora-dock-toggle{justify-content:center}}

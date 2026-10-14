@@ -186,9 +186,12 @@ function OpportunityLegendIcon() {
 }
 
 
-function MapLegend({ layers, observationDisplay }) {
+function MapLegend({ layers, observationDisplay, open, onOpenChange }) {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [localOpen, setLocalOpen] = useState(false);
+  const isOpen=open ?? localOpen;
+  const setIsOpen=next=>{const value=typeof next==='function'?next(isOpen):next;if(onOpenChange)onOpenChange(value);else setLocalOpen(value);};
+
 
 
   return (
@@ -197,6 +200,7 @@ function MapLegend({ layers, observationDisplay }) {
       <button
         type="button"
         className="legend-toggle-button"
+        aria-label="Legend"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
@@ -298,8 +302,8 @@ function MapLegend({ layers, observationDisplay }) {
           )}
 
 
-          {layers.bathymetry && <div className="legend-row"><span className="field-bathy-swatch" /><span>Depth shading · darker = deeper</span></div>}
-          {layers.currentField && <div className="legend-row"><span className="observation-legend-arrow">↑</span><span>Geostrophic surface flow · toward arrow</span></div>}
+          {layers.bathymetry && <div className="legend-row"><span className="field-bathy-swatch" /><span>Bathymetry contours · depth labels and units as shown</span></div>}
+          {layers.currentField && <div className="legend-row"><span className="observation-legend-arrow">↑</span><span>Currents · direction shown by traces or static markers</span></div>}
           {layers.temperatureSamples && <div className="legend-row">
             <span className="observation-legend-temperature" />
             <span>Temperature model sample ({observationDisplay?.counts.sst ?? 0}); faded fill = freshness unclassified</span>

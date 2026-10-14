@@ -8358,3 +8358,11 @@ animation:
   .report-location-card button { justify-self: start; }
   .fishing-report-form { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
 }
+
+.pelora-top-view{display:flex;flex-direction:column;gap:18px}.pelora-top-view .ocean-brief-ranking{margin:0}.pelora-top-view .ocean-brief-opportunity-list{display:flex;flex-direction:column;gap:12px}.pelora-top-view .ocean-brief-opportunity{width:100%}.pelora-opportunity-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.pelora-opportunity-actions button,.pelora-compact-brief summary{min-height:44px;color:#eef7f9;background:#23485c;border:1px solid #557786;border-radius:8px;padding:10px 14px;cursor:pointer;font:inherit}.pelora-compact-brief{padding:14px}.pelora-compact-brief summary{list-style-position:inside;font-weight:600}.pelora-compact-brief .ocean-brief-header{margin-top:14px}.pelora-top-view .velion-condition-panel{width:100%}.pelora-top-view .velion-featured-opportunity{margin-top:12px}.pelora-top-view .velion-home-actions{grid-template-columns:1fr}
+
+.pelora-setup-brand{display:block;width:clamp(170px,40vw,280px);height:auto;margin:0 auto 24px;background:transparent}
+
+.pelora-top-view,.pelora-top-view *{box-sizing:border-box}.pelora-top-view .velion-condition-panel,.pelora-top-view .velion-condition-list,.pelora-top-view .velion-condition-card{min-width:0;max-width:100%}.pelora-top-view .velion-condition-panel{padding:clamp(12px,3vw,22px)}.pelora-top-view .velion-condition-content{min-width:0;overflow-wrap:anywhere}
+
+.pelora-top-view .velion-condition-header{flex-wrap:wrap;gap:8px}.pelora-top-view .velion-condition-header small{white-space:nowrap;overflow-wrap:normal;flex-shrink:0}

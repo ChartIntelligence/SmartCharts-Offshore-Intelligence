@@ -4,9 +4,12 @@ import { FIELD_CONTROLS } from "../utils/oceanFieldPresentation.js";
 import { OBSERVATION_CONTROLS } from "../utils/mapObservationDisplay.js";
 
 
-function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, observationTime = Date.now(), qaSamples = false, transitionAvailable = false }) {
+function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, observationTime = Date.now(), qaSamples = false, transitionAvailable = false, open, onOpenChange }) {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [localOpen, setLocalOpen] = useState(false);
+  const isOpen=open ?? localOpen;
+  const setIsOpen=next=>{const value=typeof next==='function'?next(isOpen):next;if(onOpenChange)onOpenChange(value);else setLocalOpen(value);};
+
 
 
   const toggleLayer = (layer) => {
@@ -65,7 +68,7 @@ function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, obs
 
       {isOpen && (
 
-        <div className="layer-controls-content">
+        <div className="layer-controls-content"><button type="button" onClick={()=>setIsOpen(false)} aria-label="Close Map Intelligence">Close</button>
 
           <div className="layer-group">
 

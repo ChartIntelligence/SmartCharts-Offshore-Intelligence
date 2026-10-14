@@ -148,12 +148,15 @@ function PeloraStartupFlow({
   const {
     tripMission,
     captainSpatialContext,
-    missionReady,
+    missionReady: missionContextReady,
     missionLoading,
     missionPersistenceError,
     updateTripMission
   } = useTripMission(user);
 
+
+  const missionReady=missionContextReady && SPECIES_OPTIONS.some(species=>species.available && species.id===tripMission?.selectedSpecies);
+  const [initialSummary,setInitialSummary]=useState(false);
 
   const [
     startupStep,
@@ -378,6 +381,7 @@ function PeloraStartupFlow({
 
         <section className="pelora-startup-panel">
 
+          <img src={peloraWordmark} alt="Pelora" className="pelora-setup-brand"/>
           <p className="section-eyebrow">
             Trip Mission
           </p>
@@ -399,6 +403,7 @@ function PeloraStartupFlow({
                     !species.available
                   }
                   onClick={() => {
+                    if(!workspaceAdmitted)setInitialSummary(true);
                     updateTripMission({
                       selectedSpecies:
                         species.id
@@ -449,6 +454,7 @@ function PeloraStartupFlow({
 
       <section className="pelora-startup-panel">
 
+        <img src={peloraWordmark} alt="Pelora" className="pelora-setup-brand"/>
         <p className="section-eyebrow">
           Current Trip
         </p>
@@ -701,7 +707,9 @@ function PeloraStartupFlow({
     </main>
   );
   })();
+  if(!workspaceAdmitted)return missionEditor;
   return (<Dashboard
+        initialSummary={initialSummary}
 
         missionAdmitted={workspaceAdmitted && missionReady}
         missionEditor={missionEditor}

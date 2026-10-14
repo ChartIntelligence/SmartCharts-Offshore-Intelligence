@@ -9,7 +9,7 @@ import TodayDashboard from "./TodayDashboard";
 import {
   useCallback,
   useEffect,
-  useMemo,
+  useMemo, useRef,
   useState
 } from "react";
 
@@ -20,8 +20,6 @@ import LayerControls from "./LayerControls";
 import { sampleLayersForMode } from "../utils/oceanFieldPresentation.js";
 import MapLibreIntelligenceMap from "./MapLibreIntelligenceMap";
 import MapLegend from "./MapLegend";
-import TopOpportunity from "./TopOpportunity";
-import OpportunityRanking from "./OpportunityRanking";
 import OpportunityIntelligence from "./OpportunityIntelligence";
 import IntelligenceRecovery from "./IntelligenceRecovery";
 import HistoricalOpportunityContinuity
@@ -60,6 +58,7 @@ function DashboardWorkspace({
   missionEditor = null,
   onCloseMissionEditor,
   missionAdmitted = true,
+  initialSummary = false,
   qaReadOnly = false
 }) {
   const {value:workspace,setValue:setWorkspace,error:workspaceError} = useCaptainContinuity(user,'workspace',()=>({
@@ -67,6 +66,8 @@ function DashboardWorkspace({
       temperatureSamples:false,chlorophyll:false,currents:false,temperatureTransition:false,baitProbability:false},
     selectedSpotId:null,opportunitySelection:null,mapCamera:null,sheetExpanded:false,reportPanelOpen:false
   }),validateWorkspace);
+  const [expandedTool,setExpandedTool]=useState(null);
+  const toolChange=tool=>open=>setExpandedTool(open?tool:null);
   const activeTab = workspace.activeTab;
   const applyNavigation=useCallback(next=>{
     setWorkspace(current=>({...current,activeTab:next.tab,reportPanelOpen:next.report}));
@@ -75,6 +76,8 @@ function DashboardWorkspace({
   },[setWorkspace,missionEditor,onCloseMissionEditor,onEditTripMission]);
   const navigation=useShellNavigation({tab:activeTab,report:workspace.reportPanelOpen,mission:Boolean(missionEditor)},applyNavigation);
   const setActiveTab = navigation.navigate;
+  const firstSummaryHandled=useRef(false);
+  useEffect(()=>{if(firstSummaryHandled.current)return;firstSummaryHandled.current=true;if(initialSummary && !workspace.reportPanelOpen && activeTab==="map")setActiveTab("today");},[initialSummary,workspace.reportPanelOpen,activeTab,setActiveTab]);
   const layers = workspace.layers;
   const setLayers = useCallback(update=>setWorkspace(current=>({...current,layers:typeof update==='function'?update(current.layers):update})),[setWorkspace]);
   const selectedSpot = structures.find(spot=>spot.id===workspace.selectedSpotId) ?? null;
@@ -538,6 +541,7 @@ return <PersistentMapShell
             <div className="map-wrapper">
 
               <LayerControls
+                open={expandedTool==="layers"} onOpenChange={toolChange("layers")}
                 fieldStatus={fieldStatus}
                 observationTime={observationDisplayTime}
                 qaSamples={qaSamples}
@@ -586,6 +590,7 @@ return <PersistentMapShell
 
 
               <LocationSearch
+                open={expandedTool==="search"} onOpenChange={toolChange("search")}
                 structures={structures}
                 selectedSpot={
                   selectedSpot
@@ -611,6 +616,7 @@ return <PersistentMapShell
 
 
               <MapLegend
+                open={expandedTool==="legend"} onOpenChange={toolChange("legend")}
                 observationDisplay={mapObservationDisplay}
                 layers={sampleLayersForMode(layers, qaSamples)}
               />
@@ -667,6 +673,7 @@ return <PersistentMapShell
       }
  overlay={<>      {activeTab === "today" && (
   <TodayDashboard
+            qaReadOnly={qaReadOnly}
     topOpportunities={
       displayedTopOpportunities
     }
@@ -712,30 +719,17 @@ return <PersistentMapShell
             </p>
 
             <h2>
-              Offshore Intelligence
+              Opportunity Analysis
             </h2>
 
             <p>
-              Review recommended zones,
-              opportunity rankings and
-              environmental reasoning.
+              Inspect the evidence and reasoning for the selected Opportunity.
             </p>
 
           </section>
 
 
-          <section className="top-section">
 
-            <TopOpportunity
-              opportunities={
-                displayedTopOpportunities
-              }
-              opportunityState={
-                opportunityState
-              }
-            />
-
-          </section>
 
 
           {opportunityState === "governed-zero" &&
@@ -770,22 +764,7 @@ return <PersistentMapShell
           </section>
 
 
-          <section className="ranking-section">
 
-            <OpportunityRanking
-              opportunities={
-                displayedTopOpportunities
-              }
-              opportunityState={
-                opportunityState
-              }
-              setSelectedOpportunity={
-                handleSelectOpportunity
-              }
-              setActiveTab={setActiveTab}
-            />
-
-          </section>
 
         </main>
       )}
@@ -803,7 +782,7 @@ return <PersistentMapShell
               </p>
 
               <h2>
-                Fishing Reports
+                My Reports
               </h2>
 
               <p>

@@ -43,13 +43,17 @@ function getLocationType(spot) {
 function LocationSearch({
   structures = [],
   selectedSpot,
-  setSelectedSpot
+  setSelectedSpot,
+  open, onOpenChange
 }) {
 
   const [
-    searchOpen,
-    setSearchOpen
+    localOpen,
+    setLocalOpen
   ] = useState(false);
+  const searchOpen=open ?? localOpen;
+  const setSearchOpen=next=>{const value=typeof next==='function'?next(searchOpen):next;if(onOpenChange)onOpenChange(value);else setLocalOpen(value);};
+
 
   const [
     query,

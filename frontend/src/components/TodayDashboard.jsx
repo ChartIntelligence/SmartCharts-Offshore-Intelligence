@@ -1,12 +1,12 @@
+import HistoricalOpportunityContinuity from "./HistoricalOpportunityContinuity";
 import { EVALUATION_MESSAGES } from "../utils/opportunityEvaluationState.js";
-import HistoricalOpportunityContinuity
-  from "./HistoricalOpportunityContinuity";
 
 function TodayDashboard({
+  historicalFallback = null,
+  qaReadOnly = false,
   topOpportunities,
   activeOpportunity,
   opportunityState = "loading",
-  historicalFallback = null,
   setSelectedOpportunity,
   navigateToTopZoneMap,
   liveMarineData,
@@ -321,131 +321,30 @@ const structureDetail =
     ?.headline ??
   "Verified structure evidence unavailable";
 
-  return (
-    <main className="dashboard-tab-content velion-home">
-
-      <section className="ocean-brief-command-center">
-
-  <div className="ocean-brief-header">
-
-    <div>
-
-      <p className="section-eyebrow">
-        Offshore Command Center
-      </p>
-
-      <h2>
-        Ocean Brief
-      </h2>
-
-      <p className="ocean-brief-summary">
-        {oceanBriefSummary}
-      </p>
-
-    </div>
-
-  </div>
-
-
-  <div className="ocean-brief-meta">
-   
-
-
-    <div>
-
-      <span>
-        Selected Opportunity
-      </span>
-
-      <strong>
-        {opportunityStateLabel}
-      </strong>
-
-    </div>
-
-
-    <div>
-
-      <span>
-        Opportunity Score
-      </span>
-
-      <strong>
-        {opportunityScoreLabel}
-      </strong>
-
-    </div>
-
-
-    <div>
-
-      <span>
-        Forecast Confidence
-      </span>
-
-      <strong>
-        {opportunityConfidenceLabel}
-      </strong>
-
-      <small>
-        {opportunityConfidenceStateLabel}
-      </small>
-
-    </div>
-
-
-    <div>
-
-      <span>
-        Marine Data Observed
-      </span>
-
-      <strong>
-        {marineUpdatedLabel ??
-          "Awaiting live update"}
-      </strong>
-
-    </div>
-
-  </div>
-
-
-  <div className="ocean-brief-ranking">
+  return (<main className="dashboard-tab-content velion-home pelora-top-view">
+<section>  <div className="ocean-brief-ranking">
 
     <div className="ocean-brief-ranking-header">
 
       <div>
 
-        <p className="velion-card-label">
-          Today&apos;s Top Opportunities
-        </p>
+        <h2>Top Opportunities</h2>
 
-        <h3>
-          Select a location to update the
-          dashboard
-        </h3>
+        {!qaReadOnly && ["available","partial"].includes(opportunityState) && topOpportunities.length > 0 && <h3>Select an Opportunity to inspect its evidence</h3>}
 
       </div>
 
 
-      <button
-        type="button"
-        className="ocean-brief-view-all"
-        onClick={() =>
-          setActiveTab("intelligence")
-        }
-      >
-        View All
-      </button>
+
 
     </div>
 
 
     <div className="ocean-brief-opportunity-list">
 
-      {opportunityState !== "available" && <p>{EVALUATION_MESSAGES[opportunityState]}</p>}
+      {qaReadOnly ? <p>Opportunity evaluation is disabled in this read-only QA workspace. This is not a diagnosis of the ocean.</p> : opportunityState !== "available" && <p>{EVALUATION_MESSAGES[opportunityState]}</p>}
 
-      {["available", "partial"].includes(opportunityState) &&
+      {!qaReadOnly && ["available", "partial"].includes(opportunityState) &&
         topOpportunities.map(
           (opportunity, index) => {
 
@@ -479,7 +378,7 @@ const structureDetail =
 
             return (
 
-              <button
+              <article key={opportunity.id ?? opportunity.name}><button
                 type="button"
                 key={
                   opportunity.id ??
@@ -533,7 +432,7 @@ const structureDetail =
 
                 </span>
 
-              </button>
+              </button><div className="pelora-opportunity-actions"><button type="button" onClick={()=>{setSelectedOpportunity(opportunity);setActiveTab("map");}}>View on map</button><button type="button" onClick={()=>{setSelectedOpportunity(opportunity);setActiveTab("intelligence");}}>Open analysis</button></div></article>
 
             );
           }
@@ -542,24 +441,200 @@ const structureDetail =
     </div>
 
   </div>
-
 </section>
+{!qaReadOnly && opportunityState === "governed-zero" && historicalFallback?.available === true && <HistoricalOpportunityContinuity historicalFallback={historicalFallback} compact/>}
+
+        <aside className="velion-condition-panel">
+
+          <div className="velion-section-title">
+
+            <span className="velion-title-icon blue">
+              ≋
+            </span>
+
+            <div>
+             <h3>
+               Ocean Evidence
+            </h3>
+
+            <p>
+              {activeOpportunity ? `Evidence for ${activeOpportunity.name}. It does not describe the entire mission area.` : "No selected Opportunity evidence. Weather reflects its supplied forecast context."}
+            </p>
+            </div>
+
+          </div>
 
 
-{opportunityState === "governed-zero" &&
-  historicalFallback?.available === true && (
-    <HistoricalOpportunityContinuity
-      historicalFallback={
-        historicalFallback
-      }
-      compact
-    />
-  )}
+          <div className="velion-condition-list">
+
+            <ConditionCard
+              loading={opportunityState === "loading"}
+              accent="temperature"
+              label="Sea Surface Temperature"
+              value={temperatureValue}
+              detail={temperatureDetail}
+              available={
+                temperatureEvidence
+                  ?.available === true
+              }
+            />
+
+            <ConditionCard
+              loading={opportunityState === "loading"}
+              accent="chlorophyll"
+              freshness={productivityFreshness}
+              label="Chlorophyll"
+              value={productivityValue}
+              detail={productivityDetail}
+              available={
+                productivityEvidence
+                  ?.available === true &&
+                productivityFreshness !==
+                  "stale"
+              }
+            />
+
+            <ConditionCard
+              loading={opportunityState === "loading"}
+              accent="current"
+              freshness={currentFreshness}
+              label="Ocean Current"
+              value={currentValue}
+              detail={currentDetail}
+              available={
+                currentEvidence
+                  ?.available === true
+              }
+            />
+
+            <ConditionCard
+                loading={Boolean(liveMarineLoading)}
+                failed={Boolean(liveMarineError)}
+                accent="weather"
+                label="Wind and Waves"
+                value={windAndWaveValue}
+                detail={
+                    liveMarineError
+                    ? liveMarineError
+                    : liveMarineData
+                        ? [
+                            Number.isFinite(
+                            wind.gustKnots
+                            )
+                            ? `Gusts ${wind.gustKnots} kt`
+                            : null,
+
+                            Number.isFinite(
+                            waves.periodSeconds
+                            )
+                            ? `${waves.periodSeconds}s period`
+                            : null,
+
+                            waveDirection !== "—"
+                            ? `waves ${waveDirection}`
+                            : null,
+
+                            marineUpdatedLabel
+                            ? `updated ${marineUpdatedLabel}`
+                            : null
+                        ]
+                            .filter(Boolean)
+                            .join(" · ")
+                        : "Marine forecast and sea state"
+                }
+                available={
+                  windAndWavesAvailable
+                }
+         />
+
+          </div>
+
+        </aside>
+<section className="ocean-brief-command-center pelora-compact-brief"><details><summary>Ocean Brief</summary>  <div className="ocean-brief-header">
+
+    <div>
+
+      <p className="section-eyebrow">
+        Offshore Command Center
+      </p>
+
+      <h2>
+        Ocean Brief
+      </h2>
+
+      <p className="ocean-brief-summary">
+        {oceanBriefSummary}
+      </p>
+
+    </div>
+
+  </div>
 
 
-      <section className="velion-command-grid">
+  <div className="ocean-brief-meta">
 
-        <article className="velion-featured-opportunity">
+
+
+    <div>
+
+      <span>
+        Selected Opportunity
+      </span>
+
+      <strong>
+        {opportunityStateLabel}
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>
+        Opportunity Score
+      </span>
+
+      <strong>
+        {opportunityScoreLabel}
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>
+        Forecast Confidence
+      </span>
+
+      <strong>
+        {opportunityConfidenceLabel}
+      </strong>
+
+      <small>
+        {opportunityConfidenceStateLabel}
+      </small>
+
+    </div>
+
+
+    <div>
+
+      <span>
+        Marine Data Observed
+      </span>
+
+      <strong>
+        {marineUpdatedLabel ??
+          (liveMarineLoading ? "Loading" : "Unavailable")}
+      </strong>
+
+    </div>
+
+  </div>
+
+
+{!qaReadOnly && ["available","partial"].includes(opportunityState) && activeOpportunity && (        <article className="velion-featured-opportunity">
 
           <div className="velion-featured-topline">
 
@@ -769,120 +844,7 @@ const structureDetail =
 
           </div>
 
-        </article>
-
-
-        <aside className="velion-condition-panel">
-
-          <div className="velion-section-title">
-
-            <span className="velion-title-icon blue">
-              ≋
-            </span>
-
-            <div>
-             <h3>
-               Ocean Evidence
-            </h3>
-
-            <p>
-              Scientific evidence supporting
-              today&apos;s opportunity.
-            </p>
-            </div>
-
-          </div>
-
-
-          <div className="velion-condition-list">
-
-            <ConditionCard
-              loading={opportunityState === "loading"}
-              accent="temperature"
-              label="Sea Surface Temperature"
-              value={temperatureValue}
-              detail={temperatureDetail}
-              available={
-                temperatureEvidence
-                  ?.available === true
-              }
-            />
-
-            <ConditionCard
-              loading={opportunityState === "loading"}
-              accent="chlorophyll"
-              freshness={productivityFreshness}
-              label="Chlorophyll"
-              value={productivityValue}
-              detail={productivityDetail}
-              available={
-                productivityEvidence
-                  ?.available === true &&
-                productivityFreshness !==
-                  "stale"
-              }
-            />
-
-            <ConditionCard
-              loading={opportunityState === "loading"}
-              accent="current"
-              freshness={currentFreshness}
-              label="Ocean Current"
-              value={currentValue}
-              detail={currentDetail}
-              available={
-                currentEvidence
-                  ?.available === true
-              }
-            />
-
-            <ConditionCard
-                loading={Boolean(liveMarineLoading)}
-                failed={Boolean(liveMarineError)}
-                accent="weather"
-                label="Wind and Waves"
-                value={windAndWaveValue}
-                detail={
-                    liveMarineError
-                    ? liveMarineError
-                    : liveMarineData
-                        ? [
-                            Number.isFinite(
-                            wind.gustKnots
-                            )
-                            ? `Gusts ${wind.gustKnots} kt`
-                            : null,
-
-                            Number.isFinite(
-                            waves.periodSeconds
-                            )
-                            ? `${waves.periodSeconds}s period`
-                            : null,
-
-                            waveDirection !== "—"
-                            ? `waves ${waveDirection}`
-                            : null,
-
-                            marineUpdatedLabel
-                            ? `updated ${marineUpdatedLabel}`
-                            : null
-                        ]
-                            .filter(Boolean)
-                            .join(" · ")
-                        : "Marine forecast and sea state"
-                }
-                available={
-                  windAndWavesAvailable
-                }
-         />
-
-          </div>
-
-        </aside>
-
-      </section>
-
-
+        </article>)}</details><p>{qaReadOnly ? "Evaluation is disabled for local QA; no current ocean conclusion is supplied." : oceanBriefSummary}</p></section>
       <section className="velion-home-actions">
 
         <button
@@ -919,43 +881,7 @@ const structureDetail =
         </button>
 
       </section>
-
-
-      <section className="velion-founding-card">
-
-        <div className="velion-founding-mark">
-          FC
-        </div>
-
-        <div>
-
-          <p className="section-eyebrow">
-            Founding Captain Program
-          </p>
-
-          <h3>
-            Built with captains, not just
-            for captains.
-          </h3>
-
-          <p>
-            Private logs remain private.
-            Captains control whether
-            anonymized trip outcomes help
-            improve shared intelligence.
-          </p>
-
-        </div>
-
-
-        <span className="velion-founding-badge">
-          Founding Access
-        </span>
-
-      </section>
-
-    </main>
-  );
+</main>);
 }
 
 
