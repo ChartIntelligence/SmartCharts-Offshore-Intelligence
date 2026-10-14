@@ -141,6 +141,18 @@
         "tracked": 0,
         "untracked": 0
       }
+    },
+    {
+      "lane": "p02Enrollment",
+      "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-enrollment-offline-v1",
+      "branch": "codex/pelora-02-enrollment-offline-v1",
+      "head": "53ed84b96dba087b38b1e465dc0be9033c9798eb",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      },
+      "statusScope": "Entering status independently verified; P02 actual binding ACK, implementation active thereafter"
     }
   ],
   "qa": {
@@ -179,7 +191,7 @@
     "G.SOURCE_PUSH": "Exact4e1 branch/outgoing consumer-containing source authorization pending; no push",
     "G.PREVIEW": "Separate supervised build/launch/assets/environment approval pending; oldb0 approval not transferable",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
-    "G.ENROLL_REVIEW_MESSAGE": "Exact60bbacb delivery and P02 correction succeeded after founder authorization. Exact53ed84b repair dispatched to P04; P04-to-P01 repair acknowledgment withheld by permission gate, not received; no P02 release.",
+    "G.ENROLL_REVIEW_MESSAGE": "RESOLVED: exact53ed84b P04 acknowledgment received normally under direct founder approval; offline scope only, no live authority.",
     "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
     "G.FIELD_MESSAGE": "P02 field-doc binding message denied; queued only, no execution release",
     "G.CONFIG_INSPECTION": "No connector; exact allowlisted nonsecret non-prod config/catalog read approval required",
@@ -197,7 +209,7 @@
     "G.FOUNDER_ACCEPTANCE": "Physical/visual product judgment remains human",
     "G.PRODUCTION": "Explicit deployment/migration/release approval not granted",
     "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod",
-    "G.SCALAR_IMPLEMENTATION": "Prepared assignment delivered; P03 reports direct local implementation approval still pending. No execution inferred from communication permission."
+    "G.SCALAR_IMPLEMENTATION": "RESOLVED for prepared historical review-only packet: actual P03 clean4e1 workspace/path ACK received; no operational admission/app mounting."
   },
   "requirements": [
     {
@@ -422,9 +434,9 @@
       "status": "BLOCKED",
       "owner": "P01",
       "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
-      "sha": "b2270987ffac63e4c4459bb71bdd282e6559b934",
+      "sha": "251c2593958c556a150290bba268e2f24dcb836f",
       "branch": "codex/pelora-unified-ui-amendment-v1",
-      "evidence": "P01_Species_Interpretation_Contract_vNEXT.md/json",
+      "evidence": "Architecturecc1b accepted; exact251c reference schema definitions dispatched P04, pending clearance; no executable validator or scientific relationship packets.",
       "dependencies": [
         "SPEC.VNEXT_RESEARCH"
       ],
@@ -435,7 +447,7 @@
       "dimensions": {
         "documentation": "COMPLETE",
         "code": "NOT_STARTED",
-        "scopedQA": "NOT_STARTED",
+        "scopedQA": "IN_PROGRESS",
         "operational": "BLOCKED",
         "preview": "NOT_STARTED",
         "production": "NOT_STARTED",
@@ -747,26 +759,25 @@
       "id": "ACCESS.OFFLINE_CONTRACT",
       "category": "Audience / enrollment / privacy",
       "acceptance": "Exact v1.2 owner/generation/cursor/query/request/op correlation, consistent supplied Beta terms and count truthfulness independently cleared before pure mobile prototype release.",
-      "status": "BLOCKED",
+      "status": "COMPLETE",
       "owner": "P01",
       "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
       "sha": "53ed84b96dba087b38b1e465dc0be9033c9798eb",
       "branch": "codex/pelora-enrollment-offline-contract-v1",
       "evidence": {
-        "meaning": "LOCAL_REPAIR_DISPATCHED_ACK_WITHHELD",
+        "meaning": "PURE_OFFLINE_CONTRACT_SCOPED_PASS",
         "localTests": 60,
-        "independent": "60bbacb CHANGES REQUIRED; 53ed84b acknowledgment not received",
-        "priorReportSHA256": "93704c736ae01625e49b2314a4918c00d162a0324c9fb814a4103486a7b90cbe"
+        "independent": "60/60 focused plus6/6 overlapping external QA probes; twoP2closed; acknowledgment actually received",
+        "reportSHA256": "cb2d78db40486fbd456087c7d4ab068e1526f66074812c8a220083ae09b5f164",
+        "liveAuthority": "NOT_QUALIFIED"
       },
       "dependencies": [],
-      "founderApproval": [
-        "G.ENROLL_REVIEW_MESSAGE"
-      ],
+      "founderApproval": [],
       "betaBlocker": false,
       "dimensions": {
         "documentation": "COMPLETE",
         "code": "COMPLETE",
-        "scopedQA": "IN_PROGRESS",
+        "scopedQA": "COMPLETE",
         "operational": "BLOCKED",
         "preview": "NOT_STARTED",
         "production": "NOT_STARTED",
