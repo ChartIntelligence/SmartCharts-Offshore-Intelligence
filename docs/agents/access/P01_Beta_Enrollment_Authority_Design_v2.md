@@ -1,0 +1,94 @@
+# P01 beta enrollment authority / lifecycle design v2
+
+DESIGN / IMPLEMENTATION PLAN ONLY. Founder mandatory enrollment direction verified in Coordinator's actual human message on2026-10-14. No runtime/UI/SQL migration/RLS/grant/Auth/config/private-key/account action. Existing4e1b49ba52c26089e24dd94f377109c13d8586b6 and frozenb0 preserved. Mobile enrollment and authoritative access lifecycle remain beta blockers, not implemented capabilities.
+
+## Reconciliation first
+
+| Exact existing source | Reuse / required successor |
+|---|---|
+|4e1 application; qualified read488e60d and UI4496a34 | Owner-bound legacy Profile DTO, approved founder/founding gate, safe read races and signout/lifetime guards reused. v1 entitlementState NOT_SUPPLIED and beta role refusal remain unchanged; no dates/lifetime/admin capability inferred |
+|20260810_captain_access_v1.sql /20260925_client_privilege_hardening_v1.sql | UUID owner FK, founder/founding_captain, approved/pending/revoked; ownerSELECT and private table isolation. Repository SQL is not current deployed catalog proof |
+|25ce753f3f1b18a4f24645c6c5778f66ca8d6d60 candidate;20261007_captain_entitlement_v1.sql | Existing isolated schema/routine/immutability/idempotency/RLS tests reused as evidence only. Separate, not integrated/deployed. It activates in redeem_beta with first-redemption-utc-calendar-year-v1; that is NOT the new first-qualifying-login contract |
+|early_access_signups /join_early_access | Existing consent/marketing signup is not an approved beta application, Auth identity, invitation or entitlement. Do not silently convert its rows |
+|FoundingCaptainAccessGate /useSupabaseAuth /CaptainSignIn | Current magic-link entry, sessionless anonymous fallback, existing global SDKsignout semantics. Authentication != approval/entitlement. New enrollment flow is separately owned, not replacement or silent configuration change |
+
+New mandatory policy: Founder permanent administrative access; Founding Captain free lifetime and priority access to QUALIFIED updates; Beta Captain one calendar year beginning FIRST successful qualifying login. Approval, invitation, registration, redemption-only, refresh, password reset and repeat/device login do not reset/start another term. Revocation does not pause/reset it; restoration resumes original dates. Priority updates change approved release eligibility/order only, not scientific qualification, Opportunity ranking or safety gates. Existing pending/revoked lifetime rows remain their exact statuses; lifetime entitlement does not silently override revocation/authentication.
+
+## Versioned authoritative contract
+
+Proposed pelora-captain-enrollment-authority-v2, additive successor requiring separate migration/service authorization. Keep four domains distinct:
+
+- Application: SUBMITTED / UNDER_REVIEW / APPROVED / DECLINED / WITHDRAWN; actor/contact/consent/reference/revision. Applicant submission grants nothing. Founder direct invite may omit application but retains explicit route/audit identity.
+- Invitation: PREPARED / AUTH_PENDING / AUTH_UNKNOWN / ISSUED / REDEEMED / CANCELED plus computed EXPIRED, delivery UNKNOWN/FAILED/ACKNOWLEDGED separately. Business7-day redemption window retained; Auth link expiry is separate provider config, never set to7days by assumption. Resend cannot restart entitlement.
+- Auth identity: independently verified current nonanonymous principal/email ownership/session; signup/confirmed email is not captain access. Application email cannot be trusted as target ownership alone.
+- Access/grant: exact role founder/founding_captain/beta_captain, approved/pending/revoked status, lifetime/beta_trial (futurepaid separately unimplemented), PENDING_ACTIVATION / ACTIVE / EXPIRED / REVOKED / INVALID_UNAVAILABLE. Approval is necessary, not itself a term start. Null beta dates deny active trial, never lifetime.
+
+Append-only transitions/audit and bounded operation status retain actor,target,action,server time,request identity,input digest,previous/new revisions,result/error class. No tokens,magiclinks,passwords,report contents or Ocean Intelligence in audit. Contact data confined to authorized enrollment views, no private reports/history to Founder admin.
+
+## First qualifying login — trusted server transition
+
+Qualifying event requires valid target-project authenticated nonanonymous/email-owned principal, approved bound beta grant, allowed invitation/admission state and trusted actual-login evidence accepted by a separately validated server adapter. Auth token presence, JWT iat/refresh, client firstLogin Boolean, account created_at, approval time or last_sign_in_at alone are insufficient to fabricate the event. Preserve event/session reference separately from trial timestamps; no backdating.
+
+Proposed authoritative instant is the first committed Pelora access-success transition after those checks. Require explicit first-qualifying-login policy version. In one short database operation: authenticate/verify proof before opening transaction; lock current grant/required admission state, recheck target/approval/revocation/policy/event binding, inspect activation, read database time, establish exactly one starts_at/activated_at and calendar expires_at, append audit and return authorization atomically. Previously active exact retries return existing dates; different/repeated valid login never updates them. Concurrent first logins serialize; revoke racing activation serializes and can never leave a revoked user authorized. Rollback leaves pending; lostACK queries authoritative grant/operation before retry. Service/network failure UNKNOWN/PENDING, not fabricated access/activation.
+
+No database transaction across Auth/email/network. A response lost after committed activation does not undo server success; exact retry resolves original grant. An approved account whose existing session predates approval must NOT silently treat token refresh as new login; conservative proposal requires a new qualifying authenticated-login event. Precise existing-session treatment and verifiable provider event mapping remain explicit approval/validation dependencies. Do not assert the current SDK already supplies sufficient event proof.
+
+Server checks current state/time on protected requests, not cached UI approval/JWTrole/expiry. At now>=expires_at deny active paid/current capabilities. Client dates are information, never authorization clocks; retain DB precision and readAt/policy/reference rather than use browser clock to mint access. Disabled/unavailable service fails closed for beta; preserve independently qualified legacy lifetime access behavior during gated rollout without granting beta through fallback.
+
+### Calendar rule / real unresolved decisions
+
+The old isolated candidate implemented UTC civil timestamp plus PostgreSQL interval1year, keeping time-of-day and clamping Feb29 toFeb28 in a nonleap anniversary. This is inspected candidate implementation, not newly asserted locked product policy. Existing product direction requires a calendar anniversary, not365days; canonical business-timezone/Feb29 decision was not found. Proposed conservative reuse is UTC and Feb28 clamp, but Founder must confirm before v2 implementation/migration. Never derive beta start from legacycreated_at or change an existing activated term during migration.
+
+Also resolve: meaning/evidence of qualifying login for a session predating approval; Founder admin assurance/MFA/reauth policy (no new numeric freshness threshold invented); supported auth-method/config choice; approved handling of an already-activated legacy beta record if deployed. These are real dependencies, not another science decision.
+
+## Reviewable additive schema / routine plan — NOT SQL
+
+Reuse captain_access and reviewed entitlement columns activated_at/starts_at/expires_at/start_policy_version/approved_at/by/revoked_at/by/revision/paid_grant_reference, enforcing exact role/type/state compatibility. Add first_qualifying_login_reference/activation_policy identity as required by validated adapter; no field value guessed. Immutable lifetime role/type/nullexpiry cannot change through beta routines. New provisioning explicitly beta_captain, never legacy founding default. Existing role/status/display/boat/created timestamps retained.
+
+Narrow applications record is separate from marketing consents and retains only enrollment details. Reuse/version invitations and immutable events after exact deployed-schema reconciliation; operation replay key unique(actor,requestId), arguments conflict fails, expected target revision rejects competing silent overwrite. Email provider operation/delivery fields separate from database approval. No broad new ledger or scheduler required.
+
+Required future database-controlled paths: require_current_founder; submit/review application; approve/decline/direct invite; bind verified invited principal without activation; activate_first_qualifying_login; revoke/restore; own_enrollment_read; founder_enrollment_read; operation_status. Beta routines cannot create founder/founding roles, extend/reset terms, bypassrevocation, or choose actor/time/expiry supplied by client. Non-owner execution roles, safe explicit schemas/search_path, PUBLIC defaultdeny, no table mutation grants and no routine replacement. Actor derives trusted userJWT/auth.uid context, never a servicekey pretending to be Founder. Narrow backend Auth admin use follows separately validated founder request only; credentials remain server-side, require separate approval.
+
+Preserve auth.uid()=user_id on every owner predicate. Entitlement supplements owner checks, never replaces them. Future RLS must enforce current capability on directREST write paths too; API checks alone cannot protect broad existing clientINSERT/UPDATE. Expired/revoked authenticated captain keeps only explicitly allowed own account/history read/export, no mutations/current paid capabilities; never delete data. Founder enrollment reads see enrollment/contact/grant state only, not broad captain reports/history. Each policy/grant change requires separate founder approval/deployed catalog evidence.
+
+Migration atomic: legacyfounder→founder_lifetime,null dates; legacyfounding→founding_lifetime,null dates; statuses preserved. Refusepartial/incompatible schema, wrong ownership/functions/grants, orphanowners, unexpected triggers/policies or unknown beta terms. Do not apply25ce unchanged. If deployed first-redemption beta records exist, stop for explicit term-preservation transition policy; never reset/grandfather silently. Rollback retains original lifetime role/status/data and beta ingress disabled. Email/Authadmin changes cannot roll back with SQL: reconcile separately, never auto-delete Authusers to hide failure.
+
+## Founder server commands / mobile UI boundary
+
+Proposed backend-owned Founder capability/read DTO binds verified principal/current admin revision/generation, contract/policy/readAt and allowed actions. Capability is presentation advice; every command revalidates current Founder in server/database. Paged/searchable enrollment response contains exact record revision/status/operation identity only necessary for administration; contacts private, no global client persistence/logs. Captain enrollment v2 read declares actuallifetime or authoritativeactivation/expiry/state and limits; no UI date arithmetic or default status.
+
+Commands carry requestId + expectedRevision + approved target/action fields; server ignores/rejects client actor/role/activation/expiry. Response CONFIRMED / PENDING / UNKNOWN / REJECTED with authoritative operation reference/revision; timeoutinspect status then SAMEKEYretry. Approve != email sent != invited principal != activated grant. Idempotency conflicts deny. Email delivery exactly-once cannot be promised without provider support; ambiguous delivery staysunknown before any resend. Database preparecommit, external Auth/email call, reconciliationcommit are separate short stages.
+
+P01 proposed owned files: backend/access/captainEnrollmentContract.mjs, enrollmentAuthority.mjs, enrollmentService.mjs, authenticated route module and dedicated backendtests; future versioned migration only after approval. P02 proposes FounderEnrollmentAdmin.jsx,CaptainEnrollmentDetails.jsx,presentationtests; CaptainProfile mount/narrow Gate/Startup forwarding require exact future reservation. Design acknowledgment delivered; NOUI/runtime implementation released. Reuse approved Profile components/readlegacy/signout rather than clone a second gate. Mobilelist25–30 with filters/search/counts/detail and separate explicit Approve/Decline/Invite; pendingdisabled, no optimistic success. Owner loss masks private list/late response; no clientprivileged SDK/import. P04 independently qualifies exact contracts/implementation. P05 only if science changes, which this design does not.
+
+## Public Supabase capabilities vs actual project facts
+
+Reviewed public primary documentation2026-10-14, not actual project settings:
+
+- [Rate limits](https://supabase.com/docs/guides/auth/rate-limits) distinguishes project email quota and endpoint/IP controls; documented defaults are not Pelora measured limits.
+- [Custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp) currently documents built-in service restriction to organization-team addresses and2emails/hour, unsuitable as assumed unrestricted cohortdelivery. Custom SMTP/hook is a supported option, not selected/configured/approved here.
+- [Password authentication](https://supabase.com/docs/guides/auth/passwords) supports confirmed email/password and later password login, reducing routine email-signin dependency; confirmation/recovery still require delivery. Recommended OPTIONpendingactualconfig, not a change to the qualified gate.
+- [User invitations](https://supabase.com/docs/guides/auth/users) are trusted-server/Dashboard admin actions; existing confirmed-user handling and configured redirect/link expiry require reconciliation. Invitation is not approval/entitlement, and delivery is not guaranteed by requestACK.
+- [Passwordless flow](https://supabase.com/docs/guides/auth/auth-email-passwordless) supports OTP/magic links with configurable resend/expiry and possible signup; switching codeentry alone does not remove emailquota. Never disable verification to ease cohort onboarding.
+
+Supported flow options: approvedapplication → verified signup/password enrollment → Founder approval → actual firstqualifyinglogin; or Founder direct invite → verifiedaccount/password setup → login; OAuth-only option only if actual provider/project configuration is approved. No payment/email provider/pricing chosen. Capacity25–30 must include confirmation/reset/resend/retries/delivery restrictions and measured test results, not a per-button batching assumption.
+
+### Actual non-production configuration inspection — unavailable
+
+Targetvqzskzoizpomwzgbgdwl known from existing approved QA contracts. No callable Supabase configuration connector found in enabled tool inventory; no authenticated config/log/network inspection performed. Legacy manual catalog preflight is not proof of current Auth/email settings. All actual settings below UNKNOWN: disable_signup; external_email_enabled/password capability; confirmation policy/mailer_autoconfirm; external_anonymous_users_enabled; enabled OAuth methods; site/allowedredirect URLs; mailer_otp_exp/maxfrequency; rate_limit_email_sent/otp/verify/tokenrefresh/anonymous users; customSMTP/send-email-hook enabled status; delivered429/error counts; invite behavior for existing users.
+
+Smallest next inspection: Founder/admin confirms non-prod project then provides only allowlisted nonsecret setting values/status/counts via read-only Dashboard review or separately approved redacting connector. Do NOT export entireconfig or SMTPpassword/user/token/secret keys/private identities. Management [GET auth config](https://supabase.com/docs/reference/api/v1-get-auth-service-config) requires auth:read/auth_config_read; a new token/connector/scope needs approval. This endpoint can include sensitive config: a trusted collector must redact BEFORE model/log/storage; no credential retrieval or fullresponse inspection implied. NoPATCH/Authadmin invitation permitted. Requestpermission for this exactread-only, target-bound, allowlistedconfig inspection if a suitable connector becomes available.
+
+## Minimum packets / acceptance / gates
+
+1. Contract/calendar/event-proof decision packet: P01nonUI design/pureoffline shapes, P02fakeports only after exactreservation, P04 type/privacy/replay tests. No live sideeffects. Pendingdecisions above collected together.
+2. Config/catalog reconciliation: actualnonprod nonsecretAuth settings + current schema/grants/RLS/routines/legacyaggregates, privacy-preserving evidence. Separate read authority; no migration. Compare25ce/v2assumptions beforeDDL.
+3. Additive schema/RLS routines: new isolated approvedmigration successor, preserve lifetime/private data. Controlled synthetic/local tooling tests first; migration/grants and any newpackages/software/credentials separately approved.
+4. Backend current-actor verification/firstlogin adapter/admin command service: pureports and transactional races/rollback/uncertain writes; frontend credentials prohibited. Privileged Auth/email/live config/servicehosting separately approved.
+5. MobileFounder+owncaptain enrollment presentation/authmethod flow: P02reserved components consume qualifiedDTOs, no UIentitlement authority or optimistic operations. P04 realcohort/rate/privacy/lifecycle/phone QA only after explicit realAuth/admin test permission.
+6. Nonprod supervised rollout then separately approvedproduction: controlled packet success is not live enrollment or Beta Ready; no promotion by docs. Foundingpriority applies only to qualifiedreleasedupdates.
+
+Required security tests: Founder/Founding lifetime/status mapping; unauthorizedselfapproval/admin/role escalation/crossuser/expiry extension denied; expiry equality/serverclock/skew/sessionrefresh; concurrentfirstlogins singleterm; revoke/activate race; firsteventproof missing/invalid/anonymous; approval/invite/redemption/reset/rel login do not activate/reset; leapday/year/timezone confirmed policy; resend/seven-day business vsAuthlinkexpiry; UNKNOWNACK/status/SAMEKEYreplay/conflict; staleadmin capability and ownergeneration; directREST/RLSmutationdenial; expiredownread/exportonly/data preserved; delivery429/outage/missingconfig/existingAuthuser; mobile25–30 workload/nooptimisticsuccess/no private reports/admin secrets. Exactimplementation candidates and independent P04 evidence required; none executed by this design task.
+
+BETA ENROLLMENT AUTHORITY DESIGN READY FOR POLICY / CONFIGURATION RECONCILIATION
+NOT IMPLEMENTED — MOBILE ENROLLMENT / ACCESS LIFECYCLE REMAIN BETA BLOCKERS

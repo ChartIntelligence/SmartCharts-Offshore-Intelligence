@@ -1,0 +1,75 @@
+{
+  "version": "pelora-captain-enrollment-authority-design-v2",
+  "status": "DESIGN_NOT_IMPLEMENTED",
+  "baseline": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "priorSchemaCandidate": "25ce753f3f1b18a4f24645c6c5778f66ca8d6d60",
+  "activationTrigger": "FIRST_SUCCESSFUL_QUALIFYING_LOGIN_SERVER_ACCESS_TRANSITION",
+  "oldTrigger": "FIRST_REDEMPTION_NOT_COMPATIBLE_UNCHANGED",
+  "clock": "AUTHORITATIVE_DATABASE",
+  "calendarPolicy": {
+    "existingCandidate": "UTC_YEAR_INTERVAL_FEB29_TO_FEB28",
+    "locked": "NOT_CONFIRMED",
+    "requiresFounderDecision": true
+  },
+  "states": {
+    "application": [
+      "SUBMITTED",
+      "UNDER_REVIEW",
+      "APPROVED",
+      "DECLINED",
+      "WITHDRAWN"
+    ],
+    "invitation": [
+      "PREPARED",
+      "AUTH_PENDING",
+      "AUTH_UNKNOWN",
+      "ISSUED",
+      "REDEEMED",
+      "CANCELED",
+      "EXPIRED"
+    ],
+    "entitlement": [
+      "LIFETIME",
+      "PENDING_ACTIVATION",
+      "ACTIVE",
+      "EXPIRED",
+      "REVOKED",
+      "INVALID_UNAVAILABLE"
+    ],
+    "operation": [
+      "CONFIRMED",
+      "PENDING",
+      "UNKNOWN",
+      "REJECTED"
+    ]
+  },
+  "invariants": [
+    "AUTH_NOT_ENTITLEMENT",
+    "OWNER_REQUIRED",
+    "FOUNDER_REVALIDATED_SERVER_DB",
+    "LEGACY_LIFETIME_STATUS_PRESERVED",
+    "NO_TERM_RESET",
+    "NO_CLIENT_ACTOR_TIME_EXPIRY",
+    "NO_IMMUTABLE_EVENT_MUTATION",
+    "UNCERTAIN_READ_BEFORE_SAME_KEY_RETRY",
+    "NO_CAPTAIN_DATA_DELETE",
+    "NO_BETA_LIFETIME_FROM_NULL"
+  ],
+  "projectConfiguration": {
+    "target": "vqzskzoizpomwzgbgdwl",
+    "inspected": false,
+    "connectorAvailable": false,
+    "secretRetrieval": false
+  },
+  "pendingDecisions": [
+    "CALENDAR_TIMEZONE_LEAP_POLICY",
+    "QUALIFYING_LOGIN_PROOF_AND_PREAPPROVAL_SESSION",
+    "FOUNDER_ASSURANCE_POLICY",
+    "AUTH_FLOW_ACTUAL_CONFIG",
+    "DEPLOYED_LEGACY_BETA_TERMS_IF_PRESENT"
+  ],
+  "implementation": false,
+  "migration": false,
+  "authAdminAction": false,
+  "testsExecuted": 0
+}
