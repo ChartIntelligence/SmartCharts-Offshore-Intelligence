@@ -1,0 +1,39 @@
+# P01 bounded readiness and integration planning - October 13, 2026
+
+Documentation/source inspection only. Canon79ba90b remains authoritative; this report does not approve assembly, launch, source admission or deployment. Frozen preview b0cd2b1c3b967644d3bb00b4b488addfe777b1e9 remains untouched.
+
+## Exact constituents and assembly dependencies
+
+| Constituent | Exact identity | Scope / remaining gate |
+|---|---|---|
+| UI repair | 73bd810e5eda1bdc0b33a17f92e8fda5986efa87; parent c0792fb32fa52ff34824ab5f4459522cbb65d10d | Coordinator reports scoped independent PASS; do not reinterpret as combined or physical-device acceptance |
+| FLOW-C1 | d7e8ba0e6cff5291e63fd02d9be96072340de3cb; parent1a011d1450a77893c5f02151b4f109e0cd0120a0 | Clean local checkpoint verified; P04 sequential independent review dispatched |
+| BATH-D1A | 4fefcae2b9ef9d17a3312f261db8cd5c63c5e1c7; same1a parent | Clean local checkpoint verified; P04 sequential independent review dispatched |
+| Publication read adapter | 87742e1daf6491f7dea2c5a119a42f6223aeb07d | Qualified pure offline preservation only; not a live publication/schedule API |
+| Profile seam | Separate codex/pelora-profile-read-contract-v1 worktree at1a parent | No code changes yet; shared useCaptainAccess hook requires explicit single-owner reservation before amendment |
+
+Planning only: derive each candidate delta from its recorded parent, not copying developer working files or claiming ancestry implies identical blobs. FLOW and BATH both modify useMapLibreOceanFields.js and producer evidence/tests; exact overlap review and a separately authorized reconciliation are necessary after independent clearance. UI repair is descendant of c079; both UI deltas must be preserved. No existing branch is a combined cleared candidate. An assembly needs exact constituent clearance, overlap ownership, no unreviewed conflict invention, exact unrelated-blob preservation and combined regression/browser/mobile qualification. No merge/cherry-pick/worktree creation performed here.
+
+Agreed producer ports: selectedCurrentSample:{fieldId,sampleIndex}|null and onCurrentSampleReadout({status,sample}). Existing emitted enum latest-available/stale/loading/degraded/unavailable/error/off; malformed-success/unknown become unavailable. Readonly sample retains fieldId/sampleIndex/coordinates/validTime/ageAsOf UTC ISO/ageHours/units kt/speedMetersPerSecond/speedKnots/directionDegrees/isZeroVector/roundedNonzero/freshnessStatus. P03 owns conversion, freshness and lifecycle. P02 owns eventual Dashboard.jsx, MapLibreIntelligenceMap.jsx and optional LayerControls.jsx Currents details. Exact source pelora-geostrophic-field and layer pelora-geostrophic-arrows carry original payload.cells index; never infer filtered feature order or nearest coordinate. Consumer wiring baseline/implementation assignment remains separate. No independent conversion/age calculation or stale-selector resurrection.
+
+## Profile / sign-out contract continuation
+
+Reuse the existing owner-filtered SELECT in useCaptainAccess, cancellation and render-time principal binding. An additive immutable private profile DTO must distinguish loading/revalidating/resolved/missing/read-unavailable/invalid binding. Own Auth email and matching row names/legacy role/status only; no arbitrary metadata role, default lifetime inference, Beta activation/expiry or duplicate approval evaluator. The legacy SELECT and approval behavior remain unchanged. Shared hook reservation is the smallest remaining coordination dependency; P02 components stay exclusively P02-owned. The attempted P02 Profile reservation message was automatically rejected because trusted authorization covered QA guard/Current readout, not this distinct Profile purpose. Explicit permission requested through normal user input; no retry, rerouting or delivery claim.
+
+Sign-out reuses existing Auth flow through an explicitly assigned callback, with controlled-port tests first. Failed sign-out must preserve truthful error and must not claim completed logout. Principal changes clear private state through existing owner lifecycle. Save authority is absent; no client UPDATE, false saved state, entitlement invention or real Auth call is authorized. P1/P4 controlled history limitations remain unrelated and unchanged.
+
+## Observe: installed tooling versus qualified source versus live readiness
+
+Read-only checks performed: Git HEAD/status; existing CP02/CP03 qualification JSON; current cp02.sql acceptance routine; existing CP05-CP08 evidence index; installed executable names; cluster directory/config/pid-file existence; process and local listener inspection. No credential contents, database connection, pg_isready execution, SQL, startup, mutation or Supabase operation.
+
+Critical-path worktree HEAD dadec5dbca7d360f70f633413fb6a347dc24cac1; unrelated supabase/.gitignore and supabase/config.toml remain untracked and untouched. PostgreSQL18 binaries postgres/pg_ctl/psql/pg_isready exist. Cluster data and postgresql.conf/postmaster.pid files exist. No PostgreSQL process or 127.0.0.1:55432 listener was returned by this inspection; that is not proof of valid startup or data integrity. A pid file alone is not running-state authority. Secure startup/connection/qualification requires separate explicit authorization and existing credential handling; none performed.
+
+CP02 historical record qualifies isolated claim/fence storage; CP03 record reports361 tests and immutable evidence/bindings/index. Their historical deferred-check descriptions are superseded by current CP05 source: cp02.accept_terminal locks manifest registry and ownership, validates matching attempt/fence/activation/lease with database clock at transition, validates exact immutable staged chain and CP04 checkpoint, consumes claim and inserts accepted state/index atomically. Rollback restores nonterminal state; terminal guard blocks later mutation/reclaim. This is explicit atomic transition authority, not deferred constraint timing. Unique/FK protections complement current ownership checks. Existing archives preserve restart/privilege evidence; no rerun or fresh live claim made.
+
+Current async worker and durable ports already exist on this lineage; do not restart an old Phase2-only implementation mission. Unknown commit requires authoritative exact readback before retry, matching accepted chain reuse, conflicting references fail closed and database unavailability remains indeterminate/pending. Outstanding operational composition/source supply/history admission/live service readiness must be assessed at their exact existing contracts, not replaced with Supabase storage or cached ownership. Receipt Writer remains default-disabled; local qualifications do not authorize operational enablement.
+
+## Product addendum / next dependencies
+
+[Product constitution](../../PELORA_PRODUCT_CONSTITUTION.md) now records the founder-approved seven target engines, scalable neutral core, seasonal hypotheses, governed Places visibility and controlled nightly audit/shadow-learning requirements. No species algorithm, threshold, history rule or audit implementation selected. P05 review precedes scientific implementation. Existing source/history/learning/privacy/ranking gates and CP10 block remain.
+
+Next bounded work: reserve Profile hook before its additive read-only seam; finish P04 exact FLOW/BATH review; assign P02 exact consumer baseline only after producer clearance and owner agreement. Independently request authorized cluster readiness operation if needed. No combined candidate, preview replacement, beta-ready claim or production action.

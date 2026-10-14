@@ -53,3 +53,15 @@ Founder-approved [Persistent Map Workspace + Universal Dock + Top Opportunities 
 ## Unified interface successor — October 13, 2026
 
 [Unified Map / Application Interface Amendment v1](PELORA_Unified_Map_Application_Interface_Amendment_v1.md) consolidates and supersedes fragmented UI directions. Earlier nonconflicting canon remains exact; new current-flow/relative-speed/kt direction requires P03/P05 source/meaning review and does not authorize trajectory/interpolation/extra science. P02 sequential UI-1 follows the verified cleared status source, with exact reservations; P01 retains profile/read/publication authority, no real saves or live schedule without qualified contracts. Frozen b0cd unchanged; actual candidate/browser/device/release qualification separate.
+
+## Founder-approved beta requirements addendum - October 13, 2026
+
+Recorded through the existing orchestration assignment. This is product direction, not implemented science, source admission, operational readiness or release authority.
+
+The locked beta requires seven scientifically qualified species engines: Blue Marlin, Yellowfin Tuna, Blackfin Tuna, Mahi, Sailfish, White Marlin and Wahoo. These identities reuse the existing beta board's species inventory; no new species is introduced. Blue Marlin's existing path and six target labels do not establish equivalent qualification. The common core must remain species-neutral and globally scalable, with explicit species/product/regional scientific adapters where required. Gulf deployment is not a generic architecture boundary.
+
+Founder seasonal observations are hypotheses for evidence review, not scoring policy, thresholds, eligibility, confidence or ranking authority. Expanded governed Gulf Places must retain exact source/context identity and species/context visibility; a Place does not become an Opportunity by existence, popularity or display. Reuse existing Places governance and preserve captain privacy and source admission.
+
+Nightly Evidence Audit and controlled shadow learning remain required beta capabilities, separately governed from production publishing and ranking. Preserve the original evidence and exact as-used assessment; repeated publication is not independent environmental evidence. Shadow findings require P05 review and explicit policy approval before any scientific code or production rule change. No scheduler, audit worker, scoring adjustment or automatic promotion is authorized by this addendum.
+
+Full historical continuity, persistence and Nightly Learn/Audit remain required. Current-only controlled qualification does not reduce beta scope. See [bounded coordination checkpoint](agents/architecture/P01_Overnight_Bounded_Readiness_v1.md) for current evidence and unimplemented dependencies.
