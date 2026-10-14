@@ -61,7 +61,7 @@ Snapshot2026-10-14 America/New_York; no tests/build/device/Auth/DB/provider acti
 | Stable ID | Acceptance | Status / owner | Exact evidence / dependency / beta blocker |
 |---|---|---|---|
 |NIGHT.BLUEPRINT|Versioned nightly audit blueprint exists, reviewed only as design; exact remote identity independently read.|COMPLETE / P05|`aaabba4b9f327e860b4401ef35454a27b7ee6ff4`; dependencies none; approvals none; Beta blocker false|
-|NIGHT.FIXTURE_PREP|Bounded historical-learning fixture preparation proposal follows canon/source/history/privacy; no learning execution or invented sample policy.|NOT_STARTED / P05|`1e2b158531e5de1660ed324e32f27171bd7572dc`; dependencies MASTER_CHECKPOINT, NIGHT.BLUEPRINT; approvals none; Beta blocker false|
+|NIGHT.FIXTURE_PREP|Bounded historical-learning fixture preparation proposal follows canon/source/history/privacy; no learning execution or invented sample policy.|COMPLETE / P05|`b9481f73b74d5659fbdba9672fff2f085af369d2`; documentary preparation only; all 42 NOT EXECUTED; dependencies MASTER_CHECKPOINT, NIGHT.BLUEPRINT; approvals none for documentation; Beta blocker false|
 |NIGHT.OPERATIONAL|Evidence audit/shadow learning actually runs on valid independently bound history/report support with human-reviewed proposals and no automatic production tuning.|BLOCKED / P01|`4e1b49ba52c26089e24dd94f377109c13d8586b6`; dependencies NIGHT.BLUEPRINT, OBS.OPERATIONAL_HISTORY, PUB.OPERATIONAL; approvals G.HISTORY_POLICY, G.LEARNING_IMPLEMENTATION; Beta blocker true|
 
 ### Audience / enrollment / privacy
@@ -130,3 +130,8 @@ SPEC structuralvalidator782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0 independently s
 ## Verified scoped closures / exact source request
 
 HistoricalApp71356135fe7aa945b52ea032d367e4f65dea5156 actualP04combinedscopedPASS report44f59bf2e82054c9f679f47e08e5bef56cef8a213984836c60aa761a05321090 verified, including nativeCurrentpaintedfeature-host correction with preserved earlier timeouts/process-exit caveat; no physical/liveAuth/bootstrap/operationaladmission. Syntheticserver993b1d669a779dcb71f94c86e1339ed1ebb6e4ee actualP04modelscopedPASS reporte9fd57151cd3ae62ab6ee8fe927e51d51c19741c4d06c9e24ae21e428495e8ca verified:68model/60offline/4adversarial counts separate. OperationalACCESS.ENROLLMENT remainsblocked bypolicy/realAuth/DBRLS/durableauthority. New exact713source request inspected11commits/65unionpaths againstrecordedoriginrefs, heuristic0sensitivefindings; sourcebranchremoteabsent, no push. All31requirementIDs andBeta/source/history/preview/production gates preserved.
+
+
+## Historical-learning fixture documentary closure — October 14, 2026
+
+P04 closed both documentary P2 findings at `b9481f73b74d5659fbdba9672fff2f085af369d2` (direct parent `c09058093bc56050effdc62bd00577de1a9925f4`). Only cases 39 and 41 changed; the other 40 fixtures, pinned contracts and admission flags remain unchanged. All 42 fixtures are NOT EXECUTED; the proposed 12-case subset has no execution authorization. Local P04 closure report SHA256: `c209448eb0924597dc43f38e0a952c1021aa3e1f4b6bf20be3590aa1db3f5602`. NIGHT.FIXTURE_PREP is documentary COMPLETE only; operational learning/history/source admission remains blocked. Saved Reports repair implementation release remains pending; P04 packet receipt is confirmed by task inspection, while its rejected outbound acknowledgment remains unsent. No candidate or qualification is implied by preparation.

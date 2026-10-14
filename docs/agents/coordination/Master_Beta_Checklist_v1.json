@@ -679,12 +679,12 @@
       "id": "NIGHT.FIXTURE_PREP",
       "category": "Nightly learn / audit",
       "acceptance": "Bounded historical-learning fixture preparation proposal follows canon/source/history/privacy; no learning execution or invented sample policy.",
-      "status": "NOT_STARTED",
+      "status": "COMPLETE",
       "owner": "P05",
       "task": "01a11267-bf87-77e3-b42f-8c677ace0caa",
-      "sha": "1e2b158531e5de1660ed324e32f27171bd7572dc",
+      "sha": "b9481f73b74d5659fbdba9672fff2f085af369d2",
       "branch": "NOT_BOUND",
-      "evidence": "Planned docs/agents/science/PELORA_05_C_Historical_Learning_Fixtures_v1.md",
+      "evidence": "P04 documentary P2 closure at b9481f7 parent c090580; only cases 39/41 changed, other 40 and pinned contracts unchanged. All 42 NOT EXECUTED; proposed 12-case subset not authorized for execution. Local P04_Historical_Learning_Fixture_Closure_b9481f7_v1.md SHA256 c209448eb0924597dc43f38e0a952c1021aa3e1f4b6bf20be3590aa1db3f5602",
       "dependencies": [
         "MASTER_CHECKPOINT",
         "NIGHT.BLUEPRINT"
@@ -694,7 +694,7 @@
       "dimensions": {
         "documentation": "COMPLETE",
         "code": "NOT_STARTED",
-        "scopedQA": "NOT_STARTED",
+        "scopedQA": "COMPLETE",
         "operational": "BLOCKED",
         "preview": "NOT_STARTED",
         "production": "NOT_STARTED",
