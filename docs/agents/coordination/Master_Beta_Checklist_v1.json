@@ -210,7 +210,7 @@
     "G.PRODUCTION": "Explicit deployment/migration/release approval not granted",
     "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod",
     "G.SCALAR_IMPLEMENTATION": "RESOLVED for prepared historical review-only packet: actual P03 clean4e1 workspace/path ACK received; no operational admission/app mounting.",
-    "G.HISTORICAL_COMBINED_QA_MESSAGE": "Exact71356135fe7aa945b52ea032d367e4f65dea5156 review delivery to P04 rejected newpurpose; human approval requested, NOTdispatched. NewP03integrationACK also gated; no bypass/qualifiedrelease."
+    "G.HISTORICAL_COMBINED_QA_MESSAGE": "RESOLVED by direct founder: exact713 delivered to P04 normally; actual P03 integrationACK received. Independent combinedQA ACTIVE, no PASS inferred."
   },
   "requirements": [
     {
@@ -1102,7 +1102,21 @@
     "producer": "99d7698b73183d490671d87ed74cc0f77a63080c",
     "status": "LOCAL_CANDIDATE_NOT_CLEARED",
     "tests": "84compatibleassertions+controlled1000/390/320 actualApp/map; reportpreservesharnessfailures",
-    "reviewDelivery": "REJECTED_NOT_DISPATCHED",
-    "producerNewAcknowledgment": "PENDING"
+    "reviewDelivery": "DELIVERED_P04_ACTIVE",
+    "producerNewAcknowledgment": "RECEIVED_NO_INTERFACE_CONFLICT"
+  },
+  "enrollmentServerModel": {
+    "task": "A_ENROLLMENT_SERVER_CONTRACT_HARNESS",
+    "requirement": "ACCESS.ENROLLMENT",
+    "sha": "993b1d669a779dcb71f94c86e1339ed1ebb6e4ee",
+    "base": "0adc63a0ccb37605b1e3b3be815ca79e4223e823",
+    "branch": "codex/pelora-enrollment-authority-harness-v1",
+    "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-enrollment-authority-harness-v1",
+    "status": "LOCAL_MODEL_IMPLEMENTED_QA_QUEUED_NOT_DISPATCHED",
+    "tests": 68,
+    "unchangedOfflineTests": 60,
+    "calendarPolicy": "EXPLICIT_PROVISIONAL_FIXTURES_NOT_APPROVED",
+    "liveAuthDatabaseRLS": "NOT_IMPLEMENTED",
+    "reviewDependency": "AFTER_ACTIVE_713_QA"
   }
 }
