@@ -3,7 +3,8 @@ export function captainProfileRead({principalId,user,access}) {
   const result=(resolution,profile=null)=>Object.freeze({contractVersion:'pelora-private-account-profile-read-v1',resolution,profile,entitlementState:'NOT_SUPPLIED'});
   const plain=value=>value&&[Object.prototype,null].includes(Object.getPrototypeOf(value));
   const own=(value,key)=>{const d=Object.getOwnPropertyDescriptor(value,key);if(d&&!('value' in d))throw Error('accessor');return d?.value;};
-  if(!principalId)return result('NO_AUTHORIZED_OWNER');
+  if(principalId==null)return result('NO_AUTHORIZED_OWNER');
+  if(typeof principalId!=='string'||principalId.trim().length===0)return result('INVALID_BINDING');
   try {
     if(!plain(user)||own(user,'id')!==principalId||own(user,'is_anonymous')===true)return result('INVALID_BINDING');
     if(!access)return result('LOADING');

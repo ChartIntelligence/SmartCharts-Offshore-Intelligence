@@ -37,3 +37,13 @@ Historical baseline suite was attempted before runtime edits:14/14 FAIL at VM mi
 Working-file fingerprints distinguish tested bytes from Git newline conversion. Evidence-document hashes are not implementation identities. Fixtures contain only explicitly controlled identities/example.invalid addresses, not real credentials/captain data.
 
 Limits: no live Auth/Supabase/browser/mobile/sign-out execution, no deployed schema proof, no Save, no Beta entitlement, no component integration, no owner-private data into shared stores. Existing science, source/history/ranking, access/RLS and frozen preview remain untouched. P04 must independently review exact candidate before dependent wiring or integration.
+
+## P04 P2 owner-integrity repair - October 14, 2026
+
+Parent38f290afb85c7a7d7de14bf05176126620fb7a3b received CHANGES REQUIRED in exact P04_Profile_Read_Independent_QA_38f290a_v1.md. Independent reviewer confirmed a pure DTO defect, not an operational authorization-policy exploit: a shared nonstring owner object passed reference equality and remained mutable inside the frozen wrapper. Original evidence above records the original tested scope, not clearance of this counterexample.
+
+Reproduced exact parent helper from Git via offline data-module import: RESOLVED/object owner mutated from before to after. Bounded repair requires primitive nonempty owner string before binding/copying; null/undefined still mean NO_AUTHORIZED_OWNER. Blank strings and object/array/boxed string/number/Boolean/nonfinite values return INVALID_BINDING/null. No coercion, UUID invention or identity rewrite; accepted strings retain exact bytes.
+
+Final same dedicated command now33/33 PASS:21 prior cases plus11 malformed-owner cases and1 exact-string preservation case. Actual owner-hook scenario retained. Helper/test syntax PASS, recommended helper lint0findings, whitespace PASS. Hook, queries, gates, P02 components and original historical fixture unchanged from38f290; historical14 harness failures remain as independently classified, not rerun for this pure repair. No actual sign-out/Auth/DB/RLS/Save/entitlement/source/science changes.
+
+Exact tested repair SHA256: helper5e6cf1af41c4bac75f7fb87b6f2a62108192d87206487f9f4f24c9b7a9366dc7; pure test92a651467e4dcbca430aa7362218da0bb0e148313f593527bb0fb9cb7633ecd9. Scope only helper, pure test and this evidence addendum. Failed parent and independent report preserved. Exact successor must undergo P04 independent review; no consumer wiring/integration/frozen preview clearance inferred.
