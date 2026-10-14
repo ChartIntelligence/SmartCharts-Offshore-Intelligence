@@ -149,3 +149,8 @@ Milestone timestamp: 2026-10-14T23:10:13Z.
 - Enrollment synthetic harness 993b1d669a779dcb71f94c86e1339ed1ebb6e4ee and species structural validator 782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0 retain scoped passes. Server/Auth/database policy and scientifically affirmative species interpretation remain separately gated.
 - Provider-readiness coordination remains purpose-permission-gated; no alternate relay. Operational SST/chlorophyll source freshness/provenance/coverage/fallback and independent Observe/publishing qualification remain release blockers.
 - Founder actions: exact source push authorization; separate preview configuration/launch and real-service test authorization; named provider-readiness communication approval. Production accounts/reports, frozen preview, main, Supabase and Receipt Writer unchanged. No Beta Ready or automated two-way bridge claim.
+
+Milestone timestamp: 2026-10-14T23:10:53Z.
+
+- New preview readiness blocker identified during P01 source reconciliation: saved-report read-only safety needs bounded correction and independent nonempty-report controls before preview authorization. No real account/report/database operation occurred.
+- P01 asked to coordinate P02-owned isolated successor repair through normal ownership/permission mechanisms, followed by exact P04 qualification. Qualified 71356135fe7aa945b52ea032d367e4f65dea5156 remains unchanged; any successor publication requires its own exact approval. Preview launch remains blocked.
