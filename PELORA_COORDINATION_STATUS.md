@@ -83,3 +83,13 @@ Milestone timestamp: 2026-10-14T15:36:11Z.
 - Remaining gates: exact source publication permission; new supervised preview approval/configuration; live Auth/startup, physical iPhone/founder visual acceptance. Profile Save, durable Profile drafts, operational publication countdown, continuous geographic streamlines and new bathymetry provisioning remain unavailable or separately gated. CP-10 remains blocked.
 - Six inherited lint findings and historical harness exclusions remain visible. No overall operational/scientific/Beta Ready claim.
 - Frozen b0cd2b1c3b967644d3bb00b4b488addfe777b1e9, main, Supabase, production and Receipt Writer unchanged. No deployment or preview replacement.
+
+Milestone timestamp: 2026-10-14T17:20:45Z.
+
+- Master Beta checklist checkpoint: 5236aecb925de5f85a7d1b2e24349628641e29b9. Exact clean HEAD verified; five documentation paths only. Thirty-one acceptance IDs across ten categories distinguish controlled/code, live operation, preview, production and founder/device acceptance. Existing beta board remains the single execution queue; no completion percentage inferred.
+- Unified application 4e1b49ba52c26089e24dd94f377109c13d8586b6 remains local, independently scoped-qualified, not deployed. Exact source publication and separate supervised-preview proposals are ready for their approval gates.
+- Enrollment offline contract successor: 60bbacb22efb7ab4a0a8dde28becfdac9673dea4, 54 developer checks reported. Independent review communication remains permission-gated; no backend activation or actual account lifecycle qualification.
+- SST/chlorophyll recovery checkpoint recorded by P01: ea79e5a165aeb96cd93250441205da43352d74a2. Historical NOAA frame identity is retained; operational freshness/source admission and multi-source qualification remain blockers.
+- P05 VNEXT research has 77 species/domain records, 16 additional source/correction records and 35 logged queries prepared; no successor commit or qualification claimed yet. Existing dossiers 1e2b158531e5de1660ed324e32f27171bd7572dc preserved.
+- Two-captain early preview remains preparation-only: existing access/report privacy and lifetime rights must be verified through approved isolated Auth/report-visibility and rollback gates before invitation. No private report or credential copying.
+- Founder actions remain exact communication/source publication/preview and scientific authority decisions; no main merge, Supabase mutation, production deployment, Receipt Writer activation or Beta Ready claim.
