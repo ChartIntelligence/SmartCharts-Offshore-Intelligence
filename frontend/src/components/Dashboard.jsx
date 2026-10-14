@@ -9,6 +9,7 @@ import TodayDashboard from "./TodayDashboard";
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo, useRef,
   useState
 } from "react";
@@ -68,6 +69,35 @@ function DashboardWorkspace({
   }),validateWorkspace);
   const [expandedTool,setExpandedTool]=useState(null);
   const toolChange=tool=>open=>setExpandedTool(open?tool:null);
+  // Ephemeral exact-cell intent and supplied readout; never workspace storage.
+  const sampleOwner=!authLoading && user?.is_anonymous===false && session?.user?.is_anonymous===false &&
+    typeof user?.id==='string' && session?.user?.id===user.id ? user.id : null;
+  const sampleOwnerRef=useRef(sampleOwner);
+  const [sampleView,setSampleView]=useState(()=>({owner:sampleOwner,selection:null,readout:null}));
+  const sampleViewRef=useRef(sampleView);
+  useLayoutEffect(()=>{sampleOwnerRef.current=sampleOwner;sampleViewRef.current=sampleView;},[sampleOwner,sampleView]);
+  const awaitingSampleClear=useRef(false);
+  if(sampleView.owner!==sampleOwner){setSampleView({owner:sampleOwner,selection:null,readout:null});}
+  const currentSample=sampleOwner && sampleView?.owner===sampleOwner && workspace.layers.currentField ? sampleView : null;
+  const selectedCurrentSample=currentSample?.selection??null;
+  useEffect(()=>{if(!selectedCurrentSample)awaitingSampleClear.current=false;},[selectedCurrentSample,sampleOwner]);
+  const selectCurrentSample=useCallback(selection=>{
+    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner || awaitingSampleClear.current)return;
+    setSampleView(previous=>({owner:sampleOwner,selection,readout:previous?.owner===sampleOwner?previous.readout:null}));
+  },[sampleOwner]);
+  const clearCurrentSample=useCallback(()=>{
+    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner)return;
+    awaitingSampleClear.current ||= Boolean(sampleViewRef.current?.owner===sampleOwner && sampleViewRef.current.selection);
+    setSampleView(previous=>previous?.owner===sampleOwner?{...previous,selection:null,readout:previous.readout?{...previous.readout,sample:null}:null}:{owner:sampleOwner,selection:null,readout:null});
+  },[sampleOwner]);
+  const receiveCurrentSample=useCallback(readout=>{
+    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner)return;
+    const current=sampleViewRef.current;
+    const selection=current?.owner===sampleOwner?current.selection:null;
+    if(readout?.sample && (!selection || readout.sample.fieldId!==selection.fieldId || readout.sample.sampleIndex!==selection.sampleIndex))return;
+    if(!readout?.sample && selection)awaitingSampleClear.current=true;
+    setSampleView({owner:sampleOwner,selection:readout?.sample?selection:null,readout});
+  },[sampleOwner]);
   const activeTab = workspace.activeTab;
   const applyNavigation=useCallback(next=>{
     setWorkspace(current=>({...current,activeTab:next.tab,reportPanelOpen:next.report}));
@@ -79,7 +109,11 @@ function DashboardWorkspace({
   const firstSummaryHandled=useRef(false);
   useEffect(()=>{if(firstSummaryHandled.current)return;firstSummaryHandled.current=true;if(initialSummary && !workspace.reportPanelOpen && activeTab==="map")setActiveTab("today");},[initialSummary,workspace.reportPanelOpen,activeTab,setActiveTab]);
   const layers = workspace.layers;
-  const setLayers = useCallback(update=>setWorkspace(current=>({...current,layers:typeof update==='function'?update(current.layers):update})),[setWorkspace]);
+  const setLayers = useCallback(update=>{
+    const next=typeof update==='function'?update(layers):update;
+    if(!next.currentField)clearCurrentSample();
+    setWorkspace(current=>({...current,layers:next}));
+  },[layers,setWorkspace,clearCurrentSample]);
   const selectedSpot = structures.find(spot=>spot.id===workspace.selectedSpotId) ?? null;
   const setSelectedSpot = useCallback(spot=>setWorkspace(current=>({...current,selectedSpotId:spot?.id ?? null,opportunitySelection:spot?null:current.opportunitySelection,
     sheetExpanded:(spot?.id ?? null)===current.selectedSpotId?current.sheetExpanded:false})),[setWorkspace]);
@@ -541,6 +575,8 @@ return <PersistentMapShell
             <div className="map-wrapper">
 
               <LayerControls
+                currentSampleReadout={currentSample?.readout??null}
+                onClearCurrentSample={clearCurrentSample}
                 open={expandedTool==="layers"} onOpenChange={toolChange("layers")}
                 fieldStatus={fieldStatus}
                 observationTime={observationDisplayTime}
@@ -552,6 +588,9 @@ return <PersistentMapShell
               />
 
               <MapLibreIntelligenceMap
+                selectedCurrentSample={selectedCurrentSample}
+                onSelectCurrentSample={sampleOwner?selectCurrentSample:undefined}
+                onCurrentSampleReadout={receiveCurrentSample}
                 session={session}
                 camera={workspace.mapCamera}
                 onCameraChange={setMapCamera}

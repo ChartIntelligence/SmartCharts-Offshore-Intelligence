@@ -39,6 +39,9 @@ function MapLibreIntelligenceMap({
   syntheticSstReview = null,
   onFieldStatus,
   session = null,
+  selectedCurrentSample = null,
+  onSelectCurrentSample,
+  onCurrentSampleReadout,
   openWaterOpportunities = [],
   selectedOpportunity = null,
   setSelectedOpportunity,
@@ -142,7 +145,25 @@ function MapLibreIntelligenceMap({
   });
 
   useMapLibreEnvironmentalObservations({ mapRef, observationDisplay, layers: sampleLayersForMode(layers, qaSamples) });
-  useMapLibreOceanFields({ mapRef, bathymetry: layers.bathymetry, currentField: layers.currentField, onFieldStatus, session });
+  useMapLibreOceanFields({ mapRef, bathymetry: layers.bathymetry, currentField: layers.currentField, onFieldStatus, session, selectedCurrentSample, onCurrentSampleReadout });
+  useEffect(()=>{
+    const map=mapRef.current;
+    if(!map || !layers.currentField || !onSelectCurrentSample)return;
+    const inspect=event=>{
+      const target=event.originalEvent?.target;
+      if(event.originalEvent?.defaultPrevented || target?.closest?.('.maplibregl-marker,.maplibregl-popup,button,a,input,select,textarea'))return;
+      const feature=event.features?.find(item=>item.source==='pelora-geostrophic-field' &&
+        item.layer?.id==='pelora-geostrophic-arrows' && item.geometry?.type==='Point');
+      const props=feature?.properties;
+      if(typeof props?.fieldId!=='string' || !props.fieldId || !Number.isSafeInteger(props.sampleIndex) || props.sampleIndex<0)return;
+      // Other map interactions retain priority; never select a current behind a Place/sample.
+      const hits=map.queryRenderedFeatures?.(event.point)??[];
+      if(hits.some(item=>item.geometry?.type==='Point' && item.source!=='pelora-geostrophic-field'))return;
+      onSelectCurrentSample({fieldId:props.fieldId,sampleIndex:props.sampleIndex});
+    };
+    map.on('click','pelora-geostrophic-arrows',inspect);
+    return()=>map.off('click','pelora-geostrophic-arrows',inspect);
+  },[mapRef,layers.currentField,onSelectCurrentSample]);
   useSyntheticSstReview({mapRef, review: syntheticSstReview});
 
   useMapLibreOpenWaterOpportunities({

@@ -4,7 +4,7 @@ import { FIELD_CONTROLS } from "../utils/oceanFieldPresentation.js";
 import { OBSERVATION_CONTROLS } from "../utils/mapObservationDisplay.js";
 
 
-function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, observationTime = Date.now(), qaSamples = false, transitionAvailable = false, open, onOpenChange }) {
+function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, observationTime = Date.now(), qaSamples = false, transitionAvailable = false, open, onOpenChange, currentSampleReadout = null, onClearCurrentSample }) {
 
   const [localOpen, setLocalOpen] = useState(false);
   const isOpen=open ?? localOpen;
@@ -106,6 +106,7 @@ function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, obs
                   <input type="checkbox" checked={!!layers[key]} onChange={() => toggleLayer(key)} />
                   <span>{label}<small className="observation-layer-note" role="status">{layers[key] ? captainFieldStatus(state, observationTime) : "Off"}</small></span>
                 </label>
+                {key==="currentField" && <CurrentSampleDetails enabled={Boolean(layers.currentField)} readout={currentSampleReadout} onClear={onClearCurrentSample}/>}
               </div>;
             })}
             <p className="observation-layer-note">Bathymetry is not a navigation chart. Arrows show geostrophic surface flow only.</p>
@@ -178,3 +179,22 @@ function LayerControls({ layers, setLayers, observationDisplay, fieldStatus, obs
 
 
 export default LayerControls;
+function CurrentSampleDetails({enabled,readout,onClear}){
+  const statuses={'latest-available':'Latest available',stale:'Stale',loading:'Loading',degraded:'Refresh failed · retained evidence',unavailable:'Unavailable',error:'Error',off:'Off'};
+  const sample=enabled?readout?.sample:null;
+  const displayable=['latest-available','stale','loading','degraded'].includes(readout?.status) && sample && typeof sample.fieldId==='string' && Number.isSafeInteger(sample.sampleIndex) &&
+    sample.units==='kt' && Number.isFinite(sample.speedKnots) && Number.isFinite(sample.ageHours) &&
+    typeof sample.ageAsOf==='string' && ['latest-available','stale'].includes(sample.freshnessStatus) &&
+    typeof sample.isZeroVector==='boolean' && typeof sample.roundedNonzero==='boolean' &&
+    (sample.isZeroVector?sample.directionDegrees===null:Number.isFinite(sample.directionDegrees));
+  return <section aria-label="Current sample details" role="status">
+    <p>{!enabled?'Off':readout?(statuses[readout.status]??'Unavailable'):'Sample inspection is not connected.'}</p>
+    {displayable?<>
+      <p><strong>{sample.speedKnots.toFixed(1)} kt</strong>{sample.roundedNonzero?' · rounded nonzero vector':''}</p>
+      <p>{sample.isZeroVector?'Zero vector · direction not defined':sample.directionDegrees.toFixed(1)+'° direction'}</p>
+      <p>{statuses[sample.freshnessStatus]} · {sample.ageHours.toFixed(1)}h old</p>
+      <p><small>Age reference: {sample.ageAsOf}</small></p>
+      <button type="button" style={{minHeight:44}} onClick={onClear}>Clear current sample</button>
+    </>:enabled&&readout&&<p>{sample?'Sample details cannot be displayed.':['unavailable','error','off'].includes(readout.status)?'No current sample is available.':readout.status==='loading'?'Current sample evidence is loading.':'Select a current marker to inspect its speed.'}</p>}
+  </section>;
+}
