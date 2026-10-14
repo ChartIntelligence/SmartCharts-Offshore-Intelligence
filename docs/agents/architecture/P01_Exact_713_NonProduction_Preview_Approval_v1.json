@@ -1,0 +1,231 @@
+{
+  "version": "pelora-exact-713-preview-approval-packet-v1",
+  "status": "PREVIEW_NOT_READY_APPROVAL_PACKET_ONLY",
+  "candidate": "71356135fe7aa945b52ea032d367e4f65dea5156",
+  "applicationBase": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "producer": "99d7698b73183d490671d87ed74cc0f77a63080c",
+  "constituents": [
+    {
+      "name": "unified-ui",
+      "sha": "73bd810e5eda1bdc0b33a17f92e8fda5986efa87",
+      "ancestorVerified": true
+    },
+    {
+      "name": "FLOW",
+      "sha": "d7e8ba0e6cff5291e63fd02d9be96072340de3cb",
+      "ancestorVerified": true
+    },
+    {
+      "name": "BATH",
+      "sha": "174b271a530565dce43b5848776a23f2821e6004",
+      "ancestorVerified": true
+    },
+    {
+      "name": "owner-profile-read",
+      "sha": "488e60d8e77e656e392a0ea65d1673b4c1184206",
+      "ancestorVerified": true
+    },
+    {
+      "name": "exact-current-consumer",
+      "sha": "aaf185ff66b507c470da9383178b057af6242325",
+      "ancestorVerified": true
+    },
+    {
+      "name": "Profile-UI",
+      "sha": "4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2",
+      "ancestorVerified": true
+    },
+    {
+      "name": "qualified-application",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "ancestorVerified": true
+    },
+    {
+      "name": "historical-producer",
+      "sha": "99d7698b73183d490671d87ed74cc0f77a63080c",
+      "ancestorVerified": true
+    }
+  ],
+  "changedPaths": [
+    "docs/agents/integration/P01_Historical_SST_Local_Integration_v1.json",
+    "docs/agents/integration/P01_Historical_SST_Local_Integration_v1.md",
+    "frontend/src/components/MapLibreIntelligenceMap.jsx",
+    "frontend/src/hooks/tests/PELORA-03_Retained_Scalar_Review_Evidence.md",
+    "frontend/src/hooks/tests/historicalSstIntegration.browser.test.mjs",
+    "frontend/src/hooks/tests/historicalSstIntegration.test.mjs",
+    "frontend/src/hooks/tests/retainedScalarReviewRender.test.mjs",
+    "frontend/src/hooks/tests/useRetainedScalarReview.test.js",
+    "frontend/src/hooks/useRetainedScalarReview.js",
+    "frontend/src/utils/retainedScalarReviewLayer.js",
+    "frontend/src/utils/tests/retainedScalarReviewLayer.test.js"
+  ],
+  "allOtherTrackedPathsMatchApplicationBase": true,
+  "producerBlobs": [
+    {
+      "path": "frontend/src/hooks/tests/PELORA-03_Retained_Scalar_Review_Evidence.md",
+      "producerBlob": "bab5ab6a2edcadec01c1cf00501fbc029541f8f3",
+      "candidateBlob": "bab5ab6a2edcadec01c1cf00501fbc029541f8f3",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/hooks/tests/retainedScalarReviewRender.test.mjs",
+      "producerBlob": "0467e0f284a323e86f8f7b4b4474ce04cf163959",
+      "candidateBlob": "0467e0f284a323e86f8f7b4b4474ce04cf163959",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/hooks/tests/useRetainedScalarReview.test.js",
+      "producerBlob": "53a2139923fc82e4cd9adc00986253c094793cfb",
+      "candidateBlob": "53a2139923fc82e4cd9adc00986253c094793cfb",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/hooks/useRetainedScalarReview.js",
+      "producerBlob": "279881a1300221b1612631795c840a186daba197",
+      "candidateBlob": "279881a1300221b1612631795c840a186daba197",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/utils/retainedScalarReviewLayer.js",
+      "producerBlob": "adf7eb86d013770812d97ad5278a64d2b449e993",
+      "candidateBlob": "adf7eb86d013770812d97ad5278a64d2b449e993",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/utils/tests/retainedScalarReviewLayer.test.js",
+      "producerBlob": "900c8899e090eab040f85a9721ed5d8965b2de39",
+      "candidateBlob": "900c8899e090eab040f85a9721ed5d8965b2de39",
+      "equal": true
+    }
+  ],
+  "protectedBlobs": [
+    {
+      "path": "frontend/src/App.jsx",
+      "applicationBaseBlob": "ff1ed65db2c769c5855f73ad6c42e46a5856a7dd",
+      "candidateBlob": "ff1ed65db2c769c5855f73ad6c42e46a5856a7dd",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/main.jsx",
+      "applicationBaseBlob": "b9a1a6deac8775b5598874b2bc3c7971d82cf211",
+      "candidateBlob": "b9a1a6deac8775b5598874b2bc3c7971d82cf211",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/lib/supabase.js",
+      "applicationBaseBlob": "6ee03ee78c5f69d8f7cafa7ef58641bee1f6ec2b",
+      "candidateBlob": "6ee03ee78c5f69d8f7cafa7ef58641bee1f6ec2b",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/hooks/useSupabaseAuth.js",
+      "applicationBaseBlob": "abd3153322199f489db0e19706e88aedc4d6b325",
+      "candidateBlob": "abd3153322199f489db0e19706e88aedc4d6b325",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "applicationBaseBlob": "5078867ba52496f37494f1bd846788688842a24d",
+      "candidateBlob": "5078867ba52496f37494f1bd846788688842a24d",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/components/CaptainProfile.jsx",
+      "applicationBaseBlob": "45ce9f879609f27d6a3aa0735e9055854ad38091",
+      "candidateBlob": "45ce9f879609f27d6a3aa0735e9055854ad38091",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/components/FoundingCaptainAccessGate.jsx",
+      "applicationBaseBlob": "79f339fda320d2cea07f79931794325c38c9ac35",
+      "candidateBlob": "79f339fda320d2cea07f79931794325c38c9ac35",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/components/PeloraStartupFlow.jsx",
+      "applicationBaseBlob": "2f13f63f54a31447e148d95af4de298fc3c829a8",
+      "candidateBlob": "2f13f63f54a31447e148d95af4de298fc3c829a8",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/components/SavedFishingDayReports.jsx",
+      "applicationBaseBlob": "ede49f447ff7f553ad0809d61b7927c085cddcae",
+      "candidateBlob": "ede49f447ff7f553ad0809d61b7927c085cddcae",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/hooks/useCaptainAccess.js",
+      "applicationBaseBlob": "be305fa312985839b401b68e3c9516e419386318",
+      "candidateBlob": "be305fa312985839b401b68e3c9516e419386318",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/utils/captainProfileRead.js",
+      "applicationBaseBlob": "b1462a720666d006ecb2ef5410336c48b9a05d27",
+      "candidateBlob": "b1462a720666d006ecb2ef5410336c48b9a05d27",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/hooks/useMapLibreOceanFields.js",
+      "applicationBaseBlob": "74d1a5bb93f1403b917980b364d4dbea9640c481",
+      "candidateBlob": "74d1a5bb93f1403b917980b364d4dbea9640c481",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/utils/oceanFieldPresentation.js",
+      "applicationBaseBlob": "f1e23b30620ee0181b9910b8bce26b6e8c69f34b",
+      "candidateBlob": "f1e23b30620ee0181b9910b8bce26b6e8c69f34b",
+      "equal": true
+    },
+    {
+      "path": "frontend/src/utils/currentFlowPresentation.js",
+      "applicationBaseBlob": "04ad8daa7d82ec6352fffc7d942b6c18a6eee832",
+      "candidateBlob": "04ad8daa7d82ec6352fffc7d942b6c18a6eee832",
+      "equal": true
+    }
+  ],
+  "qa": {
+    "reportSHA256": "44f59bf2e82054c9f679f47e08e5bef56cef8a213984836c60aa761a05321090",
+    "controlledGateStartupDashboardProfileNativeMap": "SCOPED_PASS",
+    "actualAppEntryBootstrap": "NOT_EXECUTED",
+    "fullViteBuild": "NOT_EXECUTED",
+    "liveAuth": "NOT_EXECUTED",
+    "physicalPhone": "NOT_EXECUTED",
+    "operationalSources": "NOT_QUALIFIED"
+  },
+  "environment": {
+    "mode": "PROPOSED_LOCAL_READ_ONLY_NOT_STARTED",
+    "frontend": "http://127.0.0.1:4173",
+    "backend": "http://127.0.0.1:8787",
+    "project": "https://vqzskzoizpomwzgbgdwl.supabase.co",
+    "allowedVariableNames": [
+      "PELORA_LOCAL_QA_READ_ONLY",
+      "VITE_PELORA_LOCAL_QA_READ_ONLY",
+      "SUPABASE_URL",
+      "VITE_SUPABASE_URL",
+      "SUPABASE_PUBLISHABLE_KEY",
+      "VITE_SUPABASE_PUBLISHABLE_KEY",
+      "VITE_PELORA_API_BASE",
+      "PELORA_QA_CAPTAIN_USER_ID",
+      "PORT"
+    ],
+    "publicKeyValue": "NOT_READ_OR_EMBEDDED",
+    "principalValue": "NOT_READ_OR_EMBEDDED",
+    "frontendDependencyDirectoryPresent": false,
+    "runtimeDependencyReuse": "REVIEWED_BUILD_DRIVER_OR_INSTALL_APPROVAL_REQUIRED",
+    "phoneHosting": "NO_APPROVED_TARGET_SUPPLIED",
+    "guardHostOriginHardcoded": true
+  },
+  "blockers": [
+    "SavedFishingDayReports delete handler lacks QA write guard; new bounded repair authorization requested",
+    "P01-to-P04 preview safety follow-up rejected new purpose; authorization requested",
+    "Exact713 source push still pending; no permission transfer to a repair successor",
+    "ActualApp/main/bootstrap and fullbuild need separately authorized execution",
+    "Nonproduction principal/RLS/settings and Auth anonymous startup/session/global signout approval",
+    "Existingdependency/fullbuild driver not qualified; no package installation permitted",
+    "Permanentphoneaccessible hosting/asset/network target not approved"
+  ],
+  "executionPerformed": false,
+  "productionChanged": false,
+  "frozenPreviewChanged": false
+}

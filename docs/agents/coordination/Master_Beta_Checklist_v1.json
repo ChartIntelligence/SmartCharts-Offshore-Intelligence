@@ -189,7 +189,7 @@
   },
   "gates": {
     "G.SOURCE_PUSH": "New exact713 branch11commit65path request prepared; no sourcepush. Older4e request separate, approvalnottransferable; no alternateupload.",
-    "G.PREVIEW": "Separate supervised build/launch/assets/environment approval pending; oldb0 approval not transferable",
+    "G.PREVIEW": "Exact713previewpacket complete but NOTREADY: SavedReportswriteguardgap, actualApp/bootstrap/dependencybuild/host/Authsideeffect/RLS/reportprivacy approval gates; no launch",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
     "G.ENROLL_REVIEW_MESSAGE": "RESOLVED: exact53ed84b P04 acknowledgment received normally under direct founder approval; offline scope only, no live authority.",
     "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
@@ -210,7 +210,9 @@
     "G.PRODUCTION": "Explicit deployment/migration/release approval not granted",
     "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod",
     "G.SCALAR_IMPLEMENTATION": "RESOLVED for prepared historical review-only packet: actual P03 clean4e1 workspace/path ACK received; no operational admission/app mounting.",
-    "G.HISTORICAL_COMBINED_QA_MESSAGE": "RESOLVED; actualP03ACK and exactP04combinedscopedPASS report verified, no live/release qualification"
+    "G.HISTORICAL_COMBINED_QA_MESSAGE": "RESOLVED; actualP03ACK and exactP04combinedscopedPASS report verified, no live/release qualification",
+    "G.QA_REPORT_DELETE_REPAIR": "StaticSavedFishingDayReports deletion lacks QA mode mutationguard; P02ownerACK confirmsoutsideprior6-file scope. Exact isolatedrepair authorization requested, no edits.",
+    "G.PREVIEW_SAFETY_P04_MESSAGE": "New preview-safety followup to P04 rejectednewpurpose; humanauthorization requested, NOTdelivered; no relay."
   },
   "requirements": [
     {
@@ -957,18 +959,20 @@
       "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
       "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
       "branch": "codex/pelora-unified-ui-profile-local-v1",
-      "evidence": "P01_Staged_Publication_Preview_Readiness_v1.md",
+      "evidence": "P01_Exact_713_NonProduction_Preview_Approval_v1.md/.json; ancestry8constituents/6producer/14protectedblobs verified; no fullApp/build/liveAuth; staticdeleteguardgap",
       "dependencies": [
         "SEC.CONTROLLED_QA"
       ],
       "founderApproval": [
+        "G.QA_REPORT_DELETE_REPAIR",
+        "G.PREVIEW_SAFETY_P04_MESSAGE",
         "G.PREVIEW",
         "G.AUTH_ACTIONS"
       ],
       "betaBlocker": true,
       "dimensions": {
         "documentation": "COMPLETE",
-        "code": "NOT_STARTED",
+        "code": "BLOCKED",
         "scopedQA": "NOT_STARTED",
         "operational": "BLOCKED",
         "preview": "NOT_STARTED",
