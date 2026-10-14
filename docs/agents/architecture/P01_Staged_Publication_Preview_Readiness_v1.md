@@ -60,3 +60,7 @@ P05 dossier coordination delivered after verified direct founder Stage4 authoriz
 2. Separate supervised build/preview/config/real non-prod access approval with secure existing values and dependent asset review; no extension of b0 permission.
 3. Real Auth session actions/device/live test authority where necessary; unavailable ranked capability remains a scope gate.
 4. New source/science/receipt/history policy or infrastructure changes require their existing human gates; not implied by dossier preparation.
+
+## Verified existing Auth side effects — proposal amendment
+
+Read-only source inspection confirms useSupabaseAuth invokes signInAnonymously when no existing session is available; opening a clean browser may therefore create an Auth principal. Existing no-argument SDK signOut uses installed GoTrueClient default scope global (local SDK implementation inspected, no execution); real logout can affect other sessions for the same QA account, including another preview. Do not change Auth scope/behavior by assumption or execute sign-out/start under read-only authority. Future founder approval must explicitly select account/session isolation and authorize those Auth side effects, or separately authorize a bounded behavior change. Preserve old preview/accounts and label synthetic tests accordingly. This is a concrete launch/test gate, not a new Auth implementation.

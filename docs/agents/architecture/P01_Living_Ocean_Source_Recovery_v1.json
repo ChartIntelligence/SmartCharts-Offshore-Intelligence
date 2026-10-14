@@ -1,0 +1,78 @@
+{
+  "version": "pelora-living-ocean-source-recovery-v1",
+  "baseline": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "sources": [
+    {
+      "path": "backend/oceanState/noaaSstSource.mjs",
+      "blob": "819b33957ec3fe8e94d57b8ad0374f2854f35204"
+    },
+    {
+      "path": "backend/oceanState/noaaNetcdf.mjs",
+      "blob": "d5d8bcbf8373d98da7335b35081dc1115b0cd117"
+    },
+    {
+      "path": "backend/oceanState/sstWorker.mjs",
+      "blob": "b87c076946fc1289ea73e8189d701867a8e23f49"
+    },
+    {
+      "path": "shared/sstProductAdapter.mjs",
+      "blob": "f7b9fe39a309072459823363be5e10d300ce1379"
+    },
+    {
+      "path": "shared/oceanProductFrame.mjs",
+      "blob": "21bd53d492799f758393b5068cfaa0f4cd414f49"
+    },
+    {
+      "path": "shared/oceanProductArchive.mjs",
+      "blob": "761960d0ff811ab7393646b0283d5754a92217a8"
+    },
+    {
+      "path": "shared/oceanScalarFieldDelivery.mjs",
+      "blob": "f97ff7d79067c486cb06d6530221a2c28db13f3b"
+    },
+    {
+      "path": "backend/fields/scalarRuntime.js",
+      "blob": "412a12344dd3fcd640ed8ff4fa37cf2cda1b5a18"
+    },
+    {
+      "path": "backend/fields/datasetRegistry.js",
+      "blob": "9768b65b496ff8a2d84d0f4fd93c35bf46c7da4e"
+    },
+    {
+      "path": "backend/scalarEvidenceHandoff.mjs",
+      "blob": "3a5df2345c3014ab4c6aa7d233681b87657c651a"
+    },
+    {
+      "path": "backend/server.js",
+      "blob": "cc2c7d26c0a3e59e5c8d8a2ca89429f34edab1f7"
+    },
+    {
+      "path": "review/noaa-sst-pilot/pilot.mjs",
+      "blob": "514936947ef1616e5eb4e9db8b7e39868673a5cf"
+    },
+    {
+      "path": "review/noaa-sst-pilot/scales.mjs",
+      "blob": "1472e475adedd81d813906bc4e630f13e37d8653"
+    },
+    {
+      "path": "frontend/src/hooks/useSyntheticSstReview.js",
+      "blob": "9a42cd7ffea93a2605f6196daee6873f55cd514b"
+    }
+  ],
+  "pilot": {
+    "frameId": "noaa-geo-polar-20260922-gulf-26fe69f0e376322fd2e81ecb9375e5737ede4134cbd9711608ee9c2e2253a843",
+    "rawSha256": "26fe69f0e376322fd2e81ecb9375e5737ede4134cbd9711608ee9c2e2253a843",
+    "archiveId": "opf-b01cd11c68de5bab89d2ac29d44ea04302f59ff57b417bf39f8f9c65aad08286",
+    "scalarId": "osfd-7d3e484c466a91558b51ee1940e599003ae9136febb663ad010a8aab12c81820",
+    "nominalAnalysisTime": "2026-09-22T12:00:00Z",
+    "observationTime": null,
+    "temporalSupport": "UNKNOWN",
+    "freshness": "UNASSESSED",
+    "current": false
+  },
+  "acquisitionPerformed": false,
+  "runtimeEdits": false,
+  "testsRerun": false,
+  "providerSubstitutionApproved": false,
+  "presentationCoordination": "PENDING_PURPOSE_SPECIFIC_PERMISSION"
+}
