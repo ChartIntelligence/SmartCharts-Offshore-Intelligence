@@ -34,3 +34,14 @@ Milestone timestamp: 2026-10-14T04:55:44Z.
 - P05 c4bec910ad0500d333ef4d89bc727e38f9186c07 documentation claim-boundary review acceptable; not a claim of operational or scientific engine qualification.
 - Dependencies: consumer presentation and final combined qualification; profile writes and publication metadata authority; physical-device/founder acceptance. Founder action: pending purpose-specific consumer coordination permission; exact QA-document checkpoint path confirmation if checkpointing is desired.
 - No combined candidate, preview replacement, database change or deployment.
+
+Milestone timestamp: 2026-10-14T06:00:00Z; owner reports and Git identities reconciled during the next execution cycle.
+
+- P01: conditional isolated integration planning continues; assembly is held on consumer qualification. Board checkpoint a191a14dbd1ae25e7a98c5b1b937ba41fdde6640. Profile read successor 488e60d8e77e656e392a0ea65d1673b4c1184206 retains scoped independent PASS.
+- P02: local-only consumer 805815546a642ae3350da0a5a944e440ea1f35ae is independent QA CHANGES REQUIRED (P2); bounded correction requested. Its 63 controlled cases and offline browser widths passed, but an additional lifecycle control failed. Push permission remains pending; no alternate upload attempted.
+- P03: exact clean local HEADs and remote SHAs verified for FLOW d7e8ba0e6cff5291e63fd02d9be96072340de3cb and BATH 174b271a530565dce43b5848776a23f2821e6004; scoped independent passes preserved.
+- P04: consumer failure recorded against exact commit; requalification awaits a new successor. UI 73bd810e5eda1bdc0b33a17f92e8fda5986efa87 remains independently scoped-qualified, with six inherited lint findings.
+- P05: documentation c4bec910ad0500d333ef4d89bc727e38f9186c07 remains acceptable as bounded requirements, not qualified operational species engines.
+- Dependencies: consumer correction and exact successor QA before isolated assembly; combined full-application qualification and physical-device acceptance afterward. Profile-write and live-publication metadata authority remain missing.
+- Founder action: exact consumer branch push permission is still pending. No new decision needed for the bounded local correction.
+- Combined candidate: none. Frozen preview and production remain unchanged; no database mutation, Receipt Writer activation or deployment.
