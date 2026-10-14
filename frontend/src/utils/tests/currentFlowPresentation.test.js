@@ -30,3 +30,40 @@ map.triggerRepaint=()=>{throw new Error('controlled render failure');};const fai
 controller.dispose();controller.dispose();assert.equal(listeners.size,0);assert.equal(timers.size,0);assert.equal(controller.image.render(),false);assert(!controller.isAnimating());
 assert.equal(JSON.stringify(state),snapshot);
 console.log('PASS deterministic glyph pixels, original source identity, freshness/future/stale/degraded, reduced motion, visibility, single bounded timer, expiry, obsolete/detached/disposed callbacks and failure ownership');
+
+import {metersPerSecondToKnots as establishedKnots} from "../../../../backend/currentProviderAdapter.mjs";
+import {currentSpeedKnots,currentSampleReadout} from "../currentFlowPresentation.js";
+for(const value of [0,-0,.001,.025,.026,.1,.5,1,2.57222,-.5,Number.MAX_VALUE])assert.ok(Object.is(currentSpeedKnots(value),establishedKnots(value)));
+for(const missing of [null,undefined,NaN,Infinity,-Infinity,"1",{},[]])assert.equal(currentSpeedKnots(missing),null);
+console.log("PASS browser-safe reviewed knots equivalence, signed zero, missing and overflow");
+const readoutField={contractVersion:'pelora-spatial-field-v1',layer:'currents',fieldId:'SYNTHETIC-FLOW-C1',status:'latest-available',validTime:new Date(time).toISOString(),freshness:{maxFreshAgeHours:96},bounds:[-90,27,-89,28],resolution:{deliveredDegrees:.25},coverage:{returnedCells:4,validCells:3},payloadType:'geostrophic-vector-grid',payload:{type:'geostrophic-vector-grid',coordinateOrder:'longitude,latitude,u,v',directionConvention:'degrees-toward',interpolation:'none',cells:[[-89.9,27.1,.3,.4],[-89.8,27.2,0,0],[-89.7,27.3,.001,0],[-89.6,27.4,null,null]]}};
+const readoutState={status:'latest-available',field:readoutField},beforeReadout=JSON.stringify(readoutField);
+const readout=currentSampleReadout(readoutState,{fieldId:readoutField.fieldId,sampleIndex:0},time);
+assert.equal(readout.sample.speedMetersPerSecond,.5);assert.equal(readout.sample.speedKnots,establishedKnots(.5));assert.deepEqual(readout.sample.coordinates,[-89.9,27.1]);assert.equal(readout.sample.validTime,readoutField.validTime);
+assert.equal(readout.sample.directionDegrees,(Math.atan2(.3,.4)*180/Math.PI+360)%360);assert(Object.isFrozen(readout.sample));
+const zeroReadout=currentSampleReadout(readoutState,{fieldId:readoutField.fieldId,sampleIndex:1},time);assert.equal(zeroReadout.sample.speedKnots,0);assert.equal(zeroReadout.sample.directionDegrees,null);assert(zeroReadout.sample.isZeroVector);assert(!zeroReadout.sample.roundedNonzero);
+const smallReadout=currentSampleReadout(readoutState,{fieldId:readoutField.fieldId,sampleIndex:2},time);assert.equal(smallReadout.sample.speedKnots,0);assert(!smallReadout.sample.isZeroVector);assert(smallReadout.sample.roundedNonzero);assert.equal(smallReadout.sample.directionDegrees,90);
+for(const selection of [null,{fieldId:'obsolete',sampleIndex:0},{fieldId:readoutField.fieldId,sampleIndex:3},{fieldId:readoutField.fieldId,sampleIndex:-1},{fieldId:readoutField.fieldId,sampleIndex:.5},{fieldId:readoutField.fieldId,sampleIndex:4}])assert.equal(currentSampleReadout(readoutState,selection,time).sample,null);
+assert.equal(currentSampleReadout(readoutState,{fieldId:readoutField.fieldId,sampleIndex:0},time+97*3600000).status,'stale');assert.equal(currentSampleReadout(readoutState,{fieldId:readoutField.fieldId,sampleIndex:0},time-1).sample,null);
+for(const status of ['off','unavailable','malformed-success'])assert.equal(currentSampleReadout({...readoutState,status},{fieldId:readoutField.fieldId,sampleIndex:0},time).sample,null);
+assert.equal(JSON.stringify(readoutField),beforeReadout);console.log('PASS exact-cell knots/direction/time/position, immutable readout, zero/missing/small-rounded, obsolete selector and age binding');
+
+import {createCurrentSampleSelection} from '../currentFlowPresentation.js';
+import {currentFieldGeoJson} from '../oceanFieldPresentation.js';
+const featureField={...readoutField,coverage:{returnedCells:5,validCells:3},payload:{...readoutField.payload,cells:[[...readoutField.payload.cells[3]],[...readoutField.payload.cells[1]],...readoutField.payload.cells.slice(0,1),[...readoutField.payload.cells[3]],[...readoutField.payload.cells[2]]]}};
+assert.deepEqual(currentFieldGeoJson(featureField).features.map(f=>f.properties.sampleIndex),[2,4]);
+for(const f of currentFieldGeoJson(featureField).features){assert.equal(f.properties.fieldId,featureField.fieldId);assert.deepEqual(f.geometry.coordinates,featureField.payload.cells[f.properties.sampleIndex].slice(0,2));}
+for(const status of ['malformed-success','unexpected','error'])assert.equal(currentSampleReadout({...readoutState,status},{fieldId:readoutField.fieldId,sampleIndex:0},time).sample,null);
+for(const status of ['loading','degraded']){const r=currentSampleReadout({...readoutState,status},{fieldId:readoutField.fieldId,sampleIndex:0},time+97*3600000);assert.equal(r.status,status);assert.equal(r.sample.freshnessStatus,'stale');assert.equal(r.sample.ageAsOf,new Date(time+97*3600000).toISOString());}
+const selected=createCurrentSampleSelection(),intent={fieldId:readoutField.fieldId,sampleIndex:0};
+selected.update(readoutState);selected.select(intent);assert(selected.read(time).sample);
+selected.update({...readoutState,status:'loading'});assert.equal(selected.read(time).status,'loading');assert(selected.read(time).sample);
+selected.update({...readoutState,status:'degraded'});assert(selected.read(time).sample);
+selected.update({...readoutState,field:{...readoutField}});assert.equal(selected.read(time).sample,null,'replacement invalidates even a reused field ID');
+selected.select({...intent});assert.equal(selected.read(time).sample,null,'new wrapper cannot resurrect invalidated intent');
+selected.select(null);selected.select(intent);assert(selected.read(time).sample);
+selected.invalidate('off');selected.select(intent);selected.update(readoutState);assert.equal(selected.read(time).sample,null,'OFF intent cannot revive');
+selected.select(null);selected.select(intent);assert(selected.read(time).sample);selected.invalidate();selected.update(readoutState);assert.equal(selected.read(time).sample,null);
+console.log('PASS native feature index across missing/zero filtering, governed status/freshness clock, retained degraded selection and replacement/OFF/principal-style invalidation');
+
+for(const malformed of [{...readoutField,status:'static'},{...readoutField,freshness:{maxFreshAgeHours:null}},{...readoutField,validTime:null}])assert.equal(currentSampleReadout({...readoutState,field:malformed},{fieldId:malformed.fieldId,sampleIndex:0},time).sample,null);

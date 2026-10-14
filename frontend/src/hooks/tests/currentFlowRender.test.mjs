@@ -43,10 +43,13 @@ try{
   };
   globalThis.map=new maplibregl.Map({container:'map',style:{version:8,sources:{},layers:[{id:'background',type:'background',paint:{'background-color':'#101e29'}}]},center:[-89.75,27.25],zoom:7,attributionControl:false});
   map.on('error',e=>mapErrors.push(e.error?.message));await new Promise(r=>map.once('load',r));
-  useMapLibreOceanFields({mapRef:{current:map},bathymetry:true,currentField:true,onFieldStatus:fn=>states=fn(states)});
+  useMapLibreOceanFields({mapRef:{current:map},bathymetry:true,currentField:true,onFieldStatus:fn=>states=fn(states),selectedCurrentSample:{fieldId:current.fieldId,sampleIndex:1},onCurrentSampleReadout:value=>globalThis.sampleReadout=value});
  },{current,bathy});
  await page.waitForFunction(()=>states.currents?.status==='latest-available'&&states.bathymetry?.status==='static'&&renders>=2);
  await page.waitForFunction(()=>map.queryRenderedFeatures({layers:[FIELD_LAYER.currents]}).length>=2);
+ const gpuReadout=await page.evaluate(()=>sampleReadout);
+ assert.equal(gpuReadout.sample.fieldId,current.fieldId);assert.equal(gpuReadout.sample.sampleIndex,1);assert.deepEqual(gpuReadout.sample.coordinates,[-89.5,27]);assert.equal(gpuReadout.sample.speedKnots,1.9);assert.equal(gpuReadout.sample.directionDegrees,0);assert.equal(gpuReadout.sample.units,'kt');
+ const renderedIndices=await page.evaluate(()=>map.queryRenderedFeatures({layers:[FIELD_LAYER.currents]}).map(f=>f.properties.sampleIndex));assert.deepEqual([...new Set(renderedIndices)].sort(),[0,1]);
  const fresh=await page.evaluate(()=>({animating:trace.isAnimating(),features:map.getStyle().sources[FIELD_SOURCE.currents].data,
   count:map.queryRenderedFeatures({layers:[FIELD_LAYER.currents]}).length,image:map.getLayoutProperty(FIELD_LAYER.currents,'icon-image'),pixels:[...trace.image.data]}));
  // MapLibre may serialize source data; inspect actual worker-rendered point positions separately.
@@ -93,7 +96,7 @@ try{
  await page.evaluate(()=>{mode='failure';map.fire('load');});await page.waitForFunction(()=>states.currents.status==='unavailable');assert.equal(await page.evaluate(()=>trace.isAnimating()),false);
  await page.evaluate(()=>{cleanups.forEach(fn=>fn());});assert.equal(await page.evaluate(()=>trace.isAnimating()),false);assert.equal(await page.evaluate(()=>map.hasImage(CURRENT_TRACE_IMAGE)),false);
  assert.deepEqual(errors,[]);assert.deepEqual(denied,[]);assert.deepEqual(await page.evaluate(()=>mapErrors),[]);
- const report={scope:'Controlled offline MapLibre 5.24.0/headless Edge; not physical-device/live-source QA',hashes,fixtureSha256:crypto.createHash('sha256').update(JSON.stringify({current,bathy})).digest('hex'),positions,changedPixels,frameBudget,animation:'shared 32x32 point glyph; <=12.5fps; no geographic displacement',reducedMotion:true,staleStatic:true,degradedIdentityPreserved:true,malformedCleared:true,siblingPreserved:true,nonResurrection:true,disposed:true,zeroRemainsAvailableWithoutAnimation:true,errors,denied};
+ const report={exactSampleReadout:gpuReadout,renderedNativeIndices:renderedIndices,scope:'Controlled offline MapLibre 5.24.0/headless Edge; not physical-device/live-source QA',hashes,fixtureSha256:crypto.createHash('sha256').update(JSON.stringify({current,bathy})).digest('hex'),positions,changedPixels,frameBudget,animation:'shared 32x32 point glyph; <=12.5fps; no geographic displacement',reducedMotion:true,staleStatic:true,degradedIdentityPreserved:true,malformedCleared:true,siblingPreserved:true,nonResurrection:true,disposed:true,zeroRemainsAvailableWithoutAnimation:true,errors,denied};
  fs.writeFileSync(output+'/report.json',JSON.stringify(report,null,2));console.log(JSON.stringify({result:'PASS actual current trace rendering, fresh animation, reduced motion/stale/degraded fallback, malformed locality, style/idle/failure non-resurrection and image disposal',output}));
  await page.evaluate(()=>map.remove());await context.close();
 }finally{await browser.close();}

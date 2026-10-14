@@ -195,11 +195,11 @@ export function fieldViewport(bounds,zoom) {
 export function currentFieldGeoJson(field) {
   if (!field) return EMPTY_FIELD;
   validateFieldPresentation(field,"currents");
-  return {type:"FeatureCollection",features:field.payload.cells.flatMap(([lon,lat,u,v])=>{
+  return {type:"FeatureCollection",features:field.payload.cells.flatMap(([lon,lat,u,v],sampleIndex)=>{
     if (![lon,lat,u,v].every(Number.isFinite) || Math.hypot(u,v)===0) return [];
     return [{type:"Feature",geometry:{type:"Point",coordinates:[lon,lat]},properties:{
       directionDegrees:(Math.atan2(u,v)*180/Math.PI+360)%360,speedMetersPerSecond:Math.hypot(u,v),
-      validTime:field.validTime,fieldId:field.fieldId}}];
+      validTime:field.validTime,fieldId:field.fieldId,sampleIndex}}];
   })};
 }
 export function fieldStatusText(layer,state,now=Date.now()) {

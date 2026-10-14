@@ -594,3 +594,38 @@ context.useMapLibreOceanFields({...props,session:qaSession});styleLoaded=true;ev
 assert.equal(state.bathymetry.field,renewalBathy);assert.equal(state.currents.field,renewalCurrent);
 cleanup=effect();await scheduled();assert.ok(state.currents.field&&state.bathymetry.field);cleanup();
 console.log('PASS immutable owner/anonymous/invalid tuple roundtrip, final-effect recovery, old bathymetry/current responses, newest-cache retention and in-place same-owner renewal');
+
+// Exact producer ports use native cells; no UI, cursor or nearest-neighbor inference.
+qaSession=syntheticSession();styleLoaded=true;context.fetch=transport();let readings=[];
+const readoutPort=value=>readings.push(value);
+qaCommit({onCurrentSampleReadout:readoutPort});await scheduled();
+const readoutFieldId=state.currents.field.fieldId,bathyBeforeSelection=state.bathymetry.field;
+qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:readoutFieldId,sampleIndex:0}});
+assert.equal(readings.at(-1).sample.fieldId,readoutFieldId);assert.equal(readings.at(-1).sample.sampleIndex,0);
+assert.deepEqual([...readings.at(-1).sample.coordinates],current.payload.cells[0].slice(0,2));
+assert.equal(readings.at(-1).sample.units,'kt');assert.equal(readings.at(-1).sample.freshnessStatus,'stale');
+const selectionSource=sources.get(presentation.FIELD_SOURCE.currents);assert.equal(selectionSource.data.features[0].properties.sampleIndex,0);
+assert.equal(state.bathymetry.field,bathyBeforeSelection);
+context.fetch=async()=>{throw new Error('SYNTHETIC selected sample refresh failure');};await refresh();
+assert.equal(readings.at(-1).status,'degraded');assert.equal(readings.at(-1).sample.fieldId,readoutFieldId);
+context.fetch=transport();await refresh();assert.equal(readings.at(-1).sample,null,'new field object invalidates selection');
+qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:null});
+qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:readoutFieldId,sampleIndex:0}});assert(readings.at(-1).sample);
+qaCommit({currentField:false,onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:readoutFieldId,sampleIndex:0}});
+assert.equal(readings.at(-1).status,'off');assert.equal(readings.at(-1).sample,null);
+qaCommit({currentField:true,onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:readoutFieldId,sampleIndex:0}});await scheduled();assert.equal(readings.at(-1).sample,null);
+qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:null});qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:readoutFieldId,sampleIndex:0}});assert(readings.at(-1).sample);
+qaSession=syntheticSession({id:'SYNTHETIC-READOUT-NEW-OWNER'});qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:readoutFieldId,sampleIndex:0}});await scheduled();assert.equal(readings.at(-1).sample,null,'same field ID under different owner cannot revive');
+cleanup();assert.equal(readings.at(-1).sample,null,'disposal clears readout');
+console.log('PASS actual hook exact sample ports, retained request status, replacement/OFF/owner/disposal invalidation, no sibling remount or inferred selection');
+
+const zeroProducer={...current,fieldId:'SYNTHETIC-READOUT-ZERO',coverage:{returnedCells:2,validCells:1},payload:{...current.payload,cells:[[-89.875,27.125,0,0],[-89.625,27.375,null,null]]}};
+qaSession=syntheticSession();context.fetch=transport('currents',zeroProducer);qaCommit({onCurrentSampleReadout:readoutPort});await scheduled();
+qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:zeroProducer.fieldId,sampleIndex:0}});assert.equal(readings.at(-1).sample.speedKnots,0);assert.equal(readings.at(-1).sample.directionDegrees,null);assert(readings.at(-1).sample.isZeroVector);assert.equal(sources.get(presentation.FIELD_SOURCE.currents).data.features.length,0);
+qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:zeroProducer.fieldId,sampleIndex:1}});assert.equal(readings.at(-1).sample,null,'missing velocity is not zero');
+qaCommit({onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:zeroProducer.fieldId,sampleIndex:0}});assert(readings.at(-1).sample);
+const priorReadoutOwner=qaSession.user.id,priorReadoutToken=qaSession.access_token,otherReadoutOwner=syntheticSession({id:'SYNTHETIC-READOUT-ROUNDTRIP'});
+qaSession.user.id=otherReadoutOwner.user.id;qaSession.access_token=otherReadoutOwner.access_token;context.useMapLibreOceanFields({...props,session:qaSession,onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:zeroProducer.fieldId,sampleIndex:0}});
+qaSession.user.id=priorReadoutOwner;qaSession.access_token=priorReadoutToken;context.useMapLibreOceanFields({...props,session:qaSession,onCurrentSampleReadout:readoutPort,selectedCurrentSample:{fieldId:zeroProducer.fieldId,sampleIndex:0}});
+events.get('style.load')();assert.equal(readings.at(-1).sample,null,'pre-effect mutable owner roundtrip denies readout publication');cleanup=effect();await scheduled();assert.equal(readings.at(-1).sample,null);cleanup();
+console.log('PASS actual zero versus missing readout without fabricated arrow and pre-effect mutable-owner roundtrip non-resurrection');

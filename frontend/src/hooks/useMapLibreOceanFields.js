@@ -1,4 +1,4 @@
-import {CURRENT_TRACE_IMAGE,createCurrentTraceImage} from "../utils/currentFlowPresentation.js";
+import {CURRENT_TRACE_IMAGE,createCurrentTraceImage,createCurrentSampleSelection} from "../utils/currentFlowPresentation.js";
 import {useEffect,useRef} from "react";
 import {createQaFieldTransport} from "../utils/qaFieldTransport.js";
 import {resolvePeloraApiUrl} from "../utils/peloraApi.js";
@@ -8,8 +8,12 @@ import {FIELD_SOURCE,FIELD_LAYER,EMPTY_FIELD,fieldViewport,currentFieldGeoJson,b
   BATHYMETRY_CONTOUR_SOURCE,BATHYMETRY_CONTOUR_LAYERS,bathymetryContours,bathymetryContourLayerDefinitions} from "../utils/oceanFieldPresentation.js";
 import {createViewportFieldRequests} from "../utils/viewportFieldRequests.js";
 
-export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus,session}) {
+export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldStatus,session,selectedCurrentSample=null,onCurrentSampleReadout}) {
   const sessionRef=useRef(session);
+  const readoutRef=useRef(null);
+  if(!readoutRef.current)readoutRef.current={controller:createCurrentSampleSelection(),driver:null};
+  readoutRef.current.selection=selectedCurrentSample;
+  readoutRef.current.emit=onCurrentSampleReadout;
   // Copy primitive identity: the supplied session/user object may mutate in place.
   const principal={present:session!=null,id:typeof session?.user?.id==="string"?session.user.id:null,
     anonymous:typeof session?.user?.is_anonymous==="boolean"?session.user.is_anonymous:null};
@@ -19,11 +23,15 @@ export function useMapLibreOceanFields({mapRef,bathymetry,currentField,onFieldSt
   sessionRef.principalIdentity=principal;
   sessionRef.current=session;
   useOceanField({mapRef,layer:"bathymetry",enabled:bathymetry,onFieldStatus,sessionRef,session});
-  useOceanField({mapRef,layer:"currents",enabled:currentField,onFieldStatus,sessionRef,session});
+  useOceanField({mapRef,layer:"currents",enabled:currentField,onFieldStatus,sessionRef,session,readoutRef});
+  useEffect(()=>{
+    readoutRef.current.controller.select(readoutRef.current.selection);
+    readoutRef.current.driver?.();
+  },[selectedCurrentSample?.fieldId,selectedCurrentSample?.sampleIndex,sessionRef.principalRevision??0,!!onCurrentSampleReadout]);
 }
 
 // Each layer owns its request generation, retention, events and render buffer.
-function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) {
+function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session,readoutRef}) {
   const transportRef=useRef(null);
   useEffect(()=>{
     const map=mapRef.current;if(!map)return;
@@ -35,8 +43,17 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
     const bathymetry=enabled&&layer==="bathymetry",currentField=enabled&&layer==="currents";
     const states={};
     const active=enabled?[layer]:[];
+    const emitReadout=()=>{
+      if(!readoutRef||disposed||mapRef.current!==map)return;
+      if(!transport.canPublish()||!transport.canApply())readoutRef.current.controller.invalidate();
+      readoutRef.current.emit?.(readoutRef.current.controller.read());
+    };
+    if(readoutRef)readoutRef.current.driver=emitReadout;
     const publish=(layer,state)=>{
       const mayApply=transport.captureApplicationGuard(),mayPublish=transport.capturePublicationGuard();
+      if(readoutRef&&!disposed&&mapRef.current===map&&mayPublish()&&(!state.field||mayApply())){
+        readoutRef.current.controller.update(state);emitReadout();
+      }
       onFieldStatus(current=>disposed||mapRef.current!==map||!mayPublish()||(state.field&&!mayApply())?current:{...current,[layer]:state});
     };
     const clearRendered=()=>{
@@ -241,13 +258,16 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session}) 
     const loaded=()=>{apply();acquire(true);};
     if(!enabled){
       transportRef.current=null;clearRendered();publish(layer,{status:"off",field:null});
-      return()=>{disposed=true;transport.dispose();requests.dispose();};
+      return()=>{disposed=true;transport.dispose();requests.dispose();
+        if(readoutRef){readoutRef.current.controller.invalidate("off");readoutRef.current.emit?.(readoutRef.current.controller.read());readoutRef.current.driver=null;}};
     }
     apply();
     map.on("movestart",start);map.on("moveend",acquire);map.on("load",loaded);map.on("style.load",loaded);
     acquire();
     const refresh=window.setInterval(()=>acquire(true),300000);
-    return()=>{disposed=true;transport.dispose();if(transportRef.current===transport)transportRef.current=null;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
+    return()=>{disposed=true;
+      if(readoutRef){readoutRef.current.controller.invalidate();readoutRef.current.emit?.(readoutRef.current.controller.read());readoutRef.current.driver=null;}
+      transport.dispose();if(transportRef.current===transport)transportRef.current=null;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);
       clearRendered();
       currentTrace?.dispose();currentTrace=null;
       if(layer==="currents"){
