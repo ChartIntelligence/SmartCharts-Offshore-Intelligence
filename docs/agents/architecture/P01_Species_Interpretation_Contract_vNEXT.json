@@ -978,7 +978,7 @@
     "supersededForExecutableSchema": true
   },
   "referenceSchemaDesignV2": {
-    "version": "pelora-species-claim-reference-design-v2",
+    "version": "pelora-species-claim-reference-design-v2.1",
     "status": "DESIGN_REVIEW_REQUIRED",
     "runtimeImplemented": false,
     "scope": "CONTROLLED_SYNTHETIC_REFERENCE_ONLY",
@@ -1023,7 +1023,7 @@
     },
     "namespace": {
       "relationshipId": "Exact VN1-* literature relationship ID",
-      "sourceIds": "Exact ordered bibliographic source_ids array of selected pinned relationship; no duplicates, no empty list",
+      "sourceIds": "Exact ordered bibliographic source_ids array of selected pinned relationship; no duplicates, omissions or invented IDs. Empty array permitted if and only if the pinned catalog array is empty.",
       "literatureSpeciesId": "Exact register species_id; not runtime species ID",
       "staticParentReferences": "Ordered nonempty array of capturedReference, unique referenceId; no sorting or substitution",
       "candidateReference": "capturedReference",
@@ -1809,6 +1809,17 @@
         "inputs": [],
         "structuralState": "REFERENCE_BOUND_ONLY",
         "reason": "EMPTY_DECLARED_INPUT_SET",
+        "authorityState": "UNRESOLVED_NOT_ADMITTED"
+      },
+      {
+        "id": "CATALOG_SOURCELESS_UNSUPPORTED",
+        "relationshipId": "VN1-yellowfin-05",
+        "sourceIds": [],
+        "inputStatuses": [
+          "ABSENT",
+          "LOOKUP_UNAVAILABLE"
+        ],
+        "structuralState": "UNSUPPORTED_CLAIM",
         "authorityState": "UNRESOLVED_NOT_ADMITTED"
       }
     ],
