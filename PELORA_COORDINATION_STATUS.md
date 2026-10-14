@@ -55,3 +55,13 @@ Milestone timestamp: 2026-10-14T11:37:58Z.
 - UI 73bd810e5eda1bdc0b33a17f92e8fda5986efa87, FLOW d7e8ba0e6cff5291e63fd02d9be96072340de3cb, BATH 174b271a530565dce43b5848776a23f2821e6004 and Profile reads 488e60d8e77e656e392a0ea65d1673b4c1184206 retain their scoped passes. P03/P05 scientific boundaries remain unchanged.
 - Dependencies: exact integration compatibility, full-application QA, truthful Profile presentation, missing profile-write/publication authority and physical-device acceptance. Founder action: exact successor push approval if publication is requested.
 - Frozen preview, main, Supabase, production and Receipt Writer unchanged; no Beta Ready claim.
+
+Milestone timestamp: 2026-10-14T12:18:03Z.
+
+- P01 isolated LOCAL combined candidate: 8e79ac3bbb63998bff29a64e3ebd49f9ec5d21be. Exact HEAD and clean worktree verified. Not pushed; frozen preview unchanged.
+- Constituent identities: UI 73bd810e5eda1bdc0b33a17f92e8fda5986efa87; FLOW d7e8ba0e6cff5291e63fd02d9be96072340de3cb; BATH 174b271a530565dce43b5848776a23f2821e6004; Profile read 488e60d8e77e656e392a0ea65d1673b4c1184206; consumer aaf185ff66b507c470da9383178b057af6242325.
+- P04 CONTROLLED COMBINED QA: SCOPED PASS WITH EXCLUSIONS. Source manifest, ancestry and shared-hook composition verified; Profile 33/33, consumer 68/68, cards 19/19, seven field scripts and three rendering regressions passed. Fresh assembled-runtime and sibling-layer browser interactions passed at 1000/390/320px. No new candidate P0/P1/P2 established.
+- P04 report SHA256: dc39d42a11e5271f2225df01570e696c0050fec620185c2ad2a9af2c965c78ab. Legacy Intelligence harness failures reproduce on the UI parent; six inherited lint findings remain. Counts and exclusions are not converted into an overall application PASS.
+- P02 Profile presentation/sign-out UI is not wired. Live authentication/full application entry, physical-device acceptance and founder visual acceptance remain unqualified. P03 source limitations and P05 documentation-only qualification boundaries remain intact.
+- Founder gates: exact successor source-push authorization through its normal mechanism; any new preview/release permission remains separate. No alternate assembly upload permitted as a workaround.
+- No main merge, preview replacement, Supabase mutation, production deployment, Receipt Writer activation or Beta Ready claim.
