@@ -189,7 +189,7 @@
   },
   "gates": {
     "G.SOURCE_PUSH": "New exact713 branch11commit65path request prepared; no sourcepush. Older4e request separate, approvalnottransferable; no alternateupload.",
-    "G.PREVIEW": "Exact713previewpacket complete but NOTREADY: SavedReportswriteguardgap, actualApp/bootstrap/dependencybuild/host/Authsideeffect/RLS/reportprivacy approval gates; no launch",
+    "G.PREVIEW": "Exact09dfac1 preview packet complete; NOT_READY pending exact sourcepush, actualApp/bootstrap/build/dependencies, approved hosting/network, Non-Production Auth/session/RLS/reportprivacy approvals; no launch",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
     "G.ENROLL_REVIEW_MESSAGE": "RESOLVED: exact53ed84b P04 acknowledgment received normally under direct founder approval; offline scope only, no live authority.",
     "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
@@ -211,8 +211,8 @@
     "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod",
     "G.SCALAR_IMPLEMENTATION": "RESOLVED for prepared historical review-only packet: actual P03 clean4e1 workspace/path ACK received; no operational admission/app mounting.",
     "G.HISTORICAL_COMBINED_QA_MESSAGE": "RESOLVED; actualP03ACK and exactP04combinedscopedPASS report verified, no live/release qualification",
-    "G.QA_REPORT_DELETE_REPAIR": "StaticSavedFishingDayReports deletion lacks QA mode mutationguard; P02ownerACK confirmsoutsideprior6-file scope. Exact isolatedrepair authorization requested, no edits.",
-    "G.PREVIEW_SAFETY_P04_MESSAGE": "New preview-safety followup to P04 rejectednewpurpose; humanauthorization requested, NOTdelivered; no relay."
+    "G.QA_REPORT_DELETE_REPAIR": "CLOSED_SCOPED_ONLY:09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972 independently synthetic frontend PASS25; no deployedRLS/browser/preview qualification",
+    "G.PREVIEW_SAFETY_P04_MESSAGE": "Named packet and exact successor delivered; P04 independent scoped PASS received through task inspection; earlier rejected outbound acknowledgment not resent"
   },
   "requirements": [
     {
@@ -1099,16 +1099,28 @@
     }
   ],
   "activeLocalIntegration": {
-    "sha": "71356135fe7aa945b52ea032d367e4f65dea5156",
-    "branch": "codex/pelora-unified-historical-sst-local-v1",
-    "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-unified-historical-sst-local-v1",
+    "sha": "09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972",
+    "branch": "codex/pelora-02-qa-report-guard-v1",
+    "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-qa-report-guard-v1",
     "base": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
     "producer": "99d7698b73183d490671d87ed74cc0f77a63080c",
     "status": "SCOPED_CONTROLLED_COMBINED_PASS",
     "tests": "84compatibleassertions+controlled1000/390/320 actualApp/map; reportpreservesharnessfailures",
-    "reviewDelivery": "DELIVERED_P04_ACTIVE",
+    "reviewDelivery": "EXACT_SUCCESSOR_P04_SCOPED_PASS_RECEIVED",
     "producerNewAcknowledgment": "RECEIVED_NO_INTERFACE_CONFLICT",
-    "qaReportSHA256": "44f59bf2e82054c9f679f47e08e5bef56cef8a213984836c60aa761a05321090"
+    "qaReportSHA256": "44f59bf2e82054c9f679f47e08e5bef56cef8a213984836c60aa761a05321090",
+    "savedReportsGuardQA": {
+      "status": "SYNTHETIC_FRONTEND_SCOPED_PASS",
+      "reportSHA256": "f9d570fca2f00abaf2dc4535bb6f2799503e723e4f33470f5637a7134b01dbaf",
+      "focused": 25,
+      "baselinePass": 7,
+      "baselineFail": 18,
+      "compatibility": 84,
+      "countsOverlap": true,
+      "inheritedLintErrors": 3,
+      "browserDevice": "NOT_QUALIFIED",
+      "deployedRLS": "NOT_QUALIFIED"
+    }
   },
   "enrollmentServerModel": {
     "task": "A_ENROLLMENT_SERVER_CONTRACT_HARNESS",

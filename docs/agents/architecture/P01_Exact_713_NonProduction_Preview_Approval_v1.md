@@ -1,3 +1,5 @@
+Current target: **09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972**. See the exact guard-qualified successor section at the end. The original713 sections retain checkpoint history; its specific deletion-guard/review gate is now closed, while preview remains NOT READY. Existing filename retained for links.
+
 # Exact713 Non-Production Founder preview approval packet v1
 
 APPROVAL PACKET COMPLETE — PREVIEW NOT READY. Documentation/source inspection only; no build, application imports, services, live Auth/provider/DB calls, deployment or environment changes. Exactcandidate71356135fe7aa945b52ea032d367e4f65dea5156 remains immutable/local. New deletion-guard repair and P04 preview-safety message need purpose-specific authorization. No approved permanent phone-accessible hosting target was supplied for this packet.
@@ -42,3 +44,12 @@ Future network approvals must separately name actualAuth/REST reads, approvedNOA
 5. Rollback closes only exactownedprocesses identified atlaunch, removes their privateprocess environment and expires only explicitly approvedQA sessions/artifacts; no globalSDKsignout, Authuserdelete, captainreportdelete, database rollback/migration, frozenpreview changes or productionlogout. Preserve evidence and report partialsetup truthfully. No production deploy/mainmerge/ReceiptWriter.
 
 Nextgenuinefounder choices are exactsource713 (or laterreviewedrepairSHA) publication, boundedSavedReports QAguard repair/review communications, approvedpreviewtarget/builddriver/Authsideeffect/data scope. This packet grants none of them. Existing31IDMasterqueue remains solecoordination; no secondplan/board or automaticmonitoring claim.
+
+
+## Exact guard-qualified successor — October 14, 2026
+
+Current LOCAL candidate: `09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972`, branch `codex/pelora-02-qa-report-guard-v1`, worktree `C:/Projects/Pelora-Agent-Worktrees/pelora-02-qa-report-guard-v1`; direct parent `71356135fe7aa945b52ea032d367e4f65dea5156`. No reassembly or merge is required: all unified713 ancestry is retained. Exactly three repair paths changed (SavedFishingDayReports.jsx and its dedicated test/evidence); all other713 blobs match, all six99 producer blobs match, and thirteen protected4e1 blobs match. SavedReports is the sole intentional protected-blob change. The companion packet now targets09dfac1; the713 filename is retained for link compatibility, and earlier sections below/above are checkpoint history, not current approval status.
+
+Actual P04 report SHA256 `f9d570fca2f00abaf2dc4535bb6f2799503e723e4f33470f5637a7134b01dbaf`: bounded synthetic frontend guard PASS25/25; exactparent baseline7pass/18fail; compatibility84/84 (overlapping counts), syntax/whitespace pass; three inherited lint errors unchanged. Initial sandbox child-Git failure retained, corrected run passed. No fullApp/main/bootstrap, fullVitebuild, realAuth, browser/device, deployedRLS or actualprivate-report acceptance claimed. This closes the specific saved-report deletion guard/review gate, not overall preview safety.
+
+Next founder gates: exact09dfac1 source-publication approval; reviewed build/dependency execution; dedicated Non-Production Auth/session side effects and deployed owner/RLS proof; approved hosting/origin/assets/network configuration and supervised preview. Older713 approval never transfers. No source push/build/preview, real report mutation, database/config/production action performed. Frozenpreviewb0 and original713/4e1 remain unchanged.

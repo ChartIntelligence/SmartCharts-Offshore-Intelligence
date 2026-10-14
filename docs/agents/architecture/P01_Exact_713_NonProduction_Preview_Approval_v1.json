@@ -1,7 +1,7 @@
 {
-  "version": "pelora-exact-713-preview-approval-packet-v1",
+  "version": "pelora-exact-preview-approval-packet-v1.1",
   "status": "PREVIEW_NOT_READY_APPROVAL_PACKET_ONLY",
-  "candidate": "71356135fe7aa945b52ea032d367e4f65dea5156",
+  "candidate": "09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972",
   "applicationBase": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
   "producer": "99d7698b73183d490671d87ed74cc0f77a63080c",
   "constituents": [
@@ -50,10 +50,13 @@
     "docs/agents/integration/P01_Historical_SST_Local_Integration_v1.json",
     "docs/agents/integration/P01_Historical_SST_Local_Integration_v1.md",
     "frontend/src/components/MapLibreIntelligenceMap.jsx",
+    "frontend/src/components/SavedFishingDayReports.jsx",
     "frontend/src/hooks/tests/PELORA-03_Retained_Scalar_Review_Evidence.md",
     "frontend/src/hooks/tests/historicalSstIntegration.browser.test.mjs",
     "frontend/src/hooks/tests/historicalSstIntegration.test.mjs",
     "frontend/src/hooks/tests/retainedScalarReviewRender.test.mjs",
+    "frontend/src/hooks/tests/savedReportQaDeletion.evidence.md",
+    "frontend/src/hooks/tests/savedReportQaDeletion.test.js",
     "frontend/src/hooks/tests/useRetainedScalarReview.test.js",
     "frontend/src/hooks/useRetainedScalarReview.js",
     "frontend/src/utils/retainedScalarReviewLayer.js",
@@ -150,8 +153,8 @@
     {
       "path": "frontend/src/components/SavedFishingDayReports.jsx",
       "applicationBaseBlob": "ede49f447ff7f553ad0809d61b7927c085cddcae",
-      "candidateBlob": "ede49f447ff7f553ad0809d61b7927c085cddcae",
-      "equal": true
+      "candidateBlob": "80e0fd2fa51aafc698ef8486e8fa8ab308a75591",
+      "equal": false
     },
     {
       "path": "frontend/src/hooks/useCaptainAccess.js",
@@ -191,7 +194,19 @@
     "fullViteBuild": "NOT_EXECUTED",
     "liveAuth": "NOT_EXECUTED",
     "physicalPhone": "NOT_EXECUTED",
-    "operationalSources": "NOT_QUALIFIED"
+    "operationalSources": "NOT_QUALIFIED",
+    "savedReportsGuard": {
+      "status": "SYNTHETIC_FRONTEND_SCOPED_PASS",
+      "reportSHA256": "f9d570fca2f00abaf2dc4535bb6f2799503e723e4f33470f5637a7134b01dbaf",
+      "focused": 25,
+      "baselinePass": 7,
+      "baselineFail": 18,
+      "compatibility": 84,
+      "countsOverlap": true,
+      "inheritedLintErrors": 3,
+      "browserDevice": "NOT_QUALIFIED",
+      "deployedRLS": "NOT_QUALIFIED"
+    }
   },
   "environment": {
     "mode": "PROPOSED_LOCAL_READ_ONLY_NOT_STARTED",
@@ -217,15 +232,22 @@
     "guardHostOriginHardcoded": true
   },
   "blockers": [
-    "SavedFishingDayReports delete handler lacks QA write guard; new bounded repair authorization requested",
-    "P01-to-P04 preview safety follow-up rejected new purpose; authorization requested",
-    "Exact713 source push still pending; no permission transfer to a repair successor",
-    "ActualApp/main/bootstrap and fullbuild need separately authorized execution",
+    "Exact09dfac1 source push requires new founder authorization; no transfer from713",
+    "ActualApp/main/bootstrap and fullbuild require separately approved execution",
     "Nonproduction principal/RLS/settings and Auth anonymous startup/session/global signout approval",
-    "Existingdependency/fullbuild driver not qualified; no package installation permitted",
-    "Permanentphoneaccessible hosting/asset/network target not approved"
+    "Existing dependency/fullbuild driver not qualified; no package installation permitted",
+    "Permanent phone-accessible hosting/asset/network target not approved"
   ],
   "executionPerformed": false,
   "productionChanged": false,
-  "frozenPreviewChanged": false
+  "frozenPreviewChanged": false,
+  "previousCandidate": "71356135fe7aa945b52ea032d367e4f65dea5156",
+  "directParentVerified": true,
+  "repairDelta": [
+    "frontend/src/components/SavedFishingDayReports.jsx",
+    "frontend/src/hooks/tests/savedReportQaDeletion.evidence.md",
+    "frontend/src/hooks/tests/savedReportQaDeletion.test.js"
+  ],
+  "currentBranch": "codex/pelora-02-qa-report-guard-v1",
+  "currentWorktree": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-qa-report-guard-v1"
 }
