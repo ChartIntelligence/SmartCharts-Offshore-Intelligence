@@ -1,0 +1,20 @@
+{
+  "version": "pelora-exact-source-publication-request-v1",
+  "repository": "ChartIntelligence/SmartCharts-Offshore-Intelligence",
+  "origin": "https://github.com/ChartIntelligence/SmartCharts-Offshore-Intelligence.git",
+  "branch": "codex/pelora-unified-ui-profile-local-v1",
+  "head": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "parent": "495a3b2be2c69adbab065507ef3acdeb7695ea3e",
+  "worktree": "C:/Projects/Pelora-Agent-Worktrees/pelora-unified-ui-profile-local-v1",
+  "force": false,
+  "otherBranches": false,
+  "tags": false,
+  "outgoingCountAgainstRecordedOriginRefs": 9,
+  "changedPathsInInspectedRange": 55,
+  "remoteBranchObserved": "ABSENT",
+  "status": "PENDING_EXACT_FOUNDER_AUTHORIZATION",
+  "includesPreviouslyDeniedConsumerSource": true,
+  "deploymentAuthorized": false,
+  "previewAuthorized": false,
+  "mainAuthorized": false
+}
