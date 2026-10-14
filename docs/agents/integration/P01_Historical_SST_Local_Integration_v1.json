@@ -1,0 +1,166 @@
+{
+  "version": "pelora-historical-sst-local-integration-evidence-v1",
+  "applicationBase": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "qualifiedProducer": "99d7698b73183d490671d87ed74cc0f77a63080c",
+  "status": "LOCAL_CANDIDATE_QA_AND_PRODUCER_ACK_PENDING",
+  "sources": [
+    {
+      "path": "frontend/src/components/MapLibreIntelligenceMap.jsx",
+      "sha256": "07f88feb0179c0a32c72d74a6b0285acd1cccd14189a2d569ba8d55860667e33"
+    },
+    {
+      "path": "frontend/src/hooks/tests/historicalSstIntegration.test.mjs",
+      "sha256": "46327b567b1e7e259c8d875b75307235f6d03552b207218f2b4a6cd380c1a473"
+    },
+    {
+      "path": "frontend/src/hooks/tests/historicalSstIntegration.browser.test.mjs",
+      "sha256": "683aeffa2d86578b184d9a75c57c11de6fb01cf3df308f49f081b902b01bb868"
+    }
+  ],
+  "unchangedProducerBlobs": [
+    {
+      "path": "frontend/src/hooks/tests/PELORA-03_Retained_Scalar_Review_Evidence.md",
+      "blob": "bab5ab6a2edcadec01c1cf00501fbc029541f8f3"
+    },
+    {
+      "path": "frontend/src/hooks/tests/retainedScalarReviewRender.test.mjs",
+      "blob": "0467e0f284a323e86f8f7b4b4474ce04cf163959"
+    },
+    {
+      "path": "frontend/src/hooks/tests/useRetainedScalarReview.test.js",
+      "blob": "53a2139923fc82e4cd9adc00986253c094793cfb"
+    },
+    {
+      "path": "frontend/src/hooks/useRetainedScalarReview.js",
+      "blob": "279881a1300221b1612631795c840a186daba197"
+    },
+    {
+      "path": "frontend/src/utils/retainedScalarReviewLayer.js",
+      "blob": "adf7eb86d013770812d97ad5278a64d2b449e993"
+    },
+    {
+      "path": "frontend/src/utils/tests/retainedScalarReviewLayer.test.js",
+      "blob": "900c8899e090eab040f85a9721ed5d8965b2de39"
+    }
+  ],
+  "browserArtifactRoot": "C:\\Users\\User\\AppData\\Local\\Temp\\pelora-p01-historical-app-vbU5Na",
+  "browserArtifacts": [
+    {
+      "file": "auth-confirmed-session-teardown-1000.png",
+      "sha256": "5337a94e1b43a18ed5ef4dd60a29b9e2b0f6ffb0c9bcd36ec20ac0c0b517ed6f"
+    },
+    {
+      "file": "auth-confirmed-session-teardown-320.png",
+      "sha256": "88d4a99875248f1d133f60c0faa5e15acac7805c3f1f5a9bae0da0c2392dab82"
+    },
+    {
+      "file": "auth-confirmed-session-teardown-390.png",
+      "sha256": "60fa3615b1559bdadd5bac02af942911b28b4936ca111134b57f033e255ac868"
+    },
+    {
+      "file": "historical-app-map-1000.png",
+      "sha256": "b1e324c33ccffd96d8df96e5a54c09e6c529092556a9fdf7d24f54ffd43166bb"
+    },
+    {
+      "file": "historical-app-map-320.png",
+      "sha256": "b38f9ae61c637da7061bfd205a3db56efdbea6e7443c386d18104c168008b5e5"
+    },
+    {
+      "file": "historical-app-map-390.png",
+      "sha256": "c1551ed7feeb00d1c466b5855404cf1c7d7c712812981cb8281abb7916df04aa"
+    },
+    {
+      "file": "historical-app-off-unavailable-1000.png",
+      "sha256": "1834841900846be06fe17fecbe3c3bcd6ae56c3841192cd203a88bc23ff96c98"
+    },
+    {
+      "file": "historical-app-off-unavailable-320.png",
+      "sha256": "b915db0fd924f37798e7e0ee132e2ca7318d937ab149dd095d59a13b6c16728b"
+    },
+    {
+      "file": "historical-app-off-unavailable-390.png",
+      "sha256": "08b6aa862beb3f60fa59a2313ee9619db259e86d99ffd55b0d08f5574d3dc3e8"
+    },
+    {
+      "file": "local-draft-save-disabled-1000.png",
+      "sha256": "8725d0ba3564f5ecd6114e4f561e3c3df29c1cee92c97e40db4a192929845aa4"
+    },
+    {
+      "file": "local-draft-save-disabled-320.png",
+      "sha256": "8a2784f866d06d57fdde1bbc97695fd8e701b59cc34f765532f39b360448d26e"
+    },
+    {
+      "file": "local-draft-save-disabled-390.png",
+      "sha256": "bf93d0493ea904a900511d7c40492cfe61a3df6360243318c2bd9584f31b25bd"
+    },
+    {
+      "file": "owner-profile-1000.png",
+      "sha256": "da989b3bd32bf2914fb50b44193e488c95b97ce42d986c86592567b960e7bdd5"
+    },
+    {
+      "file": "owner-profile-320.png",
+      "sha256": "302a12e8e150faffd8042fb4fdcca5bf35bff4b6b0b4c6cb84d4ac2357f05535"
+    },
+    {
+      "file": "owner-profile-390.png",
+      "sha256": "eb6e36a8d095df5874c8b3f3f3f8a8d88dd0e718add4ca1e7a3089d24632db9c"
+    },
+    {
+      "file": "owner-roundtrip-late-completion-rejected-1000.png",
+      "sha256": "fc4abecceb32fdace9423ba2b6d29053571f9147f8d21cc470612f1f605fb123"
+    },
+    {
+      "file": "owner-roundtrip-late-completion-rejected-320.png",
+      "sha256": "e5d816cba966ea776917ae93bbe43033c27e10049b4280d249e1082b3a0dc2b1"
+    },
+    {
+      "file": "owner-roundtrip-late-completion-rejected-390.png",
+      "sha256": "3de3b8f3a3d909d690c17b25dfb62952f75134d33503512aead8f57ceabc174d"
+    },
+    {
+      "file": "profile-results-1000.json",
+      "sha256": "36f0e59cfb0e595162954c3ad0e9634648f6d7932441da6e0c220a34b10545e2"
+    },
+    {
+      "file": "profile-results-320.json",
+      "sha256": "dd8887c97dbbcdada6a7f77cb844c30eba32b31efb57d97d9c443af63ab85446"
+    },
+    {
+      "file": "profile-results-390.json",
+      "sha256": "344a887cb0cf7fbe200f0944e0887db97dd4627b11538d9c3b15dc354b7924cb"
+    },
+    {
+      "file": "signout-failure-draft-retained-1000.png",
+      "sha256": "cd1a59cbe42289d3b461960761da4e1bb05cf27bfaa1160d63865dccb1e0c5fd"
+    },
+    {
+      "file": "signout-failure-draft-retained-320.png",
+      "sha256": "5ea961c9010d07297e62fd90fc4e0d7f8f2901ab18352f236f4cbb0e6757f249"
+    },
+    {
+      "file": "signout-failure-draft-retained-390.png",
+      "sha256": "0077e30fc64572db194893bf427604522d1df27345238f5112a5925a669e2acc"
+    },
+    {
+      "file": "signout-pending-1000.png",
+      "sha256": "32d5b86a0b97c5965ead1299c193a49d4aa7a717452260b411f7371ee4217594"
+    },
+    {
+      "file": "signout-pending-320.png",
+      "sha256": "d2c7ed43a9ef3e3eab26955722f3eb7155c1b9be128aab43e686ad09dff00817"
+    },
+    {
+      "file": "signout-pending-390.png",
+      "sha256": "e65f81e12754316c62150c01de05137a889ac8910f4a212101341f68b3ef1dbe"
+    }
+  ],
+  "controlledWidths": [
+    1000,
+    390,
+    320
+  ],
+  "compatibilityTests": 84,
+  "scientificAdmission": false,
+  "productionChanged": false,
+  "sourcePushed": false
+}

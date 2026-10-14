@@ -10,6 +10,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import structures from "../data/gulfLocations";
 import { useMapLibreOceanFields } from "../hooks/useMapLibreOceanFields.js";
 import { sampleLayersForMode } from "../utils/oceanFieldPresentation.js";
+import {useRetainedScalarReview} from '../hooks/useRetainedScalarReview.js';
 import {useSyntheticSstReview} from "../hooks/useSyntheticSstReview.js";
 
 import { buildMapGeoJson } from "../utils/mapLibreHelpers";
@@ -37,6 +38,7 @@ function MapLibreIntelligenceMap({
   observationDisplay,
   qaSamples = false,
   syntheticSstReview = null,
+  historicalSstReview = null,
   onFieldStatus,
   session = null,
   selectedCurrentSample = null,
@@ -146,6 +148,8 @@ function MapLibreIntelligenceMap({
 
   useMapLibreEnvironmentalObservations({ mapRef, observationDisplay, layers: sampleLayersForMode(layers, qaSamples) });
   useMapLibreOceanFields({ mapRef, bathymetry: layers.bathymetry, currentField: layers.currentField, onFieldStatus, session, selectedCurrentSample, onCurrentSampleReadout });
+  // Explicit trusted review capability only; default null performs no retained work.
+  useRetainedScalarReview({mapRef,review:historicalSstReview});
   useEffect(()=>{
     const map=mapRef.current;
     if(!map || !layers.currentField || !onSelectCurrentSample)return;
@@ -269,11 +273,14 @@ function MapLibreIntelligenceMap({
     selectedIdentity:selectedOpportunity?.id ?? selectedSpot?.id ?? null});
 
   return (
-    <div
-      ref={containerRef}
-      className="map maplibre-map"
-      aria-label="Pelora offshore intelligence map"
-    />
+    <>
+      {historicalSstReview?.enabled===true && <style>{`.maplibre-map [data-retained-scalar-review] { bottom:calc(160px + env(safe-area-inset-bottom)) !important; }`}</style>}
+      <div
+        ref={containerRef}
+        className="map maplibre-map"
+        aria-label="Pelora offshore intelligence map"
+      />
+    </>
   );
 }
 
