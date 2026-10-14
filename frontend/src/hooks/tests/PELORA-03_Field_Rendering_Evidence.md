@@ -670,3 +670,45 @@ Final mutable-identity successor SHA-256 fingerprints:
 
 - frontend/src/hooks/useMapLibreOceanFields.js: `55da4e51a0d5a30522230296d6469dc9df05d358fb85062f25419b97f7b27e3e`
 - frontend/src/hooks/tests/useMapLibreOceanFields.test.js: `e32387b6fc60d7db41b3cd1267fffc4d9a453259d24c2fe1924034780b2f5026`
+
+
+## BATH-D1A developer candidate — 2026-10-13
+
+Direct founder approval in P03 authorizes only retention of already accepted ETOPO 2022-v1-60s coverage under Unified UI Amendment canonical checkpoint 79ba90b44c5ab1d18fb0055e1327e53b4da4ea49. Assigned isolated branch codex/pelora-03-bath-d1a-v1 starts at cleared code parent 1a011d1450a77893c5f02151b4f109e0cd0120a0 (parent 08e1e7373c07904ec0dfe0f0de76e241c9262bdd). FLOW-C1 is a separate candidate, not included here. Frozen preview b0cd2b1c3b967644d3bb00b4b488addfe777b1e9 and original P03 worktree remain untouched.
+
+### Controlled before/after
+
+The appended actual-hook fixture SYNTHETIC-BATH-D1A is a controlled 3x3 grid: axes [-89.9,-89.5,-89.1] / [27.1,27.5,27.9], depths [-50,-100,-200,-500,-700,-900,-1500,-1700,-2000] m, delivered spacing 0.4 degrees, stride24, native 1/60 degree. Source metadata matches the registered product identity solely to exercise the retention branch; it is not a provider capture or proof of source admission. Existing parsing, validation and successful map application establish accepted display buffers.
+
+Pre-repair at1a011d the controlled intersecting-viewport request failure produced unavailable instead of the required degraded retained field (new assertion failed). After repair the original field reference, contours, coverage, edition, provenance and stride remain unchanged. The state preserves original contextKey/displayContextKey and separately records requestedContextKey plus retainedCoverageOnly. Intersecting means only original geometry remains visible; it does not claim full replacement coverage. Disjoint viewports report unavailable/field:null with empty hidden contour source while private accepted buffers may survive until return to their actual footprint.
+
+Accepted registered static coverage no longer shares the five-minute live refresh TTL. Current polling/failure remains independent. Explicit camera/style requests remain subject to existing transport/race guards. A different source/edition is withheld from exact-context retention rather than admitted. OFF clears the lifetime and accepted buffers; ON uses normal acquisition. Malformed content, application rejection, auth denial, owner changes, disposal and obsolete response guards remain fail closed. An obsolete null body cannot erase newer accepted coverage; a disposed syntax body cannot resurrect rendering.
+
+### Developer commands and results
+
+All PASS on actual candidate working-tree contents:
+- node frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+- node frontend/src/utils/tests/oceanFields.test.js
+- node frontend/src/utils/tests/viewportFieldRequests.test.js
+- node frontend/src/utils/tests/qaFieldTransport.test.js
+- node frontend/src/utils/tests/currentFlowPresentation.test.js
+- node frontend/src/utils/tests/bathymetryContours.test.js
+- node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs
+- node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs
+- node frontend/src/hooks/tests/currentFlowRender.test.mjs
+
+Browser scripts use existing bundled Playwright/sharp through PELORA_BROWSER_TEST_NODE_MODULES; headless Edge/MapLibre5.24.0, all external routes blocked. No packages installed. Hook/transport tests use synthetic tokens and injected transports; the ephemeral QA HTTP boundary uses synthetic authority only, not a data-connected runtime.
+
+Controlled contour-render output: C:/Users/User/AppData/Local/Temp/pelora03-contours-p5gGml. The added SYNTHETIC-GPU-BATH-D1A 40x40/0.05-degree fixture proves the identical accepted field/source remain degraded and queried contours visible after zoom plus injected transport failure. bath-d1a-retained.png was inspected: contour lines and feet labels remain visible. Normal contour navigation40frames: desktop1000px median17.8ms/max19.4ms;390px median18.2ms/max19.1ms, no loading flash. Texture output pelora03-texture-render-VIxvMN proves NEAREST min filter9728, no mipmaps, five band colors and transparency,0 external requests/no map errors. Current output pelora-current-traces-b0Hk9C preserves point animation and static reduced-motion/stale/degraded behavior. These are controlled developer observations, not physical mobile qualification.
+
+Node --check for all changed JavaScript/mjs and git diff --check / staged whitespace checks are required before checkpoint. Scoped diff inspected; no real tokens, session captures, captain data or unexpected product paths added.
+
+### Exact tested source identities
+
+- `frontend/src/hooks/useMapLibreOceanFields.js`: SHA-256 `69750816a473efbfee0bc6e0387ea65541004ddf73f1788056a78dcafc513d18`
+- `frontend/src/hooks/tests/useMapLibreOceanFields.test.js`: SHA-256 `1c5d82b98219ae456df9096bb621e54e7bb0114f96246d2ea6b7cafff983950e`
+- `frontend/src/hooks/tests/bathymetryContoursRender.test.mjs`: SHA-256 `d3e291c78bf7f2c0d6814839cd4086b6c1d858f22d51cd814cc3e199bcc26fb0`
+
+### Limits
+
+Retention is volatile within the existing enabled layer lifetime, not a durable provisioned regional numerical corpus or offline startup guarantee. No new coverage, source downloads, cache architecture, geometry, contour thresholds, native values, sampling, texture filter, current presentation, scientific/evidence policies or backend files changed. The original founder unavailable incident is not attributed to any cause without incident-linked evidence. Live founder browser, physical mobile/GPU variability, P02 combined placement and independent P04 qualification remain required. Developer passes are not QA clearance; CP-10/operational rollout remain blocked. No integration, merge, deployment or frozen-preview change.

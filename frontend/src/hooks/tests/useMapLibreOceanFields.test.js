@@ -594,3 +594,43 @@ context.useMapLibreOceanFields({...props,session:qaSession});styleLoaded=true;ev
 assert.equal(state.bathymetry.field,renewalBathy);assert.equal(state.currents.field,renewalCurrent);
 cleanup=effect();await scheduled();assert.ok(state.currents.field&&state.bathymetry.field);cleanup();
 console.log('PASS immutable owner/anonymous/invalid tuple roundtrip, final-effect recovery, old bathymetry/current responses, newest-cache retention and in-place same-owner renewal');
+
+// BATH-D1A baseline: accepted ETOPO fixture followed by intersecting refresh failure.
+const acceptedBathy={...bathy,fieldId:'SYNTHETIC-BATH-D1A',provider:'NOAA/NCEI',dataset:'ETOPO_2022_v1_60s',productId:'etopo-2022-60s',productVersion:'2022-v1-60s',units:'m',crs:'EPSG:4326',provenance:{providerUrl:'https://oceanwatch.pifsc.noaa.gov/erddap',attribution:'SYNTHETIC TEST EVIDENCE'},resolution:{nativeDegrees:1/60,deliveredDegrees:.4,stride:24},coverage:{validCells:9,returnedCells:9},payload:{...bathy.payload,longitudes:[-89.9,-89.5,-89.1],latitudes:[27.1,27.5,27.9],values:[-50,-100,-200,-500,-700,-900,-1500,-1700,-2000]}};
+map.getBounds=()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28});map.getZoom=()=>5;styleLoaded=true;qaSession=syntheticSession();context.fetch=transport('bathymetry',acceptedBathy);qaCommit();await scheduled();
+const acceptedField=state.bathymetry.field,acceptedContours=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE).data;
+map.getBounds=()=>({getWest:()=>-89.8,getEast:()=>-89.2,getSouth:()=>27.2,getNorth:()=>27.8});
+context.fetch=async url=>{if(url.includes('layer=bathymetry'))throw new Error('synthetic static refresh outage');return rawResponse(JSON.stringify(current));};
+events.get('moveend')();await scheduled();assert.equal(state.bathymetry.status,'degraded','accepted static coverage must survive refresh failure');assert.equal(state.bathymetry.field,acceptedField);assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE).data,acceptedContours);
+cleanup();
+console.log('PASS BATH-D1A intersecting refresh failure retains exact accepted edition/contours');
+map.getBounds=()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28});context.fetch=transport('bathymetry',acceptedBathy);qaCommit();await scheduled();
+let bathyPollCalls=0,currentPollCalls=0;const stableAccepted=state.bathymetry,stableBathySource=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE);
+context.fetch=async url=>{if(url.includes('layer=bathymetry')){bathyPollCalls++;throw new Error('synthetic provider down');}currentPollCalls++;throw new Error('synthetic unrelated live field down');};await refresh();
+assert.equal(bathyPollCalls,0,'accepted static bathymetry does not poll a live TTL');assert.equal(currentPollCalls,1);assert.equal(state.bathymetry,stableAccepted);assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE),stableBathySource);
+const acceptedBytes=JSON.stringify(state.bathymetry.field),acceptedEditionField=state.bathymetry.field;
+map.getBounds=()=>({getWest:()=>-89.8,getEast:()=>-89.2,getSouth:()=>27.2,getNorth:()=>27.8});events.get('moveend')();await scheduled();assert.equal(state.bathymetry.status,'degraded');assert.equal(state.bathymetry.field,acceptedEditionField);assert.equal(JSON.stringify(state.bathymetry.field),acceptedBytes);assert(state.bathymetry.retainedCoverageOnly);assert.notEqual(state.bathymetry.contextKey,state.bathymetry.requestedContextKey);
+// Unknown coverage stays unavailable and hidden; returning can use only the accepted footprint.
+map.getBounds=()=>({getWest:()=>-70,getEast:()=>-69,getSouth:()=>10,getNorth:()=>11});events.get('moveend')();await scheduled();absent('bathymetry');
+map.getBounds=()=>({getWest:()=>-89.8,getEast:()=>-89.2,getSouth:()=>27.2,getNorth:()=>27.8});events.get('moveend')();assert.equal(state.bathymetry.field,acceptedEditionField);await scheduled();assert.equal(state.bathymetry.status,'degraded');assert.equal(map.getLayer(presentation.BATHYMETRY_CONTOUR_LAYERS[1]).layout.visibility,'visible');
+// Well-shaped but different edition cannot enter retained cache or replace known coverage.
+context.fetch=transport('bathymetry',{...acceptedBathy,fieldId:'SYNTHETIC-UNREVIEWED-EDITION',productVersion:'unreviewed-edition'});events.get('style.load')();await scheduled();assert.equal(state.bathymetry.field,acceptedEditionField);assert.equal(state.bathymetry.status,'degraded');assert.match(state.bathymetry.reason,/requires review/);
+context.fetch=async()=>{throw new Error('synthetic failure after withheld edition');};events.get('style.load')();await scheduled();assert.equal(state.bathymetry.field,acceptedEditionField);
+qaCommit({bathymetry:false});assert.equal(state.bathymetry.status,'off');assert.equal(state.bathymetry.field,null);assert.ok(!map.getSource(presentation.BATHYMETRY_CONTOUR_SOURCE));
+qaCommit();await scheduled();absent('bathymetry');context.fetch=transport('bathymetry',acceptedBathy);events.get('style.load')();await scheduled();assert.equal(state.bathymetry.field.productVersion,'2022-v1-60s');
+// Malformed success and authentication denial remain affected-layer fail-closed.
+context.fetch=transport('bathymetry',null);events.get('style.load')();await scheduled();absent('bathymetry');context.fetch=async()=>{throw new Error('after malformed');};events.get('style.load')();await scheduled();absent('bathymetry');
+context.fetch=transport('bathymetry',acceptedBathy);events.get('style.load')();await scheduled();context.fetch=async url=>url.includes('layer=bathymetry')?{ok:false,status:403}:rawResponse(JSON.stringify(current));events.get('style.load')();await scheduled();absent('bathymetry');assert.ok(state.currents.field);cleanup();
+console.log('PASS pinned edition/no TTL poll, unrelated currents failure locality, coverage-only/honest disjoint return, replacement withholding, OFF/ON, malformed/auth fail-closed');
+
+// Late rejected bodies must not invalidate a newer accepted static context.
+map.getBounds=()=>({getWest:()=>-90,getEast:()=>-89,getSouth:()=>27,getNorth:()=>28});qaSession=syntheticSession();context.fetch=transport('bathymetry',acceptedBathy);qaCommit();await scheduled();
+const lateStaticBody=qaDeferred(),lateStaticStarted=qaDeferred();
+context.fetch=async url=>url.includes('layer=bathymetry')?{ok:true,text:()=>{lateStaticStarted.resolve();return lateStaticBody.promise;}}:rawResponse(JSON.stringify(current));
+map.getBounds=()=>({getWest:()=>-89.8,getEast:()=>-89.2,getSouth:()=>27.2,getNorth:()=>27.8});events.get('moveend')();const oldStaticRead=scheduled();await lateStaticStarted.promise;
+context.fetch=transport('bathymetry',{...acceptedBathy,fieldId:'SYNTHETIC-NEWER-ACCEPTED-COVERAGE'});map.getZoom=()=>7;events.get('moveend')();await scheduled();
+const newStaticState=state.bathymetry,newStaticGeometry=sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE).data;
+lateStaticBody.resolve('null');await oldStaticRead;assert.equal(state.bathymetry,newStaticState);assert.equal(sources.get(presentation.BATHYMETRY_CONTOUR_SOURCE).data,newStaticGeometry);
+const disposedStaticBody=qaDeferred(),disposedStaticStarted=qaDeferred();context.fetch=async url=>url.includes('layer=bathymetry')?{ok:true,text:()=>{disposedStaticStarted.resolve();return disposedStaticBody.promise;}}:rawResponse(JSON.stringify(current));
+events.get('style.load')();const disposedStaticRead=scheduled();await disposedStaticStarted.promise;cleanup();const afterStaticDispose=state;disposedStaticBody.resolve('{');await disposedStaticRead;assert.equal(state,afterStaticDispose);assert.ok(!map.getSource(presentation.BATHYMETRY_CONTOUR_SOURCE));
+console.log('PASS accepted-edition obsolete/disposed malformed body completion cannot invalidate newer coverage or resurrect disposed rendering');
