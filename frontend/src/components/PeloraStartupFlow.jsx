@@ -143,7 +143,9 @@ const SPECIES_OPTIONS = [
 function PeloraStartupFlow({
   session,
   user,
-  authLoading
+  authLoading,
+  profileRead,
+  onSignOut
 }) {
   const {
     tripMission,
@@ -717,6 +719,8 @@ function PeloraStartupFlow({
         session={session}
         user={user}
         authLoading={authLoading}
+        profileRead={profileRead}
+        onSignOut={onSignOut}
         tripMission={tripMission}
         missionPersistenceError={missionPersistenceError}
         captainSpatialContext={

@@ -1,3 +1,4 @@
+import CaptainProfile from "./CaptainProfile";
 import {localQaReadOnly} from '../utils/localQaReadOnly.js';
 import {useShellNavigation} from '../hooks/useShellNavigation.js';
 import {captainFieldStatus} from '../utils/captainFieldStatus.js';
@@ -52,6 +53,8 @@ function DashboardWorkspace({
   session,
   user,
   authLoading,
+  profileRead,
+  onSignOut,
   tripMission,
   captainSpatialContext,
   onEditTripMission,
@@ -100,6 +103,24 @@ function DashboardWorkspace({
     if(!readout?.sample && selection)awaitingSampleClear.current=true;
     setSampleView(previous=>previous.owner!==sampleOwner || previous.generation!==sampleGeneration?previous:{...previous,selection:readout?.sample?selection:null,readout});
   },[sampleOwner,sampleGeneration]);
+  // Profile drafts/status are private workspace memory, never persisted as account data.
+  const [profileUi,setProfileUi]=useState(()=>({owner:sampleOwner,generation:0,editing:false,draftName:null,draftBoat:null,signOutPhase:'idle',signOutMessage:''}));
+  if(profileUi.owner!==sampleOwner)setProfileUi({owner:sampleOwner,generation:profileUi.generation+1,editing:false,draftName:null,draftBoat:null,signOutPhase:'idle',signOutMessage:''});
+  const profileGeneration=profileUi.generation;
+  const profileBinding=useRef({owner:sampleOwner,generation:profileGeneration});
+  useLayoutEffect(()=>{profileBinding.current={owner:sampleOwner,generation:profileGeneration};},[sampleOwner,profileGeneration]);
+  const updateProfileUi=useCallback(patch=>{
+    if(!sampleOwner || profileBinding.current.owner!==sampleOwner || profileBinding.current.generation!==profileGeneration)return;
+    setProfileUi(current=>{
+      if(current.owner!==sampleOwner || current.generation!==profileGeneration)return current;
+      const next={...current};
+      if(typeof patch.editing==='boolean')next.editing=patch.editing;
+      for(const key of ['draftName','draftBoat'])if(patch[key]===null || typeof patch[key]==='string')next[key]=patch[key];
+      if(['idle','busy','awaiting','error'].includes(patch.signOutPhase))next.signOutPhase=patch.signOutPhase;
+      if(typeof patch.signOutMessage==='string')next.signOutMessage=patch.signOutMessage;
+      return next;
+    });
+  },[sampleOwner,profileGeneration]);
   const activeTab = workspace.activeTab;
   const applyNavigation=useCallback(next=>{
     setWorkspace(current=>({...current,activeTab:next.tab,reportPanelOpen:next.report}));
@@ -878,48 +899,8 @@ return <PersistentMapShell
 
 
       {activeTab === "profile" && (
-        <main className="dashboard-tab-content">
-
-          <section className="captain-dashboard-card">
-
-            <div className="captain-dashboard-main">
-
-              <p className="section-eyebrow">
-                My Pelora
-              </p>
-
-              <h2>
-                Captain Dashboard
-              </h2>
-
-              <p>
-                Review captain information.
-              </p>
-
-            </div>
-
-
-            <p>Account roles, status and subscription details are not supplied to this view.</p>
-
-
-          </section>
-
-
-          <section className="profile-information-card">
-
-            <h3>
-              Captain Information
-            </h3>
-
-            <p>
-              Captain and boat details will
-              be connected to the login
-              system before public launch.
-            </p>
-
-          </section>
-
-        </main>
+        <CaptainProfile key={sampleOwner??'no-owner'} ownerId={sampleOwner} profileRead={profileRead}
+          onSignOut={onSignOut} qaReadOnly={qaReadOnly} ui={profileUi} onUiChange={updateProfileUi}/>
       )}
 
 

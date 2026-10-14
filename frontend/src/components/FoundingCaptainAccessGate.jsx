@@ -1,6 +1,8 @@
 import {invalidateStoredSelection} from '../utils/captainContinuity.js';
 import {
   useEffect,
+  useLayoutEffect,
+  useCallback,
   useState,
   useRef
 } from "react";
@@ -29,8 +31,32 @@ function FoundingCaptainAccessGate() {
     loading: authLoading
   } = useSupabaseAuth();
 
-  const {principalId, approved, initialLoading, accessError} =
+  const {principalId, approved, initialLoading, accessError, profileRead} =
     useCaptainAccess({session, authLoading, client:supabase});
+
+  const signOutOwner=!authLoading && approved && typeof principalId==='string' && principalId.trim() &&
+    user?.is_anonymous===false && session?.user?.is_anonymous===false &&
+    user.id===principalId && session.user.id===principalId ? principalId : null;
+  const [actionLifetime,setActionLifetime]=useState(()=>({owner:signOutOwner,generation:0}));
+  if(actionLifetime.owner!==signOutOwner)setActionLifetime({owner:signOutOwner,generation:actionLifetime.generation+1});
+  const actionGeneration=actionLifetime.generation;
+  const actionBinding=useRef({owner:signOutOwner,generation:actionGeneration,pending:false});
+  useLayoutEffect(()=>{if(actionBinding.current.owner!==signOutOwner || actionBinding.current.generation!==actionGeneration)
+    actionBinding.current={owner:signOutOwner,generation:actionGeneration,pending:false};},[signOutOwner,actionGeneration]);
+  const onSignOut=useCallback(async()=>{
+    const bound=actionBinding.current;
+    if(!signOutOwner)return {ok:false,reason:'NO_AUTHORIZED_OWNER',message:'Sign-out is not available for this session.'};
+    if(bound.owner!==signOutOwner || bound.generation!==actionGeneration)return {ok:false,reason:'STALE_OWNER',message:'Your account changed. Please try again.'};
+    if(bound.pending)return {ok:false,reason:'IN_PROGRESS',message:'Sign-out is already in progress.'};
+    bound.pending=true;
+    try{
+      const {error}=await supabase.auth.signOut();
+      if(actionBinding.current!==bound)return {ok:false,reason:'STALE_OWNER',message:'Your account changed. Please try again.'};
+      return error?{ok:false,reason:'SIGN_OUT_FAILED',message:'Could not sign out. Please try again.'}:{ok:true,reason:'SIGN_OUT_REQUESTED'};
+    }catch{
+      return actionBinding.current!==bound?{ok:false,reason:'STALE_OWNER',message:'Your account changed. Please try again.'}:{ok:false,reason:'SIGN_OUT_FAILED',message:'Could not sign out. Please try again.'};
+    }finally{if(actionBinding.current===bound)bound.pending=false;}
+  },[signOutOwner,actionGeneration]);
 
   const lastCaptain = useRef(null);
   useEffect(() => {
@@ -173,6 +199,8 @@ function FoundingCaptainAccessGate() {
         session={session}
         user={user}
         authLoading={authLoading}
+        profileRead={profileRead}
+        onSignOut={onSignOut}
       />
     );
   }
