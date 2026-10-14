@@ -1,0 +1,35 @@
+{
+  "version": "pelora-nonproduction-enrollment-server-proposal-v1",
+  "status": "PROPOSAL_NOT_APPLY_READY",
+  "targetProject": "vqzskzoizpomwzgbgdwl",
+  "sourceApplication": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "schemaCandidate": "25ce753f3f1b18a4f24645c6c5778f66ca8d6d60",
+  "offlineContract": "53ed84b96dba087b38b1e465dc0be9033c9798eb",
+  "offlineUI": "0adc63a0ccb37605b1e3b3be815ca79e4223e823",
+  "supersededStartRule": "first-redemption-utc-calendar-year-v1",
+  "requiredStartTrigger": "FIRST_SUCCESSFUL_QUALIFYING_LOGIN",
+  "calendarDecision": "UNRESOLVED_NOT_CHOSEN",
+  "qualifyingProofAdapter": "UNIMPLEMENTED_UNQUALIFIED",
+  "deployedCatalog": "DETAILED_RECONCILIATION_PENDING",
+  "authConfiguration": "UNKNOWN",
+  "runtimePrivileges": "PROPOSED_NOT_GRANTED",
+  "mutationsExecuted": false,
+  "testsExecuted": false,
+  "founderDecisions": [
+    "timezone_and_Feb29_rule",
+    "trusted_qualifying_event_and_preapproval_session",
+    "founder_assurance_reauth",
+    "Auth_delivery_configuration",
+    "legacy_activated_beta_transition_if_present"
+  ],
+  "implementationGates": [
+    "exact_nonproduction_readonly_catalog",
+    "policy_decisions",
+    "bounded_schema_service_implementation_authorization",
+    "independent_migration_privilege_and_lifecycle_tests",
+    "exact_nonproduction_apply_authorization",
+    "separate_Auth_delivery_actions"
+  ],
+  "ownerDataPreserved": true,
+  "productionAuthorized": false
+}

@@ -209,7 +209,8 @@
     "G.FOUNDER_ACCEPTANCE": "Physical/visual product judgment remains human",
     "G.PRODUCTION": "Explicit deployment/migration/release approval not granted",
     "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod",
-    "G.SCALAR_IMPLEMENTATION": "RESOLVED for prepared historical review-only packet: actual P03 clean4e1 workspace/path ACK received; no operational admission/app mounting."
+    "G.SCALAR_IMPLEMENTATION": "RESOLVED for prepared historical review-only packet: actual P03 clean4e1 workspace/path ACK received; no operational admission/app mounting.",
+    "G.HISTORICAL_COMBINED_QA_MESSAGE": "Exact71356135fe7aa945b52ea032d367e4f65dea5156 review delivery to P04 rejected newpurpose; human approval requested, NOTdispatched. NewP03integrationACK also gated; no bypass/qualifiedrelease."
   },
   "requirements": [
     {
@@ -434,9 +435,9 @@
       "status": "BLOCKED",
       "owner": "P01",
       "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
-      "sha": "c65ca36f39749017b86a96f2d49e5d1e111c1eaf",
+      "sha": "782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0",
       "branch": "codex/pelora-unified-ui-amendment-v1",
-      "evidence": "Synthetic reference schema design acceptable; P04 report3340c3686a74dc634e0e03a51c1480df19bd01b4417d115c789bd3d6734f0c9a; no validator implementation/release or scientific approval",
+      "evidence": "Pure synthetic structural validator P04 scoped PASS134tests+8QA groups; report9c3c818a26e9322cf3b20f742697706e14fdedc70fe3e3a5db26397b21e9c21f. No biological/native/admission/consumer qualification.",
       "dependencies": [
         "SPEC.VNEXT_RESEARCH"
       ],
@@ -446,7 +447,7 @@
       "betaBlocker": true,
       "dimensions": {
         "documentation": "COMPLETE",
-        "code": "NOT_STARTED",
+        "code": "COMPLETE",
         "scopedQA": "COMPLETE",
         "operational": "BLOCKED",
         "preview": "NOT_STARTED",
@@ -1092,5 +1093,16 @@
       "qaSHA256": "3340c3686a74dc634e0e03a51c1480df19bd01b4417d115c789bd3d6734f0c9a",
       "limits": "No executable validator release/engine/science; pure code packet permission requested"
     }
-  ]
+  ],
+  "activeLocalIntegration": {
+    "sha": "71356135fe7aa945b52ea032d367e4f65dea5156",
+    "branch": "codex/pelora-unified-historical-sst-local-v1",
+    "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-unified-historical-sst-local-v1",
+    "base": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+    "producer": "99d7698b73183d490671d87ed74cc0f77a63080c",
+    "status": "LOCAL_CANDIDATE_NOT_CLEARED",
+    "tests": "84compatibleassertions+controlled1000/390/320 actualApp/map; reportpreservesharnessfailures",
+    "reviewDelivery": "REJECTED_NOT_DISPATCHED",
+    "producerNewAcknowledgment": "PENDING"
+  }
 }
