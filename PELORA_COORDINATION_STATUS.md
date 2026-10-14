@@ -160,3 +160,9 @@ Milestone timestamp: 2026-10-14T23:26:47Z.
 - P01 exact preview approval and Master/single-queue documentation checkpoint 51f1e27903e91836810c23d8fea2ebf25b4dc7e7: clean HEAD and matching remote verified; four documentation paths only. Eight application constituents, six producer blobs and fourteen protected source blobs reconciled for713. Full App/bootstrap/live Auth qualification remains open.
 - Preview proposal complete; launch remains BLOCKED pending bounded saved-report QA guard repair release and exact review communication approval. No source candidate push, build, launch or deployment performed.
 - P05 corrected only documentary fixture cases39/41; successor checkpoint approval remains pending, no new exact SHA or independent closure claimed. Prior c090 review remains CHANGES REQUIRED until successor qualification.
+
+Milestone timestamp: 2026-10-14T23:42:32Z.
+
+- Historical-learning documentary successor b9481f73b74d5659fbdba9672fff2f085af369d2, parent c09058093bc56050effdc62bd00577de1a9925f4: P04 independently CLOSED both P2 findings. Only cases39/41 changed; other40 fixtures, pinned contracts and admission flags unchanged. All42 remain NOT EXECUTED; no learning/scientific admission. P01 Master update requested.
+- P04 actually received the Saved Reports guard packet and prepared review scope; no repair candidate or qualification yet. P02 exact implementation/path release remains pending. P04 return acknowledgment requires separate normal-purpose approval; no alternate relay used.
+- Exact source publication, supervised preview launch, operational data/Observe/publishing and real Auth/device gates remain open. Frozen preview, main, accounts/reports, Supabase, production and Receipt Writer unchanged.
