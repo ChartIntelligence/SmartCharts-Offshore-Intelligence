@@ -1,0 +1,32 @@
+{
+  "version": "pelora-historical-sst-exact-source-publication-request-v1",
+  "status": "PENDING_EXACT_FOUNDER_AUTHORIZATION",
+  "repository": "ChartIntelligence/SmartCharts-Offshore-Intelligence",
+  "origin": "https://github.com/ChartIntelligence/SmartCharts-Offshore-Intelligence.git",
+  "branch": "codex/pelora-unified-historical-sst-local-v1",
+  "head": "71356135fe7aa945b52ea032d367e4f65dea5156",
+  "parent": "99d7698b73183d490671d87ed74cc0f77a63080c",
+  "applicationAncestor": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "worktree": "C:/Projects/Pelora-Agent-Worktrees/pelora-unified-historical-sst-local-v1",
+  "qaReportSHA256": "44f59bf2e82054c9f679f47e08e5bef56cef8a213984836c60aa761a05321090",
+  "remoteBranchObserved": "ABSENT",
+  "outgoingAgainstRecordedOriginRefs": 11,
+  "unionChangedPaths": 65,
+  "heuristicSensitivePatternFiles": [],
+  "scanLimitation": "Bounded committed-path scan, not exhaustive secret/privacy proof",
+  "includesPreviouslyGatedConsumerHistory": true,
+  "failedConsumerPredecessorPreserved": true,
+  "force": false,
+  "otherBranches": false,
+  "tags": false,
+  "deploymentAuthorized": false,
+  "previewAuthorized": false,
+  "databaseAuthorized": false,
+  "mainAuthorized": false,
+  "olderRequest": "4e1 source request remains separate, no target/approval automatically transferred",
+  "excludedLocalCandidates": [
+    "782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0",
+    "993b1d669a779dcb71f94c86e1339ed1ebb6e4ee",
+    "0adc63a0ccb37605b1e3b3be815ca79e4223e823"
+  ]
+}

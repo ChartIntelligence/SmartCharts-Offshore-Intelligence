@@ -188,7 +188,7 @@
     "CP05": "246f342eda17d34359166c401dddf9775e9150b4"
   },
   "gates": {
-    "G.SOURCE_PUSH": "Exact4e1 branch/outgoing consumer-containing source authorization pending; no push",
+    "G.SOURCE_PUSH": "New exact713 branch11commit65path request prepared; no sourcepush. Older4e request separate, approvalnottransferable; no alternateupload.",
     "G.PREVIEW": "Separate supervised build/launch/assets/environment approval pending; oldb0 approval not transferable",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
     "G.ENROLL_REVIEW_MESSAGE": "RESOLVED: exact53ed84b P04 acknowledgment received normally under direct founder approval; offline scope only, no live authority.",
@@ -210,7 +210,7 @@
     "G.PRODUCTION": "Explicit deployment/migration/release approval not granted",
     "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod",
     "G.SCALAR_IMPLEMENTATION": "RESOLVED for prepared historical review-only packet: actual P03 clean4e1 workspace/path ACK received; no operational admission/app mounting.",
-    "G.HISTORICAL_COMBINED_QA_MESSAGE": "RESOLVED by direct founder: exact713 delivered to P04 normally; actual P03 integrationACK received. Independent combinedQA ACTIVE, no PASS inferred."
+    "G.HISTORICAL_COMBINED_QA_MESSAGE": "RESOLVED; actualP03ACK and exactP04combinedscopedPASS report verified, no live/release qualification"
   },
   "requirements": [
     {
@@ -1100,10 +1100,11 @@
     "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-unified-historical-sst-local-v1",
     "base": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
     "producer": "99d7698b73183d490671d87ed74cc0f77a63080c",
-    "status": "LOCAL_CANDIDATE_NOT_CLEARED",
+    "status": "SCOPED_CONTROLLED_COMBINED_PASS",
     "tests": "84compatibleassertions+controlled1000/390/320 actualApp/map; reportpreservesharnessfailures",
     "reviewDelivery": "DELIVERED_P04_ACTIVE",
-    "producerNewAcknowledgment": "RECEIVED_NO_INTERFACE_CONFLICT"
+    "producerNewAcknowledgment": "RECEIVED_NO_INTERFACE_CONFLICT",
+    "qaReportSHA256": "44f59bf2e82054c9f679f47e08e5bef56cef8a213984836c60aa761a05321090"
   },
   "enrollmentServerModel": {
     "task": "A_ENROLLMENT_SERVER_CONTRACT_HARNESS",
@@ -1112,11 +1113,12 @@
     "base": "0adc63a0ccb37605b1e3b3be815ca79e4223e823",
     "branch": "codex/pelora-enrollment-authority-harness-v1",
     "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-enrollment-authority-harness-v1",
-    "status": "LOCAL_MODEL_IMPLEMENTED_QA_QUEUED_NOT_DISPATCHED",
+    "status": "CONTROLLED_SYNTHETIC_MODEL_SCOPED_PASS",
     "tests": 68,
     "unchangedOfflineTests": 60,
     "calendarPolicy": "EXPLICIT_PROVISIONAL_FIXTURES_NOT_APPROVED",
     "liveAuthDatabaseRLS": "NOT_IMPLEMENTED",
-    "reviewDependency": "AFTER_ACTIVE_713_QA"
+    "reviewDependency": "EXACT_REPORT_RECEIVED_AND_VERIFIED",
+    "qaReportSHA256": "e9fd57151cd3ae62ab6ee8fe927e51d51c19741c4d06c9e24ae21e428495e8ca"
   }
 }
