@@ -1,0 +1,90 @@
+{
+  "version": "pelora-species-interpretation-design-vnext-1",
+  "status": "DESIGN_REVIEW_REQUIRED",
+  "baseline": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+  "sourceClosure": [
+    {
+      "path": "backend/server.js",
+      "blob": "cc2c7d26c0a3e59e5c8d8a2ca89429f34edab1f7"
+    },
+    {
+      "path": "backend/scientificAssessment.mjs",
+      "blob": "c353691de023a6ff4cebd758a4b0e92b6cfaeb25"
+    },
+    {
+      "path": "backend/scalarEvidenceHandoff.mjs",
+      "blob": "3a5df2345c3014ab4c6aa7d233681b87657c651a"
+    },
+    {
+      "path": "backend/currentEvidenceCaptureV3.mjs",
+      "blob": "6dfd589e5de2bf280ac65e54b3ebb2f97c2044a0"
+    },
+    {
+      "path": "backend/normalizedEvidenceCapture.mjs",
+      "blob": "107d1f4c385a14427aeec9f726f22aa2643f76d7"
+    },
+    {
+      "path": "backend/durableObserve/retainedInputSupply.mjs",
+      "blob": "addcff713e5d0f20b9ecf74a6f7dae8e11508554"
+    },
+    {
+      "path": "backend/durableObserve/retainedBlueMarlinComposition.mjs",
+      "blob": "21cdae5c1c622403d6ce7cbb4665de042f107056"
+    },
+    {
+      "path": "backend/opportunityEvaluationState.js",
+      "blob": "934f8d8f95ffbecc815426ee8b94ccda7d0a6d3e"
+    },
+    {
+      "path": "backend/durableObserve/publicationEnvelope.mjs",
+      "blob": "ef0e61c6055f99e1238db792d7270a352e46f200"
+    },
+    {
+      "path": "shared/oceanPublication.mjs",
+      "blob": "9ab13d6c770b587ad305994f598db2e6434bfe14"
+    }
+  ],
+  "p05Dossier": "1e2b158531e5de1660ed324e32f27171bd7572dc",
+  "qualifiedNewRelationshipPackets": [],
+  "species": [
+    {
+      "name": "Blue Marlin",
+      "newEngineStatus": "BLOCKED_SCIENTIFIC_SOURCE_AND_CONTRACT_QUALIFICATION",
+      "canonicalId": "blue-marlin"
+    },
+    {
+      "name": "Yellowfin Tuna",
+      "newEngineStatus": "BLOCKED_SCIENTIFIC_SOURCE_AND_CONTRACT_QUALIFICATION",
+      "canonicalId": null
+    },
+    {
+      "name": "Blackfin Tuna",
+      "newEngineStatus": "BLOCKED_SCIENTIFIC_SOURCE_AND_CONTRACT_QUALIFICATION",
+      "canonicalId": null
+    },
+    {
+      "name": "Mahi",
+      "newEngineStatus": "BLOCKED_SCIENTIFIC_SOURCE_AND_CONTRACT_QUALIFICATION",
+      "canonicalId": null
+    },
+    {
+      "name": "Sailfish",
+      "newEngineStatus": "BLOCKED_SCIENTIFIC_SOURCE_AND_CONTRACT_QUALIFICATION",
+      "canonicalId": null
+    },
+    {
+      "name": "White Marlin",
+      "newEngineStatus": "BLOCKED_SCIENTIFIC_SOURCE_AND_CONTRACT_QUALIFICATION",
+      "canonicalId": null
+    },
+    {
+      "name": "Wahoo",
+      "newEngineStatus": "BLOCKED_SCIENTIFIC_SOURCE_AND_CONTRACT_QUALIFICATION",
+      "canonicalId": null
+    }
+  ],
+  "missingDOorSalinityOrDepth": "DEPENDENT_CLAIM_UNAVAILABLE_NO_SURFACE_PROXY",
+  "existingProducersChanged": false,
+  "engineImplemented": false,
+  "negativeScenariosExecuted": false
+}
