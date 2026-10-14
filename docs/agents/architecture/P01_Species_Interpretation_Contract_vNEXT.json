@@ -86,5 +86,894 @@
   "missingDOorSalinityOrDepth": "DEPENDENT_CLAIM_UNAVAILABLE_NO_SURFACE_PROXY",
   "existingProducersChanged": false,
   "engineImplemented": false,
-  "negativeScenariosExecuted": false
+  "negativeScenariosExecuted": false,
+  "claimBindingDesign": {
+    "version": "pelora-species-claim-binding-design-v1",
+    "status": "DESIGN_ONLY_NOT_EXECUTABLE",
+    "runtimeValidationImplemented": false,
+    "reviewedSource": {
+      "commit": "956e674465b48a4485ad46b1d6b3e6228d05a2b9",
+      "registerPath": "docs/agents/science/PELORA_05_Seven_Species_Register_VNEXT_v1.json",
+      "registerSHA256": "7ef0f94fca0231ff1f729146bc6acebe04617165920893037c1ad373c871b35d",
+      "qaReportSHA256": "7d252eded6385cd5f65e7bd5d7dbff32915defba6d8b377011283c9504efb4f8",
+      "claimCount": 77,
+      "meaning": "DOCUMENTATION_INTEGRITY_ONLY"
+    },
+    "exactRequiredKeys": [
+      "contractVersion",
+      "catalogReference",
+      "relationshipId",
+      "sourceClaimIds",
+      "literatureSpeciesId",
+      "candidateReference",
+      "staticParentReferences",
+      "contextReference",
+      "assessmentReference",
+      "applicability",
+      "variables",
+      "history",
+      "sourceAdmissionReferences",
+      "relationshipApprovalReference",
+      "validationReference",
+      "resolution",
+      "reasons",
+      "limitations"
+    ],
+    "applicabilityFields": [
+      "region",
+      "season",
+      "lifeStage",
+      "diel",
+      "depthDomain"
+    ],
+    "applicabilityState": [
+      "KNOWN",
+      "UNKNOWN",
+      "NOT_APPLICABLE_BY_APPROVED_PACKET"
+    ],
+    "variableFields": [
+      "variableId",
+      "nativeReference",
+      "productIdentity",
+      "revisionIdentity",
+      "unit",
+      "representedTime",
+      "support",
+      "possession",
+      "spatialCorrespondence",
+      "quality",
+      "requiredByApprovedPacket",
+      "resolution"
+    ],
+    "variableResolution": [
+      "PRESENT_UNADMITTED",
+      "MISSING",
+      "INVALID",
+      "UNRESOLVED",
+      "QUALIFIED_BY_REFERENCED_AUTHORITY"
+    ],
+    "historyStates": [
+      "AVAILABLE",
+      "UNAVAILABLE",
+      "INVALID",
+      "INSUFFICIENT",
+      "UNRESOLVED"
+    ],
+    "historyFields": [
+      "state",
+      "resolutionReference",
+      "asUsedSelectionReference",
+      "consumerReference",
+      "limitations"
+    ],
+    "resolutionStates": [
+      "INVALID_BINDING",
+      "UNSUPPORTED_CLAIM",
+      "MISSING_REQUIRED_INPUT",
+      "UNRESOLVED_AUTHORITY",
+      "REFERENCE_BOUND_ONLY"
+    ],
+    "mayGrantEligibility": false,
+    "mayCreateConfidence": false,
+    "mayRank": false,
+    "mayExecuteScience": false,
+    "semantics": [
+      "Strict plain detached immutable data; no getters/prototype/sparse/cyclic inputs or unknown keys.",
+      "Lookup exact relationshipId in pinned catalog; preserve source IDs and literature species namespace without minting app species IDs.",
+      "Missing applicability/support/possession stays UNKNOWN; NOT_APPLICABLE needs exact approved packet, never caller Boolean.",
+      "Preserve original capture/handoff/reference bytes and signed zero through native exact contracts; transport JSON digest does not prove native identity or authority.",
+      "Validate explicit assessment and exact candidate/static/context correspondence; no wall clock or latest/nearest source selection.",
+      "Native source admission, relationship approval and independent validation references must resolve through trusted future boundary, never digest or supplied qualification enum alone.",
+      "History AVAILABLE-empty requires successful declared-scope resolution; row cap/empty array is not coverage or sample sufficiency.",
+      "All catalog relationships remain candidates here; REFERENCE_BOUND_ONLY preserves references but authorizes no scientific execution.",
+      "Output reasons are structural limitations, never biological absence, adequacy, governed-zero, score, confidence or ranking permission."
+    ],
+    "negativeDesignCases": [
+      "unknown or conflicting relationship/source IDs",
+      "species or candidate/static/context/assessment mismatch",
+      "unknown vertical DO/depth and no surface proxy",
+      "later consumed represented/support time and unproven possession",
+      "same evidence repeated as independent history",
+      "AVAILABLE-empty from unresolved retrieval",
+      "caller-forged admission/eligibility/adequacy",
+      "DIRECT/GAP_FILLED pooling or product revision substitution",
+      "unsupported claim converted to zero/confidence/absence",
+      "signed-zero or native source bytes changed by JSON transport"
+    ],
+    "catalogReferences": [
+      {
+        "relationshipId": "VN1-blue-marlin-01",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N03",
+          "N14"
+        ],
+        "classification": "ESTABLISHED_SCOPED_OBSERVATION",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-02",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N07"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-03",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-04",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "S-BM",
+          "N09"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-05",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-06",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-07",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-08",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N09"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-09",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N07",
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-10",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "S-BM",
+          "N09"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blue-marlin-11",
+        "literatureSpeciesId": "blue-marlin",
+        "sourceIds": [
+          "N07",
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-01",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "N03",
+          "N05"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-02",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-03",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "N10"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-04",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-05",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-06",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "N05"
+        ],
+        "classification": "EMERGING_HYPOTHESIS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-07",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "N10"
+        ],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-08",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-09",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-10",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "S-YF"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-yellowfin-11",
+        "literatureSpeciesId": "yellowfin",
+        "sourceIds": [
+          "S-YF",
+          "N05"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-01",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N13",
+          "N12"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-02",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "S-BF"
+        ],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-03",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N04"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-04",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N12",
+          "S-BF"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-05",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N04"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-06",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-07",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N04"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-08",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-09",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N04"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-10",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "S-BF"
+        ],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-blackfin-11",
+        "literatureSpeciesId": "blackfin",
+        "sourceIds": [
+          "N04",
+          "N12"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-01",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "N14"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-02",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "S-WM"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-03",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-04",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "S-WM"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-05",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-06",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-07",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-08",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-09",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "N01",
+          "S-WM"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-10",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "S-WM"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-white-marlin-11",
+        "literatureSpeciesId": "white-marlin",
+        "sourceIds": [
+          "S-WM",
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-01",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "N15",
+          "N16"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-02",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "S-SA"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-03",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-04",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "S-SA",
+          "N09"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-05",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-06",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "S-SA"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-07",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "N01",
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-08",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "N09"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-09",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "N01"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-10",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "N09"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-sailfish-11",
+        "literatureSpeciesId": "sailfish",
+        "sourceIds": [
+          "S-SA",
+          "N15"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-01",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [
+          "N03",
+          "N11"
+        ],
+        "classification": "ESTABLISHED_SCOPED_OBSERVATION",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-02",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [
+          "S-WA",
+          "N08"
+        ],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-03",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [
+          "N08"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-04",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [
+          "S-WA"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-05",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-06",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-07",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-08",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-09",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [
+          "S-WA"
+        ],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-10",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [
+          "S-WA"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-wahoo-11",
+        "literatureSpeciesId": "wahoo",
+        "sourceIds": [
+          "N11"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-01",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "N03"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-02",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "N06",
+          "S-MA"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-03",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "N02"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-04",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "N06",
+          "S-MA"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-05",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "N06"
+        ],
+        "classification": "EMERGING_HYPOTHESIS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-06",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "N06"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-07",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-08",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [],
+        "classification": "UNSUPPORTED_IN_REVIEWED_CORPUS",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-09",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "N02",
+          "N06"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-10",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "S-MA"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      },
+      {
+        "relationshipId": "VN1-mahi-11",
+        "literatureSpeciesId": "mahi",
+        "sourceIds": [
+          "S-MA",
+          "N06"
+        ],
+        "classification": "CONTEXT_DEPENDENT",
+        "scientificStatus": "LITERATURE_CANDIDATE_ONLY",
+        "approvedForExecution": false
+      }
+    ]
+  }
 }
