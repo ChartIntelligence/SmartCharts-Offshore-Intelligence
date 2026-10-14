@@ -65,3 +65,11 @@ Milestone timestamp: 2026-10-14T12:18:03Z.
 - P02 Profile presentation/sign-out UI is not wired. Live authentication/full application entry, physical-device acceptance and founder visual acceptance remain unqualified. P03 source limitations and P05 documentation-only qualification boundaries remain intact.
 - Founder gates: exact successor source-push authorization through its normal mechanism; any new preview/release permission remains separate. No alternate assembly upload permitted as a workaround.
 - No main merge, preview replacement, Supabase mutation, production deployment, Receipt Writer activation or Beta Ready claim.
+
+Milestone timestamp: 2026-10-14T14:06:53Z.
+
+- P02 local Profile UI 4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2: P04 scoped independent PASS; 84 supplied / 88 extended overlapping controls, browser keyboard and native-map/Profile checks passed at 1000/390/320px. Save disabled; sign-out request acknowledgment remains separate from Auth-confirmed teardown.
+- P04 report SHA256: 5dfcddc4cd73a2004b465810fd6af02c71054b10c3bece5d07072590fb0fc56d. Live Auth, durable Profile drafts and physical touch remain unqualified; smaller boat-input sizing is a physical-review observation.
+- P01 next isolated local combined checkpoint requested from qualified 8e79ac3bbb63998bff29a64e3ebd49f9ec5d21be plus this exact descendant delta. New candidate and fresh full-application independent review remain pending.
+- P05 documentation-only species evidence plan: 4d0d5e15be7d03a4e11232e1d388137b9987701b, parent c4bec910ad0500d333ef4d89bc727e38f9186c07. Seven evidence packets and qualification gaps documented; no engine, scoring or source admission claimed.
+- Founder gates remain exact source publication approval and later visual/device acceptance. No preview, main, database, production or Receipt Writer changes.
