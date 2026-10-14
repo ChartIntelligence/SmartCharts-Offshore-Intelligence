@@ -73,31 +73,33 @@ function DashboardWorkspace({
   const sampleOwner=!authLoading && user?.is_anonymous===false && session?.user?.is_anonymous===false &&
     typeof user?.id==='string' && session?.user?.id===user.id ? user.id : null;
   const sampleOwnerRef=useRef(sampleOwner);
-  const [sampleView,setSampleView]=useState(()=>({owner:sampleOwner,selection:null,readout:null}));
+  const [sampleView,setSampleView]=useState(()=>({owner:sampleOwner,generation:0,selection:null,readout:null}));
+  const sampleGeneration=sampleView.generation;
+  const sampleGenerationRef=useRef(sampleGeneration);
   const sampleViewRef=useRef(sampleView);
-  useLayoutEffect(()=>{sampleOwnerRef.current=sampleOwner;sampleViewRef.current=sampleView;},[sampleOwner,sampleView]);
+  useLayoutEffect(()=>{sampleOwnerRef.current=sampleOwner;sampleGenerationRef.current=sampleGeneration;sampleViewRef.current=sampleView;},[sampleOwner,sampleGeneration,sampleView]);
   const awaitingSampleClear=useRef(false);
-  if(sampleView.owner!==sampleOwner){setSampleView({owner:sampleOwner,selection:null,readout:null});}
+  if(sampleView.owner!==sampleOwner){setSampleView({owner:sampleOwner,generation:sampleGeneration+1,selection:null,readout:null});}
   const currentSample=sampleOwner && sampleView?.owner===sampleOwner && workspace.layers.currentField ? sampleView : null;
   const selectedCurrentSample=currentSample?.selection??null;
-  useEffect(()=>{if(!selectedCurrentSample)awaitingSampleClear.current=false;},[selectedCurrentSample,sampleOwner]);
+  useEffect(()=>{if(!selectedCurrentSample)awaitingSampleClear.current=false;},[selectedCurrentSample,sampleOwner,sampleGeneration]);
   const selectCurrentSample=useCallback(selection=>{
-    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner || awaitingSampleClear.current)return;
-    setSampleView(previous=>({owner:sampleOwner,selection,readout:previous?.owner===sampleOwner?previous.readout:null}));
-  },[sampleOwner]);
+    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner || sampleGenerationRef.current!==sampleGeneration || awaitingSampleClear.current)return;
+    setSampleView(previous=>previous.owner!==sampleOwner || previous.generation!==sampleGeneration?previous:{...previous,selection});
+  },[sampleOwner,sampleGeneration]);
   const clearCurrentSample=useCallback(()=>{
-    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner)return;
+    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner || sampleGenerationRef.current!==sampleGeneration)return;
     awaitingSampleClear.current ||= Boolean(sampleViewRef.current?.owner===sampleOwner && sampleViewRef.current.selection);
-    setSampleView(previous=>previous?.owner===sampleOwner?{...previous,selection:null,readout:previous.readout?{...previous.readout,sample:null}:null}:{owner:sampleOwner,selection:null,readout:null});
-  },[sampleOwner]);
+    setSampleView(previous=>previous.owner===sampleOwner && previous.generation===sampleGeneration?{...previous,selection:null,readout:previous.readout?{...previous.readout,sample:null}:null}:previous);
+  },[sampleOwner,sampleGeneration]);
   const receiveCurrentSample=useCallback(readout=>{
-    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner)return;
+    if(!sampleOwner || sampleOwnerRef.current!==sampleOwner || sampleGenerationRef.current!==sampleGeneration)return;
     const current=sampleViewRef.current;
     const selection=current?.owner===sampleOwner?current.selection:null;
     if(readout?.sample && (!selection || readout.sample.fieldId!==selection.fieldId || readout.sample.sampleIndex!==selection.sampleIndex))return;
     if(!readout?.sample && selection)awaitingSampleClear.current=true;
-    setSampleView({owner:sampleOwner,selection:readout?.sample?selection:null,readout});
-  },[sampleOwner]);
+    setSampleView(previous=>previous.owner!==sampleOwner || previous.generation!==sampleGeneration?previous:{...previous,selection:readout?.sample?selection:null,readout});
+  },[sampleOwner,sampleGeneration]);
   const activeTab = workspace.activeTab;
   const applyNavigation=useCallback(next=>{
     setWorkspace(current=>({...current,activeTab:next.tab,reportPanelOpen:next.report}));
