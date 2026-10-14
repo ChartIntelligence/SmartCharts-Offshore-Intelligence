@@ -122,3 +122,11 @@ Milestone timestamp: 2026-10-14T20:05:55Z.
 - P04 exact local reports completed for all three candidates; source unchanged. Scoped qualification does not establish operational, live or physical-device acceptance.
 - Remaining dependencies: permitted pure structural-validator stage; operational SST/chlorophyll admission/freshness; server enrollment, entitlement and project configuration authority; source publication and supervised preview; Observe/publishing operation and physical-device/founder acceptance.
 - Qualified application 4e1b49ba52c26089e24dd94f377109c13d8586b6 and frozen preview remain distinct. No main merge, source-candidate upload, preview replacement, database/RLS/Auth mutation, deployment or Receipt Writer activation. Beta is not ready.
+
+Milestone timestamp: 2026-10-14T21:55:04Z.
+
+- Pure species-reference validator 782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0: independent scoped PASS, 134 focused tests and eight independent QA groups; all 77 catalog records matched pinned evidence. Structural reference handling only, with scientific admission unresolved and native bytes unverified. No biological engine or scoring qualification.
+- P01 historical SST application integration is in local implementation/testing; no final candidate SHA or independent combined clearance claimed. Controlled browser checks ran at 1000/390/320px; a notice-placement issue found during capture is being corrected within the consumer scope. Earlier harness failures are retained separately.
+- P03 qualified producer 99d7698b73183d490671d87ed74cc0f77a63080c remains unchanged. Its new integration acknowledgment to P01 was not delivered and awaits direct purpose-specific approval. No coordinator alternate relay.
+- Offline enrollment 0adc63a0ccb37605b1e3b3be815ca79e4223e823 and unified application 4e1b49ba52c26089e24dd94f377109c13d8586b6 preserve scoped qualifications; live authority, source publication, supervised preview and physical acceptance remain separate gates.
+- Founder action: approve P03's exact scalar-integration acknowledgment to P01. Other execution stays within existing permissions; no main merge, preview replacement, Supabase/Auth mutation, production deployment or Receipt Writer activation.
