@@ -1,0 +1,1060 @@
+{
+  "version": "pelora-master-beta-checklist-v1",
+  "snapshotDate": "2026-10-14",
+  "timezone": "America/New_York",
+  "authoritativeQueue": "docs/Beta_Command_Board_Current_State_v1.md",
+  "canonUnchanged": true,
+  "percentageComplete": null,
+  "owners": {
+    "P01": {
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "role": "Critical Path / Integration"
+    },
+    "P02": {
+      "task": "01a1134a-a6b2-71d0-addb-def99c5094f2",
+      "role": "Captain Experience"
+    },
+    "P03": {
+      "task": "01a1134f-397e-7312-a085-f3a5a66c10e9",
+      "role": "Living Ocean"
+    },
+    "P04": {
+      "task": "01a113ee-56f5-7533-9e93-f63e5334b85c",
+      "role": "QA & Release"
+    },
+    "P05": {
+      "task": "01a11267-bf87-77e3-b42f-8c677ace0caa",
+      "role": "Science Review"
+    },
+    "P00": {
+      "task": "01a13260-b7f1-7551-bcc9-1cc48bd56674",
+      "role": "Lead / Orchestrator"
+    }
+  },
+  "workspaces": [
+    {
+      "lane": "ui",
+      "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-unified-ui-profile-local-v1",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "head": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      }
+    },
+    {
+      "lane": "enrollment",
+      "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-enrollment-offline-contract-v1",
+      "branch": "codex/pelora-enrollment-offline-contract-v1",
+      "head": "60bbacb22efb7ab4a0a8dde28becfdac9673dea4",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      }
+    },
+    {
+      "lane": "fieldReadiness",
+      "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-field-test-readiness-v1",
+      "branch": "codex/pelora-02-field-test-readiness-v1",
+      "head": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      }
+    },
+    {
+      "lane": "p02Profile",
+      "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-profile-ui-v1",
+      "branch": "codex/pelora-02-profile-ui-v1",
+      "head": "4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      }
+    },
+    {
+      "lane": "p03Flow",
+      "path": "C:/Users/User/.codex/worktrees/flow-c1-bath-d1a-v1/pelora-03-living-ocean",
+      "branch": "codex/pelora-03-flow-c1-v1",
+      "head": "d7e8ba0e6cff5291e63fd02d9be96072340de3cb",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      }
+    },
+    {
+      "lane": "p03Bath",
+      "path": "C:/Users/User/.codex/worktrees/bath-d1a-retention-v1/pelora-03-living-ocean",
+      "branch": "codex/pelora-03-bath-d1a-v1",
+      "head": "174b271a530565dce43b5848776a23f2821e6004",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      }
+    },
+    {
+      "lane": "p04",
+      "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-04-qa-release",
+      "branch": "codex/pelora-04-founder-qa-package-v1",
+      "head": "11471d0c1d6d200ff9abbb8876cacaad186220f8",
+      "status": {
+        "staged": 1,
+        "tracked": 1,
+        "untracked": 26
+      }
+    },
+    {
+      "lane": "p05",
+      "path": "C:/Projects/SmartCharts-Offshore-Intelligence",
+      "branch": "codex/pelora-05-nightly-audit-blueprint-v1",
+      "head": "aaabba4b9f327e860b4401ef35454a27b7ee6ff4",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 10
+      }
+    },
+    {
+      "lane": "critical",
+      "path": "C:/Users/User/.codex/worktrees/e89f/SmartCharts-Offshore-Intelligence",
+      "branch": "codex/pelora-remote-setup",
+      "head": "dadec5dbca7d360f70f633413fb6a347dc24cac1",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 2
+      }
+    },
+    {
+      "lane": "frozen",
+      "path": "C:/Projects/Pelora-Agent-Worktrees/pelora-shell-local-qa-integration-v1",
+      "branch": "codex/pelora-shell-local-qa-integration-v1",
+      "head": "b0cd2b1c3b967644d3bb00b4b488addfe777b1e9",
+      "status": {
+        "staged": 0,
+        "tracked": 0,
+        "untracked": 0
+      }
+    }
+  ],
+  "qa": {
+    "ui": {
+      "path": "P04_Unified_Profile_Evidence_Closure_4e1b49b_v1.md",
+      "sha256": "ea48e0403e598e1ddc0951600df8ea8082d29812818f3fa5cac7ef28aa289553",
+      "meaning": "CONTROLLED_SCOPED_PASS_EXCLUSIONS_NOT_LIVE"
+    },
+    "profile": {
+      "sha": "4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2",
+      "path": "P04_Profile_UI_Independent_QA_4496a34_v1.md",
+      "sha256": "5dfcddc4cd73a2004b465810fd6af02c71054b10c3bece5d07072590fb0fc56d"
+    },
+    "enrollment": {
+      "meaning": "NOT_DISPATCHED_PERMISSION_DENIED",
+      "localTests": 54,
+      "independent": "NOT_REVIEWED"
+    },
+    "recovery": {
+      "manifest": "living-ocean-recovery-v1.json",
+      "sha256": "cc0d876f4d95589e5200a7f57365ea645ab74291537c27e26ffabf29dc3f5cf9",
+      "artifactCount": 31,
+      "sourceFileCount": 15,
+      "countsBasis": "P03_REPORTED_HASH_VERIFIED",
+      "nominalAnalysis": "2026-09-22T12:00:00Z",
+      "observationTime": null,
+      "freshness": "UNASSESSED"
+    }
+  },
+  "phases": {
+    "CP02": "8458c859eb4535631d8b47af9322e12790c0ad0f",
+    "CP03": "5ef987a74de774e857ddc2f12ea71f8c27df74eb",
+    "CP05": "246f342eda17d34359166c401dddf9775e9150b4"
+  },
+  "gates": {
+    "G.SOURCE_PUSH": "Exact4e1 branch/outgoing consumer-containing source authorization pending; no push",
+    "G.PREVIEW": "Separate supervised build/launch/assets/environment approval pending; oldb0 approval not transferable",
+    "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
+    "G.ENROLL_REVIEW_MESSAGE": "P04 review and P02 correction purposes denied, user permission pending; NOT dispatched",
+    "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
+    "G.FIELD_MESSAGE": "P02 field-doc binding message denied; queued only, no execution release",
+    "G.CONFIG_INSPECTION": "No connector; exact allowlisted nonsecret non-prod config/catalog read approval required",
+    "G.CALENDAR_LOGIN_POLICY": "UTC/leapday + trusted first-qualifying-login proof/preapproval-session decisions unresolved",
+    "G.MIGRATION_RLS": "No new migration/RLS/grants applied; requires separate approval",
+    "G.AUTH_ADMIN": "No privileged Auth/invite/account/config mutation authorized",
+    "G.PG_OPERATION": "Readiness metadata only; no credentials/connection/start/mutation authorized",
+    "G.HISTORY_POLICY": "Complete source/history selection/admission/privacy decisions unresolved",
+    "G.SOURCE_ADMISSION": "Real product/support/vintage/coverage/receipt admission not granted by fixtures",
+    "G.SCIENCE_POLICY": "Qualified relationship/independent evidence required; no copied formulas or thresholds",
+    "G.SHADOW_IMPLEMENTATION": "Conditional shadow stage requires science+contract approval first",
+    "G.PUBLICATION_SERVICE": "No operational governed schedule/read/materiality service authority",
+    "G.LEARNING_IMPLEMENTATION": "Blueprint/shadow docs not actual audit worker or automatic tuning",
+    "G.LIVE_TEST": "Real account/provider/device execution separately authorized and privacy-sanitized",
+    "G.FOUNDER_ACCEPTANCE": "Physical/visual product judgment remains human",
+    "G.PRODUCTION": "Explicit deployment/migration/release approval not granted",
+    "G.PRODUCTION_READ_PREVIEW": "No production account/report/session/config queries; production-backed read-only preview needs its own security/target/session/mutation-denial approval; no copying private reports into non-prod"
+  },
+  "requirements": [
+    {
+      "id": "UX.CONTROLLED",
+      "category": "Captain UX",
+      "acceptance": "Exact integrated Today/Map/Intelligence/Profile navigation, owner/draft/signout and field lifecycle passes controlled independent QA with all exclusions retained.",
+      "status": "COMPLETE",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": {
+        "path": "P04_Unified_Profile_Evidence_Closure_4e1b49b_v1.md",
+        "sha256": "ea48e0403e598e1ddc0951600df8ea8082d29812818f3fa5cac7ef28aa289553",
+        "meaning": "CONTROLLED_SCOPED_PASS_EXCLUSIONS_NOT_LIVE"
+      },
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "COMPLETE",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "UX.LIVE",
+      "category": "Captain UX",
+      "acceptance": "Real authenticated startup/returning mission/private Profile/report/navigation and valid governed selection verified without unintended writes.",
+      "status": "BLOCKED",
+      "owner": "P04",
+      "task": "01a113ee-56f5-7533-9e93-f63e5334b85c",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "P01_Staged_Publication_Preview_Readiness_v1.md",
+      "dependencies": [
+        "SEC.PREVIEW",
+        "ACCESS.CONFIG"
+      ],
+      "founderApproval": [
+        "G.PREVIEW",
+        "G.AUTH_ACTIONS"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "UX.FIELD_PLAN",
+      "category": "Captain UX",
+      "acceptance": "Dedicated read-only field-test readiness document separates controlled/live/device evidence and measurements; owner reserved and reviewed.",
+      "status": "NOT_STARTED",
+      "owner": "P02",
+      "task": "01a1134a-a6b2-71d0-addb-def99c5094f2",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-02-field-test-readiness-v1",
+      "evidence": "Planned docs/agents/qa/P02_Field_Test_Readiness_v1.md",
+      "dependencies": [
+        "MASTER_CHECKPOINT"
+      ],
+      "founderApproval": [
+        "G.FIELD_MESSAGE"
+      ],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "LIVING.SOURCE_RECOVERY",
+      "category": "Living Ocean",
+      "acceptance": "Exact historical NOAA frame/archive/scalar/raw identity and current source contracts recovered without reacquisition.",
+      "status": "COMPLETE",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "ea79e5a165aeb96cd93250441205da43352d74a2",
+      "branch": "codex/pelora-unified-ui-amendment-v1",
+      "evidence": {
+        "manifest": "living-ocean-recovery-v1.json",
+        "sha256": "cc0d876f4d95589e5200a7f57365ea645ab74291537c27e26ffabf29dc3f5cf9",
+        "artifactCount": 31,
+        "sourceFileCount": 15,
+        "countsBasis": "P03_REPORTED_HASH_VERIFIED",
+        "nominalAnalysis": "2026-09-22T12:00:00Z",
+        "observationTime": null,
+        "freshness": "UNASSESSED"
+      },
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "LIVING.FIELDS_CONTROLLED",
+      "category": "Living Ocean",
+      "acceptance": "Qualified current sample traces/readout and existing ETOPO retained coverage/expiry/texture/contour behavior preserved in exact combined source.",
+      "status": "COMPLETE",
+      "owner": "P03",
+      "task": "01a1134f-397e-7312-a085-f3a5a66c10e9",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "FLOWd7e8ba0/BATH174b271/P04 controlled combined records",
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "COMPLETE",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "LIVING.OPERATIONAL_SCALAR",
+      "category": "Living Ocean",
+      "acceptance": "Actual admitted fresh SST/chlorophyll source observations, support/revision/coverage and independent map/mobile presentation—not old pilot or QA points.",
+      "status": "BLOCKED",
+      "owner": "P03",
+      "task": "01a1134f-397e-7312-a085-f3a5a66c10e9",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "P01_Living_Ocean_Source_Recovery_v1.md",
+      "dependencies": [
+        "LIVING.SOURCE_RECOVERY",
+        "SPEC.SOURCE_CONTRACT"
+      ],
+      "founderApproval": [
+        "G.LIVING_COORD",
+        "G.SOURCE_ADMISSION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SPEC.DOSSIER_BASE",
+      "category": "Seven species",
+      "acceptance": "Frozen seven-species primary claim/reference dossier/register exists with applicability and evidence gaps explicit.",
+      "status": "COMPLETE",
+      "owner": "P05",
+      "task": "01a11267-bf87-77e3-b42f-8c677ace0caa",
+      "sha": "1e2b158531e5de1660ed324e32f27171bd7572dc",
+      "branch": "SOURCE_OBJECT_1e2b158",
+      "evidence": "P05 Seven Species Source Dossiers/Register",
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SPEC.VNEXT_RESEARCH",
+      "category": "Seven species",
+      "acceptance": "Expanded reproducible primary search/method screening and independent-reference applicability reviewed and checkpointed without score/policy invention.",
+      "status": "IN_PROGRESS",
+      "owner": "P05",
+      "task": "01a11267-bf87-77e3-b42f-8c677ace0caa",
+      "sha": "1e2b158531e5de1660ed324e32f27171bd7572dc",
+      "branch": "SOURCE_OBJECT_1e2b158",
+      "evidence": "P05 reported24queries/6batches; no VNEXT successor artifact yet",
+      "dependencies": [
+        "SPEC.DOSSIER_BASE"
+      ],
+      "founderApproval": [],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SPEC.SOURCE_CONTRACT",
+      "category": "Seven species",
+      "acceptance": "Exact species-neutral interpretation contract/qualified relationship packets, source/time/depth/region applicability and negative scenarios independently reviewed.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "b2270987ffac63e4c4459bb71bdd282e6559b934",
+      "branch": "codex/pelora-unified-ui-amendment-v1",
+      "evidence": "P01_Species_Interpretation_Contract_vNEXT.md/json",
+      "dependencies": [
+        "SPEC.VNEXT_RESEARCH"
+      ],
+      "founderApproval": [
+        "G.SCIENCE_POLICY"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SPEC.SEVEN_ENGINES",
+      "category": "Seven species",
+      "acceptance": "All seven engines scientifically/source/contract qualified; Blue Marlin controlled software alone and six labels do not qualify other engines.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Existing Blue Marlin producer inventory + P05 per-species gaps",
+      "dependencies": [
+        "SPEC.SOURCE_CONTRACT",
+        "OBS.OPERATIONAL_HISTORY"
+      ],
+      "founderApproval": [
+        "G.SCIENCE_POLICY",
+        "G.SHADOW_IMPLEMENTATION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "IN_PROGRESS",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "PLACES.GOVERNED",
+      "category": "Places / open water",
+      "acceptance": "Existing Place/Signal/Opportunity languages/static-parent identities and ranking permission remain distinct and tested at applicable scope.",
+      "status": "IN_PROGRESS",
+      "owner": "P03",
+      "task": "01a1134f-397e-7312-a085-f3a5a66c10e9",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "docs/Governed_Places_v1.md + current candidate producers",
+      "dependencies": [
+        "SPEC.SOURCE_CONTRACT"
+      ],
+      "founderApproval": [],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "IN_PROGRESS",
+        "scopedQA": "IN_PROGRESS",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "PLACES.EXPANDED",
+      "category": "Places / open water",
+      "acceptance": "Expanded governed Gulf Places/open-water species/context visibility validated without catch density or fabricated habitat/source coverage.",
+      "status": "BLOCKED",
+      "owner": "P03",
+      "task": "01a1134f-397e-7312-a085-f3a5a66c10e9",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Existing Places contract; no new source/expansion packet qualified",
+      "dependencies": [
+        "PLACES.GOVERNED",
+        "SPEC.SOURCE_CONTRACT"
+      ],
+      "founderApproval": [
+        "G.SOURCE_ADMISSION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "OBS.DURABLE_LOCAL",
+      "category": "Observe / history",
+      "acceptance": "CP02 claims/fencing, CP03 immutable exact storage and CP05 explicit atomic consumed terminal transition retain their real local qualification.",
+      "status": "COMPLETE",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "246f342eda17d34359166c401dddf9775e9150b4",
+      "branch": "codex/pelora-remote-setup",
+      "evidence": {
+        "phases": {
+          "CP02": "8458c859eb4535631d8b47af9322e12790c0ad0f",
+          "CP03": "5ef987a74de774e857ddc2f12ea71f8c27df74eb",
+          "CP05": "246f342eda17d34359166c401dddf9775e9150b4"
+        },
+        "localTests": "346/361/409 overlapping profiles",
+        "archive": "docs/qualification/CP05_CP08_Local_Evidence_Index_v1.md"
+      },
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "COMPLETE",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "OBS.OPERATIONAL_HISTORY",
+      "category": "Observe / history",
+      "acceptance": "Approved independent scope/source admission, durable operational acquisition/recovery and exact as-used qualified history selection operate independently of captain activity.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "dadec5dbca7d360f70f633413fb6a347dc24cac1",
+      "branch": "codex/pelora-remote-setup",
+      "evidence": "P3-A/R9/current CP records; no current DB connection",
+      "dependencies": [
+        "OBS.DURABLE_LOCAL",
+        "SPEC.SOURCE_CONTRACT"
+      ],
+      "founderApproval": [
+        "G.PG_OPERATION",
+        "G.HISTORY_POLICY",
+        "G.SOURCE_ADMISSION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "IN_PROGRESS",
+        "scopedQA": "IN_PROGRESS",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "PUB.LOCAL_MECHANICS",
+      "category": "Four-hour publish",
+      "acceptance": "Existing CP08/CP09/P4-A controlled stores/scheduling/fencing/recovery and result preservation qualified within recorded scopes.",
+      "status": "COMPLETE",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "dadec5dbca7d360f70f633413fb6a347dc24cac1",
+      "branch": "codex/pelora-remote-setup",
+      "evidence": "Existing CP08/CP09/P4-A evidence, not operational publisher",
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "COMPLETE",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "PUB.OPERATIONAL",
+      "category": "Four-hour publish",
+      "acceptance": "Six locked UTC cycles produce governed source/history/evaluation artifacts with exact cutoff, failed/partial/zero semantics, current captain read and truthful schedule authority.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Existing publication contracts/read adapter; no operational clock/materiality/read service",
+      "dependencies": [
+        "OBS.OPERATIONAL_HISTORY",
+        "SPEC.SOURCE_CONTRACT"
+      ],
+      "founderApproval": [
+        "G.PUBLICATION_SERVICE",
+        "G.SOURCE_ADMISSION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "IN_PROGRESS",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "NIGHT.BLUEPRINT",
+      "category": "Nightly learn / audit",
+      "acceptance": "Versioned nightly audit blueprint exists, reviewed only as design; exact remote identity independently read.",
+      "status": "COMPLETE",
+      "owner": "P05",
+      "task": "01a11267-bf87-77e3-b42f-8c677ace0caa",
+      "sha": "aaabba4b9f327e860b4401ef35454a27b7ee6ff4",
+      "branch": "codex/pelora-05-nightly-audit-blueprint-v1",
+      "evidence": "docs/PELORA_05_Nightly_Audit_Beta_Blueprint_v1.md",
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "NIGHT.FIXTURE_PREP",
+      "category": "Nightly learn / audit",
+      "acceptance": "Bounded historical-learning fixture preparation proposal follows canon/source/history/privacy; no learning execution or invented sample policy.",
+      "status": "NOT_STARTED",
+      "owner": "P05",
+      "task": "01a11267-bf87-77e3-b42f-8c677ace0caa",
+      "sha": "1e2b158531e5de1660ed324e32f27171bd7572dc",
+      "branch": "NOT_BOUND",
+      "evidence": "Planned docs/agents/science/PELORA_05_C_Historical_Learning_Fixtures_v1.md",
+      "dependencies": [
+        "MASTER_CHECKPOINT",
+        "NIGHT.BLUEPRINT"
+      ],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "NIGHT.OPERATIONAL",
+      "category": "Nightly learn / audit",
+      "acceptance": "Evidence audit/shadow learning actually runs on valid independently bound history/report support with human-reviewed proposals and no automatic production tuning.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Nightly blueprint + original as-used/history dependencies",
+      "dependencies": [
+        "NIGHT.BLUEPRINT",
+        "OBS.OPERATIONAL_HISTORY",
+        "PUB.OPERATIONAL"
+      ],
+      "founderApproval": [
+        "G.HISTORY_POLICY",
+        "G.LEARNING_IMPLEMENTATION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "ACCESS.LEGACY_PROFILE",
+      "category": "Audience / enrollment / privacy",
+      "acceptance": "Qualified legacy owner-bound read/Profile/signout preserves owner isolation, readonly role, disabled Save and truthful drafts/ACK.",
+      "status": "COMPLETE",
+      "owner": "P02",
+      "task": "01a1134a-a6b2-71d0-addb-def99c5094f2",
+      "sha": "4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2",
+      "branch": "codex/pelora-02-profile-ui-v1",
+      "evidence": {
+        "sha": "4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2",
+        "path": "P04_Profile_UI_Independent_QA_4496a34_v1.md",
+        "sha256": "5dfcddc4cd73a2004b465810fd6af02c71054b10c3bece5d07072590fb0fc56d"
+      },
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "COMPLETE",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "ACCESS.OFFLINE_CONTRACT",
+      "category": "Audience / enrollment / privacy",
+      "acceptance": "Exact v1.1 typed owner/generation/cursor/query/request/op correlation fixtures independently cleared before pure mobile prototype release.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "60bbacb22efb7ab4a0a8dde28becfdac9673dea4",
+      "branch": "codex/pelora-enrollment-offline-contract-v1",
+      "evidence": {
+        "meaning": "NOT_DISPATCHED_PERMISSION_DENIED",
+        "localTests": 54,
+        "independent": "NOT_REVIEWED"
+      },
+      "dependencies": [],
+      "founderApproval": [
+        "G.ENROLL_REVIEW_MESSAGE"
+      ],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "IN_PROGRESS",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "ACCESS.ENROLLMENT",
+      "category": "Audience / enrollment / privacy",
+      "acceptance": "25–30 applicants enrolled through verified capacity and server first-qualifying-login calendar term; Founder-only mobile admin, lifetime Founding and existing private data preserved.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "2f82b593ae4ffe871a1da9df44d51a521aaabfcd",
+      "branch": "codex/pelora-unified-ui-amendment-v1",
+      "evidence": "P01_Beta_Enrollment_Authority_Design_v2.md/json",
+      "dependencies": [
+        "ACCESS.CONFIG",
+        "ACCESS.OFFLINE_CONTRACT"
+      ],
+      "founderApproval": [
+        "G.CALENDAR_LOGIN_POLICY",
+        "G.MIGRATION_RLS",
+        "G.AUTH_ADMIN"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "ACCESS.CONFIG",
+      "category": "Audience / enrollment / privacy",
+      "acceptance": "Actual non-prod signup/SMTP/confirmation/invite/rate/redirect capability and deployed catalog reconciled via approved nonsecret readonly inspection.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Public docs only; Supabase config connector absent",
+      "dependencies": [
+        "ACCESS.LEGACY_PROFILE"
+      ],
+      "founderApproval": [
+        "G.CONFIG_INSPECTION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "LOGS.CONTROLLED",
+      "category": "Logs / feedback",
+      "acceptance": "Existing private fishing draft success/failure/QA mutation suppression and report-read controls preserved with synthetic-port scope explicit.",
+      "status": "COMPLETE",
+      "owner": "P02",
+      "task": "01a1134a-a6b2-71d0-addb-def99c5094f2",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Existing continuity/report/QA guards and controlled Profile/UI tests",
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "COMPLETE",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "LOGS.LIVE_FEEDBACK",
+      "category": "Logs / feedback",
+      "acceptance": "Real owner report/draft reload/eviction/recovery, truthful failure, structured field feedback and historical association validated; empty logs never absence evidence.",
+      "status": "BLOCKED",
+      "owner": "P02",
+      "task": "01a1134a-a6b2-71d0-addb-def99c5094f2",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Existing report contracts + queued field-readiness plan",
+      "dependencies": [
+        "UX.FIELD_PLAN",
+        "UX.LIVE",
+        "OBS.OPERATIONAL_HISTORY"
+      ],
+      "founderApproval": [
+        "G.LIVE_TEST"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "IN_PROGRESS",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SEC.CONTROLLED_QA",
+      "category": "Security / QA / device / release",
+      "acceptance": "Current exact controlled code/evidence closure accepted, failed histories/legacy harness/static exclusions remain explicit.",
+      "status": "COMPLETE",
+      "owner": "P04",
+      "task": "01a113ee-56f5-7533-9e93-f63e5334b85c",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": {
+        "path": "P04_Unified_Profile_Evidence_Closure_4e1b49b_v1.md",
+        "sha256": "ea48e0403e598e1ddc0951600df8ea8082d29812818f3fa5cac7ef28aa289553",
+        "meaning": "CONTROLLED_SCOPED_PASS_EXCLUSIONS_NOT_LIVE"
+      },
+      "dependencies": [],
+      "founderApproval": [],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "COMPLETE",
+        "scopedQA": "COMPLETE",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SEC.SOURCE_PUSH",
+      "category": "Security / QA / device / release",
+      "acceptance": "Exact new-branch nonforce source publication authorized, outgoing range checked then remote fullSHA verified, no denial workaround.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "P01_Exact_Source_Publication_Request_v1.json",
+      "dependencies": [
+        "SEC.CONTROLLED_QA"
+      ],
+      "founderApproval": [
+        "G.SOURCE_PUSH"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SEC.PREVIEW",
+      "category": "Security / QA / device / release",
+      "acceptance": "Separate exact supervised source/build/non-prod environment/asset/Auth sideeffects isolation approved and freshly qualified without replacingb0.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "P01_Staged_Publication_Preview_Readiness_v1.md",
+      "dependencies": [
+        "SEC.CONTROLLED_QA"
+      ],
+      "founderApproval": [
+        "G.PREVIEW",
+        "G.AUTH_ACTIONS"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SEC.DEVICE_FOUNDER",
+      "category": "Security / QA / device / release",
+      "acceptance": "Actual phone/browser/GPU/navigation/battery/reload/field judgment meets independent/device/founder acceptance after approved preview.",
+      "status": "NOT_STARTED",
+      "owner": "P04",
+      "task": "01a113ee-56f5-7533-9e93-f63e5334b85c",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "No real device/founder acceptance inferred",
+      "dependencies": [
+        "SEC.PREVIEW",
+        "UX.FIELD_PLAN"
+      ],
+      "founderApproval": [
+        "G.LIVE_TEST",
+        "G.FOUNDER_ACCEPTANCE"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "SEC.PRODUCTION",
+      "category": "Security / QA / device / release",
+      "acceptance": "All mandatory operational/science/privacy/enrollment/device acceptance and explicit production release authority satisfied.",
+      "status": "BLOCKED",
+      "owner": "P00",
+      "task": "01a13260-b7f1-7551-bcc9-1cc48bd56674",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Release gates; no Beta Ready claim",
+      "dependencies": [
+        "SPEC.SEVEN_ENGINES",
+        "LIVING.OPERATIONAL_SCALAR",
+        "OBS.OPERATIONAL_HISTORY",
+        "PUB.OPERATIONAL",
+        "NIGHT.OPERATIONAL",
+        "ACCESS.ENROLLMENT",
+        "LOGS.LIVE_FEEDBACK",
+        "SEC.DEVICE_FOUNDER"
+      ],
+      "founderApproval": [
+        "G.PRODUCTION"
+      ],
+      "betaBlocker": true,
+      "dimensions": {
+        "documentation": "COMPLETE",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "UX.FOUNDING_EARLY_PREVIEW",
+      "category": "Captain UX",
+      "acceptance": "Two existing Founding Captains can review exact isolated candidate without losing permanent rights/private reports or disrupting working app; actual account/data continuity proof and preview approval separate from controlled fixtures.",
+      "status": "BLOCKED",
+      "owner": "P01",
+      "task": "01a10e5b-295a-7901-9c63-39ceec34c902",
+      "sha": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
+      "branch": "codex/pelora-unified-ui-profile-local-v1",
+      "evidence": "Founder-reported existing production accounts; source-only owner/report contracts, no production rows queried",
+      "dependencies": [
+        "SEC.PREVIEW",
+        "UX.LIVE",
+        "ACCESS.LEGACY_PROFILE"
+      ],
+      "founderApproval": [
+        "G.PREVIEW",
+        "G.AUTH_ACTIONS",
+        "G.PRODUCTION_READ_PREVIEW"
+      ],
+      "betaBlocker": false,
+      "dimensions": {
+        "documentation": "IN_PROGRESS",
+        "code": "NOT_STARTED",
+        "scopedQA": "NOT_STARTED",
+        "operational": "BLOCKED",
+        "preview": "NOT_STARTED",
+        "production": "NOT_STARTED",
+        "founderAcceptance": "NOT_STARTED"
+      }
+    }
+  ]
+}

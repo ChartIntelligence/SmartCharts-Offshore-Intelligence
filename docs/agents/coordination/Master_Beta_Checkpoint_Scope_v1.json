@@ -1,0 +1,41 @@
+{
+  "version": "pelora-master-beta-checkpoint-scope-v1",
+  "baseline": "b2270987ffac63e4c4459bb71bdd282e6559b934",
+  "scope": "DOCUMENTATION_ONLY",
+  "singleQueue": "docs/Beta_Command_Board_Current_State_v1.md",
+  "requirements": 31,
+  "categories": 10,
+  "percentageComplete": null,
+  "sourcePreserved": [
+    "backend",
+    "frontend",
+    "shared",
+    "supabase"
+  ],
+  "newLinksVerified": true,
+  "testsBuildsServicesExecuted": false,
+  "privateDataExcluded": true,
+  "filesBeforeThisManifest": [
+    {
+      "path": "docs/Beta_Command_Board_Current_State_v1.md",
+      "indexBlob": "9dc92eebec96a983dd912ff50ed12badc2df29b5",
+      "sha256": "7fae9202092a13271351036e0a2a2735e9b3e3a5f9343d631b366af99cef4b80"
+    },
+    {
+      "path": "docs/agents/architecture/P01_Founding_Early_Preview_Isolation_v1.md",
+      "indexBlob": "0218bf02bde26c15d711fa4448eb5e3c71df16b9",
+      "sha256": "07c45c3e731b8b47b9d4517c3513bc398ac9f1f72b7a085feee6a0555458212c"
+    },
+    {
+      "path": "docs/agents/coordination/Master_Beta_Checklist_v1.json",
+      "indexBlob": "cc23cda4fee70438d6d7d7341e580c59a3819d12",
+      "sha256": "0cafd9f57001a7874c8edc3a558d3edfe180b716a390d774fafc44ef27a89b91"
+    },
+    {
+      "path": "docs/agents/coordination/Master_Beta_Checklist_v1.md",
+      "indexBlob": "45253f210b92baf0482f7a465bac0d3f14861fd7",
+      "sha256": "2e9e72e1affcbe827154913d2bd1f888a7951315d38598aee2178d479b4280e3"
+    }
+  ],
+  "permissions": "No new code/service/preview/production/source-admission approval"
+}
