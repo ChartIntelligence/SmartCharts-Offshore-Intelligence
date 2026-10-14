@@ -1,0 +1,91 @@
+{
+  "version": "pelora-unified-profile-local-v1",
+  "startingHead": "4496a34cb1156629104d4b7ec90f6b4ae2b5d2b2",
+  "sourceParent": "8e79ac3bbb63998bff29a64e3ebd49f9ec5d21be",
+  "approvedConstituents": [
+    "73bd810e5eda1bdc0b33a17f92e8fda5986efa87",
+    "d7e8ba0e6cff5291e63fd02d9be96072340de3cb",
+    "174b271a530565dce43b5848776a23f2821e6004",
+    "488e60d8e77e656e392a0ea65d1673b4c1184206",
+    "aaf185ff66b507c470da9383178b057af6242325"
+  ],
+  "profileDelta": [
+    {
+      "path": "frontend/src/components/CaptainProfile.jsx",
+      "blob": "45ce9f879609f27d6a3aa0735e9055854ad38091",
+      "sha256": "a0458f111f9213df5be2e48a4fae616ee0763fc8f9b23ed71123400061382873"
+    },
+    {
+      "path": "frontend/src/components/Dashboard.jsx",
+      "blob": "5078867ba52496f37494f1bd846788688842a24d",
+      "sha256": "7ae7f969055a14e42978aadf9cf1a010a2bbcbf68e71759105680f1d57fc12f6"
+    },
+    {
+      "path": "frontend/src/components/FoundingCaptainAccessGate.jsx",
+      "blob": "79f339fda320d2cea07f79931794325c38c9ac35",
+      "sha256": "73f8a35ad697606bd0d6c4c3f66ae52cd17f479e559b0b9cd0ff8d588c5f5c86"
+    },
+    {
+      "path": "frontend/src/components/PeloraStartupFlow.jsx",
+      "blob": "2f13f63f54a31447e148d95af4de298fc3c829a8",
+      "sha256": "f841afd6e4d6c05f888d909adc663ced2364b1c1213a866b1468b38cde75e655"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileUI.browser.test.mjs",
+      "blob": "be12e0a1dbb046ef914c0a18f84ca739848b37a9",
+      "sha256": "1b996459435782f9f8bfbc63c347630da5edb8e9d7537e036697a5b743621ecf"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileUI.evidence.md",
+      "blob": "575afc452ee0672dca3a4bb7a6a0f9aa1f012bea",
+      "sha256": "68a31446fdccbe975714c2f155e335c63a07c7de424785a1bd18e7c9ab47856a"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileUI.static.mjs",
+      "blob": "40f3fad1bdb9ad200198254c312c599efa6ad0a1",
+      "sha256": "8ac9801b99efccac10861be901ccb868f63f5d83cffe60c1f06258a6adf48679"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileUI.test.js",
+      "blob": "8794c784a6a6b5798aad9f064148d44db09e00ea",
+      "sha256": "91127c94b2321651bd4df26ff2667b0c65b09188d04cd3945cafe81c5fc5d0f4"
+    },
+    {
+      "path": "frontend/src/hooks/tests/captainProfileUIAssertions.fixture.js",
+      "blob": "22de0f34a197a576930b2d07a038a4a4d7118086",
+      "sha256": "d993d92cca5dab4f905b67d5f46f5f1949dd2a73f947cba3504bcd55041f21bd"
+    }
+  ],
+  "protectedSourceEquality": true,
+  "noNewApplicationSource": true,
+  "localOnly": true,
+  "uploadAuthorized": false,
+  "independentFreshCombinedQA": "PENDING",
+  "logs": [
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/profile-combined-ui.log",
+      "sha256": "cb85f93b4fb9ca98682f5cfad10d3962342a3dcd0141fdca693256d65fde2587"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/profile-combined-read.log",
+      "sha256": "881c772e549eda262547b389fe8aa617854e7d966213cd235a1a471b211fb5ef"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/profile-combined-useMapLibreOceanFields.test.js.log",
+      "sha256": "a4538e34069ce2cbe75dc2f862129eb681fba8111f41d8e8cc20333fb070cfd4"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/profile-combined-acceptedBathymetryExpiry.test.js.log",
+      "sha256": "9bb504eb6717596787f9a378e289a5c5b601f5b59c8013c773a036e52de7d0a4"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/profile-combined-static.log",
+      "sha256": "8c80783447b48950070d78fbc76b59b64f1e16646616c6fef291688bdeb680d8"
+    },
+    {
+      "path": "C:/Users/User/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an-3/outputs/profile-combined-browser.log",
+      "sha256": "4098104c4a503baf6ef1865e1b54ae9c2dfed4eec12cd682de71cb13e46367a9"
+    }
+  ],
+  "browserArtifacts": "C:/Users/User/AppData/Local/Temp/pelora-p02-profile-ui-LEm4oA"
+}
