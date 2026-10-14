@@ -1,0 +1,662 @@
+{
+  "schema": "pelora-seven-species-source-register-v1",
+  "author": "PELORA-05",
+  "stage": "4_PUBLIC_PRIMARY_RESEARCH_DOCUMENTATION",
+  "prepared_date": "2026-10-14",
+  "timezone": "America/New_York",
+  "parent_plan_checkpoint": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+  "markdown_path": "docs/agents/science/PELORA_05_Seven_Species_Source_Dossiers_v1.md",
+  "markdown_sha256": "54cb426832717adfb145b34cdf7f19058b723c9a205b5caf75b7e8e17596b488",
+  "scientific_admission": false,
+  "engine_qualification": false,
+  "experiment_executed": false,
+  "cp10": "BLOCKED",
+  "research_scope": "Public primary/official document browsing only; no environmental provider APIs/data acquisition, accounts, Auth, DB, services or outreach",
+  "sources": [
+    {
+      "source_id": "S-BM",
+      "authors": "Kraus, R. T.; Rooker, J. R.",
+      "year": 2007,
+      "title": "Patterns of Vertical Habitat Use by Atlantic Blue Marlin (Makaira nigricans) in the Gulf of Mexico",
+      "doi": "10.18785/gcr.1902.11",
+      "primary_url": "https://aquila.usm.edu/gcr/vol19/iss2/11/",
+      "publication_version": "Gulf and Caribbean Research 19(2):89-97",
+      "inspected_sections": [
+        "journal-hosted Abstract",
+        "Recommended Citation"
+      ],
+      "access_scope": "PRIMARY_ABSTRACT_AND_METADATA_ONLY",
+      "full_methods_access": "NOT ESTABLISHED: linked full paper could not be retrieved",
+      "evidence_anchor": "Two of these tags were recovered",
+      "anchor_locator": "Abstract",
+      "claim_ids": [
+        "CL-BM-01"
+      ],
+      "claim_type": "CONDITIONAL_PUBLISHED_HABITAT_USE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-BM\",\"authors\":\"Kraus, R. T.; Rooker, J. R.\",\"year\":2007,\"title\":\"Patterns of Vertical Habitat Use by Atlantic Blue Marlin (Makaira nigricans) in the Gulf of Mexico\",\"doi\":\"10.18785/gcr.1902.11\",\"primary_url\":\"https://aquila.usm.edu/gcr/vol19/iss2/11/\",\"publication_version\":\"Gulf and Caribbean Research 19(2):89-97\",\"inspected_sections\":[\"journal-hosted Abstract\",\"Recommended Citation\"],\"access_scope\":\"PRIMARY_ABSTRACT_AND_METADATA_ONLY\",\"full_methods_access\":\"NOT ESTABLISHED: linked full paper could not be retrieved\",\"evidence_anchor\":\"Two of these tags were recovered\",\"anchor_locator\":\"Abstract\",\"claim_ids\":[\"CL-BM-01\"],\"claim_type\":\"CONDITIONAL_PUBLISHED_HABITAT_USE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "bee0c3935ce4174e59493f25d482d159a542694225a209fcc4506ef94add01b2",
+        "byte_length": 1006,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-YF",
+      "authors": "Hoolihan, J. P.; Wells, R. J. D.; Luo, J.; Falterman, B.; Prince, E. D.; Rooker, J. R.",
+      "year": 2014,
+      "title": "Vertical and Horizontal Movements of Yellowfin Tuna in the Gulf of Mexico",
+      "doi": "10.1080/19425120.2014.935900",
+      "primary_url": "https://academic.oup.com/mcf/article/6/1/211/7737340",
+      "publication_version": "Marine and Coastal Fisheries 6(1):211-222; online 2014-10-28",
+      "inspected_sections": [
+        "Abstract",
+        "Methods",
+        "Table 1",
+        "Results and Discussion"
+      ],
+      "access_scope": "PRIMARY_PUBLISHER_TEXT_INSPECTED_SECTIONS",
+      "full_methods_access": "TEXT_ACCESSED; raw reference data not acquired",
+      "evidence_anchor": "captured in the proximity of petroleum production platforms",
+      "anchor_locator": "Methods first paragraph",
+      "claim_ids": [
+        "CL-YF-01"
+      ],
+      "claim_type": "CONDITIONAL_PUBLISHED_HABITAT_USE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-YF\",\"authors\":\"Hoolihan, J. P.; Wells, R. J. D.; Luo, J.; Falterman, B.; Prince, E. D.; Rooker, J. R.\",\"year\":2014,\"title\":\"Vertical and Horizontal Movements of Yellowfin Tuna in the Gulf of Mexico\",\"doi\":\"10.1080/19425120.2014.935900\",\"primary_url\":\"https://academic.oup.com/mcf/article/6/1/211/7737340\",\"publication_version\":\"Marine and Coastal Fisheries 6(1):211-222; online 2014-10-28\",\"inspected_sections\":[\"Abstract\",\"Methods\",\"Table 1\",\"Results and Discussion\"],\"access_scope\":\"PRIMARY_PUBLISHER_TEXT_INSPECTED_SECTIONS\",\"full_methods_access\":\"TEXT_ACCESSED; raw reference data not acquired\",\"evidence_anchor\":\"captured in the proximity of petroleum production platforms\",\"anchor_locator\":\"Methods first paragraph\",\"claim_ids\":[\"CL-YF-01\"],\"claim_type\":\"CONDITIONAL_PUBLISHED_HABITAT_USE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "d3d62bd4a88a07e56cb7a0c138bbb1d2372f12a3bb9d877d2308ebd3d601d90a",
+        "byte_length": 1125,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-BF",
+      "authors": "Fenton, J.; Ellis, J. M.; Falterman, B.; Kerstetter, D. W.",
+      "year": 2015,
+      "title": "Habitat utilization of blackfin tuna, Thunnus atlanticus, in the north-central Gulf of Mexico",
+      "doi": "10.1007/s10641-014-0347-3",
+      "primary_url": "https://link.springer.com/article/10.1007/s10641-014-0347-3",
+      "additional_primary_url": "https://nsuworks.nova.edu/occ_facarticles/485/",
+      "publication_version": "Environmental Biology of Fishes 98:1141-1150; online 2014-10-26, volume 2015",
+      "inspected_sections": [
+        "publisher Abstract and citation",
+        "author-institution Abstract and citation"
+      ],
+      "access_scope": "PRIMARY_ABSTRACT_AND_METADATA_ONLY",
+      "full_methods_access": "NOT ESTABLISHED: subscription text not accessed",
+      "evidence_anchor": "in the northern Gulf of Mexico in April 2012",
+      "anchor_locator": "Abstract first paragraph",
+      "source_discrepancy_unresolved": "abstract deployment duration includes both 18 and 19 days",
+      "claim_ids": [
+        "CL-BF-01"
+      ],
+      "claim_type": "CONDITIONAL_PUBLISHED_HABITAT_USE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-BF\",\"authors\":\"Fenton, J.; Ellis, J. M.; Falterman, B.; Kerstetter, D. W.\",\"year\":2015,\"title\":\"Habitat utilization of blackfin tuna, Thunnus atlanticus, in the north-central Gulf of Mexico\",\"doi\":\"10.1007/s10641-014-0347-3\",\"primary_url\":\"https://link.springer.com/article/10.1007/s10641-014-0347-3\",\"additional_primary_url\":\"https://nsuworks.nova.edu/occ_facarticles/485/\",\"publication_version\":\"Environmental Biology of Fishes 98:1141-1150; online 2014-10-26, volume 2015\",\"inspected_sections\":[\"publisher Abstract and citation\",\"author-institution Abstract and citation\"],\"access_scope\":\"PRIMARY_ABSTRACT_AND_METADATA_ONLY\",\"full_methods_access\":\"NOT ESTABLISHED: subscription text not accessed\",\"evidence_anchor\":\"in the northern Gulf of Mexico in April 2012\",\"anchor_locator\":\"Abstract first paragraph\",\"source_discrepancy_unresolved\":\"abstract deployment duration includes both 18 and 19 days\",\"claim_ids\":[\"CL-BF-01\"],\"claim_type\":\"CONDITIONAL_PUBLISHED_HABITAT_USE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "6e38b8b8cdda673b18d9d6a7e0fe8c4c1577eeaea341043c0afbe76e73ae455f",
+        "byte_length": 1304,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-MA",
+      "authors": "Merten, W.; Appeldoorn, R.; Rivera, R.; Hammond, D.",
+      "year": 2014,
+      "title": "Diel vertical movements of adult male dolphinfish (Coryphaena hippurus) in the western central Atlantic as determined by use of pop-up satellite archival transmitters",
+      "doi": "10.1007/s00227-014-2464-0",
+      "primary_url": "https://beyondourshores.org/wp-content/uploads/2017/06/Merten-et-al.-2014c-Marine-Biology-full-citation-details.pdf",
+      "publication_version": "Marine Biology 161:1823-1834; online 2014-06-07; author's copy",
+      "inspected_sections": [
+        "Abstract",
+        "Methods",
+        "Results",
+        "Table 1",
+        "Discussion"
+      ],
+      "access_scope": "AUTHOR_HOSTED_PRIMARY_PAPER_INSPECTED_SECTIONS",
+      "full_methods_access": "BROWSER_TEXT_ACCESSED; no local binary archive or tagging data",
+      "evidence_anchor": "six adult male",
+      "anchor_locator": "Abstract; Table 1",
+      "claim_ids": [
+        "CL-MA-01"
+      ],
+      "claim_type": "CONDITIONAL_PUBLISHED_HABITAT_USE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-MA\",\"authors\":\"Merten, W.; Appeldoorn, R.; Rivera, R.; Hammond, D.\",\"year\":2014,\"title\":\"Diel vertical movements of adult male dolphinfish (Coryphaena hippurus) in the western central Atlantic as determined by use of pop-up satellite archival transmitters\",\"doi\":\"10.1007/s00227-014-2464-0\",\"primary_url\":\"https://beyondourshores.org/wp-content/uploads/2017/06/Merten-et-al.-2014c-Marine-Biology-full-citation-details.pdf\",\"publication_version\":\"Marine Biology 161:1823-1834; online 2014-06-07; author's copy\",\"inspected_sections\":[\"Abstract\",\"Methods\",\"Results\",\"Table 1\",\"Discussion\"],\"access_scope\":\"AUTHOR_HOSTED_PRIMARY_PAPER_INSPECTED_SECTIONS\",\"full_methods_access\":\"BROWSER_TEXT_ACCESSED; no local binary archive or tagging data\",\"evidence_anchor\":\"six adult male\",\"anchor_locator\":\"Abstract; Table 1\",\"claim_ids\":[\"CL-MA-01\"],\"claim_type\":\"CONDITIONAL_PUBLISHED_HABITAT_USE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "e60bd56cb394c8b3e0bf2ad0813eb71a9d372f2a631130384bc5a0289f56b84b",
+        "byte_length": 1213,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-SA",
+      "authors": "Lam, C. H.; Galuardi, B.; Mendillo, A.; Chandler, E.; Lutcavage, M. E.",
+      "year": 2016,
+      "title": "Sailfish migrations connect productive coastal areas in the West Atlantic Ocean",
+      "doi": "10.1038/srep38163",
+      "primary_url": "https://www.nature.com/articles/srep38163",
+      "publication_version": "Scientific Reports 6:38163; 2016-12-01",
+      "inspected_sections": [
+        "Abstract",
+        "Results and Table 1",
+        "Figures 2-6 text/captions",
+        "Discussion",
+        "Environmental parameters"
+      ],
+      "access_scope": "PRIMARY_PUBLISHER_TEXT_INSPECTED_SECTIONS",
+      "full_methods_access": "TEXT_ACCESSED; raw reference data not acquired",
+      "evidence_anchor": "seven (21%) failed to report",
+      "anchor_locator": "Results first paragraph",
+      "claim_ids": [
+        "CL-SA-01"
+      ],
+      "claim_type": "CONDITIONAL_PUBLISHED_HABITAT_USE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-SA\",\"authors\":\"Lam, C. H.; Galuardi, B.; Mendillo, A.; Chandler, E.; Lutcavage, M. E.\",\"year\":2016,\"title\":\"Sailfish migrations connect productive coastal areas in the West Atlantic Ocean\",\"doi\":\"10.1038/srep38163\",\"primary_url\":\"https://www.nature.com/articles/srep38163\",\"publication_version\":\"Scientific Reports 6:38163; 2016-12-01\",\"inspected_sections\":[\"Abstract\",\"Results and Table 1\",\"Figures 2-6 text/captions\",\"Discussion\",\"Environmental parameters\"],\"access_scope\":\"PRIMARY_PUBLISHER_TEXT_INSPECTED_SECTIONS\",\"full_methods_access\":\"TEXT_ACCESSED; raw reference data not acquired\",\"evidence_anchor\":\"seven (21%) failed to report\",\"anchor_locator\":\"Results first paragraph\",\"claim_ids\":[\"CL-SA-01\"],\"claim_type\":\"CONDITIONAL_PUBLISHED_HABITAT_USE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "fea92664327e6ce35911871d5813730f095b9e30e5766777469747c5ed578ffc",
+        "byte_length": 1085,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-WM",
+      "authors": "Hoolihan, J. P.; Luo, J.; Snodgrass, D.; Orbesen, E. S.; Barse, A. M.; Prince, E. D.",
+      "year": 2015,
+      "title": "Vertical and horizontal habitat use by white marlin Kajikia albida (Poey, 1860) in the western North Atlantic Ocean",
+      "doi": "10.1093/icesjms/fsv082",
+      "primary_url": "https://academic.oup.com/icesjms/article/72/8/2364/2458701",
+      "publication_version": "ICES Journal of Marine Science 72(8):2364-2373; online 2015-05-05",
+      "inspected_sections": [
+        "Abstract",
+        "Material and methods",
+        "Table 1",
+        "Discussion"
+      ],
+      "access_scope": "PRIMARY_PUBLISHER_TEXT_INSPECTED_SECTIONS",
+      "full_methods_access": "TEXT_ACCESSED; raw reference data not acquired",
+      "evidence_anchor": "within a few weeks of anticipated fall migrations",
+      "anchor_locator": "Material and methods first paragraph",
+      "source_discrepancy_unresolved": "title Kajikia; abstract Kajika; no taxonomic reconciliation granted",
+      "claim_ids": [
+        "CL-WM-01"
+      ],
+      "claim_type": "CONDITIONAL_PUBLISHED_HABITAT_USE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-WM\",\"authors\":\"Hoolihan, J. P.; Luo, J.; Snodgrass, D.; Orbesen, E. S.; Barse, A. M.; Prince, E. D.\",\"year\":2015,\"title\":\"Vertical and horizontal habitat use by white marlin Kajikia albida (Poey, 1860) in the western North Atlantic Ocean\",\"doi\":\"10.1093/icesjms/fsv082\",\"primary_url\":\"https://academic.oup.com/icesjms/article/72/8/2364/2458701\",\"publication_version\":\"ICES Journal of Marine Science 72(8):2364-2373; online 2015-05-05\",\"inspected_sections\":[\"Abstract\",\"Material and methods\",\"Table 1\",\"Discussion\"],\"access_scope\":\"PRIMARY_PUBLISHER_TEXT_INSPECTED_SECTIONS\",\"full_methods_access\":\"TEXT_ACCESSED; raw reference data not acquired\",\"evidence_anchor\":\"within a few weeks of anticipated fall migrations\",\"anchor_locator\":\"Material and methods first paragraph\",\"source_discrepancy_unresolved\":\"title Kajikia; abstract Kajika; no taxonomic reconciliation granted\",\"claim_ids\":[\"CL-WM-01\"],\"claim_type\":\"CONDITIONAL_PUBLISHED_HABITAT_USE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "8f647e2add1057a6b6866962bde87c5bd3c05e4ad8b5a74913b0551231c13bfc",
+        "byte_length": 1276,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-WA",
+      "authors": "Theisen, T. C.; Baldwin, J. D.",
+      "year": 2012,
+      "title": "Movements and depth/temperature distribution of the ectothermic Scombrid, Acanthocybium solandri (wahoo), in the western North Atlantic",
+      "doi": "10.1007/s00227-012-2010-x",
+      "primary_url": "https://link.springer.com/article/10.1007/s00227-012-2010-x",
+      "publication_version": "Marine Biology 159:2249-2258; online 2012-09-11",
+      "inspected_sections": [
+        "publisher Abstract",
+        "citation metadata"
+      ],
+      "access_scope": "PRIMARY_ABSTRACT_AND_METADATA_ONLY",
+      "full_methods_access": "NOT ESTABLISHED: subscription text not accessed",
+      "evidence_anchor": "four wahoo during 2006",
+      "anchor_locator": "Abstract first sentence",
+      "claim_ids": [
+        "CL-WA-01"
+      ],
+      "claim_type": "CONDITIONAL_PUBLISHED_HABITAT_USE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-WA\",\"authors\":\"Theisen, T. C.; Baldwin, J. D.\",\"year\":2012,\"title\":\"Movements and depth/temperature distribution of the ectothermic Scombrid, Acanthocybium solandri (wahoo), in the western North Atlantic\",\"doi\":\"10.1007/s00227-012-2010-x\",\"primary_url\":\"https://link.springer.com/article/10.1007/s00227-012-2010-x\",\"publication_version\":\"Marine Biology 159:2249-2258; online 2012-09-11\",\"inspected_sections\":[\"publisher Abstract\",\"citation metadata\"],\"access_scope\":\"PRIMARY_ABSTRACT_AND_METADATA_ONLY\",\"full_methods_access\":\"NOT ESTABLISHED: subscription text not accessed\",\"evidence_anchor\":\"four wahoo during 2006\",\"anchor_locator\":\"Abstract first sentence\",\"claim_ids\":[\"CL-WA-01\"],\"claim_type\":\"CONDITIONAL_PUBLISHED_HABITAT_USE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "13107ae252f2a7c65b054cc94345746db2f905e1f6a806773b5d3a593bd4a7a3",
+        "byte_length": 1064,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-EFH17",
+      "authors": "NOAA Fisheries",
+      "year": 2017,
+      "title": "Amendment 10 to the 2006 Consolidated HMS Fishery Management Plan: Essential Fish Habitat",
+      "doi": null,
+      "primary_url": "https://www.fisheries.noaa.gov/action/amendment-10-2006-consolidated-hms-fishery-management-plan-essential-fish-habitat",
+      "publication_version": "2017 agency action page; historical context only",
+      "inspected_sections": [
+        "Overview",
+        "Summary"
+      ],
+      "access_scope": "OFFICIAL_AGENCY_NOTICE_ONLY",
+      "full_methods_access": "linked full assessment/polygons not reviewed",
+      "evidence_anchor": "Updates and revises existing HMS EFH boundaries",
+      "anchor_locator": "Summary bullet list",
+      "claim_ids": [
+        "CL-EFH-CONTEXT"
+      ],
+      "claim_type": "DOCUMENT_VERSION_CONTEXT_NOT_LEGAL_OR_BIOLOGICAL_RULE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-EFH17\",\"authors\":\"NOAA Fisheries\",\"year\":2017,\"title\":\"Amendment 10 to the 2006 Consolidated HMS Fishery Management Plan: Essential Fish Habitat\",\"doi\":null,\"primary_url\":\"https://www.fisheries.noaa.gov/action/amendment-10-2006-consolidated-hms-fishery-management-plan-essential-fish-habitat\",\"publication_version\":\"2017 agency action page; historical context only\",\"inspected_sections\":[\"Overview\",\"Summary\"],\"access_scope\":\"OFFICIAL_AGENCY_NOTICE_ONLY\",\"full_methods_access\":\"linked full assessment/polygons not reviewed\",\"evidence_anchor\":\"Updates and revises existing HMS EFH boundaries\",\"anchor_locator\":\"Summary bullet list\",\"claim_ids\":[\"CL-EFH-CONTEXT\"],\"claim_type\":\"DOCUMENT_VERSION_CONTEXT_NOT_LEGAL_OR_BIOLOGICAL_RULE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "c466f8261a80bb94f83d1da882adc8b22669a9dd7e681eb6833692e92ec44474",
+        "byte_length": 1060,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    },
+    {
+      "source_id": "S-EFH24",
+      "authors": "NOAA Fisheries",
+      "year": 2024,
+      "title": "Essential Fish Habitat 5-Year Review",
+      "doi": null,
+      "primary_url": "https://www.fisheries.noaa.gov/action/essential-fish-habitat-5-year-review",
+      "publication_version": "Notice published and page updated 2024-04-18; historical process context",
+      "inspected_sections": [
+        "Summary",
+        "Essential Fish Habitat Process"
+      ],
+      "access_scope": "OFFICIAL_AGENCY_NOTICE_ONLY",
+      "full_methods_access": "linked full assessment and later final designations not adjudicated",
+      "evidence_anchor": "modifications to essential fish habitat descriptions and designations are warranted",
+      "anchor_locator": "Summary",
+      "claim_ids": [
+        "CL-EFH-CONTEXT"
+      ],
+      "claim_type": "DOCUMENT_VERSION_CONTEXT_NOT_LEGAL_OR_BIOLOGICAL_RULE",
+      "upstream_document_sha256": null,
+      "accessed_date": "2026-10-14",
+      "accessed_timezone": "America/New_York",
+      "reference_check": {
+        "title_doi_version_checked_on_primary": true,
+        "source_sections_personally_accessed": true,
+        "raw_dataset_accessed": false,
+        "independent_validation_dataset_acquired": false,
+        "engine_qualification": false
+      },
+      "citation_record_fingerprint": {
+        "algorithm": "SHA-256",
+        "canonical_record_json": "{\"source_id\":\"S-EFH24\",\"authors\":\"NOAA Fisheries\",\"year\":2024,\"title\":\"Essential Fish Habitat 5-Year Review\",\"doi\":null,\"primary_url\":\"https://www.fisheries.noaa.gov/action/essential-fish-habitat-5-year-review\",\"publication_version\":\"Notice published and page updated 2024-04-18; historical process context\",\"inspected_sections\":[\"Summary\",\"Essential Fish Habitat Process\"],\"access_scope\":\"OFFICIAL_AGENCY_NOTICE_ONLY\",\"full_methods_access\":\"linked full assessment and later final designations not adjudicated\",\"evidence_anchor\":\"modifications to essential fish habitat descriptions and designations are warranted\",\"anchor_locator\":\"Summary\",\"claim_ids\":[\"CL-EFH-CONTEXT\"],\"claim_type\":\"DOCUMENT_VERSION_CONTEXT_NOT_LEGAL_OR_BIOLOGICAL_RULE\",\"upstream_document_sha256\":null,\"accessed_date\":\"2026-10-14\",\"accessed_timezone\":\"America/New_York\",\"reference_check\":{\"title_doi_version_checked_on_primary\":true,\"source_sections_personally_accessed\":true,\"raw_dataset_accessed\":false,\"independent_validation_dataset_acquired\":false,\"engine_qualification\":false}}",
+        "sha256": "0073f5550b2f0352519c6cdade47694c0590c6966cbede84d65039f9b2fc50d0",
+        "byte_length": 1055,
+        "encoding": "UTF-8 without BOM, compact JSON, key order as emitted, no final newline",
+        "scope": "FROZEN_CITATION_RECORD_ONLY_NOT_UPSTREAM_DOCUMENT_BYTES"
+      }
+    }
+  ],
+  "repository_context_fingerprints": [
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/agents/science/PELORA_05_Seven_Species_Evidence_Plan_v1.md",
+      "git_blob_oid": "ad153799426fd28a9a607df883400df6a9bdea22",
+      "sha256_exact_git_blob_bytes": "9a16e8186ec26401a399f7047436044ee25e06fdeb7ffbb061fc84d7820de05c",
+      "bytes": 28959,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/PELORA_PRODUCT_CONSTITUTION.md",
+      "git_blob_oid": "eb05f2e890087533a69b23409addfe08b8a5f8a3",
+      "sha256_exact_git_blob_bytes": "7bde9effacc0772775d80365c032b571d23520ae654a8ddc482ab325b02f8a25",
+      "bytes": 8791,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/PELORA_SCIENCE_GOVERNANCE.md",
+      "git_blob_oid": "f822d951a83cb870a83798c5d2d5eb5f87bcec40",
+      "sha256_exact_git_blob_bytes": "8bd2712b5e8776adccb71711100188a13e25e2218cbe80be1987995da9b8988f",
+      "bytes": 4435,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/PELORA_PRIVACY_AND_EVIDENCE_RULES.md",
+      "git_blob_oid": "76f9d1491f687d3c72ebff84422b4e66b3e88198",
+      "sha256_exact_git_blob_bytes": "be64c42456e0414285c61f45045d95f3ee3f6410ad5189dd047896da0aacb365",
+      "bytes": 2682,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/PELORA_RELEASE_GATES.md",
+      "git_blob_oid": "94891e713fcb4e1e4db91691246999e3fd7daed9",
+      "sha256_exact_git_blob_bytes": "4bb249ee0618cdc45ae87c86bb130a805417b1e3537c751ec6e2b634ec5216cb",
+      "bytes": 3632,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/CP09B_P3_Source_History_Policy_Decisions_v1.md",
+      "git_blob_oid": "100a920fa10a4bf501611fa62954e5ba021aaf71",
+      "sha256_exact_git_blob_bytes": "08e0c30969e4bb034f7d4eb8665b523bcf21f7ffb9fa81a9b9eb4ab990a9652d",
+      "bytes": 29342,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/CP09B_P3A_Explicit_Cutoff_As_Used_History_v1.md",
+      "git_blob_oid": "39f4e15f1f4cb6da3498bde3b93a29dc11f8d57e",
+      "sha256_exact_git_blob_bytes": "4dcfc6ebd559a6f859143472045a4ae6052bcb28c9e90a1622937ebaf557032a",
+      "bytes": 13817,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/CP09B_R9_Temporal_Derived_Finiteness_Repair_v1.md",
+      "git_blob_oid": "074b639b0262b35ea7756a2518a839b6bcf1bc93",
+      "sha256_exact_git_blob_bytes": "75cf47c00e8758e351a66352f1e27e285a7a83e40ee19eb6809536158110048c",
+      "bytes": 7914,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "docs/Governed_Places_v1.md",
+      "git_blob_oid": "22994b3f24a56281a563e2be49e1a4add6a1c131",
+      "sha256_exact_git_blob_bytes": "151ac0acd3a1900b1d08529d8da761304855d8522c2d25580b60f68691b3a99b",
+      "bytes": 30113,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "backend/fields/datasetRegistry.js",
+      "git_blob_oid": "9768b65b496ff8a2d84d0f4fd93c35bf46c7da4e",
+      "sha256_exact_git_blob_bytes": "8750692b9355f56de24c35d775411cb51ca30537685b5344a94e6cc18e09644d",
+      "bytes": 3139,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "backend/bathymetryEvidence.js",
+      "git_blob_oid": "f8f34f9316160bc2fd880698da83be611f1c6c7c",
+      "sha256_exact_git_blob_bytes": "3d67503a08b862131c676a929c5f9f6272b2e047c3d2531656f6c42bb3daf775",
+      "bytes": 800,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "shared/fishingLogEvidenceCapture.mjs",
+      "git_blob_oid": "12a7e18cd987ead5d36574c702f56588fdd6291b",
+      "sha256_exact_git_blob_bytes": "3753f13ce70608a5e6d7fa438d9f4318252cf5efa968f174f67233d740f9955c",
+      "bytes": 6860,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    },
+    {
+      "commit": "4d0d5e15be7d03a4e11232e1d388137b9987701b",
+      "path": "shared/fishingLogAssociationReadiness.mjs",
+      "git_blob_oid": "a73c857015dc3b8a50a4e0c4fe430947668f3e8d",
+      "sha256_exact_git_blob_bytes": "3de510daea59811793cc83f983d68beb6f1f6926efcd05d2a6b328a77195683c",
+      "bytes": 5651,
+      "role": "EXISTING_CONTEXT_NOT_NEW_QUALIFICATION"
+    }
+  ],
+  "claim_matrix": [
+    {
+      "packet_id": "SP-BM",
+      "canonical_species": "Blue Marlin",
+      "mission_id": "blue-marlin",
+      "literature_claim_id": "CL-BM-01",
+      "source_ids": [
+        "S-BM"
+      ],
+      "proposed_question_id": "H-BM-01",
+      "dossier_locator": "SP-BM section in paired Markdown",
+      "literature_status": "SOURCE_BACKED_CONDITIONAL_USE_NOT_RULE",
+      "proposal_status": "P05_DESIGN_NOT_EXECUTED",
+      "independent_validation_status": "BLOCKED_REFERENCE_OR_SCOPE_GAPS",
+      "numeric_policy": "NOT_SELECTED",
+      "operational_admission": false,
+      "qualified_engine_claim": false
+    },
+    {
+      "packet_id": "SP-YF",
+      "canonical_species": "Yellowfin Tuna",
+      "mission_id": "yellowfin",
+      "literature_claim_id": "CL-YF-01",
+      "source_ids": [
+        "S-YF"
+      ],
+      "proposed_question_id": "H-YF-01",
+      "dossier_locator": "SP-YF section in paired Markdown",
+      "literature_status": "SOURCE_BACKED_CONDITIONAL_USE_NOT_RULE",
+      "proposal_status": "P05_DESIGN_NOT_EXECUTED",
+      "independent_validation_status": "BLOCKED_REFERENCE_OR_SCOPE_GAPS",
+      "numeric_policy": "NOT_SELECTED",
+      "operational_admission": false,
+      "qualified_engine_claim": false
+    },
+    {
+      "packet_id": "SP-BF",
+      "canonical_species": "Blackfin Tuna",
+      "mission_id": "blackfin",
+      "literature_claim_id": "CL-BF-01",
+      "source_ids": [
+        "S-BF"
+      ],
+      "proposed_question_id": "H-BF-01",
+      "dossier_locator": "SP-BF section in paired Markdown",
+      "literature_status": "SOURCE_BACKED_CONDITIONAL_USE_NOT_RULE",
+      "proposal_status": "P05_DESIGN_NOT_EXECUTED",
+      "independent_validation_status": "BLOCKED_REFERENCE_OR_SCOPE_GAPS",
+      "numeric_policy": "NOT_SELECTED",
+      "operational_admission": false,
+      "qualified_engine_claim": false
+    },
+    {
+      "packet_id": "SP-MA",
+      "canonical_species": "Mahi",
+      "mission_id": "mahi",
+      "literature_claim_id": "CL-MA-01",
+      "source_ids": [
+        "S-MA"
+      ],
+      "proposed_question_id": "H-MA-01",
+      "dossier_locator": "SP-MA section in paired Markdown",
+      "literature_status": "SOURCE_BACKED_CONDITIONAL_USE_NOT_RULE",
+      "proposal_status": "P05_DESIGN_NOT_EXECUTED",
+      "independent_validation_status": "BLOCKED_REFERENCE_OR_SCOPE_GAPS",
+      "numeric_policy": "NOT_SELECTED",
+      "operational_admission": false,
+      "qualified_engine_claim": false
+    },
+    {
+      "packet_id": "SP-SA",
+      "canonical_species": "Sailfish",
+      "mission_id": "sailfish",
+      "literature_claim_id": "CL-SA-01",
+      "source_ids": [
+        "S-SA"
+      ],
+      "proposed_question_id": "H-SA-01",
+      "dossier_locator": "SP-SA section in paired Markdown",
+      "literature_status": "SOURCE_BACKED_CONDITIONAL_USE_NOT_RULE",
+      "proposal_status": "P05_DESIGN_NOT_EXECUTED",
+      "independent_validation_status": "BLOCKED_REFERENCE_OR_SCOPE_GAPS",
+      "numeric_policy": "NOT_SELECTED",
+      "operational_admission": false,
+      "qualified_engine_claim": false
+    },
+    {
+      "packet_id": "SP-WM",
+      "canonical_species": "White Marlin",
+      "mission_id": "white-marlin",
+      "literature_claim_id": "CL-WM-01",
+      "source_ids": [
+        "S-WM"
+      ],
+      "proposed_question_id": "H-WM-01",
+      "dossier_locator": "SP-WM section in paired Markdown",
+      "literature_status": "SOURCE_BACKED_CONDITIONAL_USE_NOT_RULE",
+      "proposal_status": "P05_DESIGN_NOT_EXECUTED",
+      "independent_validation_status": "BLOCKED_REFERENCE_OR_SCOPE_GAPS",
+      "numeric_policy": "NOT_SELECTED",
+      "operational_admission": false,
+      "qualified_engine_claim": false
+    },
+    {
+      "packet_id": "SP-WA",
+      "canonical_species": "Wahoo",
+      "mission_id": "wahoo",
+      "literature_claim_id": "CL-WA-01",
+      "source_ids": [
+        "S-WA"
+      ],
+      "proposed_question_id": "H-WA-01",
+      "dossier_locator": "SP-WA section in paired Markdown",
+      "literature_status": "SOURCE_BACKED_CONDITIONAL_USE_NOT_RULE",
+      "proposal_status": "P05_DESIGN_NOT_EXECUTED",
+      "independent_validation_status": "BLOCKED_REFERENCE_OR_SCOPE_GAPS",
+      "numeric_policy": "NOT_SELECTED",
+      "operational_admission": false,
+      "qualified_engine_claim": false
+    }
+  ],
+  "unavailable_or_excluded": [
+    {
+      "item": "S-BM full-paper link",
+      "status": "ACCESS_FAILED",
+      "used_as_full_methods_evidence": false
+    },
+    {
+      "item": "S-BF and S-WA subscription methods",
+      "status": "NOT_ACCESSED",
+      "used_as_full_methods_evidence": false
+    },
+    {
+      "item": "Sailfish PMC route",
+      "status": "BROWSER_CHALLENGE",
+      "resolution": "publisher text accessed instead"
+    },
+    {
+      "item": "search aggregators, ResearchGate, Wikipedia, IUCN and source bibliography-only studies",
+      "status": "NOT_USED_AS_REVIEWED_PRIMARY_BIOLOGICAL_EVIDENCE"
+    },
+    {
+      "item": "NOAA linked EFH assessments/polygons and later final designations",
+      "status": "NOT_ADJUDICATED_NO_CURRENT_LEGAL_BOUNDARY_CLAIM"
+    },
+    {
+      "item": "raw telemetry/effort and independent holdout reference datasets",
+      "status": "NOT_ACQUIRED"
+    },
+    {
+      "item": "founder seasonal observation details",
+      "status": "UNKNOWN_UNFILLED_HYPOTHESES"
+    },
+    {
+      "item": "existing provider inquiries or email replies",
+      "status": "NOT_VERIFIED"
+    }
+  ],
+  "independent_review_gate": [
+    "primary citation and access-scope verification",
+    "source applicability/taxonomy/stock/life stage",
+    "sampling selection/retention/geolocation dependence",
+    "exact product/sample/static/history payload mapping",
+    "independent reference availability and permitted use",
+    "claim-specific protocol/negative cases/uncertainty",
+    "no policy or admission inferred from literature"
+  ],
+  "serialization": {
+    "encoding": "UTF-8 without BOM",
+    "newlines": "LF",
+    "terminal_newline": true,
+    "hash_scope": "complete artifact bytes; no self-hash",
+    "citation_fingerprint_scope": "exact canonical_record_json string bytes; not upstream PDF/webpage",
+    "source_record_order": "S-BM,S-YF,S-BF,S-MA,S-SA,S-WM,S-WA,S-EFH17,S-EFH24"
+  }
+}
