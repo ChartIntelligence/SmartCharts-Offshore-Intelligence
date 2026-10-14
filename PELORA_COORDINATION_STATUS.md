@@ -93,3 +93,13 @@ Milestone timestamp: 2026-10-14T17:20:45Z.
 - P05 VNEXT research has 77 species/domain records, 16 additional source/correction records and 35 logged queries prepared; no successor commit or qualification claimed yet. Existing dossiers 1e2b158531e5de1660ed324e32f27171bd7572dc preserved.
 - Two-captain early preview remains preparation-only: existing access/report privacy and lifetime rights must be verified through approved isolated Auth/report-visibility and rollback gates before invitation. No private report or credential copying.
 - Founder actions remain exact communication/source publication/preview and scientific authority decisions; no main merge, Supabase mutation, production deployment, Receipt Writer activation or Beta Ready claim.
+
+Milestone timestamp: 2026-10-14T18:06:04Z.
+
+- P05 VNEXT evidence checkpoint completed locally: b123be1646d862dac3b37abc9ecfa3976169bab6, parent 1e2b158531e5de1660ed324e32f27171bd7572dc, branch codex/pelora-05-seven-species-evidence-vnext-v1. Three documentation artifacts; 77 scoped species/domain relationships, 15 additional studies and one correction, 35 reproducible search queries. Integrity checks passed; not pushed.
+- P04 exact VNEXT review dispatched under the existing scientific-review scope. Independent source applicability and interpretation-contract qualification remain pending; no engine experiment, biological scoring or scientific admission established.
+- P01 master 5236aecb925de5f85a7d1b2e24349628641e29b9 and local unified 4e1b49ba52c26089e24dd94f377109c13d8586b6 remain distinct documentation and application checkpoints. Exact source publication and new supervised preview remain separately gated.
+- P02 mobile enrollment components await independently cleared contract and binding. Enrollment review communication and field-readiness binding have pending purpose-specific permissions.
+- P03 historical scalar lifecycle packet is prepared but assignment delivery awaits its normal purpose-specific approval. Operational SST/chlorophyll source and freshness authority remain separate blockers.
+- Founder action: resolve the exact pending communication/publication requests through normal mechanisms; preview and real-account actions require separate approval. Existing production captain access and private reports remain unchanged.
+- No main merge, preview replacement, database/RLS/Auth-admin mutation, deployment, Receipt Writer activation or Beta Ready claim.
