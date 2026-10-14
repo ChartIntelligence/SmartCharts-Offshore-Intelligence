@@ -723,3 +723,79 @@ Node --check for all changed JavaScript/mjs and git diff --check / staged checks
 This is a P03 producer candidate; P02 interaction/readout placement remains separately owned and must be wired and independently qualified before any captain-visible readout claim. Existing native field resolution/masks, freshness thresholds, source evidence/provenance, sampling and scientific meaning remain unchanged. No body/provider/DB/science-policy/ranking/Opportunity/geographic flow changes. Headless narrow viewport is not physical mobile qualification. Founder browser acceptance, GPU/device variability, combined UI interaction and independent P04 QA remain required. Developer passes are not independent qualification, release authorization, operational source admission or CP-10 clearance. Frozen preview unchanged; no merge/integration/deployment.
 
 FLOW-C1 measured500-cell render budget from the exact report:1000px/40frames,9 image updates, median18.30ms/max20.20ms;390px/40frames,8 image updates, median17.40ms/max19.50ms. Shared glyph memory is4096 pixel bytes per current frame, independent of sample count; these measurements do not prove physical mobile or total GPU memory bounds. Synthetic render fixture SHA-256:4aaa8388538c9d814e519a1b8a87d9eda718707c20788a4766dfb5e5c066dae7.
+
+
+
+## BATH-D1A developer candidate — 2026-10-13
+
+Direct founder approval in P03 authorizes only retention of already accepted ETOPO 2022-v1-60s coverage under Unified UI Amendment canonical checkpoint 79ba90b44c5ab1d18fb0055e1327e53b4da4ea49. Assigned isolated branch codex/pelora-03-bath-d1a-v1 starts at cleared code parent 1a011d1450a77893c5f02151b4f109e0cd0120a0 (parent 08e1e7373c07904ec0dfe0f0de76e241c9262bdd). FLOW-C1 is a separate candidate, not included here. Frozen preview b0cd2b1c3b967644d3bb00b4b488addfe777b1e9 and original P03 worktree remain untouched.
+
+### Controlled before/after
+
+The appended actual-hook fixture SYNTHETIC-BATH-D1A is a controlled 3x3 grid: axes [-89.9,-89.5,-89.1] / [27.1,27.5,27.9], depths [-50,-100,-200,-500,-700,-900,-1500,-1700,-2000] m, delivered spacing 0.4 degrees, stride24, native 1/60 degree. Source metadata matches the registered product identity solely to exercise the retention branch; it is not a provider capture or proof of source admission. Existing parsing, validation and successful map application establish accepted display buffers.
+
+Pre-repair at1a011d the controlled intersecting-viewport request failure produced unavailable instead of the required degraded retained field (new assertion failed). After repair the original field reference, contours, coverage, edition, provenance and stride remain unchanged. The state preserves original contextKey/displayContextKey and separately records requestedContextKey plus retainedCoverageOnly. Intersecting means only original geometry remains visible; it does not claim full replacement coverage. Disjoint viewports report unavailable/field:null with empty hidden contour source while private accepted buffers may survive until return to their actual footprint.
+
+Accepted registered static coverage no longer shares the five-minute live refresh TTL. Current polling/failure remains independent. Explicit camera/style requests remain subject to existing transport/race guards. A different source/edition is withheld from exact-context retention rather than admitted. OFF clears the lifetime and accepted buffers; ON uses normal acquisition. Malformed content, application rejection, auth denial, owner changes, disposal and obsolete response guards remain fail closed. An obsolete null body cannot erase newer accepted coverage; a disposed syntax body cannot resurrect rendering.
+
+### Developer commands and results
+
+All PASS on actual candidate working-tree contents:
+- node frontend/src/hooks/tests/useMapLibreOceanFields.test.js
+- node frontend/src/utils/tests/oceanFields.test.js
+- node frontend/src/utils/tests/viewportFieldRequests.test.js
+- node frontend/src/utils/tests/qaFieldTransport.test.js
+- node frontend/src/utils/tests/currentFlowPresentation.test.js
+- node frontend/src/utils/tests/bathymetryContours.test.js
+- node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs
+- node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs
+- node frontend/src/hooks/tests/currentFlowRender.test.mjs
+
+Browser scripts use existing bundled Playwright/sharp through PELORA_BROWSER_TEST_NODE_MODULES; headless Edge/MapLibre5.24.0, all external routes blocked. No packages installed. Hook/transport tests use synthetic tokens and injected transports; the ephemeral QA HTTP boundary uses synthetic authority only, not a data-connected runtime.
+
+Controlled contour-render output: C:/Users/User/AppData/Local/Temp/pelora03-contours-p5gGml. The added SYNTHETIC-GPU-BATH-D1A 40x40/0.05-degree fixture proves the identical accepted field/source remain degraded and queried contours visible after zoom plus injected transport failure. bath-d1a-retained.png was inspected: contour lines and feet labels remain visible. Normal contour navigation40frames: desktop1000px median17.8ms/max19.4ms;390px median18.2ms/max19.1ms, no loading flash. Texture output pelora03-texture-render-VIxvMN proves NEAREST min filter9728, no mipmaps, five band colors and transparency,0 external requests/no map errors. Current output pelora-current-traces-b0Hk9C preserves point animation and static reduced-motion/stale/degraded behavior. These are controlled developer observations, not physical mobile qualification.
+
+Node --check for all changed JavaScript/mjs and git diff --check / staged whitespace checks are required before checkpoint. Scoped diff inspected; no real tokens, session captures, captain data or unexpected product paths added.
+
+### Exact tested source identities
+
+- `frontend/src/hooks/useMapLibreOceanFields.js`: SHA-256 `69750816a473efbfee0bc6e0387ea65541004ddf73f1788056a78dcafc513d18`
+- `frontend/src/hooks/tests/useMapLibreOceanFields.test.js`: SHA-256 `1c5d82b98219ae456df9096bb621e54e7bb0114f96246d2ea6b7cafff983950e`
+- `frontend/src/hooks/tests/bathymetryContoursRender.test.mjs`: SHA-256 `d3e291c78bf7f2c0d6814839cd4086b6c1d858f22d51cd814cc3e199bcc26fb0`
+
+### Limits
+
+Retention is volatile within the existing enabled layer lifetime, not a durable provisioned regional numerical corpus or offline startup guarantee. No new coverage, source downloads, cache architecture, geometry, contour thresholds, native values, sampling, texture filter, current presentation, scientific/evidence policies or backend files changed. The original founder unavailable incident is not attributed to any cause without incident-linked evidence. Live founder browser, physical mobile/GPU variability, P02 combined placement and independent P04 qualification remain required. Developer passes are not QA clearance; CP-10/operational rollout remain blocked. No integration, merge, deployment or frozen-preview change.
+
+
+## BATH-D1A P04 expiry repair — 2026-10-14
+
+Entering failed candidate4fefcae2b9ef9d17a3312f261db8cd5c63c5e1c7, branch codex/pelora-03-bath-d1a-v1, clean before repair at C:/Users/User/.codex/worktrees/bath-d1a-retention-v1/pelora-03-living-ocean. P04 independent QA FAIL is retained, not overwritten: C:/Projects/Pelora-Agent-Worktrees/pelora-04-qa-release/docs/agents/qa/P04_BATH_D1A_Independent_QA_4fefcae_v1.md, SHA-25635c8a45a34919225ca92341bdf48a4ace5921e28b8222dbe7414ef5283db5004. P1: accepted static TTL exemption returned before existing credential-expiry application checks. This bounded successor fixes only that returned finding under existing founder approval. Separate FLOWd7e8ba0e6cff5291e63fd02d9be96072340de3cb remains unchanged; its reported producer QA pass does not qualify consumer wiring.
+
+### Exact controlled reproduction / repair
+
+New dedicated command: node frontend/src/hooks/tests/acceptedBathymetryExpiry.test.js. The original24-group parent hook scaffolding is preserved and reused (only module URL resolution and the existing transport now injection changed); it ends before BATH-specific appended retention assertions. No original expectations were weakened. The same probe accepts a synthetic3x3 ETOPO-metadata field and synthetic session expiring in5seconds, advances only supported injected transport now by10000ms, and invokes registered periodic callbacks. No pan/zoom/render/token/principal mutation. Both field states/renderers and0 credential-bearing dispatches after expiry are asserted.
+
+| Exact hook selection | Exit | Bathymetry after expired heartbeat | Currents | Requests after expiry |
+|---|---:|---|---|---:|
+| Parent1a011d1450a77893c5f02151b4f109e0cd0120a0 | 0 | unavailable/field:null/contour absent | unavailable/field:null | 0 |
+| Failed4fefcae2b9ef9d17a3312f261db8cd5c63c5e1c7 | 1 expected | static/field present/contour visible | unavailable/field:null | 0 |
+| Repaired actual working-tree hook | 0 | unavailable/field:null/contour absent | unavailable/field:null | 0 |
+
+Parent/failed controls set process-local PELORA_QA_AUTH_BASELINE_HOOK to exact git-show hook bytes; repaired run removes that selector. Logs in C:/Users/User/AppData/Local/Temp/pelora-bath-d1a-expiry-repair-2Im5Ld. Parent log SHA-256 e920302a70b1a754d0273a7c63e89302a5b31ae69b320ca27f40b8827301ffaa; failed af22fea32dd92e9fca61c7b90aa8e9e0f8f0b22e946705c2cb234af826da4f83; repaired c296547aaec195ef530adcf2b488485b6919d6e00a95403dc4c86a8b79d84abe. First failing data-URL probe produced an excessively long assertion stack; final identical fixture catches and reports concise assertion messages/observations, without bodies/credentials. All final controls used the same supported injected clock, not a replacement of an already captured Date.now function.
+
+Production delta: before returning from accepted-static provider-poll exemption, invoke existing mayApply(). That checks the existing captured owner/application authority including expiry, and invokes existing layer-local cancel/reject/render-clear logic on failure. No new Auth transport, credential retrieval, provider fetch or source admission. Source retention still skips live provider TTL when authority is valid. Current refresh path, field lifetimes, geometry/source values/stride/provenance, malformed-success cleanup, OFF and obsolete/disposed guards unchanged.
+
+### Repaired developer regression commands
+
+PASS: node frontend/src/hooks/tests/acceptedBathymetryExpiry.test.js; node frontend/src/hooks/tests/useMapLibreOceanFields.test.js; node frontend/src/utils/tests/oceanFields.test.js; node frontend/src/utils/tests/viewportFieldRequests.test.js; node frontend/src/utils/tests/qaFieldTransport.test.js; node frontend/src/utils/tests/currentFlowPresentation.test.js; node frontend/src/utils/tests/bathymetryContours.test.js. Includes intersection outage retention, unrelated current failures, no static provider TTL, disjoint return, withheld edition, OFF/ON, malformed/auth/owner, cancellation/obsolete/disposed and same-owner renewal assertions. Original guarded response tests remain intact.
+
+PASS offline headless Edge/MapLibre5.24.0: node frontend/src/hooks/tests/bathymetryContoursRender.test.mjs (pelora03-contours-6QEAxG), node frontend/src/hooks/tests/bathymetryTextureRender.test.mjs (pelora03-texture-render-JpVCTa), node frontend/src/hooks/tests/currentFlowRender.test.mjs (pelora-current-traces-DsMFpU). Retained synthetic bathymetry after intersecting failure remains queried visible; no loading flash during40 navigation frames.1000px median18.10ms/max19.90ms;390px median18.20ms/max18.90ms. NEAREST filter9728/nonmipmapped five bands/transparency and current fresh/static/degraded/malformed non-resurrection pass. All external routes blocked;0 external requests/no map errors. These browser tests are not authenticated full-app or physical mobile qualification. Existing injected synthetic QA HTTP boundary remains independent of real Auth/providers/database; no real token retrieval/transmission.
+
+PASS node --check for both changed JavaScript files, unstaged/staged git diff --check; scoped diff inspected before explicit staging. No new dependencies.
+
+Exact repaired hook SHA-256: 1c7e883f702dd2f6daf60fc4fc7936ce4aae7ebe3a87465f2940dfff0a161118. Exact expiry probe SHA-256: 345fe0c6a7f2c705d92fde4c52b720adf1932aa38dbd10fd317808df88dd17c8. Only changed paths in this successor: frontend/src/hooks/useMapLibreOceanFields.js; frontend/src/hooks/tests/acceptedBathymetryExpiry.test.js; frontend/src/hooks/tests/PELORA-03_Field_Rendering_Evidence.md.
+
+### Remaining limits
+
+Authorization is checked on the existing300000ms heartbeat and existing application/event boundaries, not a new exact-expiry timer. Volatile static retention still is not provisioned durable offline coverage. Failed candidate/P04 evidence and earlier developer results remain preserved at their original identities. Independent P04 successor qualification, founder live browser and physical mobile/GPU checks remain required. No repaired independent PASS is claimed from developer tests. Original worktree/FLOW/frozen preview untouched; no integration, merge, deploy, database, providers, credentials, science policy or CP-10 change.

@@ -49,6 +49,8 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session,re
       readoutRef.current.emit?.(readoutRef.current.controller.read());
     };
     if(readoutRef)readoutRef.current.driver=emitReadout;
+    const editionIdentity=field=>JSON.stringify([field.productId,field.provider,field.dataset,field.productVersion,field.validTime,field.units,field.crs,field.provenance?.providerUrl]);
+    const acceptedEdition=()=>{const field=displayedState?.field;return field?.status==="static"&&field.validTime===null&&field.productId==="etopo-2022-60s"&&field.dataset==="ETOPO_2022_v1_60s"&&field.productVersion==="2022-v1-60s"&&field.provider==="NOAA/NCEI"&&field.units==="m"&&field.crs==="EPSG:4326"&&field.resolution.nativeDegrees===1/60&&displayedImage&&field.payload.values.some(z=>Number.isFinite(z)&&z<0);};
     const publish=(layer,state)=>{
       const mayApply=transport.captureApplicationGuard(),mayPublish=transport.capturePublicationGuard();
       if(readoutRef&&!disposed&&mapRef.current===map&&mayPublish()&&(!state.field||mayApply())){
@@ -96,7 +98,7 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session,re
       if(!mayApply())return;
       try{
         const data=layer==="bathymetry"?bathyImage:currentData;
-        const visible=layer==="bathymetry"?bathymetry&&data:currentField&&data.features.length>0;
+        const visible=layer==="bathymetry"?bathymetry&&data&&states[layer]?.field:currentField&&data.features.length>0;
         const source=map.getSource(FIELD_SOURCE[layer]);
         if(layer==="currents"){
           if(!map.hasImage("pelora-field-current-arrow"))map.addImage("pelora-field-current-arrow",observationImages()["pelora-current-arrow"]);
@@ -191,19 +193,32 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session,re
           reject(layer,new Error("QA field authentication unavailable"));
           transport.sessionChanged();return;
         }
+        const retainedEdition=layer==="bathymetry"&&acceptedEdition();
+        if(retainedEdition&&state.field&&editionIdentity(state.field)!==editionIdentity(displayedState.field)){
+          requests.invalidate(layer,state.contextKey);
+          state={contextKey:state.contextKey,status:"unavailable",field:null,reason:"Bathymetry edition replacement requires review"};
+        }
         // Display retention is separate from the exact-context request cache.
         // Never attach the old field to the new request context or extrapolate it.
-        if(layer==="bathymetry"&&state.status==="loading"&&displayedState?.field?.status==="static"&&
+        if(layer==="bathymetry"&&(state.status==="loading"||(retainedEdition&&state.status==="unavailable"&&!state.field))&&displayedState?.field?.status==="static"&&
           displayedState.field.validTime===null&&displayedImage){
           const field=displayedState.field,{longitudes:xs,latitudes:ys}=field.payload;
           const bbox=JSON.parse(state.contextKey).bbox;
           if(Math.max(bbox[0],field.bounds[0],xs[0])<Math.min(bbox[2],field.bounds[2],xs.at(-1))&&
             Math.max(bbox[1],field.bounds[1],ys[0])<Math.min(bbox[3],field.bounds[3],ys.at(-1))){
-            states[layer]={...displayedState,refreshing:true,requestedContextKey:state.contextKey,
+            states[layer]={...displayedState,status:state.status==="unavailable"?"degraded":displayedState.status,
+              reason:state.status==="unavailable"?state.reason:displayedState.reason,retainedCoverageOnly:!!retainedEdition,
+              refreshing:state.status==="loading",requestedContextKey:state.contextKey,
               displayContextKey:displayedState.contextKey,retainedForViewportTransition:true};
             // Supersede any converted-but-unapplied older replacement as well.
             bathyImage=displayedImage;contourData=displayedContours;convertedField=displayedState.field;
-            publish(layer,states[layer]);return;
+            if(state.status==="unavailable")apply();else publish(layer,states[layer]);return;
+          }
+          if(retainedEdition&&!state.field){
+            // Outside known coverage: unavailable for this viewport, keep only
+            // the already accepted buffers for a return to their actual footprint.
+            states[layer]=state;bathyImage=displayedImage;contourData=EMPTY_FIELD;convertedField=displayedState.field;
+            apply();return;
           }
         }
         states[layer]=state;
@@ -264,7 +279,13 @@ function useOceanField({mapRef,layer,enabled,onFieldStatus,sessionRef,session,re
     apply();
     map.on("movestart",start);map.on("moveend",acquire);map.on("load",loaded);map.on("style.load",loaded);
     acquire();
-    const refresh=window.setInterval(()=>acquire(true),300000);
+    const refresh=window.setInterval(()=>{
+      if(layer==="bathymetry"&&acceptedEdition()&&states[layer]?.field){
+        // Static source retention skips provider polling, never the auth heartbeat.
+        mayApply();return;
+      }
+      acquire(true);
+    },300000);
     return()=>{disposed=true;
       if(readoutRef){readoutRef.current.controller.invalidate();readoutRef.current.emit?.(readoutRef.current.controller.read());readoutRef.current.driver=null;}
       transport.dispose();if(transportRef.current===transport)transportRef.current=null;requests.dispose();window.clearInterval(refresh);if(readyTimer!==null)window.clearTimeout(readyTimer);map.off("idle",apply);

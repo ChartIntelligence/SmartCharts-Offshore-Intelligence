@@ -135,6 +135,19 @@ try{
       medianFrameMs:navigation.map(f=>f.ms).sort((a,b)=>a-b)[20],noLoadingFlash:true}));
     const tiers=detailFrames.filter(f=>f.width===width);assert.ok(tiers[0].eligibleLines<tiers[1].eligibleLines&&tiers[1].eligibleLines<tiers[2].eligibleLines);
   }
+  // BATH-D1A: accepted existing-edition pixels survive a new viewport failure.
+  await page.evaluate(field=>{
+    holdResponses=false;globalThis.fixture={...field,fieldId:'SYNTHETIC-GPU-BATH-D1A',provider:'NOAA/NCEI',dataset:'ETOPO_2022_v1_60s',productId:'etopo-2022-60s',productVersion:'2022-v1-60s',units:'m',crs:'EPSG:4326',resolution:{...field.resolution,nativeDegrees:1/60,stride:3},provenance:{providerUrl:'https://oceanwatch.pifsc.noaa.gov/erddap',scope:'SYNTHETIC TEST EVIDENCE'}};
+    map.jumpTo({center:[-90,27],zoom:6});map.fire('load');
+  },fixture);
+  await page.waitForFunction(()=>states.bathymetry?.field?.fieldId==='SYNTHETIC-GPU-BATH-D1A'&&states.bathymetry.status==='static');await idle();
+  await page.evaluate(()=>{globalThis.d1aSource=map.getSource(BATHYMETRY_CONTOUR_SOURCE);globalThis.d1aField=states.bathymetry.field;
+    const priorFetch=fetch;globalThis.fetch=async(url,options)=>{if(typeof url==='string'&&url.startsWith('/api/ocean/field?'))throw new Error('synthetic BATH-D1A outage');return priorFetch(url,options);};
+    map.jumpTo({center:[-90,27],zoom:8});});
+  await page.waitForFunction(()=>states.bathymetry.status==='degraded');await idle();
+  assert.equal(await page.evaluate(()=>states.bathymetry.field===d1aField&&map.getSource(BATHYMETRY_CONTOUR_SOURCE)===d1aSource&&map.getLayoutProperty(BATHYMETRY_CONTOUR_LAYERS[1],'visibility')==='visible'),true);
+  assert.ok(await page.evaluate(()=>map.queryRenderedFeatures({layers:BATHYMETRY_CONTOUR_LAYERS.slice(1)}).length>0));
+  await page.screenshot({path:output+'/bath-d1a-retained.png'});
   assert.equal(denied.length,0);assert.equal(errors.length,0);
   const mapErrors=await page.evaluate(()=>globalThis.mapErrors);assert.deepEqual(mapErrors,[]);
   const report={scope:'SYNTHETIC TEST EVIDENCE; empty geography, local fallback glyphs, headless desktop Edge plus 390px phone emulation; not physical-mobile/authenticated qualification',
