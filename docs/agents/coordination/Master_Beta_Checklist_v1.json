@@ -1148,7 +1148,38 @@
       "privateValuesRead": false,
       "serviceCallsPerformed": false
     },
-    "founderDashboardObservationProvenance": "Reported metadata only; policy expressions/effective grants/anonymous isolation/current deployment not independently verified; see existing exact preview packet"
+    "founderDashboardObservationProvenance": "Reported metadata only; policy expressions/effective grants/anonymous isolation/current deployment not independently verified; see existing exact preview packet",
+    "offlineActualEntry": {
+      "candidate": "09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972",
+      "status": "P01_CONTROLLED_OFFLINE_PASS_PENDING_P04",
+      "scratch": "C:/Users/User/Documents/Codex/pelora-runtime-09dfac1-v1",
+      "provenanceSHA256": "0f054cef42ec1621e36a190b1c4b33cb1a8ae4a88c00fdd198fdd761193db189",
+      "scenarioChecks": 12,
+      "widths": [
+        1000,
+        390
+      ],
+      "sourceFilesVerified": 876,
+      "originalBuildOutputsVerified": 15,
+      "runtimeErrors": 0,
+      "unexpectedRequests": 0,
+      "sdkMutations": 0,
+      "console": "Expected synthetic503 Opportunity unavailable logs retained, not console-clean",
+      "substitutions": [
+        "Supabase SDK synthetic",
+        "Harness-only explicit configuration",
+        "MapLibre observation subclass/native renderer",
+        "All network locally fulfilled or aborted",
+        "Empty font CSS and synthetic empty basemap/API503"
+      ],
+      "notQualified": [
+        "Real SDK import-time/client configuration",
+        "LiveAuth/deployedRLS/realreportvisibility",
+        "Successful environmental fields or real Opportunity science",
+        "Physicaldevice or Founderpreview"
+      ],
+      "reviewDelivery": "NEW_PURPOSE_APPROVAL_PENDING"
+    }
   },
   "enrollmentServerModel": {
     "task": "A_ENROLLMENT_SERVER_CONTRACT_HARNESS",
@@ -1192,8 +1223,8 @@
   },
   "currentIndependentGates": {
     "correctedSpeciesContract": "c46cfa6d43283602801707fbdf9153ff679abac4",
-    "reviewDelivery": "EXACT_SUCCESSOR_P05_P04_DIRECT_APPROVAL_PENDING; b9deliveries completed and changes-required preserved",
-    "offlineAppMain": "SPECIFIC_EXECUTION_APPROVAL_PENDING",
+    "reviewDelivery": "DELIVERED_UNDER_DIRECT_FOUNDER_AUTHORIZATION; P05twoP2closed/P04threeP2closed, documentaryscope only;11oraclesNOTEXECUTED",
+    "offlineAppMain": "EXECUTED_UNDER_DIRECT_FOUNDER_AUTHORIZATION; P01scopedPASS12scenario checks; newP04runtimepurpose delivery pending",
     "observePublishing": "No newly released DB startup/migration/source admission or runtime path packet; qualified isolated contracts preserved",
     "enrollment": "53/993/0adc qualified synthetic scopes retained; no new runtime ownership or liveAuth authority",
     "providerRegistry": "Canonical direction recorded; new runtime paths/sourceauthority not reserved; P03 coordination gate not retried",
