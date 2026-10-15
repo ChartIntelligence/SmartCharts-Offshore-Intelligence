@@ -189,7 +189,7 @@
   },
   "gates": {
     "G.SOURCE_PUSH": "New exact713 branch11commit65path request prepared; no sourcepush. Older4e request separate, approvalnottransferable; no alternateupload.",
-    "G.PREVIEW": "Exact09dfac1 preview packet complete; NOT_READY pending exact sourcepush, actualApp/bootstrap/build/dependencies, approved hosting/network, Non-Production Auth/session/RLS/reportprivacy approvals; no launch",
+    "G.PREVIEW": "NOT_READY: build PASS without service configuration; pending sanitized manual Non-Production metadata verification, offlineApp/main execution approval, exact realAuth/session/report scopes and approved hosting/network. No current deployedRLS/account proof or launch.",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
     "G.ENROLL_REVIEW_MESSAGE": "RESOLVED: exact53ed84b P04 acknowledgment received normally under direct founder approval; offline scope only, no live authority.",
     "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
@@ -1132,6 +1132,21 @@
       "dependencyCheck": "186 applicable version/recorded-integrity matches, no incompatible or missing nonoptional; not full byte authentication",
       "runtime": "PENDING_SPECIFIC_OFFLINE_APPROVAL",
       "liveAuthDatabaseHosting": "NOT_AUTHORIZED"
+    },
+    "nonProductionVisibility": {
+      "basis": "READ_ONLY_SOURCE_AND_TOOL_INVENTORY_ONLY",
+      "intendedProject": "vqzskzoizpomwzgbgdwl",
+      "supabaseInspectionConnector": "UNAVAILABLE",
+      "deployedAuthSettings": "UNVERIFIED",
+      "redirectAllowlist": "UNVERIFIED",
+      "anonymousSignInSetting": "UNVERIFIED",
+      "currentSchemaRlsGrants": "UNVERIFIED",
+      "dedicatedQaPrincipal": "UNVERIFIED",
+      "nonemptySyntheticQaReports": "UNVERIFIED",
+      "historicalManualPreflight": "HISTORICAL_NOT_CURRENT_CERTIFICATION",
+      "pendingGate": "SANITIZED_MANUAL_READ_ONLY_METADATA_VERIFICATION",
+      "privateValuesRead": false,
+      "serviceCallsPerformed": false
     }
   },
   "enrollmentServerModel": {

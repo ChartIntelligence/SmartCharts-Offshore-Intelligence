@@ -249,5 +249,28 @@
     "frontend/src/hooks/tests/savedReportQaDeletion.test.js"
   ],
   "currentBranch": "codex/pelora-02-qa-report-guard-v1",
-  "currentWorktree": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-qa-report-guard-v1"
+  "currentWorktree": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-qa-report-guard-v1",
+  "nonProductionVisibility": {
+    "basis": "READ_ONLY_SOURCE_AND_TOOL_INVENTORY_ONLY",
+    "intendedProject": "vqzskzoizpomwzgbgdwl",
+    "supabaseInspectionConnector": "UNAVAILABLE",
+    "deployedAuthSettings": "UNVERIFIED",
+    "redirectAllowlist": "UNVERIFIED",
+    "anonymousSignInSetting": "UNVERIFIED",
+    "currentSchemaRlsGrants": "UNVERIFIED",
+    "dedicatedQaPrincipal": "UNVERIFIED",
+    "nonemptySyntheticQaReports": "UNVERIFIED",
+    "historicalManualPreflight": "HISTORICAL_NOT_CURRENT_CERTIFICATION",
+    "pendingGate": "SANITIZED_MANUAL_READ_ONLY_METADATA_VERIFICATION",
+    "privateValuesRead": false,
+    "serviceCallsPerformed": false
+  },
+  "successfulBuildConfiguration": {
+    "candidate": "09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972",
+    "status": "BUILD_PASS_NOT_AUTHENTICATED_PREVIEW",
+    "envFilesLoaded": false,
+    "realServiceConfigurationSupplied": false,
+    "runtimeExecution": "NOT_AUTHORIZED",
+    "configurationOrRebuild": "SEPARATE_EXPLICIT_APPROVAL_REQUIRED"
+  }
 }
