@@ -230,3 +230,8 @@ Milestone timestamp: 2026-10-15T11:24:06Z.
 - Bounded two-document successor c46cfa6d43283602801707fbdf9153ff679abac4 pushed; coordinator independently verified clean HEAD, matching remote SHA and exact two-file delta. Eleven documentary oracles remain NOT EXECUTED. Exact successor review-delivery approval is pending; predecessor permission does not transfer. Validator782, evidence956 and application09 unchanged.
 - Non-Production metadata verification is now AUTHORIZED but BLOCKED by unavailable authenticated Dashboard access. Approved target navigation settled at Supabase sign-in; no login, catalog SQL, private-account/report read or mutation attempted. No inspection connector is available. This is an access prerequisite, not missing read-only authorization.
 - Existing approved HTTPS frontend/backend target identities remain unverified; no hosting or redirect/configuration change inferred. Published source and verified isolated build preserved; no preview-ready, operational or Beta Ready claim.
+
+Milestone timestamp: 2026-10-15T11:53:05Z.
+
+- Founder reported Dashboard sign-in completion, but the authorized P01 check in the specific available Codex in-app browser still settled at Supabase sign-in after exact Non-Production target navigation. No authenticated project metadata reached; a loading shell is not evidence of project identity or deployed configuration.
+- Read-only metadata authority remains valid. Access prerequisite: authenticate in that specific browser tab, or provide the approved sanitized manual Dashboard/catalog results. No session/cookie transfer, login attempt, SQL, API metadata query, private account/report access or configuration mutation performed. Prior observations remain founder-reported, not deployed-policy clearance.
