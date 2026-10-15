@@ -188,13 +188,13 @@
     "CP05": "246f342eda17d34359166c401dddf9775e9150b4"
   },
   "gates": {
-    "G.SOURCE_PUSH": "New exact713 branch11commit65path request prepared; no sourcepush. Older4e request separate, approvalnottransferable; no alternateupload.",
+    "G.SOURCE_PUSH": "RESOLVED_EXACT09_ONLY: direct founder authorized normal branch push; remote09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972 verified. No transfer to other branches/candidates or deployment.",
     "G.PREVIEW": "NOT_READY: build PASS without service configuration; pending sanitized manual Non-Production metadata verification, offlineApp/main execution approval, exact realAuth/session/report scopes and approved hosting/network. No current deployedRLS/account proof or launch.",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
     "G.ENROLL_REVIEW_MESSAGE": "RESOLVED: exact53ed84b P04 acknowledgment received normally under direct founder approval; offline scope only, no live authority.",
     "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
     "G.FIELD_MESSAGE": "P02 field-doc binding message denied; queued only, no execution release",
-    "G.CONFIG_INSPECTION": "No connector; exact allowlisted nonsecret non-prod config/catalog read approval required",
+    "G.CONFIG_INSPECTION": "APPROVED_READ_ONLY_EXACT_NONPROD: projectvqzskzoizpomwzgbgdwl; PAUSED_FOUNDER_DESKTOP_SIGNIN_REQUIRED. Available IAB redirects to sign-in; no connector/queries/private records. No auth retry, credentials or session transfer.",
     "G.CALENDAR_LOGIN_POLICY": "UTC/leapday + trusted first-qualifying-login proof/preapproval-session decisions unresolved",
     "G.MIGRATION_RLS": "No new migration/RLS/grants applied; requires separate approval",
     "G.AUTH_ADMIN": "No privileged Auth/invite/account/config mutation authorized",
@@ -1144,7 +1144,7 @@
       "dedicatedQaPrincipal": "UNVERIFIED",
       "nonemptySyntheticQaReports": "UNVERIFIED",
       "historicalManualPreflight": "HISTORICAL_NOT_CURRENT_CERTIFICATION",
-      "pendingGate": "SANITIZED_MANUAL_READ_ONLY_METADATA_VERIFICATION",
+      "pendingGate": "PAUSED_BROWSER_METADATA_ONLY_UNTIL_FOUNDER_DESKTOP_SIGNIN; existing read-only approval preserved",
       "privateValuesRead": false,
       "serviceCallsPerformed": false
     },
@@ -1189,5 +1189,14 @@
     "sourceAdmissionGranted": false,
     "fusionOrScoringChanged": false,
     "previewChanged": false
+  },
+  "currentIndependentGates": {
+    "correctedSpeciesContract": "c46cfa6d43283602801707fbdf9153ff679abac4",
+    "reviewDelivery": "EXACT_SUCCESSOR_P05_P04_DIRECT_APPROVAL_PENDING; b9deliveries completed and changes-required preserved",
+    "offlineAppMain": "SPECIFIC_EXECUTION_APPROVAL_PENDING",
+    "observePublishing": "No newly released DB startup/migration/source admission or runtime path packet; qualified isolated contracts preserved",
+    "enrollment": "53/993/0adc qualified synthetic scopes retained; no new runtime ownership or liveAuth authority",
+    "providerRegistry": "Canonical direction recorded; new runtime paths/sourceauthority not reserved; P03 coordination gate not retried",
+    "pipeline": "ONLY_AUTHENTICATED_BROWSER_METADATA_PAUSED; independent lanes retain their own gates, not a blanket pause"
   }
 }
