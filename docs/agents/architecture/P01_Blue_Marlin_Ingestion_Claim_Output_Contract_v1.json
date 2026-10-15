@@ -1,0 +1,142 @@
+{
+  "contract": "pelora-blue-marlin-ingestion-claim-output-proposal-v1",
+  "status": "PROPOSED_PENDING_P05_SEMANTIC_AND_P04_DESIGN_REVIEW",
+  "owner": "PELORA-01",
+  "baseline": "053f4e206369f2bfd6ef97809a0e63890f4208e4",
+  "registerCommit": "956e674465b48a4485ad46b1d6b3e6228d05a2b9",
+  "referenceValidatorCommit": "782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0",
+  "exactClaim": {
+    "relationship_id": "VN1-blue-marlin-01",
+    "species_id": "blue-marlin",
+    "domain_id": "feeding",
+    "classification": "ESTABLISHED_SCOPED_OBSERVATION",
+    "source_ids": [
+      "N03",
+      "N14"
+    ],
+    "proposed_claim_scope": "Observed fish ingestion across distinct North Atlantic sampled cohorts; prey proportions remain contextual.",
+    "validation_prerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims.",
+    "scientific_status": "LITERATURE_CANDIDATE_ONLY",
+    "confidence_calibration": "NOT_ESTABLISHED",
+    "operational_admission": false,
+    "shadow_execution_authorized": false
+  },
+  "sources": [
+    {
+      "sourceId": "N03",
+      "citationRecordSHA256": "08b61d792673b6878b34ebd12aee3728646a54088a9267fa43db14127869e409",
+      "accessScope": "AUTHOR_INSTITUTION_HOSTED_PAPER_SELECTED_SECTIONS",
+      "populationRegionSeason": "North Carolina/Gulf Stream; June tournaments 1998–2000, 2003–2009; additional Mahi 2002–2004",
+      "nativeDocumentBytes": "NOT_VERIFIED",
+      "scientificAdmission": false
+    },
+    {
+      "sourceId": "N14",
+      "citationRecordSHA256": "c8914c2d6c88b870eb5e4d478bc13b152e7f77f378623585c17524591506ea99",
+      "accessScope": "PRIMARY_PAPER_ABSTRACT_IN_PUBMED_ONLY",
+      "populationRegionSeason": "South/Mid-Atlantic Bight tournaments/anglers; 2018–2020; Blue Marlin 32, White Marlin 35, roundscale spearfish 44",
+      "nativeDocumentBytes": "NOT_VERIFIED",
+      "scientificAdmission": false
+    }
+  ],
+  "applicability": {
+    "species": "blue-marlin",
+    "purpose": "LITERATURE_CONTEXT_ONLY",
+    "geography": "SOURCE_SAMPLED_NORTH_ATLANTIC_COHORTS_ONLY",
+    "time": "SOURCE_STUDY_PERIODS_NOT_CURRENT_ASSESSMENT",
+    "cohortPooling": "NOT_AUTHORIZED",
+    "independence": "NOT_ESTABLISHED",
+    "providerOrEnvironmentalInputs": "NONE",
+    "historySelection": "NONE"
+  },
+  "proposedOutput": {
+    "claimId": "VN1-blue-marlin-01",
+    "speciesId": "blue-marlin",
+    "orderedSourceIds": [
+      "N03",
+      "N14"
+    ],
+    "claimScope": "Observed fish ingestion across distinct North Atlantic sampled cohorts; prey proportions remain contextual.",
+    "validationPrerequisite": "Prey identity, size/season and ingestion method; paired prey availability and diet/feeding reference before prey-selection or mapped-forage claims.",
+    "referenceState": "REFERENCE_BOUND_ONLY",
+    "authorityState": "UNRESOLVED_NOT_ADMITTED",
+    "statementKind": "SCOPED_LITERATURE_OBSERVATION",
+    "sourceLimitationsRequired": true,
+    "confidenceCalibration": "NOT_ESTABLISHED",
+    "nativeByteVerification": "NOT_VERIFIED",
+    "sourceAdmission": false,
+    "opportunityPermission": false,
+    "rankingPermission": false,
+    "shadowExecutionAuthorized": false
+  },
+  "forbiddenOutputFields": [
+    "score",
+    "confidenceValue",
+    "catchProbability",
+    "currentForage",
+    "fishPresence",
+    "preyAvailability",
+    "mappedLocation",
+    "eligibility",
+    "rank",
+    "opportunityIdentity",
+    "pooledPreyPercentages"
+  ],
+  "resolutionPrecedence": [
+    "INVALID_EXACT_BINDING",
+    "UNSUPPORTED_SCOPE_EXTENSION",
+    "REFERENCE_UNAVAILABLE",
+    "REFERENCE_BOUND_ONLY_WITH_UNRESOLVED_AUTHORITY"
+  ],
+  "documentaryOracles": [
+    {
+      "case": "Exact species/source order/scope",
+      "expected": "REFERENCE_BOUND_ONLY; never scientific admission"
+    },
+    {
+      "case": "N14,N03 order or substituted citation fingerprint",
+      "expected": "INVALID_EXACT_BINDING"
+    },
+    {
+      "case": "White Marlin or Gulf-wide transfer",
+      "expected": "UNSUPPORTED_SCOPE_EXTENSION"
+    },
+    {
+      "case": "Current forage/presence or prey-preference inference",
+      "expected": "UNSUPPORTED_SCOPE_EXTENSION"
+    },
+    {
+      "case": "N14 abstract limit absent or native-byte proof asserted",
+      "expected": "INVALID_EXACT_BINDING"
+    },
+    {
+      "case": "Missing source reference",
+      "expected": "REFERENCE_UNAVAILABLE; no affirmative statement"
+    },
+    {
+      "case": "Caller supplies qualified/eligible/admitted true",
+      "expected": "INVALID_EXACT_BINDING"
+    },
+    {
+      "case": "Numeric confidence/rank/threshold or pooled proportion",
+      "expected": "INVALID_EXACT_BINDING"
+    },
+    {
+      "case": "Environmental/captain/report input added",
+      "expected": "INVALID_EXACT_BINDING"
+    },
+    {
+      "case": "Identical reference replay",
+      "expected": "Same exact reference binding; no independent observation or confidence gain"
+    }
+  ],
+  "oraclesExecuted": false,
+  "shadowExecutionAuthorized": false,
+  "operationalAdmission": false,
+  "qualifiedNewRelationshipPackets": [],
+  "reviewQuestions": [
+    "P05: Is the exact literature statement and cohort/time/access limitation faithful to pinned records?",
+    "P04: Does the proposed boundary reject unsupported output/scope/authority escalation without changing782?"
+  ],
+  "implementationGate": "AFTER exact P05/P04 review and separate bounded implementation/shadow authorization; no runtime change in this packet"
+}
