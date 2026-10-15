@@ -1164,5 +1164,30 @@
     "liveAuthDatabaseRLS": "NOT_IMPLEMENTED",
     "reviewDependency": "EXACT_REPORT_RECEIVED_AND_VERIFIED",
     "qaReportSHA256": "e9fd57151cd3ae62ab6ee8fe927e51d51c19741c4d06c9e24ae21e428495e8ca"
+  },
+  "multiSourceDirection": {
+    "mandateHumanMessage": "01a13f2a-e3f2-7812-b6ec-ea004f088b49",
+    "status": "APPROVED_CANONICAL_DIRECTION_NOT_OPERATIONAL",
+    "inventory": "docs/PELORA_SCIENCE_GOVERNANCE.md",
+    "existingRegistry": "backend/fields/datasetRegistry.js",
+    "families": [
+      "SST",
+      "chlorophyll",
+      "currents",
+      "wind",
+      "waves",
+      "swell",
+      "salinity",
+      "bathymetry",
+      "tides",
+      "other governed fields"
+    ],
+    "providerInventoryOwner": "P03 existing reserved documentary packet",
+    "runtimeSlice": "NOT_RELEASED_EXACT_SOURCE_AUTHORITY_AND_PATH_RESERVATION_REQUIRED",
+    "compatibilityReview": "P05",
+    "independentQualification": "P04",
+    "sourceAdmissionGranted": false,
+    "fusionOrScoringChanged": false,
+    "previewChanged": false
   }
 }

@@ -613,3 +613,14 @@ Offline App/main approval remains separate. No fixtures/tests/build/service oper
 
 
 P01 reserves NEW `docs/agents/architecture/P01_Blue_Marlin_Ingestion_Claim_Output_Contract_v1.md`/`.json` for proposed VN1-blue-marlin-01 claim/output/applicability boundary only, using exact956register and782validator. P05semantic/P04design review pending; ten documentary negative oracles NOTEXECUTED, qualifiedNewRelationshipPackets remains empty, shadowexecution/sourceadmission/ranking false. No newresearch/scienceformula/runtime/hosting. Preview remains priority and exactHTTPSapprovedtarget UNKNOWN.
+
+## Canonical multi-source mandate — bounded reuse queue
+
+Founder mandate01a13f2a-e3f2-7812-b6ec-ea004f088b49 recorded in existing constitution/science governance/decision log; documentation checkpoint only, no runtime or source admission. Existing Master acceptance IDs retained; this is dependency detail for LIVING.OPERATIONAL_SCALAR, OBS.OPERATIONAL_HISTORY and SPEC.SOURCE_CONTRACT, not another board.
+
+- P01 completed bounded contract inventory/reconciliation in science governance: existing FIELD_PRODUCTS/adapters, separate DIRECT/GAP_FILLED selection, exact retained supply, CURRENTS manifests and CP07 reader. No application tests run or qualified totals extended.
+- P03 retains sole reserved docs/agents/PELORA-03_Provider_Resilience_Inventory_v1.md path; add only missing mandate metadata/comparability/lineage facts under its established packet after actual owner/permission confirmation. Do not duplicate active SST/chlorophyll work or retry denied communication. This is documentary readiness, not new provider coding.
+- P05/P04 exact product compatibility and fallback/disagreement/provenance/recovery review are prerequisites for any new multi-source runtime packet. Existing review responsibilities do not override destination-specific delivery gates, including the denied b9f95 claim-review messages.
+- Smallest next coding slice is NOT RELEASED: additive validation of registry metadata/unknown-authority and exact independent-reference preservation on existing qualified product fixtures, without selection/fusion/acquisition or consumer wiring. Exact runtime paths, source authority and owner reservation must be established first; none is inferred by this documentation. No new runtime ownership reservation is invented.
+
+Published09dfac1 preview source/build, founder-observed Non-Production metadata, pending actualApp/manualmetadata/Auth/report/HTTPShosting approvals, frozen preview and all other beta work remain unchanged. No existing approved HTTPS target is identified; unknown stays unknown. No new scientific policy/DB/deployment/Receipt Writer or Beta Ready claim.

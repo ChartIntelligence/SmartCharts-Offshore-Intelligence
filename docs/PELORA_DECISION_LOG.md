@@ -73,3 +73,8 @@ October 13, 2026 latest human unified amendment, relayed by orchestrator01a13260
 Frozen b0cd stays unchanged. New docs successor starts3c82, no runtime merge. P02 sequential UI-1 released from cleared1a011d1 after workspace binding/checkpoint verification; UI-2 then UI-3 with P01 account read seam. P01 owns profile/publication/schedule authority; no shared hook/gate edits without path reservation, no actual save/privilege widening, no timer without qualified server inputs. P03/P05 static bathymetry/current meaning gates are specific, not blockers for independent simple UI. Existing A/B/temporal results reused.
 
 New candidates require P04 independent and eventual founder/device acceptance; consolidated report must distinguish actual interactions/screenshots/test failures/physical-iPhone exclusions/deployment state. No old request restart, source admission, CP-10, new services/packages/providers/downloads/credentials, preview change, production/main merge, deployment, migration or real mutation. Product direction approval is not implemented/qualified/live authority.
+
+
+## October15,2026 — canonical multi-source Ocean Intelligence direction
+
+Founder human mandate01a13f2a-e3f2-7812-b6ec-ea004f088b49 in Coordinator extends existing chlorophyll resilience direction across supported environmental categories. Recorded in product constitution and science-governance reconciliation. Status: APPROVED_DIRECTION / NOT_IMPLEMENTATION_OR_ADMISSION. Existing registry/adapters/Observe/retained supply/CP07 reused at exact limits; no new fusion/scoring/provider or acquisition authority. Additional providers do not independently increase confidence. Existing scientific/privacy/release gates and denied review communications remain unchanged.
