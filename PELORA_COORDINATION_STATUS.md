@@ -211,3 +211,8 @@ Milestone timestamp: 2026-10-15T02:39:43Z.
 - Existing09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972 source publication, scoped25/84QA and isolated build provenance reused; no unchanged tests/build rerun. No HTTPS host, redirect/API/policy change or real-service operation authorized or performed.
 - P05 identified one bounded contextual species literature claim for proposed interpretation-contract review; P01 drafting exact non-executable scope/negative oracles. No new biology thresholds, scoring, eligibility/ranking or source admission. Historical fixtureb948 remains documentary-qualified and unexecuted.
 - P03 operational source readiness remains held at its named communication/implementation gate; no alternate relay. P02 identified additional test-only continuity scenarios, but new path release is required before work. Existing Observe/publishing and enrollment live-authority dependencies remain open.
+
+Milestone timestamp: 2026-10-15T02:40:39Z.
+
+- Proposed bounded species claim/output contract checkpoint b9f95c574838c1342bc4f78b623c7b3fc2cf497c: clean documentation HEAD and matching remote verified, three documentation paths only. Ten documentary rejection cases specified, NOT EXECUTED; no implementation/shadow execution/scientific admission.
+- P01 review deliveries to P05 and P04 were rejected by normal approval review for missing direct destination-specific authorization. Neither delivered; no coordinator relay or alternate route. Named approvals required before independent meaning/design qualification can proceed.
