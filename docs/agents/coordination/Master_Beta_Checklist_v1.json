@@ -1239,7 +1239,7 @@
     "proposal": "c46cfa6d43283602801707fbdf9153ff679abac4",
     "branch": "codex/pelora-blue-marlin-reference-oracles-v1",
     "worktree": "C:/Projects/Pelora-Agent-Worktrees/pelora-blue-marlin-reference-oracles-v1",
-    "status": "LOCAL_STRUCTURAL_TESTS_PASS_PENDING_P04",
+    "status": "P04_SOURCE_REVIEW_ACCEPTABLE_CONTROLLED_STRUCTURAL_EXECUTION_PASS",
     "newTests": 37,
     "baselineTests": 134,
     "combinedTests": 171,
@@ -1248,11 +1248,13 @@
     "sourcePublished": false,
     "scientificAdmission": false,
     "shadowExecutionAuthorized": false,
-    "reviewDelivery": "NEW_EXACT_P04_AND_COORDINATOR_PERMISSION_PENDING",
+    "reviewDelivery": "DELIVERED_UNDER_DIRECT_FOUNDER_AUTHORIZATION; independent171/171PASS",
     "ownedFiles": [
       "shared/blueMarlinIngestionReference.mjs",
       "backend/tests/blueMarlinIngestionReference.test.mjs",
       "docs/agents/architecture/P01_Blue_Marlin_Reference_Oracles_Qualification_v1.md"
-    ]
+    ],
+    "independentReportSHA256": "62d2eddee2dfc478c466e1d807bdde01e5d5a12c1c5cf93eabb09c18bc3fbe52",
+    "independentLimits": "No scientific interpretation/admission/shadow/consumer integration; initial missing-schema QA export failure preserved; corrected171PASS, no source/assertion change"
   }
 }
