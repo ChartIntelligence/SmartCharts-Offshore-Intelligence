@@ -216,3 +216,10 @@ Milestone timestamp: 2026-10-15T02:40:39Z.
 
 - Proposed bounded species claim/output contract checkpoint b9f95c574838c1342bc4f78b623c7b3fc2cf497c: clean documentation HEAD and matching remote verified, three documentation paths only. Ten documentary rejection cases specified, NOT EXECUTED; no implementation/shadow execution/scientific admission.
 - P01 review deliveries to P05 and P04 were rejected by normal approval review for missing direct destination-specific authorization. Neither delivered; no coordinator relay or alternate route. Named approvals required before independent meaning/design qualification can proceed.
+
+Milestone timestamp: 2026-10-15T10:49:22Z.
+
+- Founder-approved globally scalable multi-source Ocean Intelligence mandate recorded at eb825277741fefafcb3e5d2eaeda52b42ad026e4. Coordinator independently verified clean HEAD, matching remote SHA and six documentation-only paths: existing constitution, science governance, decision log, Master checklist and single command board. Canonical direction is distinct from implemented or operational capability.
+- Existing product registry/adapters, chlorophyll selection, immutable retained evidence and Observe/CP-07 contracts identified for reuse with prior qualification limits preserved. Minimum extension is metadata plus explicit decision references; registry membership cannot establish compatibility, fallback, fusion, source admission or confidence.
+- P05 reviewed minimum scientific compatibility, provenance, uncertainty, shared-input and applicability requirements using existing evidence. P04 prepared12 new controlled composition obligations for fallback, disagreement, correlated inputs, immutable revisions and recovery; no candidate or new test execution is qualified.
+- Small nonconflicting implementation slices are queued behind exact source authority, reserved paths and independent P05/P04 contract qualification. No providers admitted, fusion/scoring added, runtime changed, completed qualification repeated, database mutated or deployment performed. Existing preview and beta-critical gates remain intact.
