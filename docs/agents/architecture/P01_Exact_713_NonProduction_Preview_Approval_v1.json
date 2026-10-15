@@ -298,7 +298,7 @@
   },
   "offlineActualEntry": {
     "candidate": "09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972",
-    "status": "P01_CONTROLLED_OFFLINE_PASS_PENDING_P04",
+    "status": "P04_INDEPENDENT_SCOPED_CONTROLLED_OFFLINE_APP_MAIN_PASS",
     "scratch": "C:/Users/User/Documents/Codex/pelora-runtime-09dfac1-v1",
     "provenanceSHA256": "0f054cef42ec1621e36a190b1c4b33cb1a8ae4a88c00fdd198fdd761193db189",
     "scenarioChecks": 12,
@@ -325,6 +325,9 @@
       "Successful environmental fields or real Opportunity science",
       "Physicaldevice or Founderpreview"
     ],
-    "reviewDelivery": "NEW_PURPOSE_APPROVAL_PENDING"
+    "reviewDelivery": "DELIVERED_UNDER_DIRECT_FOUNDER_AUTHORIZATION; INDEPENDENT_EXECUTION_COMPLETE",
+    "independentReportSHA256": "61063ecfd2470872c20432f089bc7d8dd81d1af09a4f516f0960e1e7b6515639",
+    "independentResult": "12/12 milestones, exit0, same scenarios independently rerun; do not sum as24unique tests",
+    "precisionLimits": "Synthetic SDK/no live sessionlessAuth/refresh/RLS; empty geography/API503/no successful fields; map count+loaded style, not exact restored camera/layer continuity/physical input; navigation nonempty assertion not exhaustive"
   }
 }
