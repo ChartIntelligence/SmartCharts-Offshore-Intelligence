@@ -1120,6 +1120,18 @@
       "inheritedLintErrors": 3,
       "browserDevice": "NOT_QUALIFIED",
       "deployedRLS": "NOT_QUALIFIED"
+    },
+    "isolatedBuild": {
+      "candidate": "09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972",
+      "status": "PASS_NOT_RUNTIME_QUALIFIED",
+      "sourceFilesVerified": 876,
+      "outputFilesFingerprinted": 15,
+      "buildExit": 0,
+      "provenanceSHA256": "ff0bc5bce60db9dd88e3b33395a100b23626cb87330de08ff6647f9b4811b1c2",
+      "warning": "Main JS chunk approximately1.46MB exceeds500kB",
+      "dependencyCheck": "186 applicable version/recorded-integrity matches, no incompatible or missing nonoptional; not full byte authentication",
+      "runtime": "PENDING_SPECIFIC_OFFLINE_APPROVAL",
+      "liveAuthDatabaseHosting": "NOT_AUTHORIZED"
     }
   },
   "enrollmentServerModel": {
