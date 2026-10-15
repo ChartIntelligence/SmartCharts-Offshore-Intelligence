@@ -1,6 +1,6 @@
 {
   "version": "pelora-historical-sst-exact-source-publication-request-v1",
-  "status": "PENDING_EXACT_FOUNDER_AUTHORIZATION",
+  "status": "EXACT_FOUNDER_AUTHORIZED_SOURCE_PUSH_COMPLETED",
   "repository": "ChartIntelligence/SmartCharts-Offshore-Intelligence",
   "origin": "https://github.com/ChartIntelligence/SmartCharts-Offshore-Intelligence.git",
   "branch": "codex/pelora-02-qa-report-guard-v1",
@@ -9,7 +9,7 @@
   "applicationAncestor": "4e1b49ba52c26089e24dd94f377109c13d8586b6",
   "worktree": "C:/Projects/Pelora-Agent-Worktrees/pelora-02-qa-report-guard-v1",
   "qaReportSHA256": "f9d570fca2f00abaf2dc4535bb6f2799503e723e4f33470f5637a7134b01dbaf",
-  "remoteBranchObserved": "ABSENT",
+  "remoteBranchObserved": "09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972",
   "outgoingAgainstRecordedOriginRefs": 12,
   "unionChangedPaths": 39,
   "heuristicSensitivePatternFiles": [],
@@ -28,5 +28,7 @@
     "782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0",
     "993b1d669a779dcb71f94c86e1339ed1ebb6e4ee",
     "0adc63a0ccb37605b1e3b3be815ca79e4223e823"
-  ]
+  ],
+  "publicationVerifiedTree": "4779dffa0beff2184b8777e7130acc4f8956a581",
+  "nextGate": "Exact isolated build/dependency request pending; no build/Auth/preview approval inferred"
 }
