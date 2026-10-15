@@ -1137,9 +1137,9 @@
       "basis": "READ_ONLY_SOURCE_AND_TOOL_INVENTORY_ONLY",
       "intendedProject": "vqzskzoizpomwzgbgdwl",
       "supabaseInspectionConnector": "UNAVAILABLE",
-      "deployedAuthSettings": "UNVERIFIED",
-      "redirectAllowlist": "UNVERIFIED",
-      "anonymousSignInSetting": "UNVERIFIED",
+      "deployedAuthSettings": "FOUNDER_REPORTED_NOT_INDEPENDENTLY_VERIFIED",
+      "redirectAllowlist": "FOUNDER_REPORTED_5173_DOES_NOT_ESTABLISH_4173_OR_HTTPS_PREVIEW_COMPATIBILITY",
+      "anonymousSignInSetting": "FOUNDER_REPORTED_ENABLED_AUTHENTICATED_ROLE_IS_NOT_NONANONYMOUS_PROOF",
       "currentSchemaRlsGrants": "UNVERIFIED",
       "dedicatedQaPrincipal": "UNVERIFIED",
       "nonemptySyntheticQaReports": "UNVERIFIED",
@@ -1147,7 +1147,8 @@
       "pendingGate": "SANITIZED_MANUAL_READ_ONLY_METADATA_VERIFICATION",
       "privateValuesRead": false,
       "serviceCallsPerformed": false
-    }
+    },
+    "founderDashboardObservationProvenance": "Reported metadata only; policy expressions/effective grants/anonymous isolation/current deployment not independently verified; see existing exact preview packet"
   },
   "enrollmentServerModel": {
     "task": "A_ENROLLMENT_SERVER_CONTRACT_HARNESS",

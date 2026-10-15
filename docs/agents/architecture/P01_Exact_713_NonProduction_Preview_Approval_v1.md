@@ -62,3 +62,56 @@ Verified only from exact09dfac1 source and available tool inventory: intended pr
 The successful09df build disabled environment-file loading and supplied no real service configuration. Its artifacts prove compilation only, not configured authenticated runtime; do not silently insert configuration, rebuild, host or launch them. Actual source may create anonymous Auth state when no session exists, and default global sign-out can affect other same-project/principal sessions. Real Auth/session actions and owner-report/RLS verification need separate explicit scope before execution. Existing loopback policy cannot be treated as phone hosting.
 
 Smallest next gate is pending founder approval for sanitized manual read-only Dashboard/catalog evidence: target identity, Auth providers/anonymous/redirect settings, captain_access and report-owner policy/grant definitions, aggregate dedicated QA principal and nonempty synthetic report availability. No UUID/email/token/key/report content, account creation/sign-in, protected-row reads or database mutation is included. Offline actualApp/main qualification stays separately pending; no new-purpose P04 message was sent. This update adds no inspection, build, runtime, provider, database, preview or deployment action.
+
+## Founder Dashboard observations and exact remaining checks — October 14, 2026
+
+Founder-reported visual evidence, relayed by Coordinator (not independently verified): Non-Production vqzskzoizpomwzgbgdwl healthy; email Auth, email confirmation, general signup and anonymous Auth enabled; manual linking/external providers disabled. Site URL http://localhost:5173/?app=1; redirects that URL and http://192.168.1.170:5173/?app=1. Token lifetime3600s, refresh compromise detection on/reuse10s. captain_access RLS on/authenticated SELECT; fishing_day_reports RLS on/authenticated INSERT/SELECT/UPDATE/DELETE. Both tables show Data API restrictions; six public tables reported. Policy labels and a restrictions badge do not reveal predicates, permissive/restrictive composition, grants, inherited privileges, bypass roles, exposed schemas or effective access. Do not interpret them as either denial or successful isolation.
+
+Repository reconciliation (read only): 20260810_captain_access_v1.sql uses auth.uid()=user_id SELECT and denies client mutation; 20260801_fishing_day_reports_baseline_v1.sql uses owner predicates for four report operations; 20260925_client_privilege_hardening_v1.sql grants authenticated report CRUD and captain_access SELECT, revoking client privileges first. No anonymous-claim exclusion or entitlement predicate occurs in these owner policies. An anonymous Auth principal may have the authenticated database role; owner isolation does not alone prove nonanonymous/approved-captain entitlement. Application/backend gates explicitly exclude anonymous users, but that is not deployed direct-API security proof. No new policy change, blanket anonymous entitlement or confirmed deployed vulnerability is inferred. Existing production behavior is untouched.
+
+Smallest metadata verification remains pending approval: exact pg_policies qual/with_check/roles/permissive, table RLS/owner/force flags, PUBLIC/anon/authenticated effective grants and memberships/bypass attributes, exposed-schema/Data API configuration, relevant routines/security-definer/search_path, constraints/FKs/columns and migration ledger. Reconcile returned expressions against the three repository migrations; preserve earlier compatibility differences, do not assume candidate Beta migration applied. Report metadata/aggregate pass-fail only; no captain rows, UUID/email or secrets. Queries below are PREPARED ONLY, not executed. Other privileged/catalog checks retain their existing preflight prerequisites.
+
+Required QA fixture availability: existing dedicated nonanonymous Non-Production approved founding_captain (no founder convenience grant), plus at least one already-existing synthetic owner report. A separately authorized second synthetic owner/principal is required to demonstrate cross-owner denial; ordinary owner reading alone is insufficient. Verify only aggregate availability before later explicit protected-read permission. If absent, stop for separate provisioning/synthetic-write authorization; never create them or copy production captain reports under read-only approval.
+
+Exact later real-service scope requiring approval: dedicated isolated browser profile, founder-performed Non-Production sign-in/confirmation and refresh, owner-only synthetic Saved Reports reads, controlled cross-owner denial without private payload export, report mutation blocked with no SDK write, session-expiry/sign-out behavior and return to working app without importing its cookies/storage. Anonymous startup and global sign-out effects need express consent or a separately qualified alternative. Logs must redact credentials and report payloads; do not capture sign-in links/tokens. Current source read-only guard is frontend-specific, not a database read-only role.
+
+HTTPS phone preview remains blocked: no approved existing hosting service/URL/backend target has been supplied in this packet. Current redirects use5173 while source QA transport pins127.0.0.1:4173/8787; localhost,127.0.0.1,LAN IP and HTTPS domains are distinct origins. A phone cannot use the PC's loopback endpoints. Neither a redirect change nor a hosted origin/backend CORS/Host bypass is authorized. Existing build is environment-free and cannot be represented as authenticated preview. Request an exact approved existing service/HTTPS hostname, backend transport, Auth redirect, asset/network allowlist, process-local public config and reversible artifact/config plan before rebuild or launch. Do not guess a provider, create tunnels, add hosting, change redirects or reuse frozen preview. Rollback is limited to newly authorized owned resources; no data deletion, global production logout or frozen-process replacement.
+
+Offline App/main approval remains separate. No fixtures/tests/build/service operations were repeated. No operational Observe/publisher slice is newly released by these observations; no PostgreSQL startup, credentials, DDL, provider acquisition or Receipt Writer action occurred. P04 preparation requires the normal exact-purpose communication approval; no rejected message is relayed.
+
+### Prepared metadata supplement — execution NOT authorized here
+
+Run only after separately approved read-only verification in the manually confirmed Non-Production project. ROLLBACK is mandatory; no application rows are selected. This supplement does not replace the earlier complete preflight's schema/FK/routine/dependency/migration reconciliation.
+
+```sql
+BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY;
+SELECT jsonb_build_object(
+  'transaction_read_only', current_setting('transaction_read_only'),
+  'tables', (SELECT jsonb_agg(jsonb_build_object(
+    'table', c.relname, 'rls', c.relrowsecurity, 'force_rls', c.relforcerowsecurity,
+    'owner', pg_get_userbyid(c.relowner), 'acl', c.relacl::text))
+    FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+    WHERE n.nspname='public' AND c.relname IN ('captain_access','fishing_day_reports')),
+  'policies', (SELECT jsonb_agg(to_jsonb(p)) FROM pg_policies p
+    WHERE p.schemaname='public' AND p.tablename IN ('captain_access','fishing_day_reports')),
+  'effective_privileges', (SELECT jsonb_agg(jsonb_build_object(
+    'role',r.rolname,'table',c.relname,'operation',v.op,
+    'allowed',has_table_privilege(r.oid,c.oid,v.op)))
+    FROM pg_roles r CROSS JOIN pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+    CROSS JOIN (VALUES ('SELECT'),('INSERT'),('UPDATE'),('DELETE'),('TRUNCATE'),('REFERENCES'),('TRIGGER')) v(op)
+    WHERE r.rolname IN ('anon','authenticated') AND n.nspname='public'
+      AND c.relname IN ('captain_access','fishing_day_reports')),
+  'client_role_attributes', (SELECT jsonb_agg(jsonb_build_object(
+    'role',rolname,'superuser',rolsuper,'bypass_rls',rolbypassrls,'inherits',rolinherit))
+    FROM pg_roles WHERE rolname IN ('anon','authenticated','authenticator')),
+  'role_memberships', (SELECT jsonb_agg(jsonb_build_object(
+    'member',member.rolname,'granted_role',parent.rolname,'admin_option',m.admin_option))
+    FROM pg_auth_members m JOIN pg_roles member ON member.oid=m.member
+      JOIN pg_roles parent ON parent.oid=m.roleid
+    WHERE member.rolname IN ('anon','authenticated','authenticator')
+       OR parent.rolname IN ('anon','authenticated'))
+) AS nonproduction_metadata;
+ROLLBACK;
+```
+
+Interpretation: missing table/role or absent required owner expression is an unresolved prerequisite, not a pass. Compare all SELECT/UPDATE/DELETE USING and INSERT/UPDATE WITH CHECK clauses, including additional permissive policies and inherited privileges; any extra access needs explicit reconciliation. A reported Data API restriction cannot settle effective privileges or anon-Auth JWT behavior. Auth/provider/redirect/exposed-schema settings require separately approved sanitized Dashboard evidence; SQL above does not certify them. No credentials, account identities or captain report contents are returned.

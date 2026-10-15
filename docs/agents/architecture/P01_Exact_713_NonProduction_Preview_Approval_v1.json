@@ -254,9 +254,9 @@
     "basis": "READ_ONLY_SOURCE_AND_TOOL_INVENTORY_ONLY",
     "intendedProject": "vqzskzoizpomwzgbgdwl",
     "supabaseInspectionConnector": "UNAVAILABLE",
-    "deployedAuthSettings": "UNVERIFIED",
-    "redirectAllowlist": "UNVERIFIED",
-    "anonymousSignInSetting": "UNVERIFIED",
+    "deployedAuthSettings": "FOUNDER_REPORTED_NOT_INDEPENDENTLY_VERIFIED",
+    "redirectAllowlist": "FOUNDER_REPORTED_5173_DOES_NOT_ESTABLISH_4173_OR_HTTPS_PREVIEW_COMPATIBILITY",
+    "anonymousSignInSetting": "FOUNDER_REPORTED_ENABLED_AUTHENTICATED_ROLE_IS_NOT_NONANONYMOUS_PROOF",
     "currentSchemaRlsGrants": "UNVERIFIED",
     "dedicatedQaPrincipal": "UNVERIFIED",
     "nonemptySyntheticQaReports": "UNVERIFIED",
@@ -272,5 +272,28 @@
     "realServiceConfigurationSupplied": false,
     "runtimeExecution": "NOT_AUTHORIZED",
     "configurationOrRebuild": "SEPARATE_EXPLICIT_APPROVAL_REQUIRED"
+  },
+  "founderDashboardObservations": {
+    "provenance": "FOUNDER_VISUAL_OBSERVATIONS_RELAYED_BY_COORDINATOR_NOT_INDEPENDENTLY_VERIFIED",
+    "project": "vqzskzoizpomwzgbgdwl",
+    "health": "REPORTED_HEALTHY",
+    "emailAuth": true,
+    "emailConfirmation": true,
+    "generalSignup": true,
+    "anonymous": true,
+    "manualLinking": false,
+    "externalProviders": false,
+    "siteUrl": "http://localhost:5173/?app=1",
+    "redirects": [
+      "http://localhost:5173/?app=1",
+      "http://192.168.1.170:5173/?app=1"
+    ],
+    "tokenSeconds": 3600,
+    "refreshCompromiseDetection": true,
+    "refreshReuseSeconds": 10,
+    "captainAccess": "RLS on; authenticated SELECT policy reported",
+    "reports": "RLS on; authenticated INSERT SELECT UPDATE DELETE policies reported",
+    "dataApi": "Restrictions label reported for both tables; exact meaning/effective grants unverified",
+    "publicTableCount": 6
   }
 }
