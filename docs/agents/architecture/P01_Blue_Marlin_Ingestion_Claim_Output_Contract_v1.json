@@ -1,5 +1,5 @@
 {
-  "contract": "pelora-blue-marlin-ingestion-claim-output-proposal-v1",
+  "contract": "pelora-blue-marlin-ingestion-claim-output-proposal-v1.1",
   "status": "PROPOSED_PENDING_P05_SEMANTIC_AND_P04_DESIGN_REVIEW",
   "owner": "PELORA-01",
   "baseline": "053f4e206369f2bfd6ef97809a0e63890f4208e4",
@@ -61,13 +61,40 @@
     "referenceState": "REFERENCE_BOUND_ONLY",
     "authorityState": "UNRESOLVED_NOT_ADMITTED",
     "statementKind": "SCOPED_LITERATURE_OBSERVATION",
-    "sourceLimitationsRequired": true,
     "confidenceCalibration": "NOT_ESTABLISHED",
     "nativeByteVerification": "NOT_VERIFIED",
     "sourceAdmission": false,
     "opportunityPermission": false,
     "rankingPermission": false,
-    "shadowExecutionAuthorized": false
+    "shadowExecutionAuthorized": false,
+    "sourceLimitations": [
+      {
+        "sourceId": "N03",
+        "citationRecordSHA256": "08b61d792673b6878b34ebd12aee3728646a54088a9267fa43db14127869e409",
+        "species": "blue-marlin",
+        "region": "North Carolina/Gulf Stream sampled tournament cohorts",
+        "period": "June tournaments1998–2000,2003–2009; Blue Marlin applicability only",
+        "excludedCohorts": "Additional Mahi2002–2004 and other predator records are not Blue Marlin evidence",
+        "access": "AUTHOR_INSTITUTION_HOSTED_PAPER_SELECTED_SECTIONS",
+        "sections": "Abstract; Methods pp1336–1337; Discussion p1343",
+        "method": "Stomach contents; retain tournament/gear/size/digestion bias",
+        "inferenceLimit": "Ingestion is not availability-adjusted preference or mapped/current prey presence",
+        "nativeDocumentBytes": "NOT_VERIFIED"
+      },
+      {
+        "sourceId": "N14",
+        "citationRecordSHA256": "c8914c2d6c88b870eb5e4d478bc13b152e7f77f378623585c17524591506ea99",
+        "species": "blue-marlin",
+        "region": "South/Mid-Atlantic Bight sampled tournament/angler cohorts",
+        "period": "2018–2020",
+        "excludedCohorts": "White Marlin and roundscale spearfish identities remain separate; no transfer to Blue Marlin",
+        "access": "PRIMARY_PAPER_ABSTRACT_IN_PUBMED_ONLY",
+        "sections": "Abstract; citation; figure captions",
+        "method": "Stomach contents and DNA barcoding as documented at abstract-level access; full publisher/PMC access failed",
+        "inferenceLimit": "No Gulf prey distribution/universal proportions/preference/current presence/calibrated confidence",
+        "nativeDocumentBytes": "NOT_VERIFIED"
+      }
+    ]
   },
   "forbiddenOutputFields": [
     "score",
@@ -83,51 +110,54 @@
     "pooledPreyPercentages"
   ],
   "resolutionPrecedence": [
-    "INVALID_EXACT_BINDING",
-    "UNSUPPORTED_SCOPE_EXTENSION",
-    "REFERENCE_UNAVAILABLE",
-    "REFERENCE_BOUND_ONLY_WITH_UNRESOLVED_AUTHORITY"
+    "Validator invalid input throws TypeError INVALID_SPECIES_REFERENCE_INPUT; no structural result",
+    "For valid782input: UNSUPPORTED_CLAIM before MISSING_REFERENCED_INPUT before LOOKUP_UNAVAILABLE before REFERENCE_BOUND_ONLY; all original reasonCodes retained",
+    "Separate proposed requested-inference decision only after valid binding; never replaces validator structuralState"
   ],
   "documentaryOracles": [
     {
       "case": "Exact species/source order/scope",
-      "expected": "REFERENCE_BOUND_ONLY; never scientific admission"
+      "expected": "Preserve valid782structuralState/binding/reasons/limitations; authority remains unresolved"
     },
     {
-      "case": "N14,N03 order or substituted citation fingerprint",
-      "expected": "INVALID_EXACT_BINDING"
+      "case": "Wrong bound species or reordered sourceIDs",
+      "expected": "782throws INVALID_SPECIES_REFERENCE_INPUT; no scope-state substitution"
     },
     {
-      "case": "White Marlin or Gulf-wide transfer",
-      "expected": "UNSUPPORTED_SCOPE_EXTENSION"
+      "case": "Valid exact binding plus requested White Marlin/Gulf-wide/current forage/preference inference",
+      "expected": "Separate proposed UNSUPPORTED_REQUESTED_INFERENCE; unchanged782result"
     },
     {
-      "case": "Current forage/presence or prey-preference inference",
-      "expected": "UNSUPPORTED_SCOPE_EXTENSION"
+      "case": "Missing bibliographic parent",
+      "expected": "Proposed BIBLIOGRAPHIC_PARENT_MISSING; no statement; not declared-input absence"
     },
     {
-      "case": "N14 abstract limit absent or native-byte proof asserted",
-      "expected": "INVALID_EXACT_BINDING"
+      "case": "Valid782 declared input ABSENT",
+      "expected": "MISSING_REFERENCED_INPUT unless unsupportedclaim; retain reasons"
     },
     {
-      "case": "Missing source reference",
-      "expected": "REFERENCE_UNAVAILABLE; no affirmative statement"
+      "case": "Valid782 declared input LOOKUP_UNAVAILABLE",
+      "expected": "LOOKUP_UNAVAILABLE unless unsupported/absent; retain reasons"
     },
     {
-      "case": "Caller supplies qualified/eligible/admitted true",
-      "expected": "INVALID_EXACT_BINDING"
+      "case": "ABSENT and LOOKUP_UNAVAILABLE together",
+      "expected": "MISSING_REFERENCED_INPUT with both original reasons"
     },
     {
-      "case": "Numeric confidence/rank/threshold or pooled proportion",
-      "expected": "INVALID_EXACT_BINDING"
+      "case": "Empty valid782 input list",
+      "expected": "REFERENCE_BOUND_ONLY plus EMPTY_DECLARED_INPUT_SET; no adequacy or completeness"
     },
     {
-      "case": "Environmental/captain/report input added",
-      "expected": "INVALID_EXACT_BINDING"
+      "case": "Citation limitation payload omitted/altered or N03Mahi cohort included as BlueMarlin",
+      "expected": "Invalid proposed documentary output; no affirmative statement"
     },
     {
-      "case": "Identical reference replay",
-      "expected": "Same exact reference binding; no independent observation or confidence gain"
+      "case": "Caller authority/numeric confidence/rank/private payload added",
+      "expected": "Invalid proposed contract input/output; never scientific authority"
+    },
+    {
+      "case": "Identical exact replay",
+      "expected": "Same references; no new observation/independence/confidence"
     }
   ],
   "oraclesExecuted": false,
@@ -138,5 +168,18 @@
     "P05: Is the exact literature statement and cohort/time/access limitation faithful to pinned records?",
     "P04: Does the proposed boundary reject unsupported output/scope/authority escalation without changing782?"
   ],
-  "implementationGate": "AFTER exact P05/P04 review and separate bounded implementation/shadow authorization; no runtime change in this packet"
+  "implementationGate": "AFTER exact P05/P04 review and separate bounded implementation/shadow authorization; no runtime change in this packet",
+  "reviewedPredecessor": "b9f95c574838c1342bc4f78b623c7b3fc2cf497c",
+  "resolutionMapping": {
+    "validator": "782d969f3a9b50edc2c86a7e4c9b38cbeaad02e0:validateSpeciesClaimReferenceV1",
+    "preserveResult": "Exact original structuralState/binding/reasonCodes/limitations copied unchanged; no synthetic status substitutions",
+    "wrongSpeciesOrSource": "INVALID_SPECIES_REFERENCE_INPUT TypeError, no validator result",
+    "bibliographicParentMissing": "Proposed documentary parentResolution BIBLIOGRAPHIC_PARENT_MISSING; no affirmative statement; NOT mapped to environmental input ABSENT or LOOKUP_UNAVAILABLE",
+    "declaredInputAbsent": "Existing entry.status ABSENT gives MISSING_REFERENCED_INPUT unless unsupported claim takes precedence",
+    "declaredInputLookupUnavailable": "Existing entry.status LOOKUP_UNAVAILABLE gives LOOKUP_UNAVAILABLE unless unsupported/absent takes precedence",
+    "emptyInputSet": "Existing782returns REFERENCE_BOUND_ONLY plus EMPTY_DECLARED_INPUT_SET, not completeness or admissibility",
+    "requestedInference": "Separate proposed UNSUPPORTED_REQUESTED_INFERENCE when a valid bound claim is requested for another species/region/current forage/preference; cannot rescue invalid binding",
+    "sourceLimitations": "Exact ordered immutable payload required; missing/conflicting fields invalidate proposed documentary output, not a changed782return",
+    "scope": "Literature proposal does not require environmental inputs; mapping documents compatibility with existing structural reference contract, not runtime composition"
+  }
 }
