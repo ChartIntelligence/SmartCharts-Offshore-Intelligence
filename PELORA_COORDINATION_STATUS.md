@@ -189,3 +189,10 @@ Milestone timestamp: 2026-10-15T01:11:57Z.
 - Approved source publication completed by P01: codex/pelora-02-qa-report-guard-v1 at09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972. Coordinator independently verified matching remote SHA, exact local HEAD and clean workspace. Normal non-force source push only; protected branches unchanged.
 - P01 reports bounded outgoing-content scan found no high-confidence sensitive-pattern matches; this is not exhaustive privacy/security proof. Existing independent scoped QA preserved without rerunning unchanged tests.
 - Next gate: exact isolated build/dependency-check approval, followed separately by non-production Auth/session/report-isolation and hosting/network approvals. No build, real-service operation, preview launch, production deployment or main merge occurred.
+
+Milestone timestamp: 2026-10-15T01:41:45Z.
+
+- Founder-authorized isolated build of published09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972 completed: ISOLATED BUILD PASS, exit0,146modules.876tracked source files verified unchanged after build. Complete recursive output manifest contains15files (console listed6bundled entries); coordinator independently matched all15output fingerprints.
+- Provenance SHA256ff0bc5bce60db9dd88e3b33395a100b23626cb87330de08ff6647f9b4811b1c2; source manifest SHA2569954f87296ff0701c48ca8134cda3a36c442b773866a3a313ddc011dfb2dc768. Node24.18.0/Vite8.1.4;186applicable installed lock records matched,0incompatible/0missing nonoptional; existing approved dependencies reused, no installation/version change.
+- Dependency checks compare metadata/recorded integrity, not independent tarball authentication or a full installed-tree byte audit. Main JS1460.80kB retains the greater-than500kB warning; no mobile performance qualification inferred.
+- No application-source edits, credentials/private environment supplied, runtime/browser/Auth/database/provider service or preview launched. Build success does not qualify actual App/bootstrap, session/report isolation, deployed RLS, hosting or physical iPhone acceptance. Those exact gates remain separate; protected preview/main/production/Receipt Writer unchanged.
