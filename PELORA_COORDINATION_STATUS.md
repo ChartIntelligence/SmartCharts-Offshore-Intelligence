@@ -254,3 +254,10 @@ Milestone timestamp: 2026-10-15T12:47:34Z.
 
 - Existing Master/preview/single-queue evidence reconciled at dc6f9da0d1924a0f97445448ec42e18af7d8c5a1: independently verified clean HEAD and matching remote, five documentation paths only. This checkpoints the previously reported contract closure/offline runtime milestone; no new execution or application delta.
 - Offline runtime provenance SHA2560f054cef42ec1621e36a190b1c4b33cb1a8ae4a88c00fdd198fdd761193db189. Exact P01→P04 runtime-evidence delivery/independent re-execution approval remains pending and separate from the granted species-review purpose. Real SDK/import-time configuration, live services and phone preview remain unqualified.
+
+Milestone timestamp: 2026-10-15T13:15:38Z.
+
+- P04 independently qualified exact application09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972: SCOPED CONTROLLED OFFLINE APP/MAIN PASS,12/12 milestone checks at1000/390px, exit0. Report SHA25661063ecfd2470872c20432f089bc7d8dd81d1af09a4f516f0960e1e7b6515639 independently matched by Coordinator.
+- P04 verified876source files against Gitblob/SHA identities,15original build outputs and the supplied runtime packet. Existing synthetic harness bundle reused; independent bundle construction is NOT claimed. Zero uncaught runtime errors/unexpected requests/SDKmutations/delete confirmations; expected unavailable-Opportunity503 logs retained. Original failed harness attempts remain recorded, not passes.
+- Limits: syntheticSDK/config, emptybasemap/API503; no realSDK/Auth/session/OTP/refresh/expiry/global-signout/RLS qualification, successful live environmental fields or real governedOpportunity evidence. Map lifecycle counts/style checks do not establish exact camera/layer continuity, phone gestures or performance. Physical iPhone and live HTTPSpreview remain unqualified.
+- Existing Master/preview/single-board documentation advanced to061ee87cd33320f5af7765b7e61d4bc3f1350b9e; clean HEAD and matching remote independently verified. Runtime review gate closed only. Supabase metadata remains founder-paused; no service/DB/provider/private-report access, hosting/deployment, main/frozen-preview/Receipt Writer changes.
