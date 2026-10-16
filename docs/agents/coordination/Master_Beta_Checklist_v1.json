@@ -189,12 +189,12 @@
   },
   "gates": {
     "G.SOURCE_PUSH": "RESOLVED_EXACT09_ONLY: direct founder authorized normal branch push; remote09dfac11ccbf992b8eea7dd36dfe1cd4e8ac7972 verified. No transfer to other branches/candidates or deployment.",
-    "G.PREVIEW": "NOT_READY: build PASS without service configuration; pending sanitized manual Non-Production metadata verification, offlineApp/main execution approval, exact realAuth/session/report scopes and approved hosting/network. No current deployedRLS/account proof or launch.",
+    "G.PREVIEW": "NOT_READY: resolve DataAPI0of6exposure vsauthenticatedgrants, dedicatedQAidentity/syntheticreport scopes and exact realAuth/session approval; HTTPSfrontend/backend target+redirect/originconfig unresolved; no changes authorized",
     "G.AUTH_ACTIONS": "Sessionless anonymous creation/global signout impact require explicit isolation/action approval",
     "G.ENROLL_REVIEW_MESSAGE": "RESOLVED: exact53ed84b P04 acknowledgment received normally under direct founder approval; offline scope only, no live authority.",
     "G.LIVING_COORD": "P03 recovery→P01 delivery succeeded; distinct P01→P02 acknowledgment purpose still pending",
     "G.FIELD_MESSAGE": "P02 field-doc binding message denied; queued only, no execution release",
-    "G.CONFIG_INSPECTION": "APPROVED_READ_ONLY_EXACT_NONPROD: projectvqzskzoizpomwzgbgdwl; PAUSED_FOUNDER_DESKTOP_SIGNIN_REQUIRED. Available IAB redirects to sign-in; no connector/queries/private records. No auth retry, credentials or session transfer.",
+    "G.CONFIG_INSPECTION": "AUTHORIZED_READ_ONLY_COMPLETED15OCT: exactNonProdproject/schema/RLS/tablegrants/Authmetadata verified; DataAPIUIexposure/SQLgrants discrepancy open. No account/report records or mutation.",
     "G.CALENDAR_LOGIN_POLICY": "UTC/leapday + trusted first-qualifying-login proof/preapproval-session decisions unresolved",
     "G.MIGRATION_RLS": "No new migration/RLS/grants applied; requires separate approval",
     "G.AUTH_ADMIN": "No privileged Auth/invite/account/config mutation authorized",
@@ -1137,14 +1137,14 @@
       "basis": "READ_ONLY_SOURCE_AND_TOOL_INVENTORY_ONLY",
       "intendedProject": "vqzskzoizpomwzgbgdwl",
       "supabaseInspectionConnector": "UNAVAILABLE",
-      "deployedAuthSettings": "FOUNDER_REPORTED_NOT_INDEPENDENTLY_VERIFIED",
-      "redirectAllowlist": "FOUNDER_REPORTED_5173_DOES_NOT_ESTABLISH_4173_OR_HTTPS_PREVIEW_COMPATIBILITY",
-      "anonymousSignInSetting": "FOUNDER_REPORTED_ENABLED_AUTHENTICATED_ROLE_IS_NOT_NONANONYMOUS_PROOF",
-      "currentSchemaRlsGrants": "UNVERIFIED",
+      "deployedAuthSettings": "VERIFIED_READ_ONLY_DASHBOARD_2026_10_15",
+      "redirectAllowlist": "VERIFIED_LOCALHOST5173_AND_LAN5173_ONLY;HTTPS_QA4173_NOT_CONFIGURED",
+      "anonymousSignInSetting": "VERIFIED_ENABLED;AUTHENTICATED_ROLE_OWNER_POLICIES_NOT_APPROVED_CAPTAIN_ENTITLEMENT",
+      "currentSchemaRlsGrants": "VERIFIED_SCOPED_CATALOG;DATA_API_EXPOSURE_RECONCILIATION_OPEN",
       "dedicatedQaPrincipal": "UNVERIFIED",
       "nonemptySyntheticQaReports": "UNVERIFIED",
       "historicalManualPreflight": "HISTORICAL_NOT_CURRENT_CERTIFICATION",
-      "pendingGate": "PAUSED_BROWSER_METADATA_ONLY_UNTIL_FOUNDER_DESKTOP_SIGNIN; existing read-only approval preserved",
+      "pendingGate": "METADATA_READ_COMPLETED; API_EXPOSURE_AND_EXACT_REAL_SERVICE_PREVIEW_SCOPES_REMAIN_OPEN",
       "privateValuesRead": false,
       "serviceCallsPerformed": false
     },
@@ -1182,6 +1182,28 @@
       "independentReportSHA256": "61063ecfd2470872c20432f089bc7d8dd81d1af09a4f516f0960e1e7b6515639",
       "independentResult": "12/12 milestones, exit0, same scenarios independently rerun; do not sum as24unique tests",
       "precisionLimits": "Synthetic SDK/no live sessionlessAuth/refresh/RLS; empty geography/API503/no successful fields; map count+loaded style, not exact restored camera/layer continuity/physical input; navigation nonempty assertion not exhaustive"
+    },
+    "deployedMetadataVerification": {
+      "date": "2026-10-15",
+      "project": "vqzskzoizpomwzgbgdwl",
+      "status": "METADATA_VERIFIED_LEGACY_OWNER_MODEL; API_EXPOSURE_RECONCILIATION_OPEN",
+      "evidence": "C:/Users/User/Documents/Codex/pelora-nonprod-metadata-2026-10-15-v1/verification.json",
+      "evidenceSHA256": "2eece08f1d57af92de15a607293e9c51b7363c329869c2fd68dc8ab7622071b6",
+      "catalogCSV_SHA256": "70e24cea4b3462d7b22fca9791601527f60c6341a61085533992b9adae96ad31",
+      "transaction": "REPEATABLE_READ_READ_ONLY;30metadata rows;finalROLLBACK;noSQLerror",
+      "ownerPolicies": "auth.uid()=user_id; captain_accessSELECT; reportsCRUD; snapshotsSELECT_INSERT",
+      "effectiveGrants": "anon none on3inspectedtables; authenticated accessSELECT/reportsCRUD/snapshotsSELECT_INSERT; noDDL/trigger/references/truncate",
+      "roles": "anon/authenticated noSUPERUSER/BYPASSRLS; no protectednoninternaltriggers",
+      "schema": "Legacy7captain_accesscolumns/25reportcolumns/PKandvalidatedFKtoauth.users/role-statusCHECKs;10migrationversions through20260925; noBetaentitlementcolumns/pelora_accessschema",
+      "auth": "Email/signup/confirmation/anonymousenabled; manualLinking/externalprovidersoff; token3600s/refreshprotectionon/reuse10s",
+      "redirects": "Onlylocalhost5173andLAN5173app=1;noapprovedHTTPS/4173redirect",
+      "dataApi": "Enabled;public/graphql_publicschemas;UI0of6tables/0of1functionsexposed;autoexposureoff;maxrows1000;SQLauthgrantspositive—actualtransportavailabilityNOTPROVEN",
+      "anonymousBoundary": "Anonymous Auth uses authenticated role; inspectedDBownerpolicies doNOTenforce nonanonymous/approvedcaptain. No crossowner grant observed; no real behavior test.",
+      "qaPrincipalsOrReports": "NOTINSPECTED",
+      "nextGate": "Resolve APIexposure discrepancy, exact QA identity/synthetic-data read scope and HTTPSservice/config approval before realAppAuth tests",
+      "dataMutation": false,
+      "settingsChanged": false,
+      "privateRowsRead": false
     }
   },
   "enrollmentServerModel": {
@@ -1231,7 +1253,7 @@
     "observePublishing": "No newly released DB startup/migration/source admission or runtime path packet; qualified isolated contracts preserved",
     "enrollment": "53/993/0adc qualified synthetic scopes retained; no new runtime ownership or liveAuth authority",
     "providerRegistry": "Canonical direction recorded; new runtime paths/sourceauthority not reserved; P03 coordination gate not retried",
-    "pipeline": "ONLY_AUTHENTICATED_BROWSER_METADATA_PAUSED; independent lanes retain their own gates, not a blanket pause"
+    "pipeline": "APPROVED_METADATA_INSPECTION_COMPLETED;API_EXPOSURE_AND_EXACT_LIVE_PREVIEW_SCOPES_REMAIN_OPEN;independent lanes retain own gates"
   },
   "blueMarlinReferenceMechanics": {
     "candidate": "5719c151dec62c89277d763af9565f6334cfac84",
