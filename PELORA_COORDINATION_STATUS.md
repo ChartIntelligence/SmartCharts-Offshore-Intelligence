@@ -432,3 +432,11 @@ PostgreSQL environment qualification BLOCKED pending desktop verification; insta
 Entitlement proposal under P04 review, no activation. P03 handoff PREPARED ONLY/unsent, exact purpose-specific approval still required. HTTPS deployment BLOCKED on domain/shared-dependency isolation, backend restoration/provenance and exact delivery/settings/redirect/rollback/deployment approvals. Production/private reports/main/frozen preview/scoped QA limitations preserved.
 
 Final phone packet: Master b147ebb533ada8c0631060e0a535c5a3717532a3 clean/local/unpushed. P04 policy proposal acceptable for final policy/authority decisions ONLY; NOT implementation or activation ready. Report SHA256 7a60bab4e1e8ba10a7a7e56c5ddbc215c2f925943bb594d89cd951797606254f. Next founder decisions: final UTC/calendar February-28 policy lock; exact bidirectional P01/P03 documentary messaging approval; separately scoped artifact-carrier/verifier preparation if desired (local packaging already complete). No protected-service or artifact-publication action.
+
+## Beta entitlement v4 controlled executable qualification — 2026-10-18T17:26:49Z
+
+Exact LOCAL candidate d0f8b1d55189b1e0c3d982499952073c07e40ccb, four new reserved paths against b45594bc4ebddef255eb18a71b8aa1aa0b1c043a; no application integration/source push. P04 SOURCE ACCEPTABLE / INDEPENDENT CONTROLLED PASS:31/31 suite (22contract+9security/recovery), plus unchanged external2/2 overlapping cases, not33 unique. P04 closure report SHA2563e876de5963a42f235f3af033232fdb1d97205c3398f87b33a824afc04b654c5.
+
+Original c9154aa5db7cd8b667940e4a5c4e2e9b5d143e3e P2/failures preserved: uncertain transaction plus lost session returned AUTH_DENIED instead of UNKNOWN, access stayed denied. Bounded successor P2 CLOSED, explicit authentication/conflict denial retained. No actual causal Auth adapter, durable transactional store, deployed privileges/schema/catalog or live activation qualification. PostgreSQL blocked pending desktop verification; installer untouched. Production/private reports/main/frozen preview/HTTPS artifacts unchanged.
+
+Existing Master checkpoint87189b77969a0f7304b1332d1cf61999188bbf66 clean/local/unpushed records exact results and remaining live-authority gates. Next bounded gate is separately authorized real causal-proof/store qualification; no deployment/migration/activation inferred.
