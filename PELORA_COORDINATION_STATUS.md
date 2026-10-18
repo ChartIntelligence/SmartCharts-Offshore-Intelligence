@@ -412,3 +412,13 @@ Milestone timestamp: 2026-10-16T21:09:00Z.
 - DIRECT FOUNDER SECONDWINDOW PAUSE. P01 stoppedonlyverifiedownedQAhostPID164680; followupOSobservation21:08:08.3545946Z confirmsprocessabsent/no4183or8797listeners afterinitialtransientstopstate resolved. Existing4173PID50388/8787PID40008 preserved. This supersedes previousrunninghoststatus; no automaticrestart/resume.
 - NO secondinsertion/Auth/windowtimer. LatestP04accepted documentaryreadback sixcounts0 atDB21:00:08.239883Z retained as datedevidence, notnewcurrent-livequery/independentP04DBproof. No newDBquery, browserstorage/sessionclear, Supabasesettings/data/productionchange duringpause. Qualified5f95source/build/manifest/privateSQL/canary/firstattempt/originalcaptures preserved.
 - ExistingMasterMDJSON/singlequeue PAUSEDLOCALaf4dfd5bc0ae1e2825d6b942756fc2cd7960d4f4 verifiedclean/unpushed. RenewedABCtexts remainunexecutedproposals. Resume requiresfreshauthorityreview, exacthoststart/readiness andsupervisor/revieweravailability; no grant inferred from heartbeat or captureacceptance.
+
+## October 18 scoped owner-isolation milestone closed
+
+Founder closure recorded at 2026-10-18T13:27:55Z. Exact candidate: 5f95c4bf7622913946ab26d9c67c8f9f01bac33a. Master checkpoint: 0ee6cde7bdbbb9524830c2a1d510be3800380f9e (local/unpushed).
+
+Completed: exact two synthetic fixtures inserted and owner/payload verified; both owners reported own-positive 1 and opposite-negative 0 through the reviewed same-session SDK probe; exact guarded cleanup and six-zero readback at 2026-10-18T12:56:20.994329Z accepted as recovered documentary text. P04 final SCOPED PASS report SHA256: 2696cdf2e7552f1c019ae10c39df1187cdcfbad8502d0be89b775746f9cfb872. Disputed images remain excluded and restricted; no image or private identity is published here.
+
+Limits: no independent live P04 observation, blanket RLS/privacy certification, production captain-data qualification, current absence or erasure guarantee. Session lifecycle, broader authorization and interruption recovery remain open. Do not repeat this completed exercise without a demonstrated need. No new live execution or release authority follows.
+
+Critical path priority: Founder-accessible HTTPS preview; mobile Founder enrollment and entitlements; operational multi-source SST/chlorophyll and currents; continuous Observe and governed publishing; scientifically qualified seven-species engines. Next smallest task: reconcile an exact HTTPS frontend/backend target and candidate/configuration/origin/redirect/rollback approval gate from existing evidence. Hosting or configuration changes require exact approval; no deployment or production fallback is authorized. Existing Master owner is reconciling only the current queue, without regenerating it or repeating tests.
