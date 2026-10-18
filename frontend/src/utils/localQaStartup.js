@@ -1,5 +1,7 @@
+import {founderPreviewConfiguration} from './founderHttpsPreview.js';
 import {localQaReadOnly} from './localQaReadOnly.js';
 export function validateLocalQaClientConfiguration(environment){
+ if(founderPreviewConfiguration(environment))return true;
  if(!localQaReadOnly(environment))return false;
  const key=environment.VITE_SUPABASE_PUBLISHABLE_KEY;
  if(typeof key!=='string'||!key.trim())throw new Error('Local QA public client configuration required');

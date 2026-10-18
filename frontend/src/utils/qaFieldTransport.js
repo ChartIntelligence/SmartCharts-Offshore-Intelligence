@@ -1,3 +1,4 @@
+import {founderHttpsProfile,PREVIEW_API} from '../../../shared/founderHttpsPreview.mjs';
 import {localQaReadOnly} from './localQaReadOnly.js';
 
 const FIELD_URL='http://127.0.0.1:8787/api/ocean/field';
@@ -20,9 +21,9 @@ function credential(session,now){
     return {id,token};
   }catch{return null;}
 }
-function validateTarget(input,method,body){
+function validateTarget(input,method,body,fieldUrl=FIELD_URL){
   let url;try{url=new URL(input);}catch{throw new QaFieldDenied('QA field target denied');}
-  if(url.origin!==new URL(FIELD_URL).origin||url.pathname!=='/api/ocean/field'||url.username||url.password||
+  if(url.origin!==new URL(fieldUrl).origin||url.pathname!=='/api/ocean/field'||url.username||url.password||
     url.href!==input||url.hash||method!=='GET'||body!==undefined)throw new QaFieldDenied('QA field target denied');
   const names=['layer','bbox','density','time'];
   if([...url.searchParams.keys()].some(key=>!names.includes(key))||names.some(key=>url.searchParams.getAll(key).length!==1))
@@ -40,6 +41,7 @@ const same=(a,b)=>a.id===b.id&&a.anonymous===b.anonymous&&a.token===b.token;
 export function createQaFieldTransport({getSession,fetchPort=(...args)=>fetch(...args),
   environment=import.meta.env??{},getPrincipalRevision=()=>0,now=Date.now,onChange=()=>{},onDenied=()=>{}}){
   const qa=localQaReadOnly(environment);
+  const fieldUrl=founderHttpsProfile(environment,globalThis.window?.location?.origin)?PREVIEW_API+'/api/ocean/field':FIELD_URL;
   let disposed=false,revision=0,observed=qa?identity(getSession()):null;
   let principalRevision=getPrincipalRevision();
   function current(snapshot,signal){
@@ -71,7 +73,7 @@ export function createQaFieldTransport({getSession,fetchPort=(...args)=>fetch(..
       if(disposed||signal?.aborted)throw obsolete();
       const snapshot={revision,principalRevision:getPrincipalRevision(),identity:identity(getSession())};
       try{
-        validateTarget(url,method,body); // Final URL first, before token attachment.
+        validateTarget(url,method,body,fieldUrl); // Final URL first, before token attachment.
         const access=credential(getSession(),now);if(!access)throw denied();
         current(snapshot,signal);
         const response=await fetchPort(url,{method:'GET',signal,headers:{Authorization:`Bearer ${access.token}`},

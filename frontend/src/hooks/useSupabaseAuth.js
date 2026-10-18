@@ -1,3 +1,4 @@
+import {founderPreviewConfiguration,founderPreviewSession} from '../utils/founderHttpsPreview.js';
 import {
   useEffect,
   useState
@@ -18,6 +19,7 @@ export function useSupabaseAuth() {
 
 
   useEffect(() => {
+    const preview=founderPreviewConfiguration();
     let mounted = true;
     let authRevision = 0;
 
@@ -37,7 +39,7 @@ export function useSupabaseAuth() {
       if (!mounted || authRevision !== revision) return;
 
 
-      if (sessionError) {
+      if (sessionError && !preview) {
         console.error(
           "Unable to read Supabase session:",
           sessionError
@@ -45,12 +47,13 @@ export function useSupabaseAuth() {
       }
 
 
+      if(preview&&sessionError){setSession(null);setError('Pelora could not verify your preview session.');setLoading(false);return;}
       let nextSession =
         sessionData?.session ??
         null;
 
 
-      if (!nextSession) {
+      if (!nextSession && !preview) {
         const {
           data: anonymousData,
           error: anonymousError
@@ -86,7 +89,9 @@ export function useSupabaseAuth() {
 
 
       if (mounted) {
-        setSession(nextSession);
+        const accepted=preview?founderPreviewSession(nextSession,preview):nextSession;
+        setSession(accepted);
+        if(preview)setError(nextSession&&!accepted?'This preview session could not be verified.':null);
         setLoading(false);
       }
     }
@@ -116,9 +121,9 @@ export function useSupabaseAuth() {
 
             authRevision++;
 
-            setSession(
-              nextSession
-            );
+            const accepted=preview?founderPreviewSession(nextSession,preview):nextSession;
+            setSession(accepted);
+            if(preview)setError(nextSession&&!accepted?'This preview session could not be verified.':null);
 
             setLoading(false);
           }
