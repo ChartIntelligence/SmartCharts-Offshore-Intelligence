@@ -422,3 +422,11 @@ Completed: exact two synthetic fixtures inserted and owner/payload verified; bot
 Limits: no independent live P04 observation, blanket RLS/privacy certification, production captain-data qualification, current absence or erasure guarantee. Session lifecycle, broader authorization and interruption recovery remain open. Do not repeat this completed exercise without a demonstrated need. No new live execution or release authority follows.
 
 Critical path priority: Founder-accessible HTTPS preview; mobile Founder enrollment and entitlements; operational multi-source SST/chlorophyll and currents; continuous Observe and governed publishing; scientifically qualified seven-species engines. Next smallest task: reconcile an exact HTTPS frontend/backend target and candidate/configuration/origin/redirect/rollback approval gate from existing evidence. Hosting or configuration changes require exact approval; no deployment or production fallback is authorized. Existing Master owner is reconciling only the current queue, without regenerating it or repeating tests.
+
+## Phone-supervised packaging milestone — 2026-10-18T15:43:48Z
+
+P01 reports exact e24d679e5781063fa2ce41f50b03698c96579ab6 HTTPS package LOCAL COMPLETE / P04 PASS. ZIP SHA256 b37a424d5591dee590aebe4a9376adbcdfc8f612887ce46e64de0ac78d8553b1; 15-artifact manifest87dcf1d58aa8916886d670ae14cdf5363278e908b4db836d3ee28b0ae863ab9b; P04 reportfac50013dc78520d16d5d2025019f0bbac92d87c2f6a675d4c0071427c950655. No compilation/configuration substitution/artifact publication/services. No key/config/artifact contents published here.
+
+PostgreSQL environment qualification BLOCKED pending desktop verification; installer untouched. No installed-version, service, readiness or transaction qualification inferred. Unrelated authorized work continues.
+
+Entitlement proposal under P04 review, no activation. P03 handoff PREPARED ONLY/unsent, exact purpose-specific approval still required. HTTPS deployment BLOCKED on domain/shared-dependency isolation, backend restoration/provenance and exact delivery/settings/redirect/rollback/deployment approvals. Production/private reports/main/frozen preview/scoped QA limitations preserved.
