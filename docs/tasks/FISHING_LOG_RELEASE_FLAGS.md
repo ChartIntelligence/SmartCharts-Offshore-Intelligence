@@ -7,17 +7,26 @@ edits with active work. Build on the newest integration candidate.
    existing assets and tests. On main there are 7 species keys (blueMarlin,
    whiteMarlin, sailfish, yellowfin, blackfin, wahoo, mahi), each with a
    `released` count; no flag icons exist yet. Reuse qualified work.
-2. Visuals: use the Founder-approved flag artwork in
-   docs/design/release-flags/approved/ EXACTLY as supplied (7 PNGs + README).
-   Do not redraw, retrace, recolor, or "improve" them. Species key mapping:
+2. Visuals (FOUNDER DECISIONS, 2026-10-19): use the approved flag artwork in
+   docs/design/release-flags/approved/ as supplied. Do not redraw, retrace,
+   recolor, or "improve" the artwork. Species key mapping:
    blue_marlin->blueMarlin, white_marlin->whiteMarlin, sailfish->sailfish,
    yellowfin_tuna->yellowfin, blackfin_tuna->blackfin, mahi_mahi->mahi,
-   wahoo->wahoo. Known integration notes (from the asset README): they are
-   raster PNGs on white backgrounds (not vector, not transparent) and are
-   not yet optimized for small UI. Resize/compress copies for the UI without
-   altering the artwork; keep the white marlin legible on the dark UI (e.g.
-   show each flag in a consistent chip/card). Ask the Founder before any
-   background removal or other edit to the artwork itself.
+   wahoo->wahoo.
+   - Placement: the flags appear as icons INSIDE the existing species bubbles
+     (the `species-pill` elements in FishingDayReportPanel.jsx), not as
+     separate pennants elsewhere.
+   - Orientation: flags are shown RIGHT SIDE UP (not inverted), per Founder.
+   - Transparent backgrounds: Founder APPROVED removing the backgrounds.
+     Keep the originals untouched in approved/; write transparent derived
+     PNGs (and small sizes for phone screens) to the frontend assets.
+     CAUTION: the originals are raster on white. A one-click white removal
+     will fail: each flag has a WHITE hoist sleeve (with grommets) that must
+     be kept, and the white marlin flag is itself white on a white backdrop.
+     Build a proper mask (flag outline incl. swallowtail notch), remove only
+     the exterior backdrop, keep the stitched edges, and visually check every
+     result on both dark and light backgrounds at phone size. Show the
+     Founder the before/after for white marlin before finalizing.
 3. Integration: show icons only for ACTUAL recorded releases (released > 0),
    not selected/target species. Do not confuse released with landed, lost,
    hookups, bites, sightings. No new report fields or migrations.
@@ -29,5 +38,11 @@ edits with active work. Build on the newest integration candidate.
 6. Deliver: findings, exact changed files, preview, test commands/results,
    open visual decisions, commit SHA. No production deploy.
 
-## Open decision
-- Some regions fly a release flag upside down, others right side up. Keep the artwork as supplied until the Founder decides.
+## Open decisions for Founder
+- Should the flag icon show in every species bubble always, or only when that
+  species has a recorded release (released > 0)? Until answered, default to
+  the earlier approved rule: show it only for actually recorded releases;
+  keep the plain bubble otherwise.
+- Note: by tournament convention an upright flag can mean "harvested". Since
+  the icons are species identity inside the bubble, the "Released" count and
+  label (not the flag orientation) must carry release vs. landed meaning.
