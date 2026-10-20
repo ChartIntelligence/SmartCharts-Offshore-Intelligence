@@ -27,9 +27,15 @@ edits with active work. Build on the newest integration candidate.
      the exterior backdrop, keep the stitched edges, and visually check every
      result on both dark and light backgrounds at phone size. Show the
      Founder the before/after for white marlin before finalizing.
-3. Integration: show icons only for ACTUAL recorded releases (released > 0),
-   not selected/target species. Do not confuse released with landed, lost,
-   hookups, bites, sightings. No new report fields or migrations.
+3. Integration (FOUNDER DECISION, 2026-10-19): the flag is part of each
+   species' identity and is ALWAYS shown in that species' bubble, upright.
+   It does NOT indicate state. Founder's flag convention: upside down =
+   released, right side up = harvested; the bubble icons are upright purely
+   as species identity, so never use the icon or its orientation to imply
+   released or harvested. Release/landed/lost/hookup/bite/sighting meaning
+   stays in the existing labeled fields and counts. Do not confuse released
+   with landed, lost, hookups, bites, sightings. No new report fields or
+   migrations. Preserve saved-report rendering and historical records.
 4. Accessibility: visible species/release labels + accessible descriptions;
    never color alone; verify small iPhone viewports and touch behavior.
 5. Tests: species mapping, release-state correctness, saved-report
@@ -39,10 +45,6 @@ edits with active work. Build on the newest integration candidate.
    open visual decisions, commit SHA. No production deploy.
 
 ## Open decisions for Founder
-- Should the flag icon show in every species bubble always, or only when that
-  species has a recorded release (released > 0)? Until answered, default to
-  the earlier approved rule: show it only for actually recorded releases;
-  keep the plain bubble otherwise.
-- Note: by tournament convention an upright flag can mean "harvested". Since
-  the icons are species identity inside the bubble, the "Released" count and
-  label (not the flag orientation) must carry release vs. landed meaning.
+- None blocking. Optional idea (NOT approved, do not build): show an
+  upside-down flag next to the Released count to mirror the real-world
+  convention. Ask the Founder before adding anything like this.
