@@ -44,22 +44,39 @@ edits with active work. Build on the newest integration candidate.
 6. Deliver: findings, exact changed files, preview, test commands/results,
    open visual decisions, commit SHA. No production deploy.
 
-## Saved report overview placement (FOUNDER REQUEST, 2026-10-19)
-Also show the flags on each saved report's OVERVIEW card (the
-`saved-report-card` > `saved-report-summary` area in SavedFishingDayReports.jsx,
-which already renders the date, boat name and captain). Place the flags at the
-top of the card next to the date, boat name and captain. Data is already on the
-card: `report.speciesResults` (per-species counts incl. `released`), so no new
-fields or migrations. Same artwork rules as above (approved PNGs, transparent
-derived copies, upright, no state implied). Must stay compact on a small
-iPhone card and not crowd the existing Trip Outcome / Hours / Areas / Total
-Bites / Total Releases blocks, or the View Details / Delete buttons.
-Old reports with missing/unknown species data must render exactly as before.
+## Saved report overview flags (FOUNDER DECISIONS, 2026-10-19)
+Show flags on each saved report's OVERVIEW card (`saved-report-card` >
+`saved-report-summary` in SavedFishingDayReports.jsx), at the top next to the
+date, boat name and captain. Data already on the card: `report.speciesResults`
+(per species: sightings, bites, hookups, released, landed, lost). No new
+fields or migrations. Old reports with missing/unknown species data render
+exactly as before.
+
+Rules (flags "fly" by real convention HERE):
+- A species gets a flag ONLY if it has at least one release or one harvest.
+  Species with only sightings, bites, hookups or lost fish get no flag.
+- RELEASED fish: the flag flies UPSIDE DOWN. HARVESTED fish: RIGHT SIDE UP.
+- Harvested = the `landed` count (ASSUMPTION: landed means kept/harvested
+  since releases are counted separately; confirm with Founder).
+- If a species has several fish of one kind, show ONE flag with a count
+  (for example x3). Show the number only when it is more than 1.
+- A species with both releases and harvests shows two flags (one upside
+  down with its release count, one upright with its harvest count).
+- Upside down = flip the approved artwork vertically (hoist stays on the
+  left, fish belly-up) via CSS/transform on a derived copy; never edit or
+  redraw the artwork. Show the Founder a preview of one inverted flag on a
+  real card before finalizing, in case a 180-degree rotation is preferred.
+- Orientation must never be the only signal: each flag needs an accessible
+  label (for example "Blue Marlin, 3 released" / "Sailfish, 1 harvested") and
+  the count must be visible text. Do not confuse released, landed, raised,
+  missed or observed fish.
+- Keep it compact on a small iPhone card; do not crowd the Trip Outcome /
+  Hours / Areas / Total Bites / Total Releases blocks or the View Details /
+  Delete buttons.
+
+Species bubbles in the Fishing Log form (item 3 above) are a different use:
+there the flag is upright species identity and implies no state.
 
 ## Open decisions for Founder
-- Which flags appear on a report card? Until answered, default to species
-  with at least one recorded RELEASE on that trip (matches the card's Total
-  Releases). Alternative: every species with any recorded activity.
-- Optional idea (NOT approved, do not build): show an
-  upside-down flag next to the Released count to mirror the real-world
-  convention. Ask the Founder before adding anything like this.
+- Confirm: does `landed` mean harvested (kept)? Default: yes.
+- Optional idea (NOT approved, do not build): none pending.
