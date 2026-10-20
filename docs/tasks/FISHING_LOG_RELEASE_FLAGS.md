@@ -56,8 +56,8 @@ Rules (flags "fly" by real convention HERE):
 - A species gets a flag ONLY if it has at least one release or one harvest.
   Species with only sightings, bites, hookups or lost fish get no flag.
 - RELEASED fish: the flag flies UPSIDE DOWN. HARVESTED fish: RIGHT SIDE UP.
-- Harvested = the `landed` count (ASSUMPTION: landed means kept/harvested
-  since releases are counted separately; confirm with Founder).
+- Harvested = the `landed` count. CONFIRMED by Founder 2026-10-19: landed
+  means harvested (kept); releases are counted separately.
 - If a species has several fish of one kind, show ONE flag with a count
   (for example x3). Show the number only when it is more than 1.
 - A species with both releases and harvests shows two flags (one upside
@@ -78,5 +78,4 @@ Species bubbles in the Fishing Log form (item 3 above) are a different use:
 there the flag is upright species identity and implies no state.
 
 ## Open decisions for Founder
-- Confirm: does `landed` mean harvested (kept)? Default: yes.
-- Optional idea (NOT approved, do not build): none pending.
+- None pending. (`landed` = harvested was confirmed by the Founder.)
