@@ -44,7 +44,22 @@ edits with active work. Build on the newest integration candidate.
 6. Deliver: findings, exact changed files, preview, test commands/results,
    open visual decisions, commit SHA. No production deploy.
 
+## Saved report overview placement (FOUNDER REQUEST, 2026-10-19)
+Also show the flags on each saved report's OVERVIEW card (the
+`saved-report-card` > `saved-report-summary` area in SavedFishingDayReports.jsx,
+which already renders the date, boat name and captain). Place the flags at the
+top of the card next to the date, boat name and captain. Data is already on the
+card: `report.speciesResults` (per-species counts incl. `released`), so no new
+fields or migrations. Same artwork rules as above (approved PNGs, transparent
+derived copies, upright, no state implied). Must stay compact on a small
+iPhone card and not crowd the existing Trip Outcome / Hours / Areas / Total
+Bites / Total Releases blocks, or the View Details / Delete buttons.
+Old reports with missing/unknown species data must render exactly as before.
+
 ## Open decisions for Founder
-- None blocking. Optional idea (NOT approved, do not build): show an
+- Which flags appear on a report card? Until answered, default to species
+  with at least one recorded RELEASE on that trip (matches the card's Total
+  Releases). Alternative: every species with any recorded activity.
+- Optional idea (NOT approved, do not build): show an
   upside-down flag next to the Released count to mirror the real-world
   convention. Ask the Founder before adding anything like this.
