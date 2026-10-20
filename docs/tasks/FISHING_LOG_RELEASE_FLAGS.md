@@ -7,11 +7,17 @@ edits with active work. Build on the newest integration candidate.
    existing assets and tests. On main there are 7 species keys (blueMarlin,
    whiteMarlin, sailfish, yellowfin, blackfin, wahoo, mahi), each with a
    `released` count; no flag icons exist yet. Reuse qualified work.
-2. Visuals: original pennant/flag silhouettes (no checkmarks, emoji, trophies;
-   no third-party artwork; no AI photos). Consistent size/stroke; legible on
-   iPhone. Do not invent official tournament colors/symbols/rules. Draft
-   designs (draft 3: triangular pennant with hoist band, real-flag conventions, Pelora styling) are in docs/design/release-flags/ (Option A uniform, Option B
-   tinted). Founder must approve the mapping before finalizing.
+2. Visuals: use the Founder-approved flag artwork in
+   docs/design/release-flags/approved/ EXACTLY as supplied (7 PNGs + README).
+   Do not redraw, retrace, recolor, or "improve" them. Species key mapping:
+   blue_marlin->blueMarlin, white_marlin->whiteMarlin, sailfish->sailfish,
+   yellowfin_tuna->yellowfin, blackfin_tuna->blackfin, mahi_mahi->mahi,
+   wahoo->wahoo. Known integration notes (from the asset README): they are
+   raster PNGs on white backgrounds (not vector, not transparent) and are
+   not yet optimized for small UI. Resize/compress copies for the UI without
+   altering the artwork; keep the white marlin legible on the dark UI (e.g.
+   show each flag in a consistent chip/card). Ask the Founder before any
+   background removal or other edit to the artwork itself.
 3. Integration: show icons only for ACTUAL recorded releases (released > 0),
    not selected/target species. Do not confuse released with landed, lost,
    hookups, bites, sightings. No new report fields or migrations.
@@ -23,10 +29,5 @@ edits with active work. Build on the newest integration candidate.
 6. Deliver: findings, exact changed files, preview, test commands/results,
    open visual decisions, commit SHA. No production deploy.
 
-## Design notes (draft 3)
-- Real-world conventions found: the traditional release flag is a triangular
-  pennant; species flags are bold fish silhouettes in contrasting colors
-  (e.g. sailfish: white flag/blue fish; mahi: yellow flag/blue fish). Marlin
-  color pairings vary by region. Colors here are PROPOSED, not official.
-- Open conventions needing Founder decision: some regions fly a release flag
-  upside down, others right side up. Do not invert fish until decided.
+## Open decision
+- Some regions fly a release flag upside down, others right side up. Keep the artwork as supplied until the Founder decides.

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 84" width="100" height="81" role="img" aria-labelledby="t-wahoo">
-<title id="t-wahoo">Wahoo release flag</title>
-<path d="M13,3 L101,34 L13,65Z" fill="#0b6b5c" stroke="#d9f1fa" stroke-width="2" stroke-linejoin="round"/>
-<path d="M18,56 C40,48 60,44 86,38 M18,12 C40,20 60,24 86,30" stroke="#d9f1fa" stroke-opacity=".16" stroke-width="1.4" fill="none"/>
-<g transform="translate(21,34) scale(.74)" fill="#d9f1fa"><path d="M9,-1 C5,-4 2,-6 -5,-9 C-1,-6 0,-2 0,0 C0,2 -1,6 -5,9 C2,6 5,4 9,1Z"/><path d="M6,0 C24,-5 50,-6 70,-3 L92,-1 L92,1 L70,3 C50,6 24,5 6,0Z"/><path d="M16,-3.6 C30,-9.5 56,-10 72,-3.6Z"/><path d="M62,3 L54,10 L60,4Z"/><path d="M30,-3.4 L30,3.4" stroke="#0b6b5c" stroke-width="1.7" stroke-linecap="round" fill="none"/><path d="M39,-3.4 L39,3.4" stroke="#0b6b5c" stroke-width="1.7" stroke-linecap="round" fill="none"/><path d="M48,-3.4 L48,3.4" stroke="#0b6b5c" stroke-width="1.7" stroke-linecap="round" fill="none"/><path d="M57,-3.4 L57,3.4" stroke="#0b6b5c" stroke-width="1.7" stroke-linecap="round" fill="none"/></g>
-<rect x="3" y="2" width="10" height="64" rx="2.5" fill="#ff9c3d"/>
-<circle cx="8" cy="12" r="2.3" fill="#041725"/><circle cx="8" cy="56" r="2.3" fill="#041725"/>
-<text x="52" y="80" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="12" font-weight="700" letter-spacing=".6" fill="#ff9c3d">WA</text>
-</svg>

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 84" width="100" height="81" role="img" aria-labelledby="t-yellowfin">
-<title id="t-yellowfin">Yellowfin Tuna release flag</title>
-<path d="M13,3 L101,34 L13,65Z" fill="#0b3a57" stroke="#d9f1fa" stroke-width="2" stroke-linejoin="round"/>
-<path d="M18,56 C40,48 60,44 86,38 M18,12 C40,20 60,24 86,30" stroke="#f2c14e" stroke-opacity=".16" stroke-width="1.4" fill="none"/>
-<g transform="translate(21,34) scale(.74)" fill="#f2c14e"><path d="M10,-0.8 C6,-6 4,-6 -4,-11 C0,-10 1,-4 2,0 C1,4 0,10 -4,11 C4,6 6,6 10,0.8Z"/><path d="M8,0 C18,-5 32,-9 46,-9 C55,-8 61,-4 63,0 C61,4 55,8 46,9 C32,9 18,5 8,0Z"/><path d="M38,-9 L42,-15 L52,-8.6Z"/><path d="M36,-9 C36,-17 28,-24 8,-25.5 C18,-19 24,-13 28,-8Z"/><path d="M34,9 C34,16 27,22 9,23.5 C18,18 23,13 27,8Z"/></g>
-<rect x="3" y="2" width="10" height="64" rx="2.5" fill="#ff9c3d"/>
-<circle cx="8" cy="12" r="2.3" fill="#041725"/><circle cx="8" cy="56" r="2.3" fill="#041725"/>
-<text x="52" y="80" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="12" font-weight="700" letter-spacing=".6" fill="#ff9c3d">YT</text>
-</svg>
