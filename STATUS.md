@@ -33,6 +33,35 @@ questions that needed deeper history are marked UNKNOWN, not guessed.
   one branding SVG, but a filename search found no stored Gulf grid/contour
   data asset. Consistent with HANDOFF.md open question 3; not proof.
 
+## 2026-10-21: Local inventory (from Founder's `git worktree list` and `git status`)
+Source: output pasted by the Founder; compared with GitHub branch heads. Nothing
+was run on the PC by Claude. Backup of C:\Projects verified with a robocopy
+dry run (188,713 files, 0 to copy, 0 mismatch, 0 failed; junctions excluded).
+
+- 85 worktrees exist (84 parsed; one line in the paste was scrambled: the
+  codex/pelora-control-plane-v1 entry, which is on GitHub).
+- 40 worktree branches match GitHub exactly. 39 branches are LOCAL-ONLY (not on
+  GitHub). 2 exist on both but at DIFFERENT commits (truthful-status-v1,
+  unified-ui-amendment-v1): direction (ahead vs diverged) not yet checked.
+- All four commits cited in HANDOFF.md as local-only exist locally on their
+  own branches and are not on GitHub: snapshot-storage-correction (7d53e2e),
+  snapshot-react-lifecycle (f7ee570), snapshot-full-app (4e013d4),
+  snapshot-readonly-sdk-probe (c6c7b25).
+- Local-only branches include the Gulf bathymetry retention work
+  (pelora-03-gulf-bathymetry-retention-v1), provider readiness, historical SST,
+  retained scalar review, species reference validator, enrollment/beta
+  qualifying session, production-pair compatibility/coverage, and several
+  unified-UI candidates. Which UI branch is the newest coherent candidate is
+  still UNKNOWN (needs commit dates and ancestry from the full local history).
+- Main checkout is on codex/pelora-05-nightly-audit-blueprint-v1 at the same
+  commit as GitHub (aaabba4). It has UNTRACKED, uncommitted items that exist
+  nowhere else: Temporal_Boundary_Validation_Manifest_v1.json/.md, docs/agents/,
+  pelora_public_schema_audit.sql. Do not delete or clean them.
+- 9 worktrees live OUTSIDE C:\Projects (8 under a .codex folder, 1 under
+  Documents\Codex). Their commits are in the shared main .git (backed up); any
+  uncommitted files inside them are not covered by the C:\Projects backup.
+- 3 worktrees are detached HEAD (19a9afd twice, 14c8984 once).
+
 ### Needs Founder
 - Back up C:\Projects first, then run Task 0 (read-only audit) on the PC to find
   local-only worktrees. Build the release-flag work on the newest integration
